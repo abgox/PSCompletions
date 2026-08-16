@@ -1,0 +1,972 @@
+{
+  "meta": {
+    "url": "https://github.com/nxtrace/NexTrace",
+    "description": [
+      "开源的视觉化路由追踪 CLI 工具"
+    ]
+  },
+  "option": [
+    {
+      "name": "--always-rdns",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --always-rdns"
+      ],
+      "tip": [
+        "始终将 IP 地址解析为域名"
+      ]
+    },
+    {
+      "name": "--classic",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --classic"
+      ],
+      "tip": [
+        "像 BestTrace 一样的经典跟踪结果输出"
+      ]
+    },
+    {
+      "name": "--data-provider",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --data-provider <provider>"
+      ],
+      "tip": [
+        "选择 IP 地理位置数据提供商。默认:LeoMoeAPI。"
+      ],
+      "next": [
+        {
+          "name": "CHUNZHEN",
+          "tip": [
+            "CHUNZHEN 提供商"
+          ]
+        },
+        {
+          "name": "disable-geoip",
+          "tip": [
+            "禁用 GeoIP 查询"
+          ]
+        },
+        {
+          "name": "IP-API.com",
+          "tip": [
+            "IP-API.com 提供商"
+          ]
+        },
+        {
+          "name": "IP.SB",
+          "tip": [
+            "IP.SB 提供商"
+          ]
+        },
+        {
+          "name": "IPInfo",
+          "tip": [
+            "IPInfo 提供商"
+          ]
+        },
+        {
+          "name": "IPInfoLocal",
+          "tip": [
+            "IPInfoLocal 提供商"
+          ]
+        },
+        {
+          "name": "IPInsight",
+          "tip": [
+            "IPInsight 提供商"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--deploy",
+      "tip": [
+        "启动基于 Gin 的 Web 控制台"
+      ]
+    },
+    {
+      "name": "--deploy-token",
+      "usage": [
+        "--deploy-token <value>"
+      ],
+      "tip": [
+        "为 --deploy 的 WebUI/API/WebSocket/MCP 访问设置 Bearer 令牌"
+      ],
+      "next": [
+        {
+          "name": "token",
+          "tip": [
+            "Bearer 令牌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dev",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dev <value>"
+      ],
+      "tip": [
+        "使用指定的网络设备进行显式源选择"
+      ],
+      "next": [
+        {
+          "name": "eth0",
+          "tip": [
+            "示例网络设备"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--disable-mpls",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --disable-mpls"
+      ],
+      "tip": [
+        "禁用 MPLS"
+      ]
+    },
+    {
+      "name": "--dn42",
+      "tip": [
+        "DN42 模式"
+      ]
+    },
+    {
+      "name": "--dot-server",
+      "usage": [
+        "--dot-server <server>"
+      ],
+      "tip": [
+        "使用 DoT 服务器进行 DNS 解析"
+      ],
+      "next": [
+        {
+          "name": "aliyun",
+          "tip": [
+            "Aliyun DoT 服务器"
+          ]
+        },
+        {
+          "name": "cloudflare",
+          "tip": [
+            "Cloudflare DoT 服务器"
+          ]
+        },
+        {
+          "name": "dnspod",
+          "tip": [
+            "DNSPod DoT 服务器"
+          ]
+        },
+        {
+          "name": "dnssb",
+          "tip": [
+            "dnssb DoT 服务器"
+          ]
+        },
+        {
+          "name": "google",
+          "tip": [
+            "Google DoT 服务器"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--fast-trace",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fast-trace"
+      ],
+      "tip": [
+        "一键快速追踪到中国 ISP"
+      ]
+    },
+    {
+      "name": "--file",
+      "usage": [
+        "--file <value>"
+      ],
+      "tip": [
+        "从文件读取 IP 地址或域名"
+      ],
+      "next": [
+        {
+          "name": "targets.txt",
+          "tip": [
+            "包含目标地址的文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--first",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --first <integer>"
+      ],
+      "tip": [
+        "从 first_ttl 跳开始(而不是 1)。默认:1。"
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "默认首跳"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--from",
+      "usage": [
+        "--from <value>"
+      ],
+      "tip": [
+        "通过 Globalping 从指定位置运行 traceroute。接受大洲、国家、地区、城市、ASN、ISP 或云区域。"
+      ],
+      "next": [
+        {
+          "name": "CN",
+          "tip": [
+            "中国位置"
+          ]
+        },
+        {
+          "name": "US",
+          "tip": [
+            "美国位置"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息"
+      ]
+    },
+    {
+      "name": "--icmp-mode",
+      "usage": [
+        "--icmp-mode <integer>"
+      ],
+      "tip": [
+        "选择监听 ICMP 数据包的方法(1=Socket,2=WinDivert;0=Auto)"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "自动(默认)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Socket "
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "WinDivert "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "将 WinDivert 运行时解压到可执行文件目录"
+      ]
+    },
+    {
+      "name": "--ipinfo",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --ipinfo <integer>"
+      ],
+      "tip": [
+        "设置 MTR TUI 初始主机信息模式(0-4)。仅 TUI;在 --report/--raw 中忽略。0:IP/PTR 1:ASN 2:城市 3:所有者 4:完整。默认:0。"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "IP/PTR(默认)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "ASN "
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "城市"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "所有者"
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "完整信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ipv4",
+      "alias": [
+        "-4"
+      ],
+      "usage": [
+        "-4, --ipv4"
+      ],
+      "tip": [
+        "仅使用 IPv4"
+      ]
+    },
+    {
+      "name": "--ipv6",
+      "alias": [
+        "-6"
+      ],
+      "usage": [
+        "-6, --ipv6"
+      ],
+      "tip": [
+        "仅使用 IPv6"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --json"
+      ],
+      "tip": [
+        "以 JSON 格式输出跟踪结果"
+      ]
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --language <lang>"
+      ],
+      "tip": [
+        "选择显示语言。默认:cn。"
+      ],
+      "next": [
+        {
+          "name": "cn",
+          "tip": [
+            "中文(默认)"
+          ]
+        },
+        {
+          "name": "en",
+          "tip": [
+            "英文"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--listen",
+      "usage": [
+        "--listen <value>"
+      ],
+      "tip": [
+        "设置 Web 控制台的监听地址(例如 127.0.0.1:30080)"
+      ],
+      "next": [
+        {
+          "name": "127.0.0.1:30080",
+          "tip": [
+            "默认 Web 控制台地址"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--map",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --map"
+      ],
+      "tip": [
+        "禁用打印跟踪地图"
+      ]
+    },
+    {
+      "name": "--max-attempts",
+      "usage": [
+        "--max-attempts <integer>"
+      ],
+      "tip": [
+        "高级:每跳探测包数量的硬上限。留空则自动调整。"
+      ],
+      "next": [
+        {
+          "name": "10",
+          "tip": [
+            "每跳 10 次尝试"
+          ]
+        },
+        {
+          "name": "5",
+          "tip": [
+            "每跳 5 次尝试"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--max-hops",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-hops <integer>"
+      ],
+      "tip": [
+        "设置最大跳数(要达到的最大 TTL)。默认:30。"
+      ],
+      "next": [
+        {
+          "name": "30",
+          "tip": [
+            "默认最大跳数"
+          ]
+        },
+        {
+          "name": "64",
+          "tip": [
+            "64 跳"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mcp",
+      "tip": [
+        "在 --deploy 下启用 /mcp 的 MCP 端点"
+      ]
+    },
+    {
+      "name": "--mtr",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --mtr"
+      ],
+      "tip": [
+        "启用 MTR(My Traceroute)持续探测模式"
+      ]
+    },
+    {
+      "name": "--mtu",
+      "tip": [
+        "运行独立的 UDP 路径 MTU 发现模式,带流式输出和 GeoIP/RDNS"
+      ]
+    },
+    {
+      "name": "--nali",
+      "tip": [
+        "使用 NextTrace GeoIP 数据标注文本中的 IP 字面量"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --no-color"
+      ],
+      "tip": [
+        "禁用彩色输出"
+      ]
+    },
+    {
+      "name": "--no-rdns",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-rdns"
+      ],
+      "tip": [
+        "不将 IP 地址解析为域名"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <value>"
+      ],
+      "tip": [
+        "将跟踪结果写入文件(仅 RealtimePrinter)"
+      ],
+      "next": [
+        {
+          "name": "trace.log",
+          "tip": [
+            "要写入的日志文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--output-default",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --output-default"
+      ],
+      "tip": [
+        "将跟踪结果写入默认日志文件(/tmp/trace.log)"
+      ]
+    },
+    {
+      "name": "--parallel-requests",
+      "usage": [
+        "--parallel-requests <integer>"
+      ],
+      "tip": [
+        "高级:跨 TTL 的并发在途探测总数。在多路径上使用 1。默认:18。"
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "单个在途探测"
+          ]
+        },
+        {
+          "name": "18",
+          "tip": [
+            "默认并发数"
+          ]
+        },
+        {
+          "name": "6",
+          "tip": [
+            "6 个并发探测"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--port",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --port <integer>"
+      ],
+      "tip": [
+        "设置要使用的目标端口。tcp 默认 80,udp 默认 33494。"
+      ],
+      "next": [
+        {
+          "name": "33494",
+          "tip": [
+            "默认 UDP 端口"
+          ]
+        },
+        {
+          "name": "443",
+          "tip": [
+            "HTTPS 端口"
+          ]
+        },
+        {
+          "name": "80",
+          "tip": [
+            "默认 TCP 端口"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pow-provider",
+      "usage": [
+        "--pow-provider <provider>"
+      ],
+      "tip": [
+        "选择 PoW 提供商。中国大陆用户请使用 sakura。默认:api.nxtrace.org。"
+      ],
+      "next": [
+        {
+          "name": "api.nxtrace.org",
+          "tip": [
+            "默认 PoW 提供商"
+          ]
+        },
+        {
+          "name": "sakura",
+          "tip": [
+            "面向中国大陆的 Sakura 提供商"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--psize",
+      "usage": [
+        "--psize <integer>"
+      ],
+      "tip": [
+        "探测包大小(字节),包含 IP 和活动探测头。负值会随机化每个探测包。"
+      ],
+      "next": [
+        {
+          "name": "128",
+          "tip": [
+            "128 字节探测包"
+          ]
+        },
+        {
+          "name": "64",
+          "tip": [
+            "64 字节探测包"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--queries",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --queries <integer>"
+      ],
+      "tip": [
+        "每跳的延迟采样数。在不稳定路径上增加到 5-10 以获得更稳定的视图。默认:3。"
+      ],
+      "next": [
+        {
+          "name": "10",
+          "tip": [
+            "每跳 10 次采样"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "默认采样数"
+          ]
+        },
+        {
+          "name": "5",
+          "tip": [
+            "每跳 5 次采样"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--raw",
+      "tip": [
+        "机器可读输出。与 MTR(--mtr/-r/-w)一起使用时启用流式原始事件模式"
+      ]
+    },
+    {
+      "name": "--report",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --report"
+      ],
+      "tip": [
+        "MTR 报告模式(非交互,隐含 --mtr);可以在不使用 --mtr 的情况下触发 MTR"
+      ]
+    },
+    {
+      "name": "--route-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --route-path"
+      ],
+      "tip": [
+        "按 ASN 和位置打印 traceroute 跳转路径"
+      ]
+    },
+    {
+      "name": "--send-time",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --send-time <integer>"
+      ],
+      "tip": [
+        "高级:同一 TTL 组内每个数据包的间隔 [ms]。默认:50。"
+      ],
+      "next": [
+        {
+          "name": "100",
+          "tip": [
+            "100 ms 间隔"
+          ]
+        },
+        {
+          "name": "50",
+          "tip": [
+            "默认间隔(ms)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--setup-api-v4-token",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --setup-api-v4-token"
+      ],
+      "tip": [
+        "将会话级的 NextTrace API v4 令牌存储在临时文件中"
+      ]
+    },
+    {
+      "name": "--show-ips",
+      "tip": [
+        "仅 MTR:同时显示 PTR 主机名和数字 IP(PTR 在前,IP 在括号中)"
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --source <value>"
+      ],
+      "tip": [
+        "对发出的数据包使用源地址 src_addr"
+      ],
+      "next": [
+        {
+          "name": "src_addr",
+          "tip": [
+            "源地址"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--source-port",
+      "usage": [
+        "--source-port <integer>"
+      ],
+      "tip": [
+        "对发出的数据包使用源端口 src_port"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "自动分配的源端口"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--speed",
+      "tip": [
+        "运行 CDN 测速模式。详情见 nexttrace --speed --help。"
+      ]
+    },
+    {
+      "name": "--table",
+      "tip": [
+        "以最终汇总表格输出跟踪结果(traceroute 报告模式)"
+      ]
+    },
+    {
+      "name": "--tcp",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tcp"
+      ],
+      "tip": [
+        "使用 TCP SYN 进行 traceroute(默认目标端口为 80)"
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <integer>"
+      ],
+      "tip": [
+        "每次探测的超时 [ms]。在慢速路径上提高到 2000-3000。默认:1000。"
+      ],
+      "next": [
+        {
+          "name": "1000",
+          "tip": [
+            "默认超时(ms)"
+          ]
+        },
+        {
+          "name": "2000",
+          "tip": [
+            "2000 ms 超时"
+          ]
+        },
+        {
+          "name": "3000",
+          "tip": [
+            "3000 ms 超时"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--tos",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --tos <integer>"
+      ],
+      "tip": [
+        "设置 IP 服务类型 / 流量类别值 [0-255]。默认:0。"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "默认 ToS 值"
+          ]
+        },
+        {
+          "name": "255",
+          "tip": [
+            "最大 ToS 值"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ttl-time",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ttl-time <integer>"
+      ],
+      "tip": [
+        "高级:普通 traceroute 中的 TTL 组间隔 [ms]。在 MTR 模式下变为每跳探测间隔。"
+      ],
+      "next": [
+        {
+          "name": "1000",
+          "tip": [
+            "1000 ms 间隔"
+          ]
+        },
+        {
+          "name": "500",
+          "tip": [
+            "500 ms 间隔"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--udp",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --udp"
+      ],
+      "tip": [
+        "使用 UDP SYN 进行 traceroute(默认目标端口为 33494)"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息并退出"
+      ]
+    },
+    {
+      "name": "--wide",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wide"
+      ],
+      "tip": [
+        "MTR 宽屏报告模式(隐含 --mtr --report);单独使用等于 --mtr --report --wide"
+      ]
+    }
+  ]
+}

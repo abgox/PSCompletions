@@ -1,0 +1,715 @@
+{
+  "meta": {
+    "url": "https://github.com/mikefarah/yq",
+    "description": [
+      "A portable command-line data file processor"
+    ]
+  },
+  "next": [
+    {
+      "name": "eval",
+      "alias": [
+        "e"
+      ],
+      "usage": [
+        "e|eval [expression] [yaml_file1]..."
+      ],
+      "tip": [
+        "Apply the expression to each document in each yaml file in sequence (default)"
+      ]
+    },
+    {
+      "name": "eval-all",
+      "alias": [
+        "ea"
+      ],
+      "usage": [
+        "ea|eval-all [expression] [yaml_file1]..."
+      ],
+      "tip": [
+        "Loads _all_ yaml documents of _all_ yaml files and runs expression once"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Help about any command"
+      ]
+    },
+    {
+      "name": "shell-completion",
+      "alias": [
+        "completion"
+      ],
+      "usage": [
+        "completion|shell-completion [bash|zsh|fish|powershell]"
+      ],
+      "tip": [
+        "Generate the autocompletion script for the specified shell"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate powershell completion script"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information and quit"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--colors",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --colors"
+      ],
+      "tip": [
+        "Force print with colors"
+      ]
+    },
+    {
+      "name": "--csv-auto-parse",
+      "tip": [
+        "Parse CSV YAML/JSON values (default true)"
+      ]
+    },
+    {
+      "name": "--csv-separator",
+      "usage": [
+        "--csv-separator <char>"
+      ],
+      "tip": [
+        "CSV Separator character (default ,)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug-node-info",
+      "tip": [
+        "Debug node info"
+      ]
+    },
+    {
+      "name": "--exit-status",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exit-status"
+      ],
+      "tip": [
+        "Set exit status if there are no matches or null or false is returned"
+      ]
+    },
+    {
+      "name": "--expression",
+      "usage": [
+        "--expression <string>"
+      ],
+      "tip": [
+        "Forcibly set the expression argument"
+      ],
+      "next": []
+    },
+    {
+      "name": "--from-file",
+      "usage": [
+        "--from-file <string>"
+      ],
+      "tip": [
+        "Load expression from specified file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--front-matter",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --front-matter <TYPE>"
+      ],
+      "tip": [
+        "Extract or process first input as yaml front-matter"
+      ],
+      "next": [
+        {
+          "name": "extract",
+          "tip": [
+            "Pull out the yaml content"
+          ]
+        },
+        {
+          "name": "process",
+          "tip": [
+            "Run the expression against the yaml content"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--header-preprocess",
+      "tip": [
+        "Slurp any header comments and separators before processing expression (default true)"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Help for yq"
+      ]
+    },
+    {
+      "name": "--indent",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --indent <int>"
+      ],
+      "tip": [
+        "Sets indent level for output (default 2)"
+      ],
+      "next": [
+        {
+          "name": "2",
+          "tip": [
+            "Indent level 2 (default)"
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "Indent level 4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ini-preserve-quotes",
+      "tip": [
+        "Preserve surrounding quotes on INI values during round-trip"
+      ]
+    },
+    {
+      "name": "--inplace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --inplace"
+      ],
+      "tip": [
+        "Update the file in place of first file given"
+      ]
+    },
+    {
+      "name": "--input-format",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --input-format <FORMAT>"
+      ],
+      "tip": [
+        "Parse format for input (default auto)"
+      ],
+      "next": [
+        {
+          "name": "a"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "base64"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "h"
+        },
+        {
+          "name": "hcl"
+        },
+        {
+          "name": "i"
+        },
+        {
+          "name": "ini"
+        },
+        {
+          "name": "j"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "ky"
+        },
+        {
+          "name": "kyaml"
+        },
+        {
+          "name": "l"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "p"
+        },
+        {
+          "name": "props"
+        },
+        {
+          "name": "t"
+        },
+        {
+          "name": "toml"
+        },
+        {
+          "name": "tsv"
+        },
+        {
+          "name": "uri"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "y"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--lua-globals",
+      "tip": [
+        "Output keys as top-level global variables"
+      ]
+    },
+    {
+      "name": "--lua-prefix",
+      "usage": [
+        "--lua-prefix <string>"
+      ],
+      "tip": [
+        "Prefix (default return )"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lua-suffix",
+      "usage": [
+        "--lua-suffix <string>"
+      ],
+      "tip": [
+        "Suffix (default ;\\n)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lua-unquoted",
+      "tip": [
+        "Output unquoted string keys (e.g. {foo=\"bar\"})"
+      ]
+    },
+    {
+      "name": "--no-colors",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --no-colors"
+      ],
+      "tip": [
+        "Force print with no colors"
+      ]
+    },
+    {
+      "name": "--no-doc",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --no-doc"
+      ],
+      "tip": [
+        "Don't print document separators (---)"
+      ]
+    },
+    {
+      "name": "--nul-output",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --nul-output"
+      ],
+      "tip": [
+        "Use NUL char to separate values"
+      ]
+    },
+    {
+      "name": "--null-input",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --null-input"
+      ],
+      "tip": [
+        "Don't read input, simply evaluate the expression given"
+      ]
+    },
+    {
+      "name": "--output-format",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output-format <FORMAT>"
+      ],
+      "tip": [
+        "Output format type"
+      ],
+      "next": [
+        {
+          "name": "a"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "base64"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "h"
+        },
+        {
+          "name": "hcl"
+        },
+        {
+          "name": "i"
+        },
+        {
+          "name": "ini"
+        },
+        {
+          "name": "j"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "ky"
+        },
+        {
+          "name": "kyaml"
+        },
+        {
+          "name": "l"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "p"
+        },
+        {
+          "name": "props"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "t"
+        },
+        {
+          "name": "toml"
+        },
+        {
+          "name": "tsv"
+        },
+        {
+          "name": "uri"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "y"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--prettyPrint",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --prettyPrint"
+      ],
+      "tip": [
+        "Pretty print, shorthand for '... style = \"\"'"
+      ]
+    },
+    {
+      "name": "--properties-array-brackets",
+      "tip": [
+        "Use [x] in array paths (e.g. for SpringBoot)"
+      ]
+    },
+    {
+      "name": "--properties-separator",
+      "usage": [
+        "--properties-separator <string>"
+      ],
+      "tip": [
+        "Separator to use between keys and values (default  = )"
+      ],
+      "next": []
+    },
+    {
+      "name": "--security-disable-env-ops",
+      "tip": [
+        "Disable env related operations"
+      ]
+    },
+    {
+      "name": "--security-disable-file-ops",
+      "tip": [
+        "Disable file related operations (e.g. load)"
+      ]
+    },
+    {
+      "name": "--security-enable-system-operator",
+      "tip": [
+        "Enable system operator to allow execution of external commands"
+      ]
+    },
+    {
+      "name": "--shell-key-separator",
+      "usage": [
+        "--shell-key-separator <string>"
+      ],
+      "tip": [
+        "Separator for shell variable key paths (default _)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-exp",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --split-exp <string>"
+      ],
+      "tip": [
+        "Print each result (or doc) into a file named (exp)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-exp-file",
+      "usage": [
+        "--split-exp-file <string>"
+      ],
+      "tip": [
+        "Use a file to specify the split-exp expression"
+      ],
+      "next": []
+    },
+    {
+      "name": "--string-interpolation",
+      "tip": [
+        "Toggles strings interpolation of \\(exp\\) (default true)"
+      ]
+    },
+    {
+      "name": "--tsv-auto-parse",
+      "tip": [
+        "Parse TSV YAML/JSON values (default true)"
+      ]
+    },
+    {
+      "name": "--unwrapScalar",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --unwrapScalar"
+      ],
+      "tip": [
+        "Unwrap scalar, print the value with no quotes, colours or comments (default true for yaml)"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Verbose mode"
+      ]
+    },
+    {
+      "name": "--xml-attribute-prefix",
+      "usage": [
+        "--xml-attribute-prefix <string>"
+      ],
+      "tip": [
+        "Prefix for xml attributes (default +@)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-content-name",
+      "usage": [
+        "--xml-content-name <string>"
+      ],
+      "tip": [
+        "Name for xml content (if no attribute name is present) (default +content)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-directive-name",
+      "usage": [
+        "--xml-directive-name <string>"
+      ],
+      "tip": [
+        "Name for xml directives (default +directive)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-keep-namespace",
+      "tip": [
+        "Enables keeping namespace after parsing attributes (default true)"
+      ]
+    },
+    {
+      "name": "--xml-proc-inst-prefix",
+      "usage": [
+        "--xml-proc-inst-prefix <string>"
+      ],
+      "tip": [
+        "Prefix for xml processing instructions (default +p_)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-raw-token",
+      "tip": [
+        "Enables using RawToken method instead Token (default true)"
+      ]
+    },
+    {
+      "name": "--xml-skip-directives",
+      "tip": [
+        "Skip over directives (e.g. <!DOCTYPE thing cat>)"
+      ]
+    },
+    {
+      "name": "--xml-skip-proc-inst",
+      "tip": [
+        "Skip over process instructions (e.g. <?xml version=\"1\"?>)"
+      ]
+    },
+    {
+      "name": "--xml-strict-mode",
+      "tip": [
+        "Enables strict parsing of XML"
+      ]
+    },
+    {
+      "name": "--yaml-compact-seq-indent",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --yaml-compact-seq-indent"
+      ],
+      "tip": [
+        "Use compact sequence indentation where '- ' is considered part of the indentation"
+      ]
+    },
+    {
+      "name": "--yaml-fix-merge-anchor-to-spec",
+      "tip": [
+        "Fix merge anchor to match YAML spec"
+      ]
+    }
+  ]
+}

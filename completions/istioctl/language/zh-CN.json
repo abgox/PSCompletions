@@ -1,0 +1,3023 @@
+{
+  "meta": {
+    "url": "https://istio.io/",
+    "description": [
+      "Istio 命令行界面"
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "tip": [
+        "分析 Istio 配置并打印验证消息"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "分析所有命名空间"
+          ]
+        },
+        {
+          "name": "--analyzer",
+          "usage": [
+            "--analyzer <analyzer>"
+          ],
+          "tip": [
+            "选择要运行的特定分析器"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--color",
+          "tip": [
+            "使用彩色输出"
+          ]
+        },
+        {
+          "name": "--failure-threshold",
+          "usage": [
+            "--failure-threshold <level>"
+          ],
+          "tip": [
+            "当分析发现此严重性或以上级别的问题时，以非零状态退出"
+          ],
+          "next": [
+            {
+              "name": "Error",
+              "tip": [
+                "错误严重性（默认）"
+              ]
+            },
+            {
+              "name": "Info",
+              "tip": [
+                "信息严重性"
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "警告严重性"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-unknown",
+          "tip": [
+            "不抱怨未注册的配置"
+          ]
+        },
+        {
+          "name": "--list-analyzers",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --list-analyzers"
+          ],
+          "tip": [
+            "列出可用的分析器"
+          ]
+        },
+        {
+          "name": "--meshConfigFile",
+          "usage": [
+            "--meshConfigFile <file>"
+          ],
+          "tip": [
+            "网格配置文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "log",
+              "tip": [
+                "日志格式（默认）"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--output-threshold",
+          "usage": [
+            "--output-threshold <level>"
+          ],
+          "tip": [
+            "要输出的消息的严重性级别"
+          ],
+          "next": [
+            {
+              "name": "Error",
+              "tip": [
+                "错误严重性"
+              ]
+            },
+            {
+              "name": "Info",
+              "tip": [
+                "信息严重性（默认）"
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "警告严重性"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--remote-contexts",
+          "usage": [
+            "--remote-contexts <contexts>"
+          ],
+          "tip": [
+            "要在远程集群中分析的上下文"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--suppress",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --suppress <code>"
+          ],
+          "tip": [
+            "抑制具有给定代码的消息"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "分析的超时时间"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-kube",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --use-kube"
+          ],
+          "tip": [
+            "使用 kube 配置进行分析（默认 true）"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "详细输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "authz",
+      "tip": [
+        "授权策略的命令组"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "检查授权策略"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <file>"
+              ],
+              "tip": [
+                "要检查的输入"
+              ],
+              "next": []
+            },
+            {
+              "name": "--proxy-admin-port",
+              "usage": [
+                "--proxy-admin-port <port>"
+              ],
+              "tip": [
+                "代理管理接口的地址"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bug-report",
+      "tip": [
+        "收集集群信息和日志以报告错误"
+      ],
+      "next": [
+        {
+          "name": "version",
+          "tip": [
+            "打印版本"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--short",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --short"
+              ],
+              "tip": [
+                "显示简短形式的版本信息"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "为指定 Shell 生成自动补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 补全脚本"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create-remote-secret",
+      "tip": [
+        "创建包含凭据的 secret 以允许 Istio 访问远程 Kubernetes API"
+      ],
+      "option": [
+        {
+          "name": "--auth-plugin-config",
+          "usage": [
+            "--auth-plugin-config <config>"
+          ],
+          "tip": [
+            "要使用的 Kubernetes 认证插件配置"
+          ],
+          "next": []
+        },
+        {
+          "name": "--auth-plugin-name",
+          "usage": [
+            "--auth-plugin-name <name>"
+          ],
+          "tip": [
+            "要使用的 Kubernetes 认证插件名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--auth-type",
+          "usage": [
+            "--auth-type <type>"
+          ],
+          "tip": [
+            "认证类型"
+          ],
+          "next": [
+            {
+              "name": "bearer-token",
+              "tip": [
+                "Bearer token 认证（默认）"
+              ]
+            },
+            {
+              "name": "plugin",
+              "tip": [
+                "插件认证"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--create-service-account",
+          "tip": [
+            "创建用于认证的服务账户（默认 true）"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "manifest 的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "secret 的名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--secret-name",
+          "usage": [
+            "--secret-name <name>"
+          ],
+          "tip": [
+            "secret 的名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <server>"
+          ],
+          "tip": [
+            "Kubernetes API 服务器的地址"
+          ],
+          "next": []
+        },
+        {
+          "name": "--service-account",
+          "usage": [
+            "--service-account <name>"
+          ],
+          "tip": [
+            "要使用的服务账户"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tls-server-name",
+          "usage": [
+            "--tls-server-name <name>"
+          ],
+          "tip": [
+            "TLS 服务器名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <type>"
+          ],
+          "tip": [
+            "secret 的类型"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "Config secret 类型"
+              ]
+            },
+            {
+              "name": "remote",
+              "tip": [
+                "远程 secret 类型（默认）"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "alias": [
+        "dash",
+        "d"
+      ],
+      "usage": [
+        "d|dash|dashboard <SUBCOMMAND>"
+      ],
+      "tip": [
+        "为指定组件打开 Web 仪表盘"
+      ],
+      "option": [
+        {
+          "name": "--address",
+          "usage": [
+            "--address <address>"
+          ],
+          "tip": [
+            "监听的地址"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "打开浏览器（默认 true）"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <port>"
+          ],
+          "tip": [
+            "本地监听端口"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "controlz",
+          "tip": [
+            "打开 ControlZ Web UI"
+          ]
+        },
+        {
+          "name": "envoy",
+          "tip": [
+            "打开 Envoy 仪表盘"
+          ]
+        },
+        {
+          "name": "grafana",
+          "tip": [
+            "打开 Grafana Web UI"
+          ]
+        },
+        {
+          "name": "istiod-debug",
+          "tip": [
+            "打开 Istiod 调试仪表盘"
+          ]
+        },
+        {
+          "name": "jaeger",
+          "tip": [
+            "打开 Jaeger Web UI"
+          ]
+        },
+        {
+          "name": "kiali",
+          "tip": [
+            "打开 Kiali Web UI"
+          ]
+        },
+        {
+          "name": "prometheus",
+          "tip": [
+            "打开 Prometheus Web UI"
+          ]
+        },
+        {
+          "name": "proxy",
+          "tip": [
+            "打开 Envoy 仪表盘"
+          ]
+        },
+        {
+          "name": "skywalking",
+          "tip": [
+            "打开 SkyWalking UI"
+          ]
+        },
+        {
+          "name": "zipkin",
+          "tip": [
+            "打开 Zipkin Web UI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "experimental",
+      "alias": [
+        "exp",
+        "x"
+      ],
+      "usage": [
+        "x|exp|experimental <SUBCOMMAND>"
+      ],
+      "tip": [
+        "实验性命令，可能随时修改或弃用"
+      ],
+      "next": [
+        {
+          "name": "authz",
+          "next": [
+            {
+              "name": "check",
+              "tip": [
+                "检查授权策略"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "check-inject",
+          "tip": [
+            "检查 sidecar 注入"
+          ]
+        },
+        {
+          "name": "config",
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出配置"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "describe",
+          "next": [
+            {
+              "name": "pod",
+              "alias": [
+                "po"
+              ],
+              "usage": [
+                "po|pod <NAME>"
+              ],
+              "tip": [
+                "描述 Pod"
+              ]
+            },
+            {
+              "name": "service",
+              "alias": [
+                "svc"
+              ],
+              "usage": [
+                "svc|service <NAME>"
+              ],
+              "tip": [
+                "描述服务"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "envoy-stats",
+          "alias": [
+            "es"
+          ],
+          "usage": [
+            "es|envoy-stats <NAME>"
+          ],
+          "tip": [
+            "获取 Envoy 指标"
+          ]
+        },
+        {
+          "name": "injector",
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出注入器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "internal-debug",
+          "tip": [
+            "获取指定 Pod 的内部调试信息"
+          ]
+        },
+        {
+          "name": "metrics",
+          "alias": [
+            "m"
+          ],
+          "usage": [
+            "m|metrics <NAME>"
+          ],
+          "tip": [
+            "获取指定 Pod 的指标"
+          ]
+        },
+        {
+          "name": "precheck",
+          "tip": [
+            "检查安装是否可以升级"
+          ]
+        },
+        {
+          "name": "proxy-status",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|proxy-status [NAME]"
+          ],
+          "tip": [
+            "获取网格中每个 Envoy 的同步状态"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "打印版本"
+          ]
+        },
+        {
+          "name": "workload",
+          "next": [
+            {
+              "name": "entry",
+              "next": [
+                {
+                  "name": "configure",
+                  "tip": [
+                    "配置 workload entry"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "group",
+              "next": [
+                {
+                  "name": "create",
+                  "tip": [
+                    "创建工作负载组"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "apply"
+      ],
+      "usage": [
+        "apply|install"
+      ],
+      "tip": [
+        "安装 Istio 控制平面"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印配置但不应用"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "输入文件"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使验证失败也继续"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "manifest 的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--readiness-timeout",
+          "usage": [
+            "--readiness-timeout <duration>"
+          ],
+          "tip": [
+            "就绪检查的超时时间"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "覆盖值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "跳过确认提示"
+          ]
+        },
+        {
+          "name": "--verify",
+          "tip": [
+            "验证安装"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "istiod",
+      "alias": [
+        "admin"
+      ],
+      "usage": [
+        "admin|istiod <SUBCOMMAND>"
+      ],
+      "tip": [
+        "与 Istiod 控制器交互的命令"
+      ],
+      "option": [
+        {
+          "name": "--selector",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --selector <selector>"
+          ],
+          "tip": [
+            "标签选择器（默认 app=istiod）"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "log",
+          "alias": [
+            "l"
+          ],
+          "usage": [
+            "l|log"
+          ],
+          "tip": [
+            "获取或设置 istiod 的日志级别"
+          ],
+          "option": [
+            {
+              "name": "--ctrlz_port",
+              "usage": [
+                "--ctrlz_port <port>"
+              ],
+              "tip": [
+                "管理接口的地址"
+              ],
+              "next": []
+            },
+            {
+              "name": "--level",
+              "usage": [
+                "--level <level>"
+              ],
+              "tip": [
+                "逗号分隔的每个作用域的最低日志级别"
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "调试级别"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "错误级别"
+                  ]
+                },
+                {
+                  "name": "fatal",
+                  "tip": [
+                    "致命级别"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "信息级别"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "无级别"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "警告级别"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--log-reset",
+              "tip": [
+                "重置日志级别"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "short",
+                  "tip": [
+                    "简短格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "重置日志级别"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stack-trace-level",
+              "usage": [
+                "--stack-trace-level <level>"
+              ],
+              "tip": [
+                "打印堆栈跟踪的逗号分隔的每个作用域的最低日志级别"
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "调试级别"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "错误级别"
+                  ]
+                },
+                {
+                  "name": "fatal",
+                  "tip": [
+                    "致命级别"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "信息级别"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "无级别"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "警告级别"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--stack-trace-reset",
+              "tip": [
+                "重置堆栈跟踪级别"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kube-inject",
+      "tip": [
+        "将 Istio sidecar 注入 Kubernetes Pod 资源"
+      ],
+      "option": [
+        {
+          "name": "--authority",
+          "usage": [
+            "--authority <authority>"
+          ],
+          "tip": [
+            "authority 请求头"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cert-dir",
+          "usage": [
+            "--cert-dir <dir>"
+          ],
+          "tip": [
+            "证书的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "输入文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--injectConfigFile",
+          "usage": [
+            "--injectConfigFile <file>"
+          ],
+          "tip": [
+            "注入配置文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "跳过 TLS 验证"
+          ]
+        },
+        {
+          "name": "--meshConfigFile",
+          "usage": [
+            "--meshConfigFile <file>"
+          ],
+          "tip": [
+            "网格配置文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--meshConfigMapName",
+          "usage": [
+            "--meshConfigMapName <name>"
+          ],
+          "tip": [
+            "网格配置映射的名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--operatorFileName",
+          "usage": [
+            "--operatorFileName <file>"
+          ],
+          "tip": [
+            "operator 配置文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "输出文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--plaintext",
+          "tip": [
+            "对连接使用明文"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "命令的超时时间"
+          ],
+          "next": []
+        },
+        {
+          "name": "--valuesFile",
+          "usage": [
+            "--valuesFile <file>"
+          ],
+          "tip": [
+            "values 文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--webhookConfig",
+          "usage": [
+            "--webhookConfig <file>"
+          ],
+          "tip": [
+            "webhook 配置文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-address",
+          "usage": [
+            "--xds-address <address>"
+          ],
+          "tip": [
+            "XDS 服务器的地址"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-label",
+          "usage": [
+            "--xds-label <label>"
+          ],
+          "tip": [
+            "XDS 服务器的标签"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-port",
+          "usage": [
+            "--xds-port <port>"
+          ],
+          "tip": [
+            "XDS 服务器的端口"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "Istio 控制平面 manifest 的命令"
+      ],
+      "next": [
+        {
+          "name": "generate",
+          "tip": [
+            "生成 manifest"
+          ],
+          "option": [
+            {
+              "name": "--cluster-specific",
+              "tip": [
+                "生成集群特定的 manifest"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "打印配置但不应用"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "输入文件"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "即使验证失败也继续"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "manifest 的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "覆盖值"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "apply"
+          ],
+          "usage": [
+            "apply|install"
+          ],
+          "tip": [
+            "安装 manifest"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "打印配置但不应用"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "输入文件"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "即使验证失败也继续"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "manifest 的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "覆盖值"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "跳过确认提示"
+              ]
+            },
+            {
+              "name": "--verify",
+              "tip": [
+                "验证安装"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "translate",
+          "tip": [
+            "转换配置"
+          ],
+          "option": [
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "输入文件"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "manifest 的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file>"
+              ],
+              "tip": [
+                "输出文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "覆盖值"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy-config",
+      "alias": [
+        "pc"
+      ],
+      "usage": [
+        "pc|proxy-config <SUBCOMMAND>"
+      ],
+      "tip": [
+        "从 Envoy 获取代理配置信息"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "简短格式（默认）"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "代理管理接口的地址"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "alias": [
+            "a"
+          ],
+          "usage": [
+            "a|all <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的所有配置信息"
+          ]
+        },
+        {
+          "name": "bootstrap",
+          "alias": [
+            "b"
+          ],
+          "usage": [
+            "b|bootstrap <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的 bootstrap 配置信息"
+          ]
+        },
+        {
+          "name": "clusters",
+          "alias": [
+            "cluster",
+            "c"
+          ],
+          "usage": [
+            "c|cluster|clusters <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的集群配置信息"
+          ]
+        },
+        {
+          "name": "ecds",
+          "alias": [
+            "ec"
+          ],
+          "usage": [
+            "ec|ecds <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的扩展配置信息"
+          ]
+        },
+        {
+          "name": "endpoints",
+          "alias": [
+            "endpoint",
+            "ep"
+          ],
+          "usage": [
+            "ep|endpoint|endpoints <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的端点配置信息"
+          ]
+        },
+        {
+          "name": "listeners",
+          "alias": [
+            "listener",
+            "l"
+          ],
+          "usage": [
+            "l|listener|listeners <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的监听器配置信息"
+          ]
+        },
+        {
+          "name": "log",
+          "alias": [
+            "o"
+          ],
+          "usage": [
+            "o|log <POD>"
+          ],
+          "tip": [
+            "获取或设置指定 Envoy 实例的日志级别"
+          ],
+          "option": [
+            {
+              "name": "--level",
+              "usage": [
+                "--level <level>"
+              ],
+              "tip": [
+                "逗号分隔的每个作用域的最低日志级别"
+              ],
+              "next": [
+                {
+                  "name": "critical",
+                  "tip": [
+                    "严重级别"
+                  ]
+                },
+                {
+                  "name": "debug",
+                  "tip": [
+                    "调试级别"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "错误级别"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "信息级别"
+                  ]
+                },
+                {
+                  "name": "off",
+                  "tip": [
+                    "关闭级别"
+                  ]
+                },
+                {
+                  "name": "trace",
+                  "tip": [
+                    "跟踪级别"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "警告级别"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reset",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --reset"
+              ],
+              "tip": [
+                "重置日志级别"
+              ]
+            },
+            {
+              "name": "--selector",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --selector <selector>"
+              ],
+              "tip": [
+                "标签选择器"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rootca-compare",
+          "alias": [
+            "rc"
+          ],
+          "usage": [
+            "rc|rootca-compare <POD>"
+          ],
+          "tip": [
+            "比较代理的根证书"
+          ]
+        },
+        {
+          "name": "routes",
+          "alias": [
+            "route",
+            "r"
+          ],
+          "usage": [
+            "r|route|routes <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的路由配置信息"
+          ]
+        },
+        {
+          "name": "secrets",
+          "alias": [
+            "secret",
+            "s"
+          ],
+          "usage": [
+            "s|secret|secrets <POD>"
+          ],
+          "tip": [
+            "获取 Envoy 实例的 secret 配置信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy-status",
+      "alias": [
+        "ps"
+      ],
+      "usage": [
+        "ps|proxy-status [NAME]"
+      ],
+      "tip": [
+        "获取网格中每个 Envoy 的同步状态"
+      ],
+      "option": [
+        {
+          "name": "--authority",
+          "usage": [
+            "--authority <authority>"
+          ],
+          "tip": [
+            "authority 请求头"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cert-dir",
+          "usage": [
+            "--cert-dir <dir>"
+          ],
+          "tip": [
+            "证书的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <file>"
+          ],
+          "tip": [
+            "从文件读取信息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "跳过 TLS 验证"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格格式（默认）"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--plaintext",
+          "tip": [
+            "对连接使用明文"
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "代理管理接口的地址"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "命令的超时时间"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbosity",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbosity <int>"
+          ],
+          "tip": [
+            "输出的详细程度"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-address",
+          "usage": [
+            "--xds-address <address>"
+          ],
+          "tip": [
+            "XDS 服务器的地址"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-label",
+          "usage": [
+            "--xds-label <label>"
+          ],
+          "tip": [
+            "XDS 服务器的标签"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-port",
+          "usage": [
+            "--xds-port <port>"
+          ],
+          "tip": [
+            "XDS 服务器的端口"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "remote-clusters",
+      "tip": [
+        "列出网格中的所有集群"
+      ],
+      "option": [
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "处理 revision 标签的命令"
+      ],
+      "next": [
+        {
+          "name": "generate",
+          "usage": [
+            "generate <revision-tag>"
+          ],
+          "tip": [
+            "生成 revision 标签的 manifest"
+          ],
+          "option": [
+            {
+              "name": "--auto-inject-namespaces",
+              "tip": [
+                "在命名空间中启用自动注入"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "manifest 的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "覆盖现有标签"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "跳过确认提示"
+              ]
+            },
+            {
+              "name": "--webhook-name",
+              "usage": [
+                "--webhook-name <name>"
+              ],
+              "tip": [
+                "webhook 的名称"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "show"
+          ],
+          "usage": [
+            "list|show"
+          ],
+          "tip": [
+            "列出 revision 标签"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "表格格式（默认）"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete"
+          ],
+          "usage": [
+            "delete|remove <revision-tag>"
+          ],
+          "tip": [
+            "移除 revision 标签"
+          ],
+          "option": [
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "跳过确认提示"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <revision-tag>"
+          ],
+          "tip": [
+            "设置 revision 标签"
+          ],
+          "option": [
+            {
+              "name": "--auto-inject-namespaces",
+              "tip": [
+                "在命名空间中启用自动注入"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "manifest 的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "覆盖现有标签"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "跳过确认提示"
+              ]
+            },
+            {
+              "name": "--webhook-name",
+              "usage": [
+                "--webhook-name <name>"
+              ],
+              "tip": [
+                "webhook 的名称"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载 Istio 控制平面"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印配置但不应用"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "输入文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使验证失败也继续"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "manifest 的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "清除所有资源"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "覆盖值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "跳过确认提示"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "详细输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "升级 Istio 控制平面"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印配置但不应用"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "输入文件"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使验证失败也继续"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "manifest 的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "覆盖值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "跳过确认提示"
+          ]
+        },
+        {
+          "name": "--verify",
+          "tip": [
+            "验证安装"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "alias": [
+        "v"
+      ],
+      "usage": [
+        "v|validate"
+      ],
+      "tip": [
+        "验证 Istio 配置"
+      ],
+      "option": [
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "输入文件"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印构建版本信息"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--remote",
+          "tip": [
+            "打印远程集群的版本"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "要使用的 Istio revision"
+          ],
+          "next": []
+        },
+        {
+          "name": "--short",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --short"
+          ],
+          "tip": [
+            "显示简短形式的版本信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "waypoint",
+      "tip": [
+        "管理 waypoint 配置"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "waypoint 的名称（默认 waypoint）"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "应用 waypoint 配置"
+          ],
+          "option": [
+            {
+              "name": "--enroll-namespace",
+              "tip": [
+                "登记命名空间"
+              ]
+            },
+            {
+              "name": "--for",
+              "usage": [
+                "--for <service>"
+              ],
+              "tip": [
+                "为其生成 waypoint 的服务"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "为所有服务生成"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "不为任何服务生成"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "为该服务生成"
+                  ]
+                },
+                {
+                  "name": "workload",
+                  "tip": [
+                    "为该工作负载生成"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "覆盖现有 waypoint"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wait",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait"
+              ],
+              "tip": [
+                "等待 waypoint 就绪"
+              ]
+            },
+            {
+              "name": "--waypoint-timeout",
+              "usage": [
+                "--waypoint-timeout <duration>"
+              ],
+              "tip": [
+                "waypoint 的超时时间"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "删除 waypoint 配置"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "删除所有 waypoint"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "generate",
+          "tip": [
+            "生成 waypoint 配置"
+          ],
+          "option": [
+            {
+              "name": "--for",
+              "usage": [
+                "--for <service>"
+              ],
+              "tip": [
+                "为其生成 waypoint 的服务"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "为所有服务生成"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "不为任何服务生成"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "为该服务生成"
+                  ]
+                },
+                {
+                  "name": "workload",
+                  "tip": [
+                    "为该工作负载生成"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "要使用的 Istio revision"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 waypoint"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "列出所有命名空间"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "waypoint 的状态"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "所有命名空间中的状态"
+              ]
+            },
+            {
+              "name": "--wait",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait"
+              ],
+              "tip": [
+                "等待状态（默认 true）"
+              ]
+            },
+            {
+              "name": "--waypoint-timeout",
+              "usage": [
+                "--waypoint-timeout <duration>"
+              ],
+              "tip": [
+                "waypoint 的超时时间"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ztunnel-config",
+      "alias": [
+        "zc"
+      ],
+      "usage": [
+        "zc|ztunnel-config <SUBCOMMAND>"
+      ],
+      "tip": [
+        "获取 ztunnel 配置信息"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <file>"
+          ],
+          "tip": [
+            "从文件读取信息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <node>"
+          ],
+          "tip": [
+            "从中检索信息的节点"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "简短格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "代理管理接口的地址"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "获取所有 ztunnel 配置信息"
+          ]
+        },
+        {
+          "name": "certificates",
+          "alias": [
+            "certificate",
+            "certs",
+            "cert"
+          ],
+          "usage": [
+            "cert|certs|certificate|certificates"
+          ],
+          "tip": [
+            "获取证书配置信息"
+          ]
+        },
+        {
+          "name": "connections",
+          "alias": [
+            "cons"
+          ],
+          "usage": [
+            "cons|connections"
+          ],
+          "tip": [
+            "获取连接配置信息"
+          ]
+        },
+        {
+          "name": "log",
+          "alias": [
+            "o"
+          ],
+          "usage": [
+            "o|log"
+          ],
+          "tip": [
+            "获取或设置 ztunnel 的日志级别"
+          ]
+        },
+        {
+          "name": "policies",
+          "alias": [
+            "policy",
+            "pol",
+            "p"
+          ],
+          "usage": [
+            "p|pol|policy|policies"
+          ],
+          "tip": [
+            "获取策略配置信息"
+          ]
+        },
+        {
+          "name": "services",
+          "alias": [
+            "service",
+            "svc",
+            "s"
+          ],
+          "usage": [
+            "s|svc|service|services"
+          ],
+          "tip": [
+            "获取服务配置信息"
+          ]
+        },
+        {
+          "name": "workloads",
+          "alias": [
+            "workload",
+            "w"
+          ],
+          "usage": [
+            "w|workload|workloads"
+          ],
+          "tip": [
+            "获取工作负载配置信息"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--as",
+      "usage": [
+        "--as <user>"
+      ],
+      "tip": [
+        "要模拟的用户名"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <groups>"
+      ],
+      "tip": [
+        "要模拟的组"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <uid>"
+      ],
+      "tip": [
+        "要模拟的 UID"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <name>"
+      ],
+      "tip": [
+        "要使用的 kube 上下文"
+      ],
+      "next": []
+    },
+    {
+      "name": "--istioNamespace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --istioNamespace <namespace>"
+      ],
+      "tip": [
+        "Istio 系统命名空间（默认 istio-system）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kubeclient-timeout",
+      "usage": [
+        "--kubeclient-timeout <timeout>"
+      ],
+      "tip": [
+        "kube 客户端的超时时间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kubeconfig",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --kubeconfig <file>"
+      ],
+      "tip": [
+        "kubeconfig 文件的路径"
+      ],
+      "next": []
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <namespace>"
+      ],
+      "tip": [
+        "Kubernetes 命名空间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--vklog",
+      "usage": [
+        "--vklog <level>"
+      ],
+      "tip": [
+        "V 日志的日志级别"
+      ],
+      "next": []
+    }
+  ]
+}

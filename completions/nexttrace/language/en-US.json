@@ -1,0 +1,972 @@
+{
+  "meta": {
+    "url": "https://github.com/nxtrace/NexTrace",
+    "description": [
+      "An open source visual route tracking CLI tool"
+    ]
+  },
+  "option": [
+    {
+      "name": "--always-rdns",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --always-rdns"
+      ],
+      "tip": [
+        "Always resolve IP addresses to their domain names"
+      ]
+    },
+    {
+      "name": "--classic",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --classic"
+      ],
+      "tip": [
+        "Classic Output trace results like BestTrace"
+      ]
+    },
+    {
+      "name": "--data-provider",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --data-provider <provider>"
+      ],
+      "tip": [
+        "Choose IP Geograph Data Provider. Default: LeoMoeAPI."
+      ],
+      "next": [
+        {
+          "name": "CHUNZHEN",
+          "tip": [
+            "CHUNZHEN provider"
+          ]
+        },
+        {
+          "name": "disable-geoip",
+          "tip": [
+            "Disable GeoIP lookup"
+          ]
+        },
+        {
+          "name": "IP-API.com",
+          "tip": [
+            "IP-API.com provider"
+          ]
+        },
+        {
+          "name": "IP.SB",
+          "tip": [
+            "IP.SB provider"
+          ]
+        },
+        {
+          "name": "IPInfo",
+          "tip": [
+            "IPInfo provider"
+          ]
+        },
+        {
+          "name": "IPInfoLocal",
+          "tip": [
+            "IPInfoLocal provider"
+          ]
+        },
+        {
+          "name": "IPInsight",
+          "tip": [
+            "IPInsight provider"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--deploy",
+      "tip": [
+        "Start the Gin powered web console"
+      ]
+    },
+    {
+      "name": "--deploy-token",
+      "usage": [
+        "--deploy-token <value>"
+      ],
+      "tip": [
+        "Set bearer token for --deploy WebUI/API/WebSocket/MCP access"
+      ],
+      "next": [
+        {
+          "name": "token",
+          "tip": [
+            "Bearer token"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dev",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dev <value>"
+      ],
+      "tip": [
+        "Use the specified network device for explicit source selection"
+      ],
+      "next": [
+        {
+          "name": "eth0",
+          "tip": [
+            "Example network device"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--disable-mpls",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --disable-mpls"
+      ],
+      "tip": [
+        "Disable MPLS"
+      ]
+    },
+    {
+      "name": "--dn42",
+      "tip": [
+        "DN42 Mode"
+      ]
+    },
+    {
+      "name": "--dot-server",
+      "usage": [
+        "--dot-server <server>"
+      ],
+      "tip": [
+        "Use DoT Server for DNS Parse"
+      ],
+      "next": [
+        {
+          "name": "aliyun",
+          "tip": [
+            "Aliyun DoT server"
+          ]
+        },
+        {
+          "name": "cloudflare",
+          "tip": [
+            "Cloudflare DoT server"
+          ]
+        },
+        {
+          "name": "dnspod",
+          "tip": [
+            "DNSPod DoT server"
+          ]
+        },
+        {
+          "name": "dnssb",
+          "tip": [
+            "dnssb DoT server"
+          ]
+        },
+        {
+          "name": "google",
+          "tip": [
+            "Google DoT server"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--fast-trace",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --fast-trace"
+      ],
+      "tip": [
+        "One-Key Fast Trace to China ISPs"
+      ]
+    },
+    {
+      "name": "--file",
+      "usage": [
+        "--file <value>"
+      ],
+      "tip": [
+        "Read IP Address or domain name from file"
+      ],
+      "next": [
+        {
+          "name": "targets.txt",
+          "tip": [
+            "File with targets"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--first",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --first <integer>"
+      ],
+      "tip": [
+        "Start from the first_ttl hop (instead of 1). Default: 1."
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "Default first hop"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--from",
+      "usage": [
+        "--from <value>"
+      ],
+      "tip": [
+        "Run traceroute via Globalping from a specified location. Accepts continents, countries, regions, cities, ASNs, ISPs, or cloud regions."
+      ],
+      "next": [
+        {
+          "name": "CN",
+          "tip": [
+            "China location"
+          ]
+        },
+        {
+          "name": "US",
+          "tip": [
+            "United States location"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help information"
+      ]
+    },
+    {
+      "name": "--icmp-mode",
+      "usage": [
+        "--icmp-mode <integer>"
+      ],
+      "tip": [
+        "Choose the method to listen for ICMP packets (1=Socket, 2=WinDivert; 0=Auto)"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Auto (default)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Socket"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "WinDivert"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--init",
+      "tip": [
+        "Extract WinDivert runtime to executable directory"
+      ]
+    },
+    {
+      "name": "--ipinfo",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --ipinfo <integer>"
+      ],
+      "tip": [
+        "Set initial MTR TUI host info mode (0-4). TUI only; ignored in --report/--raw. 0:IP/PTR 1:ASN 2:City 3:Owner 4:Full. Default: 0."
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "IP/PTR (default)"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "ASN"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "City"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "Owner"
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "Full info"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ipv4",
+      "alias": [
+        "-4"
+      ],
+      "usage": [
+        "-4, --ipv4"
+      ],
+      "tip": [
+        "Use IPv4 only"
+      ]
+    },
+    {
+      "name": "--ipv6",
+      "alias": [
+        "-6"
+      ],
+      "usage": [
+        "-6, --ipv6"
+      ],
+      "tip": [
+        "Use IPv6 only"
+      ]
+    },
+    {
+      "name": "--json",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --json"
+      ],
+      "tip": [
+        "Output trace results as JSON"
+      ]
+    },
+    {
+      "name": "--language",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --language <lang>"
+      ],
+      "tip": [
+        "Choose the language for displaying. Default: cn."
+      ],
+      "next": [
+        {
+          "name": "cn",
+          "tip": [
+            "Chinese (default)"
+          ]
+        },
+        {
+          "name": "en",
+          "tip": [
+            "English"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--listen",
+      "usage": [
+        "--listen <value>"
+      ],
+      "tip": [
+        "Set listen address for web console (e.g. 127.0.0.1:30080)"
+      ],
+      "next": [
+        {
+          "name": "127.0.0.1:30080",
+          "tip": [
+            "Default web console address"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--map",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --map"
+      ],
+      "tip": [
+        "Disable Print Trace Map"
+      ]
+    },
+    {
+      "name": "--max-attempts",
+      "usage": [
+        "--max-attempts <integer>"
+      ],
+      "tip": [
+        "Advanced: hard cap on probe packets per hop. Leave unset for auto sizing."
+      ],
+      "next": [
+        {
+          "name": "10",
+          "tip": [
+            "10 attempts per hop"
+          ]
+        },
+        {
+          "name": "5",
+          "tip": [
+            "5 attempts per hop"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--max-hops",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-hops <integer>"
+      ],
+      "tip": [
+        "Set the max number of hops (max TTL to be reached). Default: 30."
+      ],
+      "next": [
+        {
+          "name": "30",
+          "tip": [
+            "Default max hops"
+          ]
+        },
+        {
+          "name": "64",
+          "tip": [
+            "64 hops"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mcp",
+      "tip": [
+        "Enable MCP endpoint under --deploy at /mcp"
+      ]
+    },
+    {
+      "name": "--mtr",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --mtr"
+      ],
+      "tip": [
+        "Enable MTR (My Traceroute) continuous probing mode"
+      ]
+    },
+    {
+      "name": "--mtu",
+      "tip": [
+        "Run standalone UDP path-MTU discovery mode with streaming output and GeoIP/RDNS"
+      ]
+    },
+    {
+      "name": "--nali",
+      "tip": [
+        "Annotate IP literals in text using NextTrace GeoIP data"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --no-color"
+      ],
+      "tip": [
+        "Disable Colorful Output"
+      ]
+    },
+    {
+      "name": "--no-rdns",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-rdns"
+      ],
+      "tip": [
+        "Do not resolve IP addresses to their domain names"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <value>"
+      ],
+      "tip": [
+        "Write trace result to FILE (RealtimePrinter only)"
+      ],
+      "next": [
+        {
+          "name": "trace.log",
+          "tip": [
+            "Log file to write to"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--output-default",
+      "alias": [
+        "-O"
+      ],
+      "usage": [
+        "-O, --output-default"
+      ],
+      "tip": [
+        "Write trace result to the default log file (/tmp/trace.log)"
+      ]
+    },
+    {
+      "name": "--parallel-requests",
+      "usage": [
+        "--parallel-requests <integer>"
+      ],
+      "tip": [
+        "Advanced: total concurrent in-flight probes across TTLs. Use 1 on multipath paths. Default: 18."
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "Single in-flight probe"
+          ]
+        },
+        {
+          "name": "18",
+          "tip": [
+            "Default concurrency"
+          ]
+        },
+        {
+          "name": "6",
+          "tip": [
+            "6 concurrent probes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--port",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --port <integer>"
+      ],
+      "tip": [
+        "Set the destination port to use. Default of 80 for tcp, 33494 for udp."
+      ],
+      "next": [
+        {
+          "name": "33494",
+          "tip": [
+            "Default UDP port"
+          ]
+        },
+        {
+          "name": "443",
+          "tip": [
+            "HTTPS port"
+          ]
+        },
+        {
+          "name": "80",
+          "tip": [
+            "Default TCP port"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pow-provider",
+      "usage": [
+        "--pow-provider <provider>"
+      ],
+      "tip": [
+        "Choose PoW Provider. For China mainland users, please use sakura. Default: api.nxtrace.org."
+      ],
+      "next": [
+        {
+          "name": "api.nxtrace.org",
+          "tip": [
+            "Default PoW provider"
+          ]
+        },
+        {
+          "name": "sakura",
+          "tip": [
+            "Sakura provider for China mainland"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--psize",
+      "usage": [
+        "--psize <integer>"
+      ],
+      "tip": [
+        "Probe packet size in bytes, inclusive IP and active probe headers. Negative values randomize each probe."
+      ],
+      "next": [
+        {
+          "name": "128",
+          "tip": [
+            "128-byte probes"
+          ]
+        },
+        {
+          "name": "64",
+          "tip": [
+            "64-byte probes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--queries",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --queries <integer>"
+      ],
+      "tip": [
+        "Latency samples per hop. Increase to 5-10 on unstable paths for a steadier view. Default: 3."
+      ],
+      "next": [
+        {
+          "name": "10",
+          "tip": [
+            "10 samples per hop"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "Default sample count"
+          ]
+        },
+        {
+          "name": "5",
+          "tip": [
+            "5 samples per hop"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--raw",
+      "tip": [
+        "Machine-friendly output. With MTR (--mtr/-r/-w), enables streaming raw event mode"
+      ]
+    },
+    {
+      "name": "--report",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --report"
+      ],
+      "tip": [
+        "MTR report mode (non-interactive, implies --mtr); can trigger MTR without --mtr"
+      ]
+    },
+    {
+      "name": "--route-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --route-path"
+      ],
+      "tip": [
+        "Print traceroute hop path by ASN and location"
+      ]
+    },
+    {
+      "name": "--send-time",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --send-time <integer>"
+      ],
+      "tip": [
+        "Advanced: per-packet gap [ms] inside the same TTL group. Default: 50."
+      ],
+      "next": [
+        {
+          "name": "100",
+          "tip": [
+            "100 ms gap"
+          ]
+        },
+        {
+          "name": "50",
+          "tip": [
+            "Default gap in ms"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--setup-api-v4-token",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --setup-api-v4-token"
+      ],
+      "tip": [
+        "Store a session-only NextTrace API v4 token in a temporary file"
+      ]
+    },
+    {
+      "name": "--show-ips",
+      "tip": [
+        "MTR only: display both PTR hostnames and numeric IPs (PTR first, IP in parentheses)"
+      ]
+    },
+    {
+      "name": "--source",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --source <value>"
+      ],
+      "tip": [
+        "Use source address src_addr for outgoing packets"
+      ],
+      "next": [
+        {
+          "name": "src_addr",
+          "tip": [
+            "Source address"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--source-port",
+      "usage": [
+        "--source-port <integer>"
+      ],
+      "tip": [
+        "Use source port src_port for outgoing packets"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Auto-assigned source port"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--speed",
+      "tip": [
+        "Run CDN speed test mode. See nexttrace --speed --help for details."
+      ]
+    },
+    {
+      "name": "--table",
+      "tip": [
+        "Output trace results as a final summary table (traceroute report mode)"
+      ]
+    },
+    {
+      "name": "--tcp",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tcp"
+      ],
+      "tip": [
+        "Use TCP SYN for tracerouting (default dest-port is 80)"
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <integer>"
+      ],
+      "tip": [
+        "Per-probe timeout [ms]. Raise to 2000-3000 on slow paths. Default: 1000."
+      ],
+      "next": [
+        {
+          "name": "1000",
+          "tip": [
+            "Default timeout in ms"
+          ]
+        },
+        {
+          "name": "2000",
+          "tip": [
+            "2000 ms timeout"
+          ]
+        },
+        {
+          "name": "3000",
+          "tip": [
+            "3000 ms timeout"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--tos",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --tos <integer>"
+      ],
+      "tip": [
+        "Set the IP type-of-service / traffic class value [0-255]. Default: 0."
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Default ToS value"
+          ]
+        },
+        {
+          "name": "255",
+          "tip": [
+            "Maximum ToS value"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ttl-time",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ttl-time <integer>"
+      ],
+      "tip": [
+        "Advanced: TTL-group interval [ms] in normal traceroute. In MTR mode becomes per-hop probe interval."
+      ],
+      "next": [
+        {
+          "name": "1000",
+          "tip": [
+            "1000 ms interval"
+          ]
+        },
+        {
+          "name": "500",
+          "tip": [
+            "500 ms interval"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--udp",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --udp"
+      ],
+      "tip": [
+        "Use UDP SYN for tracerouting (default dest-port is 33494)"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version info and exit"
+      ]
+    },
+    {
+      "name": "--wide",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --wide"
+      ],
+      "tip": [
+        "MTR wide report mode (implies --mtr --report); alone equals --mtr --report --wide"
+      ]
+    }
+  ]
+}

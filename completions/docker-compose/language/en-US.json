@@ -1,0 +1,2324 @@
+{
+  "meta": {
+    "url": "https://github.com/docker/compose",
+    "description": [
+      "Define and run multi-container applications with Docker"
+    ]
+  },
+  "next": [
+    {
+      "name": "attach",
+      "usage": [
+        "attach <SERVICE>"
+      ],
+      "tip": [
+        "Attach local standard input, output, and error streams to a running service"
+      ],
+      "option": [
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <keys>"
+          ],
+          "tip": [
+            "Override the key sequence for detaching a container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-stdin",
+          "tip": [
+            "Do not attach STDIN"
+          ]
+        },
+        {
+          "name": "--sig-proxy",
+          "tip": [
+            "Proxy all received signals to the process (default true)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "usage": [
+        "build [SERVICE...]"
+      ],
+      "tip": [
+        "Build or rebuild services"
+      ],
+      "option": [
+        {
+          "name": "--build-arg",
+          "usage": [
+            "--build-arg <arg>"
+          ],
+          "tip": [
+            "Set build-time variables for services"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--builder",
+          "usage": [
+            "--builder <builder>"
+          ],
+          "tip": [
+            "Set the builder to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "Check the build output"
+          ]
+        },
+        {
+          "name": "--memory",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --memory <bytes>"
+          ],
+          "tip": [
+            "Set memory limit for the build container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Do not use cache when building the image"
+          ]
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "Print the build output"
+          ]
+        },
+        {
+          "name": "--provenance",
+          "usage": [
+            "--provenance <value>"
+          ],
+          "tip": [
+            "Set provenance of the image"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pull",
+          "tip": [
+            "Always attempt to pull a newer version of the image"
+          ]
+        },
+        {
+          "name": "--push",
+          "tip": [
+            "Push the built images"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Suppress the build output and print the image ID on success"
+          ]
+        },
+        {
+          "name": "--sbom",
+          "usage": [
+            "--sbom <value>"
+          ],
+          "tip": [
+            "Set the SBOM of the image"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ssh",
+          "usage": [
+            "--ssh <value>"
+          ],
+          "tip": [
+            "Set SSH agent sockets or keys to expose to the build"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-dependencies",
+          "tip": [
+            "Also build the dependencies of the services"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "usage": [
+        "commit <SERVICE> [REPOSITORY[:TAG]]"
+      ],
+      "tip": [
+        "Create a new image from a container's changes"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --author <author>"
+          ],
+          "tip": [
+            "Author of the image"
+          ],
+          "next": []
+        },
+        {
+          "name": "--change",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --change <change>"
+          ],
+          "tip": [
+            "Apply Dockerfile instruction to the created image"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <message>"
+          ],
+          "tip": [
+            "Commit message"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pause"
+          ],
+          "tip": [
+            "Pause container during commit (default true)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [SERVICE...]"
+      ],
+      "tip": [
+        "Parse, resolve and render compose file in canonical format"
+      ],
+      "option": [
+        {
+          "name": "--environment",
+          "tip": [
+            "Print the environment variables"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--hash",
+          "usage": [
+            "--hash <service>"
+          ],
+          "tip": [
+            "Print the service config hash"
+          ],
+          "next": []
+        },
+        {
+          "name": "--images",
+          "tip": [
+            "Print the image names"
+          ]
+        },
+        {
+          "name": "--lock-image-digests",
+          "tip": [
+            "Lock the image digests"
+          ]
+        },
+        {
+          "name": "--models",
+          "tip": [
+            "Print the service models"
+          ]
+        },
+        {
+          "name": "--networks",
+          "tip": [
+            "Print the network names"
+          ]
+        },
+        {
+          "name": "--no-consistency",
+          "tip": [
+            "Don't check the consistency of the config"
+          ]
+        },
+        {
+          "name": "--no-env-resolution",
+          "tip": [
+            "Don't resolve the environment variables"
+          ]
+        },
+        {
+          "name": "--no-interpolate",
+          "tip": [
+            "Don't interpolate environment variables"
+          ]
+        },
+        {
+          "name": "--no-normalize",
+          "tip": [
+            "Don't normalize the config"
+          ]
+        },
+        {
+          "name": "--no-path-resolution",
+          "tip": [
+            "Don't resolve file paths"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "Save the output to a file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--profiles",
+          "tip": [
+            "Print the profile names"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only validate the configuration, don't print anything"
+          ]
+        },
+        {
+          "name": "--resolve-image-digests",
+          "tip": [
+            "Resolve the image digests"
+          ]
+        },
+        {
+          "name": "--services",
+          "tip": [
+            "Print the service names"
+          ]
+        },
+        {
+          "name": "--variables",
+          "tip": [
+            "Print the environment variables used"
+          ]
+        },
+        {
+          "name": "--volumes",
+          "tip": [
+            "Print the volume names"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cp",
+      "usage": [
+        "cp [OPTIONS] <SERVICE:SRC_PATH> <DEST_PATH>"
+      ],
+      "tip": [
+        "Copy files/folders between a service container and the local filesystem"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Copy the files from all the containers of the service"
+          ]
+        },
+        {
+          "name": "--archive",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --archive"
+          ],
+          "tip": [
+            "Archive mode (copy all UIDs, GIDs)"
+          ]
+        },
+        {
+          "name": "--follow-link",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --follow-link"
+          ],
+          "tip": [
+            "Always follow symbol link in SRC_PATH"
+          ]
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [SERVICE...]"
+      ],
+      "tip": [
+        "Creates containers for a service"
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "Build images before starting containers"
+          ]
+        },
+        {
+          "name": "--force-recreate",
+          "tip": [
+            "Recreate containers even if their configuration and image haven't changed"
+          ]
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "Don't build an image, even if it's policy"
+          ]
+        },
+        {
+          "name": "--no-recreate",
+          "tip": [
+            "If containers already exist, don't recreate them"
+          ]
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "Pull image before running"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always pull"
+              ]
+            },
+            {
+              "name": "build",
+              "tip": [
+                "Build before pull"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "Pull only if missing"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never pull"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "Pull without printing progress information"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "Remove containers for services not defined in the Compose file"
+          ]
+        },
+        {
+          "name": "--scale",
+          "usage": [
+            "--scale <scale>"
+          ],
+          "tip": [
+            "Scale SERVICE to NUM instances"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Assume yes for all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "down",
+      "usage": [
+        "down [SERVICES]"
+      ],
+      "tip": [
+        "Stop and remove containers, networks"
+      ],
+      "option": [
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "Remove containers for services not defined in the Compose file"
+          ]
+        },
+        {
+          "name": "--rmi",
+          "usage": [
+            "--rmi <type>"
+          ],
+          "tip": [
+            "Remove images used by services"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Remove all images"
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "Remove local images"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "Specify a shutdown timeout in seconds"
+          ],
+          "next": []
+        },
+        {
+          "name": "--volumes",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volumes"
+          ],
+          "tip": [
+            "Remove named volumes declared in the volumes section of the Compose file and anonymous volumes attached to containers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "events",
+      "usage": [
+        "events [SERVICE...]"
+      ],
+      "tip": [
+        "Receive real time events from containers"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the events in JSON format"
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <since>"
+          ],
+          "tip": [
+            "Show events that occurred since a given time"
+          ],
+          "next": []
+        },
+        {
+          "name": "--until",
+          "usage": [
+            "--until <until>"
+          ],
+          "tip": [
+            "Show events that occurred until a given time"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <SERVICE> <COMMAND> [ARGS...]"
+      ],
+      "tip": [
+        "Execute a command in a running container"
+      ],
+      "option": [
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "Detached mode: run command in the background"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "Set environment variables"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-tty",
+          "alias": [
+            "-T"
+          ],
+          "usage": [
+            "-T, --no-tty"
+          ],
+          "tip": [
+            "Disable pseudo-TTY allocation (default true)"
+          ]
+        },
+        {
+          "name": "--privileged",
+          "tip": [
+            "Give extended privileges to the process"
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --user <user>"
+          ],
+          "tip": [
+            "Run the command as this user"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workdir <dir>"
+          ],
+          "tip": [
+            "Working directory inside the container"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "usage": [
+        "export <SERVICE>"
+      ],
+      "tip": [
+        "Export a container's filesystem as a tar archive"
+      ],
+      "option": [
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "Write to a file instead of STDOUT"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Help about any command"
+      ]
+    },
+    {
+      "name": "images",
+      "usage": [
+        "images [SERVICE...]"
+      ],
+      "tip": [
+        "List images used by the created containers"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "Table format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only display IDs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kill",
+      "usage": [
+        "kill [SERVICE...]"
+      ],
+      "tip": [
+        "Force stop service containers"
+      ],
+      "option": [
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "Remove containers for services not defined in the Compose file"
+          ]
+        },
+        {
+          "name": "--signal",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --signal <signal>"
+          ],
+          "tip": [
+            "SIGNAL to send to the container (default SIGKILL)"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "usage": [
+        "logs [SERVICE...]"
+      ],
+      "tip": [
+        "View output from containers"
+      ],
+      "option": [
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --follow"
+          ],
+          "tip": [
+            "Follow log output"
+          ]
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "Produce monochrome output"
+          ]
+        },
+        {
+          "name": "--no-log-prefix",
+          "tip": [
+            "Don't print prefix in logs"
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <since>"
+          ],
+          "tip": [
+            "Show logs since timestamp"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tail",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --tail <lines>"
+          ],
+          "tip": [
+            "Number of lines to show from the end of the logs (default all)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timestamps"
+          ],
+          "tip": [
+            "Show timestamps"
+          ]
+        },
+        {
+          "name": "--until",
+          "usage": [
+            "--until <until>"
+          ],
+          "tip": [
+            "Show logs before a timestamp"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "List running compose projects"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all stopped Compose projects"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <filter>"
+          ],
+          "tip": [
+            "Filter output based on conditions"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "Table format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only display IDs"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "usage": [
+        "pause [SERVICE...]"
+      ],
+      "tip": [
+        "Pause services"
+      ]
+    },
+    {
+      "name": "port",
+      "usage": [
+        "port <SERVICE> <PRIVATE_PORT>"
+      ],
+      "tip": [
+        "Print the public port for a port binding"
+      ],
+      "option": [
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "Index of the container if the service has multiple instances"
+          ],
+          "next": []
+        },
+        {
+          "name": "--protocol",
+          "usage": [
+            "--protocol <protocol>"
+          ],
+          "tip": [
+            "Protocol to use (tcp or udp)"
+          ],
+          "next": [
+            {
+              "name": "tcp",
+              "tip": [
+                "TCP protocol (default)"
+              ]
+            },
+            {
+              "name": "udp",
+              "tip": [
+                "UDP protocol"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ps",
+      "usage": [
+        "ps [SERVICE...]"
+      ],
+      "tip": [
+        "List containers"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all stopped containers"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <filter>"
+          ],
+          "tip": [
+            "Filter services by a property"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "Don't truncate output"
+          ]
+        },
+        {
+          "name": "--orphans",
+          "tip": [
+            "Include orphan containers (default true)"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only display IDs"
+          ]
+        },
+        {
+          "name": "--services",
+          "tip": [
+            "Display services"
+          ]
+        },
+        {
+          "name": "--status",
+          "usage": [
+            "--status <status>"
+          ],
+          "tip": [
+            "Filter services by status"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "created",
+              "tip": [
+                "Created status"
+              ]
+            },
+            {
+              "name": "dead",
+              "tip": [
+                "Dead status"
+              ]
+            },
+            {
+              "name": "exited",
+              "tip": [
+                "Exited status"
+              ]
+            },
+            {
+              "name": "paused",
+              "tip": [
+                "Paused status"
+              ]
+            },
+            {
+              "name": "removing",
+              "tip": [
+                "Removing status"
+              ]
+            },
+            {
+              "name": "restarting",
+              "tip": [
+                "Restarting status"
+              ]
+            },
+            {
+              "name": "running",
+              "tip": [
+                "Running status"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pull",
+      "usage": [
+        "pull [SERVICE...]"
+      ],
+      "tip": [
+        "Pull service images"
+      ],
+      "option": [
+        {
+          "name": "--ignore-buildable",
+          "tip": [
+            "Ignore images that can be built"
+          ]
+        },
+        {
+          "name": "--ignore-pull-failures",
+          "tip": [
+            "Pull what it can and ignores images with pull failures"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "Also pull services declared as dependencies"
+          ]
+        },
+        {
+          "name": "--policy",
+          "usage": [
+            "--policy <policy>"
+          ],
+          "tip": [
+            "Set the pull policy"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always pull"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "Pull only if missing"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Pull without printing progress information"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [SERVICE...]"
+      ],
+      "tip": [
+        "Push service images"
+      ],
+      "option": [
+        {
+          "name": "--ignore-push-failures",
+          "tip": [
+            "Push what it can and ignores images with push failures"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "Also push services declared as dependencies"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Push without printing progress information"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "usage": [
+        "restart [SERVICE...]"
+      ],
+      "tip": [
+        "Restart service containers"
+      ],
+      "option": [
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Don't start linked services"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "Specify a shutdown timeout in seconds"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "usage": [
+        "rm [SERVICE...]"
+      ],
+      "tip": [
+        "Removes stopped service containers"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Don't ask to confirm removal"
+          ]
+        },
+        {
+          "name": "--stop",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stop"
+          ],
+          "tip": [
+            "Stop the containers, if required, before removing"
+          ]
+        },
+        {
+          "name": "--volumes",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volumes"
+          ],
+          "tip": [
+            "Remove any anonymous volumes attached to containers"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [--rm] <SERVICE> [COMMAND] [ARGS...]"
+      ],
+      "tip": [
+        "Run a one-off command on a service"
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "Build image before starting container"
+          ]
+        },
+        {
+          "name": "--cap-add",
+          "usage": [
+            "--cap-add <cap>"
+          ],
+          "tip": [
+            "Add Linux capabilities"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cap-drop",
+          "usage": [
+            "--cap-drop <cap>"
+          ],
+          "tip": [
+            "Drop Linux capabilities"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "Detached mode: run command in the background"
+          ]
+        },
+        {
+          "name": "--entrypoint",
+          "usage": [
+            "--entrypoint <entrypoint>"
+          ],
+          "tip": [
+            "Override the entrypoint of the image"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "Set environment variables"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--env-from-file",
+          "usage": [
+            "--env-from-file <file>"
+          ],
+          "tip": [
+            "Read environment variables from a file"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Keep STDIN open even if not attached (default true)"
+          ]
+        },
+        {
+          "name": "--label",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --label <label>"
+          ],
+          "tip": [
+            "Add or override a label"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "Assign a name to the container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Don't start linked services"
+          ]
+        },
+        {
+          "name": "--no-tty",
+          "alias": [
+            "-T"
+          ],
+          "usage": [
+            "-T, --no-tty"
+          ],
+          "tip": [
+            "Disable pseudo-TTY allocation (default true)"
+          ]
+        },
+        {
+          "name": "--publish",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --publish <publish>"
+          ],
+          "tip": [
+            "Publish a container's port(s) to the host"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "Pull image before running"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always pull"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "Pull only if missing"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never pull"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Don't print any output"
+          ]
+        },
+        {
+          "name": "--quiet-build",
+          "tip": [
+            "Build without printing progress information"
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "Pull without printing progress information"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "Remove containers for services not defined in the Compose file"
+          ]
+        },
+        {
+          "name": "--rm",
+          "tip": [
+            "Automatically remove the container when it exits"
+          ]
+        },
+        {
+          "name": "--service-ports",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --service-ports"
+          ],
+          "tip": [
+            "Run command with the service's ports enabled and mapped to the host"
+          ]
+        },
+        {
+          "name": "--use-aliases",
+          "tip": [
+            "Use the service's network aliases in the network"
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --user <user>"
+          ],
+          "tip": [
+            "Run as specified username or uid"
+          ],
+          "next": []
+        },
+        {
+          "name": "--volume",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volume <volume>"
+          ],
+          "tip": [
+            "Bind mount a volume"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workdir <dir>"
+          ],
+          "tip": [
+            "Working directory inside the container"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "scale",
+      "usage": [
+        "scale [SERVICE=REPLICAS...]"
+      ],
+      "tip": [
+        "Set the number of containers for a service"
+      ],
+      "option": [
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Don't start linked services"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start",
+      "usage": [
+        "start [SERVICE...]"
+      ],
+      "tip": [
+        "Start services"
+      ],
+      "option": [
+        {
+          "name": "--wait",
+          "tip": [
+            "Wait for services to be running|healthy"
+          ]
+        },
+        {
+          "name": "--wait-timeout",
+          "usage": [
+            "--wait-timeout <timeout>"
+          ],
+          "tip": [
+            "Timeout waiting for the services to be running|healthy"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "usage": [
+        "stats [SERVICE]"
+      ],
+      "tip": [
+        "Display a live stream of container(s) resource usage statistics"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show all containers"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-stream",
+          "tip": [
+            "Disable streaming stats and only pull the first result"
+          ]
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "Don't truncate output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "usage": [
+        "stop [SERVICE...]"
+      ],
+      "tip": [
+        "Stop services"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "Specify a shutdown timeout in seconds"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "top",
+      "usage": [
+        "top [SERVICES...]"
+      ],
+      "tip": [
+        "Display the running processes"
+      ]
+    },
+    {
+      "name": "unpause",
+      "usage": [
+        "unpause [SERVICE...]"
+      ],
+      "tip": [
+        "Unpause services"
+      ]
+    },
+    {
+      "name": "up",
+      "usage": [
+        "up [SERVICE...]"
+      ],
+      "tip": [
+        "Create and start containers"
+      ],
+      "option": [
+        {
+          "name": "--abort-on-container-exit",
+          "tip": [
+            "Stops all containers if any container was stopped"
+          ]
+        },
+        {
+          "name": "--abort-on-container-failure",
+          "tip": [
+            "Stops all containers if any container failed"
+          ]
+        },
+        {
+          "name": "--always-recreate-deps",
+          "tip": [
+            "Recreate dependent containers"
+          ]
+        },
+        {
+          "name": "--attach",
+          "usage": [
+            "--attach <service>"
+          ],
+          "tip": [
+            "Attach to service output"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--attach-dependencies",
+          "tip": [
+            "Attach to dependent containers"
+          ]
+        },
+        {
+          "name": "--build",
+          "tip": [
+            "Build images before starting containers"
+          ]
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "Detached mode: run containers in the background"
+          ]
+        },
+        {
+          "name": "--exit-code-from",
+          "usage": [
+            "--exit-code-from <service>"
+          ],
+          "tip": [
+            "Return the exit code of the selected service container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-recreate",
+          "tip": [
+            "Recreate containers even if their configuration and image haven't changed"
+          ]
+        },
+        {
+          "name": "--menu",
+          "tip": [
+            "Enable interactive shortcuts"
+          ]
+        },
+        {
+          "name": "--no-attach",
+          "usage": [
+            "--no-attach <service>"
+          ],
+          "tip": [
+            "Don't attach to service output"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "Don't build an image, even if it's policy"
+          ]
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "Produce monochrome output"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "Don't start linked services"
+          ]
+        },
+        {
+          "name": "--no-log-prefix",
+          "tip": [
+            "Don't print prefix in logs"
+          ]
+        },
+        {
+          "name": "--no-recreate",
+          "tip": [
+            "If containers already exist, don't recreate them"
+          ]
+        },
+        {
+          "name": "--no-start",
+          "tip": [
+            "Don't start the services after creating them"
+          ]
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "Pull image before running"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always pull"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "Pull only if missing"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never pull"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet-build",
+          "tip": [
+            "Build without printing progress information"
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "Pull without printing progress information"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "Remove containers for services not defined in the Compose file"
+          ]
+        },
+        {
+          "name": "--renew-anon-volumes",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --renew-anon-volumes"
+          ],
+          "tip": [
+            "Recreate anonymous volumes instead of retrieving data from the previous containers"
+          ]
+        },
+        {
+          "name": "--scale",
+          "usage": [
+            "--scale <scale>"
+          ],
+          "tip": [
+            "Scale SERVICE to NUM instances"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "Use this timeout in seconds for container shutdown when attached or when containers are already running"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "tip": [
+            "Show timestamps"
+          ]
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "Wait for services to be running|healthy"
+          ]
+        },
+        {
+          "name": "--wait-timeout",
+          "usage": [
+            "--wait-timeout <timeout>"
+          ],
+          "tip": [
+            "Timeout waiting for the services to be running|healthy"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "Watch source code and rebuild/refresh containers"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Assume yes for all prompts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Show the Docker Compose version information"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "Pretty format (default)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "Shows only Compose's version number"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "volumes",
+      "usage": [
+        "volumes [SERVICE...]"
+      ],
+      "tip": [
+        "List volumes"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "Format the output"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only display volume names"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wait",
+      "usage": [
+        "wait <SERVICE> [SERVICE...]"
+      ],
+      "tip": [
+        "Block until the first service container stops"
+      ],
+      "option": [
+        {
+          "name": "--down-project",
+          "tip": [
+            "Drops project when the first container stops"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [SERVICE...]"
+      ],
+      "tip": [
+        "Watch build context for service and rebuild/refresh containers"
+      ],
+      "option": [
+        {
+          "name": "--no-up",
+          "tip": [
+            "Do not build and start services before watching"
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "Prune dangling images after build (default true)"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Hide build output"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "usage": [
+        "--ansi <mode>"
+      ],
+      "tip": [
+        "Control when to print ANSI control characters"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always use ANSI"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Use ANSI when supported (default)"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never use ANSI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--compatibility",
+      "tip": [
+        "Run compose in backward compatibility mode"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "Execute command in dry run mode"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <file>"
+      ],
+      "tip": [
+        "Specify an alternate environment file"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <file>"
+      ],
+      "tip": [
+        "Path to the Compose file"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "usage": [
+        "--parallel <int>"
+      ],
+      "tip": [
+        "Control the parallelism"
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <profile>"
+      ],
+      "tip": [
+        "Specify a profile to enable"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--progress",
+      "usage": [
+        "--progress <mode>"
+      ],
+      "tip": [
+        "Set type of progress output"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatically choose (default)"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON output"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "Plain output"
+          ]
+        },
+        {
+          "name": "quiet",
+          "tip": [
+            "Quiet output"
+          ]
+        },
+        {
+          "name": "tty",
+          "tip": [
+            "TTY output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--project-directory",
+      "usage": [
+        "--project-directory <dir>"
+      ],
+      "tip": [
+        "Specify an alternate working directory"
+      ],
+      "next": []
+    },
+    {
+      "name": "--project-name",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --project-name <name>"
+      ],
+      "tip": [
+        "Project name"
+      ],
+      "next": []
+    }
+  ]
+}

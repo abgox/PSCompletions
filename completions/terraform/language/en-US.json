@@ -1,0 +1,3283 @@
+{
+  "meta": {
+    "url": "https://www.terraform.io",
+    "description": [
+      "HashiCorp Terraform - Infrastructure as Code tool"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [options] [PLAN]"
+      ],
+      "tip": [
+        "Create or update infrastructure"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "Skip interactive approval of plan before applying."
+          ]
+        },
+        {
+          "name": "-backup",
+          "usage": [
+            "-backup <PATH>"
+          ],
+          "tip": [
+            "Path to backup the existing state file before modifying it."
+          ],
+          "next": [
+            {
+              "name": "backup.tfstate",
+              "tip": [
+                "State backup file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only summary information."
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "Select the destroy planning mode."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "5 parallel operations"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "Force replacement of a resource instance using its resource address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to replace"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state-out",
+          "usage": [
+            "-state-out <PATH>"
+          ],
+          "tip": [
+            "Path to write the updated state file."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "State output file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [options]"
+      ],
+      "tip": [
+        "Try Terraform expressions at an interactive command prompt"
+      ],
+      "option": [
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "Show the planned changes as part of the evaluation."
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "Plan file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "usage": [
+        "destroy [options]"
+      ],
+      "tip": [
+        "Destroy previously-created infrastructure"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "Skip interactive approval of plan before destroying."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [options] [target...]"
+      ],
+      "tip": [
+        "Reformat your configuration in the standard style"
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "Check if the input is formatted. Exit status will be 0 if all input is properly formatted."
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "Display diffs of formatting changes."
+          ]
+        },
+        {
+          "name": "-list",
+          "tip": [
+            "List files whose formatting differs. The default is true."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "Also process files in subdirectories."
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "Write result to source file instead of stdout. The default is true."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock LOCK_ID"
+      ],
+      "tip": [
+        "Release a stuck lock on the current workspace"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "Don't ask for input for confirmation during the unlock."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get [options]"
+      ],
+      "tip": [
+        "Install or upgrade remote Terraform modules"
+      ],
+      "option": [
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the Terraform test directory. Defaults to tests."
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "Default test directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-update",
+          "tip": [
+            "If specified, modules that are already downloaded will be checked for updates."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "graph",
+      "usage": [
+        "graph [options]"
+      ],
+      "tip": [
+        "Generate a Graphviz graph of the steps in an operation"
+      ],
+      "option": [
+        {
+          "name": "-draw-cycles",
+          "tip": [
+            "Highlight any cycles in the graph with colored edges."
+          ]
+        },
+        {
+          "name": "-module-depth",
+          "usage": [
+            "-module-depth <INT>"
+          ],
+          "tip": [
+            "The maximum depth to expand modules. By default this is -1, which will expand all."
+          ],
+          "next": [
+            {
+              "name": "-1",
+              "tip": [
+                "Expand all modules (default)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "Do not expand modules"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Expand one module level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "Show the planned changes as part of the graph."
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "Plan file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-type",
+          "usage": [
+            "-type <TYPE>"
+          ],
+          "tip": [
+            "Type of graph to output: plan, plan-destroy, apply, validate, input, or refresh."
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Graph of apply operations"
+              ]
+            },
+            {
+              "name": "input",
+              "tip": [
+                "Graph of input operations"
+              ]
+            },
+            {
+              "name": "plan",
+              "tip": [
+                "Graph of plan operations"
+              ]
+            },
+            {
+              "name": "plan-destroy",
+              "tip": [
+                "Graph of destroy plan operations"
+              ]
+            },
+            {
+              "name": "refresh",
+              "tip": [
+                "Graph of refresh operations"
+              ]
+            },
+            {
+              "name": "validate",
+              "tip": [
+                "Graph of validation operations"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import [options] ADDR ID"
+      ],
+      "tip": [
+        "Associate existing infrastructure with a Terraform resource"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a directory of Terraform configuration files to use to configure the provider."
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "Configuration directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "Continue even if remote and local Terraform versions are incompatible."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [options]"
+      ],
+      "tip": [
+        "Prepare your working directory for other commands"
+      ],
+      "option": [
+        {
+          "name": "-backend",
+          "tip": [
+            "Configure the backend for the configuration. The default is true."
+          ]
+        },
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "Configuration to be merged with what is in the configuration file's backend block. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "backend.hcl",
+              "tip": [
+                "Backend configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-create-default-workspace",
+          "tip": [
+            "Create a default workspace if not present. The default is true."
+          ]
+        },
+        {
+          "name": "-enable-pluggable-state-storage-experiment",
+          "tip": [
+            "Enable pluggable state storage during the init."
+          ]
+        },
+        {
+          "name": "-force-copy",
+          "tip": [
+            "Suppress the input about copying state data."
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "Copy the contents of the given module into the current directory before init."
+          ],
+          "next": [
+            {
+              "name": "module-source",
+              "tip": [
+                "Module source address"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-get",
+          "tip": [
+            "Download any modules for this configuration. The default is true."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "Continue even if remote and local Terraform versions are incompatible."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input if necessary. The default is true."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Print the init output as JSON."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported. The default is true."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "Set a dependency lockfile mode: read-only or ignore."
+          ],
+          "next": [
+            {
+              "name": "ignore",
+              "tip": [
+                "Ignore the lockfile"
+              ]
+            },
+            {
+              "name": "read-only",
+              "tip": [
+                "Do not update the lockfile"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "Reconfigure the backend and attempt to migrate any existing state."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-plugin-dir",
+          "usage": [
+            "-plugin-dir <PATH>"
+          ],
+          "tip": [
+            "Directory containing plugin binaries. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "plugins",
+              "tip": [
+                "Plugin directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "Reconfigure the backend, ignoring any saved configuration."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the Terraform test directory. Defaults to tests."
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "Default test directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "Upgrade all previously-selected providers to the newest versions."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [hostname]"
+      ],
+      "tip": [
+        "Obtain and save credentials for a remote host"
+      ]
+    },
+    {
+      "name": "logout",
+      "usage": [
+        "logout [hostname]"
+      ],
+      "tip": [
+        "Remove locally-stored credentials for a remote host"
+      ]
+    },
+    {
+      "name": "metadata",
+      "tip": [
+        "Metadata related commands"
+      ],
+      "next": [
+        {
+          "name": "functions",
+          "usage": [
+            "functions -json"
+          ],
+          "tip": [
+            "Show signatures and descriptions for the available functions"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "modules",
+      "usage": [
+        "modules [options]"
+      ],
+      "tip": [
+        "Show all declared modules in a working directory"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, output declared Terraform modules and their resolved versions in a machine-readable JSON format."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [options] [NAME]"
+      ],
+      "tip": [
+        "Show output values from your root module"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, the outputs are formatted as a JSON object."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "For a single value output, print the raw value directly without escaping."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "usage": [
+        "plan [options]"
+      ],
+      "tip": [
+        "Show changes required by the current configuration"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only summary information."
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "Select the destroy planning mode."
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "Return detailed exit codes when the command exits."
+          ]
+        },
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "If import blocks are present, generate HCL configuration for the imported resources and write it to the given path."
+          ],
+          "next": [
+            {
+              "name": "generated.tf",
+              "tip": [
+                "Generated configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "Write a plan file to the given path."
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "Plan output file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "Update the state prior to checking for differences. The default is true."
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "Select the refresh-only planning mode."
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "Force replacement of a resource instance using its resource address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to replace"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "usage": [
+        "providers [options] [DIR]"
+      ],
+      "tip": [
+        "Show the providers required for this configuration"
+      ],
+      "option": [
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the Terraform test directory. Defaults to tests."
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "Default test directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock [options] [providers...]"
+          ],
+          "tip": [
+            "Write out dependency locks for the configured providers"
+          ],
+          "option": [
+            {
+              "name": "-enable-plugin-cache",
+              "tip": [
+                "Enable the provider plugin cache."
+              ]
+            },
+            {
+              "name": "-fs-mirror",
+              "usage": [
+                "-fs-mirror <PATH>"
+              ],
+              "tip": [
+                "Consult the given filesystem mirror directory."
+              ],
+              "next": [
+                {
+                  "name": "mirror-dir",
+                  "tip": [
+                    "Filesystem mirror directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-net-mirror",
+              "usage": [
+                "-net-mirror <URL>"
+              ],
+              "tip": [
+                "Consult the given network mirror."
+              ],
+              "next": [
+                {
+                  "name": "mirror-url",
+                  "tip": [
+                    "Network mirror URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <PLATFORM>"
+              ],
+              "tip": [
+                "Choose a target platform for the lock. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "darwin_arm64",
+                  "tip": [
+                    "macOS arm64 platform"
+                  ]
+                },
+                {
+                  "name": "linux_amd64",
+                  "tip": [
+                    "Linux amd64 platform"
+                  ]
+                },
+                {
+                  "name": "windows_amd64",
+                  "tip": [
+                    "Windows amd64 platform"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-test-directory",
+              "usage": [
+                "-test-directory <PATH>"
+              ],
+              "tip": [
+                "Set the Terraform test directory. Defaults to tests."
+              ],
+              "next": [
+                {
+                  "name": "tests",
+                  "tip": [
+                    "Default test directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror [options] <target-dir>"
+          ],
+          "tip": [
+            "Save local copies of all required provider plugins"
+          ],
+          "option": [
+            {
+              "name": "-lock-file",
+              "usage": [
+                "-lock-file <PATH>"
+              ],
+              "tip": [
+                "Use the given dependency lock file."
+              ],
+              "next": [
+                {
+                  "name": ".terraform.lock.hcl",
+                  "tip": [
+                    "Default lock file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <PLATFORM>"
+              ],
+              "tip": [
+                "Choose a target platform. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "linux_amd64",
+                  "tip": [
+                    "Linux amd64 platform"
+                  ]
+                },
+                {
+                  "name": "windows_amd64",
+                  "tip": [
+                    "Windows amd64 platform"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "usage": [
+            "schema -json"
+          ],
+          "tip": [
+            "Show schemas for the providers used in the configuration"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query [options]"
+      ],
+      "tip": [
+        "Search and list remote infrastructure with Terraform"
+      ],
+      "option": [
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "Generate import and resource configuration for the queried resources and write it to the given path."
+          ],
+          "next": [
+            {
+              "name": "generated.tf",
+              "tip": [
+                "Generated configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the query."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "usage": [
+        "refresh [options]"
+      ],
+      "tip": [
+        "Update the state to match remote systems"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only summary information."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable color output."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options] [path]"
+      ],
+      "tip": [
+        "Show the current state or a saved plan"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, output the Terraform plan or state in a machine-readable JSON format."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stacks",
+      "tip": [
+        "Manage HCP Terraform stack operations"
+      ],
+      "option": [
+        {
+          "name": "-no-color",
+          "usage": [
+            "-no-color=BOOL"
+          ],
+          "tip": [
+            "Disable color output. Must be explicitly set to true or false."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Enable color output"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Disable color output"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-plugin-cache-dir",
+          "usage": [
+            "-plugin-cache-dir=DIR"
+          ],
+          "tip": [
+            "Override the default directory where the stack plugin binary is cached."
+          ],
+          "next": [
+            {
+              "name": "DIR",
+              "tip": [
+                "Plugin cache directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-stacks-version",
+          "tip": [
+            "An alias for the version subcommand."
+          ]
+        },
+        {
+          "name": "-usage",
+          "tip": [
+            "Show this usage output or the usage for a specified subcommand."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "configuration",
+          "tip": [
+            "Manage stack configuration"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "Create a stack"
+          ]
+        },
+        {
+          "name": "deployment-group",
+          "tip": [
+            "Manage deployment groups"
+          ]
+        },
+        {
+          "name": "deployment-run",
+          "tip": [
+            "Manage deployment runs"
+          ]
+        },
+        {
+          "name": "fmt",
+          "tip": [
+            "Reformat your Terraform Stacks configuration to a canonical format"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "Prepare the configuration directory for further commands"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List stacks for a given organization and/or project"
+          ]
+        },
+        {
+          "name": "providers-lock",
+          "tip": [
+            "Write out dependency locks for the configured providers"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "Check whether the configuration is valid"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Show the current Stacks Plugin version"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "Advanced state management"
+      ],
+      "next": [
+        {
+          "name": "identities",
+          "usage": [
+            "identities [options] -json [address...]"
+          ],
+          "tip": [
+            "List the identities of resources in the state"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "Filter the results to only the resource instances with the given identity ID."
+              ],
+              "next": [
+                {
+                  "name": "id",
+                  "tip": [
+                    "Identity ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] [address...]"
+          ],
+          "tip": [
+            "List resources in the state"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "Filter the results to only the resource instances with the given identity ID."
+              ],
+              "next": [
+                {
+                  "name": "id",
+                  "tip": [
+                    "Identity ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mv",
+          "usage": [
+            "mv [options] SOURCE DESTINATION"
+          ],
+          "tip": [
+            "Move an item in the state"
+          ],
+          "option": [
+            {
+              "name": "-dry-run",
+              "tip": [
+                "Only show what would be moved."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "Continue even if remote and local Terraform versions are incompatible."
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "usage": [
+            "pull [options]"
+          ],
+          "tip": [
+            "Pull current state and output to stdout"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [options] PATH"
+          ],
+          "tip": [
+            "Update remote state from a local state file"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Write the state even if lineages don't match or the remote state is newer."
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "replace-provider",
+          "usage": [
+            "replace-provider [options] FROM_PROVIDER_FQN TO_PROVIDER_FQN"
+          ],
+          "tip": [
+            "Replace provider in the state"
+          ],
+          "option": [
+            {
+              "name": "-auto-approve",
+              "tip": [
+                "Skip interactive approval."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "Continue even if remote and local Terraform versions are incompatible."
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm [options] ADDRESS..."
+          ],
+          "tip": [
+            "Remove instances from the state"
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "usage": [
+                "-backup <PATH>"
+              ],
+              "tip": [
+                "Path to backup the existing state file before modifying it."
+              ],
+              "next": [
+                {
+                  "name": "backup.tfstate",
+                  "tip": [
+                    "State backup file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dry-run",
+              "tip": [
+                "Only show what would be removed."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "Continue even if remote and local Terraform versions are incompatible."
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "Variable as name=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "Load variable values from the given file."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "Default variables file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [options] ADDRESS"
+          ],
+          "tip": [
+            "Show a resource in the state"
+          ],
+          "option": [
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file. Defaults to terraform.tfstate."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "Default state file"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "taint",
+      "usage": [
+        "taint [options] <address>"
+      ],
+      "tip": [
+        "Mark a resource instance as not fully functional"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "If specified, the command will succeed even if the resource is missing."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "Continue even if remote and local Terraform versions are incompatible."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [options]"
+      ],
+      "tip": [
+        "Execute integration tests for Terraform modules"
+      ],
+      "option": [
+        {
+          "name": "-cloud-run",
+          "usage": [
+            "-cloud-run <SOURCE>"
+          ],
+          "tip": [
+            "If specified, Terraform will execute this test run against the cloud run source."
+          ],
+          "next": [
+            {
+              "name": "source",
+              "tip": [
+                "Cloud run source"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "If specified, Terraform will only execute the test files matching the filter."
+          ],
+          "next": [
+            {
+              "name": "testfile",
+              "tip": [
+                "Test file filter"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-junit-xml",
+          "usage": [
+            "-junit-xml <PATH>"
+          ],
+          "tip": [
+            "Saves a test report in JUnit XML format to the specified path."
+          ],
+          "next": [
+            {
+              "name": "report.xml",
+              "tip": [
+                "JUnit report file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of concurrent operations within the test run."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the Terraform test directory. Defaults to tests."
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "Default test directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "Print the plan or state for each test run block as it executes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untaint",
+      "usage": [
+        "untaint [options] name"
+      ],
+      "tip": [
+        "Remove the tainted state from a resource instance"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "If specified, the command will succeed even if the resource is missing."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "Continue even if remote and local Terraform versions are incompatible."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [options]"
+      ],
+      "tip": [
+        "Check whether the configuration is valid"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-no-tests",
+          "tip": [
+            "If specified, tests will not be loaded and validated."
+          ]
+        },
+        {
+          "name": "-query",
+          "tip": [
+            "If specified, query blocks will not be loaded and validated."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the Terraform test directory. Defaults to tests."
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "Default test directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "usage": [
+        "version [options]"
+      ],
+      "tip": [
+        "Show the current Terraform version"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "Output the version information as a JSON object."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace",
+      "tip": [
+        "Workspace management"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [OPTIONS] NAME"
+          ],
+          "tip": [
+            "Delete a workspace"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Delete the workspace even if it is non-empty."
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List Workspaces"
+          ]
+        },
+        {
+          "name": "new",
+          "usage": [
+            "new [OPTIONS] NAME"
+          ],
+          "tip": [
+            "Create a new workspace"
+          ],
+          "option": [
+            {
+              "name": "-lock",
+              "tip": [
+                "Lock the state file when locking is supported."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "No retry"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "Retry for 10 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to an existing state file to initialize the state of this environment."
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "State file to initialize from"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "select",
+          "usage": [
+            "select NAME"
+          ],
+          "tip": [
+            "Select a workspace"
+          ],
+          "option": [
+            {
+              "name": "-or-create",
+              "tip": [
+                "Create the workspace if it does not already exist."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show the name of the current workspace"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-chdir",
+      "usage": [
+        "-chdir=DIR"
+      ],
+      "tip": [
+        "Switch to a different working directory before executing the given subcommand."
+      ],
+      "next": [
+        {
+          "name": "DIR",
+          "tip": [
+            "Working directory path"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-help",
+      "tip": [
+        "Show this help output or the help for a specified subcommand."
+      ]
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "An alias for the version subcommand."
+      ]
+    }
+  ]
+}

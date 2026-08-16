@@ -1,0 +1,7159 @@
+{
+  "meta": {
+    "url": "https://www.vaultproject.io",
+    "description": [
+      "HashiCorp Vault - 管理机密并保护敏感数据。"
+    ]
+  },
+  "next": [
+    {
+      "name": "agent",
+      "tip": [
+        "启动 Vault agent"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "配置文件或配置目录的路径。"
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-after-auth",
+          "tip": [
+            "运行 agent 后退出,无论认证是否成功。"
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Vault 用于记录日志的文件路径"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "日志文件路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "日志格式。支持的值是 standard 和 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 日志格式"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "标准人类可读日志格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "日志详细级别:trace、debug、info、warn 或 error。默认是 info。"
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug 日志级别"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error 日志级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 日志级别(默认)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "最详细的日志级别"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning 日志级别"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "日志在需要轮转之前应写入的字节数。"
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB(字节)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "日志在需要轮转之前可以写入的最大时长。"
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "每 24 小时轮转日志"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "保留的旧日志文件归档的最大数量"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "保留 10 个轮转归档"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "与审计设备交互"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "禁用审计设备"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE [CONFIG K=V...]"
+          ],
+          "tip": [
+            "启用审计设备"
+          ],
+          "option": [
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "审计设备用途的易读描述。"
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "审计设备描述"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "将审计设备标记为仅本地设备。"
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "审计设备可访问的位置。"
+              ],
+              "next": [
+                {
+                  "name": "file",
+                  "tip": [
+                    "示例审计设备路径"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已启用的审计设备"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "在某些操作期间启用附加元数据。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "与认证方法交互"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "禁用认证方法"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE"
+          ],
+          "tip": [
+            "启用新的认证方法"
+          ],
+          "option": [
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "允许从插件响应传递到客户端的响应头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "响应头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对请求数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的请求键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对响应数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的响应键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此认证方法签发的令牌的默认租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "默认租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "认证方法用途的易读描述。"
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "认证方法描述"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-external-entropy-access",
+              "tip": [
+                "启用对外部熵源的访问。"
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "用于签署身份令牌的密钥。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "身份令牌签名密钥"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "决定挂载点的列表可见性。"
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "从列表隐藏"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "无需认证即可列出"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "将认证方法标记为仅本地方法。"
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此认证方法签发的令牌的最大租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "最大租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "传递给认证方法的 key=value 选项对。"
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的选项"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "覆盖固定的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "使用固定版本"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "覆盖固定版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "从客户端请求传递到插件的请求头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "请求头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "认证方法可访问的位置。"
+              ],
+              "next": [
+                {
+                  "name": "userpass",
+                  "tip": [
+                    "示例认证方法路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-name",
+              "usage": [
+                "-plugin-name <NAME>"
+              ],
+              "tip": [
+                "认证方法插件的名称。"
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "插件名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "要使用的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-seal-wrap",
+              "tip": [
+                "启用关键值的封签包装。"
+              ]
+            },
+            {
+              "name": "-token-type",
+              "usage": [
+                "-token-type <TYPE>"
+              ],
+              "tip": [
+                "此认证方法使用的令牌类型。"
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch 令牌"
+                  ]
+                },
+                {
+                  "name": "default-batch",
+                  "tip": [
+                    "默认使用 Batch 令牌"
+                  ]
+                },
+                {
+                  "name": "default-service",
+                  "tip": [
+                    "默认使用 Service 令牌"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service 令牌"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "修剪传入请求的尾部斜杠。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "保留尾部斜杠"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "修剪尾部斜杠"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "选择要运行的认证方法版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [options] TYPE | PATH"
+          ],
+          "tip": [
+            "打印认证方法的使用说明"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已启用的认证方法"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "在某些操作期间启用附加元数据。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move [options] SOURCE DESTINATION"
+          ],
+          "tip": [
+            "将认证方法移动到新路径"
+          ]
+        },
+        {
+          "name": "tune",
+          "usage": [
+            "tune [options] PATH"
+          ],
+          "tip": [
+            "调整认证方法配置"
+          ],
+          "option": [
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "允许从插件响应传递到客户端的响应头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "响应头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对请求数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的请求键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对响应数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的响应键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此认证方法签发的令牌的默认租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "默认租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "认证方法用途的易读描述。"
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "认证方法描述"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "用于签署身份令牌的密钥。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "身份令牌签名密钥"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "决定挂载点的列表可见性。"
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "从列表隐藏"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "无需认证即可列出"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此认证方法签发的令牌的最大租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "最大租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "传递给认证方法的 key=value 选项对。"
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的选项"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "覆盖固定的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "使用固定版本"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "覆盖固定版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "从客户端请求传递到插件的请求头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "请求头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "要使用的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-token-type",
+              "usage": [
+                "-token-type <TYPE>"
+              ],
+              "tip": [
+                "此认证方法使用的令牌类型。"
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch 令牌"
+                  ]
+                },
+                {
+                  "name": "default-batch",
+                  "tip": [
+                    "默认使用 Batch 令牌"
+                  ]
+                },
+                {
+                  "name": "default-service",
+                  "tip": [
+                    "默认使用 Service 令牌"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service 令牌"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "修剪传入请求的尾部斜杠。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "保留尾部斜杠"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "修剪尾部斜杠"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-counter-reset-duration",
+              "usage": [
+                "-user-lockout-counter-reset-duration <DURATION>"
+              ],
+              "tip": [
+                "失败的登录尝试被重置的时长。"
+              ],
+              "next": [
+                {
+                  "name": "15m",
+                  "tip": [
+                    "15 分钟后重置失败尝试"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-disable",
+              "usage": [
+                "-user-lockout-disable <BOOL>"
+              ],
+              "tip": [
+                "为此认证方法禁用用户锁定。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "启用用户锁定"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "禁用用户锁定"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-duration",
+              "usage": [
+                "-user-lockout-duration <DURATION>"
+              ],
+              "tip": [
+                "用户超过阈值后被锁定的时长。"
+              ],
+              "next": [
+                {
+                  "name": "15m",
+                  "tip": [
+                    "锁定 15 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-threshold",
+              "usage": [
+                "-user-lockout-threshold <INT>"
+              ],
+              "tip": [
+                "用户被锁定之前允许的失败登录尝试次数。"
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 次失败尝试后锁定"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "选择要运行的认证方法版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "运行 debug 命令"
+      ],
+      "option": [
+        {
+          "name": "-compress",
+          "tip": [
+            "切换是否压缩输出包。默认是 true。"
+          ]
+        },
+        {
+          "name": "-duration",
+          "usage": [
+            "-duration <DURATION>"
+          ],
+          "tip": [
+            "命令运行的时长。默认是 2m0s。"
+          ],
+          "next": [
+            {
+              "name": "2m",
+              "tip": [
+                "默认时长"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-interval",
+          "usage": [
+            "-interval <DURATION>"
+          ],
+          "tip": [
+            "收集性能分析数据和服务器状态的轮询间隔。默认是 30s。"
+          ],
+          "next": [
+            {
+              "name": "30s",
+              "tip": [
+                "默认轮询间隔"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "日志格式。支持的值是 standard 和 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 日志格式"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "标准人类可读日志格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-metrics-interval",
+          "usage": [
+            "-metrics-interval <DURATION>"
+          ],
+          "tip": [
+            "收集指标数据的轮询间隔。默认是 10s。"
+          ],
+          "next": [
+            {
+              "name": "10s",
+              "tip": [
+                "默认指标轮询间隔"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-output",
+          "usage": [
+            "-output <PATH>"
+          ],
+          "tip": [
+            "指定调试包的输出路径。"
+          ],
+          "next": [
+            {
+              "name": "debug-bundle.tar.gz",
+              "tip": [
+                "示例调试输出路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <TARGET>"
+          ],
+          "tip": [
+            "要捕获的目标,未指定时默认为全部。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "捕获服务器配置"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "捕获主机信息"
+              ]
+            },
+            {
+              "name": "metrics",
+              "tip": [
+                "捕获指标"
+              ]
+            },
+            {
+              "name": "pprof",
+              "tip": [
+                "捕获 pprof 性能分析"
+              ]
+            },
+            {
+              "name": "server-status",
+              "tip": [
+                "捕获服务器状态"
+              ]
+            },
+            {
+              "name": "storage",
+              "tip": [
+                "捕获存储信息"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "usage": [
+        "delete [options] PATH"
+      ],
+      "tip": [
+        "删除机密和配置"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "events",
+      "tip": [
+        "与 Vault 事件交互"
+      ],
+      "next": [
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [options] eventType"
+          ],
+          "tip": [
+            "订阅给定事件类型(主题)的事件,可以是 glob 模式。"
+          ],
+          "option": [
+            {
+              "name": "-filter",
+              "usage": [
+                "-filter <EXPR>"
+              ],
+              "tip": [
+                "用于过滤事件的布尔表达式。"
+              ],
+              "next": [
+                {
+                  "name": "filter-expression",
+                  "tip": [
+                    "布尔过滤表达式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-namespaces",
+              "usage": [
+                "-namespaces <NS>"
+              ],
+              "tip": [
+                "要订阅的附加子命名空间模式。模式可以包含 * 通配符。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "*",
+                  "tip": [
+                    "所有子命名空间的通配符"
+                  ]
+                },
+                {
+                  "name": "ns1",
+                  "tip": [
+                    "示例子命名空间"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcp",
+      "tip": [
+        "与 HCP Vault 交互"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "连接到 HCP Vault 集群"
+          ],
+          "option": [
+            {
+              "name": "-client-id",
+              "usage": [
+                "-client-id <ID>"
+              ],
+              "tip": [
+                "HCP 服务主体客户端 ID。"
+              ],
+              "next": [
+                {
+                  "name": "client-id",
+                  "tip": [
+                    "服务主体客户端 ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-cluster-id",
+              "usage": [
+                "-cluster-id <NAME>"
+              ],
+              "tip": [
+                "要连接的 HCP Vault 集群名称。"
+              ],
+              "next": [
+                {
+                  "name": "cluster-name",
+                  "tip": [
+                    "集群名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-organization-id",
+              "usage": [
+                "-organization-id <ID>"
+              ],
+              "tip": [
+                "要连接的 HCP 组织 ID。"
+              ],
+              "next": [
+                {
+                  "name": "org-uuid",
+                  "tip": [
+                    "组织 UUID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-project-id",
+              "usage": [
+                "-project-id <ID>"
+              ],
+              "tip": [
+                "要连接的 HCP 项目 ID。"
+              ],
+              "next": [
+                {
+                  "name": "project-uuid",
+                  "tip": [
+                    "项目 UUID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-secret-id",
+              "usage": [
+                "-secret-id <SECRET>"
+              ],
+              "tip": [
+                "HCP 服务主体密钥 ID。"
+              ],
+              "next": [
+                {
+                  "name": "secret-id",
+                  "tip": [
+                    "服务主体密钥 ID"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "断开与 HCP Vault 集群的连接"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kv",
+      "tip": [
+        "与 Vault 的 Key-Value 存储交互"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] PATH"
+          ],
+          "tip": [
+            "删除 KV 存储中的版本"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "指定要删除的版本。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "destroy",
+          "usage": [
+            "destroy [options] KEY"
+          ],
+          "tip": [
+            "永久移除 KV 存储中的一个或多个版本"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "指定要销毁的版本。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable-versioning",
+          "usage": [
+            "enable-versioning [options] KEY"
+          ],
+          "tip": [
+            "为 KV 存储开启版本控制"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [options] KEY"
+          ],
+          "tip": [
+            "从 KV 存储中检索数据"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "指定要检索的版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] PATH"
+          ],
+          "tip": [
+            "列出数据或机密"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "与 Vault 的 Key-Value 存储元数据交互"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete [options] PATH"
+              ],
+              "tip": [
+                "删除 KV 存储中键的所有版本和元数据"
+              ],
+              "option": [
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "KV 后端的挂载路径。"
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "默认 KV v2 挂载点"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [options] KEY"
+              ],
+              "tip": [
+                "从 KV 存储中检索键元数据"
+              ],
+              "option": [
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "KV 后端的挂载路径。"
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "默认 KV v2 挂载点"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "usage": [
+                "patch [options] KEY"
+              ],
+              "tip": [
+                "修补 KV 存储中的键设置"
+              ],
+              "option": [
+                {
+                  "name": "-cas-required",
+                  "usage": [
+                    "-cas-required <BOOL>"
+                  ],
+                  "tip": [
+                    "如果为 true,所有写入请求都必须带 cas 参数。"
+                  ],
+                  "next": [
+                    {
+                      "name": "false",
+                      "tip": [
+                        "不要求 cas 参数"
+                      ]
+                    },
+                    {
+                      "name": "true",
+                      "tip": [
+                        "要求 cas 参数"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-custom-metadata",
+                  "usage": [
+                    "-custom-metadata <key=value>"
+                  ],
+                  "tip": [
+                    "任意与版本无关的 key=value 元数据。可多次指定。"
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key=value",
+                      "tip": [
+                        "key=value 形式的元数据"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-delete-version-after",
+                  "usage": [
+                    "-delete-version-after <DURATION>"
+                  ],
+                  "tip": [
+                    "版本被删除之前的时长。"
+                  ],
+                  "next": [
+                    {
+                      "name": "0s",
+                      "tip": [
+                        "从不自动删除版本"
+                      ]
+                    },
+                    {
+                      "name": "3h25m19s",
+                      "tip": [
+                        "示例时长"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-max-versions",
+                  "usage": [
+                    "-max-versions <INT>"
+                  ],
+                  "tip": [
+                    "要保留的版本数。"
+                  ],
+                  "next": [
+                    {
+                      "name": "10",
+                      "tip": [
+                        "保留 10 个版本"
+                      ]
+                    },
+                    {
+                      "name": "5",
+                      "tip": [
+                        "保留 5 个版本"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "KV 后端的挂载路径。"
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "默认 KV v2 挂载点"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-remove-custom-metadata",
+                  "usage": [
+                    "-remove-custom-metadata <KEY>"
+                  ],
+                  "tip": [
+                    "要从自定义元数据中移除的键。可多次指定。"
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "要移除的元数据键"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "put",
+              "usage": [
+                "put [options] KEY"
+              ],
+              "tip": [
+                "在 KV 存储中设置或更新键设置"
+              ],
+              "option": [
+                {
+                  "name": "-cas-required",
+                  "usage": [
+                    "-cas-required <BOOL>"
+                  ],
+                  "tip": [
+                    "如果为 true,所有写入请求都必须带 cas 参数。"
+                  ],
+                  "next": [
+                    {
+                      "name": "false",
+                      "tip": [
+                        "不要求 cas 参数"
+                      ]
+                    },
+                    {
+                      "name": "true",
+                      "tip": [
+                        "要求 cas 参数"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-custom-metadata",
+                  "usage": [
+                    "-custom-metadata <key=value>"
+                  ],
+                  "tip": [
+                    "任意与版本无关的 key=value 元数据。可多次指定。"
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key=value",
+                      "tip": [
+                        "key=value 形式的元数据"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-delete-version-after",
+                  "usage": [
+                    "-delete-version-after <DURATION>"
+                  ],
+                  "tip": [
+                    "版本被删除之前的时长。"
+                  ],
+                  "next": [
+                    {
+                      "name": "0s",
+                      "tip": [
+                        "从不自动删除版本"
+                      ]
+                    },
+                    {
+                      "name": "3h25m19s",
+                      "tip": [
+                        "示例时长"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-max-versions",
+                  "usage": [
+                    "-max-versions <INT>"
+                  ],
+                  "tip": [
+                    "要保留的版本数。"
+                  ],
+                  "next": [
+                    {
+                      "name": "10",
+                      "tip": [
+                        "保留 10 个版本"
+                      ]
+                    },
+                    {
+                      "name": "5",
+                      "tip": [
+                        "保留 5 个版本"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "KV 后端的挂载路径。"
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "默认 KV v2 挂载点"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch [options] KEY [DATA]"
+          ],
+          "tip": [
+            "在 KV 存储中设置或更新数据而不覆盖"
+          ],
+          "option": [
+            {
+              "name": "-cas",
+              "usage": [
+                "-cas <INT>"
+              ],
+              "tip": [
+                "Check-And-Set 操作。若设为 0,仅当键不存在时才允许写入。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "仅当键不存在时才写入"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "仅当键处于版本 1 时才写入"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-method",
+              "usage": [
+                "-method <METHOD>"
+              ],
+              "tip": [
+                "要使用的修补方法:patch(HTTP PATCH)或 rw(先读后写)。"
+              ],
+              "next": [
+                {
+                  "name": "patch",
+                  "tip": [
+                    "发出 HTTP PATCH 请求"
+                  ]
+                },
+                {
+                  "name": "rw",
+                  "tip": [
+                    "先读后写"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-remove-data",
+              "usage": [
+                "-remove-data <KEY>"
+              ],
+              "tip": [
+                "要从数据中移除的键。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要移除的数据键"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "put",
+          "usage": [
+            "put [options] KEY [DATA]"
+          ],
+          "tip": [
+            "在 KV 存储中设置或更新数据"
+          ],
+          "option": [
+            {
+              "name": "-cas",
+              "usage": [
+                "-cas <INT>"
+              ],
+              "tip": [
+                "Check-And-Set 操作。若设为 0,仅当键不存在时才允许写入。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "仅当键不存在时才写入"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "仅当键处于版本 1 时才写入"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rollback",
+          "usage": [
+            "rollback [options] KEY"
+          ],
+          "tip": [
+            "回滚到数据的先前版本"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "指定要回滚到的版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "undelete",
+          "usage": [
+            "undelete [options] KEY"
+          ],
+          "tip": [
+            "取消删除 KV 存储中的版本"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "KV 后端的挂载路径。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "默认 KV v2 挂载点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "指定要取消删除的版本。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lease",
+      "tip": [
+        "与租约交互"
+      ],
+      "next": [
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup ID"
+          ],
+          "tip": [
+            "查找机密的租约"
+          ]
+        },
+        {
+          "name": "renew",
+          "usage": [
+            "renew [options] ID"
+          ],
+          "tip": [
+            "续期机密的租约"
+          ],
+          "option": [
+            {
+              "name": "-increment",
+              "usage": [
+                "-increment <DURATION>"
+              ],
+              "tip": [
+                "请求租约的特定增量。"
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "续期 1 小时"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [options] ID"
+          ],
+          "tip": [
+            "撤销租约和机密"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "强制撤销租约,忽略任何错误。"
+              ]
+            },
+            {
+              "name": "-prefix",
+              "tip": [
+                "将 ID 视为前缀而不是精确的租约 ID。"
+              ]
+            },
+            {
+              "name": "-sync",
+              "tip": [
+                "与主节点同步撤销操作。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [options] PATH"
+      ],
+      "tip": [
+        "列出数据或机密"
+      ],
+      "option": [
+        {
+          "name": "-detailed",
+          "tip": [
+            "在某些操作期间启用附加元数据。"
+          ]
+        },
+        {
+          "name": "-snapshot-id",
+          "usage": [
+            "-snapshot-id <ID>"
+          ],
+          "tip": [
+            "此命令将使用的已加载快照 ID"
+          ],
+          "next": [
+            {
+              "name": "snapshot-id",
+              "tip": [
+                "已加载快照的 ID"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [options] [AUTH K=V...]"
+      ],
+      "tip": [
+        "本地认证"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "token",
+              "tip": [
+                "认证令牌字段"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-method",
+          "usage": [
+            "-method <TYPE>"
+          ],
+          "tip": [
+            "要使用的认证类型,例如 userpass 或 ldap。默认是 token。"
+          ],
+          "next": [
+            {
+              "name": "approle",
+              "tip": [
+                "AppRole 认证方法"
+              ]
+            },
+            {
+              "name": "cert",
+              "tip": [
+                "TLS 证书认证方法"
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub 认证方法"
+              ]
+            },
+            {
+              "name": "jwt",
+              "tip": [
+                "JWT 认证方法"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 服务账户认证方法"
+              ]
+            },
+            {
+              "name": "ldap",
+              "tip": [
+                "LDAP 认证方法"
+              ]
+            },
+            {
+              "name": "oidc",
+              "tip": [
+                "OpenID Connect 认证方法"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "令牌认证方法(默认)"
+              ]
+            },
+            {
+              "name": "userpass",
+              "tip": [
+                "用户名和密码认证方法"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-print",
+          "tip": [
+            "不显示令牌。令牌仍会存储到配置的令牌助手。"
+          ]
+        },
+        {
+          "name": "-no-store",
+          "tip": [
+            "认证后不将令牌持久化到令牌助手。令牌仅会显示在命令输出中。"
+          ]
+        },
+        {
+          "name": "-path",
+          "usage": [
+            "-path <PATH>"
+          ],
+          "tip": [
+            "Vault 中启用认证方法的远程路径。默认是方法的类型。"
+          ],
+          "next": [
+            {
+              "name": "userpass",
+              "tip": [
+                "userpass 认证方法的默认路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-token-only",
+          "tip": [
+            "仅输出令牌,不做验证。-field=token -no-store 的快捷方式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "从 Vault 服务器流式输出日志消息"
+      ],
+      "option": [
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "日志格式。支持的值是 standard 和 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 日志格式"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "标准人类可读日志格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "日志详细级别:trace、debug、info、warn 或 error。默认是 info。"
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug 日志级别"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error 日志级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 日志级别(默认)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "最详细的日志级别"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning 日志级别"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "namespace",
+      "tip": [
+        "与命名空间交互"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [options] PATH"
+          ],
+          "tip": [
+            "创建新的命名空间"
+          ],
+          "option": [
+            {
+              "name": "-custom-metadata",
+              "usage": [
+                "-custom-metadata <key=value>"
+              ],
+              "tip": [
+                "命名空间的任意 key=value 元数据。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的元数据"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] PATH"
+          ],
+          "tip": [
+            "删除现有命名空间"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出子命名空间"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "在某些操作期间启用附加元数据。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock",
+          "usage": [
+            "lock PATH"
+          ],
+          "tip": [
+            "锁定特定命名空间的 API"
+          ]
+        },
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup [options] PATH"
+          ],
+          "tip": [
+            "查找现有命名空间"
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch [options] PATH"
+          ],
+          "tip": [
+            "修补现有命名空间"
+          ],
+          "option": [
+            {
+              "name": "-custom-metadata",
+              "usage": [
+                "-custom-metadata <key=value>"
+              ],
+              "tip": [
+                "命名空间的任意 key=value 元数据。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的元数据"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-remove-custom-metadata",
+              "usage": [
+                "-remove-custom-metadata <KEY>"
+              ],
+              "tip": [
+                "要从自定义元数据中移除的键。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要移除的元数据键"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unlock",
+          "usage": [
+            "unlock [options] PATH"
+          ],
+          "tip": [
+            "解锁特定命名空间的 API"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "operator",
+      "tip": [
+        "执行特定于运维人员的任务"
+      ],
+      "next": [
+        {
+          "name": "diagnose",
+          "tip": [
+            "排查启动 Vault 时的问题"
+          ],
+          "option": [
+            {
+              "name": "-config",
+              "usage": [
+                "-config <PATH>"
+              ],
+              "tip": [
+                "Vault 配置文件或配置目录的路径。"
+              ],
+              "next": [
+                {
+                  "name": "config.hcl",
+                  "tip": [
+                    "HCL 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-debug",
+              "tip": [
+                "转储 Diagnose 收集的所有信息。"
+              ]
+            },
+            {
+              "name": "-format",
+              "usage": [
+                "-format <FORMAT>"
+              ],
+              "tip": [
+                "输出格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "表格格式(默认)"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "纯文本格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-skip",
+              "usage": [
+                "-skip <CHECK>"
+              ],
+              "tip": [
+                "跳过以参数形式指定的健康检查。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "autounseal",
+                  "tip": [
+                    "跳过自动解封检查"
+                  ]
+                },
+                {
+                  "name": "listener",
+                  "tip": [
+                    "跳过监听器检查"
+                  ]
+                },
+                {
+                  "name": "storage",
+                  "tip": [
+                    "跳过存储检查"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generate-root",
+          "usage": [
+            "generate-root [options] -init [-otp=...] [-pgp-key=...]"
+          ],
+          "tip": [
+            "生成新的根令牌、DR 操作令牌或恢复令牌"
+          ],
+          "option": [
+            {
+              "name": "-cancel",
+              "tip": [
+                "取消当前生成尝试。"
+              ]
+            },
+            {
+              "name": "-decode",
+              "usage": [
+                "-decode <TOKEN>"
+              ],
+              "tip": [
+                "使用 OTP 解码返回的令牌。"
+              ],
+              "next": [
+                {
+                  "name": "encoded-token",
+                  "tip": [
+                    "要解码的编码令牌"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dr-token",
+              "tip": [
+                "生成 DR 操作令牌而不是根令牌。"
+              ]
+            },
+            {
+              "name": "-generate-otp",
+              "tip": [
+                "生成并打印适合与 -otp 一起使用的 Base64 编码 OTP。"
+              ]
+            },
+            {
+              "name": "-init",
+              "tip": [
+                "启动令牌生成。"
+              ]
+            },
+            {
+              "name": "-nonce",
+              "usage": [
+                "-nonce <NONCE>"
+              ],
+              "tip": [
+                "初始化时提供的 Nonce。"
+              ],
+              "next": [
+                {
+                  "name": "nonce",
+                  "tip": [
+                    "Nonce 值"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-otp",
+              "usage": [
+                "-otp <OTP>"
+              ],
+              "tip": [
+                "用于保护返回令牌的 Base64 编码一次性密码。"
+              ],
+              "next": [
+                {
+                  "name": "otp",
+                  "tip": [
+                    "Base64 编码的 OTP"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-key",
+              "usage": [
+                "-pgp-key <KEY>"
+              ],
+              "tip": [
+                "用于加密返回令牌的 PGP 公钥或 keybase:user 路径。"
+              ],
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase 用户"
+                  ]
+                },
+                {
+                  "name": "path/to/key.asc",
+                  "tip": [
+                    "PGP 公钥路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-token",
+              "tip": [
+                "生成恢复令牌而不是根令牌。"
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "打印当前尝试的状态,不提供密钥份额。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "usage": [
+            "init [options]"
+          ],
+          "tip": [
+            "初始化服务器"
+          ],
+          "option": [
+            {
+              "name": "-consul-auto",
+              "tip": [
+                "自动查找 Consul 实例的地址。"
+              ]
+            },
+            {
+              "name": "-consul-service",
+              "usage": [
+                "-consul-service <NAME>"
+              ],
+              "tip": [
+                "要查找地址的 Consul 服务名称。"
+              ],
+              "next": [
+                {
+                  "name": "vault",
+                  "tip": [
+                    "Vault Consul 服务名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-shares",
+              "usage": [
+                "-key-shares <INT>"
+              ],
+              "tip": [
+                "主密钥被分割成的密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 个密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-threshold",
+              "usage": [
+                "-key-threshold <INT>"
+              ],
+              "tip": [
+                "重建主密钥所需的密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "需要 3 个密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-keys",
+              "usage": [
+                "-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "用于加密每个解封密钥的 PGP 公钥或 keybase:user 名称的逗号分隔列表。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase 用户"
+                  ]
+                },
+                {
+                  "name": "path/to/key.asc",
+                  "tip": [
+                    "PGP 公钥路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-pgp-keys",
+              "usage": [
+                "-recovery-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "用于加密每个恢复密钥的 PGP 公钥逗号分隔列表。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase 用户"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-shares",
+              "usage": [
+                "-recovery-shares <INT>"
+              ],
+              "tip": [
+                "恢复密钥被分割成的恢复密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 个恢复密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-threshold",
+              "usage": [
+                "-recovery-threshold <INT>"
+              ],
+              "tip": [
+                "重建恢复密钥所需的恢复密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "需要 3 个恢复密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-root-token-pgp-key",
+              "usage": [
+                "-root-token-pgp-key <KEY>"
+              ],
+              "tip": [
+                "用于加密初始根令牌的 PGP 公钥或 keybase:user。"
+              ],
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase 用户"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "打印当前初始化状态,不执行初始化。"
+              ]
+            },
+            {
+              "name": "-stored-shares",
+              "usage": [
+                "-stored-shares <INT>"
+              ],
+              "tip": [
+                "应存储在后端中的份额数。"
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 个存储份额"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "key-status",
+          "tip": [
+            "提供当前加密密钥的信息"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "返回集群中的节点列表"
+          ]
+        },
+        {
+          "name": "migrate",
+          "usage": [
+            "migrate [options]"
+          ],
+          "tip": [
+            "在存储后端之间迁移 Vault 数据"
+          ],
+          "option": [
+            {
+              "name": "-config",
+              "usage": [
+                "-config <PATH>"
+              ],
+              "tip": [
+                "仅包含迁移器指令的配置文件路径。"
+              ],
+              "next": [
+                {
+                  "name": "migrate.hcl",
+                  "tip": [
+                    "迁移器配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-log-level",
+              "usage": [
+                "-log-level <LEVEL>"
+              ],
+              "tip": [
+                "日志详细级别:trace、debug、info、warn 或 error。默认是 info。"
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "Debug 日志级别"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Error 日志级别"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Info 日志级别(默认)"
+                  ]
+                },
+                {
+                  "name": "trace",
+                  "tip": [
+                    "最详细的日志级别"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "Warning 日志级别"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-parallel",
+              "usage": [
+                "-max-parallel <INT>"
+              ],
+              "tip": [
+                "最大并行迁移线程数。默认是 10。"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "默认并行度"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-reset",
+              "tip": [
+                "重置迁移锁。不会发生迁移。"
+              ]
+            },
+            {
+              "name": "-start",
+              "usage": [
+                "-start <KEY>"
+              ],
+              "tip": [
+                "仅复制按字典序在此值处或之后出现的键。"
+              ],
+              "next": [
+                {
+                  "name": "key-prefix",
+                  "tip": [
+                    "开始迁移的键前缀"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "raft",
+          "tip": [
+            "与 Vault 的 raft 存储后端交互"
+          ],
+          "next": [
+            {
+              "name": "autopilot",
+              "tip": [
+                "与集成存储下的 autopilot 子系统交互"
+              ],
+              "next": [
+                {
+                  "name": "get-config",
+                  "tip": [
+                    "返回集成存储下 autopilot 子系统的配置"
+                  ],
+                  "option": [
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "用于授权此请求的 DR 操作令牌(如果是 DR 备用节点)。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "set-config",
+                  "tip": [
+                    "修改集成存储下 autopilot 子系统的配置"
+                  ],
+                  "option": [
+                    {
+                      "name": "-cleanup-dead-servers",
+                      "usage": [
+                        "-cleanup-dead-servers <BOOL>"
+                      ],
+                      "tip": [
+                        "控制是否定期从 Raft 对等节点列表中移除失效服务器。"
+                      ],
+                      "next": [
+                        {
+                          "name": "false",
+                          "tip": [
+                            "保留失效服务器"
+                          ]
+                        },
+                        {
+                          "name": "true",
+                          "tip": [
+                            "清理失效服务器"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-dead-server-last-contact-threshold",
+                      "usage": [
+                        "-dead-server-last-contact-threshold <DURATION>"
+                      ],
+                      "tip": [
+                        "服务器在被视为失败之前可以无 leader 联系的时长限制。"
+                      ],
+                      "next": [
+                        {
+                          "name": "24h",
+                          "tip": [
+                            "24 小时"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-disable-upgrade-migration",
+                      "usage": [
+                        "-disable-upgrade-migration <BOOL>"
+                      ],
+                      "tip": [
+                        "是否执行自动版本升级。"
+                      ],
+                      "next": [
+                        {
+                          "name": "false",
+                          "tip": [
+                            "启用升级迁移"
+                          ]
+                        },
+                        {
+                          "name": "true",
+                          "tip": [
+                            "禁用升级迁移"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "用于授权此请求的 DR 操作令牌(如果是 DR 备用节点)。"
+                      ]
+                    },
+                    {
+                      "name": "-last-contact-threshold",
+                      "usage": [
+                        "-last-contact-threshold <DURATION>"
+                      ],
+                      "tip": [
+                        "服务器在被视为不健康之前可以无 leader 联系的时长限制。"
+                      ],
+                      "next": [
+                        {
+                          "name": "24h",
+                          "tip": [
+                            "24 小时"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-max-trailing-logs",
+                      "usage": [
+                        "-max-trailing-logs <INT>"
+                      ],
+                      "tip": [
+                        "服务器在被视为不健康之前允许落后的 Raft 日志条目数。"
+                      ],
+                      "next": [
+                        {
+                          "name": "10000",
+                          "tip": [
+                            "10000 条滞后日志"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-min-quorum",
+                      "usage": [
+                        "-min-quorum <INT>"
+                      ],
+                      "tip": [
+                        "autopilot 可以清理失效服务器之前集群允许的最小服务器数。"
+                      ],
+                      "next": [
+                        {
+                          "name": "3",
+                          "tip": [
+                            "最小法定数 3"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-server-stabilization-time",
+                      "usage": [
+                        "-server-stabilization-time <DURATION>"
+                      ],
+                      "tip": [
+                        "服务器在加入集群之前必须保持稳定的最短时间。"
+                      ],
+                      "next": [
+                        {
+                          "name": "10s",
+                          "tip": [
+                            "10 秒"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "state",
+                  "tip": [
+                    "显示 autopilot 视角下集成存储中 raft 集群的状态"
+                  ],
+                  "option": [
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "用于授权此请求的 DR 操作令牌(如果是 DR 备用节点)。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "join",
+              "usage": [
+                "join [options] <leader-api-addr|auto-join-configuration>"
+              ],
+              "tip": [
+                "将节点加入 Raft 集群"
+              ],
+              "option": [
+                {
+                  "name": "-auto-join-port",
+                  "usage": [
+                    "-auto-join-port <PORT>"
+                  ],
+                  "tip": [
+                    "自动加入配置使用的端口。"
+                  ],
+                  "next": [
+                    {
+                      "name": "8200",
+                      "tip": [
+                        "默认 Vault API 端口"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-auto-join-scheme",
+                  "usage": [
+                    "-auto-join-scheme <SCHEME>"
+                  ],
+                  "tip": [
+                    "自动加入配置使用的协议。"
+                  ],
+                  "next": [
+                    {
+                      "name": "http",
+                      "tip": [
+                        "HTTP 协议"
+                      ]
+                    },
+                    {
+                      "name": "https",
+                      "tip": [
+                        "HTTPS 协议"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-ca-cert",
+                  "usage": [
+                    "-leader-ca-cert <PATH>"
+                  ],
+                  "tip": [
+                    "用于验证 leader TLS 证书的 CA 证书。"
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-ca.pem",
+                      "tip": [
+                        "Leader CA 证书"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-client-cert",
+                  "usage": [
+                    "-leader-client-cert <PATH>"
+                  ],
+                  "tip": [
+                    "用于向 leader 进行 TLS 认证的客户端证书。"
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-client.pem",
+                      "tip": [
+                        "Leader 客户端证书"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-client-key",
+                  "usage": [
+                    "-leader-client-key <PATH>"
+                  ],
+                  "tip": [
+                    "用于向 leader 进行 TLS 认证的客户端密钥。"
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-client-key.pem",
+                      "tip": [
+                        "Leader 客户端密钥"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-non-voter",
+                  "tip": [
+                    "作为非投票节点加入集群。"
+                  ]
+                },
+                {
+                  "name": "-retry",
+                  "tip": [
+                    "重试加入集群,直到成功。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list-peers",
+              "tip": [
+                "返回 Raft 对等节点集合"
+              ],
+              "option": [
+                {
+                  "name": "-dr-token",
+                  "tip": [
+                    "用于授权此请求的 DR 操作令牌(如果是 DR 备用节点)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "remove-peer",
+              "usage": [
+                "remove-peer <server_id>"
+              ],
+              "tip": [
+                "从 Raft 集群中移除节点"
+              ],
+              "option": [
+                {
+                  "name": "-dr-token",
+                  "tip": [
+                    "用于授权此请求的 DR 操作令牌(如果是 DR 备用节点)。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "snapshot",
+              "tip": [
+                "从 Raft 集群恢复和保存快照"
+              ],
+              "next": [
+                {
+                  "name": "inspect",
+                  "usage": [
+                    "inspect <snapshot_file>"
+                  ],
+                  "tip": [
+                    "检查 raft 快照"
+                  ],
+                  "option": [
+                    {
+                      "name": "-depth",
+                      "usage": [
+                        "-depth <INT>"
+                      ],
+                      "tip": [
+                        "要检查的快照树深度。"
+                      ],
+                      "next": [
+                        {
+                          "name": "5",
+                          "tip": [
+                            "深入检查 5 层"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-details",
+                      "tip": [
+                        "显示快照条目的详细信息。"
+                      ]
+                    },
+                    {
+                      "name": "-filter",
+                      "usage": [
+                        "-filter <REGEX>"
+                      ],
+                      "tip": [
+                        "快照条目键的正则过滤器。"
+                      ],
+                      "next": [
+                        {
+                          "name": "regex",
+                          "tip": [
+                            "正则表达式模式"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "restore",
+                  "usage": [
+                    "restore <snapshot_file>"
+                  ],
+                  "tip": [
+                    "安装提供的快照,将集群恢复到其中定义的状态"
+                  ],
+                  "option": [
+                    {
+                      "name": "-force",
+                      "tip": [
+                        "强制恢复,忽略任何错误。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "save",
+                  "usage": [
+                    "save <snapshot_file>"
+                  ],
+                  "tip": [
+                    "将 Raft 集群的当前状态快照保存到文件中"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rekey",
+          "usage": [
+            "rekey [options] [KEY]"
+          ],
+          "tip": [
+            "生成新的解封密钥"
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "tip": [
+                "存储用新密钥加密的当前解封密钥备份。"
+              ]
+            },
+            {
+              "name": "-backup-delete",
+              "tip": [
+                "删除当前解封密钥的任何已存储备份。"
+              ]
+            },
+            {
+              "name": "-backup-retrieve",
+              "tip": [
+                "检索当前解封密钥的已存储备份。"
+              ]
+            },
+            {
+              "name": "-cancel",
+              "tip": [
+                "取消当前 rekey 流程。"
+              ]
+            },
+            {
+              "name": "-init",
+              "tip": [
+                "启动 rekey 流程。"
+              ]
+            },
+            {
+              "name": "-key-shares",
+              "usage": [
+                "-key-shares <INT>"
+              ],
+              "tip": [
+                "主密钥被分割成的密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 个密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-threshold",
+              "usage": [
+                "-key-threshold <INT>"
+              ],
+              "tip": [
+                "重建主密钥所需的密钥份额数。"
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "需要 3 个密钥份额"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-nonce",
+              "usage": [
+                "-nonce <NONCE>"
+              ],
+              "tip": [
+                "初始化时提供的 Nonce。"
+              ],
+              "next": [
+                {
+                  "name": "nonce",
+                  "tip": [
+                    "Nonce 值"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-keys",
+              "usage": [
+                "-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "用于加密每个解封密钥的 PGP 公钥逗号分隔列表。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase 用户"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "打印当前 rekey 流程的状态,不提供密钥份额。"
+              ]
+            },
+            {
+              "name": "-target",
+              "usage": [
+                "-target <TARGET>"
+              ],
+              "tip": [
+                "rekey 的目标:root、recovery 或 DR。"
+              ],
+              "next": [
+                {
+                  "name": "DR",
+                  "tip": [
+                    "重新生成 DR 操作密钥"
+                  ]
+                },
+                {
+                  "name": "recovery",
+                  "tip": [
+                    "重新生成恢复密钥"
+                  ]
+                },
+                {
+                  "name": "root",
+                  "tip": [
+                    "重新生成根密钥"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-verify",
+              "tip": [
+                "重新生成后验证新的解封密钥。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotate",
+          "tip": [
+            "轮转底层加密密钥"
+          ]
+        },
+        {
+          "name": "seal",
+          "tip": [
+            "封签 Vault 服务器"
+          ]
+        },
+        {
+          "name": "step-down",
+          "tip": [
+            "强制 Vault 辞去主节点职责"
+          ]
+        },
+        {
+          "name": "unseal",
+          "usage": [
+            "unseal [options] [KEY]"
+          ],
+          "tip": [
+            "解封 Vault 服务器"
+          ],
+          "option": [
+            {
+              "name": "-migrate",
+              "tip": [
+                "将解封密钥从现有机制迁移到新机制。"
+              ]
+            },
+            {
+              "name": "-reset",
+              "tip": [
+                "重置解封流程。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "列出历史客户端计数"
+          ],
+          "option": [
+            {
+              "name": "-end-time",
+              "usage": [
+                "-end-time <TIME>"
+              ],
+              "tip": [
+                "用量报告的结束时间。"
+              ],
+              "next": [
+                {
+                  "name": "2024-12-31",
+                  "tip": [
+                    "示例结束日期"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-start-time",
+              "usage": [
+                "-start-time <TIME>"
+              ],
+              "tip": [
+                "用量报告的开始时间。"
+              ],
+              "next": [
+                {
+                  "name": "2024-01-01",
+                  "tip": [
+                    "示例开始日期"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "utilization",
+          "tip": [
+            "生成许可证用量报告包"
+          ],
+          "option": [
+            {
+              "name": "-message",
+              "usage": [
+                "-message <TEXT>"
+              ],
+              "tip": [
+                "要包含在用量包中的消息。"
+              ],
+              "next": [
+                {
+                  "name": "message",
+                  "tip": [
+                    "用量消息"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-output",
+              "usage": [
+                "-output <PATH>"
+              ],
+              "tip": [
+                "用量包的输出路径。"
+              ],
+              "next": [
+                {
+                  "name": "bundle.json",
+                  "tip": [
+                    "示例包输出路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-today-only",
+              "tip": [
+                "仅生成今天的用量包。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "usage": [
+        "patch [options] PATH [DATA K=V...]"
+      ],
+      "tip": [
+        "修补数据、配置和机密"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, -force"
+          ],
+          "tip": [
+            "允许 patch 操作在没有 key=value 数据对的情况下继续。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "path-help",
+      "usage": [
+        "path-help [options] PATH"
+      ],
+      "tip": [
+        "获取路径的 API 帮助"
+      ]
+    },
+    {
+      "name": "pki",
+      "tip": [
+        "与 Vault 的 PKI 机密引擎交互"
+      ],
+      "next": [
+        {
+          "name": "health-check",
+          "usage": [
+            "health-check [options] MOUNT"
+          ],
+          "tip": [
+            "检查 PKI 机密引擎挂载点的健康与运行状态"
+          ],
+          "option": [
+            {
+              "name": "-default-disabled",
+              "tip": [
+                "禁用默认健康检查。"
+              ]
+            },
+            {
+              "name": "-health-config",
+              "usage": [
+                "-health-config <PATH>"
+              ],
+              "tip": [
+                "健康检查配置文件的路径。"
+              ],
+              "next": [
+                {
+                  "name": "health-config.hcl",
+                  "tip": [
+                    "健康检查配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-list",
+              "tip": [
+                "列出所有可用的健康检查。"
+              ]
+            },
+            {
+              "name": "-return-indicator",
+              "usage": [
+                "-return-indicator <VALUE>"
+              ],
+              "tip": [
+                "根据检查结果返回健康指示。"
+              ],
+              "next": [
+                {
+                  "name": "healthy",
+                  "tip": [
+                    "指示健康"
+                  ]
+                },
+                {
+                  "name": "unhealthy",
+                  "tip": [
+                    "指示不健康"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "issue",
+          "usage": [
+            "issue PARENT CHILD_MOUNT options"
+          ],
+          "tip": [
+            "根据父证书和一组生成参数,在指定挂载点创建签发者"
+          ],
+          "option": [
+            {
+              "name": "-issuer_name",
+              "usage": [
+                "-issuer_name <NAME>"
+              ],
+              "tip": [
+                "如果指定,新建的签发者将被赋予此名称。"
+              ],
+              "next": [
+                {
+                  "name": "issuer-name",
+                  "tip": [
+                    "签发者名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "密钥类型:existing、internal 或 kms。默认是 internal。"
+              ],
+              "next": [
+                {
+                  "name": "existing",
+                  "tip": [
+                    "使用 Vault 内的现有密钥"
+                  ]
+                },
+                {
+                  "name": "internal",
+                  "tip": [
+                    "在 Vault 内部生成新密钥(默认)"
+                  ]
+                },
+                {
+                  "name": "kms",
+                  "tip": [
+                    "链接到外部密钥"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-intermediates",
+          "usage": [
+            "list-intermediates PARENT [CHILD] [CHILD] ..."
+          ],
+          "tip": [
+            "判断证书列表中的哪些证书由给定的父证书签发"
+          ],
+          "option": [
+            {
+              "name": "-direct_sign",
+              "tip": [
+                "匹配由父证书直接签发的证书。"
+              ]
+            },
+            {
+              "name": "-indirect_sign",
+              "tip": [
+                "匹配由父证书间接签发的证书。"
+              ]
+            },
+            {
+              "name": "-key_id_match",
+              "usage": [
+                "-key_id_match <KEY_ID>"
+              ],
+              "tip": [
+                "按主题密钥标识符匹配。"
+              ],
+              "next": [
+                {
+                  "name": "key-id",
+                  "tip": [
+                    "主题密钥标识符"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path_match",
+              "usage": [
+                "-path_match <PATH>"
+              ],
+              "tip": [
+                "按证书路径匹配。"
+              ],
+              "next": [
+                {
+                  "name": "path",
+                  "tip": [
+                    "证书路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-subject_match",
+              "usage": [
+                "-subject_match <SUBJECT>"
+              ],
+              "tip": [
+                "按证书主题匹配。"
+              ],
+              "next": [
+                {
+                  "name": "subject",
+                  "tip": [
+                    "证书主题"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-use_names",
+              "tip": [
+                "使用证书名称而不是 ID。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reissue",
+          "usage": [
+            "reissue PARENT TEMPLATE CHILD_MOUNT options"
+          ],
+          "tip": [
+            "使用父证书和模板证书在子挂载点上创建新的签发者"
+          ]
+        },
+        {
+          "name": "verify-sign",
+          "usage": [
+            "verify-sign POSSIBLE-ISSUER POSSIBLE-ISSUED"
+          ],
+          "tip": [
+            "检查一个证书是否能验证另一个指定证书"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "与 Vault 插件和目录交互"
+      ],
+      "next": [
+        {
+          "name": "deregister",
+          "usage": [
+            "deregister [options] TYPE NAME"
+          ],
+          "tip": [
+            "注销目录中的现有插件"
+          ],
+          "option": [
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "要注销的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [options] TYPE NAME"
+          ],
+          "tip": [
+            "读取目录中插件的信息"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要打印的字段名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "要获取信息的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] [TYPE]"
+          ],
+          "tip": [
+            "列出可用的插件"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "在某些操作期间启用附加元数据。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "register",
+          "usage": [
+            "register [options] TYPE NAME"
+          ],
+          "tip": [
+            "在目录中注册新插件"
+          ],
+          "option": [
+            {
+              "name": "-args",
+              "usage": [
+                "-args <ARGS>"
+              ],
+              "tip": [
+                "传递给插件的参数。"
+              ],
+              "next": [
+                {
+                  "name": "args",
+                  "tip": [
+                    "插件参数"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-command",
+              "usage": [
+                "-command <COMMAND>"
+              ],
+              "tip": [
+                "运行插件的命令。"
+              ],
+              "next": [
+                {
+                  "name": "command",
+                  "tip": [
+                    "插件命令"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-download",
+              "usage": [
+                "-download <URL>"
+              ],
+              "tip": [
+                "下载插件的 URL。"
+              ],
+              "next": [
+                {
+                  "name": "download-url",
+                  "tip": [
+                    "插件下载 URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-env",
+              "usage": [
+                "-env <KEY=value>"
+              ],
+              "tip": [
+                "传递给插件的环境变量。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "KEY=value",
+                  "tip": [
+                    "KEY=value 形式的环境变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-oci_image",
+              "usage": [
+                "-oci_image <IMAGE>"
+              ],
+              "tip": [
+                "用于运行插件的 OCI 镜像。"
+              ],
+              "next": [
+                {
+                  "name": "image:tag",
+                  "tip": [
+                    "OCI 镜像引用"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-runtime",
+              "usage": [
+                "-runtime <NAME>"
+              ],
+              "tip": [
+                "插件使用的插件运行时。"
+              ],
+              "next": [
+                {
+                  "name": "runtime-name",
+                  "tip": [
+                    "插件运行时名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-sha256",
+              "usage": [
+                "-sha256 <HASH>"
+              ],
+              "tip": [
+                "插件二进制的 SHA-256 校验和。"
+              ],
+              "next": [
+                {
+                  "name": "sha256-hex",
+                  "tip": [
+                    "十六进制 SHA-256 哈希"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "要注册的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reload",
+          "usage": [
+            "reload [options]"
+          ],
+          "tip": [
+            "重载已挂载的插件后端"
+          ],
+          "option": [
+            {
+              "name": "-mounts",
+              "usage": [
+                "-mounts <MOUNT>"
+              ],
+              "tip": [
+                "要重载的插件后端挂载路径。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "mount",
+                  "tip": [
+                    "挂载路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin",
+              "usage": [
+                "-plugin <NAME>"
+              ],
+              "tip": [
+                "要重载的插件名称。"
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "插件名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-scope",
+              "usage": [
+                "-scope <SCOPE>"
+              ],
+              "tip": [
+                "重载范围:global 或 local。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "全局重载"
+                  ]
+                },
+                {
+                  "name": "local",
+                  "tip": [
+                    "本地重载"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "要重载的插件类型。"
+              ],
+              "next": [
+                {
+                  "name": "auth",
+                  "tip": [
+                    "认证插件"
+                  ]
+                },
+                {
+                  "name": "database",
+                  "tip": [
+                    "数据库插件"
+                  ]
+                },
+                {
+                  "name": "secret",
+                  "tip": [
+                    "机密插件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reload-status",
+          "usage": [
+            "reload-status RELOAD_ID"
+          ],
+          "tip": [
+            "获取进行中或刚完成的全局插件重载状态"
+          ]
+        },
+        {
+          "name": "runtime",
+          "tip": [
+            "与 Vault 插件运行时目录交互"
+          ],
+          "next": [
+            {
+              "name": "deregister",
+              "usage": [
+                "deregister [options] NAME"
+              ],
+              "tip": [
+                "注销目录中的现有插件运行时"
+              ],
+              "option": [
+                {
+                  "name": "-field",
+                  "usage": [
+                    "-field <KEY>"
+                  ],
+                  "tip": [
+                    "仅打印指定名称的字段。便于管道传递给其他进程。"
+                  ],
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "要打印的字段名"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "插件运行时的类型。"
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container 插件运行时类型"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info [options] NAME"
+              ],
+              "tip": [
+                "读取目录中插件运行时的信息"
+              ],
+              "option": [
+                {
+                  "name": "-field",
+                  "usage": [
+                    "-field <KEY>"
+                  ],
+                  "tip": [
+                    "仅打印指定名称的字段。便于管道传递给其他进程。"
+                  ],
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "要打印的字段名"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "插件运行时的类型。"
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container 插件运行时类型"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [options]"
+              ],
+              "tip": [
+                "列出可用的插件运行时"
+              ],
+              "option": [
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "插件运行时的类型。"
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container 插件运行时类型"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "register",
+              "usage": [
+                "register [options] NAME"
+              ],
+              "tip": [
+                "在目录中注册新的插件运行时"
+              ],
+              "option": [
+                {
+                  "name": "-cgroup_parent",
+                  "usage": [
+                    "-cgroup_parent <PARENT>"
+                  ],
+                  "tip": [
+                    "插件运行时的父级 cgroup。"
+                  ],
+                  "next": [
+                    {
+                      "name": "parent",
+                      "tip": [
+                        "Cgroup 父级名称"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-cpu_nanos",
+                  "usage": [
+                    "-cpu_nanos <INT>"
+                  ],
+                  "tip": [
+                    "插件运行时的 CPU 限制(纳秒)。"
+                  ],
+                  "next": [
+                    {
+                      "name": "100000000",
+                      "tip": [
+                        "100 ms CPU"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-memory_bytes",
+                  "usage": [
+                    "-memory_bytes <INT>"
+                  ],
+                  "tip": [
+                    "插件运行时的内存限制(字节)。"
+                  ],
+                  "next": [
+                    {
+                      "name": "1048576",
+                      "tip": [
+                        "1 MB 内存"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-oci_runtime",
+                  "usage": [
+                    "-oci_runtime <RUNTIME>"
+                  ],
+                  "tip": [
+                    "插件运行时使用的 OCI 兼容运行时。"
+                  ],
+                  "next": [
+                    {
+                      "name": "runc",
+                      "tip": [
+                        "runc OCI 运行时"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-rootless",
+                  "tip": [
+                    "以 rootless 模式运行插件运行时。"
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "插件运行时的类型。"
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container 插件运行时类型"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "policy",
+      "tip": [
+        "与策略交互"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] NAME"
+          ],
+          "tip": [
+            "按名称删除策略"
+          ]
+        },
+        {
+          "name": "fmt",
+          "usage": [
+            "fmt [options] PATH"
+          ],
+          "tip": [
+            "格式化磁盘上的策略"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的策略"
+          ]
+        },
+        {
+          "name": "read",
+          "usage": [
+            "read [options] [NAME]"
+          ],
+          "tip": [
+            "打印策略的内容"
+          ]
+        },
+        {
+          "name": "write",
+          "usage": [
+            "write [options] NAME PATH"
+          ],
+          "tip": [
+            "从文件上传命名策略"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "print",
+      "tip": [
+        "打印运行时配置"
+      ],
+      "next": [
+        {
+          "name": "token",
+          "tip": [
+            "打印当前使用的 vault 令牌"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy",
+      "tip": [
+        "启动 Vault Proxy"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "配置文件或配置目录的路径。"
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-after-auth",
+          "tip": [
+            "运行 proxy 后退出,无论认证是否成功。"
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Vault 用于记录日志的文件路径"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "日志文件路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "日志格式。支持的值是 standard 和 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 日志格式"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "标准人类可读日志格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "日志详细级别:trace、debug、info、warn 或 error。默认是 info。"
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug 日志级别"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error 日志级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 日志级别(默认)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "最详细的日志级别"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning 日志级别"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "日志在需要轮转之前应写入的字节数。"
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB(字节)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "日志在需要轮转之前可以写入的最大时长。"
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "每 24 小时轮转日志"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "保留的旧日志文件归档的最大数量"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "保留 10 个轮转归档"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read",
+      "usage": [
+        "read [options] PATH"
+      ],
+      "tip": [
+        "读取数据并获取机密"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-snapshot-id",
+          "usage": [
+            "-snapshot-id <ID>"
+          ],
+          "tip": [
+            "此命令将使用的已加载快照 ID"
+          ],
+          "next": [
+            {
+              "name": "snapshot-id",
+              "tip": [
+                "已加载快照的 ID"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secrets",
+      "tip": [
+        "与机密引擎交互"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "禁用机密引擎"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE"
+          ],
+          "tip": [
+            "启用机密引擎"
+          ],
+          "option": [
+            {
+              "name": "-allowed-managed-keys",
+              "usage": [
+                "-allowed-managed-keys <KEY>"
+              ],
+              "tip": [
+                "允许此机密引擎使用的托管密钥。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "managed-key",
+                  "tip": [
+                    "托管密钥名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "允许从插件响应传递到客户端的响应头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "响应头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对请求数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的请求键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对响应数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的响应键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此引擎签发的机密的默认租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "默认租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-delegated-auth-accessors",
+              "usage": [
+                "-delegated-auth-accessors <ACCESSOR>"
+              ],
+              "tip": [
+                "用于委托认证的认证方法访问器。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "accessor",
+                  "tip": [
+                    "认证方法访问器"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "机密引擎用途的易读描述。"
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "机密引擎描述"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-external-entropy-access",
+              "tip": [
+                "启用对外部熵源的访问。"
+              ]
+            },
+            {
+              "name": "-force-no-cache",
+              "tip": [
+                "禁用此机密引擎的缓存。"
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "用于签署身份令牌的密钥。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "身份令牌签名密钥"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "决定挂载点的列表可见性。"
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "从列表隐藏"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "无需认证即可列出"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "将机密引擎标记为仅本地引擎。"
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此引擎签发的机密的最大租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "最大租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "传递给机密引擎的 key=value 选项对。"
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的选项"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "覆盖固定的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "使用固定版本"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "覆盖固定版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "从客户端请求传递到插件的请求头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "请求头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "机密引擎可访问的位置。"
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "示例机密引擎路径"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-name",
+              "usage": [
+                "-plugin-name <NAME>"
+              ],
+              "tip": [
+                "机密引擎插件的名称。"
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "插件名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "要使用的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-seal-wrap",
+              "tip": [
+                "启用关键值的封签包装。"
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "修剪传入请求的尾部斜杠。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "保留尾部斜杠"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "修剪尾部斜杠"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "选择要运行的机密引擎版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已启用的机密引擎"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "在某些操作期间启用附加元数据。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move [options] FROM TO"
+          ],
+          "tip": [
+            "将机密引擎移动到新路径"
+          ]
+        },
+        {
+          "name": "tune",
+          "usage": [
+            "tune [options] PATH"
+          ],
+          "tip": [
+            "调整机密引擎配置"
+          ],
+          "option": [
+            {
+              "name": "-allowed-managed-keys",
+              "usage": [
+                "-allowed-managed-keys <KEY>"
+              ],
+              "tip": [
+                "允许此机密引擎使用的托管密钥。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "managed-key",
+                  "tip": [
+                    "托管密钥名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "允许从插件响应传递到客户端的响应头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "响应头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对请求数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的请求键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "审计设备不会对响应数据中的这些键进行 HMAC。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "要从 HMAC 中排除的响应键"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此引擎签发的机密的默认租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "默认租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-delegated-auth-accessors",
+              "usage": [
+                "-delegated-auth-accessors <ACCESSOR>"
+              ],
+              "tip": [
+                "用于委托认证的认证方法访问器。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "accessor",
+                  "tip": [
+                    "认证方法访问器"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "机密引擎用途的易读描述。"
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "机密引擎描述"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "用于签署身份令牌的密钥。"
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "身份令牌签名密钥"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "决定挂载点的列表可见性。"
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "从列表隐藏"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "无需认证即可列出"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "此引擎签发的机密的最大租约时长。"
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "最大租约 TTL 32 天"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "传递给机密引擎的 key=value 选项对。"
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的选项"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "覆盖固定的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "使用固定版本"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "覆盖固定版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "从客户端请求传递到插件的请求头。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "请求头名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "要使用的插件版本。"
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "示例插件版本"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "修剪传入请求的尾部斜杠。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "保留尾部斜杠"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "修剪尾部斜杠"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "选择要运行的机密引擎版本。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "版本 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "版本 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "server",
+      "tip": [
+        "启动 Vault 服务器"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "配置文件或配置目录的路径。"
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev",
+          "tip": [
+            "启用开发模式。Vault 在内存中运行,并以根令牌解封启动。"
+          ]
+        },
+        {
+          "name": "-dev-cluster-json",
+          "usage": [
+            "-dev-cluster-json <PATH>"
+          ],
+          "tip": [
+            "写入集群定义的文件"
+          ],
+          "next": [
+            {
+              "name": "cluster.json",
+              "tip": [
+                "集群定义文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-listen-address",
+          "usage": [
+            "-dev-listen-address <ADDR>"
+          ],
+          "tip": [
+            "开发模式下绑定的地址。默认是 127.0.0.1:8200。"
+          ],
+          "next": [
+            {
+              "name": "127.0.0.1:8200",
+              "tip": [
+                "默认开发监听地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-no-store-token",
+          "tip": [
+            "不将开发根令牌持久化到令牌助手。"
+          ]
+        },
+        {
+          "name": "-dev-root-token-id",
+          "usage": [
+            "-dev-root-token-id <TOKEN>"
+          ],
+          "tip": [
+            "初始根令牌。仅在开发模式下运行时才适用。"
+          ],
+          "next": [
+            {
+              "name": "root",
+              "tip": [
+                "示例开发根令牌"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-tls",
+          "tip": [
+            "启用 TLS 开发模式。Vault 在内存中运行并带有 TLS 监听器。"
+          ]
+        },
+        {
+          "name": "-dev-tls-cert-dir",
+          "usage": [
+            "-dev-tls-cert-dir <PATH>"
+          ],
+          "tip": [
+            "启用 -dev-tls 时生成 TLS 文件的目录。"
+          ],
+          "next": [
+            {
+              "name": "./vault-tls",
+              "tip": [
+                "TLS 证书目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-tls-san",
+          "usage": [
+            "-dev-tls-san <NAME>"
+          ],
+          "tip": [
+            "为开发 TLS 证书添加的主题备用名称(作为 DNS 名称或 IP 地址)。"
+          ],
+          "next": [
+            {
+              "name": "localhost",
+              "tip": [
+                "Localhost SAN 标识"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-on-core-shutdown",
+          "tip": [
+            "如果 Vault 核心关闭,则退出 vault 服务器。"
+          ]
+        },
+        {
+          "name": "-experiment",
+          "usage": [
+            "-experiment <NAME>"
+          ],
+          "tip": [
+            "要启用的实验名称。实验不应在生产环境中使用。"
+          ],
+          "next": [
+            {
+              "name": "experiment-name",
+              "tip": [
+                "实验名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Vault 用于记录日志的文件路径"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "日志文件路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "日志格式。支持的值是 standard 和 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 日志格式"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "标准人类可读日志格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "日志详细级别:trace、debug、info、warn 或 error。默认是 info。"
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug 日志级别"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error 日志级别"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 日志级别(默认)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "最详细的日志级别"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning 日志级别"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "日志在需要轮转之前应写入的字节数。"
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB(字节)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "日志在需要轮转之前可以写入的最大时长。"
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "每 24 小时轮转日志"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "保留的旧日志文件归档的最大数量"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "保留 10 个轮转归档"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-pprof-dump-dir",
+          "usage": [
+            "-pprof-dump-dir <PATH>"
+          ],
+          "tip": [
+            "生成的性能分析文件存放目录。"
+          ],
+          "next": [
+            {
+              "name": "pprof",
+              "tip": [
+                "性能分析文件目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-recovery",
+          "tip": [
+            "启用恢复模式。Vault 用于执行恢复操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ssh",
+      "usage": [
+        "ssh [options] username@ip [ssh options]"
+      ],
+      "tip": [
+        "发起 SSH 会话"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-host-key-hostnames",
+          "usage": [
+            "-host-key-hostnames <NAMES>"
+          ],
+          "tip": [
+            "要包含在主机密钥证书中的主机名。"
+          ],
+          "next": [
+            {
+              "name": "example.com",
+              "tip": [
+                "示例主机名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-host-key-mount-point",
+          "usage": [
+            "-host-key-mount-point <PATH>"
+          ],
+          "tip": [
+            "SSH 主机密钥机密引擎的挂载点。"
+          ],
+          "next": [
+            {
+              "name": "host-signer",
+              "tip": [
+                "示例主机签名器挂载点"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-mode",
+          "usage": [
+            "-mode <MODE>"
+          ],
+          "tip": [
+            "认证模式名称:ca、dynamic 或 otp。"
+          ],
+          "next": [
+            {
+              "name": "ca",
+              "tip": [
+                "使用 CA 签发的 SSH 证书"
+              ]
+            },
+            {
+              "name": "dynamic",
+              "tip": [
+                "使用动态生成的密钥"
+              ]
+            },
+            {
+              "name": "otp",
+              "tip": [
+                "使用一次性密码"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-mount-point",
+          "usage": [
+            "-mount-point <PATH>"
+          ],
+          "tip": [
+            "SSH 机密引擎的挂载点。默认是 ssh/。"
+          ],
+          "next": [
+            {
+              "name": "ssh",
+              "tip": [
+                "默认 SSH 机密引擎挂载点"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-exec",
+          "tip": [
+            "打印生成的凭据,但不建立连接。"
+          ]
+        },
+        {
+          "name": "-private-key-path",
+          "usage": [
+            "-private-key-path <PATH>"
+          ],
+          "tip": [
+            "用于认证的 SSH 私钥路径。"
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/id_rsa",
+              "tip": [
+                "默认 SSH 私钥路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-public-key-path",
+          "usage": [
+            "-public-key-path <PATH>"
+          ],
+          "tip": [
+            "用于认证的 SSH 公钥路径。"
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/id_rsa.pub",
+              "tip": [
+                "默认 SSH 公钥路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-role",
+          "usage": [
+            "-role <ROLE>"
+          ],
+          "tip": [
+            "用于生成密钥的角色名称。"
+          ],
+          "next": [
+            {
+              "name": "my-role",
+              "tip": [
+                "示例角色名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ssh-executable",
+          "usage": [
+            "-ssh-executable <PATH>"
+          ],
+          "tip": [
+            "要使用的 SSH 可执行文件路径。"
+          ],
+          "next": [
+            {
+              "name": "ssh",
+              "tip": [
+                "默认 SSH 可执行文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-strict-host-key-checking",
+          "usage": [
+            "-strict-host-key-checking <VALUE>"
+          ],
+          "tip": [
+            "用于 SSH 配置选项 StrictHostKeyChecking 的值。"
+          ],
+          "next": [
+            {
+              "name": "no",
+              "tip": [
+                "不检查主机密钥"
+              ]
+            },
+            {
+              "name": "yes",
+              "tip": [
+                "严格检查主机密钥"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-user-known-hosts-file",
+          "usage": [
+            "-user-known-hosts-file <PATH>"
+          ],
+          "tip": [
+            "用户 known hosts 文件的路径。"
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/known_hosts",
+              "tip": [
+                "默认 known hosts 文件路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-valid-principals",
+          "usage": [
+            "-valid-principals <PRINCIPALS>"
+          ],
+          "tip": [
+            "要包含在证书中的有效主体。"
+          ],
+          "next": [
+            {
+              "name": "username",
+              "tip": [
+                "示例主体"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "打印封签和 HA 状态"
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "与令牌交互"
+      ],
+      "next": [
+        {
+          "name": "capabilities",
+          "usage": [
+            "capabilities [options] PATH"
+          ],
+          "tip": [
+            "打印令牌在路径上的能力"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "将参数视为令牌访问器而不是令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [options]"
+          ],
+          "tip": [
+            "创建新的令牌"
+          ],
+          "option": [
+            {
+              "name": "-display-name",
+              "usage": [
+                "-display-name <NAME>"
+              ],
+              "tip": [
+                "与此令牌关联的名称。"
+              ],
+              "next": [
+                {
+                  "name": "display-name",
+                  "tip": [
+                    "令牌显示名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-entity-alias",
+              "usage": [
+                "-entity-alias <NAME>"
+              ],
+              "tip": [
+                "创建令牌时要关联的实体别名名称。"
+              ],
+              "next": [
+                {
+                  "name": "alias-name",
+                  "tip": [
+                    "实体别名"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-explicit-max-ttl",
+              "usage": [
+                "-explicit-max-ttl <TTL>"
+              ],
+              "tip": [
+                "令牌的显式最大生命周期。不可超过的硬性限制。"
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "最大 TTL 1 小时"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "仅打印指定名称的字段。便于管道传递给其他进程。"
+              ],
+              "next": [
+                {
+                  "name": "token",
+                  "tip": [
+                    "令牌字段"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-id",
+              "usage": [
+                "-id <TOKEN>"
+              ],
+              "tip": [
+                "令牌的值。默认是自动生成的字符串。需要 sudo 权限。"
+              ],
+              "next": [
+                {
+                  "name": "token-id",
+                  "tip": [
+                    "显式令牌 ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-metadata",
+              "usage": [
+                "-metadata <key=value>"
+              ],
+              "tip": [
+                "与令牌关联的任意 key=value 元数据。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "key=value 形式的元数据"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-no-default-policy",
+              "tip": [
+                "从该令牌的策略集中移除默认策略。"
+              ]
+            },
+            {
+              "name": "-orphan",
+              "tip": [
+                "创建无父级的令牌。"
+              ]
+            },
+            {
+              "name": "-period",
+              "usage": [
+                "-period <TTL>"
+              ],
+              "tip": [
+                "如果指定,每次续期都将使用给定的周期。周期令牌不会过期。"
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "周期 1 小时"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-policy",
+              "usage": [
+                "-policy <NAME>"
+              ],
+              "tip": [
+                "与此令牌关联的策略名称。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "policy-name",
+                  "tip": [
+                    "策略名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-renewable",
+              "tip": [
+                "允许令牌续期直至其最大 TTL。默认是 true。"
+              ]
+            },
+            {
+              "name": "-role",
+              "usage": [
+                "-role <NAME>"
+              ],
+              "tip": [
+                "要为其创建令牌的角色名称。"
+              ],
+              "next": [
+                {
+                  "name": "role-name",
+                  "tip": [
+                    "角色名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-ttl",
+              "usage": [
+                "-ttl <TTL>"
+              ],
+              "tip": [
+                "与令牌关联的初始 TTL。"
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "TTL 1 小时"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "要创建的令牌类型:service 或 batch。默认是 service。"
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch 令牌"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service 令牌(默认)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-use-limit",
+              "usage": [
+                "-use-limit <INT>"
+              ],
+              "tip": [
+                "此令牌可以使用的次数。最后一次使用后,令牌会自动撤销。"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 次使用"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup [options]"
+          ],
+          "tip": [
+            "显示令牌信息"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "将参数视为令牌访问器而不是令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "renew",
+          "usage": [
+            "renew [options]"
+          ],
+          "tip": [
+            "续期令牌租约"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "将参数视为令牌访问器而不是令牌。"
+              ]
+            },
+            {
+              "name": "-fail-if-not-fulfilled",
+              "tip": [
+                "如果请求的增量未满足,则失败。"
+              ]
+            },
+            {
+              "name": "-increment",
+              "usage": [
+                "-increment <DURATION>"
+              ],
+              "tip": [
+                "请求租约的特定增量。"
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "续期 1 小时"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [options]"
+          ],
+          "tip": [
+            "撤销令牌及其子令牌"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "将参数视为令牌访问器而不是令牌。"
+              ]
+            },
+            {
+              "name": "-mode",
+              "usage": [
+                "-mode <MODE>"
+              ],
+              "tip": [
+                "撤销模式:orphan、path 或 all。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "撤销令牌及其所有子令牌"
+                  ]
+                },
+                {
+                  "name": "orphan",
+                  "tip": [
+                    "撤销令牌但保留子令牌"
+                  ]
+                },
+                {
+                  "name": "path",
+                  "tip": [
+                    "撤销路径下的所有令牌"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-self",
+              "tip": [
+                "撤销当前令牌。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transform",
+      "tip": [
+        "与 Vault 的 Transform 机密引擎交互"
+      ],
+      "next": [
+        {
+          "name": "import",
+          "usage": [
+            "import PATH KEY [options...]"
+          ],
+          "tip": [
+            "将密钥导入 Transform 机密引擎"
+          ]
+        },
+        {
+          "name": "import-version",
+          "usage": [
+            "import-version PATH KEY [...]"
+          ],
+          "tip": [
+            "将密钥材料导入 Transform 机密引擎中的新密钥版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transit",
+      "tip": [
+        "与 Vault 的 Transit 机密引擎交互"
+      ],
+      "next": [
+        {
+          "name": "import",
+          "usage": [
+            "import PATH KEY [options...]"
+          ],
+          "tip": [
+            "将密钥导入 Transit 机密引擎"
+          ]
+        },
+        {
+          "name": "import-version",
+          "usage": [
+            "import-version PATH KEY [...]"
+          ],
+          "tip": [
+            "将密钥材料导入 Transit 机密引擎中的新密钥版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unwrap",
+      "usage": [
+        "unwrap [options] [TOKEN]"
+      ],
+      "tip": [
+        "解包已包装的机密"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version-history",
+      "tip": [
+        "打印目标 Vault 服务器的版本历史"
+      ]
+    },
+    {
+      "name": "write",
+      "usage": [
+        "write [options] PATH [DATA K=V...]"
+      ],
+      "tip": [
+        "写入数据、配置和机密"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "仅打印指定名称的字段。便于管道传递给其他进程。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "要打印的字段名"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, -force"
+          ],
+          "tip": [
+            "允许 write 操作在没有 key=value 数据对的情况下继续。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-version"
+      ],
+      "usage": [
+        "-version, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-address",
+      "usage": [
+        "-address <ADDR>"
+      ],
+      "tip": [
+        "Vault 服务器的地址。默认是 https://127.0.0.1:8200。也可以通过 VAULT_ADDR 环境变量指定。"
+      ],
+      "next": [
+        {
+          "name": "https://127.0.0.1:8200",
+          "tip": [
+            "默认 Vault 服务器地址"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-agent-address",
+      "usage": [
+        "-agent-address <ADDR>"
+      ],
+      "tip": [
+        "Agent 的地址。也可以通过 VAULT_AGENT_ADDR 环境变量指定。"
+      ],
+      "next": [
+        {
+          "name": "https://127.0.0.1:8200",
+          "tip": [
+            "默认 Agent 地址"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-ca-cert",
+      "usage": [
+        "-ca-cert <PATH>"
+      ],
+      "tip": [
+        "用于验证 Vault 服务器 SSL 证书的单个 PEM 编码 CA 证书路径。优先于 -ca-path。"
+      ],
+      "next": [
+        {
+          "name": "ca.pem",
+          "tip": [
+            "CA 证书文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-ca-path",
+      "usage": [
+        "-ca-path <PATH>"
+      ],
+      "tip": [
+        "用于验证 Vault 服务器 SSL 证书的 PEM 编码 CA 证书目录路径。"
+      ],
+      "next": [
+        {
+          "name": "/etc/vault/certs",
+          "tip": [
+            "CA 证书目录"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-client-cert",
+      "usage": [
+        "-client-cert <PATH>"
+      ],
+      "tip": [
+        "用于向 Vault 服务器进行 TLS 认证的 PEM 编码客户端证书路径。需要 -client-key。"
+      ],
+      "next": [
+        {
+          "name": "client.pem",
+          "tip": [
+            "客户端证书文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-client-key",
+      "usage": [
+        "-client-key <PATH>"
+      ],
+      "tip": [
+        "与 -client-cert 中的客户端证书匹配的 PEM 编码私钥路径。"
+      ],
+      "next": [
+        {
+          "name": "client-key.pem",
+          "tip": [
+            "客户端私钥文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-disable-redirects",
+      "tip": [
+        "禁用默认客户端行为,即遵循请求的单个重定向响应。"
+      ]
+    },
+    {
+      "name": "-format",
+      "usage": [
+        "-format <FORMAT>"
+      ],
+      "tip": [
+        "以给定格式打印输出。有效格式是 table、json、yaml 或 pretty。raw 仅允许用于 vault read 操作。"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 格式"
+          ]
+        },
+        {
+          "name": "pretty",
+          "tip": [
+            "美化打印格式"
+          ]
+        },
+        {
+          "name": "table",
+          "tip": [
+            "表格格式(默认)"
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML 格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-header",
+      "usage": [
+        "-header <key=value>"
+      ],
+      "tip": [
+        "作为 HTTP 请求头添加到 CLI 发出的任何请求中的 key=value 对。禁止以 X-Vault- 开头的请求头。可多次指定。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "key=value",
+          "tip": [
+            "key=value 形式的 HTTP 请求头"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-mfa",
+      "usage": [
+        "-mfa <METHOD=...>"
+      ],
+      "tip": [
+        "提供 MFA 凭据作为 X-Vault-MFA 请求头的一部分。"
+      ],
+      "next": [
+        {
+          "name": "method=value",
+          "tip": [
+            "method=value 形式的 MFA 凭据"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-namespace",
+      "alias": [
+        "-ns"
+      ],
+      "usage": [
+        "-ns, -namespace <NS>"
+      ],
+      "tip": [
+        "命令使用的命名空间。-ns 可用作快捷方式。"
+      ],
+      "next": [
+        {
+          "name": "ns1",
+          "tip": [
+            "示例命名空间"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-non-interactive",
+      "tip": [
+        "设为 true 时,阻止通过终端询问用户输入。"
+      ]
+    },
+    {
+      "name": "-output-curl-string",
+      "tip": [
+        "不执行请求,而是打印等效的 cURL 命令字符串并退出。"
+      ]
+    },
+    {
+      "name": "-output-policy",
+      "tip": [
+        "不执行请求,而是打印运行此命令所需的示例 HCL 策略,并退出。"
+      ]
+    },
+    {
+      "name": "-policy-override",
+      "tip": [
+        "覆盖具有软强制执行级别的 Sentinel 策略。"
+      ]
+    },
+    {
+      "name": "-tls-server-name",
+      "usage": [
+        "-tls-server-name <NAME>"
+      ],
+      "tip": [
+        "通过 TLS 连接 Vault 服务器时用作 SNI 主机的名称。"
+      ],
+      "next": [
+        {
+          "name": "example.com",
+          "tip": [
+            "示例 TLS 服务器名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-tls-skip-verify",
+      "tip": [
+        "禁用 TLS 证书验证。强烈不建议,因为会降低安全性。"
+      ]
+    },
+    {
+      "name": "-unlock-key",
+      "usage": [
+        "-unlock-key <KEY>"
+      ],
+      "tip": [
+        "用于解锁命名空间 API 锁的密钥。"
+      ],
+      "next": [
+        {
+          "name": "key",
+          "tip": [
+            "解锁密钥"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-wrap-ttl",
+      "usage": [
+        "-wrap-ttl <TTL>"
+      ],
+      "tip": [
+        "将响应包装在具有请求 TTL 的 cubbyhole 令牌中。响应可通过 vault unwrap 命令获取。"
+      ],
+      "next": [
+        {
+          "name": "1h",
+          "tip": [
+            "包装 1 小时"
+          ]
+        },
+        {
+          "name": "30s",
+          "tip": [
+            "包装 30 秒"
+          ]
+        },
+        {
+          "name": "5m",
+          "tip": [
+            "包装 5 分钟"
+          ]
+        }
+      ]
+    }
+  ]
+}

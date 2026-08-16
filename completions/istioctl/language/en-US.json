@@ -1,0 +1,3023 @@
+{
+  "meta": {
+    "url": "https://istio.io/",
+    "description": [
+      "The Istio command-line interface"
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "tip": [
+        "Analyze Istio configuration and print validation messages"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "Analyze all namespaces"
+          ]
+        },
+        {
+          "name": "--analyzer",
+          "usage": [
+            "--analyzer <analyzer>"
+          ],
+          "tip": [
+            "Select a specific analyzer to run"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--color",
+          "tip": [
+            "Use color output"
+          ]
+        },
+        {
+          "name": "--failure-threshold",
+          "usage": [
+            "--failure-threshold <level>"
+          ],
+          "tip": [
+            "Exit with a non-zero status when analysis finds issues of this severity or above"
+          ],
+          "next": [
+            {
+              "name": "Error",
+              "tip": [
+                "Error severity (default)"
+              ]
+            },
+            {
+              "name": "Info",
+              "tip": [
+                "Info severity"
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "Warning severity"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-unknown",
+          "tip": [
+            "Don't complain about unregistered configuration"
+          ]
+        },
+        {
+          "name": "--list-analyzers",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --list-analyzers"
+          ],
+          "tip": [
+            "List the available analyzers"
+          ]
+        },
+        {
+          "name": "--meshConfigFile",
+          "usage": [
+            "--meshConfigFile <file>"
+          ],
+          "tip": [
+            "Path to the mesh config file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "log",
+              "tip": [
+                "Log format (default)"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--output-threshold",
+          "usage": [
+            "--output-threshold <level>"
+          ],
+          "tip": [
+            "The severity level of the messages to output"
+          ],
+          "next": [
+            {
+              "name": "Error",
+              "tip": [
+                "Error severity"
+              ]
+            },
+            {
+              "name": "Info",
+              "tip": [
+                "Info severity (default)"
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "Warning severity"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--remote-contexts",
+          "usage": [
+            "--remote-contexts <contexts>"
+          ],
+          "tip": [
+            "Contexts to analyze in remote clusters"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--suppress",
+          "alias": [
+            "-S"
+          ],
+          "usage": [
+            "-S, --suppress <code>"
+          ],
+          "tip": [
+            "Suppress messages with the given code"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "Timeout for the analysis"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-kube",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --use-kube"
+          ],
+          "tip": [
+            "Use kube config for the analysis (default true)"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Verbose output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "authz",
+      "tip": [
+        "A group of commands for authorization policies"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Checks authorization policies"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <file>"
+              ],
+              "tip": [
+                "Inputs to check"
+              ],
+              "next": []
+            },
+            {
+              "name": "--proxy-admin-port",
+              "usage": [
+                "--proxy-admin-port <port>"
+              ],
+              "tip": [
+                "Address of the admin interface of the proxy"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bug-report",
+      "tip": [
+        "Cluster information and log capture support for reporting bugs"
+      ],
+      "next": [
+        {
+          "name": "version",
+          "tip": [
+            "Prints the version"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "Output format"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--short",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --short"
+              ],
+              "tip": [
+                "Displays a short form of the version information"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "Generate the autocompletion script for the specified shell"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate powershell completion script"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create-remote-secret",
+      "tip": [
+        "Create a secret with credentials to allow Istio to access remote Kubernetes APIs"
+      ],
+      "option": [
+        {
+          "name": "--auth-plugin-config",
+          "usage": [
+            "--auth-plugin-config <config>"
+          ],
+          "tip": [
+            "Kubernetes auth plugin configuration to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--auth-plugin-name",
+          "usage": [
+            "--auth-plugin-name <name>"
+          ],
+          "tip": [
+            "Kubernetes auth plugin name to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--auth-type",
+          "usage": [
+            "--auth-type <type>"
+          ],
+          "tip": [
+            "The type of authentication"
+          ],
+          "next": [
+            {
+              "name": "bearer-token",
+              "tip": [
+                "Bearer token authentication (default)"
+              ]
+            },
+            {
+              "name": "plugin",
+              "tip": [
+                "Plugin authentication"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--create-service-account",
+          "tip": [
+            "Create a service account to use for authentication (default true)"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "Path to the manifests"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "Name of the secret"
+          ],
+          "next": []
+        },
+        {
+          "name": "--secret-name",
+          "usage": [
+            "--secret-name <name>"
+          ],
+          "tip": [
+            "Name of the secret"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <server>"
+          ],
+          "tip": [
+            "The address of the Kubernetes API server"
+          ],
+          "next": []
+        },
+        {
+          "name": "--service-account",
+          "usage": [
+            "--service-account <name>"
+          ],
+          "tip": [
+            "Service account to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tls-server-name",
+          "usage": [
+            "--tls-server-name <name>"
+          ],
+          "tip": [
+            "The TLS server name"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <type>"
+          ],
+          "tip": [
+            "Type of the secret"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "Config secret type"
+              ]
+            },
+            {
+              "name": "remote",
+              "tip": [
+                "Remote secret type (default)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dashboard",
+      "alias": [
+        "dash",
+        "d"
+      ],
+      "usage": [
+        "d|dash|dashboard <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Open a web dashboard for the specified component"
+      ],
+      "option": [
+        {
+          "name": "--address",
+          "usage": [
+            "--address <address>"
+          ],
+          "tip": [
+            "Address to listen on"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "Open the browser (default true)"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <port>"
+          ],
+          "tip": [
+            "Local port to listen on"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "controlz",
+          "tip": [
+            "Open ControlZ web UI"
+          ]
+        },
+        {
+          "name": "envoy",
+          "tip": [
+            "Open Envoy dashboard"
+          ]
+        },
+        {
+          "name": "grafana",
+          "tip": [
+            "Open Grafana web UI"
+          ]
+        },
+        {
+          "name": "istiod-debug",
+          "tip": [
+            "Open Istiod debug dashboard"
+          ]
+        },
+        {
+          "name": "jaeger",
+          "tip": [
+            "Open Jaeger web UI"
+          ]
+        },
+        {
+          "name": "kiali",
+          "tip": [
+            "Open Kiali web UI"
+          ]
+        },
+        {
+          "name": "prometheus",
+          "tip": [
+            "Open Prometheus web UI"
+          ]
+        },
+        {
+          "name": "proxy",
+          "tip": [
+            "Open Envoy dashboard"
+          ]
+        },
+        {
+          "name": "skywalking",
+          "tip": [
+            "Open SkyWalking UI"
+          ]
+        },
+        {
+          "name": "zipkin",
+          "tip": [
+            "Open Zipkin web UI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "experimental",
+      "alias": [
+        "exp",
+        "x"
+      ],
+      "usage": [
+        "x|exp|experimental <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Experimental commands that may be modified or deprecated at any time"
+      ],
+      "next": [
+        {
+          "name": "authz",
+          "next": [
+            {
+              "name": "check",
+              "tip": [
+                "Checks authorization policies"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "check-inject",
+          "tip": [
+            "Check for sidecar injection"
+          ]
+        },
+        {
+          "name": "config",
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List the configuration"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "describe",
+          "next": [
+            {
+              "name": "pod",
+              "alias": [
+                "po"
+              ],
+              "usage": [
+                "po|pod <NAME>"
+              ],
+              "tip": [
+                "Describe pod"
+              ]
+            },
+            {
+              "name": "service",
+              "alias": [
+                "svc"
+              ],
+              "usage": [
+                "svc|service <NAME>"
+              ],
+              "tip": [
+                "Describe service"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "envoy-stats",
+          "alias": [
+            "es"
+          ],
+          "usage": [
+            "es|envoy-stats <NAME>"
+          ],
+          "tip": [
+            "Retrieve Envoy metrics"
+          ]
+        },
+        {
+          "name": "injector",
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List the injectors"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "internal-debug",
+          "tip": [
+            "Retrieves the internal debugging information for the specified pod"
+          ]
+        },
+        {
+          "name": "metrics",
+          "alias": [
+            "m"
+          ],
+          "usage": [
+            "m|metrics <NAME>"
+          ],
+          "tip": [
+            "Retrieve metrics for the specified pod"
+          ]
+        },
+        {
+          "name": "precheck",
+          "tip": [
+            "Checks whether the installation can be upgraded"
+          ]
+        },
+        {
+          "name": "proxy-status",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|proxy-status [NAME]"
+          ],
+          "tip": [
+            "Retrieves the sync status of each Envoy in the mesh"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Prints the version"
+          ]
+        },
+        {
+          "name": "workload",
+          "next": [
+            {
+              "name": "entry",
+              "next": [
+                {
+                  "name": "configure",
+                  "tip": [
+                    "Configure the workload entry"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "group",
+              "next": [
+                {
+                  "name": "create",
+                  "tip": [
+                    "Create a workload group"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Help about any command"
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "apply"
+      ],
+      "usage": [
+        "apply|install"
+      ],
+      "tip": [
+        "Install the Istio control plane"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print the configuration without applying it"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "Input files"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Proceed even if the validation fails"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "Path to the manifests"
+          ],
+          "next": []
+        },
+        {
+          "name": "--readiness-timeout",
+          "usage": [
+            "--readiness-timeout <duration>"
+          ],
+          "tip": [
+            "Timeout for the readiness check"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "Override values"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "Skip the confirmation prompt"
+          ]
+        },
+        {
+          "name": "--verify",
+          "tip": [
+            "Verify the installation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "istiod",
+      "alias": [
+        "admin"
+      ],
+      "usage": [
+        "admin|istiod <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Commands to interact with the Istiod controller"
+      ],
+      "option": [
+        {
+          "name": "--selector",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --selector <selector>"
+          ],
+          "tip": [
+            "Label selector (default app=istiod)"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "log",
+          "alias": [
+            "l"
+          ],
+          "usage": [
+            "l|log"
+          ],
+          "tip": [
+            "Retrieves the logging level for or sets the logging level for istiod"
+          ],
+          "option": [
+            {
+              "name": "--ctrlz_port",
+              "usage": [
+                "--ctrlz_port <port>"
+              ],
+              "tip": [
+                "Address of the admin interface"
+              ],
+              "next": []
+            },
+            {
+              "name": "--level",
+              "usage": [
+                "--level <level>"
+              ],
+              "tip": [
+                "Comma-separated minimum per-scope logging level"
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "Debug level"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Error level"
+                  ]
+                },
+                {
+                  "name": "fatal",
+                  "tip": [
+                    "Fatal level"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Info level"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "None level"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "Warn level"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--log-reset",
+              "tip": [
+                "Reset the log levels"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "Output format"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "short",
+                  "tip": [
+                    "Short format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "Reset the log levels"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stack-trace-level",
+              "usage": [
+                "--stack-trace-level <level>"
+              ],
+              "tip": [
+                "Comma-separated minimum per-scope logging level to print stack trace"
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "Debug level"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Error level"
+                  ]
+                },
+                {
+                  "name": "fatal",
+                  "tip": [
+                    "Fatal level"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Info level"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "None level"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "Warn level"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--stack-trace-reset",
+              "tip": [
+                "Reset the stack trace levels"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kube-inject",
+      "tip": [
+        "Inject Istio sidecar into Kubernetes pod resources"
+      ],
+      "option": [
+        {
+          "name": "--authority",
+          "usage": [
+            "--authority <authority>"
+          ],
+          "tip": [
+            "The authority header"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cert-dir",
+          "usage": [
+            "--cert-dir <dir>"
+          ],
+          "tip": [
+            "Path to the certificates"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "Input file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--injectConfigFile",
+          "usage": [
+            "--injectConfigFile <file>"
+          ],
+          "tip": [
+            "Path to the inject config file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "Skip the TLS verification"
+          ]
+        },
+        {
+          "name": "--meshConfigFile",
+          "usage": [
+            "--meshConfigFile <file>"
+          ],
+          "tip": [
+            "Path to the mesh config file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--meshConfigMapName",
+          "usage": [
+            "--meshConfigMapName <name>"
+          ],
+          "tip": [
+            "Name of the mesh config map"
+          ],
+          "next": []
+        },
+        {
+          "name": "--operatorFileName",
+          "usage": [
+            "--operatorFileName <file>"
+          ],
+          "tip": [
+            "Path to the operator config file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "Output file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--plaintext",
+          "tip": [
+            "Use plaintext for the connection"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "Timeout of the command"
+          ],
+          "next": []
+        },
+        {
+          "name": "--valuesFile",
+          "usage": [
+            "--valuesFile <file>"
+          ],
+          "tip": [
+            "Path to the values file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--webhookConfig",
+          "usage": [
+            "--webhookConfig <file>"
+          ],
+          "tip": [
+            "Path to the webhook config file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-address",
+          "usage": [
+            "--xds-address <address>"
+          ],
+          "tip": [
+            "Address of the XDS server"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-label",
+          "usage": [
+            "--xds-label <label>"
+          ],
+          "tip": [
+            "Label of the XDS server"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-port",
+          "usage": [
+            "--xds-port <port>"
+          ],
+          "tip": [
+            "Port of the XDS server"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "Commands for the manifest of the Istio control plane"
+      ],
+      "next": [
+        {
+          "name": "generate",
+          "tip": [
+            "Generate the manifest"
+          ],
+          "option": [
+            {
+              "name": "--cluster-specific",
+              "tip": [
+                "Generate the cluster-specific manifest"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Print the configuration without applying it"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "Input files"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Proceed even if the validation fails"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "Path to the manifests"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "Override values"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "apply"
+          ],
+          "usage": [
+            "apply|install"
+          ],
+          "tip": [
+            "Install the manifest"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Print the configuration without applying it"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "Input files"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Proceed even if the validation fails"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "Path to the manifests"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "Override values"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "Skip the confirmation prompt"
+              ]
+            },
+            {
+              "name": "--verify",
+              "tip": [
+                "Verify the installation"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "translate",
+          "tip": [
+            "Translate the configuration"
+          ],
+          "option": [
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <file>"
+              ],
+              "tip": [
+                "Input files"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "Path to the manifests"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file>"
+              ],
+              "tip": [
+                "Output file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--set",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --set <values>"
+              ],
+              "tip": [
+                "Override values"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy-config",
+      "alias": [
+        "pc"
+      ],
+      "usage": [
+        "pc|proxy-config <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Retrieves information about proxy configuration from Envoy"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "Short format (default)"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "Address of the admin interface of the proxy"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "alias": [
+            "a"
+          ],
+          "usage": [
+            "a|all <POD>"
+          ],
+          "tip": [
+            "Retrieve information about all configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "bootstrap",
+          "alias": [
+            "b"
+          ],
+          "usage": [
+            "b|bootstrap <POD>"
+          ],
+          "tip": [
+            "Retrieve information about bootstrap configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "clusters",
+          "alias": [
+            "cluster",
+            "c"
+          ],
+          "usage": [
+            "c|cluster|clusters <POD>"
+          ],
+          "tip": [
+            "Retrieve information about cluster configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "ecds",
+          "alias": [
+            "ec"
+          ],
+          "usage": [
+            "ec|ecds <POD>"
+          ],
+          "tip": [
+            "Retrieve information about typed extension configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "endpoints",
+          "alias": [
+            "endpoint",
+            "ep"
+          ],
+          "usage": [
+            "ep|endpoint|endpoints <POD>"
+          ],
+          "tip": [
+            "Retrieve information about endpoint configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "listeners",
+          "alias": [
+            "listener",
+            "l"
+          ],
+          "usage": [
+            "l|listener|listeners <POD>"
+          ],
+          "tip": [
+            "Retrieve information about listener configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "log",
+          "alias": [
+            "o"
+          ],
+          "usage": [
+            "o|log <POD>"
+          ],
+          "tip": [
+            "Retrieves the logging level for or sets the logging level for the specified Envoy instance"
+          ],
+          "option": [
+            {
+              "name": "--level",
+              "usage": [
+                "--level <level>"
+              ],
+              "tip": [
+                "Comma-separated minimum per-scope logging level"
+              ],
+              "next": [
+                {
+                  "name": "critical",
+                  "tip": [
+                    "Critical level"
+                  ]
+                },
+                {
+                  "name": "debug",
+                  "tip": [
+                    "Debug level"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Error level"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Info level"
+                  ]
+                },
+                {
+                  "name": "off",
+                  "tip": [
+                    "Off level"
+                  ]
+                },
+                {
+                  "name": "trace",
+                  "tip": [
+                    "Trace level"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Warning level"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--reset",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --reset"
+              ],
+              "tip": [
+                "Reset the logging levels"
+              ]
+            },
+            {
+              "name": "--selector",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --selector <selector>"
+              ],
+              "tip": [
+                "Label selector"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rootca-compare",
+          "alias": [
+            "rc"
+          ],
+          "usage": [
+            "rc|rootca-compare <POD>"
+          ],
+          "tip": [
+            "Compare the root certificates of the proxies"
+          ]
+        },
+        {
+          "name": "routes",
+          "alias": [
+            "route",
+            "r"
+          ],
+          "usage": [
+            "r|route|routes <POD>"
+          ],
+          "tip": [
+            "Retrieve information about route configuration for the Envoy instance"
+          ]
+        },
+        {
+          "name": "secrets",
+          "alias": [
+            "secret",
+            "s"
+          ],
+          "usage": [
+            "s|secret|secrets <POD>"
+          ],
+          "tip": [
+            "Retrieve information about secret configuration for the Envoy instance"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy-status",
+      "alias": [
+        "ps"
+      ],
+      "usage": [
+        "ps|proxy-status [NAME]"
+      ],
+      "tip": [
+        "Retrieves the sync status of each Envoy in the mesh"
+      ],
+      "option": [
+        {
+          "name": "--authority",
+          "usage": [
+            "--authority <authority>"
+          ],
+          "tip": [
+            "The authority header"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cert-dir",
+          "usage": [
+            "--cert-dir <dir>"
+          ],
+          "tip": [
+            "Path to the certificates"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <file>"
+          ],
+          "tip": [
+            "Read the information from a file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--insecure",
+          "tip": [
+            "Skip the TLS verification"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "Table format (default)"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--plaintext",
+          "tip": [
+            "Use plaintext for the connection"
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "Address of the admin interface of the proxy"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <duration>"
+          ],
+          "tip": [
+            "Timeout of the command"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbosity",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbosity <int>"
+          ],
+          "tip": [
+            "Verbosity of the output"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-address",
+          "usage": [
+            "--xds-address <address>"
+          ],
+          "tip": [
+            "Address of the XDS server"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-label",
+          "usage": [
+            "--xds-label <label>"
+          ],
+          "tip": [
+            "Label of the XDS server"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xds-port",
+          "usage": [
+            "--xds-port <port>"
+          ],
+          "tip": [
+            "Port of the XDS server"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "remote-clusters",
+      "tip": [
+        "Lists all clusters that are part of the mesh"
+      ],
+      "option": [
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "tag",
+      "tip": [
+        "Command to work with revision tags"
+      ],
+      "next": [
+        {
+          "name": "generate",
+          "usage": [
+            "generate <revision-tag>"
+          ],
+          "tip": [
+            "Generate the manifest for the revision tag"
+          ],
+          "option": [
+            {
+              "name": "--auto-inject-namespaces",
+              "tip": [
+                "Enable automatic injection in the namespaces"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "Path to the manifests"
+              ],
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "Overwrite the existing tag"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "Skip the confirmation prompt"
+              ]
+            },
+            {
+              "name": "--webhook-name",
+              "usage": [
+                "--webhook-name <name>"
+              ],
+              "tip": [
+                "Name of the webhook"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "show"
+          ],
+          "usage": [
+            "list|show"
+          ],
+          "tip": [
+            "List the revision tags"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "Output format"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "Table format (default)"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete"
+          ],
+          "usage": [
+            "delete|remove <revision-tag>"
+          ],
+          "tip": [
+            "Remove the revision tag"
+          ],
+          "option": [
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "Skip the confirmation prompt"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <revision-tag>"
+          ],
+          "tip": [
+            "Set the revision tag"
+          ],
+          "option": [
+            {
+              "name": "--auto-inject-namespaces",
+              "tip": [
+                "Enable automatic injection in the namespaces"
+              ]
+            },
+            {
+              "name": "--manifests",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --manifests <dir>"
+              ],
+              "tip": [
+                "Path to the manifests"
+              ],
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "Overwrite the existing tag"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-confirmation",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --skip-confirmation"
+              ],
+              "tip": [
+                "Skip the confirmation prompt"
+              ]
+            },
+            {
+              "name": "--webhook-name",
+              "usage": [
+                "--webhook-name <name>"
+              ],
+              "tip": [
+                "Name of the webhook"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "Uninstall the Istio control plane"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print the configuration without applying it"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "Input file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Proceed even if the validation fails"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "Path to the manifests"
+          ],
+          "next": []
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "Purge all the resources"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "Override values"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "Skip the confirmation prompt"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Verbose output"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "Upgrade the Istio control plane"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print the configuration without applying it"
+          ]
+        },
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "Input files"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Proceed even if the validation fails"
+          ]
+        },
+        {
+          "name": "--manifests",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --manifests <dir>"
+          ],
+          "tip": [
+            "Path to the manifests"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --set <values>"
+          ],
+          "tip": [
+            "Override values"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-confirmation",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --skip-confirmation"
+          ],
+          "tip": [
+            "Skip the confirmation prompt"
+          ]
+        },
+        {
+          "name": "--verify",
+          "tip": [
+            "Verify the installation"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "alias": [
+        "v"
+      ],
+      "usage": [
+        "v|validate"
+      ],
+      "tip": [
+        "Validate Istio configuration"
+      ],
+      "option": [
+        {
+          "name": "--filename",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filename <file>"
+          ],
+          "tip": [
+            "Input files"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Prints out build version information"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--remote",
+          "tip": [
+            "Print the version of the remote cluster"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <revision>"
+          ],
+          "tip": [
+            "Istio revision to use"
+          ],
+          "next": []
+        },
+        {
+          "name": "--short",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --short"
+          ],
+          "tip": [
+            "Displays a short form of the version information"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "waypoint",
+      "tip": [
+        "Manage waypoint configurations"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "Name of the waypoint (default waypoint)"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "Apply the waypoint configuration"
+          ],
+          "option": [
+            {
+              "name": "--enroll-namespace",
+              "tip": [
+                "Enroll the namespace"
+              ]
+            },
+            {
+              "name": "--for",
+              "usage": [
+                "--for <service>"
+              ],
+              "tip": [
+                "Service to generate the waypoint for"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Generate for all services"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "Generate for no service"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Generate for the service"
+                  ]
+                },
+                {
+                  "name": "workload",
+                  "tip": [
+                    "Generate for the workload"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "Overwrite the existing waypoint"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wait",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait"
+              ],
+              "tip": [
+                "Wait for the waypoint to be ready"
+              ]
+            },
+            {
+              "name": "--waypoint-timeout",
+              "usage": [
+                "--waypoint-timeout <duration>"
+              ],
+              "tip": [
+                "Timeout for the waypoint"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "Delete the waypoint configuration"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Delete all the waypoints"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "generate",
+          "tip": [
+            "Generate the waypoint configuration"
+          ],
+          "option": [
+            {
+              "name": "--for",
+              "usage": [
+                "--for <service>"
+              ],
+              "tip": [
+                "Service to generate the waypoint for"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Generate for all services"
+                  ]
+                },
+                {
+                  "name": "none",
+                  "tip": [
+                    "Generate for no service"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Generate for the service"
+                  ]
+                },
+                {
+                  "name": "workload",
+                  "tip": [
+                    "Generate for the workload"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <revision>"
+              ],
+              "tip": [
+                "Istio revision to use"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List the waypoints"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "List in all namespaces"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Status of the waypoint"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "Status in all namespaces"
+              ]
+            },
+            {
+              "name": "--wait",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait"
+              ],
+              "tip": [
+                "Wait for the status (default true)"
+              ]
+            },
+            {
+              "name": "--waypoint-timeout",
+              "usage": [
+                "--waypoint-timeout <duration>"
+              ],
+              "tip": [
+                "Timeout for the waypoint"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ztunnel-config",
+      "alias": [
+        "zc"
+      ],
+      "usage": [
+        "zc|ztunnel-config <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Retrieves information about ztunnel configuration"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <file>"
+          ],
+          "tip": [
+            "Read the information from a file"
+          ],
+          "next": []
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <node>"
+          ],
+          "tip": [
+            "The node to retrieve the information from"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "Short format"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--proxy-admin-port",
+          "usage": [
+            "--proxy-admin-port <port>"
+          ],
+          "tip": [
+            "Address of the admin interface of the proxy"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Retrieve information about all ztunnel configuration"
+          ]
+        },
+        {
+          "name": "certificates",
+          "alias": [
+            "certificate",
+            "certs",
+            "cert"
+          ],
+          "usage": [
+            "cert|certs|certificate|certificates"
+          ],
+          "tip": [
+            "Retrieve information about certificate configuration"
+          ]
+        },
+        {
+          "name": "connections",
+          "alias": [
+            "cons"
+          ],
+          "usage": [
+            "cons|connections"
+          ],
+          "tip": [
+            "Retrieve information about connection configuration"
+          ]
+        },
+        {
+          "name": "log",
+          "alias": [
+            "o"
+          ],
+          "usage": [
+            "o|log"
+          ],
+          "tip": [
+            "Retrieves the logging level for or sets the logging level for ztunnel"
+          ]
+        },
+        {
+          "name": "policies",
+          "alias": [
+            "policy",
+            "pol",
+            "p"
+          ],
+          "usage": [
+            "p|pol|policy|policies"
+          ],
+          "tip": [
+            "Retrieve information about policy configuration"
+          ]
+        },
+        {
+          "name": "services",
+          "alias": [
+            "service",
+            "svc",
+            "s"
+          ],
+          "usage": [
+            "s|svc|service|services"
+          ],
+          "tip": [
+            "Retrieve information about service configuration"
+          ]
+        },
+        {
+          "name": "workloads",
+          "alias": [
+            "workload",
+            "w"
+          ],
+          "usage": [
+            "w|workload|workloads"
+          ],
+          "tip": [
+            "Retrieve information about workload configuration"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--as",
+      "usage": [
+        "--as <user>"
+      ],
+      "tip": [
+        "Username to impersonate"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <groups>"
+      ],
+      "tip": [
+        "Groups to impersonate"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <uid>"
+      ],
+      "tip": [
+        "Uid to impersonate"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <name>"
+      ],
+      "tip": [
+        "Kube context to use"
+      ],
+      "next": []
+    },
+    {
+      "name": "--istioNamespace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --istioNamespace <namespace>"
+      ],
+      "tip": [
+        "Istio system namespace (default istio-system)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kubeclient-timeout",
+      "usage": [
+        "--kubeclient-timeout <timeout>"
+      ],
+      "tip": [
+        "Timeout for the kube client"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kubeconfig",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --kubeconfig <file>"
+      ],
+      "tip": [
+        "Path to the kubeconfig file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <namespace>"
+      ],
+      "tip": [
+        "Kubernetes namespace"
+      ],
+      "next": []
+    },
+    {
+      "name": "--vklog",
+      "usage": [
+        "--vklog <level>"
+      ],
+      "tip": [
+        "Log level for V logs"
+      ],
+      "next": []
+    }
+  ]
+}

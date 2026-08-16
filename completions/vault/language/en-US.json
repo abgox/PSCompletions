@@ -1,0 +1,7159 @@
+{
+  "meta": {
+    "url": "https://www.vaultproject.io",
+    "description": [
+      "HashiCorp Vault - manage secrets and protect sensitive data."
+    ]
+  },
+  "next": [
+    {
+      "name": "agent",
+      "tip": [
+        "Start a Vault agent"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a configuration file or directory of configuration files."
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-after-auth",
+          "tip": [
+            "Exit after running the agent, whether or not authentication succeeded."
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Path to the log file that Vault should use for logging"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "Log file path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "Log format. Supported values are standard and json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON log format"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "Standard human-readable log format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "Log verbosity level: trace, debug, info, warn, or error. The default is info."
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug log level"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error log level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info log level (default)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "Most verbose log level"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning log level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "Number of bytes that should be written to a log before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB in bytes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "The maximum duration a log should be written to before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "Rotate logs every 24 hours"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "The maximum number of older log file archives to keep"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Keep 10 rotated archives"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Interact with audit devices"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "Disables an audit device"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE [CONFIG K=V...]"
+          ],
+          "tip": [
+            "Enables an audit device"
+          ],
+          "option": [
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "Human-friendly description of the purpose for the audit device."
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "Audit device description"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "Mark the audit device as a local-only device."
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "Place where the audit device will be accessible."
+              ],
+              "next": [
+                {
+                  "name": "file",
+                  "tip": [
+                    "Example audit device path"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Lists enabled audit devices"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "Enables additional metadata during some operations."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "tip": [
+        "Interact with auth methods"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "Disables an auth method"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE"
+          ],
+          "tip": [
+            "Enables a new auth method"
+          ],
+          "option": [
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to allow and pass through from the plugin response to the client."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Response header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the request data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Request key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the response data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Response key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The default lease duration for tokens issued by this auth method."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Default lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "Human-friendly description of the purpose for the auth method."
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "Auth method description"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-external-entropy-access",
+              "tip": [
+                "Enable access to the external entropy source."
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "The key to use for signing identity tokens."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Identity token signing key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "Determines the listing visibility of the mount."
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "Hidden from listing"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "Listed without authentication"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "Mark the auth method as a local-only method."
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The maximum lease duration for tokens issued by this auth method."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Maximum lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "Key-value pair of options to pass to the auth method."
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Option as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "Override the pinned plugin version."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Use pinned version"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Override pinned version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to pass through to the plugin from the client request."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Request header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "Place where the auth method will be accessible."
+              ],
+              "next": [
+                {
+                  "name": "userpass",
+                  "tip": [
+                    "Example auth method path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-name",
+              "usage": [
+                "-plugin-name <NAME>"
+              ],
+              "tip": [
+                "Name of the auth method plugin."
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "Plugin name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to use."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-seal-wrap",
+              "tip": [
+                "Enable seal wrapping of critical values."
+              ]
+            },
+            {
+              "name": "-token-type",
+              "usage": [
+                "-token-type <TYPE>"
+              ],
+              "tip": [
+                "The token type to use for this auth method."
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch token"
+                  ]
+                },
+                {
+                  "name": "default-batch",
+                  "tip": [
+                    "Batch token by default"
+                  ]
+                },
+                {
+                  "name": "default-service",
+                  "tip": [
+                    "Service token by default"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service token"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "Trim trailing slashes on incoming requests."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Keep trailing slashes"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Trim trailing slashes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Select the version of the auth method to run."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [options] TYPE | PATH"
+          ],
+          "tip": [
+            "Prints usage for an auth method"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Lists enabled auth methods"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "Enables additional metadata during some operations."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move [options] SOURCE DESTINATION"
+          ],
+          "tip": [
+            "Move an auth method to a new path"
+          ]
+        },
+        {
+          "name": "tune",
+          "usage": [
+            "tune [options] PATH"
+          ],
+          "tip": [
+            "Tunes an auth method configuration"
+          ],
+          "option": [
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to allow and pass through from the plugin response to the client."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Response header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the request data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Request key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the response data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Response key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The default lease duration for tokens issued by this auth method."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Default lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "Human-friendly description of the purpose for the auth method."
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "Auth method description"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "The key to use for signing identity tokens."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Identity token signing key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "Determines the listing visibility of the mount."
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "Hidden from listing"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "Listed without authentication"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The maximum lease duration for tokens issued by this auth method."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Maximum lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "Key-value pair of options to pass to the auth method."
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Option as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "Override the pinned plugin version."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Use pinned version"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Override pinned version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to pass through to the plugin from the client request."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Request header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to use."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-token-type",
+              "usage": [
+                "-token-type <TYPE>"
+              ],
+              "tip": [
+                "The token type to use for this auth method."
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch token"
+                  ]
+                },
+                {
+                  "name": "default-batch",
+                  "tip": [
+                    "Batch token by default"
+                  ]
+                },
+                {
+                  "name": "default-service",
+                  "tip": [
+                    "Service token by default"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service token"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "Trim trailing slashes on incoming requests."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Keep trailing slashes"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Trim trailing slashes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-counter-reset-duration",
+              "usage": [
+                "-user-lockout-counter-reset-duration <DURATION>"
+              ],
+              "tip": [
+                "Duration after which failed login attempts are reset."
+              ],
+              "next": [
+                {
+                  "name": "15m",
+                  "tip": [
+                    "Reset failed attempts after 15 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-disable",
+              "usage": [
+                "-user-lockout-disable <BOOL>"
+              ],
+              "tip": [
+                "Disable user lockout for this auth method."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Enable user lockout"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Disable user lockout"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-duration",
+              "usage": [
+                "-user-lockout-duration <DURATION>"
+              ],
+              "tip": [
+                "Duration for which a user is locked out after exceeding the threshold."
+              ],
+              "next": [
+                {
+                  "name": "15m",
+                  "tip": [
+                    "Lock out for 15 minutes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-user-lockout-threshold",
+              "usage": [
+                "-user-lockout-threshold <INT>"
+              ],
+              "tip": [
+                "Number of failed login attempts before a user is locked out."
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "Lock out after 5 failed attempts"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Select the version of the auth method to run."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "tip": [
+        "Runs the debug command"
+      ],
+      "option": [
+        {
+          "name": "-compress",
+          "tip": [
+            "Toggles whether to compress the output package. The default is true."
+          ]
+        },
+        {
+          "name": "-duration",
+          "usage": [
+            "-duration <DURATION>"
+          ],
+          "tip": [
+            "Duration to run the command. The default is 2m0s."
+          ],
+          "next": [
+            {
+              "name": "2m",
+              "tip": [
+                "Default duration"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-interval",
+          "usage": [
+            "-interval <DURATION>"
+          ],
+          "tip": [
+            "The polling interval at which to collect profiling data and server state. The default is 30s."
+          ],
+          "next": [
+            {
+              "name": "30s",
+              "tip": [
+                "Default polling interval"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "Log format. Supported values are standard and json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON log format"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "Standard human-readable log format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-metrics-interval",
+          "usage": [
+            "-metrics-interval <DURATION>"
+          ],
+          "tip": [
+            "The polling interval at which to collect metrics data. The default is 10s."
+          ],
+          "next": [
+            {
+              "name": "10s",
+              "tip": [
+                "Default metrics polling interval"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-output",
+          "usage": [
+            "-output <PATH>"
+          ],
+          "tip": [
+            "Specifies the output path for the debug package."
+          ],
+          "next": [
+            {
+              "name": "debug-bundle.tar.gz",
+              "tip": [
+                "Example debug output path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <TARGET>"
+          ],
+          "tip": [
+            "Target to capture, defaulting to all if none specified. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "Capture the server configuration"
+              ]
+            },
+            {
+              "name": "host",
+              "tip": [
+                "Capture host information"
+              ]
+            },
+            {
+              "name": "metrics",
+              "tip": [
+                "Capture metrics"
+              ]
+            },
+            {
+              "name": "pprof",
+              "tip": [
+                "Capture pprof profiles"
+              ]
+            },
+            {
+              "name": "server-status",
+              "tip": [
+                "Capture the server status"
+              ]
+            },
+            {
+              "name": "storage",
+              "tip": [
+                "Capture storage information"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "usage": [
+        "delete [options] PATH"
+      ],
+      "tip": [
+        "Delete secrets and configuration"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "events",
+      "tip": [
+        "Interact with Vault events"
+      ],
+      "next": [
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [options] eventType"
+          ],
+          "tip": [
+            "Subscribe to events of the given event type (topic), which may be a glob pattern."
+          ],
+          "option": [
+            {
+              "name": "-filter",
+              "usage": [
+                "-filter <EXPR>"
+              ],
+              "tip": [
+                "A boolean expression used to filter events."
+              ],
+              "next": [
+                {
+                  "name": "filter-expression",
+                  "tip": [
+                    "Boolean filter expression"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-namespaces",
+              "usage": [
+                "-namespaces <NS>"
+              ],
+              "tip": [
+                "Patterns of additional child namespaces to subscribe to. Patterns can include * wildcards."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "*",
+                  "tip": [
+                    "Wildcard for all child namespaces"
+                  ]
+                },
+                {
+                  "name": "ns1",
+                  "tip": [
+                    "Example child namespace"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcp",
+      "tip": [
+        "Interact with HCP Vault"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "tip": [
+            "Connect to an HCP Vault Cluster"
+          ],
+          "option": [
+            {
+              "name": "-client-id",
+              "usage": [
+                "-client-id <ID>"
+              ],
+              "tip": [
+                "HCP service principal client ID."
+              ],
+              "next": [
+                {
+                  "name": "client-id",
+                  "tip": [
+                    "Service principal client ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-cluster-id",
+              "usage": [
+                "-cluster-id <NAME>"
+              ],
+              "tip": [
+                "HCP Vault cluster name to connect to."
+              ],
+              "next": [
+                {
+                  "name": "cluster-name",
+                  "tip": [
+                    "Cluster name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-organization-id",
+              "usage": [
+                "-organization-id <ID>"
+              ],
+              "tip": [
+                "HCP organization ID to connect to."
+              ],
+              "next": [
+                {
+                  "name": "org-uuid",
+                  "tip": [
+                    "Organization UUID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-project-id",
+              "usage": [
+                "-project-id <ID>"
+              ],
+              "tip": [
+                "HCP project ID to connect to."
+              ],
+              "next": [
+                {
+                  "name": "project-uuid",
+                  "tip": [
+                    "Project UUID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-secret-id",
+              "usage": [
+                "-secret-id <SECRET>"
+              ],
+              "tip": [
+                "HCP service principal secret ID."
+              ],
+              "next": [
+                {
+                  "name": "secret-id",
+                  "tip": [
+                    "Service principal secret ID"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "Disconnect from the HCP Vault Cluster"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kv",
+      "tip": [
+        "Interact with Vault's Key-Value storage"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] PATH"
+          ],
+          "tip": [
+            "Deletes versions in the KV store"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "Specifies the versions to delete. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "destroy",
+          "usage": [
+            "destroy [options] KEY"
+          ],
+          "tip": [
+            "Permanently removes one or more versions in the KV store"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "Specifies the versions to destroy. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "enable-versioning",
+          "usage": [
+            "enable-versioning [options] KEY"
+          ],
+          "tip": [
+            "Turns on versioning for a KV store"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get [options] KEY"
+          ],
+          "tip": [
+            "Retrieves data from the KV store"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Specifies the version to retrieve."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] PATH"
+          ],
+          "tip": [
+            "List data or secrets"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Interact with Vault's Key-Value storage metadata"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete [options] PATH"
+              ],
+              "tip": [
+                "Deletes all versions and metadata for a key in the KV store"
+              ],
+              "option": [
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "Path where the KV backend is mounted."
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "Default KV v2 mount"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [options] KEY"
+              ],
+              "tip": [
+                "Retrieves key metadata from the KV store"
+              ],
+              "option": [
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "Path where the KV backend is mounted."
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "Default KV v2 mount"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "usage": [
+                "patch [options] KEY"
+              ],
+              "tip": [
+                "Patches key settings in the KV store"
+              ],
+              "option": [
+                {
+                  "name": "-cas-required",
+                  "usage": [
+                    "-cas-required <BOOL>"
+                  ],
+                  "tip": [
+                    "If true the key will require the cas parameter on all write requests."
+                  ],
+                  "next": [
+                    {
+                      "name": "false",
+                      "tip": [
+                        "Do not require cas parameter"
+                      ]
+                    },
+                    {
+                      "name": "true",
+                      "tip": [
+                        "Require cas parameter"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-custom-metadata",
+                  "usage": [
+                    "-custom-metadata <key=value>"
+                  ],
+                  "tip": [
+                    "Arbitrary version-agnostic key=value metadata. Can be specified multiple times."
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key=value",
+                      "tip": [
+                        "Metadata as key=value"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-delete-version-after",
+                  "usage": [
+                    "-delete-version-after <DURATION>"
+                  ],
+                  "tip": [
+                    "Length of time before a version is deleted."
+                  ],
+                  "next": [
+                    {
+                      "name": "0s",
+                      "tip": [
+                        "Never auto-delete versions"
+                      ]
+                    },
+                    {
+                      "name": "3h25m19s",
+                      "tip": [
+                        "Example duration"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-max-versions",
+                  "usage": [
+                    "-max-versions <INT>"
+                  ],
+                  "tip": [
+                    "The number of versions to keep."
+                  ],
+                  "next": [
+                    {
+                      "name": "10",
+                      "tip": [
+                        "Keep 10 versions"
+                      ]
+                    },
+                    {
+                      "name": "5",
+                      "tip": [
+                        "Keep 5 versions"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "Path where the KV backend is mounted."
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "Default KV v2 mount"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-remove-custom-metadata",
+                  "usage": [
+                    "-remove-custom-metadata <KEY>"
+                  ],
+                  "tip": [
+                    "Key to remove from custom metadata. Can be specified multiple times."
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "Metadata key to remove"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "put",
+              "usage": [
+                "put [options] KEY"
+              ],
+              "tip": [
+                "Sets or updates key settings in the KV store"
+              ],
+              "option": [
+                {
+                  "name": "-cas-required",
+                  "usage": [
+                    "-cas-required <BOOL>"
+                  ],
+                  "tip": [
+                    "If true the key will require the cas parameter on all write requests."
+                  ],
+                  "next": [
+                    {
+                      "name": "false",
+                      "tip": [
+                        "Do not require cas parameter"
+                      ]
+                    },
+                    {
+                      "name": "true",
+                      "tip": [
+                        "Require cas parameter"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-custom-metadata",
+                  "usage": [
+                    "-custom-metadata <key=value>"
+                  ],
+                  "tip": [
+                    "Arbitrary version-agnostic key=value metadata. Can be specified multiple times."
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "key=value",
+                      "tip": [
+                        "Metadata as key=value"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-delete-version-after",
+                  "usage": [
+                    "-delete-version-after <DURATION>"
+                  ],
+                  "tip": [
+                    "Length of time before a version is deleted."
+                  ],
+                  "next": [
+                    {
+                      "name": "0s",
+                      "tip": [
+                        "Never auto-delete versions"
+                      ]
+                    },
+                    {
+                      "name": "3h25m19s",
+                      "tip": [
+                        "Example duration"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-max-versions",
+                  "usage": [
+                    "-max-versions <INT>"
+                  ],
+                  "tip": [
+                    "The number of versions to keep."
+                  ],
+                  "next": [
+                    {
+                      "name": "10",
+                      "tip": [
+                        "Keep 10 versions"
+                      ]
+                    },
+                    {
+                      "name": "5",
+                      "tip": [
+                        "Keep 5 versions"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-mount",
+                  "usage": [
+                    "-mount <PATH>"
+                  ],
+                  "tip": [
+                    "Path where the KV backend is mounted."
+                  ],
+                  "next": [
+                    {
+                      "name": "secret",
+                      "tip": [
+                        "Default KV v2 mount"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch [options] KEY [DATA]"
+          ],
+          "tip": [
+            "Sets or updates data in the KV store without overwriting"
+          ],
+          "option": [
+            {
+              "name": "-cas",
+              "usage": [
+                "-cas <INT>"
+              ],
+              "tip": [
+                "Check-And-Set operation. If set to 0 a write is allowed only if the key does not exist."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Only write if the key does not exist"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Only write if the key is at version 1"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-method",
+              "usage": [
+                "-method <METHOD>"
+              ],
+              "tip": [
+                "Method of patching to use: patch (HTTP PATCH) or rw (read then write)."
+              ],
+              "next": [
+                {
+                  "name": "patch",
+                  "tip": [
+                    "Issue an HTTP PATCH request"
+                  ]
+                },
+                {
+                  "name": "rw",
+                  "tip": [
+                    "Read then write"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-remove-data",
+              "usage": [
+                "-remove-data <KEY>"
+              ],
+              "tip": [
+                "Key to remove from data. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Data key to remove"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "put",
+          "usage": [
+            "put [options] KEY [DATA]"
+          ],
+          "tip": [
+            "Sets or updates data in the KV store"
+          ],
+          "option": [
+            {
+              "name": "-cas",
+              "usage": [
+                "-cas <INT>"
+              ],
+              "tip": [
+                "Check-And-Set operation. If set to 0 a write is allowed only if the key does not exist."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "Only write if the key does not exist"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Only write if the key is at version 1"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rollback",
+          "usage": [
+            "rollback [options] KEY"
+          ],
+          "tip": [
+            "Rolls back to a previous version of data"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Specifies the version to roll back to."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "undelete",
+          "usage": [
+            "undelete [options] KEY"
+          ],
+          "tip": [
+            "Undeletes versions in the KV store"
+          ],
+          "option": [
+            {
+              "name": "-mount",
+              "usage": [
+                "-mount <PATH>"
+              ],
+              "tip": [
+                "Path where the KV backend is mounted."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Default KV v2 mount"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-versions",
+              "usage": [
+                "-versions <INT>"
+              ],
+              "tip": [
+                "Specifies the versions to undelete. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lease",
+      "tip": [
+        "Interact with leases"
+      ],
+      "next": [
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup ID"
+          ],
+          "tip": [
+            "Lookup the lease of a secret"
+          ]
+        },
+        {
+          "name": "renew",
+          "usage": [
+            "renew [options] ID"
+          ],
+          "tip": [
+            "Renews the lease of a secret"
+          ],
+          "option": [
+            {
+              "name": "-increment",
+              "usage": [
+                "-increment <DURATION>"
+              ],
+              "tip": [
+                "Request a specific increment for the lease."
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "Renew for 1 hour"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [options] ID"
+          ],
+          "tip": [
+            "Revokes leases and secrets"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Force the revocation of the lease, ignoring any errors."
+              ]
+            },
+            {
+              "name": "-prefix",
+              "tip": [
+                "Treat the ID as a prefix instead of an exact lease ID."
+              ]
+            },
+            {
+              "name": "-sync",
+              "tip": [
+                "Synchronize the revocation with the primary node."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [options] PATH"
+      ],
+      "tip": [
+        "List data or secrets"
+      ],
+      "option": [
+        {
+          "name": "-detailed",
+          "tip": [
+            "Enables additional metadata during some operations."
+          ]
+        },
+        {
+          "name": "-snapshot-id",
+          "usage": [
+            "-snapshot-id <ID>"
+          ],
+          "tip": [
+            "ID of the loaded snapshot that this command will use"
+          ],
+          "next": [
+            {
+              "name": "snapshot-id",
+              "tip": [
+                "ID of the loaded snapshot"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [options] [AUTH K=V...]"
+      ],
+      "tip": [
+        "Authenticate locally"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "token",
+              "tip": [
+                "The authentication token field"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-method",
+          "usage": [
+            "-method <TYPE>"
+          ],
+          "tip": [
+            "Type of authentication to use, such as userpass or ldap. The default is token."
+          ],
+          "next": [
+            {
+              "name": "approle",
+              "tip": [
+                "AppRole auth method"
+              ]
+            },
+            {
+              "name": "cert",
+              "tip": [
+                "TLS certificate auth method"
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub auth method"
+              ]
+            },
+            {
+              "name": "jwt",
+              "tip": [
+                "JWT auth method"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes service account auth method"
+              ]
+            },
+            {
+              "name": "ldap",
+              "tip": [
+                "LDAP auth method"
+              ]
+            },
+            {
+              "name": "oidc",
+              "tip": [
+                "OpenID Connect auth method"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "Token auth method (default)"
+              ]
+            },
+            {
+              "name": "userpass",
+              "tip": [
+                "Username and password auth method"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-print",
+          "tip": [
+            "Do not display the token. The token will still be stored to the configured token helper."
+          ]
+        },
+        {
+          "name": "-no-store",
+          "tip": [
+            "Do not persist the token to the token helper after authentication. The token will only be displayed in the command output."
+          ]
+        },
+        {
+          "name": "-path",
+          "usage": [
+            "-path <PATH>"
+          ],
+          "tip": [
+            "Remote path in Vault where the auth method is enabled. Defaults to the type of method."
+          ],
+          "next": [
+            {
+              "name": "userpass",
+              "tip": [
+                "Default path for the userpass auth method"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-token-only",
+          "tip": [
+            "Output only the token with no verification. Shortcut for -field=token -no-store."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "monitor",
+      "tip": [
+        "Stream log messages from a Vault server"
+      ],
+      "option": [
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "Log format. Supported values are standard and json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON log format"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "Standard human-readable log format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "Log verbosity level: trace, debug, info, warn, or error. The default is info."
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug log level"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error log level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info log level (default)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "Most verbose log level"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning log level"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "namespace",
+      "tip": [
+        "Interact with namespaces"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [options] PATH"
+          ],
+          "tip": [
+            "Create a new namespace"
+          ],
+          "option": [
+            {
+              "name": "-custom-metadata",
+              "usage": [
+                "-custom-metadata <key=value>"
+              ],
+              "tip": [
+                "Arbitrary key=value metadata for the namespace. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Metadata as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] PATH"
+          ],
+          "tip": [
+            "Delete an existing namespace"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List child namespaces"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "Enables additional metadata during some operations."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lock",
+          "usage": [
+            "lock PATH"
+          ],
+          "tip": [
+            "Lock the API for particular namespaces"
+          ]
+        },
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup [options] PATH"
+          ],
+          "tip": [
+            "Look up an existing namespace"
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch [options] PATH"
+          ],
+          "tip": [
+            "Patch an existing namespace"
+          ],
+          "option": [
+            {
+              "name": "-custom-metadata",
+              "usage": [
+                "-custom-metadata <key=value>"
+              ],
+              "tip": [
+                "Arbitrary key=value metadata for the namespace. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Metadata as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-remove-custom-metadata",
+              "usage": [
+                "-remove-custom-metadata <KEY>"
+              ],
+              "tip": [
+                "Key to remove from custom metadata. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Metadata key to remove"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unlock",
+          "usage": [
+            "unlock [options] PATH"
+          ],
+          "tip": [
+            "Unlock the API for particular namespaces"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "operator",
+      "tip": [
+        "Perform operator-specific tasks"
+      ],
+      "next": [
+        {
+          "name": "diagnose",
+          "tip": [
+            "Troubleshoot problems starting Vault"
+          ],
+          "option": [
+            {
+              "name": "-config",
+              "usage": [
+                "-config <PATH>"
+              ],
+              "tip": [
+                "Path to a Vault configuration file or directory of configuration files."
+              ],
+              "next": [
+                {
+                  "name": "config.hcl",
+                  "tip": [
+                    "HCL configuration file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-debug",
+              "tip": [
+                "Dump all information collected by Diagnose."
+              ]
+            },
+            {
+              "name": "-format",
+              "usage": [
+                "-format <FORMAT>"
+              ],
+              "tip": [
+                "The output format."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "Table format (default)"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "Plain text format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-skip",
+              "usage": [
+                "-skip <CHECK>"
+              ],
+              "tip": [
+                "Skip the health checks named as arguments."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "autounseal",
+                  "tip": [
+                    "Skip auto-unseal checks"
+                  ]
+                },
+                {
+                  "name": "listener",
+                  "tip": [
+                    "Skip listener checks"
+                  ]
+                },
+                {
+                  "name": "storage",
+                  "tip": [
+                    "Skip storage checks"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "generate-root",
+          "usage": [
+            "generate-root [options] -init [-otp=...] [-pgp-key=...]"
+          ],
+          "tip": [
+            "Generates a new root, DR operation, or recovery token"
+          ],
+          "option": [
+            {
+              "name": "-cancel",
+              "tip": [
+                "Cancel the current generation attempt."
+              ]
+            },
+            {
+              "name": "-decode",
+              "usage": [
+                "-decode <TOKEN>"
+              ],
+              "tip": [
+                "Decode the returned token using the OTP."
+              ],
+              "next": [
+                {
+                  "name": "encoded-token",
+                  "tip": [
+                    "Encoded token to decode"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dr-token",
+              "tip": [
+                "Generate a DR operation token instead of a root token."
+              ]
+            },
+            {
+              "name": "-generate-otp",
+              "tip": [
+                "Generate and print a base64-encoded OTP suitable for use with -otp."
+              ]
+            },
+            {
+              "name": "-init",
+              "tip": [
+                "Start a token generation."
+              ]
+            },
+            {
+              "name": "-nonce",
+              "usage": [
+                "-nonce <NONCE>"
+              ],
+              "tip": [
+                "Nonce provided at initialization time."
+              ],
+              "next": [
+                {
+                  "name": "nonce",
+                  "tip": [
+                    "Nonce value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-otp",
+              "usage": [
+                "-otp <OTP>"
+              ],
+              "tip": [
+                "Base64-encoded one-time-password used to protect the returned token."
+              ],
+              "next": [
+                {
+                  "name": "otp",
+                  "tip": [
+                    "Base64-encoded OTP"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-key",
+              "usage": [
+                "-pgp-key <KEY>"
+              ],
+              "tip": [
+                "Path to a PGP public key or keybase:user used to encrypt the returned token."
+              ],
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase user"
+                  ]
+                },
+                {
+                  "name": "path/to/key.asc",
+                  "tip": [
+                    "Path to a PGP public key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-token",
+              "tip": [
+                "Generate a recovery token instead of a root token."
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "Print the status of the current attempt without providing a key share."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "usage": [
+            "init [options]"
+          ],
+          "tip": [
+            "Initializes a server"
+          ],
+          "option": [
+            {
+              "name": "-consul-auto",
+              "tip": [
+                "Automatically find the address of a Consul instance."
+              ]
+            },
+            {
+              "name": "-consul-service",
+              "usage": [
+                "-consul-service <NAME>"
+              ],
+              "tip": [
+                "Name of the Consul service to find the address of."
+              ],
+              "next": [
+                {
+                  "name": "vault",
+                  "tip": [
+                    "Vault Consul service name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-shares",
+              "usage": [
+                "-key-shares <INT>"
+              ],
+              "tip": [
+                "Number of key shares to split the master key into."
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 key shares"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-threshold",
+              "usage": [
+                "-key-threshold <INT>"
+              ],
+              "tip": [
+                "Number of key shares required to reconstruct the master key."
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "3 key shares required"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-keys",
+              "usage": [
+                "-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "Comma-separated list of PGP public keys or keybase:user names used to encrypt each unseal key."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase user"
+                  ]
+                },
+                {
+                  "name": "path/to/key.asc",
+                  "tip": [
+                    "Path to a PGP public key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-pgp-keys",
+              "usage": [
+                "-recovery-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "Comma-separated list of PGP public keys used to encrypt each recovery key."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase user"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-shares",
+              "usage": [
+                "-recovery-shares <INT>"
+              ],
+              "tip": [
+                "Number of recovery key shares to split the recovery key into."
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 recovery key shares"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-recovery-threshold",
+              "usage": [
+                "-recovery-threshold <INT>"
+              ],
+              "tip": [
+                "Number of recovery key shares required to reconstruct the recovery key."
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "3 recovery key shares required"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-root-token-pgp-key",
+              "usage": [
+                "-root-token-pgp-key <KEY>"
+              ],
+              "tip": [
+                "PGP public key or keybase:user used to encrypt the initial root token."
+              ],
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase user"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "Print the current initialization status without performing an initialization."
+              ]
+            },
+            {
+              "name": "-stored-shares",
+              "usage": [
+                "-stored-shares <INT>"
+              ],
+              "tip": [
+                "Number of shares that should be stored in the backend."
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 stored shares"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "key-status",
+          "tip": [
+            "Provides information about the active encryption key"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "Returns the list of nodes in the cluster"
+          ]
+        },
+        {
+          "name": "migrate",
+          "usage": [
+            "migrate [options]"
+          ],
+          "tip": [
+            "Migrates Vault data between storage backends"
+          ],
+          "option": [
+            {
+              "name": "-config",
+              "usage": [
+                "-config <PATH>"
+              ],
+              "tip": [
+                "Path to a configuration file containing only migrator directives."
+              ],
+              "next": [
+                {
+                  "name": "migrate.hcl",
+                  "tip": [
+                    "Migrator configuration file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-log-level",
+              "usage": [
+                "-log-level <LEVEL>"
+              ],
+              "tip": [
+                "Log verbosity level: trace, debug, info, warn, or error. The default is info."
+              ],
+              "next": [
+                {
+                  "name": "debug",
+                  "tip": [
+                    "Debug log level"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Error log level"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Info log level (default)"
+                  ]
+                },
+                {
+                  "name": "trace",
+                  "tip": [
+                    "Most verbose log level"
+                  ]
+                },
+                {
+                  "name": "warn",
+                  "tip": [
+                    "Warning log level"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-parallel",
+              "usage": [
+                "-max-parallel <INT>"
+              ],
+              "tip": [
+                "Maximum number of parallel migration threads. The default is 10."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "Default parallelism"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-reset",
+              "tip": [
+                "Reset the migration lock. No migration will occur."
+              ]
+            },
+            {
+              "name": "-start",
+              "usage": [
+                "-start <KEY>"
+              ],
+              "tip": [
+                "Only copy keys lexicographically at or after this value."
+              ],
+              "next": [
+                {
+                  "name": "key-prefix",
+                  "tip": [
+                    "Key prefix to start from"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "raft",
+          "tip": [
+            "Interact with Vault's raft storage backend"
+          ],
+          "next": [
+            {
+              "name": "autopilot",
+              "tip": [
+                "Interact with the autopilot subsystem under integrated storage"
+              ],
+              "next": [
+                {
+                  "name": "get-config",
+                  "tip": [
+                    "Returns the configuration of the autopilot subsystem under integrated storage"
+                  ],
+                  "option": [
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "DR operation token used to authorize this request (if a DR secondary node)."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "set-config",
+                  "tip": [
+                    "Modify the configuration of the autopilot subsystem under integrated storage"
+                  ],
+                  "option": [
+                    {
+                      "name": "-cleanup-dead-servers",
+                      "usage": [
+                        "-cleanup-dead-servers <BOOL>"
+                      ],
+                      "tip": [
+                        "Controls whether to remove dead servers from the Raft peer list periodically."
+                      ],
+                      "next": [
+                        {
+                          "name": "false",
+                          "tip": [
+                            "Keep dead servers"
+                          ]
+                        },
+                        {
+                          "name": "true",
+                          "tip": [
+                            "Clean up dead servers"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-dead-server-last-contact-threshold",
+                      "usage": [
+                        "-dead-server-last-contact-threshold <DURATION>"
+                      ],
+                      "tip": [
+                        "Limit on the time a server can go without leader contact before being considered failed."
+                      ],
+                      "next": [
+                        {
+                          "name": "24h",
+                          "tip": [
+                            "24 hours"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-disable-upgrade-migration",
+                      "usage": [
+                        "-disable-upgrade-migration <BOOL>"
+                      ],
+                      "tip": [
+                        "Whether or not to perform automated version upgrades."
+                      ],
+                      "next": [
+                        {
+                          "name": "false",
+                          "tip": [
+                            "Enable upgrade migration"
+                          ]
+                        },
+                        {
+                          "name": "true",
+                          "tip": [
+                            "Disable upgrade migration"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "DR operation token used to authorize this request (if a DR secondary node)."
+                      ]
+                    },
+                    {
+                      "name": "-last-contact-threshold",
+                      "usage": [
+                        "-last-contact-threshold <DURATION>"
+                      ],
+                      "tip": [
+                        "Limit on the time a server can go without leader contact before being considered unhealthy."
+                      ],
+                      "next": [
+                        {
+                          "name": "24h",
+                          "tip": [
+                            "24 hours"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-max-trailing-logs",
+                      "usage": [
+                        "-max-trailing-logs <INT>"
+                      ],
+                      "tip": [
+                        "Amount of entries in the Raft Log that a server can be behind before being considered unhealthy."
+                      ],
+                      "next": [
+                        {
+                          "name": "10000",
+                          "tip": [
+                            "10000 trailing logs"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-min-quorum",
+                      "usage": [
+                        "-min-quorum <INT>"
+                      ],
+                      "tip": [
+                        "Minimum number of servers allowed in a cluster before autopilot can prune dead servers."
+                      ],
+                      "next": [
+                        {
+                          "name": "3",
+                          "tip": [
+                            "Minimum quorum of 3"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-server-stabilization-time",
+                      "usage": [
+                        "-server-stabilization-time <DURATION>"
+                      ],
+                      "tip": [
+                        "Minimum time a server must be stable before it can be added to the cluster."
+                      ],
+                      "next": [
+                        {
+                          "name": "10s",
+                          "tip": [
+                            "10 seconds"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "state",
+                  "tip": [
+                    "Displays the state of the raft cluster under integrated storage as seen by autopilot"
+                  ],
+                  "option": [
+                    {
+                      "name": "-dr-token",
+                      "tip": [
+                        "DR operation token used to authorize this request (if a DR secondary node)."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "join",
+              "usage": [
+                "join [options] <leader-api-addr|auto-join-configuration>"
+              ],
+              "tip": [
+                "Joins a node to the Raft cluster"
+              ],
+              "option": [
+                {
+                  "name": "-auto-join-port",
+                  "usage": [
+                    "-auto-join-port <PORT>"
+                  ],
+                  "tip": [
+                    "Port to use for the auto-join configuration."
+                  ],
+                  "next": [
+                    {
+                      "name": "8200",
+                      "tip": [
+                        "Default Vault API port"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-auto-join-scheme",
+                  "usage": [
+                    "-auto-join-scheme <SCHEME>"
+                  ],
+                  "tip": [
+                    "Scheme to use for the auto-join configuration."
+                  ],
+                  "next": [
+                    {
+                      "name": "http",
+                      "tip": [
+                        "HTTP scheme"
+                      ]
+                    },
+                    {
+                      "name": "https",
+                      "tip": [
+                        "HTTPS scheme"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-ca-cert",
+                  "usage": [
+                    "-leader-ca-cert <PATH>"
+                  ],
+                  "tip": [
+                    "CA certificate to verify the leader's TLS certificate."
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-ca.pem",
+                      "tip": [
+                        "Leader CA certificate"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-client-cert",
+                  "usage": [
+                    "-leader-client-cert <PATH>"
+                  ],
+                  "tip": [
+                    "Client certificate to use for TLS authentication to the leader."
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-client.pem",
+                      "tip": [
+                        "Leader client certificate"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-leader-client-key",
+                  "usage": [
+                    "-leader-client-key <PATH>"
+                  ],
+                  "tip": [
+                    "Client key to use for TLS authentication to the leader."
+                  ],
+                  "next": [
+                    {
+                      "name": "leader-client-key.pem",
+                      "tip": [
+                        "Leader client key"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-non-voter",
+                  "tip": [
+                    "Join the cluster as a non-voting node."
+                  ]
+                },
+                {
+                  "name": "-retry",
+                  "tip": [
+                    "Retry joining the cluster until successful."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list-peers",
+              "tip": [
+                "Returns the Raft peer set"
+              ],
+              "option": [
+                {
+                  "name": "-dr-token",
+                  "tip": [
+                    "DR operation token used to authorize this request (if a DR secondary node)."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "remove-peer",
+              "usage": [
+                "remove-peer <server_id>"
+              ],
+              "tip": [
+                "Removes a node from the Raft cluster"
+              ],
+              "option": [
+                {
+                  "name": "-dr-token",
+                  "tip": [
+                    "DR operation token used to authorize this request (if a DR secondary node)."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "snapshot",
+              "tip": [
+                "Restores and saves snapshots from the Raft cluster"
+              ],
+              "next": [
+                {
+                  "name": "inspect",
+                  "usage": [
+                    "inspect <snapshot_file>"
+                  ],
+                  "tip": [
+                    "Inspects raft snapshot"
+                  ],
+                  "option": [
+                    {
+                      "name": "-depth",
+                      "usage": [
+                        "-depth <INT>"
+                      ],
+                      "tip": [
+                        "Depth of the snapshot tree to inspect."
+                      ],
+                      "next": [
+                        {
+                          "name": "5",
+                          "tip": [
+                            "Inspect 5 levels deep"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "-details",
+                      "tip": [
+                        "Show detailed information about the snapshot entries."
+                      ]
+                    },
+                    {
+                      "name": "-filter",
+                      "usage": [
+                        "-filter <REGEX>"
+                      ],
+                      "tip": [
+                        "Regex filter for snapshot entry keys."
+                      ],
+                      "next": [
+                        {
+                          "name": "regex",
+                          "tip": [
+                            "Regex pattern"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "restore",
+                  "usage": [
+                    "restore <snapshot_file>"
+                  ],
+                  "tip": [
+                    "Installs the provided snapshot, returning the cluster to the state defined in it"
+                  ],
+                  "option": [
+                    {
+                      "name": "-force",
+                      "tip": [
+                        "Force the restore, ignoring any errors."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "save",
+                  "usage": [
+                    "save <snapshot_file>"
+                  ],
+                  "tip": [
+                    "Saves a snapshot of the current state of the Raft cluster into a file"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rekey",
+          "usage": [
+            "rekey [options] [KEY]"
+          ],
+          "tip": [
+            "Generates new unseal keys"
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "tip": [
+                "Store a backup of the current unseal keys encrypted with the new keys."
+              ]
+            },
+            {
+              "name": "-backup-delete",
+              "tip": [
+                "Delete any stored backup of the current unseal keys."
+              ]
+            },
+            {
+              "name": "-backup-retrieve",
+              "tip": [
+                "Retrieve the stored backup of the current unseal keys."
+              ]
+            },
+            {
+              "name": "-cancel",
+              "tip": [
+                "Cancel the current rekey process."
+              ]
+            },
+            {
+              "name": "-init",
+              "tip": [
+                "Start a rekey process."
+              ]
+            },
+            {
+              "name": "-key-shares",
+              "usage": [
+                "-key-shares <INT>"
+              ],
+              "tip": [
+                "Number of key shares to split the master key into."
+              ],
+              "next": [
+                {
+                  "name": "5",
+                  "tip": [
+                    "5 key shares"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-key-threshold",
+              "usage": [
+                "-key-threshold <INT>"
+              ],
+              "tip": [
+                "Number of key shares required to reconstruct the master key."
+              ],
+              "next": [
+                {
+                  "name": "3",
+                  "tip": [
+                    "3 key shares required"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-nonce",
+              "usage": [
+                "-nonce <NONCE>"
+              ],
+              "tip": [
+                "Nonce provided at initialization time."
+              ],
+              "next": [
+                {
+                  "name": "nonce",
+                  "tip": [
+                    "Nonce value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-pgp-keys",
+              "usage": [
+                "-pgp-keys <KEY>"
+              ],
+              "tip": [
+                "Comma-separated list of PGP public keys used to encrypt each unseal key."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "keybase:user",
+                  "tip": [
+                    "Keybase user"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-status",
+              "tip": [
+                "Print the status of the current rekey process without providing a key share."
+              ]
+            },
+            {
+              "name": "-target",
+              "usage": [
+                "-target <TARGET>"
+              ],
+              "tip": [
+                "Target of the rekey: root, recovery, or DR."
+              ],
+              "next": [
+                {
+                  "name": "DR",
+                  "tip": [
+                    "Rekey DR operation keys"
+                  ]
+                },
+                {
+                  "name": "recovery",
+                  "tip": [
+                    "Rekey recovery keys"
+                  ]
+                },
+                {
+                  "name": "root",
+                  "tip": [
+                    "Rekey root keys"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-verify",
+              "tip": [
+                "Verify the new unseal keys after rekeying."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rotate",
+          "tip": [
+            "Rotates the underlying encryption key"
+          ]
+        },
+        {
+          "name": "seal",
+          "tip": [
+            "Seals the Vault server"
+          ]
+        },
+        {
+          "name": "step-down",
+          "tip": [
+            "Forces Vault to resign active duty"
+          ]
+        },
+        {
+          "name": "unseal",
+          "usage": [
+            "unseal [options] [KEY]"
+          ],
+          "tip": [
+            "Unseals the Vault server"
+          ],
+          "option": [
+            {
+              "name": "-migrate",
+              "tip": [
+                "Migrate the unseal key from the existing mechanism to the new mechanism."
+              ]
+            },
+            {
+              "name": "-reset",
+              "tip": [
+                "Reset the unsealing process."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "usage",
+          "tip": [
+            "Lists historical client counts"
+          ],
+          "option": [
+            {
+              "name": "-end-time",
+              "usage": [
+                "-end-time <TIME>"
+              ],
+              "tip": [
+                "End time of the usage report."
+              ],
+              "next": [
+                {
+                  "name": "2024-12-31",
+                  "tip": [
+                    "Example end date"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-start-time",
+              "usage": [
+                "-start-time <TIME>"
+              ],
+              "tip": [
+                "Start time of the usage report."
+              ],
+              "next": [
+                {
+                  "name": "2024-01-01",
+                  "tip": [
+                    "Example start date"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "utilization",
+          "tip": [
+            "Generates license utilization reporting bundle"
+          ],
+          "option": [
+            {
+              "name": "-message",
+              "usage": [
+                "-message <TEXT>"
+              ],
+              "tip": [
+                "Message to include in the utilization bundle."
+              ],
+              "next": [
+                {
+                  "name": "message",
+                  "tip": [
+                    "Utilization message"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-output",
+              "usage": [
+                "-output <PATH>"
+              ],
+              "tip": [
+                "Output path for the utilization bundle."
+              ],
+              "next": [
+                {
+                  "name": "bundle.json",
+                  "tip": [
+                    "Example bundle output path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-today-only",
+              "tip": [
+                "Generate a utilization bundle for today only."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "usage": [
+        "patch [options] PATH [DATA K=V...]"
+      ],
+      "tip": [
+        "Patch data, configuration, and secrets"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, -force"
+          ],
+          "tip": [
+            "Allow the patch operation to continue with no key=value pairs."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "path-help",
+      "usage": [
+        "path-help [options] PATH"
+      ],
+      "tip": [
+        "Retrieve API help for paths"
+      ]
+    },
+    {
+      "name": "pki",
+      "tip": [
+        "Interact with Vault's PKI Secrets Engine"
+      ],
+      "next": [
+        {
+          "name": "health-check",
+          "usage": [
+            "health-check [options] MOUNT"
+          ],
+          "tip": [
+            "Check a PKI Secrets Engine mount's health and operational status"
+          ],
+          "option": [
+            {
+              "name": "-default-disabled",
+              "tip": [
+                "Disable the default health check."
+              ]
+            },
+            {
+              "name": "-health-config",
+              "usage": [
+                "-health-config <PATH>"
+              ],
+              "tip": [
+                "Path to a health check configuration file."
+              ],
+              "next": [
+                {
+                  "name": "health-config.hcl",
+                  "tip": [
+                    "Health check configuration file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-list",
+              "tip": [
+                "List all available health checks."
+              ]
+            },
+            {
+              "name": "-return-indicator",
+              "usage": [
+                "-return-indicator <VALUE>"
+              ],
+              "tip": [
+                "Return a health indicator based on the check results."
+              ],
+              "next": [
+                {
+                  "name": "healthy",
+                  "tip": [
+                    "Indicate healthy"
+                  ]
+                },
+                {
+                  "name": "unhealthy",
+                  "tip": [
+                    "Indicate unhealthy"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "issue",
+          "usage": [
+            "issue PARENT CHILD_MOUNT options"
+          ],
+          "tip": [
+            "Given a parent certificate, and a list of generation parameters, creates an issuer on a specified mount"
+          ],
+          "option": [
+            {
+              "name": "-issuer_name",
+              "usage": [
+                "-issuer_name <NAME>"
+              ],
+              "tip": [
+                "If present, the newly created issuer will be given this name."
+              ],
+              "next": [
+                {
+                  "name": "issuer-name",
+                  "tip": [
+                    "Issuer name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "Key type: existing, internal, or kms. The default is internal."
+              ],
+              "next": [
+                {
+                  "name": "existing",
+                  "tip": [
+                    "Use an existing key inside Vault"
+                  ]
+                },
+                {
+                  "name": "internal",
+                  "tip": [
+                    "Generate a new key inside Vault (default)"
+                  ]
+                },
+                {
+                  "name": "kms",
+                  "tip": [
+                    "Link to an external key"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-intermediates",
+          "usage": [
+            "list-intermediates PARENT [CHILD] [CHILD] ..."
+          ],
+          "tip": [
+            "Determine which of a list of certificates, were issued by a given parent certificate"
+          ],
+          "option": [
+            {
+              "name": "-direct_sign",
+              "tip": [
+                "Match certificates directly signed by the parent."
+              ]
+            },
+            {
+              "name": "-indirect_sign",
+              "tip": [
+                "Match certificates indirectly signed by the parent."
+              ]
+            },
+            {
+              "name": "-key_id_match",
+              "usage": [
+                "-key_id_match <KEY_ID>"
+              ],
+              "tip": [
+                "Match by the subject key identifier."
+              ],
+              "next": [
+                {
+                  "name": "key-id",
+                  "tip": [
+                    "Subject key identifier"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path_match",
+              "usage": [
+                "-path_match <PATH>"
+              ],
+              "tip": [
+                "Match by the certificate path."
+              ],
+              "next": [
+                {
+                  "name": "path",
+                  "tip": [
+                    "Certificate path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-subject_match",
+              "usage": [
+                "-subject_match <SUBJECT>"
+              ],
+              "tip": [
+                "Match by the certificate subject."
+              ],
+              "next": [
+                {
+                  "name": "subject",
+                  "tip": [
+                    "Certificate subject"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-use_names",
+              "tip": [
+                "Use certificate names instead of IDs."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reissue",
+          "usage": [
+            "reissue PARENT TEMPLATE CHILD_MOUNT options"
+          ],
+          "tip": [
+            "Uses a parent certificate and a template certificate to create a new issuer on a child mount"
+          ]
+        },
+        {
+          "name": "verify-sign",
+          "usage": [
+            "verify-sign POSSIBLE-ISSUER POSSIBLE-ISSUED"
+          ],
+          "tip": [
+            "Check whether one certificate validates another specified certificate"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "Interact with Vault plugins and catalog"
+      ],
+      "next": [
+        {
+          "name": "deregister",
+          "usage": [
+            "deregister [options] TYPE NAME"
+          ],
+          "tip": [
+            "Deregister an existing plugin in the catalog"
+          ],
+          "option": [
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to deregister."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [options] TYPE NAME"
+          ],
+          "tip": [
+            "Read information about a plugin in the catalog"
+          ],
+          "option": [
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Field name to print"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to get information about."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] [TYPE]"
+          ],
+          "tip": [
+            "Lists available plugins"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "Enables additional metadata during some operations."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "register",
+          "usage": [
+            "register [options] TYPE NAME"
+          ],
+          "tip": [
+            "Registers a new plugin in the catalog"
+          ],
+          "option": [
+            {
+              "name": "-args",
+              "usage": [
+                "-args <ARGS>"
+              ],
+              "tip": [
+                "Arguments to pass to the plugin."
+              ],
+              "next": [
+                {
+                  "name": "args",
+                  "tip": [
+                    "Plugin arguments"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-command",
+              "usage": [
+                "-command <COMMAND>"
+              ],
+              "tip": [
+                "Command to run the plugin."
+              ],
+              "next": [
+                {
+                  "name": "command",
+                  "tip": [
+                    "Plugin command"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-download",
+              "usage": [
+                "-download <URL>"
+              ],
+              "tip": [
+                "URL to download the plugin from."
+              ],
+              "next": [
+                {
+                  "name": "download-url",
+                  "tip": [
+                    "Plugin download URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-env",
+              "usage": [
+                "-env <KEY=value>"
+              ],
+              "tip": [
+                "Environment variables to pass to the plugin. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "KEY=value",
+                  "tip": [
+                    "Environment variable as KEY=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-oci_image",
+              "usage": [
+                "-oci_image <IMAGE>"
+              ],
+              "tip": [
+                "OCI image to run the plugin from."
+              ],
+              "next": [
+                {
+                  "name": "image:tag",
+                  "tip": [
+                    "OCI image reference"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-runtime",
+              "usage": [
+                "-runtime <NAME>"
+              ],
+              "tip": [
+                "Plugin runtime to use for the plugin."
+              ],
+              "next": [
+                {
+                  "name": "runtime-name",
+                  "tip": [
+                    "Plugin runtime name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-sha256",
+              "usage": [
+                "-sha256 <HASH>"
+              ],
+              "tip": [
+                "SHA-256 checksum of the plugin binary."
+              ],
+              "next": [
+                {
+                  "name": "sha256-hex",
+                  "tip": [
+                    "SHA-256 hash in hex"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to register."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reload",
+          "usage": [
+            "reload [options]"
+          ],
+          "tip": [
+            "Reload mounted plugin backend"
+          ],
+          "option": [
+            {
+              "name": "-mounts",
+              "usage": [
+                "-mounts <MOUNT>"
+              ],
+              "tip": [
+                "Mount paths of the plugin backends to reload. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "mount",
+                  "tip": [
+                    "Mount path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin",
+              "usage": [
+                "-plugin <NAME>"
+              ],
+              "tip": [
+                "Name of the plugin to reload."
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "Plugin name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-scope",
+              "usage": [
+                "-scope <SCOPE>"
+              ],
+              "tip": [
+                "Scope of the reload: global or local."
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "Reload globally"
+                  ]
+                },
+                {
+                  "name": "local",
+                  "tip": [
+                    "Reload locally"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "Type of the plugin to reload."
+              ],
+              "next": [
+                {
+                  "name": "auth",
+                  "tip": [
+                    "Auth plugin"
+                  ]
+                },
+                {
+                  "name": "database",
+                  "tip": [
+                    "Database plugin"
+                  ]
+                },
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Secrets plugin"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reload-status",
+          "usage": [
+            "reload-status RELOAD_ID"
+          ],
+          "tip": [
+            "Get the status of an active or recently completed global plugin reload"
+          ]
+        },
+        {
+          "name": "runtime",
+          "tip": [
+            "Interact with Vault plugin runtimes catalog"
+          ],
+          "next": [
+            {
+              "name": "deregister",
+              "usage": [
+                "deregister [options] NAME"
+              ],
+              "tip": [
+                "Deregister an existing plugin runtime in the catalog"
+              ],
+              "option": [
+                {
+                  "name": "-field",
+                  "usage": [
+                    "-field <KEY>"
+                  ],
+                  "tip": [
+                    "Print only the field with the given name. Useful for piping to other processes."
+                  ],
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "Field name to print"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "Type of the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container plugin runtime type"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info [options] NAME"
+              ],
+              "tip": [
+                "Read information about a plugin runtime in the catalog"
+              ],
+              "option": [
+                {
+                  "name": "-field",
+                  "usage": [
+                    "-field <KEY>"
+                  ],
+                  "tip": [
+                    "Print only the field with the given name. Useful for piping to other processes."
+                  ],
+                  "next": [
+                    {
+                      "name": "key",
+                      "tip": [
+                        "Field name to print"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "Type of the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container plugin runtime type"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [options]"
+              ],
+              "tip": [
+                "Lists available plugin runtimes"
+              ],
+              "option": [
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "Type of the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container plugin runtime type"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "register",
+              "usage": [
+                "register [options] NAME"
+              ],
+              "tip": [
+                "Registers a new plugin runtime in the catalog"
+              ],
+              "option": [
+                {
+                  "name": "-cgroup_parent",
+                  "usage": [
+                    "-cgroup_parent <PARENT>"
+                  ],
+                  "tip": [
+                    "Parent cgroup for the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "parent",
+                      "tip": [
+                        "Cgroup parent name"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-cpu_nanos",
+                  "usage": [
+                    "-cpu_nanos <INT>"
+                  ],
+                  "tip": [
+                    "CPU limit in nanoseconds for the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "100000000",
+                      "tip": [
+                        "100ms of CPU"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-memory_bytes",
+                  "usage": [
+                    "-memory_bytes <INT>"
+                  ],
+                  "tip": [
+                    "Memory limit in bytes for the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "1048576",
+                      "tip": [
+                        "1 MB of memory"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-oci_runtime",
+                  "usage": [
+                    "-oci_runtime <RUNTIME>"
+                  ],
+                  "tip": [
+                    "OCI-compatible runtime to use for the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "runc",
+                      "tip": [
+                        "runc OCI runtime"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-rootless",
+                  "tip": [
+                    "Run the plugin runtime in rootless mode."
+                  ]
+                },
+                {
+                  "name": "-type",
+                  "usage": [
+                    "-type <TYPE>"
+                  ],
+                  "tip": [
+                    "Type of the plugin runtime."
+                  ],
+                  "next": [
+                    {
+                      "name": "container",
+                      "tip": [
+                        "Container plugin runtime type"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "policy",
+      "tip": [
+        "Interact with policies"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options] NAME"
+          ],
+          "tip": [
+            "Deletes a policy by name"
+          ]
+        },
+        {
+          "name": "fmt",
+          "usage": [
+            "fmt [options] PATH"
+          ],
+          "tip": [
+            "Formats a policy on disk"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Lists the installed policies"
+          ]
+        },
+        {
+          "name": "read",
+          "usage": [
+            "read [options] [NAME]"
+          ],
+          "tip": [
+            "Prints the contents of a policy"
+          ]
+        },
+        {
+          "name": "write",
+          "usage": [
+            "write [options] NAME PATH"
+          ],
+          "tip": [
+            "Uploads a named policy from a file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "print",
+      "tip": [
+        "Prints runtime configurations"
+      ],
+      "next": [
+        {
+          "name": "token",
+          "tip": [
+            "Prints the vault token currently in use"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "proxy",
+      "tip": [
+        "Start a Vault Proxy"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a configuration file or directory of configuration files."
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-after-auth",
+          "tip": [
+            "Exit after running the proxy, whether or not authentication succeeded."
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Path to the log file that Vault should use for logging"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "Log file path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "Log format. Supported values are standard and json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON log format"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "Standard human-readable log format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "Log verbosity level: trace, debug, info, warn, or error. The default is info."
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug log level"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error log level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info log level (default)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "Most verbose log level"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning log level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "Number of bytes that should be written to a log before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB in bytes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "The maximum duration a log should be written to before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "Rotate logs every 24 hours"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "The maximum number of older log file archives to keep"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Keep 10 rotated archives"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read",
+      "usage": [
+        "read [options] PATH"
+      ],
+      "tip": [
+        "Read data and retrieves secrets"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-snapshot-id",
+          "usage": [
+            "-snapshot-id <ID>"
+          ],
+          "tip": [
+            "ID of the loaded snapshot that this command will use"
+          ],
+          "next": [
+            {
+              "name": "snapshot-id",
+              "tip": [
+                "ID of the loaded snapshot"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "secrets",
+      "tip": [
+        "Interact with secrets engines"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "usage": [
+            "disable [options] PATH"
+          ],
+          "tip": [
+            "Disable a secret engine"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable [options] TYPE"
+          ],
+          "tip": [
+            "Enable a secrets engine"
+          ],
+          "option": [
+            {
+              "name": "-allowed-managed-keys",
+              "usage": [
+                "-allowed-managed-keys <KEY>"
+              ],
+              "tip": [
+                "Managed keys allowed for use by this secrets engine. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "managed-key",
+                  "tip": [
+                    "Managed key name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to allow and pass through from the plugin response to the client."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Response header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the request data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Request key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the response data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Response key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The default lease duration for secrets issued by this engine."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Default lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-delegated-auth-accessors",
+              "usage": [
+                "-delegated-auth-accessors <ACCESSOR>"
+              ],
+              "tip": [
+                "Auth method accessors to delegate authentication to. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "accessor",
+                  "tip": [
+                    "Auth method accessor"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "Human-friendly description of the purpose for the secrets engine."
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "Secrets engine description"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-external-entropy-access",
+              "tip": [
+                "Enable access to the external entropy source."
+              ]
+            },
+            {
+              "name": "-force-no-cache",
+              "tip": [
+                "Disable caching for this secrets engine."
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "The key to use for signing identity tokens."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Identity token signing key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "Determines the listing visibility of the mount."
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "Hidden from listing"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "Listed without authentication"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-local",
+              "tip": [
+                "Mark the secrets engine as a local-only engine."
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The maximum lease duration for secrets issued by this engine."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Maximum lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "Key-value pair of options to pass to the secrets engine."
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Option as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "Override the pinned plugin version."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Use pinned version"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Override pinned version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to pass through to the plugin from the client request."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Request header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <PATH>"
+              ],
+              "tip": [
+                "Place where the secrets engine will be accessible."
+              ],
+              "next": [
+                {
+                  "name": "secret",
+                  "tip": [
+                    "Example secrets engine path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-name",
+              "usage": [
+                "-plugin-name <NAME>"
+              ],
+              "tip": [
+                "Name of the secrets engine plugin."
+              ],
+              "next": [
+                {
+                  "name": "plugin-name",
+                  "tip": [
+                    "Plugin name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to use."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-seal-wrap",
+              "tip": [
+                "Enable seal wrapping of critical values."
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "Trim trailing slashes on incoming requests."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Keep trailing slashes"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Trim trailing slashes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Select the version of the secrets engine to run."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List enabled secrets engines"
+          ],
+          "option": [
+            {
+              "name": "-detailed",
+              "tip": [
+                "Enables additional metadata during some operations."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move [options] FROM TO"
+          ],
+          "tip": [
+            "Move a secrets engine to a new path"
+          ]
+        },
+        {
+          "name": "tune",
+          "usage": [
+            "tune [options] PATH"
+          ],
+          "tip": [
+            "Tune a secrets engine configuration"
+          ],
+          "option": [
+            {
+              "name": "-allowed-managed-keys",
+              "usage": [
+                "-allowed-managed-keys <KEY>"
+              ],
+              "tip": [
+                "Managed keys allowed for use by this secrets engine. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "managed-key",
+                  "tip": [
+                    "Managed key name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-allowed-response-headers",
+              "usage": [
+                "-allowed-response-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to allow and pass through from the plugin response to the client."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Response header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-request-keys",
+              "usage": [
+                "-audit-non-hmac-request-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the request data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Request key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-audit-non-hmac-response-keys",
+              "usage": [
+                "-audit-non-hmac-response-keys <KEY>"
+              ],
+              "tip": [
+                "Keys that will not be HMAC'd by audit devices in the response data."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Response key to exclude from HMAC"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-default-lease-ttl",
+              "usage": [
+                "-default-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The default lease duration for secrets issued by this engine."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Default lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-delegated-auth-accessors",
+              "usage": [
+                "-delegated-auth-accessors <ACCESSOR>"
+              ],
+              "tip": [
+                "Auth method accessors to delegate authentication to. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "accessor",
+                  "tip": [
+                    "Auth method accessor"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-description",
+              "usage": [
+                "-description <TEXT>"
+              ],
+              "tip": [
+                "Human-friendly description of the purpose for the secrets engine."
+              ],
+              "next": [
+                {
+                  "name": "description",
+                  "tip": [
+                    "Secrets engine description"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-identity-token-key",
+              "usage": [
+                "-identity-token-key <KEY>"
+              ],
+              "tip": [
+                "The key to use for signing identity tokens."
+              ],
+              "next": [
+                {
+                  "name": "key",
+                  "tip": [
+                    "Identity token signing key"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-listing-visibility",
+              "usage": [
+                "-listing-visibility <VALUE>"
+              ],
+              "tip": [
+                "Determines the listing visibility of the mount."
+              ],
+              "next": [
+                {
+                  "name": "hidden",
+                  "tip": [
+                    "Hidden from listing"
+                  ]
+                },
+                {
+                  "name": "unauth",
+                  "tip": [
+                    "Listed without authentication"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-max-lease-ttl",
+              "usage": [
+                "-max-lease-ttl <TTL>"
+              ],
+              "tip": [
+                "The maximum lease duration for secrets issued by this engine."
+              ],
+              "next": [
+                {
+                  "name": "768h",
+                  "tip": [
+                    "Maximum lease TTL of 32 days"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-options",
+              "usage": [
+                "-options <key=value>"
+              ],
+              "tip": [
+                "Key-value pair of options to pass to the secrets engine."
+              ],
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Option as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-override-pinned-version",
+              "usage": [
+                "-override-pinned-version <BOOL>"
+              ],
+              "tip": [
+                "Override the pinned plugin version."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Use pinned version"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Override pinned version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-passthrough-request-headers",
+              "usage": [
+                "-passthrough-request-headers <HEADER>"
+              ],
+              "tip": [
+                "Headers to pass through to the plugin from the client request."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "header-name",
+                  "tip": [
+                    "Request header name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-plugin-version",
+              "usage": [
+                "-plugin-version <VERSION>"
+              ],
+              "tip": [
+                "The plugin version to use."
+              ],
+              "next": [
+                {
+                  "name": "v1.0.0",
+                  "tip": [
+                    "Example plugin version"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-trim-request-trailing-slashes",
+              "usage": [
+                "-trim-request-trailing-slashes <BOOL>"
+              ],
+              "tip": [
+                "Trim trailing slashes on incoming requests."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Keep trailing slashes"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Trim trailing slashes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-version",
+              "usage": [
+                "-version <INT>"
+              ],
+              "tip": [
+                "Select the version of the secrets engine to run."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Version 1"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Version 2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "server",
+      "tip": [
+        "Start a Vault server"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a configuration file or directory of configuration files."
+          ],
+          "next": [
+            {
+              "name": "config.hcl",
+              "tip": [
+                "HCL configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev",
+          "tip": [
+            "Enable development mode. Vault runs in-memory and starts unsealed with a root token."
+          ]
+        },
+        {
+          "name": "-dev-cluster-json",
+          "usage": [
+            "-dev-cluster-json <PATH>"
+          ],
+          "tip": [
+            "File to write cluster definition to"
+          ],
+          "next": [
+            {
+              "name": "cluster.json",
+              "tip": [
+                "Cluster definition file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-listen-address",
+          "usage": [
+            "-dev-listen-address <ADDR>"
+          ],
+          "tip": [
+            "Address to bind to in dev mode. The default is 127.0.0.1:8200."
+          ],
+          "next": [
+            {
+              "name": "127.0.0.1:8200",
+              "tip": [
+                "Default dev listen address"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-no-store-token",
+          "tip": [
+            "Do not persist the dev root token to the token helper."
+          ]
+        },
+        {
+          "name": "-dev-root-token-id",
+          "usage": [
+            "-dev-root-token-id <TOKEN>"
+          ],
+          "tip": [
+            "Initial root token. This only applies when running in dev mode."
+          ],
+          "next": [
+            {
+              "name": "root",
+              "tip": [
+                "Example dev root token"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-tls",
+          "tip": [
+            "Enable TLS development mode. Vault runs in-memory with a TLS listener."
+          ]
+        },
+        {
+          "name": "-dev-tls-cert-dir",
+          "usage": [
+            "-dev-tls-cert-dir <PATH>"
+          ],
+          "tip": [
+            "Directory where generated TLS files are created if -dev-tls is enabled."
+          ],
+          "next": [
+            {
+              "name": "./vault-tls",
+              "tip": [
+                "TLS certificate directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-dev-tls-san",
+          "usage": [
+            "-dev-tls-san <NAME>"
+          ],
+          "tip": [
+            "Additional Subject Alternative Name (as a DNS name or IP address) for the dev TLS certificate."
+          ],
+          "next": [
+            {
+              "name": "localhost",
+              "tip": [
+                "Localhost SAN"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-exit-on-core-shutdown",
+          "tip": [
+            "Exit the vault server if the vault core is shutdown."
+          ]
+        },
+        {
+          "name": "-experiment",
+          "usage": [
+            "-experiment <NAME>"
+          ],
+          "tip": [
+            "Name of an experiment to enable. Experiments should NOT be used in production."
+          ],
+          "next": [
+            {
+              "name": "experiment-name",
+              "tip": [
+                "Name of the experiment"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-file",
+          "usage": [
+            "-log-file <PATH>"
+          ],
+          "tip": [
+            "Path to the log file that Vault should use for logging"
+          ],
+          "next": [
+            {
+              "name": "vault.log",
+              "tip": [
+                "Log file path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-format",
+          "usage": [
+            "-log-format <FORMAT>"
+          ],
+          "tip": [
+            "Log format. Supported values are standard and json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON log format"
+              ]
+            },
+            {
+              "name": "standard",
+              "tip": [
+                "Standard human-readable log format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-level",
+          "usage": [
+            "-log-level <LEVEL>"
+          ],
+          "tip": [
+            "Log verbosity level: trace, debug, info, warn, or error. The default is info."
+          ],
+          "next": [
+            {
+              "name": "debug",
+              "tip": [
+                "Debug log level"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Error log level"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info log level (default)"
+              ]
+            },
+            {
+              "name": "trace",
+              "tip": [
+                "Most verbose log level"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warning log level"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-bytes",
+          "usage": [
+            "-log-rotate-bytes <INT>"
+          ],
+          "tip": [
+            "Number of bytes that should be written to a log before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "10485760",
+              "tip": [
+                "10 MB in bytes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-duration",
+          "usage": [
+            "-log-rotate-duration <DURATION>"
+          ],
+          "tip": [
+            "The maximum duration a log should be written to before it needs to be rotated."
+          ],
+          "next": [
+            {
+              "name": "24h",
+              "tip": [
+                "Rotate logs every 24 hours"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-log-rotate-max-files",
+          "usage": [
+            "-log-rotate-max-files <INT>"
+          ],
+          "tip": [
+            "The maximum number of older log file archives to keep"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Keep 10 rotated archives"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-pprof-dump-dir",
+          "usage": [
+            "-pprof-dump-dir <PATH>"
+          ],
+          "tip": [
+            "Directory where generated profiles are created."
+          ],
+          "next": [
+            {
+              "name": "pprof",
+              "tip": [
+                "Profiles directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-recovery",
+          "tip": [
+            "Enable recovery mode. Vault is used to perform recovery operations."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ssh",
+      "usage": [
+        "ssh [options] username@ip [ssh options]"
+      ],
+      "tip": [
+        "Initiate an SSH session"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-host-key-hostnames",
+          "usage": [
+            "-host-key-hostnames <NAMES>"
+          ],
+          "tip": [
+            "Hostnames to include in the host key certificate."
+          ],
+          "next": [
+            {
+              "name": "example.com",
+              "tip": [
+                "Example hostname"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-host-key-mount-point",
+          "usage": [
+            "-host-key-mount-point <PATH>"
+          ],
+          "tip": [
+            "Mount point of the SSH host key secrets engine."
+          ],
+          "next": [
+            {
+              "name": "host-signer",
+              "tip": [
+                "Example host signer mount point"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-mode",
+          "usage": [
+            "-mode <MODE>"
+          ],
+          "tip": [
+            "Name of the authentication mode: ca, dynamic, or otp."
+          ],
+          "next": [
+            {
+              "name": "ca",
+              "tip": [
+                "Use a CA-issued SSH certificate"
+              ]
+            },
+            {
+              "name": "dynamic",
+              "tip": [
+                "Use a dynamically generated key"
+              ]
+            },
+            {
+              "name": "otp",
+              "tip": [
+                "Use a one-time password"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-mount-point",
+          "usage": [
+            "-mount-point <PATH>"
+          ],
+          "tip": [
+            "Mount point to the SSH secrets engine. The default is ssh/."
+          ],
+          "next": [
+            {
+              "name": "ssh",
+              "tip": [
+                "Default SSH secrets engine mount point"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-exec",
+          "tip": [
+            "Print the generated credentials, but do not establish a connection."
+          ]
+        },
+        {
+          "name": "-private-key-path",
+          "usage": [
+            "-private-key-path <PATH>"
+          ],
+          "tip": [
+            "Path to the SSH private key to use for authentication."
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/id_rsa",
+              "tip": [
+                "Default SSH private key path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-public-key-path",
+          "usage": [
+            "-public-key-path <PATH>"
+          ],
+          "tip": [
+            "Path to the SSH public key to use for authentication."
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/id_rsa.pub",
+              "tip": [
+                "Default SSH public key path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-role",
+          "usage": [
+            "-role <ROLE>"
+          ],
+          "tip": [
+            "Name of the role to use to generate the key."
+          ],
+          "next": [
+            {
+              "name": "my-role",
+              "tip": [
+                "Example role name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ssh-executable",
+          "usage": [
+            "-ssh-executable <PATH>"
+          ],
+          "tip": [
+            "Path to the SSH executable to use."
+          ],
+          "next": [
+            {
+              "name": "ssh",
+              "tip": [
+                "Default SSH executable"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-strict-host-key-checking",
+          "usage": [
+            "-strict-host-key-checking <VALUE>"
+          ],
+          "tip": [
+            "Value to use for the SSH configuration option StrictHostKeyChecking."
+          ],
+          "next": [
+            {
+              "name": "no",
+              "tip": [
+                "Do not check host keys"
+              ]
+            },
+            {
+              "name": "yes",
+              "tip": [
+                "Strictly check host keys"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-user-known-hosts-file",
+          "usage": [
+            "-user-known-hosts-file <PATH>"
+          ],
+          "tip": [
+            "Path to the user known hosts file."
+          ],
+          "next": [
+            {
+              "name": "~/.ssh/known_hosts",
+              "tip": [
+                "Default known hosts file path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-valid-principals",
+          "usage": [
+            "-valid-principals <PRINCIPALS>"
+          ],
+          "tip": [
+            "Valid principals to include in the certificate."
+          ],
+          "next": [
+            {
+              "name": "username",
+              "tip": [
+                "Example principal"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Print seal and HA status"
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "Interact with tokens"
+      ],
+      "next": [
+        {
+          "name": "capabilities",
+          "usage": [
+            "capabilities [options] PATH"
+          ],
+          "tip": [
+            "Print capabilities of a token on a path"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "Treat the argument as a token accessor instead of a token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [options]"
+          ],
+          "tip": [
+            "Create a new token"
+          ],
+          "option": [
+            {
+              "name": "-display-name",
+              "usage": [
+                "-display-name <NAME>"
+              ],
+              "tip": [
+                "Name to associate with this token."
+              ],
+              "next": [
+                {
+                  "name": "display-name",
+                  "tip": [
+                    "Token display name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-entity-alias",
+              "usage": [
+                "-entity-alias <NAME>"
+              ],
+              "tip": [
+                "Name of the entity alias to associate with during token creation."
+              ],
+              "next": [
+                {
+                  "name": "alias-name",
+                  "tip": [
+                    "Entity alias name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-explicit-max-ttl",
+              "usage": [
+                "-explicit-max-ttl <TTL>"
+              ],
+              "tip": [
+                "Explicit maximum lifetime for the token. A hard limit that cannot be exceeded."
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "Maximum TTL of 1 hour"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-field",
+              "usage": [
+                "-field <KEY>"
+              ],
+              "tip": [
+                "Print only the field with the given name. Useful for piping to other processes."
+              ],
+              "next": [
+                {
+                  "name": "token",
+                  "tip": [
+                    "The token field"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-id",
+              "usage": [
+                "-id <TOKEN>"
+              ],
+              "tip": [
+                "Value for the token. By default, this is an auto-generated string. Requires sudo permissions."
+              ],
+              "next": [
+                {
+                  "name": "token-id",
+                  "tip": [
+                    "Explicit token ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-metadata",
+              "usage": [
+                "-metadata <key=value>"
+              ],
+              "tip": [
+                "Arbitrary key=value metadata to associate with the token. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "key=value",
+                  "tip": [
+                    "Metadata as key=value"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-no-default-policy",
+              "tip": [
+                "Detach the default policy from the policy set for this token."
+              ]
+            },
+            {
+              "name": "-orphan",
+              "tip": [
+                "Create the token with no parent."
+              ]
+            },
+            {
+              "name": "-period",
+              "usage": [
+                "-period <TTL>"
+              ],
+              "tip": [
+                "If specified, every renewal will use the given period. Periodic tokens do not expire."
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "Period of 1 hour"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-policy",
+              "usage": [
+                "-policy <NAME>"
+              ],
+              "tip": [
+                "Name of a policy to associate with this token. Can be specified multiple times."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "policy-name",
+                  "tip": [
+                    "Policy name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-renewable",
+              "tip": [
+                "Allow the token to be renewed up to its maximum TTL. The default is true."
+              ]
+            },
+            {
+              "name": "-role",
+              "usage": [
+                "-role <NAME>"
+              ],
+              "tip": [
+                "Name of the role to create the token against."
+              ],
+              "next": [
+                {
+                  "name": "role-name",
+                  "tip": [
+                    "Role name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-ttl",
+              "usage": [
+                "-ttl <TTL>"
+              ],
+              "tip": [
+                "Initial TTL to associate with the token."
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "TTL of 1 hour"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-type",
+              "usage": [
+                "-type <TYPE>"
+              ],
+              "tip": [
+                "The type of token to create: service or batch. The default is service."
+              ],
+              "next": [
+                {
+                  "name": "batch",
+                  "tip": [
+                    "Batch token"
+                  ]
+                },
+                {
+                  "name": "service",
+                  "tip": [
+                    "Service token (default)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-use-limit",
+              "usage": [
+                "-use-limit <INT>"
+              ],
+              "tip": [
+                "Number of times this token can be used. After the last use, the token is automatically revoked."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 uses"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lookup",
+          "usage": [
+            "lookup [options]"
+          ],
+          "tip": [
+            "Display information about a token"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "Treat the argument as a token accessor instead of a token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "renew",
+          "usage": [
+            "renew [options]"
+          ],
+          "tip": [
+            "Renew a token lease"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "Treat the argument as a token accessor instead of a token."
+              ]
+            },
+            {
+              "name": "-fail-if-not-fulfilled",
+              "tip": [
+                "Fail if the requested increment is not fulfilled."
+              ]
+            },
+            {
+              "name": "-increment",
+              "usage": [
+                "-increment <DURATION>"
+              ],
+              "tip": [
+                "Request a specific increment for the lease."
+              ],
+              "next": [
+                {
+                  "name": "1h",
+                  "tip": [
+                    "Renew for 1 hour"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [options]"
+          ],
+          "tip": [
+            "Revoke a token and its children"
+          ],
+          "option": [
+            {
+              "name": "-accessor",
+              "tip": [
+                "Treat the argument as a token accessor instead of a token."
+              ]
+            },
+            {
+              "name": "-mode",
+              "usage": [
+                "-mode <MODE>"
+              ],
+              "tip": [
+                "Revocation mode: orphan, path, or all."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Revoke the token and all its children"
+                  ]
+                },
+                {
+                  "name": "orphan",
+                  "tip": [
+                    "Revoke the token but keep child tokens"
+                  ]
+                },
+                {
+                  "name": "path",
+                  "tip": [
+                    "Revoke all tokens under the path"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-self",
+              "tip": [
+                "Revoke the current token."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transform",
+      "tip": [
+        "Interact with Vault's Transform Secrets Engine"
+      ],
+      "next": [
+        {
+          "name": "import",
+          "usage": [
+            "import PATH KEY [options...]"
+          ],
+          "tip": [
+            "Import a key into the Transform secrets engines"
+          ]
+        },
+        {
+          "name": "import-version",
+          "usage": [
+            "import-version PATH KEY [...]"
+          ],
+          "tip": [
+            "Import key material into a new key version in the Transform secrets engines"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "transit",
+      "tip": [
+        "Interact with Vault's Transit Secrets Engine"
+      ],
+      "next": [
+        {
+          "name": "import",
+          "usage": [
+            "import PATH KEY [options...]"
+          ],
+          "tip": [
+            "Import a key into the Transit secrets engines"
+          ]
+        },
+        {
+          "name": "import-version",
+          "usage": [
+            "import-version PATH KEY [...]"
+          ],
+          "tip": [
+            "Import key material into a new key version in the Transit secrets engines"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unwrap",
+      "usage": [
+        "unwrap [options] [TOKEN]"
+      ],
+      "tip": [
+        "Unwrap a wrapped secret"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version-history",
+      "tip": [
+        "Prints the version history of the target Vault server"
+      ]
+    },
+    {
+      "name": "write",
+      "usage": [
+        "write [options] PATH [DATA K=V...]"
+      ],
+      "tip": [
+        "Write data, configuration, and secrets"
+      ],
+      "option": [
+        {
+          "name": "-field",
+          "usage": [
+            "-field <KEY>"
+          ],
+          "tip": [
+            "Print only the field with the given name. Useful for piping to other processes."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Field name to print"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, -force"
+          ],
+          "tip": [
+            "Allow the write operation to continue with no key=value pairs."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-version"
+      ],
+      "usage": [
+        "-version, --version"
+      ],
+      "tip": [
+        "Print the version information."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-address",
+      "usage": [
+        "-address <ADDR>"
+      ],
+      "tip": [
+        "Address of the Vault server. The default is https://127.0.0.1:8200. Can also be specified via the VAULT_ADDR environment variable."
+      ],
+      "next": [
+        {
+          "name": "https://127.0.0.1:8200",
+          "tip": [
+            "Default Vault server address"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-agent-address",
+      "usage": [
+        "-agent-address <ADDR>"
+      ],
+      "tip": [
+        "Address of the Agent. Can also be specified via the VAULT_AGENT_ADDR environment variable."
+      ],
+      "next": [
+        {
+          "name": "https://127.0.0.1:8200",
+          "tip": [
+            "Default Agent address"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-ca-cert",
+      "usage": [
+        "-ca-cert <PATH>"
+      ],
+      "tip": [
+        "Path to a single PEM-encoded CA certificate to verify the Vault server's SSL certificate. Takes precedence over -ca-path."
+      ],
+      "next": [
+        {
+          "name": "ca.pem",
+          "tip": [
+            "CA certificate file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-ca-path",
+      "usage": [
+        "-ca-path <PATH>"
+      ],
+      "tip": [
+        "Path to a directory of PEM-encoded CA certificates to verify the Vault server's SSL certificate."
+      ],
+      "next": [
+        {
+          "name": "/etc/vault/certs",
+          "tip": [
+            "CA certificate directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-client-cert",
+      "usage": [
+        "-client-cert <PATH>"
+      ],
+      "tip": [
+        "Path to a PEM-encoded client certificate to use for TLS authentication to the Vault server. Requires -client-key."
+      ],
+      "next": [
+        {
+          "name": "client.pem",
+          "tip": [
+            "Client certificate file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-client-key",
+      "usage": [
+        "-client-key <PATH>"
+      ],
+      "tip": [
+        "Path to a PEM-encoded private key matching the client certificate from -client-cert."
+      ],
+      "next": [
+        {
+          "name": "client-key.pem",
+          "tip": [
+            "Client private key file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-disable-redirects",
+      "tip": [
+        "Disable the default client behavior, which honors a single redirect response from a request."
+      ]
+    },
+    {
+      "name": "-format",
+      "usage": [
+        "-format <FORMAT>"
+      ],
+      "tip": [
+        "Print the output in the given format. Valid formats are table, json, yaml, or pretty. raw is allowed for vault read operations only."
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON format"
+          ]
+        },
+        {
+          "name": "pretty",
+          "tip": [
+            "Pretty-printed format"
+          ]
+        },
+        {
+          "name": "table",
+          "tip": [
+            "Table format (default)"
+          ]
+        },
+        {
+          "name": "yaml",
+          "tip": [
+            "YAML format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-header",
+      "usage": [
+        "-header <key=value>"
+      ],
+      "tip": [
+        "Key-value pair to add as an HTTP header to any request done by the CLI. Headers starting with X-Vault- are forbidden. Can be specified multiple times."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "key=value",
+          "tip": [
+            "HTTP header as key=value"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-mfa",
+      "usage": [
+        "-mfa <METHOD=...>"
+      ],
+      "tip": [
+        "Supply MFA credentials as part of the X-Vault-MFA header."
+      ],
+      "next": [
+        {
+          "name": "method=value",
+          "tip": [
+            "MFA credentials as method=value"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-namespace",
+      "alias": [
+        "-ns"
+      ],
+      "usage": [
+        "-ns, -namespace <NS>"
+      ],
+      "tip": [
+        "The namespace to use for the command. -ns can be used as a shortcut."
+      ],
+      "next": [
+        {
+          "name": "ns1",
+          "tip": [
+            "Example namespace"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-non-interactive",
+      "tip": [
+        "When set true, prevents asking the user for input via the terminal."
+      ]
+    },
+    {
+      "name": "-output-curl-string",
+      "tip": [
+        "Instead of executing the request, print an equivalent cURL command string and exit."
+      ]
+    },
+    {
+      "name": "-output-policy",
+      "tip": [
+        "Instead of executing the request, print an example HCL policy that would be required to run this command, and exit."
+      ]
+    },
+    {
+      "name": "-policy-override",
+      "tip": [
+        "Override a Sentinel policy that has a soft-mandatory enforcement level specified."
+      ]
+    },
+    {
+      "name": "-tls-server-name",
+      "usage": [
+        "-tls-server-name <NAME>"
+      ],
+      "tip": [
+        "Name to use as the SNI host when connecting to the Vault server via TLS."
+      ],
+      "next": [
+        {
+          "name": "example.com",
+          "tip": [
+            "Example TLS server name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-tls-skip-verify",
+      "tip": [
+        "Disable verification of TLS certificates. Highly discouraged as it decreases security."
+      ]
+    },
+    {
+      "name": "-unlock-key",
+      "usage": [
+        "-unlock-key <KEY>"
+      ],
+      "tip": [
+        "Key to unlock a namespace API lock."
+      ],
+      "next": [
+        {
+          "name": "key",
+          "tip": [
+            "Unlock key"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-wrap-ttl",
+      "usage": [
+        "-wrap-ttl <TTL>"
+      ],
+      "tip": [
+        "Wraps the response in a cubbyhole token with the requested TTL. The response is available via the vault unwrap command."
+      ],
+      "next": [
+        {
+          "name": "1h",
+          "tip": [
+            "Wrap for 1 hour"
+          ]
+        },
+        {
+          "name": "30s",
+          "tip": [
+            "Wrap for 30 seconds"
+          ]
+        },
+        {
+          "name": "5m",
+          "tip": [
+            "Wrap for 5 minutes"
+          ]
+        }
+      ]
+    }
+  ]
+}

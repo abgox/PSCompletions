@@ -1,0 +1,2540 @@
+{
+  "meta": {
+    "url": "https://github.com/helmfile/helmfile",
+    "description": [
+      "以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "tip": [
+        "应用 helmfile 状态"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <string>"
+          ],
+          "tip": [
+            "kubectl 级联策略"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--context",
+          "usage": [
+            "--context <int>"
+          ],
+          "tip": [
+            "diff 中显示的上下文行数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <string>"
+          ],
+          "tip": [
+            "release 的描述"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detailed-exitcode",
+          "tip": [
+            "存在变更时返回非零退出码"
+          ]
+        },
+        {
+          "name": "--diff-args",
+          "usage": [
+            "--diff-args <string>"
+          ],
+          "tip": [
+            "向 helm diff 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enforce-needs-are-installed",
+          "tip": [
+            "确保 release 的所有依赖都已安装"
+          ]
+        },
+        {
+          "name": "--helm-stuck-grace",
+          "usage": [
+            "--helm-stuck-grace <int>"
+          ],
+          "tip": [
+            "将 release 视为卡住的秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--hide-notes",
+          "tip": [
+            "隐藏 release 说明"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-tests",
+          "tip": [
+            "包含测试 release"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "禁用 helm 钩子"
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <string>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer",
+          "usage": [
+            "--post-renderer <string>"
+          ],
+          "tip": [
+            "post-renderer 可执行文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer-args",
+          "usage": [
+            "--post-renderer-args <args>"
+          ],
+          "tip": [
+            "传递给 post-renderer 的参数"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reset-values",
+          "tip": [
+            "重置为 chart 内置的值"
+          ]
+        },
+        {
+          "name": "--reuse-values",
+          "tip": [
+            "复用上次 release 的值"
+          ]
+        },
+        {
+          "name": "--server-side",
+          "usage": [
+            "--server-side <value>"
+          ],
+          "tip": [
+            "使用服务端应用"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动选择"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "使用客户端应用"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "使用服务端应用"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "在 diff 输出中显示密钥"
+          ]
+        },
+        {
+          "name": "--skip-cleanup",
+          "tip": [
+            "跳过临时资源的清理"
+          ]
+        },
+        {
+          "name": "--skip-crds",
+          "tip": [
+            "跳过安装 CRD"
+          ]
+        },
+        {
+          "name": "--skip-diff-on-install",
+          "tip": [
+            "安装 release 时跳过 diff"
+          ]
+        },
+        {
+          "name": "--skip-diff-validation-on-install",
+          "tip": [
+            "安装时跳过 diff 验证"
+          ]
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--skip-schema-validation",
+          "tip": [
+            "跳过 JSON schema 验证"
+          ]
+        },
+        {
+          "name": "--strip-trailing-cr",
+          "tip": [
+            "去除行尾的回车符"
+          ]
+        },
+        {
+          "name": "--suppress",
+          "usage": [
+            "--suppress <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的 diff 行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-diff",
+          "tip": [
+            "抑制 diff 输出"
+          ]
+        },
+        {
+          "name": "--suppress-output-line-regex",
+          "usage": [
+            "--suppress-output-line-regex <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的输出行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-secrets",
+          "tip": [
+            "在输出中抑制密钥"
+          ]
+        },
+        {
+          "name": "--sync-args",
+          "usage": [
+            "--sync-args <string>"
+          ],
+          "tip": [
+            "向 helm upgrade 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sync-release-labels",
+          "tip": [
+            "同步 release 标签"
+          ]
+        },
+        {
+          "name": "--take-ownership",
+          "tip": [
+            "接管现有资源的所有权"
+          ]
+        },
+        {
+          "name": "--template-args",
+          "usage": [
+            "--template-args <string>"
+          ],
+          "tip": [
+            "向 helm template 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <int>"
+          ],
+          "tip": [
+            "等待单个 Kubernetes 操作的秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--track-fail-on-error",
+          "tip": [
+            "跟踪 release 失败时的状态"
+          ]
+        },
+        {
+          "name": "--track-failed-logs",
+          "tip": [
+            "跟踪失败 release 的日志"
+          ]
+        },
+        {
+          "name": "--track-logs",
+          "tip": [
+            "跟踪 release 的日志"
+          ]
+        },
+        {
+          "name": "--track-mode",
+          "usage": [
+            "--track-mode <mode>"
+          ],
+          "tip": [
+            "跟踪 release 进度的方式"
+          ],
+          "next": [
+            {
+              "name": "helm",
+              "tip": [
+                "使用 helm 跟踪（默认）"
+              ]
+            },
+            {
+              "name": "helm-legacy",
+              "tip": [
+                "使用旧版 helm 跟踪"
+              ]
+            },
+            {
+              "name": "kubedog",
+              "tip": [
+                "使用 kubedog 跟踪"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--track-timeout",
+          "usage": [
+            "--track-timeout <int>"
+          ],
+          "tip": [
+            "跟踪 release 的超时秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "针对 Kubernetes 集群验证 release"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "等待 release 就绪"
+          ]
+        },
+        {
+          "name": "--wait-for-jobs",
+          "tip": [
+            "等待所有任务完成"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "构建 helmfile 状态"
+      ],
+      "option": [
+        {
+          "name": "--embed-values",
+          "tip": [
+            "将值嵌入状态中"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "管理 helmfile 缓存"
+      ],
+      "next": [
+        {
+          "name": "cleanup",
+          "tip": [
+            "清理 helmfile 缓存"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示 helmfile 缓存信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "为指定 Shell 生成自动补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 补全脚本"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [NAME]"
+      ],
+      "tip": [
+        "创建新的 helmfile"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "覆盖现有 helmfile"
+          ]
+        },
+        {
+          "name": "--output-dir",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output-dir <dir>"
+          ],
+          "tip": [
+            "输出目录"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "deps",
+      "tip": [
+        "更新 release 的依赖"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-repos",
+          "tip": [
+            "跳过仓库更新"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "tip": [
+        "销毁 release"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <string>"
+          ],
+          "tip": [
+            "kubectl 级联策略"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--deleteTimeout",
+          "usage": [
+            "--deleteTimeout <int>"
+          ],
+          "tip": [
+            "删除 release 的超时秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--deleteWait",
+          "tip": [
+            "等待删除完成"
+          ]
+        },
+        {
+          "name": "--skip-charts",
+          "tip": [
+            "跳过 chart 下载"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "diff",
+      "tip": [
+        "对比 release 的差异"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--context",
+          "usage": [
+            "--context <int>"
+          ],
+          "tip": [
+            "diff 中显示的上下文行数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detailed-exitcode",
+          "tip": [
+            "存在变更时返回非零退出码"
+          ]
+        },
+        {
+          "name": "--diff-args",
+          "usage": [
+            "--diff-args <string>"
+          ],
+          "tip": [
+            "向 helm diff 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enforce-needs-are-installed",
+          "tip": [
+            "确保 release 的所有依赖都已安装"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-tests",
+          "tip": [
+            "包含测试 release"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "禁用 helm 钩子"
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <string>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer",
+          "usage": [
+            "--post-renderer <string>"
+          ],
+          "tip": [
+            "post-renderer 可执行文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer-args",
+          "usage": [
+            "--post-renderer-args <args>"
+          ],
+          "tip": [
+            "传递给 post-renderer 的参数"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reset-values",
+          "tip": [
+            "重置为 chart 内置的值"
+          ]
+        },
+        {
+          "name": "--reuse-values",
+          "tip": [
+            "复用上次 release 的值"
+          ]
+        },
+        {
+          "name": "--server-side",
+          "usage": [
+            "--server-side <value>"
+          ],
+          "tip": [
+            "使用服务端应用"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动选择"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "使用客户端应用"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "使用服务端应用"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "在 diff 输出中显示密钥"
+          ]
+        },
+        {
+          "name": "--skip-diff-on-install",
+          "tip": [
+            "安装 release 时跳过 diff"
+          ]
+        },
+        {
+          "name": "--skip-diff-validation-on-install",
+          "tip": [
+            "安装时跳过 diff 验证"
+          ]
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--strip-trailing-cr",
+          "tip": [
+            "去除行尾的回车符"
+          ]
+        },
+        {
+          "name": "--suppress",
+          "usage": [
+            "--suppress <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的 diff 行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-output-line-regex",
+          "usage": [
+            "--suppress-output-line-regex <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的输出行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-secrets",
+          "tip": [
+            "在输出中抑制密钥"
+          ]
+        },
+        {
+          "name": "--take-ownership",
+          "tip": [
+            "接管现有资源的所有权"
+          ]
+        },
+        {
+          "name": "--template-args",
+          "usage": [
+            "--template-args <string>"
+          ],
+          "tip": [
+            "向 helm template 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "针对 Kubernetes 集群验证 release"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "对 helmfile 运行 AI doctor"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--context",
+          "usage": [
+            "--context <int>"
+          ],
+          "tip": [
+            "diff 中显示的上下文行数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detailed-exitcode",
+          "tip": [
+            "存在变更时返回非零退出码"
+          ]
+        },
+        {
+          "name": "--diff-args",
+          "usage": [
+            "--diff-args <string>"
+          ],
+          "tip": [
+            "向 helm diff 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff-output",
+          "usage": [
+            "--diff-output <string>"
+          ],
+          "tip": [
+            "diff 的输出文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enforce-needs-are-installed",
+          "tip": [
+            "确保 release 的所有依赖都已安装"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制执行 doctor 运行"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-tests",
+          "tip": [
+            "包含测试 release"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--llm-api-key",
+          "usage": [
+            "--llm-api-key <string>"
+          ],
+          "tip": [
+            "LLM API 密钥"
+          ],
+          "next": []
+        },
+        {
+          "name": "--llm-base-url",
+          "usage": [
+            "--llm-base-url <string>"
+          ],
+          "tip": [
+            "LLM 基础 URL"
+          ],
+          "next": []
+        },
+        {
+          "name": "--llm-max-tokens",
+          "usage": [
+            "--llm-max-tokens <int>"
+          ],
+          "tip": [
+            "LLM 最大 token 数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--llm-model",
+          "usage": [
+            "--llm-model <string>"
+          ],
+          "tip": [
+            "LLM 模型"
+          ],
+          "next": []
+        },
+        {
+          "name": "--llm-timeout",
+          "usage": [
+            "--llm-timeout <duration>"
+          ],
+          "tip": [
+            "LLM 超时"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "禁用 helm 钩子"
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本格式（默认）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--post-renderer",
+          "usage": [
+            "--post-renderer <string>"
+          ],
+          "tip": [
+            "post-renderer 可执行文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer-args",
+          "usage": [
+            "--post-renderer-args <args>"
+          ],
+          "tip": [
+            "传递给 post-renderer 的参数"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reset-values",
+          "tip": [
+            "重置为 chart 内置的值"
+          ]
+        },
+        {
+          "name": "--reuse-values",
+          "tip": [
+            "复用上次 release 的值"
+          ]
+        },
+        {
+          "name": "--server-side",
+          "usage": [
+            "--server-side <value>"
+          ],
+          "tip": [
+            "使用服务端应用"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动选择"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "使用客户端应用"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "使用服务端应用"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "在 diff 输出中显示密钥"
+          ]
+        },
+        {
+          "name": "--skip-diff-on-install",
+          "tip": [
+            "安装 release 时跳过 diff"
+          ]
+        },
+        {
+          "name": "--skip-diff-validation-on-install",
+          "tip": [
+            "安装时跳过 diff 验证"
+          ]
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--strip-trailing-cr",
+          "tip": [
+            "去除行尾的回车符"
+          ]
+        },
+        {
+          "name": "--suppress",
+          "usage": [
+            "--suppress <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的 diff 行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-output-line-regex",
+          "usage": [
+            "--suppress-output-line-regex <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的输出行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-secrets",
+          "tip": [
+            "在输出中抑制密钥"
+          ]
+        },
+        {
+          "name": "--take-ownership",
+          "tip": [
+            "接管现有资源的所有权"
+          ]
+        },
+        {
+          "name": "--template-args",
+          "usage": [
+            "--template-args <string>"
+          ],
+          "tip": [
+            "向 helm template 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "针对 Kubernetes 集群验证 release"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "获取 release 的 chart"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-dir",
+          "usage": [
+            "--output-dir <dir>"
+          ],
+          "tip": [
+            "输出目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-dir-template",
+          "usage": [
+            "--output-dir-template <template>"
+          ],
+          "tip": [
+            "输出目录模板"
+          ],
+          "next": []
+        },
+        {
+          "name": "--write-output",
+          "tip": [
+            "写入输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "初始化 helmfile"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "覆盖现有 helmfile"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lint",
+      "tip": [
+        "检查 release"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "tip": [
+        "列出 release"
+      ],
+      "option": [
+        {
+          "name": "--keep-temp-dir",
+          "tip": [
+            "保留临时目录"
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-charts",
+          "tip": [
+            "跳过 chart 下载"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "print-env",
+      "tip": [
+        "打印环境"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "usage": [
+            "--output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式（默认）"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repos",
+      "tip": [
+        "同步仓库"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show-dag",
+      "tip": [
+        "显示依赖关系图"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "显示 release 的状态"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "sync",
+      "tip": [
+        "同步 release"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <string>"
+          ],
+          "tip": [
+            "kubectl 级联策略"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--context",
+          "usage": [
+            "--context <int>"
+          ],
+          "tip": [
+            "diff 中显示的上下文行数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <string>"
+          ],
+          "tip": [
+            "release 的描述"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detailed-exitcode",
+          "tip": [
+            "存在变更时返回非零退出码"
+          ]
+        },
+        {
+          "name": "--diff-args",
+          "usage": [
+            "--diff-args <string>"
+          ],
+          "tip": [
+            "向 helm diff 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enforce-needs-are-installed",
+          "tip": [
+            "确保 release 的所有依赖都已安装"
+          ]
+        },
+        {
+          "name": "--helm-stuck-grace",
+          "usage": [
+            "--helm-stuck-grace <int>"
+          ],
+          "tip": [
+            "将 release 视为卡住的秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--hide-notes",
+          "tip": [
+            "隐藏 release 说明"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-tests",
+          "tip": [
+            "包含测试 release"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "禁用 helm 钩子"
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <string>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer",
+          "usage": [
+            "--post-renderer <string>"
+          ],
+          "tip": [
+            "post-renderer 可执行文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer-args",
+          "usage": [
+            "--post-renderer-args <args>"
+          ],
+          "tip": [
+            "传递给 post-renderer 的参数"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reset-values",
+          "tip": [
+            "重置为 chart 内置的值"
+          ]
+        },
+        {
+          "name": "--reuse-values",
+          "tip": [
+            "复用上次 release 的值"
+          ]
+        },
+        {
+          "name": "--server-side",
+          "usage": [
+            "--server-side <value>"
+          ],
+          "tip": [
+            "使用服务端应用"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "自动选择"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "使用客户端应用"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "使用服务端应用"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "在 diff 输出中显示密钥"
+          ]
+        },
+        {
+          "name": "--skip-crds",
+          "tip": [
+            "跳过安装 CRD"
+          ]
+        },
+        {
+          "name": "--skip-diff-on-install",
+          "tip": [
+            "安装 release 时跳过 diff"
+          ]
+        },
+        {
+          "name": "--skip-diff-validation-on-install",
+          "tip": [
+            "安装时跳过 diff 验证"
+          ]
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--skip-schema-validation",
+          "tip": [
+            "跳过 JSON schema 验证"
+          ]
+        },
+        {
+          "name": "--strip-trailing-cr",
+          "tip": [
+            "去除行尾的回车符"
+          ]
+        },
+        {
+          "name": "--suppress",
+          "usage": [
+            "--suppress <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的 diff 行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-diff",
+          "tip": [
+            "抑制 diff 输出"
+          ]
+        },
+        {
+          "name": "--suppress-output-line-regex",
+          "usage": [
+            "--suppress-output-line-regex <regex>"
+          ],
+          "tip": [
+            "抑制匹配正则的输出行"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--suppress-secrets",
+          "tip": [
+            "在输出中抑制密钥"
+          ]
+        },
+        {
+          "name": "--sync-args",
+          "usage": [
+            "--sync-args <string>"
+          ],
+          "tip": [
+            "向 helm upgrade 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sync-release-labels",
+          "tip": [
+            "同步 release 标签"
+          ]
+        },
+        {
+          "name": "--take-ownership",
+          "tip": [
+            "接管现有资源的所有权"
+          ]
+        },
+        {
+          "name": "--template-args",
+          "usage": [
+            "--template-args <string>"
+          ],
+          "tip": [
+            "向 helm template 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <int>"
+          ],
+          "tip": [
+            "等待单个 Kubernetes 操作的秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--track-fail-on-error",
+          "tip": [
+            "跟踪 release 失败时的状态"
+          ]
+        },
+        {
+          "name": "--track-failed-logs",
+          "tip": [
+            "跟踪失败 release 的日志"
+          ]
+        },
+        {
+          "name": "--track-logs",
+          "tip": [
+            "跟踪 release 的日志"
+          ]
+        },
+        {
+          "name": "--track-mode",
+          "usage": [
+            "--track-mode <mode>"
+          ],
+          "tip": [
+            "跟踪 release 进度的方式"
+          ],
+          "next": [
+            {
+              "name": "helm",
+              "tip": [
+                "使用 helm 跟踪（默认）"
+              ]
+            },
+            {
+              "name": "helm-legacy",
+              "tip": [
+                "使用旧版 helm 跟踪"
+              ]
+            },
+            {
+              "name": "kubedog",
+              "tip": [
+                "使用 kubedog 跟踪"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--track-timeout",
+          "usage": [
+            "--track-timeout <int>"
+          ],
+          "tip": [
+            "跟踪 release 的超时秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "针对 Kubernetes 集群验证 release"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "等待 release 就绪"
+          ]
+        },
+        {
+          "name": "--wait-for-jobs",
+          "tip": [
+            "等待所有任务完成"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "template",
+      "tip": [
+        "渲染 release 模板"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enforce-needs-are-installed",
+          "tip": [
+            "确保 release 的所有依赖都已安装"
+          ]
+        },
+        {
+          "name": "--include-crds",
+          "tip": [
+            "在输出中包含 CRD"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--kube-version",
+          "usage": [
+            "--kube-version <version>"
+          ],
+          "tip": [
+            "使用的 Kubernetes 版本"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "禁用 helm 钩子"
+          ]
+        },
+        {
+          "name": "--output-dir",
+          "usage": [
+            "--output-dir <dir>"
+          ],
+          "tip": [
+            "输出目录"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-dir-template",
+          "usage": [
+            "--output-dir-template <template>"
+          ],
+          "tip": [
+            "输出目录模板"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer",
+          "usage": [
+            "--post-renderer <string>"
+          ],
+          "tip": [
+            "post-renderer 可执行文件的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--post-renderer-args",
+          "usage": [
+            "--post-renderer-args <args>"
+          ],
+          "tip": [
+            "传递给 post-renderer 的参数"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--show-only",
+          "usage": [
+            "--show-only <path>"
+          ],
+          "tip": [
+            "仅显示匹配路径的模板"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-cleanup",
+          "tip": [
+            "跳过临时资源的清理"
+          ]
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--skip-schema-validation",
+          "tip": [
+            "跳过 JSON schema 验证"
+          ]
+        },
+        {
+          "name": "--skip-tests",
+          "tip": [
+            "跳过测试 release"
+          ]
+        },
+        {
+          "name": "--template-args",
+          "usage": [
+            "--template-args <string>"
+          ],
+          "tip": [
+            "向 helm template 传递额外参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "针对 Kubernetes 集群验证 release"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "测试 release"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向 helm 传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "测试后删除测试 Pod"
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logs",
+          "tip": [
+            "显示测试日志"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <int>"
+          ],
+          "tip": [
+            "等待测试的秒数"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unittest",
+      "tip": [
+        "运行单元测试"
+      ],
+      "option": [
+        {
+          "name": "--args",
+          "usage": [
+            "--args <string>"
+          ],
+          "tip": [
+            "向单元测试插件传递参数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug-plugin",
+          "tip": [
+            "调试单元测试插件"
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "在第一个失败的测试时立即失败"
+          ]
+        },
+        {
+          "name": "--include-needs",
+          "tip": [
+            "包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--include-transitive-needs",
+          "tip": [
+            "包含 release 的传递依赖"
+          ]
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-needs",
+          "tip": [
+            "不包含 release 的依赖"
+          ]
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "alias": [
+        "ver"
+      ],
+      "usage": [
+        "ver|version"
+      ],
+      "tip": [
+        "打印版本"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "美观格式（默认）"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "简短格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "write-values",
+      "tip": [
+        "写入值"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "并发处理的 release 最大数量"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-file-template",
+          "usage": [
+            "--output-file-template <template>"
+          ],
+          "tip": [
+            "输出文件模板"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <values>"
+          ],
+          "tip": [
+            "在命令行设置值"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--values",
+          "usage": [
+            "--values <file>"
+          ],
+          "tip": [
+            "向 helm 传递值"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--allow-no-matching-release",
+      "tip": [
+        "允许没有匹配的 release"
+      ]
+    },
+    {
+      "name": "--chart",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --chart <chart>"
+      ],
+      "tip": [
+        "使用的 chart"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "启用彩色输出"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "启用调试模式"
+      ]
+    },
+    {
+      "name": "--disable-force-update",
+      "tip": [
+        "禁用依赖的强制更新"
+      ]
+    },
+    {
+      "name": "--enable-live-output",
+      "tip": [
+        "启用实时输出"
+      ]
+    },
+    {
+      "name": "--enforce-plugin-verification",
+      "tip": [
+        "强制插件验证"
+      ]
+    },
+    {
+      "name": "--environment",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --environment <name>"
+      ],
+      "tip": [
+        "环境名称"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <file>"
+      ],
+      "tip": [
+        "Helmfile 文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--helm-binary",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --helm-binary <path>"
+      ],
+      "tip": [
+        "helm 可执行文件的路径"
+      ],
+      "next": []
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "启用交互模式"
+      ]
+    },
+    {
+      "name": "--kube-context",
+      "usage": [
+        "--kube-context <name>"
+      ],
+      "tip": [
+        "使用的 kube 上下文"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <path>"
+      ],
+      "tip": [
+        "kubeconfig 的路径"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kustomize-binary",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kustomize-binary <path>"
+      ],
+      "tip": [
+        "kustomize 可执行文件的路径"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <level>"
+      ],
+      "tip": [
+        "日志级别"
+      ],
+      "next": []
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <name>"
+      ],
+      "tip": [
+        "使用的命名空间"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用彩色输出"
+      ]
+    },
+    {
+      "name": "--oci-plain-http",
+      "tip": [
+        "对 OCI 仓库使用明文 HTTP"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制输出"
+      ]
+    },
+    {
+      "name": "--repo-retries",
+      "usage": [
+        "--repo-retries <int>"
+      ],
+      "tip": [
+        "仓库更新的重试次数"
+      ],
+      "next": []
+    },
+    {
+      "name": "--selector",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --selector <selector>"
+      ],
+      "tip": [
+        "用于过滤 release 的选择器"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--sequential-helmfiles",
+      "tip": [
+        "按顺序处理 helmfile"
+      ]
+    },
+    {
+      "name": "--skip-deps",
+      "tip": [
+        "跳过依赖更新"
+      ]
+    },
+    {
+      "name": "--skip-refresh",
+      "tip": [
+        "跳过状态刷新"
+      ]
+    },
+    {
+      "name": "--state-values-file",
+      "usage": [
+        "--state-values-file <file>"
+      ],
+      "tip": [
+        "状态值文件"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--state-values-set",
+      "usage": [
+        "--state-values-set <values>"
+      ],
+      "tip": [
+        "设置状态值"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--state-values-set-string",
+      "usage": [
+        "--state-values-set-string <values>"
+      ],
+      "tip": [
+        "以字符串形式设置状态值"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--strip-args-values-on-exit-error",
+      "tip": [
+        "退出出错时移除参数值"
+      ]
+    }
+  ]
+}

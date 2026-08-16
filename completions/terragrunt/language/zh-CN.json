@@ -1,0 +1,3192 @@
+{
+  "meta": {
+    "url": "https://terragrunt.gruntwork.io",
+    "description": [
+      "Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [options] [PLAN]"
+      ],
+      "tip": [
+        "创建或更新基础设施"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "在 apply 之前跳过计划的交互式确认。"
+          ]
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "以更紧凑的形式显示警告,仅包含摘要信息。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "使用资源地址强制替换资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要替换的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend",
+      "tip": [
+        "与 OpenTofu/Terraform 后端基础设施交互"
+      ],
+      "next": [
+        {
+          "name": "bootstrap",
+          "usage": [
+            "bootstrap [options]"
+          ],
+          "tip": [
+            "引导 OpenTofu/Terraform 后端基础设施"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "在当前目录的单元堆栈上运行指定命令。"
+              ]
+            },
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "在使用后端基础设施之前自动进行 bootstrap。"
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "如果需要创建远程状态存储桶则失败。"
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "不更新远程状态存储桶。"
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "下载 OpenTofu/Terraform 模块的路径。默认是 .terragrunt-cache。"
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "默认下载目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "为 HCL 代码设置功能标志。"
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "功能标志名称"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options]"
+          ],
+          "tip": [
+            "删除 OpenTofu/Terraform 状态"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "在当前目录的单元堆栈上运行指定命令。"
+              ]
+            },
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "在使用后端基础设施之前自动进行 bootstrap。"
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "如果需要创建远程状态存储桶则失败。"
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "不更新远程状态存储桶。"
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "下载 OpenTofu/Terraform 模块的路径。默认是 .terragrunt-cache。"
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "默认下载目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "为 HCL 代码设置功能标志。"
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "功能标志名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "无需确认即可删除状态。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "usage": [
+            "migrate [options] <src-unit> <dst-unit>"
+          ],
+          "tip": [
+            "将 OpenTofu/Terraform 状态从一个位置迁移到另一个位置"
+          ],
+          "option": [
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "在使用后端基础设施之前自动进行 bootstrap。"
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "如果需要创建远程状态存储桶则失败。"
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "不更新远程状态存储桶。"
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "下载 OpenTofu/Terraform 模块的路径。默认是 .terragrunt-cache。"
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "默认下载目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "为 HCL 代码设置功能标志。"
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "功能标志名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "无需确认即可迁移状态。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "browse",
+      "usage": [
+        "browse [options]"
+      ],
+      "tip": [
+        "在交互式 TUI 中浏览 Terragrunt 配置"
+      ],
+      "option": [
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "为 HCL 代码设置功能标志。"
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "功能标志名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-discovery-auth-provider-cmd",
+          "tip": [
+            "禁用 discovery 认证提供程序命令。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "catalog",
+      "usage": [
+        "catalog [options]"
+      ],
+      "tip": [
+        "启动用于搜索和管理模块目录的用户界面"
+      ],
+      "option": [
+        {
+          "name": "--cas-clone-depth",
+          "usage": [
+            "--cas-clone-depth <value>"
+          ],
+          "tip": [
+            "使用 CAS 时,将此值传递给 git clone --depth(默认 1;-1 克隆完整历史)。"
+          ],
+          "next": [
+            {
+              "name": "-1",
+              "tip": [
+                "克隆完整历史"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "默认克隆深度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "目录的输出格式。有效值:tui、jsonl、md。"
+          ],
+          "next": [
+            {
+              "name": "jsonl",
+              "tip": [
+                "JSON lines 格式"
+              ]
+            },
+            {
+              "name": "md",
+              "tip": [
+                "Markdown 格式"
+              ]
+            },
+            {
+              "name": "tui",
+              "tip": [
+                "终端 UI(默认)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-file",
+          "usage": [
+            "--ignore-file <value>"
+          ],
+          "tip": [
+            "在发现期间叠加在仓库 .terragrunt-catalog-ignore 之上的附加忽略文件路径。"
+          ],
+          "next": [
+            {
+              "name": "ignore-file",
+              "tip": [
+                "忽略文件路径"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-cas",
+          "tip": [
+            "禁用 CAS(内容寻址存储)功能。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "使用 boilerplate 模板时禁用 hooks。"
+          ]
+        },
+        {
+          "name": "--no-include-root",
+          "tip": [
+            "catalog 生成的脚手架中不包含根单元。"
+          ]
+        },
+        {
+          "name": "--no-shell",
+          "tip": [
+            "使用 boilerplate 模板时禁用 shell 命令。"
+          ]
+        },
+        {
+          "name": "--root-file-name",
+          "usage": [
+            "--root-file-name <value>"
+          ],
+          "tip": [
+            "根 Terragrunt 配置文件的名称(如果使用)。"
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "根配置文件名称"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dag",
+      "tip": [
+        "与有向无环图(DAG)交互"
+      ],
+      "next": [
+        {
+          "name": "graph",
+          "tip": [
+            "以 DOT 语言绘制有向无环图(DAG)。是 list --format=dot --dag --dependencies --external 的别名。"
+          ],
+          "option": [
+            {
+              "name": "--discovery-boundary",
+              "usage": [
+                "--discovery-boundary <value>"
+              ],
+              "tip": [
+                "将单元发现限制在给定的边界内。"
+              ],
+              "next": [
+                {
+                  "name": "boundary",
+                  "tip": [
+                    "发现边界"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "为 HCL 代码设置功能标志。"
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "功能标志名称"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <value>"
+              ],
+              "tip": [
+                "过滤要对其运行命令的单元。"
+              ],
+              "next": [
+                {
+                  "name": "unit-name",
+                  "tip": [
+                    "单元名称过滤器"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--filter-affected",
+              "tip": [
+                "仅包含受当前更改影响的单元。"
+              ]
+            },
+            {
+              "name": "--filter-allow-destroy",
+              "tip": [
+                "允许对过滤后的单元执行 destroy 操作。"
+              ]
+            },
+            {
+              "name": "--filters-file",
+              "usage": [
+                "--filters-file <value>"
+              ],
+              "tip": [
+                "包含要应用的过滤器的文件路径。"
+              ],
+              "next": [
+                {
+                  "name": "filters.hcl",
+                  "tip": [
+                    "过滤器文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--no-filters-file",
+              "tip": [
+                "不加载过滤器文件。"
+              ]
+            },
+            {
+              "name": "--queue-ignore-dag-order",
+              "tip": [
+                "对单元排队时忽略 DAG 顺序。"
+              ]
+            },
+            {
+              "name": "--queue-ignore-errors",
+              "tip": [
+                "即使遇到错误也继续处理单元。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "usage": [
+        "destroy [options]"
+      ],
+      "tip": [
+        "销毁先前创建的基础设施"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "在 destroy 之前跳过计划的交互式确认。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [options] -- <command>"
+      ],
+      "tip": [
+        "执行任意命令"
+      ],
+      "option": [
+        {
+          "name": "--auth-provider-cmd",
+          "usage": [
+            "--auth-provider-cmd <value>"
+          ],
+          "tip": [
+            "输出用于从私有 git 仓库获取模块的认证令牌的命令。"
+          ],
+          "next": [
+            {
+              "name": "command",
+              "tip": [
+                "认证提供程序命令"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "默认 Terragrunt 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--download-dir",
+          "usage": [
+            "--download-dir <path>"
+          ],
+          "tip": [
+            "下载 OpenTofu/Terraform 模块的路径。默认是 .terragrunt-cache。"
+          ],
+          "next": [
+            {
+              "name": ".terragrunt-cache",
+              "tip": [
+                "默认下载目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role",
+          "usage": [
+            "--iam-assume-role <value>"
+          ],
+          "tip": [
+            "执行命令前要承担的 IAM 角色的 ARN。"
+          ],
+          "next": [
+            {
+              "name": "arn:aws:iam::123456789012:role/role-name",
+              "tip": [
+                "IAM 角色 ARN"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-duration",
+          "usage": [
+            "--iam-assume-role-duration <value>"
+          ],
+          "tip": [
+            "IAM 角色会话的时长。"
+          ],
+          "next": [
+            {
+              "name": "1h",
+              "tip": [
+                "1 小时会话"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-session-name",
+          "usage": [
+            "--iam-assume-role-session-name <value>"
+          ],
+          "tip": [
+            "IAM 角色的会话名称。"
+          ],
+          "next": [
+            {
+              "name": "session-name",
+              "tip": [
+                "IAM 会话名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-web-identity-token",
+          "usage": [
+            "--iam-assume-role-web-identity-token <value>"
+          ],
+          "tip": [
+            "用于承担 IAM 角色的 Web 身份令牌。"
+          ],
+          "next": [
+            {
+              "name": "token",
+              "tip": [
+                "Web 身份令牌"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--in-download-dir",
+          "tip": [
+            "在模块下载到的目录中运行命令。"
+          ]
+        },
+        {
+          "name": "--inputs-debug",
+          "tip": [
+            "为 inputs 处理启用调试模式。"
+          ]
+        },
+        {
+          "name": "--tf-path",
+          "usage": [
+            "--tf-path <value>"
+          ],
+          "tip": [
+            "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 二进制文件"
+              ]
+            },
+            {
+              "name": "tofu",
+              "tip": [
+                "OpenTofu 二进制文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find",
+      "alias": [
+        "fd"
+      ],
+      "usage": [
+        "fd|find [options]"
+      ],
+      "tip": [
+        "查找相关的 Terragrunt 配置"
+      ],
+      "option": [
+        {
+          "name": "--dag",
+          "tip": [
+            "显示单元依赖关系图。"
+          ]
+        },
+        {
+          "name": "--dependencies",
+          "tip": [
+            "显示单元依赖关系。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <value>"
+          ],
+          "tip": [
+            "排除与给定过滤器匹配的单元。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "要排除的单元名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "为 HCL 代码设置功能标志。"
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "功能标志名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "过滤要对其运行命令的单元。"
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "单元名称过滤器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "结果的输出格式。"
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "DOT 图格式"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <value>"
+          ],
+          "tip": [
+            "仅包含与给定过滤器匹配的单元。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "要包含的单元名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出结果。"
+          ]
+        },
+        {
+          "name": "--no-hidden",
+          "tip": [
+            "结果中不包含隐藏单元。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock [options]"
+      ],
+      "tip": [
+        "释放当前 workspace 上卡住的锁"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "解锁过程中不请求输入确认。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcl",
+      "tip": [
+        "与 HCL 文件交互"
+      ],
+      "next": [
+        {
+          "name": "format",
+          "alias": [
+            "fmt"
+          ],
+          "usage": [
+            "fmt|format [options]"
+          ],
+          "tip": [
+            "递归查找 HashiCorp 配置语言(HCL)文件并将其重写为规范格式"
+          ],
+          "option": [
+            {
+              "name": "--check",
+              "tip": [
+                "检查输入是否已格式化。如果所有输入都已正确格式化,退出状态为 0。"
+              ]
+            },
+            {
+              "name": "--diff",
+              "tip": [
+                "显示格式化更改的差异。"
+              ]
+            },
+            {
+              "name": "--exclude-dir",
+              "usage": [
+                "--exclude-dir <value>"
+              ],
+              "tip": [
+                "从格式化中排除目录。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "dir-name",
+                  "tip": [
+                    "要排除的目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <value>"
+              ],
+              "tip": [
+                "格式化给定文件,而不是递归查找文件。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "要格式化的 HCL 文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "限制并行操作数。"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 个并行操作"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--stdin",
+              "tip": [
+                "从 stdin 读取文件内容。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "usage": [
+            "validate [options]"
+          ],
+          "tip": [
+            "递归查找 HashiCorp 配置语言(HCL)文件并验证它们"
+          ],
+          "option": [
+            {
+              "name": "--inputs",
+              "tip": [
+                "验证配置的 inputs。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出验证结果。"
+              ]
+            },
+            {
+              "name": "--show-config-path",
+              "tip": [
+                "显示正在验证的配置的路径。"
+              ]
+            },
+            {
+              "name": "--strict",
+              "tip": [
+                "验证期间有任何警告则失败。"
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform 二进制文件"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu 二进制文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import [options]"
+      ],
+      "tip": [
+        "将现有基础设施与 OpenTofu/Terraform 资源关联"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "用于配置 provider 的 Terraform 配置文件目录路径。"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "配置目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "用于显示 Terragrunt 设置的命令列表"
+      ],
+      "next": [
+        {
+          "name": "print",
+          "tip": [
+            "打印 Terragrunt 上下文的简短描述"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "在当前目录的单元堆栈上运行指定命令。"
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "下载 OpenTofu/Terraform 模块的路径。默认是 .terragrunt-cache。"
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "默认下载目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform 二进制文件"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu 二进制文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "strict",
+          "usage": [
+            "strict <command>"
+          ],
+          "tip": [
+            "与严格控制设置关联的命令"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [options]"
+      ],
+      "tip": [
+        "为其他命令准备工作目录"
+      ],
+      "option": [
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "要合并到配置文件 backend 块中的配置。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "backend.hcl",
+              "tip": [
+                "后端配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "在 init 之前将给定模块的内容复制到当前目录。"
+          ],
+          "next": [
+            {
+              "name": "module-source",
+              "tip": [
+                "模块源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如有必要,请求输入。默认是 true。"
+          ]
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "设置依赖锁文件模式:read-only 或 ignore。"
+          ],
+          "next": [
+            {
+              "name": "ignore",
+              "tip": [
+                "忽略锁文件"
+              ]
+            },
+            {
+              "name": "read-only",
+              "tip": [
+                "不更新锁文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "重新配置后端并尝试迁移任何现有状态。"
+          ]
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "重新配置后端,忽略任何已保存的配置。"
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "将所有先前选定的 provider 升级到最新版本。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [options]"
+      ],
+      "tip": [
+        "列出相关的 Terragrunt 配置"
+      ],
+      "option": [
+        {
+          "name": "--dag",
+          "tip": [
+            "显示单元依赖关系图。"
+          ]
+        },
+        {
+          "name": "--dependencies",
+          "tip": [
+            "显示单元依赖关系。"
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "为 HCL 代码设置功能标志。"
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "功能标志名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "过滤要对其运行命令的单元。"
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "单元名称过滤器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "结果的输出格式。"
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "DOT 图格式"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "在结果中显示详细信息。"
+          ]
+        },
+        {
+          "name": "--no-hidden",
+          "tip": [
+            "结果中不包含隐藏单元。"
+          ]
+        },
+        {
+          "name": "--tree",
+          "tip": [
+            "以树形结构显示结果。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [options]"
+      ],
+      "tip": [
+        "显示根模块的输出值"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,输出将格式化为 JSON 对象。"
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "对于单值输出,直接打印原始值而不进行转义。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "usage": [
+        "plan [options]"
+      ],
+      "tip": [
+        "显示当前配置所需的更改"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "以更紧凑的形式显示警告,仅包含摘要信息。"
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "选择 destroy 计划模式。"
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "命令退出时返回详细的退出代码。"
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "将计划文件写入给定路径。"
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "计划输出文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "选择仅刷新计划模式。"
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "使用资源地址强制替换资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要替换的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "usage": [
+        "refresh [options]"
+      ],
+      "tip": [
+        "更新状态以匹配远程系统"
+      ],
+      "option": [
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "render",
+      "usage": [
+        "render [options]"
+      ],
+      "tip": [
+        "以指定格式渲染最终的 terragrunt 配置,解析所有变量、include 和函数"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "在当前目录的单元堆栈上运行指定命令。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "默认 Terragrunt 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "渲染配置的输出格式。"
+          ],
+          "next": [
+            {
+              "name": "hcl",
+              "tip": [
+                "HCL 格式"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出渲染的配置。"
+          ]
+        },
+        {
+          "name": "--out",
+          "usage": [
+            "--out <path>"
+          ],
+          "tip": [
+            "将渲染的配置写入给定路径。"
+          ],
+          "next": [
+            {
+              "name": "rendered.hcl",
+              "tip": [
+                "渲染的配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--with-metadata",
+          "tip": [
+            "在渲染的配置中包含元数据。"
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "就地写入渲染的配置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [options] -- <tofu/terraform command>"
+      ],
+      "tip": [
+        "运行命令,将参数传递给编排的 tofu/terraform 二进制文件"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "在当前目录的单元堆栈上运行指定命令。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "默认 Terragrunt 配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "为 HCL 代码设置功能标志。"
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "功能标志名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "过滤要对其运行命令的单元。"
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "单元名称过滤器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--graph",
+          "tip": [
+            "按依赖图顺序在单元上运行命令。"
+          ]
+        },
+        {
+          "name": "--no-auto-approve",
+          "tip": [
+            "不自动批准 apply 命令。"
+          ]
+        },
+        {
+          "name": "--no-auto-init",
+          "tip": [
+            "在其他 terragrunt 命令期间不自动运行 init。"
+          ]
+        },
+        {
+          "name": "--no-auto-retry",
+          "tip": [
+            "不自动重试因瞬时错误而失败的命令。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "运行命令时禁用所有 hooks。"
+          ]
+        },
+        {
+          "name": "--out-dir",
+          "usage": [
+            "--out-dir <path>"
+          ],
+          "tip": [
+            "写入输出文件的目录。"
+          ],
+          "next": [
+            {
+              "name": "out",
+              "tip": [
+                "输出目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--parallelism",
+          "usage": [
+            "--parallelism <value>"
+          ],
+          "tip": [
+            "限制并行操作数。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "10 个并行操作"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <value>"
+          ],
+          "tip": [
+            "将 OpenTofu/Terraform 配置从给定源下载到临时文件夹。"
+          ],
+          "next": [
+            {
+              "name": "git::https://github.com/org/repo.git",
+              "tip": [
+                "Git 源 URL"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--source-update",
+          "tip": [
+            "删除临时文件夹以获得干净的源副本。"
+          ]
+        },
+        {
+          "name": "--tf-path",
+          "usage": [
+            "--tf-path <value>"
+          ],
+          "tip": [
+            "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 二进制文件"
+              ]
+            },
+            {
+              "name": "tofu",
+              "tip": [
+                "OpenTofu 二进制文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scaffold",
+      "usage": [
+        "scaffold [options]"
+      ],
+      "tip": [
+        "搭建新的 Terragrunt 模块"
+      ],
+      "option": [
+        {
+          "name": "--backend-bootstrap",
+          "tip": [
+            "在使用后端基础设施之前自动进行 bootstrap。"
+          ]
+        },
+        {
+          "name": "--backend-require-bootstrap",
+          "tip": [
+            "如果需要创建远程状态存储桶则失败。"
+          ]
+        },
+        {
+          "name": "--disable-bucket-update",
+          "tip": [
+            "不更新远程状态存储桶。"
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "为 HCL 代码设置功能标志。"
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "功能标志名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-dependency-prompt",
+          "tip": [
+            "不提示确认是否包含依赖。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "使用 boilerplate 模板时禁用 hooks。"
+          ]
+        },
+        {
+          "name": "--no-include-root",
+          "tip": [
+            "catalog 生成的脚手架中不包含根单元。"
+          ]
+        },
+        {
+          "name": "--no-shell",
+          "tip": [
+            "使用 boilerplate 模板时禁用 shell 命令。"
+          ]
+        },
+        {
+          "name": "--output-folder",
+          "usage": [
+            "--output-folder <value>"
+          ],
+          "tip": [
+            "脚手架输出的输出文件夹。"
+          ],
+          "next": [
+            {
+              "name": "modules",
+              "tip": [
+                "输出文件夹"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--root-file-name",
+          "usage": [
+            "--root-file-name <value>"
+          ],
+          "tip": [
+            "根 Terragrunt 配置文件的名称(如果使用)。"
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "根配置文件名称"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--var",
+          "usage": [
+            "--var <value>"
+          ],
+          "tip": [
+            "脚手架中使用的变量。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "name=value",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--var-file",
+          "usage": [
+            "--var-file <value>"
+          ],
+          "tip": [
+            "单元脚手架中使用的变量文件。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options]"
+      ],
+      "tip": [
+        "显示当前状态或已保存的计划"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,以机器可读的 JSON 格式输出 Terraform 计划或状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stack",
+      "tip": [
+        "Terragrunt stack 命令"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "清理从当前目录生成的 stack"
+          ]
+        },
+        {
+          "name": "generate",
+          "usage": [
+            "generate [options]"
+          ],
+          "tip": [
+            "从 terragrunt.stack.hcl 文件生成 stack"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+              ]
+            },
+            {
+              "name": "--no-auto-approve",
+              "tip": [
+                "不自动批准 apply 命令。"
+              ]
+            },
+            {
+              "name": "--no-auto-init",
+              "tip": [
+                "在其他 terragrunt 命令期间不自动运行 init。"
+              ]
+            },
+            {
+              "name": "--out-dir",
+              "usage": [
+                "--out-dir <path>"
+              ],
+              "tip": [
+                "写入输出文件的目录。"
+              ],
+              "next": [
+                {
+                  "name": "out",
+                  "tip": [
+                    "输出目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "限制并行操作数。"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 个并行操作"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <value>"
+              ],
+              "tip": [
+                "将 OpenTofu/Terraform 配置从给定源下载到临时文件夹。"
+              ],
+              "next": [
+                {
+                  "name": "git::https://github.com/org/repo.git",
+                  "tip": [
+                    "Git 源 URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform 二进制文件"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu 二进制文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "usage": [
+            "output [options]"
+          ],
+          "tip": [
+            "运行 fetch stack 输出"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <value>"
+              ],
+              "tip": [
+                "stack 输出的输出格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "文本格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出 stack 输出。"
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "输出单个输出的原始值。"
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform 二进制文件"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu 二进制文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [options]"
+          ],
+          "tip": [
+            "在从当前目录生成的 stack 上运行命令"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "Terragrunt 配置文件的路径。默认是 terragrunt.hcl。"
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "默认 Terragrunt 配置文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "如果任何单元失败则立即失败,而不是继续处理其余单元。"
+              ]
+            },
+            {
+              "name": "--no-auto-approve",
+              "tip": [
+                "不自动批准 apply 命令。"
+              ]
+            },
+            {
+              "name": "--no-auto-init",
+              "tip": [
+                "在其他 terragrunt 命令期间不自动运行 init。"
+              ]
+            },
+            {
+              "name": "--out-dir",
+              "usage": [
+                "--out-dir <path>"
+              ],
+              "tip": [
+                "写入输出文件的目录。"
+              ],
+              "next": [
+                {
+                  "name": "out",
+                  "tip": [
+                    "输出目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "限制并行操作数。"
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 个并行操作"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "OpenTofu/Terraform 二进制文件的路径。默认是 PATH 中的那个。"
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform 二进制文件"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu 二进制文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "usage": [
+        "state [options]"
+      ],
+      "tip": [
+        "高级状态管理"
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [options]"
+      ],
+      "tip": [
+        "为 OpenTofu/Terraform 模块执行集成测试"
+      ],
+      "option": [
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "如果指定,Terraform 将仅执行与过滤器匹配的测试文件。"
+          ],
+          "next": [
+            {
+              "name": "testfile",
+              "tip": [
+                "测试文件过滤器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,将以 JSON 格式打印机器可读输出。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "在每个测试运行块执行时打印其计划或状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [options]"
+      ],
+      "tip": [
+        "检查配置是否有效"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,将以 JSON 格式打印机器可读输出。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "如果指定,输出将不包含任何颜色。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--experiment",
+      "usage": [
+        "--experiment <value>"
+      ],
+      "tip": [
+        "启用特定实验。"
+      ],
+      "next": [
+        {
+          "name": "experiment-name",
+          "tip": [
+            "实验名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experiment-mode",
+      "tip": [
+        "为 Terragrunt 启用实验模式。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--log-custom-format",
+      "usage": [
+        "--log-custom-format <value>"
+      ],
+      "tip": [
+        "设置自定义日志格式。"
+      ],
+      "next": [
+        {
+          "name": "format",
+          "tip": [
+            "自定义日志格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-disable",
+      "tip": [
+        "禁用日志记录。"
+      ]
+    },
+    {
+      "name": "--log-format",
+      "usage": [
+        "--log-format <value>"
+      ],
+      "tip": [
+        "设置日志格式。"
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON 日志格式"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "文本日志格式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <value>"
+      ],
+      "tip": [
+        "设置 Terragrunt 的日志级别。支持的级别:stderr、stdout、error、warn、info、debug、trace。"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug 日志级别"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error 日志级别"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info 日志级别(默认)"
+          ]
+        },
+        {
+          "name": "stderr",
+          "tip": [
+            "记录到 stderr"
+          ]
+        },
+        {
+          "name": "stdout",
+          "tip": [
+            "记录到 stdout"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace 日志级别"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning 日志级别"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-show-abs-paths",
+      "tip": [
+        "在日志中显示绝对路径。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "禁用彩色输出。"
+      ]
+    },
+    {
+      "name": "--no-tip",
+      "usage": [
+        "--no-tip <value>"
+      ],
+      "tip": [
+        "禁用特定提示的显示。"
+      ],
+      "next": [
+        {
+          "name": "tip-name",
+          "tip": [
+            "提示名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-tips",
+      "tip": [
+        "禁用所有提示的显示。"
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "对所有提示假设为是。"
+      ]
+    },
+    {
+      "name": "--profile-cpu",
+      "usage": [
+        "--profile-cpu <path>"
+      ],
+      "tip": [
+        "将 CPU 性能分析写入给定路径。"
+      ],
+      "next": [
+        {
+          "name": "cpu.prof",
+          "tip": [
+            "CPU 性能分析文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-dir",
+      "usage": [
+        "--profile-dir <path>"
+      ],
+      "tip": [
+        "写入性能分析文件(cpu、mem、goroutine)的目录。"
+      ],
+      "next": [
+        {
+          "name": "profiles",
+          "tip": [
+            "性能分析文件目录"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-goroutine",
+      "usage": [
+        "--profile-goroutine <path>"
+      ],
+      "tip": [
+        "将 goroutine 性能分析写入给定路径。"
+      ],
+      "next": [
+        {
+          "name": "goroutine.prof",
+          "tip": [
+            "Goroutine 性能分析文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-mem",
+      "usage": [
+        "--profile-mem <path>"
+      ],
+      "tip": [
+        "将内存(堆)性能分析写入给定路径。"
+      ],
+      "next": [
+        {
+          "name": "mem.prof",
+          "tip": [
+            "内存性能分析文件"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--strict-control",
+      "usage": [
+        "--strict-control <value>"
+      ],
+      "tip": [
+        "启用特定严格控制。"
+      ],
+      "next": [
+        {
+          "name": "control-name",
+          "tip": [
+            "严格控制名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--strict-mode",
+      "tip": [
+        "为 Terragrunt 启用严格模式。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示 terragrunt 版本。"
+      ]
+    },
+    {
+      "name": "--working-dir",
+      "usage": [
+        "--working-dir <path>"
+      ],
+      "tip": [
+        "Terragrunt 配置目录的路径。默认是当前目录。"
+      ],
+      "next": [
+        {
+          "name": ".",
+          "tip": [
+            "当前目录(默认)"
+          ]
+        }
+      ]
+    }
+  ]
+}

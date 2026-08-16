@@ -1,0 +1,478 @@
+{
+  "meta": {
+    "url": "https://github.com/nushell/nushell",
+    "description": [
+      "The nushell language and shell"
+    ]
+  },
+  "option": [
+    {
+      "name": "--commands",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --commands <string>"
+      ],
+      "tip": [
+        "Run the given commands and then exit"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <path>"
+      ],
+      "tip": [
+        "Start with an alternate config file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config-home",
+      "usage": [
+        "--config-home <path>"
+      ],
+      "tip": [
+        "Start with an alternate config directory"
+      ],
+      "next": []
+    },
+    {
+      "name": "--env-config",
+      "usage": [
+        "--env-config <path>"
+      ],
+      "tip": [
+        "Start with an alternate environment config file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--error-style",
+      "usage": [
+        "--error-style <string>"
+      ],
+      "tip": [
+        "The error style to use (fancy or plain). default: fancy"
+      ],
+      "next": [
+        {
+          "name": "fancy",
+          "tip": [
+            "Fancy error style (default)"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "Plain error style"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--execute",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --execute <string>"
+      ],
+      "tip": [
+        "Run the given commands and then enter an interactive shell"
+      ],
+      "next": []
+    },
+    {
+      "name": "--experimental-options",
+      "usage": [
+        "--experimental-options <string...>"
+      ],
+      "tip": [
+        "Enable or disable experimental options, use all to set all active options"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show this help message"
+      ]
+    },
+    {
+      "name": "--ide-ast",
+      "usage": [
+        "--ide-ast <path>"
+      ],
+      "tip": [
+        "Generate the ast on the given source"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ide-check",
+      "usage": [
+        "--ide-check <int>"
+      ],
+      "tip": [
+        "Run a diagnostic check on the given source and limit number of errors returned"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ide-complete",
+      "usage": [
+        "--ide-complete <int>"
+      ],
+      "tip": [
+        "List completions for the item at the given cursor position and file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ide-goto-def",
+      "usage": [
+        "--ide-goto-def <int>"
+      ],
+      "tip": [
+        "Go to the definition of the item at the given cursor position and file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ide-hover",
+      "usage": [
+        "--ide-hover <int>"
+      ],
+      "tip": [
+        "Give information about the item at the given cursor position and file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--include-path",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --include-path <string>"
+      ],
+      "tip": [
+        "Set the NU_LIB_DIRS for the given script"
+      ],
+      "next": []
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "Start as an interactive shell"
+      ]
+    },
+    {
+      "name": "--log-exclude",
+      "usage": [
+        "--log-exclude <string...>"
+      ],
+      "tip": [
+        "Set the Rust module prefixes to exclude from the log output"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <path>"
+      ],
+      "tip": [
+        "Specify a custom log file path"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-include",
+      "usage": [
+        "--log-include <string...>"
+      ],
+      "tip": [
+        "Set the Rust module prefixes to include from the log output"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <string>"
+      ],
+      "tip": [
+        "Log level for diagnostic logs. Off by default"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level"
+          ]
+        },
+        {
+          "name": "perf",
+          "tip": [
+            "Perf level"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warn level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-target",
+      "usage": [
+        "--log-target <string>"
+      ],
+      "tip": [
+        "Set the target for the log to output"
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "Output to file (requires --log-file)"
+          ]
+        },
+        {
+          "name": "mixed",
+          "tip": [
+            "Output to mixed target"
+          ]
+        },
+        {
+          "name": "stderr",
+          "tip": [
+            "Output to stderr (default)"
+          ]
+        },
+        {
+          "name": "stdout",
+          "tip": [
+            "Output to stdout"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--login",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --login"
+      ],
+      "tip": [
+        "Start as a login shell"
+      ]
+    },
+    {
+      "name": "--lsp",
+      "tip": [
+        "Start nu's language server protocol"
+      ]
+    },
+    {
+      "name": "--mcp",
+      "tip": [
+        "Start nu's model context protocol server"
+      ]
+    },
+    {
+      "name": "--mcp-port",
+      "usage": [
+        "--mcp-port <int>"
+      ],
+      "tip": [
+        "Port for MCP HTTP transport (default 8080)"
+      ],
+      "next": [
+        {
+          "name": "3000"
+        },
+        {
+          "name": "8080"
+        }
+      ]
+    },
+    {
+      "name": "--mcp-transport",
+      "usage": [
+        "--mcp-transport <string>"
+      ],
+      "tip": [
+        "Transport to use for MCP server"
+      ],
+      "next": [
+        {
+          "name": "http",
+          "tip": [
+            "HTTP transport"
+          ]
+        },
+        {
+          "name": "stdio",
+          "tip": [
+            "Stdio transport"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-config-file",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-config-file"
+      ],
+      "tip": [
+        "Start with no config file and no env file"
+      ]
+    },
+    {
+      "name": "--no-history",
+      "tip": [
+        "Disable reading and writing to command history"
+      ]
+    },
+    {
+      "name": "--no-newline",
+      "tip": [
+        "Print the result for --commands (-c) without a newline"
+      ]
+    },
+    {
+      "name": "--no-std-lib",
+      "tip": [
+        "Start with no standard library"
+      ]
+    },
+    {
+      "name": "--plugin-config",
+      "usage": [
+        "--plugin-config <path>"
+      ],
+      "tip": [
+        "Start with an alternate plugin registry file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--plugins",
+      "usage": [
+        "--plugins <path>"
+      ],
+      "tip": [
+        "List of plugin executable files to load (full paths)"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Redirect standard input to a command (with -c) or a script file"
+      ]
+    },
+    {
+      "name": "--table-mode",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --table-mode <string>"
+      ],
+      "tip": [
+        "The table mode to use. rounded is default"
+      ],
+      "next": [
+        {
+          "name": "basic",
+          "tip": [
+            "Basic table mode"
+          ]
+        },
+        {
+          "name": "compact",
+          "tip": [
+            "Compact table mode"
+          ]
+        },
+        {
+          "name": "rounded",
+          "tip": [
+            "Rounded table mode (default)"
+          ]
+        },
+        {
+          "name": "thin",
+          "tip": [
+            "Thin table mode"
+          ]
+        },
+        {
+          "name": "with_love",
+          "tip": [
+            "With love table mode"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print the version"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3192 @@
+{
+  "meta": {
+    "url": "https://terragrunt.gruntwork.io",
+    "description": [
+      "Terragrunt - a flexible orchestration tool for OpenTofu/Terraform"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [options] [PLAN]"
+      ],
+      "tip": [
+        "Create or update infrastructure"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "Skip interactive approval of plan before applying."
+          ]
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only summary information."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "Force replacement of a resource instance using its resource address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to replace"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "backend",
+      "tip": [
+        "Interact with OpenTofu/Terraform backend infrastructure"
+      ],
+      "next": [
+        {
+          "name": "bootstrap",
+          "usage": [
+            "bootstrap [options]"
+          ],
+          "tip": [
+            "Bootstrap OpenTofu/Terraform backend infrastructure"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Run the specified command on the stack of units in the current directory."
+              ]
+            },
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "Automatically bootstrap backend infrastructure before attempting to use it."
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "Fail if the remote state bucket needs to be created."
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "Do not update the remote state bucket."
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "The path to download OpenTofu/Terraform modules into. Default is .terragrunt-cache."
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "Default download directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Fail immediately if any unit fails, rather than continuing to process remaining units."
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "Set feature flags for the HCL code."
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "Feature flag name"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [options]"
+          ],
+          "tip": [
+            "Delete OpenTofu/Terraform state"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Run the specified command on the stack of units in the current directory."
+              ]
+            },
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "Automatically bootstrap backend infrastructure before attempting to use it."
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "Fail if the remote state bucket needs to be created."
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "Do not update the remote state bucket."
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "The path to download OpenTofu/Terraform modules into. Default is .terragrunt-cache."
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "Default download directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Fail immediately if any unit fails, rather than continuing to process remaining units."
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "Set feature flags for the HCL code."
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "Feature flag name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Delete the state without confirmation."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "usage": [
+            "migrate [options] <src-unit> <dst-unit>"
+          ],
+          "tip": [
+            "Migrate OpenTofu/Terraform state from one location to another"
+          ],
+          "option": [
+            {
+              "name": "--backend-bootstrap",
+              "tip": [
+                "Automatically bootstrap backend infrastructure before attempting to use it."
+              ]
+            },
+            {
+              "name": "--backend-require-bootstrap",
+              "tip": [
+                "Fail if the remote state bucket needs to be created."
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--disable-bucket-update",
+              "tip": [
+                "Do not update the remote state bucket."
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "The path to download OpenTofu/Terraform modules into. Default is .terragrunt-cache."
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "Default download directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "Set feature flags for the HCL code."
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "Feature flag name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Migrate the state without confirmation."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "browse",
+      "usage": [
+        "browse [options]"
+      ],
+      "tip": [
+        "Browse Terragrunt configurations in an interactive TUI"
+      ],
+      "option": [
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "Set feature flags for the HCL code."
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "Feature flag name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-discovery-auth-provider-cmd",
+          "tip": [
+            "Disable the discovery auth provider command."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "catalog",
+      "usage": [
+        "catalog [options]"
+      ],
+      "tip": [
+        "Launch the user interface for searching and managing your module catalog"
+      ],
+      "option": [
+        {
+          "name": "--cas-clone-depth",
+          "usage": [
+            "--cas-clone-depth <value>"
+          ],
+          "tip": [
+            "When using CAS, pass this value to git clone --depth (default 1; -1 clones full history)."
+          ],
+          "next": [
+            {
+              "name": "-1",
+              "tip": [
+                "Clone full history"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Default clone depth"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "Output format for the catalog. Valid values: tui, jsonl, md."
+          ],
+          "next": [
+            {
+              "name": "jsonl",
+              "tip": [
+                "JSON lines format"
+              ]
+            },
+            {
+              "name": "md",
+              "tip": [
+                "Markdown format"
+              ]
+            },
+            {
+              "name": "tui",
+              "tip": [
+                "Terminal UI (default)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-file",
+          "usage": [
+            "--ignore-file <value>"
+          ],
+          "tip": [
+            "Path to an additional ignore file layered on top of a repo's .terragrunt-catalog-ignore during discovery."
+          ],
+          "next": [
+            {
+              "name": "ignore-file",
+              "tip": [
+                "Ignore file path"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-cas",
+          "tip": [
+            "Disable the CAS (Content Addressable Storage) feature."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Disable hooks when using boilerplate templates."
+          ]
+        },
+        {
+          "name": "--no-include-root",
+          "tip": [
+            "Do not include root unit in scaffolding done by catalog."
+          ]
+        },
+        {
+          "name": "--no-shell",
+          "tip": [
+            "Disable shell commands when using boilerplate templates."
+          ]
+        },
+        {
+          "name": "--root-file-name",
+          "usage": [
+            "--root-file-name <value>"
+          ],
+          "tip": [
+            "Name of the root Terragrunt configuration file, if used."
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Root config file name"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dag",
+      "tip": [
+        "Interact with the Directed Acyclic Graph (DAG)"
+      ],
+      "next": [
+        {
+          "name": "graph",
+          "tip": [
+            "Graph the Directed Acyclic Graph (DAG) in DOT language. Alias for list --format=dot --dag --dependencies --external."
+          ],
+          "option": [
+            {
+              "name": "--discovery-boundary",
+              "usage": [
+                "--discovery-boundary <value>"
+              ],
+              "tip": [
+                "Limit the discovery of units to the given boundary."
+              ],
+              "next": [
+                {
+                  "name": "boundary",
+                  "tip": [
+                    "Discovery boundary"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--feature",
+              "usage": [
+                "--feature <value>"
+              ],
+              "tip": [
+                "Set feature flags for the HCL code."
+              ],
+              "next": [
+                {
+                  "name": "feature-flag",
+                  "tip": [
+                    "Feature flag name"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <value>"
+              ],
+              "tip": [
+                "Filter the units to run the command on."
+              ],
+              "next": [
+                {
+                  "name": "unit-name",
+                  "tip": [
+                    "Unit name filter"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--filter-affected",
+              "tip": [
+                "Only include units affected by the current changes."
+              ]
+            },
+            {
+              "name": "--filter-allow-destroy",
+              "tip": [
+                "Allow destroy operations on filtered units."
+              ]
+            },
+            {
+              "name": "--filters-file",
+              "usage": [
+                "--filters-file <value>"
+              ],
+              "tip": [
+                "Path to a file containing the filters to apply."
+              ],
+              "next": [
+                {
+                  "name": "filters.hcl",
+                  "tip": [
+                    "Filters file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--no-filters-file",
+              "tip": [
+                "Do not load the filters file."
+              ]
+            },
+            {
+              "name": "--queue-ignore-dag-order",
+              "tip": [
+                "Ignore the DAG order when queueing units."
+              ]
+            },
+            {
+              "name": "--queue-ignore-errors",
+              "tip": [
+                "Continue processing units even when errors are encountered."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "usage": [
+        "destroy [options]"
+      ],
+      "tip": [
+        "Destroy previously-created infrastructure"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "Skip interactive approval of plan before destroying."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [options] -- <command>"
+      ],
+      "tip": [
+        "Execute an arbitrary command"
+      ],
+      "option": [
+        {
+          "name": "--auth-provider-cmd",
+          "usage": [
+            "--auth-provider-cmd <value>"
+          ],
+          "tip": [
+            "A command that outputs an authentication token for fetching modules from private git repositories."
+          ],
+          "next": [
+            {
+              "name": "command",
+              "tip": [
+                "Auth provider command"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "The path to the Terragrunt config file. Default is terragrunt.hcl."
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Default Terragrunt config file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--download-dir",
+          "usage": [
+            "--download-dir <path>"
+          ],
+          "tip": [
+            "The path to download OpenTofu/Terraform modules into. Default is .terragrunt-cache."
+          ],
+          "next": [
+            {
+              "name": ".terragrunt-cache",
+              "tip": [
+                "Default download directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role",
+          "usage": [
+            "--iam-assume-role <value>"
+          ],
+          "tip": [
+            "The ARN of an IAM role to assume before executing the command."
+          ],
+          "next": [
+            {
+              "name": "arn:aws:iam::123456789012:role/role-name",
+              "tip": [
+                "IAM role ARN"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-duration",
+          "usage": [
+            "--iam-assume-role-duration <value>"
+          ],
+          "tip": [
+            "The duration of the IAM role session."
+          ],
+          "next": [
+            {
+              "name": "1h",
+              "tip": [
+                "1 hour session"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-session-name",
+          "usage": [
+            "--iam-assume-role-session-name <value>"
+          ],
+          "tip": [
+            "The session name for the IAM role."
+          ],
+          "next": [
+            {
+              "name": "session-name",
+              "tip": [
+                "IAM session name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--iam-assume-role-web-identity-token",
+          "usage": [
+            "--iam-assume-role-web-identity-token <value>"
+          ],
+          "tip": [
+            "A web identity token for assuming the IAM role."
+          ],
+          "next": [
+            {
+              "name": "token",
+              "tip": [
+                "Web identity token"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--in-download-dir",
+          "tip": [
+            "Run the command in the directory where the module is downloaded."
+          ]
+        },
+        {
+          "name": "--inputs-debug",
+          "tip": [
+            "Enable debug mode for inputs processing."
+          ]
+        },
+        {
+          "name": "--tf-path",
+          "usage": [
+            "--tf-path <value>"
+          ],
+          "tip": [
+            "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform binary"
+              ]
+            },
+            {
+              "name": "tofu",
+              "tip": [
+                "OpenTofu binary"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find",
+      "alias": [
+        "fd"
+      ],
+      "usage": [
+        "fd|find [options]"
+      ],
+      "tip": [
+        "Find relevant Terragrunt configurations"
+      ],
+      "option": [
+        {
+          "name": "--dag",
+          "tip": [
+            "Show the unit dependencies graph."
+          ]
+        },
+        {
+          "name": "--dependencies",
+          "tip": [
+            "Show the unit dependencies."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <value>"
+          ],
+          "tip": [
+            "Exclude units matching the given filter."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "Unit name to exclude"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "Set feature flags for the HCL code."
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "Feature flag name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "Filter the units to run the command on."
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "Unit name filter"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "Output format for the results."
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "DOT graph format"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "Text format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <value>"
+          ],
+          "tip": [
+            "Include only units matching the given filter."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "Unit name to include"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output the results in JSON format."
+          ]
+        },
+        {
+          "name": "--no-hidden",
+          "tip": [
+            "Do not include hidden units in the results."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock [options]"
+      ],
+      "tip": [
+        "Release a stuck lock on the current workspace"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "Don't ask for input for confirmation during the unlock."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcl",
+      "tip": [
+        "Interact with HCL files"
+      ],
+      "next": [
+        {
+          "name": "format",
+          "alias": [
+            "fmt"
+          ],
+          "usage": [
+            "fmt|format [options]"
+          ],
+          "tip": [
+            "Recursively find HashiCorp Configuration Language (HCL) files and rewrite them into a canonical format"
+          ],
+          "option": [
+            {
+              "name": "--check",
+              "tip": [
+                "Check if the input is formatted. Exit status will be 0 if all input is properly formatted."
+              ]
+            },
+            {
+              "name": "--diff",
+              "tip": [
+                "Display diffs of formatting changes."
+              ]
+            },
+            {
+              "name": "--exclude-dir",
+              "usage": [
+                "--exclude-dir <value>"
+              ],
+              "tip": [
+                "Exclude directories from formatting."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "dir-name",
+                  "tip": [
+                    "Directory to exclude"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <value>"
+              ],
+              "tip": [
+                "Format the given file instead of recursively finding files."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "HCL file to format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "Limit the number of parallel operations."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 parallel operations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--stdin",
+              "tip": [
+                "Read the file content from stdin."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "usage": [
+            "validate [options]"
+          ],
+          "tip": [
+            "Recursively find HashiCorp Configuration Language (HCL) files and validate them"
+          ],
+          "option": [
+            {
+              "name": "--inputs",
+              "tip": [
+                "Validate the inputs of the configuration."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output the validation results in JSON format."
+              ]
+            },
+            {
+              "name": "--show-config-path",
+              "tip": [
+                "Show the path of the configuration being validated."
+              ]
+            },
+            {
+              "name": "--strict",
+              "tip": [
+                "Fail on any warnings during validation."
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform binary"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu binary"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import [options]"
+      ],
+      "tip": [
+        "Associate existing infrastructure with a OpenTofu/Terraform resource"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a directory of Terraform configuration files to use to configure the provider."
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "Configuration directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "List of commands to display Terragrunt settings"
+      ],
+      "next": [
+        {
+          "name": "print",
+          "tip": [
+            "Print out a short description of Terragrunt context"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Run the specified command on the stack of units in the current directory."
+              ]
+            },
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--download-dir",
+              "usage": [
+                "--download-dir <path>"
+              ],
+              "tip": [
+                "The path to download OpenTofu/Terraform modules into. Default is .terragrunt-cache."
+              ],
+              "next": [
+                {
+                  "name": ".terragrunt-cache",
+                  "tip": [
+                    "Default download directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Fail immediately if any unit fails, rather than continuing to process remaining units."
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform binary"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu binary"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "strict",
+          "usage": [
+            "strict <command>"
+          ],
+          "tip": [
+            "Command associated with strict control settings"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [options]"
+      ],
+      "tip": [
+        "Prepare your working directory for other commands"
+      ],
+      "option": [
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "Configuration to be merged with what is in the configuration file's backend block. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "backend.hcl",
+              "tip": [
+                "Backend configuration file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "Copy the contents of the given module into the current directory before init."
+          ],
+          "next": [
+            {
+              "name": "module-source",
+              "tip": [
+                "Module source address"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input if necessary. The default is true."
+          ]
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "Set a dependency lockfile mode: read-only or ignore."
+          ],
+          "next": [
+            {
+              "name": "ignore",
+              "tip": [
+                "Ignore the lockfile"
+              ]
+            },
+            {
+              "name": "read-only",
+              "tip": [
+                "Do not update the lockfile"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "Reconfigure the backend and attempt to migrate any existing state."
+          ]
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "Reconfigure the backend, ignoring any saved configuration."
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "Upgrade all previously-selected providers to the newest versions."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [options]"
+      ],
+      "tip": [
+        "List relevant Terragrunt configurations"
+      ],
+      "option": [
+        {
+          "name": "--dag",
+          "tip": [
+            "Show the unit dependencies graph."
+          ]
+        },
+        {
+          "name": "--dependencies",
+          "tip": [
+            "Show the unit dependencies."
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "Set feature flags for the HCL code."
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "Feature flag name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "Filter the units to run the command on."
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "Unit name filter"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "Output format for the results."
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "DOT graph format"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "Text format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show detailed information in the results."
+          ]
+        },
+        {
+          "name": "--no-hidden",
+          "tip": [
+            "Do not include hidden units in the results."
+          ]
+        },
+        {
+          "name": "--tree",
+          "tip": [
+            "Show the results as a tree."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [options]"
+      ],
+      "tip": [
+        "Show output values from your root module"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, the outputs are formatted as a JSON object."
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "For a single value output, print the raw value directly without escaping."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file. Defaults to terraform.tfstate."
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "Default state file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "usage": [
+        "plan [options]"
+      ],
+      "tip": [
+        "Show changes required by the current configuration"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only summary information."
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "Select the destroy planning mode."
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "Return detailed exit codes when the command exits."
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "Write a plan file to the given path."
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "Plan output file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "Select the refresh-only planning mode."
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "Force replacement of a resource instance using its resource address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to replace"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "usage": [
+        "refresh [options]"
+      ],
+      "tip": [
+        "Update the state to match remote systems"
+      ],
+      "option": [
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Lock the state file when locking is supported."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "No retry"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "Retry for 10 minutes"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations. Default is 10."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "Default parallelism"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "Limit the operation to the resource instance with the given address. Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "Resource address to target"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "render",
+      "usage": [
+        "render [options]"
+      ],
+      "tip": [
+        "Render the final terragrunt config, with all variables, includes, and functions resolved, in the specified format"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Run the specified command on the stack of units in the current directory."
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "The path to the Terragrunt config file. Default is terragrunt.hcl."
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Default Terragrunt config file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <value>"
+          ],
+          "tip": [
+            "Output format for the rendered config."
+          ],
+          "next": [
+            {
+              "name": "hcl",
+              "tip": [
+                "HCL format"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "Text format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output the rendered config in JSON format."
+          ]
+        },
+        {
+          "name": "--out",
+          "usage": [
+            "--out <path>"
+          ],
+          "tip": [
+            "Write the rendered config to the given path."
+          ],
+          "next": [
+            {
+              "name": "rendered.hcl",
+              "tip": [
+                "Rendered config file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--with-metadata",
+          "tip": [
+            "Include metadata in the rendered config."
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "Write the rendered config in place."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [options] -- <tofu/terraform command>"
+      ],
+      "tip": [
+        "Run a command, passing arguments to an orchestrated tofu/terraform binary"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Run the specified command on the stack of units in the current directory."
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "The path to the Terragrunt config file. Default is terragrunt.hcl."
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Default Terragrunt config file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "Fail immediately if any unit fails, rather than continuing to process remaining units."
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "Set feature flags for the HCL code."
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "Feature flag name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <value>"
+          ],
+          "tip": [
+            "Filter the units to run the command on."
+          ],
+          "next": [
+            {
+              "name": "unit-name",
+              "tip": [
+                "Unit name filter"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--graph",
+          "tip": [
+            "Run the command on the units in dependency graph order."
+          ]
+        },
+        {
+          "name": "--no-auto-approve",
+          "tip": [
+            "Do not automatically approve the apply command."
+          ]
+        },
+        {
+          "name": "--no-auto-init",
+          "tip": [
+            "Do not automatically run init during other terragrunt commands."
+          ]
+        },
+        {
+          "name": "--no-auto-retry",
+          "tip": [
+            "Do not automatically retry commands that fail with transient errors."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Disable all hooks when running the command."
+          ]
+        },
+        {
+          "name": "--out-dir",
+          "usage": [
+            "--out-dir <path>"
+          ],
+          "tip": [
+            "Directory to write output files to."
+          ],
+          "next": [
+            {
+              "name": "out",
+              "tip": [
+                "Output directory"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--parallelism",
+          "usage": [
+            "--parallelism <value>"
+          ],
+          "tip": [
+            "Limit the number of parallel operations."
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "10 parallel operations"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <value>"
+          ],
+          "tip": [
+            "Download OpenTofu/Terraform configurations from the given source into a temporary folder."
+          ],
+          "next": [
+            {
+              "name": "git::https://github.com/org/repo.git",
+              "tip": [
+                "Git source URL"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--source-update",
+          "tip": [
+            "Delete the temporary folder to get a clean copy of the source."
+          ]
+        },
+        {
+          "name": "--tf-path",
+          "usage": [
+            "--tf-path <value>"
+          ],
+          "tip": [
+            "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform binary"
+              ]
+            },
+            {
+              "name": "tofu",
+              "tip": [
+                "OpenTofu binary"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scaffold",
+      "usage": [
+        "scaffold [options]"
+      ],
+      "tip": [
+        "Scaffold a new Terragrunt module"
+      ],
+      "option": [
+        {
+          "name": "--backend-bootstrap",
+          "tip": [
+            "Automatically bootstrap backend infrastructure before attempting to use it."
+          ]
+        },
+        {
+          "name": "--backend-require-bootstrap",
+          "tip": [
+            "Fail if the remote state bucket needs to be created."
+          ]
+        },
+        {
+          "name": "--disable-bucket-update",
+          "tip": [
+            "Do not update the remote state bucket."
+          ]
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <value>"
+          ],
+          "tip": [
+            "Set feature flags for the HCL code."
+          ],
+          "next": [
+            {
+              "name": "feature-flag",
+              "tip": [
+                "Feature flag name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-dependency-prompt",
+          "tip": [
+            "Do not prompt for confirmation to include dependencies."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Disable hooks when using boilerplate templates."
+          ]
+        },
+        {
+          "name": "--no-include-root",
+          "tip": [
+            "Do not include root unit in scaffolding done by catalog."
+          ]
+        },
+        {
+          "name": "--no-shell",
+          "tip": [
+            "Disable shell commands when using boilerplate templates."
+          ]
+        },
+        {
+          "name": "--output-folder",
+          "usage": [
+            "--output-folder <value>"
+          ],
+          "tip": [
+            "Output folder for scaffold output."
+          ],
+          "next": [
+            {
+              "name": "modules",
+              "tip": [
+                "Output folder"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--root-file-name",
+          "usage": [
+            "--root-file-name <value>"
+          ],
+          "tip": [
+            "Name of the root Terragrunt configuration file, if used."
+          ],
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Root config file name"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--var",
+          "usage": [
+            "--var <value>"
+          ],
+          "tip": [
+            "Variables for usage in scaffolding."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "name=value",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--var-file",
+          "usage": [
+            "--var-file <value>"
+          ],
+          "tip": [
+            "Files with variables to be used in unit scaffolding."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terragrunt.hcl",
+              "tip": [
+                "Variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options]"
+      ],
+      "tip": [
+        "Show the current state or a saved plan"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, output the Terraform plan or state in a machine-readable JSON format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stack",
+      "tip": [
+        "Terragrunt stack commands"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "Clean the stack generated from the current directory"
+          ]
+        },
+        {
+          "name": "generate",
+          "usage": [
+            "generate [options]"
+          ],
+          "tip": [
+            "Generate a stack from a terragrunt.stack.hcl file"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Fail immediately if any unit fails, rather than continuing to process remaining units."
+              ]
+            },
+            {
+              "name": "--no-auto-approve",
+              "tip": [
+                "Do not automatically approve the apply command."
+              ]
+            },
+            {
+              "name": "--no-auto-init",
+              "tip": [
+                "Do not automatically run init during other terragrunt commands."
+              ]
+            },
+            {
+              "name": "--out-dir",
+              "usage": [
+                "--out-dir <path>"
+              ],
+              "tip": [
+                "Directory to write output files to."
+              ],
+              "next": [
+                {
+                  "name": "out",
+                  "tip": [
+                    "Output directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "Limit the number of parallel operations."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 parallel operations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <value>"
+              ],
+              "tip": [
+                "Download OpenTofu/Terraform configurations from the given source into a temporary folder."
+              ],
+              "next": [
+                {
+                  "name": "git::https://github.com/org/repo.git",
+                  "tip": [
+                    "Git source URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform binary"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu binary"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "output",
+          "usage": [
+            "output [options]"
+          ],
+          "tip": [
+            "Run fetch stack output"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <value>"
+              ],
+              "tip": [
+                "Output format for the stack output."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "Text format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output the stack output in JSON format."
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "Output the raw value of a single output."
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform binary"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu binary"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [options]"
+          ],
+          "tip": [
+            "Run a command on the stack generated from the current directory"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <value>"
+              ],
+              "tip": [
+                "The path to the Terragrunt config file. Default is terragrunt.hcl."
+              ],
+              "next": [
+                {
+                  "name": "terragrunt.hcl",
+                  "tip": [
+                    "Default Terragrunt config file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Fail immediately if any unit fails, rather than continuing to process remaining units."
+              ]
+            },
+            {
+              "name": "--no-auto-approve",
+              "tip": [
+                "Do not automatically approve the apply command."
+              ]
+            },
+            {
+              "name": "--no-auto-init",
+              "tip": [
+                "Do not automatically run init during other terragrunt commands."
+              ]
+            },
+            {
+              "name": "--out-dir",
+              "usage": [
+                "--out-dir <path>"
+              ],
+              "tip": [
+                "Directory to write output files to."
+              ],
+              "next": [
+                {
+                  "name": "out",
+                  "tip": [
+                    "Output directory"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--parallelism",
+              "usage": [
+                "--parallelism <value>"
+              ],
+              "tip": [
+                "Limit the number of parallel operations."
+              ],
+              "next": [
+                {
+                  "name": "10",
+                  "tip": [
+                    "10 parallel operations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--tf-path",
+              "usage": [
+                "--tf-path <value>"
+              ],
+              "tip": [
+                "Path to the OpenTofu/Terraform binary. Default is the one in PATH."
+              ],
+              "next": [
+                {
+                  "name": "terraform",
+                  "tip": [
+                    "Terraform binary"
+                  ]
+                },
+                {
+                  "name": "tofu",
+                  "tip": [
+                    "OpenTofu binary"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "usage": [
+        "state [options]"
+      ],
+      "tip": [
+        "Advanced state management"
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [options]"
+      ],
+      "tip": [
+        "Execute integration tests for OpenTofu/Terraform modules"
+      ],
+      "option": [
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "If specified, Terraform will only execute the test files matching the filter."
+          ],
+          "next": [
+            {
+              "name": "testfile",
+              "tip": [
+                "Test file filter"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "Print the plan or state for each test run block as it executes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [options]"
+      ],
+      "tip": [
+        "Check whether the configuration is valid"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "Variable as name=value"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "Load variable values from the given file."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "Default variables file"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--experiment",
+      "usage": [
+        "--experiment <value>"
+      ],
+      "tip": [
+        "Enables specific experiments."
+      ],
+      "next": [
+        {
+          "name": "experiment-name",
+          "tip": [
+            "Experiment name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--experiment-mode",
+      "tip": [
+        "Enables experiment mode for Terragrunt."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    },
+    {
+      "name": "--log-custom-format",
+      "usage": [
+        "--log-custom-format <value>"
+      ],
+      "tip": [
+        "Set the custom log formatting."
+      ],
+      "next": [
+        {
+          "name": "format",
+          "tip": [
+            "Custom log format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-disable",
+      "tip": [
+        "Disable logging."
+      ]
+    },
+    {
+      "name": "--log-format",
+      "usage": [
+        "--log-format <value>"
+      ],
+      "tip": [
+        "Set the log format."
+      ],
+      "next": [
+        {
+          "name": "json",
+          "tip": [
+            "JSON log format"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "Text log format"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <value>"
+      ],
+      "tip": [
+        "Sets the logging level for Terragrunt. Supported levels: stderr, stdout, error, warn, info, debug, trace."
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug log level"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error log level"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info log level (default)"
+          ]
+        },
+        {
+          "name": "stderr",
+          "tip": [
+            "Log to stderr"
+          ]
+        },
+        {
+          "name": "stdout",
+          "tip": [
+            "Log to stdout"
+          ]
+        },
+        {
+          "name": "trace",
+          "tip": [
+            "Trace log level"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning log level"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-show-abs-paths",
+      "tip": [
+        "Show absolute paths in logs."
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Disable color output."
+      ]
+    },
+    {
+      "name": "--no-tip",
+      "usage": [
+        "--no-tip <value>"
+      ],
+      "tip": [
+        "Disable specific tips from being displayed."
+      ],
+      "next": [
+        {
+          "name": "tip-name",
+          "tip": [
+            "Tip name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-tips",
+      "tip": [
+        "Disable all tips from being displayed."
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "Assume yes for all prompts."
+      ]
+    },
+    {
+      "name": "--profile-cpu",
+      "usage": [
+        "--profile-cpu <path>"
+      ],
+      "tip": [
+        "Write a CPU profile to the given path."
+      ],
+      "next": [
+        {
+          "name": "cpu.prof",
+          "tip": [
+            "CPU profile file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-dir",
+      "usage": [
+        "--profile-dir <path>"
+      ],
+      "tip": [
+        "Directory to write profile files (cpu, mem, goroutine)."
+      ],
+      "next": [
+        {
+          "name": "profiles",
+          "tip": [
+            "Profiles directory"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-goroutine",
+      "usage": [
+        "--profile-goroutine <path>"
+      ],
+      "tip": [
+        "Write a goroutine profile to the given path."
+      ],
+      "next": [
+        {
+          "name": "goroutine.prof",
+          "tip": [
+            "Goroutine profile file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--profile-mem",
+      "usage": [
+        "--profile-mem <path>"
+      ],
+      "tip": [
+        "Write a memory (heap) profile to the given path."
+      ],
+      "next": [
+        {
+          "name": "mem.prof",
+          "tip": [
+            "Memory profile file"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--strict-control",
+      "usage": [
+        "--strict-control <value>"
+      ],
+      "tip": [
+        "Enables specific strict controls."
+      ],
+      "next": [
+        {
+          "name": "control-name",
+          "tip": [
+            "Strict control name"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--strict-mode",
+      "tip": [
+        "Enables strict mode for Terragrunt."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show terragrunt version."
+      ]
+    },
+    {
+      "name": "--working-dir",
+      "usage": [
+        "--working-dir <path>"
+      ],
+      "tip": [
+        "The path to the directory of Terragrunt configurations. Default is current directory."
+      ],
+      "next": [
+        {
+          "name": ".",
+          "tip": [
+            "Current directory (default)"
+          ]
+        }
+      ]
+    }
+  ]
+}

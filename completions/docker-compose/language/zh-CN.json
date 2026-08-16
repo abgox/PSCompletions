@@ -1,0 +1,2324 @@
+{
+  "meta": {
+    "url": "https://github.com/docker/compose",
+    "description": [
+      "使用 Docker 定义并运行多容器应用"
+    ]
+  },
+  "next": [
+    {
+      "name": "attach",
+      "usage": [
+        "attach <SERVICE>"
+      ],
+      "tip": [
+        "将本地标准输入、输出和错误流附加到运行中的服务"
+      ],
+      "option": [
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <keys>"
+          ],
+          "tip": [
+            "覆盖分离容器的按键序列"
+          ],
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-stdin",
+          "tip": [
+            "不附加 STDIN"
+          ]
+        },
+        {
+          "name": "--sig-proxy",
+          "tip": [
+            "将接收到的所有信号代理到进程（默认 true）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "usage": [
+        "build [SERVICE...]"
+      ],
+      "tip": [
+        "构建或重新构建服务"
+      ],
+      "option": [
+        {
+          "name": "--build-arg",
+          "usage": [
+            "--build-arg <arg>"
+          ],
+          "tip": [
+            "为服务设置构建时变量"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--builder",
+          "usage": [
+            "--builder <builder>"
+          ],
+          "tip": [
+            "设置要使用的构建器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--check",
+          "tip": [
+            "检查构建输出"
+          ]
+        },
+        {
+          "name": "--memory",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --memory <bytes>"
+          ],
+          "tip": [
+            "为构建容器设置内存限制"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "构建镜像时不使用缓存"
+          ]
+        },
+        {
+          "name": "--print",
+          "tip": [
+            "打印构建输出"
+          ]
+        },
+        {
+          "name": "--provenance",
+          "usage": [
+            "--provenance <value>"
+          ],
+          "tip": [
+            "设置镜像的来源"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pull",
+          "tip": [
+            "始终尝试拉取更新版本的镜像"
+          ]
+        },
+        {
+          "name": "--push",
+          "tip": [
+            "推送构建的镜像"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "抑制构建输出并在成功时打印镜像 ID"
+          ]
+        },
+        {
+          "name": "--sbom",
+          "usage": [
+            "--sbom <value>"
+          ],
+          "tip": [
+            "设置镜像的 SBOM"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ssh",
+          "usage": [
+            "--ssh <value>"
+          ],
+          "tip": [
+            "设置要暴露给构建的 SSH agent 套接字或密钥"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-dependencies",
+          "tip": [
+            "同时构建服务的依赖"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "usage": [
+        "commit <SERVICE> [REPOSITORY[:TAG]]"
+      ],
+      "tip": [
+        "从容器的变更创建新镜像"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --author <author>"
+          ],
+          "tip": [
+            "镜像的作者"
+          ],
+          "next": []
+        },
+        {
+          "name": "--change",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --change <change>"
+          ],
+          "tip": [
+            "将 Dockerfile 指令应用到创建的镜像"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <message>"
+          ],
+          "tip": [
+            "提交信息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pause"
+          ],
+          "tip": [
+            "提交期间暂停容器（默认 true）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [SERVICE...]"
+      ],
+      "tip": [
+        "以规范格式解析、解析并渲染 compose 文件"
+      ],
+      "option": [
+        {
+          "name": "--environment",
+          "tip": [
+            "打印环境变量"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--hash",
+          "usage": [
+            "--hash <service>"
+          ],
+          "tip": [
+            "打印服务配置哈希"
+          ],
+          "next": []
+        },
+        {
+          "name": "--images",
+          "tip": [
+            "打印镜像名称"
+          ]
+        },
+        {
+          "name": "--lock-image-digests",
+          "tip": [
+            "锁定镜像摘要"
+          ]
+        },
+        {
+          "name": "--models",
+          "tip": [
+            "打印服务模型"
+          ]
+        },
+        {
+          "name": "--networks",
+          "tip": [
+            "打印网络名称"
+          ]
+        },
+        {
+          "name": "--no-consistency",
+          "tip": [
+            "不检查配置的一致性"
+          ]
+        },
+        {
+          "name": "--no-env-resolution",
+          "tip": [
+            "不解析环境变量"
+          ]
+        },
+        {
+          "name": "--no-interpolate",
+          "tip": [
+            "不插值环境变量"
+          ]
+        },
+        {
+          "name": "--no-normalize",
+          "tip": [
+            "不规范化配置"
+          ]
+        },
+        {
+          "name": "--no-path-resolution",
+          "tip": [
+            "不解析文件路径"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "将输出保存到文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--profiles",
+          "tip": [
+            "打印配置文件名称"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅验证配置，不打印任何内容"
+          ]
+        },
+        {
+          "name": "--resolve-image-digests",
+          "tip": [
+            "解析镜像摘要"
+          ]
+        },
+        {
+          "name": "--services",
+          "tip": [
+            "打印服务名称"
+          ]
+        },
+        {
+          "name": "--variables",
+          "tip": [
+            "打印使用的环境变量"
+          ]
+        },
+        {
+          "name": "--volumes",
+          "tip": [
+            "打印卷名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cp",
+      "usage": [
+        "cp [OPTIONS] <SERVICE:SRC_PATH> <DEST_PATH>"
+      ],
+      "tip": [
+        "在服务容器和本地文件系统之间复制文件/文件夹"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "复制服务所有容器中的文件"
+          ]
+        },
+        {
+          "name": "--archive",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --archive"
+          ],
+          "tip": [
+            "归档模式（复制所有 UID、GID）"
+          ]
+        },
+        {
+          "name": "--follow-link",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --follow-link"
+          ],
+          "tip": [
+            "始终跟随 SRC_PATH 中的符号链接"
+          ]
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [SERVICE...]"
+      ],
+      "tip": [
+        "为服务创建容器"
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "启动容器前构建镜像"
+          ]
+        },
+        {
+          "name": "--force-recreate",
+          "tip": [
+            "即使配置和镜像未改变也重新创建容器"
+          ]
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "即使策略要求也不构建镜像"
+          ]
+        },
+        {
+          "name": "--no-recreate",
+          "tip": [
+            "如果容器已存在，则不重新创建"
+          ]
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "运行前拉取镜像"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终拉取"
+              ]
+            },
+            {
+              "name": "build",
+              "tip": [
+                "先构建再拉取"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "仅在缺失时拉取"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不拉取"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "拉取时不打印进度信息"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "移除 Compose 文件中未定义服务的容器"
+          ]
+        },
+        {
+          "name": "--scale",
+          "usage": [
+            "--scale <scale>"
+          ],
+          "tip": [
+            "将服务扩展为 NUM 个实例"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "所有提示均假定为是"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "down",
+      "usage": [
+        "down [SERVICES]"
+      ],
+      "tip": [
+        "停止并移除容器、网络"
+      ],
+      "option": [
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "移除 Compose 文件中未定义服务的容器"
+          ]
+        },
+        {
+          "name": "--rmi",
+          "usage": [
+            "--rmi <type>"
+          ],
+          "tip": [
+            "移除服务使用的镜像"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "移除所有镜像"
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "移除本地镜像"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "指定关闭超时秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--volumes",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volumes"
+          ],
+          "tip": [
+            "移除 Compose 文件 volumes 部分声明的命名卷以及附加到容器的匿名卷"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "events",
+      "usage": [
+        "events [SERVICE...]"
+      ],
+      "tip": [
+        "接收来自容器的实时事件"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出事件"
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <since>"
+          ],
+          "tip": [
+            "显示自给定时间以来发生的事件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--until",
+          "usage": [
+            "--until <until>"
+          ],
+          "tip": [
+            "显示直到给定时间为止发生的事件"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <SERVICE> <COMMAND> [ARGS...]"
+      ],
+      "tip": [
+        "在运行中的容器内执行命令"
+      ],
+      "option": [
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "分离模式：在后台运行命令"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "设置环境变量"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-tty",
+          "alias": [
+            "-T"
+          ],
+          "usage": [
+            "-T, --no-tty"
+          ],
+          "tip": [
+            "禁用伪 TTY 分配（默认 true）"
+          ]
+        },
+        {
+          "name": "--privileged",
+          "tip": [
+            "为进程授予扩展权限"
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --user <user>"
+          ],
+          "tip": [
+            "以此用户身份运行命令"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workdir <dir>"
+          ],
+          "tip": [
+            "容器内的工作目录"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "usage": [
+        "export <SERVICE>"
+      ],
+      "tip": [
+        "将容器的文件系统导出为 tar 归档"
+      ],
+      "option": [
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <file>"
+          ],
+          "tip": [
+            "写入文件而非 STDOUT"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
+      "name": "images",
+      "usage": [
+        "images [SERVICE...]"
+      ],
+      "tip": [
+        "列出已创建容器使用的镜像"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅显示 ID"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kill",
+      "usage": [
+        "kill [SERVICE...]"
+      ],
+      "tip": [
+        "强制停止服务容器"
+      ],
+      "option": [
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "移除 Compose 文件中未定义服务的容器"
+          ]
+        },
+        {
+          "name": "--signal",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --signal <signal>"
+          ],
+          "tip": [
+            "要发送给容器的信号（默认 SIGKILL）"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "usage": [
+        "logs [SERVICE...]"
+      ],
+      "tip": [
+        "查看容器输出"
+      ],
+      "option": [
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --follow"
+          ],
+          "tip": [
+            "跟踪日志输出"
+          ]
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "生成单色输出"
+          ]
+        },
+        {
+          "name": "--no-log-prefix",
+          "tip": [
+            "日志中不打印前缀"
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <since>"
+          ],
+          "tip": [
+            "显示自某个时间戳以来的日志"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tail",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --tail <lines>"
+          ],
+          "tip": [
+            "从日志末尾显示的行数（默认全部）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timestamps"
+          ],
+          "tip": [
+            "显示时间戳"
+          ]
+        },
+        {
+          "name": "--until",
+          "usage": [
+            "--until <until>"
+          ],
+          "tip": [
+            "显示某个时间戳之前的日志"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "ls",
+      "tip": [
+        "列出运行中的 compose 项目"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有已停止的 Compose 项目"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <filter>"
+          ],
+          "tip": [
+            "根据条件过滤输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格格式"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅显示 ID"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "usage": [
+        "pause [SERVICE...]"
+      ],
+      "tip": [
+        "暂停服务"
+      ]
+    },
+    {
+      "name": "port",
+      "usage": [
+        "port <SERVICE> <PRIVATE_PORT>"
+      ],
+      "tip": [
+        "打印端口绑定的公共端口"
+      ],
+      "option": [
+        {
+          "name": "--index",
+          "usage": [
+            "--index <index>"
+          ],
+          "tip": [
+            "服务有多个实例时容器的索引"
+          ],
+          "next": []
+        },
+        {
+          "name": "--protocol",
+          "usage": [
+            "--protocol <protocol>"
+          ],
+          "tip": [
+            "使用的协议（tcp 或 udp）"
+          ],
+          "next": [
+            {
+              "name": "tcp",
+              "tip": [
+                "TCP 协议（默认）"
+              ]
+            },
+            {
+              "name": "udp",
+              "tip": [
+                "UDP 协议"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ps",
+      "usage": [
+        "ps [SERVICE...]"
+      ],
+      "tip": [
+        "列出容器"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有已停止的容器"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <filter>"
+          ],
+          "tip": [
+            "按属性过滤服务"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "不截断输出"
+          ]
+        },
+        {
+          "name": "--orphans",
+          "tip": [
+            "包含孤儿容器（默认 true）"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅显示 ID"
+          ]
+        },
+        {
+          "name": "--services",
+          "tip": [
+            "显示服务"
+          ]
+        },
+        {
+          "name": "--status",
+          "usage": [
+            "--status <status>"
+          ],
+          "tip": [
+            "按状态过滤服务"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "created",
+              "tip": [
+                "已创建状态"
+              ]
+            },
+            {
+              "name": "dead",
+              "tip": [
+                "已死亡状态"
+              ]
+            },
+            {
+              "name": "exited",
+              "tip": [
+                "已退出状态"
+              ]
+            },
+            {
+              "name": "paused",
+              "tip": [
+                "已暂停状态"
+              ]
+            },
+            {
+              "name": "removing",
+              "tip": [
+                "正在移除状态"
+              ]
+            },
+            {
+              "name": "restarting",
+              "tip": [
+                "正在重启状态"
+              ]
+            },
+            {
+              "name": "running",
+              "tip": [
+                "运行中状态"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pull",
+      "usage": [
+        "pull [SERVICE...]"
+      ],
+      "tip": [
+        "拉取服务镜像"
+      ],
+      "option": [
+        {
+          "name": "--ignore-buildable",
+          "tip": [
+            "忽略可以构建的镜像"
+          ]
+        },
+        {
+          "name": "--ignore-pull-failures",
+          "tip": [
+            "尽可能拉取并忽略拉取失败的镜像"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "同时拉取声明为依赖的服务"
+          ]
+        },
+        {
+          "name": "--policy",
+          "usage": [
+            "--policy <policy>"
+          ],
+          "tip": [
+            "设置拉取策略"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终拉取"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "仅在缺失时拉取"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "拉取时不打印进度信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [SERVICE...]"
+      ],
+      "tip": [
+        "推送服务镜像"
+      ],
+      "option": [
+        {
+          "name": "--ignore-push-failures",
+          "tip": [
+            "尽可能推送并忽略推送失败的镜像"
+          ]
+        },
+        {
+          "name": "--include-deps",
+          "tip": [
+            "同时推送声明为依赖的服务"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "推送时不打印进度信息"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "restart",
+      "usage": [
+        "restart [SERVICE...]"
+      ],
+      "tip": [
+        "重启服务容器"
+      ],
+      "option": [
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不启动关联的服务"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "指定关闭超时秒数"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rm",
+      "usage": [
+        "rm [SERVICE...]"
+      ],
+      "tip": [
+        "移除已停止的服务容器"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "移除时不要求确认"
+          ]
+        },
+        {
+          "name": "--stop",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --stop"
+          ],
+          "tip": [
+            "如需要，在移除前停止容器"
+          ]
+        },
+        {
+          "name": "--volumes",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volumes"
+          ],
+          "tip": [
+            "移除附加到容器的所有匿名卷"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [--rm] <SERVICE> [COMMAND] [ARGS...]"
+      ],
+      "tip": [
+        "在服务上运行一次性命令"
+      ],
+      "option": [
+        {
+          "name": "--build",
+          "tip": [
+            "启动容器前构建镜像"
+          ]
+        },
+        {
+          "name": "--cap-add",
+          "usage": [
+            "--cap-add <cap>"
+          ],
+          "tip": [
+            "添加 Linux 能力"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cap-drop",
+          "usage": [
+            "--cap-drop <cap>"
+          ],
+          "tip": [
+            "丢弃 Linux 能力"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "分离模式：在后台运行命令"
+          ]
+        },
+        {
+          "name": "--entrypoint",
+          "usage": [
+            "--entrypoint <entrypoint>"
+          ],
+          "tip": [
+            "覆盖镜像的入口点"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "设置环境变量"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--env-from-file",
+          "usage": [
+            "--env-from-file <file>"
+          ],
+          "tip": [
+            "从文件读取环境变量"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "即使未附加也保持 STDIN 打开（默认 true）"
+          ]
+        },
+        {
+          "name": "--label",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --label <label>"
+          ],
+          "tip": [
+            "添加或覆盖标签"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <name>"
+          ],
+          "tip": [
+            "为容器指定名称"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不启动关联的服务"
+          ]
+        },
+        {
+          "name": "--no-tty",
+          "alias": [
+            "-T"
+          ],
+          "usage": [
+            "-T, --no-tty"
+          ],
+          "tip": [
+            "禁用伪 TTY 分配（默认 true）"
+          ]
+        },
+        {
+          "name": "--publish",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --publish <publish>"
+          ],
+          "tip": [
+            "将容器的端口发布到主机"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "运行前拉取镜像"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终拉取"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "仅在缺失时拉取"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不拉取"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何输出"
+          ]
+        },
+        {
+          "name": "--quiet-build",
+          "tip": [
+            "构建时不打印进度信息"
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "拉取时不打印进度信息"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "移除 Compose 文件中未定义服务的容器"
+          ]
+        },
+        {
+          "name": "--rm",
+          "tip": [
+            "容器退出时自动移除"
+          ]
+        },
+        {
+          "name": "--service-ports",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --service-ports"
+          ],
+          "tip": [
+            "运行命令并启用服务的端口并映射到主机"
+          ]
+        },
+        {
+          "name": "--use-aliases",
+          "tip": [
+            "在网络中使用服务的网络别名"
+          ]
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --user <user>"
+          ],
+          "tip": [
+            "以指定的用户名或 UID 运行"
+          ],
+          "next": []
+        },
+        {
+          "name": "--volume",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --volume <volume>"
+          ],
+          "tip": [
+            "绑定挂载卷"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workdir",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workdir <dir>"
+          ],
+          "tip": [
+            "容器内的工作目录"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "scale",
+      "usage": [
+        "scale [SERVICE=REPLICAS...]"
+      ],
+      "tip": [
+        "设置服务的容器数量"
+      ],
+      "option": [
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不启动关联的服务"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start",
+      "usage": [
+        "start [SERVICE...]"
+      ],
+      "tip": [
+        "启动服务"
+      ],
+      "option": [
+        {
+          "name": "--wait",
+          "tip": [
+            "等待服务运行/健康"
+          ]
+        },
+        {
+          "name": "--wait-timeout",
+          "usage": [
+            "--wait-timeout <timeout>"
+          ],
+          "tip": [
+            "等待服务运行/健康的超时时间"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "usage": [
+        "stats [SERVICE]"
+      ],
+      "tip": [
+        "显示容器资源使用统计的实时流"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有容器"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-stream",
+          "tip": [
+            "禁用流式统计，仅获取第一个结果"
+          ]
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "不截断输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "usage": [
+        "stop [SERVICE...]"
+      ],
+      "tip": [
+        "停止服务"
+      ],
+      "option": [
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "指定关闭超时秒数"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "top",
+      "usage": [
+        "top [SERVICES...]"
+      ],
+      "tip": [
+        "显示运行中的进程"
+      ]
+    },
+    {
+      "name": "unpause",
+      "usage": [
+        "unpause [SERVICE...]"
+      ],
+      "tip": [
+        "取消暂停服务"
+      ]
+    },
+    {
+      "name": "up",
+      "usage": [
+        "up [SERVICE...]"
+      ],
+      "tip": [
+        "创建并启动容器"
+      ],
+      "option": [
+        {
+          "name": "--abort-on-container-exit",
+          "tip": [
+            "如果任何容器停止，则停止所有容器"
+          ]
+        },
+        {
+          "name": "--abort-on-container-failure",
+          "tip": [
+            "如果任何容器失败，则停止所有容器"
+          ]
+        },
+        {
+          "name": "--always-recreate-deps",
+          "tip": [
+            "重新创建依赖容器"
+          ]
+        },
+        {
+          "name": "--attach",
+          "usage": [
+            "--attach <service>"
+          ],
+          "tip": [
+            "附加到服务输出"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--attach-dependencies",
+          "tip": [
+            "附加到依赖容器"
+          ]
+        },
+        {
+          "name": "--build",
+          "tip": [
+            "启动容器前构建镜像"
+          ]
+        },
+        {
+          "name": "--detach",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --detach"
+          ],
+          "tip": [
+            "分离模式：在后台运行容器"
+          ]
+        },
+        {
+          "name": "--exit-code-from",
+          "usage": [
+            "--exit-code-from <service>"
+          ],
+          "tip": [
+            "返回所选服务容器的退出码"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-recreate",
+          "tip": [
+            "即使配置和镜像未改变也重新创建容器"
+          ]
+        },
+        {
+          "name": "--menu",
+          "tip": [
+            "启用交互式快捷键"
+          ]
+        },
+        {
+          "name": "--no-attach",
+          "usage": [
+            "--no-attach <service>"
+          ],
+          "tip": [
+            "不附加到服务输出"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-build",
+          "tip": [
+            "即使策略要求也不构建镜像"
+          ]
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "生成单色输出"
+          ]
+        },
+        {
+          "name": "--no-deps",
+          "tip": [
+            "不启动关联的服务"
+          ]
+        },
+        {
+          "name": "--no-log-prefix",
+          "tip": [
+            "日志中不打印前缀"
+          ]
+        },
+        {
+          "name": "--no-recreate",
+          "tip": [
+            "如果容器已存在，则不重新创建"
+          ]
+        },
+        {
+          "name": "--no-start",
+          "tip": [
+            "创建服务后不启动它们"
+          ]
+        },
+        {
+          "name": "--pull",
+          "usage": [
+            "--pull <policy>"
+          ],
+          "tip": [
+            "运行前拉取镜像"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终拉取"
+              ]
+            },
+            {
+              "name": "missing",
+              "tip": [
+                "仅在缺失时拉取"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不拉取"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--quiet-build",
+          "tip": [
+            "构建时不打印进度信息"
+          ]
+        },
+        {
+          "name": "--quiet-pull",
+          "tip": [
+            "拉取时不打印进度信息"
+          ]
+        },
+        {
+          "name": "--remove-orphans",
+          "tip": [
+            "移除 Compose 文件中未定义服务的容器"
+          ]
+        },
+        {
+          "name": "--renew-anon-volumes",
+          "alias": [
+            "-V"
+          ],
+          "usage": [
+            "-V, --renew-anon-volumes"
+          ],
+          "tip": [
+            "重新创建匿名卷，而不是从之前的容器中检索数据"
+          ]
+        },
+        {
+          "name": "--scale",
+          "usage": [
+            "--scale <scale>"
+          ],
+          "tip": [
+            "将服务扩展为 NUM 个实例"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <timeout>"
+          ],
+          "tip": [
+            "附加时或容器已运行时，用于容器关闭的超时秒数"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "tip": [
+            "显示时间戳"
+          ]
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "等待服务运行/健康"
+          ]
+        },
+        {
+          "name": "--wait-timeout",
+          "usage": [
+            "--wait-timeout <timeout>"
+          ],
+          "tip": [
+            "等待服务运行/健康的超时时间"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "监视源代码并重新构建/刷新容器"
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "所有提示均假定为是"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示 Docker Compose 版本信息"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "美观格式（默认）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "仅显示 Compose 的版本号"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "volumes",
+      "usage": [
+        "volumes [SERVICE...]"
+      ],
+      "tip": [
+        "列出卷"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <format>"
+          ],
+          "tip": [
+            "格式化输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅显示卷名称"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wait",
+      "usage": [
+        "wait <SERVICE> [SERVICE...]"
+      ],
+      "tip": [
+        "阻塞直到第一个服务容器停止"
+      ],
+      "option": [
+        {
+          "name": "--down-project",
+          "tip": [
+            "第一个容器停止时删除项目"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [SERVICE...]"
+      ],
+      "tip": [
+        "监视服务的构建上下文并重新构建/刷新容器"
+      ],
+      "option": [
+        {
+          "name": "--no-up",
+          "tip": [
+            "监视前不构建和启动服务"
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "构建后清理悬空镜像（默认 true）"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "隐藏构建输出"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--ansi",
+      "usage": [
+        "--ansi <mode>"
+      ],
+      "tip": [
+        "控制何时打印 ANSI 控制字符"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终使用 ANSI"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "在支持时使用 ANSI（默认）"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不使用 ANSI"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--compatibility",
+      "tip": [
+        "以向后兼容模式运行 compose"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "以试运行模式执行命令"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <file>"
+      ],
+      "tip": [
+        "指定备用的环境文件"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <file>"
+      ],
+      "tip": [
+        "Compose 文件的路径"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "usage": [
+        "--parallel <int>"
+      ],
+      "tip": [
+        "控制并行度"
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <profile>"
+      ],
+      "tip": [
+        "指定要启用的配置文件"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--progress",
+      "usage": [
+        "--progress <mode>"
+      ],
+      "tip": [
+        "设置进度输出类型"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动选择（默认）"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "纯文本输出"
+          ]
+        },
+        {
+          "name": "quiet",
+          "tip": [
+            "安静输出"
+          ]
+        },
+        {
+          "name": "tty",
+          "tip": [
+            "TTY 输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--project-directory",
+      "usage": [
+        "--project-directory <dir>"
+      ],
+      "tip": [
+        "指定备用的工作目录"
+      ],
+      "next": []
+    },
+    {
+      "name": "--project-name",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --project-name <name>"
+      ],
+      "tip": [
+        "项目名称"
+      ],
+      "next": []
+    }
+  ]
+}

@@ -1,0 +1,3509 @@
+{
+  "meta": {
+    "url": "https://guides.rubygems.org",
+    "description": [
+      "RubyGems 是一个用于 Ruby 库的包管理器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "usage": [
+        "build <GEMSPEC_FILE>"
+      ],
+      "tip": [
+        "根据 gemspec 构建 gem。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "跳过对 spec 的验证。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FILE>"
+          ],
+          "tip": [
+            "使用给定的文件名输出 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要构建的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "验证 spec 时将警告视为错误。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cert",
+      "tip": [
+        "管理 RubyGems 证书和签名设置。"
+      ],
+      "option": [
+        {
+          "name": "--add",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --add <CERT>"
+          ],
+          "tip": [
+            "添加受信任的证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --build <EMAIL_ADDR>"
+          ],
+          "tip": [
+            "为 EMAIL_ADDR 构建私钥和自签名证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--certificate",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --certificate <CERT>"
+          ],
+          "tip": [
+            "用于 --sign 的签名证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--days",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --days <NUMBER_OF_DAYS>"
+          ],
+          "tip": [
+            "证书过期前的天数。"
+          ],
+          "next": [
+            {
+              "name": "365"
+            },
+            {
+              "name": "3650"
+            }
+          ]
+        },
+        {
+          "name": "--key-algorithm",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --key-algorithm <ALGORITHM>"
+          ],
+          "tip": [
+            "选择用于 --build 的密钥算法。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list [FILTER]"
+          ],
+          "tip": [
+            "列出主题包含 FILTER 的受信任证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--private-key",
+          "alias": [
+            "-K"
+          ],
+          "usage": [
+            "-K, --private-key <KEY>"
+          ],
+          "tip": [
+            "用于 --sign 或 --build 的密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--re-sign",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --re-sign"
+          ],
+          "tip": [
+            "使用 -K 的密钥重新签名 -C 的证书。"
+          ]
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remove <FILTER>"
+          ],
+          "tip": [
+            "移除主题包含 FILTER 的受信任证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sign",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --sign <CERT>"
+          ],
+          "tip": [
+            "使用 -K 的密钥和 -C 的证书对 CERT 进行签名。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "检查 gem 仓库中新增或缺失的文件。"
+      ],
+      "option": [
+        {
+          "name": "--alien",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --alien"
+          ],
+          "tip": [
+            "报告 gem 仓库中未管理的或异常的文件。"
+          ]
+        },
+        {
+          "name": "--doctor",
+          "tip": [
+            "清理未安装的 gem 和损坏的规格文件。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不删除文件，仅报告将被删除的内容。"
+          ]
+        },
+        {
+          "name": "--gems",
+          "tip": [
+            "检查已安装的 gem 是否存在问题。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要检查的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "tip": [
+        "清理已安装 gem 的旧版本。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n",
+            "-d"
+          ],
+          "usage": [
+            "-n, -d, --dry-run"
+          ],
+          "tip": [
+            "不卸载 gem。"
+          ]
+        },
+        {
+          "name": "--no-check-development",
+          "alias": [
+            "--check-development",
+            "-D"
+          ],
+          "usage": [
+            "-D, --[no-]check-development"
+          ],
+          "tip": [
+            "卸载时检查开发依赖。"
+          ]
+        },
+        {
+          "name": "--no-user-install",
+          "alias": [
+            "--user-install"
+          ],
+          "usage": [
+            "--[no-]user-install"
+          ],
+          "tip": [
+            "在用户主目录中清理，而不是 GEM_HOME。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contents",
+      "alias": [
+        "co"
+      ],
+      "usage": [
+        "co|contents [GEMNAME...]"
+      ],
+      "tip": [
+        "显示已安装 gem 的内容。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "显示所有 gem 的内容。"
+          ]
+        },
+        {
+          "name": "--lib-only",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lib-only"
+          ],
+          "tip": [
+            "仅返回 gem 的 lib_dirs 中的文件。"
+          ]
+        },
+        {
+          "name": "--no-prefix",
+          "alias": [
+            "--prefix"
+          ],
+          "usage": [
+            "--[no-]prefix"
+          ],
+          "tip": [
+            "不包含安装路径前缀。"
+          ]
+        },
+        {
+          "name": "--no-show-install-dir",
+          "alias": [
+            "--show-install-dir"
+          ],
+          "usage": [
+            "--[no-]show-install-dir"
+          ],
+          "tip": [
+            "仅显示 gem 安装目录。"
+          ]
+        },
+        {
+          "name": "--spec-dir",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --spec-dir <a,b,c>"
+          ],
+          "tip": [
+            "在特定路径下搜索 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要显示内容的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dependency",
+      "alias": [
+        "dep"
+      ],
+      "usage": [
+        "dep|dependency [REGEXP]"
+      ],
+      "tip": [
+        "显示已安装 gem 的依赖。"
+      ],
+      "option": [
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许 gem 的预发布版本。"
+          ]
+        },
+        {
+          "name": "--pipe",
+          "tip": [
+            "管道格式（name --version ver）。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要查看依赖的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--reverse-dependencies",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --[no-]reverse-dependencies"
+          ],
+          "tip": [
+            "在输出中包含反向依赖。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要查看依赖的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "environment",
+      "alias": [
+        "env"
+      ],
+      "usage": [
+        "env|environment [arg]"
+      ],
+      "tip": [
+        "显示 RubyGems 环境的信息。"
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [options --] COMMAND [args]"
+      ],
+      "tip": [
+        "从 gem 中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--conservative",
+          "tip": [
+            "优先使用最近安装的版本，而不是最新的版本。"
+          ]
+        },
+        {
+          "name": "--gem",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --gem <GEM>"
+          ],
+          "tip": [
+            "从给定的 gem 运行可执行文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许安装 gem 的预发布版本。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要运行的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "alias": [
+        "fe"
+      ],
+      "usage": [
+        "fe|fetch [GEMNAME...]"
+      ],
+      "tip": [
+        "下载 gem 并将其放在当前目录中。"
+      ],
+      "option": [
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许 gem 的预发布版本。"
+          ]
+        },
+        {
+          "name": "--no-suggestions",
+          "alias": [
+            "--suggestions"
+          ],
+          "usage": [
+            "--[no-]suggestions"
+          ],
+          "tip": [
+            "找不到 gem 时建议替代方案。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要下载的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要下载的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "generate_index",
+      "usage": [
+        "generate_index [options]"
+      ],
+      "tip": [
+        "为 gem 服务器目录生成索引文件。"
+      ],
+      "option": [
+        {
+          "name": "--directory",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --directory <DIRNAME>"
+          ],
+          "tip": [
+            "包含 gems 子目录的仓库基础目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-compact",
+          "alias": [
+            "--compact"
+          ],
+          "usage": [
+            "--[no-]compact"
+          ],
+          "tip": [
+            "生成紧凑的索引文件。"
+          ]
+        },
+        {
+          "name": "--no-modern",
+          "alias": [
+            "--modern"
+          ],
+          "usage": [
+            "--[no-]modern"
+          ],
+          "tip": [
+            "为 RubyGems 生成索引（始终为 true）。"
+          ]
+        },
+        {
+          "name": "--update",
+          "tip": [
+            "使用上次更新以来添加的 gem 更新索引。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help <COMMAND>"
+      ],
+      "tip": [
+        "提供 'gem' 命令的帮助。"
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info <GEMNAME>"
+      ],
+      "tip": [
+        "显示给定 gem 的信息。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有 gem 版本。"
+          ]
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --exact"
+          ],
+          "tip": [
+            "要查询的 gem 名称与提供的字符串完全匹配。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --[no-]installed"
+          ],
+          "tip": [
+            "检查 gem 是否已安装。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-installed",
+          "alias": [
+            "-I"
+          ],
+          "usage": [
+            "-I, --no-installed"
+          ],
+          "tip": [
+            "等同于 --no-installed。"
+          ]
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "显示预发布版本。"
+          ]
+        },
+        {
+          "name": "--no-versions",
+          "alias": [
+            "--versions"
+          ],
+          "usage": [
+            "--[no-]versions"
+          ],
+          "tip": [
+            "仅显示 gem 名称。"
+          ]
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要查看信息的 gem 的版本（与 --installed 一起使用）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install [GEMNAME...]"
+      ],
+      "tip": [
+        "将 gem 安装到本地仓库。"
+      ],
+      "option": [
+        {
+          "name": "--bindir",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --bindir <DIR>"
+          ],
+          "tip": [
+            "安装 gem 时可执行文件所在的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--build-jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --build-jobs <VALUE>"
+          ],
+          "tip": [
+            "安装带原生扩展的 gem 时传递给 make 的作业数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-root",
+          "usage": [
+            "--build-root <DIR>"
+          ],
+          "tip": [
+            "临时安装根目录。用于构建包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "不尝试升级已满足版本要求的 gem。"
+          ]
+        },
+        {
+          "name": "--development",
+          "tip": [
+            "安装额外的开发依赖。"
+          ]
+        },
+        {
+          "name": "--development-all",
+          "tip": [
+            "为所有 gem 安装开发依赖。"
+          ]
+        },
+        {
+          "name": "--document",
+          "usage": [
+            "--document [TYPES]"
+          ],
+          "tip": [
+            "为已安装的 gem 生成文档（例如 rdoc、ri）。"
+          ],
+          "next": [
+            {
+              "name": "rdoc"
+            },
+            {
+              "name": "ri"
+            }
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "不安装 gem，而是指出哪些会被安装。"
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --file [FILE]"
+          ],
+          "tip": [
+            "从 gem 依赖 API 文件中读取并安装列出的 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-dependencies",
+          "tip": [
+            "不安装任何必需的依赖 gem。"
+          ]
+        },
+        {
+          "name": "--install-dir",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --install-dir <DIR>"
+          ],
+          "tip": [
+            "安装 gem 的 gem 仓库目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-document",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --no-document"
+          ],
+          "tip": [
+            "禁用文档生成。"
+          ]
+        },
+        {
+          "name": "--no-env-shebang",
+          "alias": [
+            "--env-shebang",
+            "-E"
+          ],
+          "usage": [
+            "-E, --[no-]env-shebang"
+          ],
+          "tip": [
+            "重写已安装脚本的 shebang 行，使其使用 /usr/bin/env。"
+          ]
+        },
+        {
+          "name": "--no-force",
+          "alias": [
+            "--force",
+            "-f"
+          ],
+          "usage": [
+            "-f, --[no-]force"
+          ],
+          "tip": [
+            "强制安装 gem，绕过依赖检查。"
+          ]
+        },
+        {
+          "name": "--no-format-executable",
+          "alias": [
+            "--format-executable"
+          ],
+          "usage": [
+            "--[no-]format-executable"
+          ],
+          "tip": [
+            "使已安装的可执行文件名称与 Ruby 匹配。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-lock",
+          "alias": [
+            "--lock"
+          ],
+          "usage": [
+            "--[no-]lock"
+          ],
+          "tip": [
+            "创建锁文件（与 -g/--file 一起使用时）。"
+          ]
+        },
+        {
+          "name": "--no-minimal-deps",
+          "alias": [
+            "--minimal-deps"
+          ],
+          "usage": [
+            "--[no-]minimal-deps"
+          ],
+          "tip": [
+            "不升级任何已满足版本要求的依赖。"
+          ]
+        },
+        {
+          "name": "--no-post-install-message",
+          "alias": [
+            "--post-install-message"
+          ],
+          "usage": [
+            "--[no-]post-install-message"
+          ],
+          "tip": [
+            "打印安装后消息。"
+          ]
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许安装 gem 的预发布版本。"
+          ]
+        },
+        {
+          "name": "--no-suggestions",
+          "alias": [
+            "--suggestions"
+          ],
+          "usage": [
+            "--[no-]suggestions"
+          ],
+          "tip": [
+            "找不到 gem 时建议替代方案。"
+          ]
+        },
+        {
+          "name": "--no-user-install",
+          "alias": [
+            "--user-install"
+          ],
+          "usage": [
+            "--[no-]user-install"
+          ],
+          "tip": [
+            "安装在用户主目录中，而不是 GEM_HOME。"
+          ]
+        },
+        {
+          "name": "--no-wrappers",
+          "alias": [
+            "--wrappers",
+            "-w"
+          ],
+          "usage": [
+            "-w, --[no-]wrappers"
+          ],
+          "tip": [
+            "为可执行文件使用 bin 包装器。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要安装的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target-rbconfig",
+          "usage": [
+            "--target-rbconfig [FILE]"
+          ],
+          "tip": [
+            "目标平台的 rbconfig.rb。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trust-policy",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --trust-policy <POLICY>"
+          ],
+          "tip": [
+            "指定 gem 信任策略。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "将 gem 安装到 vendor 目录。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要安装的 gem 的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--without",
+          "usage": [
+            "--without <GROUPS>"
+          ],
+          "tip": [
+            "从 gem 依赖文件安装时省略指定组（逗号分隔）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "li"
+      ],
+      "usage": [
+        "li|list [REGEXP...]"
+      ],
+      "tip": [
+        "显示名称匹配 REGEXP 的本地 gem。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有 gem 版本。"
+          ]
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--details",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --[no-]details"
+          ],
+          "tip": [
+            "显示 gem 的详细信息。"
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --exact"
+          ],
+          "tip": [
+            "要查询的 gem 名称与提供的字符串完全匹配。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --[no-]installed"
+          ],
+          "tip": [
+            "检查 gem 是否已安装。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-installed",
+          "alias": [
+            "-I"
+          ],
+          "usage": [
+            "-I, --no-installed"
+          ],
+          "tip": [
+            "等同于 --no-installed。"
+          ]
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "显示预发布版本。"
+          ]
+        },
+        {
+          "name": "--no-versions",
+          "alias": [
+            "--versions"
+          ],
+          "usage": [
+            "--[no-]versions"
+          ],
+          "tip": [
+            "仅显示 gem 名称。"
+          ]
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要列出的 gem 的版本（与 --installed 一起使用）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "alias": [
+        "lo"
+      ],
+      "usage": [
+        "lo|lock GEMNAME-VERSION [GEMNAME-VERSION ...]"
+      ],
+      "tip": [
+        "生成 gem 的锁定列表。"
+      ],
+      "option": [
+        {
+          "name": "--no-strict",
+          "alias": [
+            "--strict",
+            "-s"
+          ],
+          "usage": [
+            "-s, --[no-]strict"
+          ],
+          "tip": [
+            "如果无法满足依赖则失败。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mirror",
+      "tip": [
+        "镜像所有 gem 文件（需要 rubygems-mirror）。"
+      ]
+    },
+    {
+      "name": "open",
+      "alias": [
+        "op"
+      ],
+      "usage": [
+        "op|open [-e COMMAND] GEMNAME"
+      ],
+      "tip": [
+        "在编辑器中打开 gem 源码。"
+      ],
+      "option": [
+        {
+          "name": "--editor",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --editor <COMMAND>"
+          ],
+          "tip": [
+            "将 COMMAND 前置到 gem 路径。可用于指定编辑器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "打开指定版本的 gem。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "tip": [
+        "显示所有需要更新的 gem。"
+      ],
+      "option": [
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要检查更新的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "usage": [
+        "owner <GEM>"
+      ],
+      "tip": [
+        "管理 gem 在推送服务器上的所有者。"
+      ],
+      "option": [
+        {
+          "name": "--add",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --add <NEW_OWNER>"
+          ],
+          "tip": [
+            "通过用户标识符添加所有者。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "使用另一个 gemcutter 兼容的主机。"
+          ],
+          "next": [
+            {
+              "name": "https://rubygems.org"
+            }
+          ]
+        },
+        {
+          "name": "--key",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --key <KEYNAME>"
+          ],
+          "tip": [
+            "使用给定的 API 密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "多因素认证的数字代码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remove <OLD_OWNER>"
+          ],
+          "tip": [
+            "通过用户标识符移除所有者。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "pristine",
+      "alias": [
+        "pri"
+      ],
+      "usage": [
+        "pri|pristine [GEMNAME...]"
+      ],
+      "tip": [
+        "从 gem 缓存中的文件恢复已安装的 gem 到原始状态。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "将所有已安装的 gem 恢复到原始状态。"
+          ]
+        },
+        {
+          "name": "--bindir",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --bindir <DIR>"
+          ],
+          "tip": [
+            "可执行文件所在的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-dir",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --install-dir <DIR>"
+          ],
+          "tip": [
+            "用于恢复 gem 的 gem 仓库。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-env-shebang",
+          "alias": [
+            "--env-shebang",
+            "-E"
+          ],
+          "usage": [
+            "-E, --[no-]env-shebang"
+          ],
+          "tip": [
+            "使用 /usr/bin/env 的 shebang 重写可执行文件。"
+          ]
+        },
+        {
+          "name": "--no-extensions",
+          "alias": [
+            "--extensions"
+          ],
+          "usage": [
+            "--[no-]extensions"
+          ],
+          "tip": [
+            "除常规 gem 外，还恢复带扩展的 gem。"
+          ]
+        },
+        {
+          "name": "--only-executables",
+          "tip": [
+            "仅恢复可执行文件。"
+          ]
+        },
+        {
+          "name": "--only-missing-extensions",
+          "tip": [
+            "仅恢复缺少扩展的 gem。"
+          ]
+        },
+        {
+          "name": "--only-plugins",
+          "tip": [
+            "仅恢复插件。"
+          ]
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <gem_name>"
+          ],
+          "tip": [
+            "用于 --all，如果名称 == gem_name 则跳过。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要恢复到原始状态的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "alias": [
+        "pu"
+      ],
+      "usage": [
+        "pu|push <GEM>"
+      ],
+      "tip": [
+        "将 gem 推送到 gem 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--attestation",
+          "usage": [
+            "--attestation <FILE>"
+          ],
+          "tip": [
+            "使用 sigstore 证明推送。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "推送到另一个 gemcutter 兼容的主机。"
+          ],
+          "next": [
+            {
+              "name": "https://rubygems.org"
+            }
+          ]
+        },
+        {
+          "name": "--key",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --key <KEYNAME>"
+          ],
+          "tip": [
+            "使用给定的 API 密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "多因素认证的数字代码。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rdoc",
+      "alias": [
+        "rd"
+      ],
+      "usage": [
+        "rd|rdoc [GEMNAME...]"
+      ],
+      "tip": [
+        "为预先安装的 gem 生成 RDoc。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "为所有已安装的 gem 生成 RDoc/RI 文档。"
+          ]
+        },
+        {
+          "name": "--no-overwrite",
+          "alias": [
+            "--overwrite"
+          ],
+          "usage": [
+            "--[no-]overwrite"
+          ],
+          "tip": [
+            "覆盖已安装的文档。"
+          ]
+        },
+        {
+          "name": "--no-rdoc",
+          "alias": [
+            "--rdoc"
+          ],
+          "usage": [
+            "--[no-]rdoc"
+          ],
+          "tip": [
+            "生成 RDoc HTML。"
+          ]
+        },
+        {
+          "name": "--no-ri",
+          "alias": [
+            "--ri"
+          ],
+          "usage": [
+            "--[no-]ri"
+          ],
+          "tip": [
+            "生成 RI 数据。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要生成文档的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "usage": [
+        "rebuild <GEM_NAME> <GEM_VERSION>"
+      ],
+      "tip": [
+        "尝试重现 gem 的构建。"
+      ],
+      "option": [
+        {
+          "name": "--diff",
+          "tip": [
+            "如果文件不匹配，使用 diffoscope 比较它们。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "跳过对 spec 的验证。"
+          ]
+        },
+        {
+          "name": "--gemspec",
+          "usage": [
+            "--gemspec <GEMSPEC_FILE>"
+          ],
+          "tip": [
+            "指定 gemspec 文件的名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--original",
+          "usage": [
+            "--original <GEM_FILE>"
+          ],
+          "tip": [
+            "指定要比较的本地文件（而不是下载它）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <GEM_SOURCE>"
+          ],
+          "tip": [
+            "指定下载 gem 的来源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "验证 spec 时将警告视为错误。"
+          ]
+        },
+        {
+          "name": "-C",
+          "usage": [
+            "-C <PATH>"
+          ],
+          "tip": [
+            "如同在 <PATH> 而不是当前工作目录中启动 gem build 一样运行。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "se"
+      ],
+      "usage": [
+        "se|search [REGEXP]"
+      ],
+      "tip": [
+        "显示名称匹配 REGEXP 的远程 gem。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示所有 gem 版本。"
+          ]
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--details",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --[no-]details"
+          ],
+          "tip": [
+            "显示 gem 的详细信息。"
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --exact"
+          ],
+          "tip": [
+            "要查询的 gem 名称与提供的字符串完全匹配。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --[no-]installed"
+          ],
+          "tip": [
+            "检查 gem 是否已安装。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-installed",
+          "alias": [
+            "-I"
+          ],
+          "usage": [
+            "-I, --no-installed"
+          ],
+          "tip": [
+            "等同于 --no-installed。"
+          ]
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "显示预发布版本。"
+          ]
+        },
+        {
+          "name": "--no-versions",
+          "alias": [
+            "--versions"
+          ],
+          "usage": [
+            "--[no-]versions"
+          ],
+          "tip": [
+            "仅显示 gem 名称。"
+          ]
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要搜索的 gem 的版本（与 --installed 一起使用）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "server",
+      "tip": [
+        "启动托管 RDoc 的 Web 服务器（需要 rubygems-server）。"
+      ]
+    },
+    {
+      "name": "signin",
+      "alias": [
+        "login"
+      ],
+      "usage": [
+        "login|signin [options]"
+      ],
+      "tip": [
+        "登录到任何 gemcutter 兼容的主机。默认是 https://rubygems.org。"
+      ],
+      "option": [
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "推送到另一个 gemcutter 兼容的主机。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "多因素认证的数字代码。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "signout",
+      "tip": [
+        "退出所有当前会话。"
+      ]
+    },
+    {
+      "name": "sources",
+      "tip": [
+        "管理 RubyGems 用来搜索 gem 的源和缓存文件。"
+      ],
+      "option": [
+        {
+          "name": "--add",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --add <SOURCE_URI>"
+          ],
+          "tip": [
+            "添加源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--append",
+          "usage": [
+            "--append <SOURCE_URI>"
+          ],
+          "tip": [
+            "追加源（可多次使用）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--clear-all",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --clear-all"
+          ],
+          "tip": [
+            "移除所有源（清除缓存）。"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出源。"
+          ]
+        },
+        {
+          "name": "--no-force",
+          "alias": [
+            "--force",
+            "-f"
+          ],
+          "usage": [
+            "-f, --[no-]force"
+          ],
+          "tip": [
+            "不显示任何确认提示，并表现得像总是回答 'yes' 一样。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prepend",
+          "usage": [
+            "--prepend <SOURCE_URI>"
+          ],
+          "tip": [
+            "前置源（可多次使用）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--remove",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remove <SOURCE_URI>"
+          ],
+          "tip": [
+            "移除源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "更新源缓存。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "specification",
+      "alias": [
+        "spec"
+      ],
+      "usage": [
+        "spec|specification [GEM_OR_FILE] [FIELD]"
+      ],
+      "tip": [
+        "显示 gem 规格（yaml 格式）。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "输出 gem 的所有版本的规格。"
+          ]
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--marshal",
+          "tip": [
+            "输出 Marshal 格式。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许 gem 的预发布版本。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要查看规格的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--ruby",
+          "tip": [
+            "输出 ruby 格式。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要检查的 gem 的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--yaml",
+          "tip": [
+            "输出 YAML 格式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stale",
+      "tip": [
+        "列出 gem 及其访问时间。"
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "un"
+      ],
+      "usage": [
+        "un|uninstall [GEMNAME...]"
+      ],
+      "tip": [
+        "从本地仓库卸载 gem。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --[no-]all"
+          ],
+          "tip": [
+            "卸载所有匹配的版本。"
+          ]
+        },
+        {
+          "name": "--bindir",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --bindir <DIR>"
+          ],
+          "tip": [
+            "要移除可执行文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-dependencies",
+          "alias": [
+            "-I"
+          ],
+          "usage": [
+            "-I, --[no-]ignore-dependencies"
+          ],
+          "tip": [
+            "卸载时忽略依赖要求。"
+          ]
+        },
+        {
+          "name": "--install-dir",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --install-dir <DIR>"
+          ],
+          "tip": [
+            "要卸载 gem 的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-abort-on-dependent",
+          "alias": [
+            "--abort-on-dependent"
+          ],
+          "usage": [
+            "--[no-]abort-on-dependent"
+          ],
+          "tip": [
+            "阻止卸载被其他 gem 依赖的 gem。"
+          ]
+        },
+        {
+          "name": "--no-check-development",
+          "alias": [
+            "--check-development",
+            "-D"
+          ],
+          "usage": [
+            "-D, --[no-]check-development"
+          ],
+          "tip": [
+            "卸载时检查开发依赖。"
+          ]
+        },
+        {
+          "name": "--no-executables",
+          "alias": [
+            "--executables",
+            "-x"
+          ],
+          "usage": [
+            "-x, --[no-]executables"
+          ],
+          "tip": [
+            "无确认地卸载适用的可执行文件。"
+          ]
+        },
+        {
+          "name": "--no-force",
+          "alias": [
+            "--force"
+          ],
+          "usage": [
+            "--[no-]force"
+          ],
+          "tip": [
+            "忽略依赖卸载所有版本的指定 gem。"
+          ]
+        },
+        {
+          "name": "--no-format-executable",
+          "alias": [
+            "--format-executable"
+          ],
+          "usage": [
+            "--[no-]format-executable"
+          ],
+          "tip": [
+            "假定可执行文件名称与 Ruby 的前缀和后缀匹配。"
+          ]
+        },
+        {
+          "name": "--no-user-install",
+          "alias": [
+            "--user-install"
+          ],
+          "usage": [
+            "--[no-]user-install"
+          ],
+          "tip": [
+            "除了 GEM_HOME 之外，还从用户主目录卸载。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要卸载的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "从 vendor 目录卸载 gem。"
+          ]
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要卸载的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unpack",
+      "usage": [
+        "unpack <GEMNAME>"
+      ],
+      "tip": [
+        "将已安装的 gem 解包到当前目录。"
+      ],
+      "option": [
+        {
+          "name": "--spec",
+          "tip": [
+            "解包 gem 规格。"
+          ]
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <DIR>"
+          ],
+          "tip": [
+            "解包的目标目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trust-policy",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --trust-policy <POLICY>"
+          ],
+          "tip": [
+            "指定 gem 信任策略。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要解包的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [GEMNAME...]"
+      ],
+      "tip": [
+        "将已安装的 gem 更新到最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--bindir",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --bindir <DIR>"
+          ],
+          "tip": [
+            "安装 gem 时可执行文件所在的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--both",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --both"
+          ],
+          "tip": [
+            "允许本地和远程操作。"
+          ]
+        },
+        {
+          "name": "--build-jobs",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --build-jobs <VALUE>"
+          ],
+          "tip": [
+            "安装带原生扩展的 gem 时传递给 make 的作业数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-root",
+          "usage": [
+            "--build-root <DIR>"
+          ],
+          "tip": [
+            "临时安装根目录。用于构建包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bulk-threshold",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --bulk-threshold <COUNT>"
+          ],
+          "tip": [
+            "切换到批量同步的阈值（默认 1000）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            }
+          ]
+        },
+        {
+          "name": "--clear-sources",
+          "tip": [
+            "清除 gem 源。"
+          ]
+        },
+        {
+          "name": "--conservative",
+          "tip": [
+            "不尝试升级已满足版本要求的 gem。"
+          ]
+        },
+        {
+          "name": "--development",
+          "tip": [
+            "安装额外的开发依赖。"
+          ]
+        },
+        {
+          "name": "--development-all",
+          "tip": [
+            "为所有 gem 安装开发依赖。"
+          ]
+        },
+        {
+          "name": "--document",
+          "usage": [
+            "--document [TYPES]"
+          ],
+          "tip": [
+            "为已安装的 gem 生成文档（例如 rdoc、ri）。"
+          ],
+          "next": [
+            {
+              "name": "rdoc"
+            },
+            {
+              "name": "ri"
+            }
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "不安装 gem，而是指出哪些会被安装。"
+          ]
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --file [FILE]"
+          ],
+          "tip": [
+            "从 gem 依赖 API 文件中读取并安装列出的 gem。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-dependencies",
+          "tip": [
+            "不安装任何必需的依赖 gem。"
+          ]
+        },
+        {
+          "name": "--install-dir",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --install-dir <DIR>"
+          ],
+          "tip": [
+            "安装 gem 的 gem 仓库目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "将操作限制在本地域。"
+          ]
+        },
+        {
+          "name": "--no-document",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --no-document"
+          ],
+          "tip": [
+            "禁用文档生成。"
+          ]
+        },
+        {
+          "name": "--no-env-shebang",
+          "alias": [
+            "--env-shebang",
+            "-E"
+          ],
+          "usage": [
+            "-E, --[no-]env-shebang"
+          ],
+          "tip": [
+            "重写已安装脚本的 shebang 行，使其使用 /usr/bin/env。"
+          ]
+        },
+        {
+          "name": "--no-force",
+          "alias": [
+            "--force",
+            "-f"
+          ],
+          "usage": [
+            "-f, --[no-]force"
+          ],
+          "tip": [
+            "强制安装 gem，绕过依赖检查。"
+          ]
+        },
+        {
+          "name": "--no-format-executable",
+          "alias": [
+            "--format-executable"
+          ],
+          "usage": [
+            "--[no-]format-executable"
+          ],
+          "tip": [
+            "使已安装的可执行文件名称与 Ruby 匹配。"
+          ]
+        },
+        {
+          "name": "--no-http-proxy",
+          "alias": [
+            "--http-proxy",
+            "-p"
+          ],
+          "usage": [
+            "-p, --[no-]http-proxy [URL]"
+          ],
+          "tip": [
+            "为远程操作使用 HTTP 代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-lock",
+          "alias": [
+            "--lock"
+          ],
+          "usage": [
+            "--[no-]lock"
+          ],
+          "tip": [
+            "创建锁文件（与 -g/--file 一起使用时）。"
+          ]
+        },
+        {
+          "name": "--no-minimal-deps",
+          "alias": [
+            "--minimal-deps"
+          ],
+          "usage": [
+            "--[no-]minimal-deps"
+          ],
+          "tip": [
+            "不升级任何已满足版本要求的依赖。"
+          ]
+        },
+        {
+          "name": "--no-post-install-message",
+          "alias": [
+            "--post-install-message"
+          ],
+          "usage": [
+            "--[no-]post-install-message"
+          ],
+          "tip": [
+            "打印安装后消息。"
+          ]
+        },
+        {
+          "name": "--no-prerelease",
+          "alias": [
+            "--prerelease"
+          ],
+          "usage": [
+            "--[no-]prerelease"
+          ],
+          "tip": [
+            "允许 gem 的预发布版本作为更新目标。"
+          ]
+        },
+        {
+          "name": "--no-suggestions",
+          "alias": [
+            "--suggestions"
+          ],
+          "usage": [
+            "--[no-]suggestions"
+          ],
+          "tip": [
+            "找不到 gem 时建议替代方案。"
+          ]
+        },
+        {
+          "name": "--no-user-install",
+          "alias": [
+            "--user-install"
+          ],
+          "usage": [
+            "--[no-]user-install"
+          ],
+          "tip": [
+            "安装在用户主目录中，而不是 GEM_HOME。"
+          ]
+        },
+        {
+          "name": "--no-wrappers",
+          "alias": [
+            "--wrappers",
+            "-w"
+          ],
+          "usage": [
+            "-w, --[no-]wrappers"
+          ],
+          "tip": [
+            "为可执行文件使用 bin 包装器。"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要更新的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --remote"
+          ],
+          "tip": [
+            "将操作限制在远程域。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source <URL>"
+          ],
+          "tip": [
+            "将 URL 追加到远程 gem 源列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--system",
+          "usage": [
+            "--system [VERSION]"
+          ],
+          "tip": [
+            "更新 RubyGems 系统软件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target-rbconfig",
+          "usage": [
+            "--target-rbconfig [FILE]"
+          ],
+          "tip": [
+            "目标平台的 rbconfig.rb。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trust-policy",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --trust-policy <POLICY>"
+          ],
+          "tip": [
+            "指定 gem 信任策略。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vendor",
+          "tip": [
+            "将 gem 安装到 vendor 目录。"
+          ]
+        },
+        {
+          "name": "--without",
+          "usage": [
+            "--without <GROUPS>"
+          ],
+          "tip": [
+            "从 gem 依赖文件安装时省略指定组（逗号分隔）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "which",
+      "alias": [
+        "wh"
+      ],
+      "usage": [
+        "wh|which <FILE>"
+      ],
+      "tip": [
+        "查找你可以 require 的库文件的位置。"
+      ],
+      "option": [
+        {
+          "name": "--no-all",
+          "alias": [
+            "--all",
+            "-a"
+          ],
+          "usage": [
+            "-a, --[no-]all"
+          ],
+          "tip": [
+            "显示所有匹配的文件。"
+          ]
+        },
+        {
+          "name": "--no-gems-first",
+          "alias": [
+            "--gems-first",
+            "-g"
+          ],
+          "usage": [
+            "-g, --[no-]gems-first"
+          ],
+          "tip": [
+            "在非 gem 之前搜索 gem。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "yank",
+      "alias": [
+        "ya"
+      ],
+      "usage": [
+        "ya|yank [-v VERSION] <GEM>"
+      ],
+      "tip": [
+        "从索引中移除已推送的 gem。"
+      ],
+      "option": [
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "从另一个 gemcutter 兼容的主机移除。"
+          ],
+          "next": [
+            {
+              "name": "https://rubygems.org"
+            }
+          ]
+        },
+        {
+          "name": "--key",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --key <KEYNAME>"
+          ],
+          "tip": [
+            "使用给定的 API 密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "多因素认证的数字代码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "指定要移除的 gem 的平台。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <VERSION>"
+          ],
+          "tip": [
+            "指定要移除的 gem 的版本。"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示 gem 版本。"
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C <PATH>"
+      ],
+      "tip": [
+        "如同在 <PATH> 而不是当前工作目录中启动 gem 一样运行。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--backtrace",
+      "tip": [
+        "出错时显示堆栈回溯。"
+      ]
+    },
+    {
+      "name": "--config-file",
+      "usage": [
+        "--config-file <FILE>"
+      ],
+      "tip": [
+        "使用此配置文件而不是默认文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "打开 Ruby 调试。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "获取此命令的帮助。"
+      ]
+    },
+    {
+      "name": "--no-verbose",
+      "alias": [
+        "--verbose",
+        "-V"
+      ],
+      "usage": [
+        "-V, --[no-]verbose"
+      ],
+      "tip": [
+        "设置输出的详细级别。"
+      ]
+    },
+    {
+      "name": "--norc",
+      "tip": [
+        "避免加载任何 .gemrc 文件。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "静默命令进度提示。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "tip": [
+        "静默 RubyGems 输出。"
+      ]
+    }
+  ]
+}

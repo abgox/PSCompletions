@@ -1,0 +1,3283 @@
+{
+  "meta": {
+    "url": "https://www.terraform.io",
+    "description": [
+      "HashiCorp Terraform - 基础设施即代码工具"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [options] [PLAN]"
+      ],
+      "tip": [
+        "创建或更新基础设施"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "在 apply 之前跳过计划的交互式确认。"
+          ]
+        },
+        {
+          "name": "-backup",
+          "usage": [
+            "-backup <PATH>"
+          ],
+          "tip": [
+            "修改前备份现有状态文件的路径。"
+          ],
+          "next": [
+            {
+              "name": "backup.tfstate",
+              "tip": [
+                "状态备份文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "以更紧凑的形式显示警告,仅包含摘要信息。"
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "选择 destroy 计划模式。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "5 个并行操作"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "使用资源地址强制替换资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要替换的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state-out",
+          "usage": [
+            "-state-out <PATH>"
+          ],
+          "tip": [
+            "写入更新后状态文件的路径。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "状态输出文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [options]"
+      ],
+      "tip": [
+        "在交互式命令提示符下尝试 Terraform 表达式"
+      ],
+      "option": [
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "将计划中的更改作为评估的一部分显示。"
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "计划文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "usage": [
+        "destroy [options]"
+      ],
+      "tip": [
+        "销毁先前创建的基础设施"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "在 destroy 之前跳过计划的交互式确认。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [options] [target...]"
+      ],
+      "tip": [
+        "以标准样式重新格式化配置"
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "检查输入是否已格式化。如果所有输入都已正确格式化,退出状态为 0。"
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "显示格式化更改的差异。"
+          ]
+        },
+        {
+          "name": "-list",
+          "tip": [
+            "列出格式不同的文件。默认是 true。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "同时处理子目录中的文件。"
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "将结果写入源文件而不是 stdout。默认是 true。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock LOCK_ID"
+      ],
+      "tip": [
+        "释放当前 workspace 上卡住的锁"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "解锁过程中不请求输入确认。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get [options]"
+      ],
+      "tip": [
+        "安装或升级远程 Terraform 模块"
+      ],
+      "option": [
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 Terraform 测试目录。默认为 tests。"
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "默认测试目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-update",
+          "tip": [
+            "如果指定,将检查已下载的模块是否有更新。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "graph",
+      "usage": [
+        "graph [options]"
+      ],
+      "tip": [
+        "生成操作步骤的 Graphviz 图"
+      ],
+      "option": [
+        {
+          "name": "-draw-cycles",
+          "tip": [
+            "用彩色边突出显示图中的任何循环。"
+          ]
+        },
+        {
+          "name": "-module-depth",
+          "usage": [
+            "-module-depth <INT>"
+          ],
+          "tip": [
+            "展开模块的最大深度。默认是 -1,将展开所有模块。"
+          ],
+          "next": [
+            {
+              "name": "-1",
+              "tip": [
+                "展开所有模块(默认)"
+              ]
+            },
+            {
+              "name": "0",
+              "tip": [
+                "不展开模块"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "展开一层模块"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "将计划中的更改作为图的一部分显示。"
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "计划文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-type",
+          "usage": [
+            "-type <TYPE>"
+          ],
+          "tip": [
+            "要输出的图类型:plan、plan-destroy、apply、validate、input 或 refresh。"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "apply 操作图"
+              ]
+            },
+            {
+              "name": "input",
+              "tip": [
+                "input 操作图"
+              ]
+            },
+            {
+              "name": "plan",
+              "tip": [
+                "plan 操作图"
+              ]
+            },
+            {
+              "name": "plan-destroy",
+              "tip": [
+                "destroy 计划操作图"
+              ]
+            },
+            {
+              "name": "refresh",
+              "tip": [
+                "refresh 操作图"
+              ]
+            },
+            {
+              "name": "validate",
+              "tip": [
+                "validate 操作图"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import [options] ADDR ID"
+      ],
+      "tip": [
+        "将现有基础设施与 Terraform 资源关联"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "用于配置 provider 的 Terraform 配置文件目录路径。"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "配置目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "即使远程与本地 Terraform 版本不兼容也继续。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [options]"
+      ],
+      "tip": [
+        "为其他命令准备工作目录"
+      ],
+      "option": [
+        {
+          "name": "-backend",
+          "tip": [
+            "为配置配置后端。默认是 true。"
+          ]
+        },
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "要合并到配置文件 backend 块中的配置。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "backend.hcl",
+              "tip": [
+                "后端配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-create-default-workspace",
+          "tip": [
+            "如果不存在则创建默认 workspace。默认是 true。"
+          ]
+        },
+        {
+          "name": "-enable-pluggable-state-storage-experiment",
+          "tip": [
+            "在 init 期间启用可插拔状态存储。"
+          ]
+        },
+        {
+          "name": "-force-copy",
+          "tip": [
+            "抑制关于复制状态数据的输入提示。"
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "在 init 之前将给定模块的内容复制到当前目录。"
+          ],
+          "next": [
+            {
+              "name": "module-source",
+              "tip": [
+                "模块源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-get",
+          "tip": [
+            "下载此配置的任何模块。默认是 true。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "即使远程与本地 Terraform 版本不兼容也继续。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如有必要,请求输入。默认是 true。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "以 JSON 格式打印 init 输出。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。默认是 true。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "设置依赖锁文件模式:read-only 或 ignore。"
+          ],
+          "next": [
+            {
+              "name": "ignore",
+              "tip": [
+                "忽略锁文件"
+              ]
+            },
+            {
+              "name": "read-only",
+              "tip": [
+                "不更新锁文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "重新配置后端并尝试迁移任何现有状态。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-plugin-dir",
+          "usage": [
+            "-plugin-dir <PATH>"
+          ],
+          "tip": [
+            "包含插件二进制的目录。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "plugins",
+              "tip": [
+                "插件目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "重新配置后端,忽略任何已保存的配置。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 Terraform 测试目录。默认为 tests。"
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "默认测试目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "将所有先前选定的 provider 升级到最新版本。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [hostname]"
+      ],
+      "tip": [
+        "获取并保存远程主机的凭据"
+      ]
+    },
+    {
+      "name": "logout",
+      "usage": [
+        "logout [hostname]"
+      ],
+      "tip": [
+        "移除远程主机本地存储的凭据"
+      ]
+    },
+    {
+      "name": "metadata",
+      "tip": [
+        "元数据相关命令"
+      ],
+      "next": [
+        {
+          "name": "functions",
+          "usage": [
+            "functions -json"
+          ],
+          "tip": [
+            "显示可用函数的签名和描述"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "modules",
+      "usage": [
+        "modules [options]"
+      ],
+      "tip": [
+        "显示工作目录中声明的所有模块"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,以机器可读的 JSON 格式输出声明的 Terraform 模块及其解析后的版本。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [options] [NAME]"
+      ],
+      "tip": [
+        "显示根模块的输出值"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,输出将格式化为 JSON 对象。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "对于单值输出,直接打印原始值而不进行转义。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "usage": [
+        "plan [options]"
+      ],
+      "tip": [
+        "显示当前配置所需的更改"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "以更紧凑的形式显示警告,仅包含摘要信息。"
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "选择 destroy 计划模式。"
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "命令退出时返回详细的退出代码。"
+          ]
+        },
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "如果存在 import 块,为导入的资源生成 HCL 配置并将其写入给定路径。"
+          ],
+          "next": [
+            {
+              "name": "generated.tf",
+              "tip": [
+                "生成的配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "将计划文件写入给定路径。"
+          ],
+          "next": [
+            {
+              "name": "plan.out",
+              "tip": [
+                "计划输出文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "在检查差异之前更新状态。默认是 true。"
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "选择仅刷新计划模式。"
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <ADDRESS>"
+          ],
+          "tip": [
+            "使用资源地址强制替换资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要替换的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "usage": [
+        "providers [options] [DIR]"
+      ],
+      "tip": [
+        "显示此配置所需的 provider"
+      ],
+      "option": [
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 Terraform 测试目录。默认为 tests。"
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "默认测试目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock [options] [providers...]"
+          ],
+          "tip": [
+            "为配置的 provider 写出依赖锁"
+          ],
+          "option": [
+            {
+              "name": "-enable-plugin-cache",
+              "tip": [
+                "启用 provider 插件缓存。"
+              ]
+            },
+            {
+              "name": "-fs-mirror",
+              "usage": [
+                "-fs-mirror <PATH>"
+              ],
+              "tip": [
+                "查询给定的文件系统镜像目录。"
+              ],
+              "next": [
+                {
+                  "name": "mirror-dir",
+                  "tip": [
+                    "文件系统镜像目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-net-mirror",
+              "usage": [
+                "-net-mirror <URL>"
+              ],
+              "tip": [
+                "查询给定的网络镜像。"
+              ],
+              "next": [
+                {
+                  "name": "mirror-url",
+                  "tip": [
+                    "网络镜像 URL"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <PLATFORM>"
+              ],
+              "tip": [
+                "为锁文件选择目标平台。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "darwin_arm64",
+                  "tip": [
+                    "macOS arm64 平台"
+                  ]
+                },
+                {
+                  "name": "linux_amd64",
+                  "tip": [
+                    "Linux amd64 平台"
+                  ]
+                },
+                {
+                  "name": "windows_amd64",
+                  "tip": [
+                    "Windows amd64 平台"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-test-directory",
+              "usage": [
+                "-test-directory <PATH>"
+              ],
+              "tip": [
+                "设置 Terraform 测试目录。默认为 tests。"
+              ],
+              "next": [
+                {
+                  "name": "tests",
+                  "tip": [
+                    "默认测试目录"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror [options] <target-dir>"
+          ],
+          "tip": [
+            "保存所有必需 provider 插件的本地副本"
+          ],
+          "option": [
+            {
+              "name": "-lock-file",
+              "usage": [
+                "-lock-file <PATH>"
+              ],
+              "tip": [
+                "使用给定的依赖锁文件。"
+              ],
+              "next": [
+                {
+                  "name": ".terraform.lock.hcl",
+                  "tip": [
+                    "默认锁文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <PLATFORM>"
+              ],
+              "tip": [
+                "选择目标平台。可多次指定。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "linux_amd64",
+                  "tip": [
+                    "Linux amd64 平台"
+                  ]
+                },
+                {
+                  "name": "windows_amd64",
+                  "tip": [
+                    "Windows amd64 平台"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "usage": [
+            "schema -json"
+          ],
+          "tip": [
+            "显示配置中所用 provider 的 schema"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query [options]"
+      ],
+      "tip": [
+        "使用 Terraform 搜索和列出远程基础设施"
+      ],
+      "option": [
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "为查询到的资源生成 import 和资源配置,并将其写入给定路径。"
+          ],
+          "next": [
+            {
+              "name": "generated.tf",
+              "tip": [
+                "生成的配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,将以 JSON 格式打印机器可读输出。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "如果指定,输出将不包含任何颜色。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为 query 中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "usage": [
+        "refresh [options]"
+      ],
+      "tip": [
+        "更新状态以匹配远程系统"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "以更紧凑的形式显示警告,仅包含摘要信息。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "如果变量未直接设置,则请求输入。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用彩色输出。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制并行操作数。默认是 10。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <ADDRESS>"
+          ],
+          "tip": [
+            "将操作限制为具有给定地址的资源实例。可多次指定。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "aws_instance.example",
+              "tip": [
+                "要作为目标的资源地址"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options] [path]"
+      ],
+      "tip": [
+        "显示当前状态或已保存的计划"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,以机器可读的 JSON 格式输出 Terraform 计划或状态。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "如果指定,输出将不包含任何颜色。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stacks",
+      "tip": [
+        "管理 HCP Terraform stack 操作"
+      ],
+      "option": [
+        {
+          "name": "-no-color",
+          "usage": [
+            "-no-color=BOOL"
+          ],
+          "tip": [
+            "禁用彩色输出。必须显式设置为 true 或 false。"
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "启用彩色输出"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "禁用彩色输出"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-plugin-cache-dir",
+          "usage": [
+            "-plugin-cache-dir=DIR"
+          ],
+          "tip": [
+            "覆盖 stack 插件二进制缓存的默认目录。"
+          ],
+          "next": [
+            {
+              "name": "DIR",
+              "tip": [
+                "插件缓存目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-stacks-version",
+          "tip": [
+            "version 子命令的别名。"
+          ]
+        },
+        {
+          "name": "-usage",
+          "tip": [
+            "显示此用法输出或指定子命令的用法。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "configuration",
+          "tip": [
+            "管理 stack 配置"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "创建 stack"
+          ]
+        },
+        {
+          "name": "deployment-group",
+          "tip": [
+            "管理部署组"
+          ]
+        },
+        {
+          "name": "deployment-run",
+          "tip": [
+            "管理部署运行"
+          ]
+        },
+        {
+          "name": "fmt",
+          "tip": [
+            "将 Terraform Stacks 配置重新格式化为规范格式"
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "为后续命令准备配置目录"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出给定组织和/或项目的 stacks"
+          ]
+        },
+        {
+          "name": "providers-lock",
+          "tip": [
+            "为配置的 provider 写出依赖锁"
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "检查配置是否有效"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "显示当前 Stacks 插件版本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "高级状态管理"
+      ],
+      "next": [
+        {
+          "name": "identities",
+          "usage": [
+            "identities [options] -json [address...]"
+          ],
+          "tip": [
+            "列出状态中资源的身份"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "将结果过滤为仅包含具有给定身份 ID 的资源实例。"
+              ],
+              "next": [
+                {
+                  "name": "id",
+                  "tip": [
+                    "身份 ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [options] [address...]"
+          ],
+          "tip": [
+            "列出状态中的资源"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "将结果过滤为仅包含具有给定身份 ID 的资源实例。"
+              ],
+              "next": [
+                {
+                  "name": "id",
+                  "tip": [
+                    "身份 ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mv",
+          "usage": [
+            "mv [options] SOURCE DESTINATION"
+          ],
+          "tip": [
+            "移动状态中的项目"
+          ],
+          "option": [
+            {
+              "name": "-dry-run",
+              "tip": [
+                "仅显示将要移动的内容。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "即使远程与本地 Terraform 版本不兼容也继续。"
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "usage": [
+            "pull [options]"
+          ],
+          "tip": [
+            "拉取当前状态并输出到 stdout"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [options] PATH"
+          ],
+          "tip": [
+            "从本地状态文件更新远程状态"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "即使状态谱系不匹配或远程状态较新,也写入状态。"
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "replace-provider",
+          "usage": [
+            "replace-provider [options] FROM_PROVIDER_FQN TO_PROVIDER_FQN"
+          ],
+          "tip": [
+            "替换状态中的 provider"
+          ],
+          "option": [
+            {
+              "name": "-auto-approve",
+              "tip": [
+                "跳过交互式确认。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "即使远程与本地 Terraform 版本不兼容也继续。"
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm [options] ADDRESS..."
+          ],
+          "tip": [
+            "从状态中移除实例"
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "usage": [
+                "-backup <PATH>"
+              ],
+              "tip": [
+                "修改前备份现有状态文件的路径。"
+              ],
+              "next": [
+                {
+                  "name": "backup.tfstate",
+                  "tip": [
+                    "状态备份文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-dry-run",
+              "tip": [
+                "仅显示将要移除的内容。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "即使远程与本地 Terraform 版本不兼容也继续。"
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var 'foo=bar'"
+              ],
+              "tip": [
+                "为根模块中的某个输入变量设置值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar",
+                  "tip": [
+                    "name=value 形式的变量"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <PATH>"
+              ],
+              "tip": [
+                "从给定文件加载变量值。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "terraform.tfvars",
+                  "tip": [
+                    "默认变量文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [options] ADDRESS"
+          ],
+          "tip": [
+            "显示状态中的资源"
+          ],
+          "option": [
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "状态文件的路径。默认为 terraform.tfstate。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "默认状态文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "taint",
+      "usage": [
+        "taint [options] <address>"
+      ],
+      "tip": [
+        "将资源实例标记为不完全可用"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "如果指定,即使资源缺失,命令也会成功。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "即使远程与本地 Terraform 版本不兼容也继续。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [options]"
+      ],
+      "tip": [
+        "为 Terraform 模块执行集成测试"
+      ],
+      "option": [
+        {
+          "name": "-cloud-run",
+          "usage": [
+            "-cloud-run <SOURCE>"
+          ],
+          "tip": [
+            "如果指定,Terraform 将针对 cloud run 源执行此测试运行。"
+          ],
+          "next": [
+            {
+              "name": "source",
+              "tip": [
+                "Cloud run 源"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "如果指定,Terraform 将仅执行与过滤器匹配的测试文件。"
+          ],
+          "next": [
+            {
+              "name": "testfile",
+              "tip": [
+                "测试文件过滤器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,将以 JSON 格式打印机器可读输出。"
+          ]
+        },
+        {
+          "name": "-junit-xml",
+          "usage": [
+            "-junit-xml <PATH>"
+          ],
+          "tip": [
+            "将测试报告以 JUnit XML 格式保存到指定路径。"
+          ],
+          "next": [
+            {
+              "name": "report.xml",
+              "tip": [
+                "JUnit 报告文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "如果指定,输出将不包含任何颜色。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <INT>"
+          ],
+          "tip": [
+            "限制测试运行中的并发操作数。"
+          ],
+          "next": [
+            {
+              "name": "10",
+              "tip": [
+                "默认并行度"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 Terraform 测试目录。默认为 tests。"
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "默认测试目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "在每个测试运行块执行时打印其计划或状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untaint",
+      "usage": [
+        "untaint [options] name"
+      ],
+      "tip": [
+        "从资源实例中移除 tainted 状态"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "如果指定,即使资源缺失,命令也会成功。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "即使远程与本地 Terraform 版本不兼容也继续。"
+          ]
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "在支持锁定时锁定状态文件。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试状态锁的时长。"
+          ],
+          "next": [
+            {
+              "name": "0s",
+              "tip": [
+                "不重试"
+              ]
+            },
+            {
+              "name": "10m",
+              "tip": [
+                "重试 10 分钟"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "状态文件的路径。默认为 terraform.tfstate。"
+          ],
+          "next": [
+            {
+              "name": "terraform.tfstate",
+              "tip": [
+                "默认状态文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [options]"
+      ],
+      "tip": [
+        "检查配置是否有效"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "如果指定,将以 JSON 格式打印机器可读输出。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "如果指定,输出将不包含任何颜色。"
+          ]
+        },
+        {
+          "name": "-no-tests",
+          "tip": [
+            "如果指定,将不会加载和验证测试。"
+          ]
+        },
+        {
+          "name": "-query",
+          "tip": [
+            "如果指定,将不会加载和验证 query 块。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 Terraform 测试目录。默认为 tests。"
+          ],
+          "next": [
+            {
+              "name": "tests",
+              "tip": [
+                "默认测试目录"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var 'foo=bar'"
+          ],
+          "tip": [
+            "为根模块中的某个输入变量设置值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "foo=bar",
+              "tip": [
+                "name=value 形式的变量"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <PATH>"
+          ],
+          "tip": [
+            "从给定文件加载变量值。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "terraform.tfvars",
+              "tip": [
+                "默认变量文件"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "usage": [
+        "version [options]"
+      ],
+      "tip": [
+        "显示当前 Terraform 版本"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "以 JSON 对象形式输出版本信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace",
+      "tip": [
+        "Workspace 管理"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete [OPTIONS] NAME"
+          ],
+          "tip": [
+            "删除 workspace"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "即使 workspace 非空也删除它。"
+              ]
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 Workspaces"
+          ]
+        },
+        {
+          "name": "new",
+          "usage": [
+            "new [OPTIONS] NAME"
+          ],
+          "tip": [
+            "创建新的 workspace"
+          ],
+          "option": [
+            {
+              "name": "-lock",
+              "tip": [
+                "在支持锁定时锁定状态文件。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试状态锁的时长。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不重试"
+                  ]
+                },
+                {
+                  "name": "10m",
+                  "tip": [
+                    "重试 10 分钟"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "用于初始化此环境状态的现有状态文件路径。"
+              ],
+              "next": [
+                {
+                  "name": "terraform.tfstate",
+                  "tip": [
+                    "用于初始化的状态文件"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "select",
+          "usage": [
+            "select NAME"
+          ],
+          "tip": [
+            "选择 workspace"
+          ],
+          "option": [
+            {
+              "name": "-or-create",
+              "tip": [
+                "如果 workspace 不存在则创建它。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "显示当前 workspace 的名称"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-chdir",
+      "usage": [
+        "-chdir=DIR"
+      ],
+      "tip": [
+        "在执行给定的子命令之前切换到不同的工作目录。"
+      ],
+      "next": [
+        {
+          "name": "DIR",
+          "tip": [
+            "工作目录路径"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "-help",
+      "tip": [
+        "显示此帮助输出或指定子命令的帮助。"
+      ]
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "version 子命令的别名。"
+      ]
+    }
+  ]
+}

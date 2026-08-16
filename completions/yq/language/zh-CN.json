@@ -1,0 +1,715 @@
+{
+  "meta": {
+    "url": "https://github.com/mikefarah/yq",
+    "description": [
+      "一个可移植的命令行数据文件处理器"
+    ]
+  },
+  "next": [
+    {
+      "name": "eval",
+      "alias": [
+        "e"
+      ],
+      "usage": [
+        "e|eval [expression] [yaml_file1]..."
+      ],
+      "tip": [
+        "依次对每个 yaml 文件中的每个文档应用表达式（默认）"
+      ]
+    },
+    {
+      "name": "eval-all",
+      "alias": [
+        "ea"
+      ],
+      "usage": [
+        "ea|eval-all [expression] [yaml_file1]..."
+      ],
+      "tip": [
+        "加载所有 yaml 文件的所有文档并仅运行一次表达式"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
+      "name": "shell-completion",
+      "alias": [
+        "completion"
+      ],
+      "usage": [
+        "completion|shell-completion [bash|zsh|fish|powershell]"
+      ],
+      "tip": [
+        "为指定 Shell 生成自动补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 补全脚本"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息并退出"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--colors",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --colors"
+      ],
+      "tip": [
+        "强制使用彩色输出"
+      ]
+    },
+    {
+      "name": "--csv-auto-parse",
+      "tip": [
+        "解析 CSV YAML/JSON 值（默认 true）"
+      ]
+    },
+    {
+      "name": "--csv-separator",
+      "usage": [
+        "--csv-separator <char>"
+      ],
+      "tip": [
+        "CSV 分隔符（默认 ,）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug-node-info",
+      "tip": [
+        "调试节点信息"
+      ]
+    },
+    {
+      "name": "--exit-status",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exit-status"
+      ],
+      "tip": [
+        "如果没有匹配或返回 null 或 false，则设置退出状态"
+      ]
+    },
+    {
+      "name": "--expression",
+      "usage": [
+        "--expression <string>"
+      ],
+      "tip": [
+        "强制设置表达式参数"
+      ],
+      "next": []
+    },
+    {
+      "name": "--from-file",
+      "usage": [
+        "--from-file <string>"
+      ],
+      "tip": [
+        "从指定文件加载表达式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--front-matter",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --front-matter <TYPE>"
+      ],
+      "tip": [
+        "将第一个输入提取或处理为 yaml front-matter"
+      ],
+      "next": [
+        {
+          "name": "extract",
+          "tip": [
+            "提取 yaml 内容"
+          ]
+        },
+        {
+          "name": "process",
+          "tip": [
+            "对 yaml 内容运行表达式"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--header-preprocess",
+      "tip": [
+        "在处理表达式前合并所有头部注释和分隔符（默认 true）"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "yq 帮助"
+      ]
+    },
+    {
+      "name": "--indent",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --indent <int>"
+      ],
+      "tip": [
+        "设置输出的缩进级别（默认 2）"
+      ],
+      "next": [
+        {
+          "name": "2",
+          "tip": [
+            "缩进级别 2（默认）"
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "缩进级别 4"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ini-preserve-quotes",
+      "tip": [
+        "往返转换期间保留 INI 值周围的引号"
+      ]
+    },
+    {
+      "name": "--inplace",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --inplace"
+      ],
+      "tip": [
+        "就地更新第一个给定文件"
+      ]
+    },
+    {
+      "name": "--input-format",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --input-format <FORMAT>"
+      ],
+      "tip": [
+        "输入的解析格式（默认 auto）"
+      ],
+      "next": [
+        {
+          "name": "a"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "base64"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "h"
+        },
+        {
+          "name": "hcl"
+        },
+        {
+          "name": "i"
+        },
+        {
+          "name": "ini"
+        },
+        {
+          "name": "j"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "ky"
+        },
+        {
+          "name": "kyaml"
+        },
+        {
+          "name": "l"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "p"
+        },
+        {
+          "name": "props"
+        },
+        {
+          "name": "t"
+        },
+        {
+          "name": "toml"
+        },
+        {
+          "name": "tsv"
+        },
+        {
+          "name": "uri"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "y"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--lua-globals",
+      "tip": [
+        "将键输出为顶层全局变量"
+      ]
+    },
+    {
+      "name": "--lua-prefix",
+      "usage": [
+        "--lua-prefix <string>"
+      ],
+      "tip": [
+        "前缀（默认 return ）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lua-suffix",
+      "usage": [
+        "--lua-suffix <string>"
+      ],
+      "tip": [
+        "后缀（默认 ;\\n）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--lua-unquoted",
+      "tip": [
+        "输出不带引号的字符串键（例如 {foo=\"bar\"}）"
+      ]
+    },
+    {
+      "name": "--no-colors",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --no-colors"
+      ],
+      "tip": [
+        "强制不使用彩色输出"
+      ]
+    },
+    {
+      "name": "--no-doc",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --no-doc"
+      ],
+      "tip": [
+        "不打印文档分隔符（---）"
+      ]
+    },
+    {
+      "name": "--nul-output",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --nul-output"
+      ],
+      "tip": [
+        "使用 NUL 字符分隔值"
+      ]
+    },
+    {
+      "name": "--null-input",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --null-input"
+      ],
+      "tip": [
+        "不读取输入，仅计算给定的表达式"
+      ]
+    },
+    {
+      "name": "--output-format",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output-format <FORMAT>"
+      ],
+      "tip": [
+        "输出格式类型"
+      ],
+      "next": [
+        {
+          "name": "a"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "base64"
+        },
+        {
+          "name": "c"
+        },
+        {
+          "name": "csv"
+        },
+        {
+          "name": "h"
+        },
+        {
+          "name": "hcl"
+        },
+        {
+          "name": "i"
+        },
+        {
+          "name": "ini"
+        },
+        {
+          "name": "j"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "ky"
+        },
+        {
+          "name": "kyaml"
+        },
+        {
+          "name": "l"
+        },
+        {
+          "name": "lua"
+        },
+        {
+          "name": "p"
+        },
+        {
+          "name": "props"
+        },
+        {
+          "name": "s"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "t"
+        },
+        {
+          "name": "toml"
+        },
+        {
+          "name": "tsv"
+        },
+        {
+          "name": "uri"
+        },
+        {
+          "name": "x"
+        },
+        {
+          "name": "xml"
+        },
+        {
+          "name": "y"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--prettyPrint",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --prettyPrint"
+      ],
+      "tip": [
+        "美化打印，是 '... style = \"\"' 的简写"
+      ]
+    },
+    {
+      "name": "--properties-array-brackets",
+      "tip": [
+        "在数组路径中使用 [x]（例如 SpringBoot）"
+      ]
+    },
+    {
+      "name": "--properties-separator",
+      "usage": [
+        "--properties-separator <string>"
+      ],
+      "tip": [
+        "键与值之间使用的分隔符（默认 = ）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--security-disable-env-ops",
+      "tip": [
+        "禁用与环境相关的操作"
+      ]
+    },
+    {
+      "name": "--security-disable-file-ops",
+      "tip": [
+        "禁用与文件相关的操作（例如 load）"
+      ]
+    },
+    {
+      "name": "--security-enable-system-operator",
+      "tip": [
+        "启用系统运算符以允许执行外部命令"
+      ]
+    },
+    {
+      "name": "--shell-key-separator",
+      "usage": [
+        "--shell-key-separator <string>"
+      ],
+      "tip": [
+        "Shell 变量键路径的分隔符（默认 _）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-exp",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --split-exp <string>"
+      ],
+      "tip": [
+        "将每个结果（或文档）打印到名为 (exp) 的文件中"
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-exp-file",
+      "usage": [
+        "--split-exp-file <string>"
+      ],
+      "tip": [
+        "使用文件指定 split-exp 表达式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--string-interpolation",
+      "tip": [
+        "切换 \\(exp\\) 字符串插值（默认 true）"
+      ]
+    },
+    {
+      "name": "--tsv-auto-parse",
+      "tip": [
+        "解析 TSV YAML/JSON 值（默认 true）"
+      ]
+    },
+    {
+      "name": "--unwrapScalar",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --unwrapScalar"
+      ],
+      "tip": [
+        "解包标量，不带引号、颜色或注释地打印值（yaml 默认 true）"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细模式"
+      ]
+    },
+    {
+      "name": "--xml-attribute-prefix",
+      "usage": [
+        "--xml-attribute-prefix <string>"
+      ],
+      "tip": [
+        "xml 属性的前缀（默认 +@）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-content-name",
+      "usage": [
+        "--xml-content-name <string>"
+      ],
+      "tip": [
+        "xml 内容名称（无属性名时）（默认 +content）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-directive-name",
+      "usage": [
+        "--xml-directive-name <string>"
+      ],
+      "tip": [
+        "xml 指令的名称（默认 +directive）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-keep-namespace",
+      "tip": [
+        "解析属性后保留命名空间（默认 true）"
+      ]
+    },
+    {
+      "name": "--xml-proc-inst-prefix",
+      "usage": [
+        "--xml-proc-inst-prefix <string>"
+      ],
+      "tip": [
+        "xml 处理指令的前缀（默认 +p_）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--xml-raw-token",
+      "tip": [
+        "使用 RawToken 方法而非 Token（默认 true）"
+      ]
+    },
+    {
+      "name": "--xml-skip-directives",
+      "tip": [
+        "跳过指令（例如 <!DOCTYPE thing cat>）"
+      ]
+    },
+    {
+      "name": "--xml-skip-proc-inst",
+      "tip": [
+        "跳过处理指令（例如 <?xml version=\"1\"?>)）"
+      ]
+    },
+    {
+      "name": "--xml-strict-mode",
+      "tip": [
+        "启用 XML 严格解析"
+      ]
+    },
+    {
+      "name": "--yaml-compact-seq-indent",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --yaml-compact-seq-indent"
+      ],
+      "tip": [
+        "使用紧凑序列缩进，'- ' 被视为缩进的一部分"
+      ]
+    },
+    {
+      "name": "--yaml-fix-merge-anchor-to-spec",
+      "tip": [
+        "修复 merge anchor 以符合 YAML 规范"
+      ]
+    }
+  ]
+}
