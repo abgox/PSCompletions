@@ -51,6 +51,7 @@
 |[dircolors](https://uutils.org)|输出设置 LS_COLORS 环境变量的命令。|
 |[dirname](https://uutils.org)|去除文件名的最后一个组件。|
 |[docker](https://www.docker.com)|容器应用开发。|
+|[docker-compose](https://github.com/docker/compose)|使用 Docker 定义并运行多容器应用|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
 |[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
 |[du](https://uutils.org)|估算文件空间使用情况。|
@@ -65,12 +66,14 @@
 |[factor](https://uutils.org)|输出给定数字的质因数。|
 |[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
 |[ffmpeg](https://ffmpeg.org/)|完整的跨平台音视频录制、转换和流媒体解决方案。|
+|[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
 |[fmt](https://uutils.org)|将输入文件的段落重新格式化输出到标准输出。|
 |[fnm](https://github.com/Schniz/fnm)|使用 Rust 编写的快速简单的 Node.js 版本管理器。|
 |[fold](https://uutils.org)|将每个文件写入标准输出，同时拆分长行。|
 |[fx](https://fx.wtf)|终端 JSON 查看器|
 |[fzf](https://junegunn.github.io/fzf)|适用于任何类型列表的交互式过滤程序。|
 |[gcc](https://gcc.gnu.org)|GNU 编译器套件|
+|[gem](https://guides.rubygems.org)|RubyGems 是一个用于 Ruby 库的包管理器。|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[git](https://git-scm.com)|版本控制系统。|
@@ -83,9 +86,12 @@
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
 |[head](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
+|[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
+|[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
+|[istioctl](https://istio.io/)|Istio 命令行界面|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool <br>专注于正确性和性能的 jq 克隆|
 |[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - 兼容 Git 的版本控制系统。|
 |[jjui](https://idursun.github.io/jjui/)|Jujutsu 版本控制系统的文本用户界面。|
@@ -97,6 +103,7 @@
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
 |[ln](https://uutils.org)|创建文件之间的链接。|
+|[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum](https://uutils.org)|计算和校验 MD5 消息摘要。|
@@ -107,14 +114,17 @@
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
+|[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
 |[ngrok](https://ngrok.com/)|面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nl](https://uutils.org)|为文件行编号。|
 |[node](https://nodejs.org/)|一个免费、开源、跨平台的 JavaScript 运行时环境。|
 |[nodemon](https://github.com/remy/nodemon)|监控文件变化并自动重启 Node.js 服务器。|
+|[nomad](https://www.nomadproject.io/)|编排容器和非容器化应用的工作负载调度器|
 |[npm](https://www.npmjs.com/)|Node.js 包管理器。|
 |[nproc](https://uutils.org)|输出当前进程可用的核心数。|
 |[nrm](https://github.com/Pana/nrm)|npm 镜像源管理。|
 |[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
+|[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
 |[numfmt](https://uutils.org)|在数字和人类可读字符串之间转换。|
 |[nvim](https://neovim.io/)|专注于可扩展性和易用性的 Vim 分支。|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js 版本管理器。|
@@ -143,6 +153,7 @@
 |[printenv](https://www.gnu.org/software/coreutils/)|输出指定环境变量的值。|
 |[psc](https://pscompletions.abgox.com)|PSCompletions 模块的补全。|
 |[ptx](https://uutils.org)|输出输入文件中单词的排列索引。|
+|[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
 |[python](https://www.python.org)|Python 解释器命令行。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
@@ -163,12 +174,18 @@
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
 |[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
 |[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
+|[terraform](https://www.terraform.io)|HashiCorp Terraform - 基础设施即代码工具|
+|[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
+|[tokei](https://github.com/XAMPPRocky/tokei)|快速统计你的代码量|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML 工具包|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|TypeScript 编译器。|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute。在 Node.js 中运行 TypeScript 的最简单方式。|
+|[ttyd](https://github.com/tsl0922/ttyd)|在 Web 上共享终端的工具|
 |[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
 |[typst](https://typst.app)|一个基于标记的新排版系统。|
 |[uv](https://docs.astral.sh/uv/)|极速 Python 包和项目管理器，使用 Rust 编写。|
+|[vagrant](https://www.vagrantup.com)|用于构建和管理虚拟机环境的工具。|
+|[vault](https://www.vaultproject.io)|HashiCorp Vault - 管理机密并保护敏感数据。|
 |[vdir](https://uutils.org)|列出文件信息。|
 |[vercel](https://vercel.com)|用于部署和管理 Vercel 项目的命令行工具|
 |[vhs](https://github.com/charmbracelet/vhs)|你的 CLI 家庭录像机<br>从 Shell 脚本录制终端 GIF|
@@ -186,9 +203,11 @@
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
 |[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
+|[xxd](https://www.linux.org/docs/man1/xxd.html)|生成十六进制转储，或执行逆向操作|
 |[ya](https://yazi-rs.github.io/)|Yazi - 使用 Rust 编写的极速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|快速、可靠、安全的依赖管理。|
 |[yazi](https://yazi-rs.github.io/)|使用 Rust 编写的极速终端文件管理器。|
+|[yq](https://github.com/mikefarah/yq)|一个可移植的命令行数据文件处理器|
 |[yt-dlp](https://github.com/yt-dlp/yt-dlp)|功能丰富的命令行音视频下载工具|
 |[zellij](https://zellij.dev)|具有多终端面板的终端工作区。|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|更智能的 cd 命令。|

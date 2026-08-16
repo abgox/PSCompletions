@@ -51,6 +51,7 @@
 |[dircolors](https://uutils.org)|Output commands to set the LS_COLORS environment variable.|
 |[dirname](https://uutils.org)|Strip last component from file name.|
 |[docker](https://www.docker.com)|Container Application Development.|
+|[docker-compose](https://github.com/docker/compose)|Define and run multi-container applications with Docker|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
 |[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
 |[du](https://uutils.org)|Estimate file space usage.|
@@ -65,12 +66,14 @@
 |[factor](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
 |[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
 |[ffmpeg](https://ffmpeg.org/)|Complete, cross-platform solution to record, convert and stream audio and video.|
+|[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
 |[fmt](https://uutils.org)|Reformat paragraphs from input files to stdout.|
 |[fnm](https://github.com/Schniz/fnm)|Fast and simple Node.js version manager, built in Rust.|
 |[fold](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
 |[fx](https://fx.wtf)|Terminal JSON viewer|
 |[fzf](https://junegunn.github.io/fzf)|Interactive filter program for any kind of list.|
 |[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
+|[gem](https://guides.rubygems.org)|RubyGems is a package manager for Ruby libraries.|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[git](https://git-scm.com)|Version control system.|
@@ -83,9 +86,12 @@
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
 |[head](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
 |[helm](https://helm.sh)|Kubernetes package manager.|
+|[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
+|[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
+|[istioctl](https://istio.io/)|The Istio command-line interface|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
 |[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - Git-compatible version control system.|
 |[jjui](https://idursun.github.io/jjui/)|Text User Interface for the Jujutsu version control system.|
@@ -97,6 +103,7 @@
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
 |[ln](https://uutils.org)|Make links between files.|
+|[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
@@ -107,14 +114,17 @@
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
+|[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
 |[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
 |[nl](https://uutils.org)|Number lines of files.|
 |[node](https://nodejs.org/)|A free, open-source, cross-platform JavaScript runtime environment.|
 |[nodemon](https://github.com/remy/nodemon)|Monitor for changes and automatically restart Node.js server.|
+|[nomad](https://www.nomadproject.io/)|A workload scheduler that orchestrates containers and non-containerized applications|
 |[npm](https://www.npmjs.com/)|Node.js package manager.|
 |[nproc](https://uutils.org)|Print the number of cores available to the current process.|
 |[nrm](https://github.com/Pana/nrm)|npm registry manager.|
 |[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
+|[nu](https://github.com/nushell/nushell)|The nushell language and shell|
 |[numfmt](https://uutils.org)|Convert numbers from/to human-readable strings.|
 |[nvim](https://neovim.io/)|Vim-fork focused on extensibility and usability.|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js Version Manager.|
@@ -143,6 +153,7 @@
 |[printenv](https://www.gnu.org/software/coreutils/)|Print the values of environment VARIABLE(s).|
 |[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
 |[ptx](https://uutils.org)|Output a permuted index of the words in the input files.|
+|[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
 |[python](https://www.python.org)|Python interpreter command-line.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
@@ -163,12 +174,18 @@
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
 |[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[terraform](https://www.terraform.io)|HashiCorp Terraform - Infrastructure as Code tool|
+|[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
+|[tokei](https://github.com/XAMPPRocky/tokei)|Count your code, quickly|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML Toolkit|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|The TypeScript Compiler.|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute. The easiest way to run TypeScript in Node.js.|
+|[ttyd](https://github.com/tsl0922/ttyd)|A tool for sharing terminal over the web|
 |[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
 |[typst](https://typst.app)|A new markup-based typesetting system.|
 |[uv](https://docs.astral.sh/uv/)|Extremely fast Python package and project manager, written in Rust.|
+|[vagrant](https://www.vagrantup.com)|Tool for building and managing virtual machine environments.|
+|[vault](https://www.vaultproject.io)|HashiCorp Vault - manage secrets and protect sensitive data.|
 |[vdir](https://uutils.org)|List information about the FILEs.|
 |[vercel](https://vercel.com)|The Vercel CLI for deploying and managing your Vercel projects|
 |[vhs](https://github.com/charmbracelet/vhs)|Your CLI home video recorder.<br>Record terminal GIFs from shell scripts|
@@ -186,9 +203,11 @@
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
 |[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
+|[xxd](https://www.linux.org/docs/man1/xxd.html)|Make a hex dump or do the reverse|
 |[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
 |[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|
 |[yazi](https://yazi-rs.github.io/)|Blazing fast terminal file manager written in Rust.|
+|[yq](https://github.com/mikefarah/yq)|A portable command-line data file processor|
 |[yt-dlp](https://github.com/yt-dlp/yt-dlp)|A feature-rich command-line audio/video downloader|
 |[zellij](https://zellij.dev)|Terminal workspace with multiple terminal panes.|
 |[zoxide](https://github.com/ajeetdsouza/zoxide)|Smarter cd command for your terminal.|
