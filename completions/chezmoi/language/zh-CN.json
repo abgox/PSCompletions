@@ -37,18 +37,6 @@
       ],
       "option": [
         {
-          "name": "--dry-run",
-          "alias": [
-            "-n"
-          ],
-          "usage": [
-            "-n, --dry-run"
-          ],
-          "tip": [
-            "不进行任何修改"
-          ]
-        },
-        {
           "name": "--init",
           "tip": [
             "从模板重新创建配置文件"
@@ -64,18 +52,6 @@
           ],
           "tip": [
             "递归进入子目录（默认为 true）"
-          ]
-        },
-        {
-          "name": "--verbose",
-          "alias": [
-            "-v"
-          ],
-          "usage": [
-            "-v, --verbose"
-          ],
-          "tip": [
-            "使输出更详细"
           ]
         }
       ]
@@ -201,6 +177,15 @@
       ]
     },
     {
+      "name": "edit-encrypted",
+      "usage": [
+        "edit-encrypted filename... [flags]"
+      ],
+      "tip": [
+        "编辑加密文件"
+      ]
+    },
+    {
       "name": "encrypt",
       "usage": [
         "encrypt [FILE]"
@@ -228,12 +213,50 @@
       ]
     },
     {
+      "name": "generate",
+      "tip": [
+        "生成用于 chezmoi 的文件"
+      ],
+      "next": [
+        {
+          "name": "git-commit-message",
+          "tip": [
+            "生成 git 提交信息"
+          ]
+        },
+        {
+          "name": "install-init-shell.sh",
+          "usage": [
+            "install-init-shell.sh $GITHUB_USERNAME"
+          ],
+          "tip": [
+            "生成一个安装脚本, 同时执行 shell"
+          ]
+        },
+        {
+          "name": "install.sh",
+          "tip": [
+            "生成一个安装脚本"
+          ]
+        }
+      ]
+    },
+    {
       "name": "git",
       "usage": [
         "git [ARG]..."
       ],
       "tip": [
         "在源目录中运行 git"
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "打印某个命令的帮助"
       ]
     },
     {
@@ -273,6 +296,67 @@
           ]
         },
         {
+          "name": "--branch",
+          "usage": [
+            "--branch <string>"
+          ],
+          "tip": [
+            "设置要检出的初始分支"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-path",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --config-path <path>"
+          ],
+          "tip": [
+            "生成配置文件写入的路径"
+          ],
+          "next": []
+        },
+        {
+          "name": "--data",
+          "tip": [
+            "包含现有的模板数据 (默认 true)"
+          ]
+        },
+        {
+          "name": "--depth",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --depth <int>"
+          ],
+          "tip": [
+            "创建浅克隆"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exclude",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --exclude <types>"
+          ],
+          "tip": [
+            "排除条目类型 (默认 none)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git-lfs",
+          "tip": [
+            "克隆后运行 git pull lfs"
+          ]
+        },
+        {
           "name": "--guess-repo-url",
           "alias": [
             "-g"
@@ -283,6 +367,87 @@
           "tip": [
             "猜测仓库 URL（默认为 true）"
           ]
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --include <types>"
+          ],
+          "tip": [
+            "包含条目类型 (默认 all)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--one-shot",
+          "tip": [
+            "以一次性模式运行"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "强制 prompt*Once 模板函数进行提示"
+          ]
+        },
+        {
+          "name": "--promptBool",
+          "usage": [
+            "--promptBool <stringToString>"
+          ],
+          "tip": [
+            "填充 promptBool"
+          ],
+          "next": []
+        },
+        {
+          "name": "--promptChoice",
+          "usage": [
+            "--promptChoice <stringToString>"
+          ],
+          "tip": [
+            "填充 promptChoice"
+          ],
+          "next": []
+        },
+        {
+          "name": "--promptDefaults",
+          "tip": [
+            "让 prompt 函数返回默认值"
+          ]
+        },
+        {
+          "name": "--promptInt",
+          "usage": [
+            "--promptInt <stringToInt>"
+          ],
+          "tip": [
+            "填充 promptInt"
+          ],
+          "next": []
+        },
+        {
+          "name": "--promptMultichoice",
+          "usage": [
+            "--promptMultichoice <stringToString>"
+          ],
+          "tip": [
+            "填充 promptMultichoice"
+          ],
+          "next": []
+        },
+        {
+          "name": "--promptString",
+          "usage": [
+            "--promptString <stringToString>"
+          ],
+          "tip": [
+            "填充 promptString"
+          ],
+          "next": []
         },
         {
           "name": "--purge",
@@ -309,11 +474,43 @@
           ]
         },
         {
+          "name": "--recurse-submodules",
+          "tip": [
+            "递归检出子模块 (默认 true)"
+          ]
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <string>"
+          ],
+          "tip": [
+            "设置要检出的初始修订版本"
+          ],
+          "next": []
+        },
+        {
           "name": "--ssh",
           "tip": [
             "使用 SSH 而非 HTTPS 来猜测仓库 URL"
           ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <string>"
+          ],
+          "tip": [
+            "设置要检出的初始标签"
+          ],
+          "next": []
         }
+      ]
+    },
+    {
+      "name": "license",
+      "tip": [
+        "打印许可证"
       ]
     },
     {
@@ -428,11 +625,41 @@
       ]
     }
   ],
-  "option": [
+  "global_option": [
+    {
+      "name": "--age-recipient",
+      "usage": [
+        "--age-recipient <string>"
+      ],
+      "tip": [
+        "覆盖 age 接收者"
+      ],
+      "next": []
+    },
+    {
+      "name": "--age-recipient-file",
+      "usage": [
+        "--age-recipient-file <string>"
+      ],
+      "tip": [
+        "覆盖 age 接收者"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache",
+      "usage": [
+        "--cache <path>"
+      ],
+      "tip": [
+        "设置缓存目录"
+      ],
+      "next": []
+    },
     {
       "name": "--color",
       "usage": [
-        "--color <BOOL>"
+        "--color <bool|auto>"
       ],
       "tip": [
         "为输出添加颜色"
@@ -441,7 +668,7 @@
         {
           "name": "auto",
           "tip": [
-            "自动（默认）"
+            "自动 (默认)"
           ]
         },
         {
@@ -464,7 +691,7 @@
         "-c"
       ],
       "usage": [
-        "-c, --config <PATH>"
+        "-c, --config <path>"
       ],
       "tip": [
         "设置配置文件"
@@ -484,6 +711,12 @@
           "name": "json",
           "tip": [
             "JSON 格式"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "无配置文件格式"
           ]
         },
         {
@@ -512,7 +745,7 @@
         "-D"
       ],
       "usage": [
-        "-D, --destination <PATH>"
+        "-D, --destination <path>"
       ],
       "tip": [
         "设置目标目录"
@@ -529,6 +762,12 @@
       ],
       "tip": [
         "不进行任何修改"
+      ]
+    },
+    {
+      "name": "--error-on-conflict",
+      "tip": [
+        "冲突时报错"
       ]
     },
     {
@@ -550,6 +789,12 @@
       ]
     },
     {
+      "name": "--interactive",
+      "tip": [
+        "所有更改都进行提示"
+      ]
+    },
+    {
       "name": "--keep-going",
       "alias": [
         "-k"
@@ -562,9 +807,44 @@
       ]
     },
     {
+      "name": "--less-interactive",
+      "tip": [
+        "对更改过的或已存在的目标进行提示"
+      ]
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <file|symlink>"
+      ],
+      "tip": [
+        "模式"
+      ],
+      "next": [
+        {
+          "name": "file",
+          "tip": [
+            "文件模式"
+          ]
+        },
+        {
+          "name": "symlink",
+          "tip": [
+            "符号链接模式"
+          ]
+        }
+      ]
+    },
+    {
       "name": "--no-pager",
       "tip": [
         "不使用分页器"
+      ]
+    },
+    {
+      "name": "--no-tty",
+      "tip": [
+        "提示时不要尝试获取 TTY"
       ]
     },
     {
@@ -573,7 +853,7 @@
         "-o"
       ],
       "usage": [
-        "-o, --output <PATH>"
+        "-o, --output <path>"
       ],
       "tip": [
         "将输出写入路径而非标准输出"
@@ -581,9 +861,39 @@
       "next": []
     },
     {
+      "name": "--override-data",
+      "usage": [
+        "--override-data <string>"
+      ],
+      "tip": [
+        "覆盖数据"
+      ],
+      "next": []
+    },
+    {
+      "name": "--override-data-file",
+      "usage": [
+        "--override-data-file <path>"
+      ],
+      "tip": [
+        "用文件覆盖数据"
+      ],
+      "next": []
+    },
+    {
+      "name": "--persistent-state",
+      "usage": [
+        "--persistent-state <path>"
+      ],
+      "tip": [
+        "设置持久化状态文件"
+      ],
+      "next": []
+    },
+    {
       "name": "--progress",
       "usage": [
-        "--progress <BOOL>"
+        "--progress <bool|auto>"
       ],
       "tip": [
         "显示进度条"
@@ -592,7 +902,7 @@
         {
           "name": "auto",
           "tip": [
-            "自动（默认）"
+            "自动 (默认)"
           ]
         },
         {
@@ -630,7 +940,7 @@
         {
           "name": "auto",
           "tip": [
-            "自动（默认）"
+            "自动 (默认)"
           ]
         },
         {
@@ -642,12 +952,18 @@
       ]
     },
     {
+      "name": "--skip-secrets",
+      "tip": [
+        "跳过所有包含密钥的模板"
+      ]
+    },
+    {
       "name": "--source",
       "alias": [
         "-S"
       ],
       "usage": [
-        "-S, --source <PATH>"
+        "-S, --source <path>"
       ],
       "tip": [
         "设置源目录"
@@ -658,6 +974,70 @@
       "name": "--source-path",
       "tip": [
         "通过源路径指定目标"
+      ]
+    },
+    {
+      "name": "--use-builtin-age",
+      "usage": [
+        "--use-builtin-age <bool|auto>"
+      ],
+      "tip": [
+        "使用内置 age"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动 (默认)"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "不使用内置 age"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "使用内置 age"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--use-builtin-diff",
+      "tip": [
+        "使用内置 diff"
+      ]
+    },
+    {
+      "name": "--use-builtin-git",
+      "usage": [
+        "--use-builtin-git <bool|auto>"
+      ],
+      "tip": [
+        "使用内置 git"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动 (默认)"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "不使用内置 git"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "使用内置 git"
+          ]
+        }
       ]
     },
     {
@@ -677,6 +1057,19 @@
       "tip": [
         "打印版本"
       ]
+    },
+    {
+      "name": "--working-tree",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --working-tree <path>"
+      ],
+      "tip": [
+        "设置工作树目录"
+      ],
+      "next": []
     }
   ]
 }

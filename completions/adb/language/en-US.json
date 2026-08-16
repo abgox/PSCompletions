@@ -7,6 +7,12 @@
   },
   "next": [
     {
+      "name": "attach",
+      "tip": [
+        "Attach a detached USB device"
+      ]
+    },
+    {
       "name": "bugreport",
       "usage": [
         "bugreport [PATH]"
@@ -22,6 +28,12 @@
       ],
       "tip": [
         "connect to a device via TCP/IP [default port=5555]"
+      ]
+    },
+    {
+      "name": "detach",
+      "tip": [
+        "Detach from a USB device to allow use by other processes"
       ]
     },
     {
@@ -137,12 +149,128 @@
       ],
       "tip": [
         "push a single package to the device and install it"
+      ],
+      "option": [
+        {
+          "name": "--abi",
+          "usage": [
+            "--abi ABI"
+          ],
+          "tip": [
+            "Override platform's default ABI"
+          ],
+          "next": []
+        },
+        {
+          "name": "--date-check-agent",
+          "tip": [
+            "Update deployment agent when local version is newer and using fast deploy"
+          ]
+        },
+        {
+          "name": "--fastdeploy",
+          "tip": [
+            "Use fast deploy"
+          ]
+        },
+        {
+          "name": "--force-agent",
+          "tip": [
+            "Force update of deployment agent when using fast deploy"
+          ]
+        },
+        {
+          "name": "--instant",
+          "tip": [
+            "Cause the app to be installed as an ephemeral install app"
+          ]
+        },
+        {
+          "name": "--no-fastdeploy",
+          "tip": [
+            "Prevent use of fast deploy"
+          ]
+        },
+        {
+          "name": "--no-streaming",
+          "tip": [
+            "Always push APK to device and invoke Package Manager as separate steps"
+          ]
+        },
+        {
+          "name": "--streaming",
+          "tip": [
+            "Force streaming APK directly into Package Manager"
+          ]
+        },
+        {
+          "name": "--version-check-agent",
+          "tip": [
+            "Update deployment agent when local version has different version code and using fast deploy"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "Allow version code downgrade (debuggable packages only)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "Grant all runtime permissions"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Replace existing application"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "Allow test packages"
+          ]
+        }
       ]
     },
     {
       "name": "install-multi-package",
       "tip": [
         "push one or more packages to the device and install them atomically"
+      ],
+      "option": [
+        {
+          "name": "--instant",
+          "tip": [
+            "Cause the app to be installed as an ephemeral install app"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "Allow version code downgrade (debuggable packages only)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "Grant all runtime permissions"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Replace existing application"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "Allow test packages"
+          ]
+        }
       ]
     },
     {
@@ -152,6 +280,44 @@
       ],
       "tip": [
         "push multiple APKs to the device for a single package and install them"
+      ],
+      "option": [
+        {
+          "name": "--instant",
+          "tip": [
+            "Cause the app to be installed as an ephemeral install app"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "Allow version code downgrade (debuggable packages only)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "Grant all runtime permissions"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "Partial application install (install-multiple only)"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "Replace existing application"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "Allow test packages"
+          ]
+        }
       ]
     },
     {
@@ -182,6 +348,35 @@
       ]
     },
     {
+      "name": "mdns",
+      "tip": [
+        "mDNS discovery commands"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Check if mDNS discovery is available"
+          ]
+        },
+        {
+          "name": "services",
+          "tip": [
+            "List all discovered services"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pair",
+      "usage": [
+        "pair HOST[:PORT] [PAIRING CODE]"
+      ],
+      "tip": [
+        "Pair with a device for secure TCP/IP communication"
+      ]
+    },
+    {
       "name": "ppp",
       "usage": [
         "ppp TTY [PARAMETER...]"
@@ -194,12 +389,140 @@
       "name": "pull",
       "tip": [
         "copy files/dirs from device"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "Preserve file timestamp and mode"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Suppress progress messages"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "Enable compression with a specified algorithm (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "Any algorithm"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli algorithm"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 algorithm"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No compression"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd algorithm"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "Disable compression"
+          ]
+        }
       ]
     },
     {
       "name": "push",
       "tip": [
         "copy local files/directories to device"
+      ],
+      "option": [
+        {
+          "name": "--sync",
+          "tip": [
+            "Only push files that have different timestamps on the host than the device"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "Dry run: push files to device without storing to the filesystem"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Suppress progress messages"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "Enable compression with a specified algorithm (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "Any algorithm"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli algorithm"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 algorithm"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No compression"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd algorithm"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "Disable compression"
+          ]
+        }
       ]
     },
     {
@@ -209,6 +532,32 @@
       ],
       "tip": [
         "reboot the device; defaults to booting system image but"
+      ],
+      "next": [
+        {
+          "name": "bootloader",
+          "tip": [
+            "Reboot into bootloader"
+          ]
+        },
+        {
+          "name": "recovery",
+          "tip": [
+            "Reboot into recovery"
+          ]
+        },
+        {
+          "name": "sideload",
+          "tip": [
+            "Reboot into recovery and automatically start sideload mode"
+          ]
+        },
+        {
+          "name": "sideload-auto-reboot",
+          "tip": [
+            "Reboot into recovery, start sideload mode, then reboot after sideloading"
+          ]
+        }
       ]
     },
     {
@@ -279,6 +628,42 @@
       "name": "shell",
       "tip": [
         "run remote shell command (interactive shell if no command given)"
+      ],
+      "option": [
+        {
+          "name": "-e",
+          "usage": [
+            "-e ESCAPE"
+          ],
+          "tip": [
+            "Choose escape character, or 'none'; default '~'"
+          ],
+          "next": []
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "Don't read from stdin"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "Allocate a pty if on a tty (-tt: force pty allocation)"
+          ]
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "Disable pty allocation"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "Disable remote exit codes and stdout/stderr separation"
+          ]
+        }
       ]
     },
     {
@@ -300,6 +685,123 @@
       "name": "sync",
       "tip": [
         "sync a local build from $ANDROID_PRODUCT_OUT to the device (default all)"
+      ],
+      "option": [
+        {
+          "name": "-l",
+          "tip": [
+            "List files that would be copied, but don't copy them"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "Dry run: push files to device without storing to the filesystem"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "Suppress progress messages"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "Enable compression with a specified algorithm (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "Any algorithm"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli algorithm"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 algorithm"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No compression"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd algorithm"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "Disable compression"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Sync all partition"
+          ]
+        },
+        {
+          "name": "data",
+          "tip": [
+            "Sync data partition"
+          ]
+        },
+        {
+          "name": "odm",
+          "tip": [
+            "Sync odm partition"
+          ]
+        },
+        {
+          "name": "oem",
+          "tip": [
+            "Sync oem partition"
+          ]
+        },
+        {
+          "name": "product",
+          "tip": [
+            "Sync product partition"
+          ]
+        },
+        {
+          "name": "system",
+          "tip": [
+            "Sync system partition"
+          ]
+        },
+        {
+          "name": "system_ext",
+          "tip": [
+            "Sync system_ext partition"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "Sync vendor partition"
+          ]
+        }
       ]
     },
     {
@@ -465,10 +967,94 @@
   ],
   "global_option": [
     {
+      "name": "--exit-on-write-error",
+      "tip": [
+        "Exit if stdout is closed"
+      ]
+    },
+    {
       "name": "--help",
       "tip": [
         "Show the help."
       ]
+    },
+    {
+      "name": "--one-device",
+      "usage": [
+        "--one-device SERIAL|USB"
+      ],
+      "tip": [
+        "Only allowed with 'start-server' or 'server nodaemon'; server will only connect to one USB device"
+      ],
+      "next": []
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "Listen on all network interfaces, not just localhost"
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "Use USB device (error if multiple devices connected)"
+      ]
+    },
+    {
+      "name": "-e",
+      "tip": [
+        "Use TCP/IP device (error if multiple TCP/IP devices available)"
+      ]
+    },
+    {
+      "name": "-H",
+      "usage": [
+        "-H <HOST>"
+      ],
+      "tip": [
+        "Name of adb server host [default=localhost]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "usage": [
+        "-L SOCKET"
+      ],
+      "tip": [
+        "Listen on given socket for adb server [default=tcp:localhost:5037]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-P",
+      "usage": [
+        "-P <PORT>"
+      ],
+      "tip": [
+        "Port of adb server [default=5037]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-s",
+      "usage": [
+        "-s SERIAL"
+      ],
+      "tip": [
+        "Use device with given serial (overrides $ANDROID_SERIAL)"
+      ],
+      "next": []
+    },
+    {
+      "name": "-t",
+      "usage": [
+        "-t ID"
+      ],
+      "tip": [
+        "Use device with given transport id"
+      ],
+      "next": []
     }
   ]
 }

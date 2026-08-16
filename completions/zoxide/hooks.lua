@@ -11,7 +11,13 @@ if not cmd1 then
         psc.set_symbol("remove", "switch")
     end
 elseif psc.eq(cmd1, "remove") then
-    psc.add(cs, psc.items(psc.run({ "zoxide", "query", "--list" }) or {}))
+    psc.add(cs,
+        psc.items(psc.run({ "zoxide", "query", "--list" }) or {},
+            function(e)
+                return { name = e, symbol = "stay" }
+            end
+        )
+    )
 end
 
 return psc.merge(cs)

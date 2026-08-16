@@ -7,6 +7,12 @@
   },
   "next": [
     {
+      "name": "attach",
+      "tip": [
+        "连接一个已分离的 USB 设备"
+      ]
+    },
+    {
       "name": "bugreport",
       "usage": [
         "bugreport [PATH]"
@@ -22,6 +28,12 @@
       ],
       "tip": [
         "通过 TCP/IP 连接设备 [默认端口=5555]"
+      ]
+    },
+    {
+      "name": "detach",
+      "tip": [
+        "从 USB 设备分离, 以便其他进程使用"
       ]
     },
     {
@@ -137,12 +149,128 @@
       ],
       "tip": [
         "推送单个安装包到设备并安装"
+      ],
+      "option": [
+        {
+          "name": "--abi",
+          "usage": [
+            "--abi ABI"
+          ],
+          "tip": [
+            "覆盖平台默认 ABI"
+          ],
+          "next": []
+        },
+        {
+          "name": "--date-check-agent",
+          "tip": [
+            "使用快速部署时, 当本地版本更新时更新部署代理"
+          ]
+        },
+        {
+          "name": "--fastdeploy",
+          "tip": [
+            "使用快速部署"
+          ]
+        },
+        {
+          "name": "--force-agent",
+          "tip": [
+            "使用快速部署时强制更新部署代理"
+          ]
+        },
+        {
+          "name": "--instant",
+          "tip": [
+            "将应用作为临时安装应用安装"
+          ]
+        },
+        {
+          "name": "--no-fastdeploy",
+          "tip": [
+            "阻止使用快速部署"
+          ]
+        },
+        {
+          "name": "--no-streaming",
+          "tip": [
+            "始终推送 APK 到设备, 并作为单独步骤调用 Package Manager"
+          ]
+        },
+        {
+          "name": "--streaming",
+          "tip": [
+            "强制将 APK 直接流式传输到 Package Manager"
+          ]
+        },
+        {
+          "name": "--version-check-agent",
+          "tip": [
+            "使用快速部署时, 当本地版本代码不同时更新部署代理"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "允许版本号降级 (仅可调试包)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "授予所有运行时权限"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "替换现有应用"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "允许测试包"
+          ]
+        }
       ]
     },
     {
       "name": "install-multi-package",
       "tip": [
         "推送一个或多个安装包到设备并原子化安装"
+      ],
+      "option": [
+        {
+          "name": "--instant",
+          "tip": [
+            "将应用作为临时安装应用安装"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "允许版本号降级 (仅可调试包)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "授予所有运行时权限"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "替换现有应用"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "允许测试包"
+          ]
+        }
       ]
     },
     {
@@ -152,6 +280,44 @@
       ],
       "tip": [
         "推送多个 APK 到设备作为单个包并安装"
+      ],
+      "option": [
+        {
+          "name": "--instant",
+          "tip": [
+            "将应用作为临时安装应用安装"
+          ]
+        },
+        {
+          "name": "-d",
+          "tip": [
+            "允许版本号降级 (仅可调试包)"
+          ]
+        },
+        {
+          "name": "-g",
+          "tip": [
+            "授予所有运行时权限"
+          ]
+        },
+        {
+          "name": "-p",
+          "tip": [
+            "部分应用安装 (仅 install-multiple)"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "替换现有应用"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "允许测试包"
+          ]
+        }
       ]
     },
     {
@@ -182,6 +348,35 @@
       ]
     },
     {
+      "name": "mdns",
+      "tip": [
+        "mDNS 发现命令"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "检查 mDNS 发现是否可用"
+          ]
+        },
+        {
+          "name": "services",
+          "tip": [
+            "列出所有发现的服务"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pair",
+      "usage": [
+        "pair HOST[:PORT] [PAIRING CODE]"
+      ],
+      "tip": [
+        "与设备配对以进行安全的 TCP/IP 通信"
+      ]
+    },
+    {
       "name": "ppp",
       "usage": [
         "ppp TTY [PARAMETER...]"
@@ -194,12 +389,140 @@
       "name": "pull",
       "tip": [
         "从设备复制文件/目录"
+      ],
+      "option": [
+        {
+          "name": "-a",
+          "tip": [
+            "保留文件时间戳和模式"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "抑制进度消息"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "使用指定算法启用压缩 (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "任意算法"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli 算法"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 算法"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "不压缩"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd 算法"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "禁用压缩"
+          ]
+        }
       ]
     },
     {
       "name": "push",
       "tip": [
         "将本地文件/目录复制到设备"
+      ],
+      "option": [
+        {
+          "name": "--sync",
+          "tip": [
+            "仅推送主机与设备时间戳不同的文件"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "试运行: 推送文件到设备但不写入文件系统"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "抑制进度消息"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "使用指定算法启用压缩 (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "任意算法"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli 算法"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 算法"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "不压缩"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd 算法"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "禁用压缩"
+          ]
+        }
       ]
     },
     {
@@ -209,6 +532,32 @@
       ],
       "tip": [
         "重启设备；默认启动系统镜像"
+      ],
+      "next": [
+        {
+          "name": "bootloader",
+          "tip": [
+            "重启到 bootloader"
+          ]
+        },
+        {
+          "name": "recovery",
+          "tip": [
+            "重启到 recovery"
+          ]
+        },
+        {
+          "name": "sideload",
+          "tip": [
+            "重启到 recovery 并自动进入 sideload 模式"
+          ]
+        },
+        {
+          "name": "sideload-auto-reboot",
+          "tip": [
+            "重启到 recovery, 进入 sideload 模式, 完成后自动重启"
+          ]
+        }
       ]
     },
     {
@@ -279,6 +628,42 @@
       "name": "shell",
       "tip": [
         "运行远程 shell 命令（未指定命令时启动交互式 shell）"
+      ],
+      "option": [
+        {
+          "name": "-e",
+          "usage": [
+            "-e ESCAPE"
+          ],
+          "tip": [
+            "选择转义字符, 或 'none'; 默认 '~'"
+          ],
+          "next": []
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "不从 stdin 读取"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "在 tty 上分配 pty (-tt: 强制分配 pty)"
+          ]
+        },
+        {
+          "name": "-T",
+          "tip": [
+            "禁用 pty 分配"
+          ]
+        },
+        {
+          "name": "-x",
+          "tip": [
+            "禁用远程退出码和 stdout/stderr 分离"
+          ]
+        }
       ]
     },
     {
@@ -300,6 +685,123 @@
       "name": "sync",
       "tip": [
         "将 $ANDROID_PRODUCT_OUT 中的本地构建同步到设备（默认全部）"
+      ],
+      "option": [
+        {
+          "name": "-l",
+          "tip": [
+            "列出将被复制的文件, 但不复制它们"
+          ]
+        },
+        {
+          "name": "-n",
+          "tip": [
+            "试运行: 推送文件到设备但不写入文件系统"
+          ]
+        },
+        {
+          "name": "-q",
+          "tip": [
+            "抑制进度消息"
+          ]
+        },
+        {
+          "name": "-z",
+          "usage": [
+            "-z ALGORITHM"
+          ],
+          "tip": [
+            "使用指定算法启用压缩 (any/none/brotli/lz4/zstd)"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "任意算法"
+              ]
+            },
+            {
+              "name": "brotli",
+              "tip": [
+                "Brotli 算法"
+              ]
+            },
+            {
+              "name": "lz4",
+              "tip": [
+                "LZ4 算法"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "不压缩"
+              ]
+            },
+            {
+              "name": "zstd",
+              "tip": [
+                "Zstd 算法"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-Z",
+          "tip": [
+            "禁用压缩"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "同步 all 分区"
+          ]
+        },
+        {
+          "name": "data",
+          "tip": [
+            "同步 data 分区"
+          ]
+        },
+        {
+          "name": "odm",
+          "tip": [
+            "同步 odm 分区"
+          ]
+        },
+        {
+          "name": "oem",
+          "tip": [
+            "同步 oem 分区"
+          ]
+        },
+        {
+          "name": "product",
+          "tip": [
+            "同步 product 分区"
+          ]
+        },
+        {
+          "name": "system",
+          "tip": [
+            "同步 system 分区"
+          ]
+        },
+        {
+          "name": "system_ext",
+          "tip": [
+            "同步 system_ext 分区"
+          ]
+        },
+        {
+          "name": "vendor",
+          "tip": [
+            "同步 vendor 分区"
+          ]
+        }
       ]
     },
     {
@@ -465,10 +967,94 @@
   ],
   "global_option": [
     {
+      "name": "--exit-on-write-error",
+      "tip": [
+        "stdout 关闭时退出"
+      ]
+    },
+    {
       "name": "--help",
       "tip": [
         "显示帮助信息。"
       ]
+    },
+    {
+      "name": "--one-device",
+      "usage": [
+        "--one-device SERIAL|USB"
+      ],
+      "tip": [
+        "仅允许与 'start-server' 或 'server nodaemon' 一起使用; 服务器只连接一个 USB 设备"
+      ],
+      "next": []
+    },
+    {
+      "name": "-a",
+      "tip": [
+        "监听所有网络接口, 而不仅仅是 localhost"
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "使用 USB 设备 (连接多个设备时报错)"
+      ]
+    },
+    {
+      "name": "-e",
+      "tip": [
+        "使用 TCP/IP 设备 (存在多个 TCP/IP 设备时报错)"
+      ]
+    },
+    {
+      "name": "-H",
+      "usage": [
+        "-H <HOST>"
+      ],
+      "tip": [
+        "adb 服务器主机名 [默认=localhost]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-L",
+      "usage": [
+        "-L SOCKET"
+      ],
+      "tip": [
+        "在给定套接字上监听 adb 服务器 [默认=tcp:localhost:5037]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-P",
+      "usage": [
+        "-P <PORT>"
+      ],
+      "tip": [
+        "adb 服务器端口 [默认=5037]"
+      ],
+      "next": []
+    },
+    {
+      "name": "-s",
+      "usage": [
+        "-s SERIAL"
+      ],
+      "tip": [
+        "使用指定序列号的设备 (覆盖 $ANDROID_SERIAL)"
+      ],
+      "next": []
+    },
+    {
+      "name": "-t",
+      "usage": [
+        "-t ID"
+      ],
+      "tip": [
+        "使用指定传输 ID 的设备"
+      ],
+      "next": []
     }
   ]
 }

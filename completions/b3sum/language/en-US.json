@@ -1,23 +1,11 @@
 {
   "meta": {
-    "url": "https://uutils.org",
+    "url": "https://github.com/BLAKE3-team/BLAKE3",
     "description": [
       "Compute and check BLAKE3 message digests."
     ]
   },
   "option": [
-    {
-      "name": "--binary",
-      "alias": [
-        "-b"
-      ],
-      "usage": [
-        "-b, --binary"
-      ],
-      "tip": [
-        "read in binary mode (default)"
-      ]
-    },
     {
       "name": "--check",
       "alias": [
@@ -27,13 +15,24 @@
         "-c, --check"
       ],
       "tip": [
-        "read hashsums from the FILEs and check them"
+        "Read BLAKE3 sums from the FILEs and check them"
       ]
     },
     {
-      "name": "--ignore-missing",
+      "name": "--derive-key",
+      "usage": [
+        "--derive-key <CONTEXT>"
+      ],
       "tip": [
-        "don't fail or report status for missing files"
+        "Use the key derivation mode, with the given context string",
+        "Cannot be used with --keyed."
+      ],
+      "next": []
+    },
+    {
+      "name": "--keyed",
+      "tip": [
+        "Use the keyed mode, reading the 32-byte key from stdin"
       ]
     },
     {
@@ -42,60 +41,80 @@
         "-l"
       ],
       "usage": [
-        "-l, --length <BITS>"
+        "-l, --length <LEN>"
       ],
       "tip": [
-        "digest length in bits;",
-        "must not exceed the max for the blake2 algorithm (512) and must be a multiple of 8"
+        "The number of output bytes, before hex encoding",
+        "[default: 32]"
+      ],
+      "next": [
+        {
+          "name": "32",
+          "tip": [
+            "Default output length (32 bytes)"
+          ]
+        },
+        {
+          "name": "64",
+          "tip": [
+            "Output 64 bytes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-mmap",
+      "tip": [
+        "Disable memory mapping",
+        "Currently this also disables multithreading."
+      ]
+    },
+    {
+      "name": "--no-names",
+      "tip": [
+        "Omit filenames in the output"
+      ]
+    },
+    {
+      "name": "--num-threads",
+      "usage": [
+        "--num-threads <NUM>"
+      ],
+      "tip": [
+        "The maximum number of threads to use",
+        "By default, this is the number of logical cores. If this flag is omitted, or if its value is 0, RAYON_NUM_THREADS is also respected."
       ],
       "next": []
     },
     {
       "name": "--quiet",
-      "alias": [
-        "-q"
-      ],
-      "usage": [
-        "-q, --quiet"
-      ],
       "tip": [
-        "don't print OK for each successfully verified file"
+        "Skip printing OK for each checked file",
+        "Must be used with --check."
       ]
     },
     {
-      "name": "--status",
-      "alias": [
-        "-s"
-      ],
-      "usage": [
-        "-s, --status"
-      ],
+      "name": "--raw",
       "tip": [
-        "don't output anything, status code shows success"
+        "Write raw output bytes to stdout, rather than hex",
+        "--no-names is implied. In this case, only a single input is allowed."
       ]
     },
     {
-      "name": "--strict",
+      "name": "--seek",
+      "usage": [
+        "--seek <SEEK>"
+      ],
       "tip": [
-        "exit non-zero for improperly formatted checksum lines"
-      ]
+        "The starting output byte offset, before hex encoding",
+        "[default: 0]"
+      ],
+      "next": []
     },
     {
       "name": "--tag",
       "tip": [
-        "create a BSD-style checksum"
-      ]
-    },
-    {
-      "name": "--text",
-      "alias": [
-        "-t"
-      ],
-      "usage": [
-        "-t, --text"
-      ],
-      "tip": [
-        "read in text mode"
+        "Output BSD-style checksums: BLAKE3 ([FILE]) = [HASH]"
       ]
     },
     {
@@ -107,31 +126,7 @@
         "-V, --version"
       ],
       "tip": [
-        "Show the version."
-      ]
-    },
-    {
-      "name": "--warn",
-      "alias": [
-        "-w"
-      ],
-      "usage": [
-        "-w, --warn"
-      ],
-      "tip": [
-        "warn about improperly formatted checksum lines"
-      ]
-    },
-    {
-      "name": "--zero",
-      "alias": [
-        "-z"
-      ],
-      "usage": [
-        "-z, --zero"
-      ],
-      "tip": [
-        "end each output line with NUL, not newline"
+        "Print version"
       ]
     }
   ],
@@ -145,7 +140,7 @@
         "-h, --help"
       ],
       "tip": [
-        "Show the help."
+        "Print help (see a summary with '-h')"
       ]
     }
   ]

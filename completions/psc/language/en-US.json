@@ -1722,10 +1722,10 @@
       ],
       "done": [
         "<@Cyan>[Add Completion]\n",
-        "<@Magenta>{{ $completion }}\n",
+        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[Trigger Alias]\n",
         "{{",
-        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
         "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
         "$out -join \"`n\";",
         "\"`n<@Cyan>[Special Configuration]\";",
@@ -1745,8 +1745,11 @@
         " };",
         " $config_list -join \"`n\";",
         "} else { \"`n<@Yellow>None\" };",
-        "\"`n<@Blue>----------------------------------\";",
+        "\"`n\";",
         "}}"
+      ],
+      "waiting": [
+        "<@Cyan>Adding completions, please wait..."
       ]
     },
     "alias": {
@@ -1914,10 +1917,10 @@
     "update": {
       "done": [
         "<@Cyan>[Update Completion]\n",
-        "<@Magenta>{{ $completion }}\n",
+        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[Trigger Alias]\n",
         "{{",
-        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
         "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
         "$out -join \"`n\";",
         "\"`n<@Cyan>[Special Configuration]\";",
@@ -1937,7 +1940,7 @@
         " };",
         " $config_list -join \"`n\";",
         "} else { \"`n<@Yellow>None\" };",
-        "\"`n<@Blue>----------------------------------\";",
+        "\"`n\";",
         "}}"
       ],
       "no": "<@Green>All completions are up to date!",
@@ -1946,13 +1949,29 @@
     "update_info": [
       "<@Cyan>PSCompletions has updated the completion library:\n",
       "{{",
-      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
-      "$add=@();",
-      "$rm=@();",
-      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
-      "if($rm){ \"Delete: <@Magenta>$($rm)<@Cyan>`n\" };",
-      "if($add){ \"Add: <@Magenta>$($add)<@Cyan>`nUse <@Magenta>psc add <completion><@Cyan> to add.`n`n\" };",
-      "if($PSCompletions.update){ \"Update: <@Magenta>$($PSCompletions.update)<@Cyan>`nUse <@Magenta>psc update --old<@Cyan> to update.`n\" };",
+      "if($PSCompletions.added){",
+      "\"<@Cyan>[New]<@Cyan>`n\";",
+      "\"<@Magenta>$($PSCompletions.added -join ' ')<@Cyan>`n\";",
+      "};",
+      "if($PSCompletions.removed){",
+      "\"<@Cyan>[Removed]<@Cyan>`n\";",
+      "\"<@Magenta>$($PSCompletions.removed -join ' ')<@Cyan>`n\";",
+      "};",
+      "$updList = @($PSCompletions.update);",
+      "$renameList = @();",
+      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) -> $($p[1])\" }) };",
+      "if($updList -or $renameList){",
+      "\"<@Cyan>[Update]<@Cyan>`n\";",
+      "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
+      "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
+      "};",
+      "$tips = @();",
+      "if($PSCompletions.added){ $tips += 'Use <@Magenta>psc add <completion><@Cyan> to add them.' };",
+      "if($updList -or $renameList){ $tips += 'Use <@Magenta>psc update --old<@Cyan> to update them.' };",
+      "if($tips){",
+      "\"<@Cyan>[Suggestion]<@Cyan>`n\";",
+      "($tips | ForEach-Object { \"$_`n\" }) -join '';",
+      "};",
       "}}"
     ]
   }

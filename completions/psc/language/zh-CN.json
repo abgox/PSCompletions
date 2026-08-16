@@ -1720,10 +1720,10 @@
       ],
       "done": [
         "<@Cyan>[添加补全]\n",
-        "<@Magenta>{{ $completion }}\n",
+        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[触发别名]\n",
         "{{",
-        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
         "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
         "$out -join \"`n\";",
         "\"`n<@Cyan>[特殊配置]\";",
@@ -1743,8 +1743,11 @@
         " };",
         " $config_list -join \"`n\";",
         "} else { \"`n<@Yellow>无\" };",
-        "\"`n<@Blue>----------------------------------\";",
+        "\"`n\";",
         "}}"
+      ],
+      "waiting": [
+        "<@Cyan>正在添加补全，请等待..."
       ]
     },
     "alias": {
@@ -1912,10 +1915,10 @@
     "update": {
       "done": [
         "<@Cyan>[更新补全]\n",
-        "<@Magenta>{{ $completion }}\n",
+        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[触发别名]\n",
         "{{",
-        "$alias = if ($config.alias) { $config.alias }else { @($completion) };",
+        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
         "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
         "$out -join \"`n\";",
         "\"`n<@Cyan>[特殊配置]\";",
@@ -1935,7 +1938,7 @@
         " };",
         " $config_list -join \"`n\";",
         "} else { \"`n<@Yellow>无\" };",
-        "\"`n<@Blue>----------------------------------\";",
+        "\"`n\";",
         "}}"
       ],
       "no": "<@Green>已添加的补全都是最新的！",
@@ -1944,13 +1947,29 @@
     "update_info": [
       "<@Cyan>PSCompletions 更新了补全库:\n",
       "{{",
-      "$change=$PSCompletions.get_content($PSCompletions.path.change);",
-      "$add=@();",
-      "$rm=@();",
-      "$change | ForEach-Object{ if($_ -in $PSCompletions.list){ $add += $_ }else{ $rm += $_ } };",
-      "if($rm){ \"删除: <@Magenta>$($rm)<@Cyan>`n\" };",
-      "if($add){ \"新增: <@Magenta>$($add)<@Cyan>`n使用 <@Magenta>psc add <completion><@Cyan> 进行添加`n`n\" };",
-      "if($PSCompletions.update){ \"更新: <@Magenta>$($PSCompletions.update)<@Cyan>`n使用 <@Magenta>psc update --old<@Cyan> 进行更新`n\" };",
+      "if($PSCompletions.added){",
+      "\"<@Cyan>[新增]<@Cyan>`n\";",
+      "\"<@Magenta>$($PSCompletions.added -join ' ')<@Cyan>`n\";",
+      "};",
+      "if($PSCompletions.removed){",
+      "\"<@Cyan>[移除]<@Cyan>`n\";",
+      "\"<@Magenta>$($PSCompletions.removed -join ' ')<@Cyan>`n\";",
+      "};",
+      "$updList = @($PSCompletions.update);",
+      "$renameList = @();",
+      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) -> $($p[1])\" }) };",
+      "if($updList -or $renameList){",
+      "\"<@Cyan>[更新]<@Cyan>`n\";",
+      "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
+      "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
+      "};",
+      "$tips = @();",
+      "if($PSCompletions.added){ $tips += '使用 <@Magenta>psc add <completion><@Cyan> 添加' };",
+      "if($updList -or $renameList){ $tips += '使用 <@Magenta>psc update --old<@Cyan> 进行更新' };",
+      "if($tips){",
+      "\"<@Cyan>[建议]<@Cyan>`n\";",
+      "($tips | ForEach-Object { \"$_`n\" }) -join '';",
+      "};",
       "}}"
     ]
   }
