@@ -16,7 +16,7 @@
 |[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
 |[aubx](https://aube.jdx.dev)|Fetch a package into a throwaway environment and run its binary (aube dlx standalone)|
 |[b2sum](https://uutils.org)|Compute and check BLAKE2 message digests.|
-|[b3sum](https://uutils.org)|Compute and check BLAKE3 message digests.|
+|[b3sum](https://github.com/BLAKE3-team/BLAKE3)|Compute and check BLAKE3 message digests.|
 |[base32](https://uutils.org)|Encode/decode data and print to standard output.|
 |[base64](https://uutils.org)|Encode/decode data and print to standard output.|
 |[basename](https://uutils.org)|Print NAME with leading directory components removed.|
@@ -81,7 +81,6 @@
 |[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
-|[hashsum](https://uutils.org)|Compute and check message digests.|
 |[head](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[hostname](https://uutils.org)|Display or set the system's host name.|

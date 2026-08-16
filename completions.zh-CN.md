@@ -16,7 +16,7 @@
 |[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
 |[aubx](https://aube.jdx.dev)|将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)|
 |[b2sum](https://uutils.org)|计算和校验 BLAKE2 消息摘要。|
-|[b3sum](https://uutils.org)|计算和校验 BLAKE3 消息摘要。|
+|[b3sum](https://github.com/BLAKE3-team/BLAKE3)|计算和校验 BLAKE3 消息摘要。|
 |[base32](https://uutils.org)|编码/解码数据并输出到标准输出。|
 |[base64](https://uutils.org)|编码/解码数据并输出到标准输出。|
 |[basename](https://uutils.org)|输出去除前导目录组件后的名称。|
@@ -81,7 +81,6 @@
 |[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
-|[hashsum](https://uutils.org)|计算和校验消息摘要。|
 |[head](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
