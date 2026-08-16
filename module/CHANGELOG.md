@@ -2,6 +2,11 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.1.0
+
+- Improved the output of completion state changes and the update logic.
+- Added a stable `id` to every completion's `config.json`, enabling rename detection and automatic migration.
+
 ## 7.0.3
 
 - Fixed `psc.run` executing in the terminal's startup directory instead of the current working directory.
