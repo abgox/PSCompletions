@@ -38,6 +38,7 @@ $PSCompletions.ensure_dir($completion_dir)
 $PSCompletions.ensure_dir("$completion_dir/language")
 
 $config = [ordered]@{
+    id       = [guid]::NewGuid().ToString()
     language = @('en-US', 'zh-CN')
 }
 Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/language/en-US.json" -Force

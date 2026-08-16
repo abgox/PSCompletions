@@ -1,15 +1,17 @@
-//! `psc` binary: platform-agnostic management CLI for PSCompletions.
+﻿//! `psc` binary: platform-agnostic management CLI for PSCompletions.
 
 use std::io::IsTerminal;
 use std::process::ExitCode;
 
-use serde_json::Value;
+use serde_json::{json, Value};
 
 use psc_cli::data::config::{sanitize_config, validate_value, CONFIG_GROUPS, CONFIG_KEYS};
-use psc_cli::data::{build_default_data, default_config, load_psc_info, Index, Settings};
+use psc_cli::data::{
+    build_default_data, default_config, load_psc_info, Index, LibraryChanges, Settings,
+};
 use psc_cli::net::{
-    add_completion, completion_defaults, download_list, fetch_text, refresh_settings_after_add,
-    resolve_urls,
+    add_completion, completion_defaults, download_list, fetch_text, local_completion_id,
+    refresh_settings_after_add, rename_completion, resolve_urls,
 };
 
 const COMPLETION_KEYS: &[&str] = &[
@@ -189,6 +191,8 @@ const MESSAGES: &[(&str, &str, &str)] = &[
     ("updatable", "可更新的补全：", "Updatable completions:"),
     ("lib_add", "补全库中新增：", "Newly available in the library:"),
     ("lib_rm", "从补全库中移除：", "Removed from the library:"),
+    ("lib_rename", "补全库中重命名：", "Renamed in the library:"),
+    ("rename_done", "已重命名为", "renamed to"),
     ("update_no", "所有补全都是最新的。", "All completions are up to date."),
     (
         "update_skip",
@@ -357,6 +361,7 @@ fn main() -> ExitCode {
             &data_dir,
             &lang,
             &out,
+            json,
         ),
         _ => {
             out.line(&msg_cli(&lang, "sub_cmd"));
@@ -531,18 +536,6 @@ fn cmd_init(
         vec!["psc".to_string()]
     };
 
-    let read_lines = |p: &str| -> Vec<String> {
-        std::fs::read_to_string(p)
-            .map(|t| {
-                t.lines()
-                    .map(|l| l.to_string())
-                    .filter(|l| !l.is_empty())
-                    .collect()
-            })
-            .unwrap_or_default()
-    };
-    let update = read_lines(&format!("{data_dir}/temp/update.txt"));
-    let change = read_lines(&format!("{data_dir}/temp/change.txt"));
     // Module update version (written by the background `check` comparison)
     let new_version: Option<String> =
         std::fs::read_to_string(format!("{data_dir}/temp/module-update.txt"))
@@ -570,8 +563,6 @@ fn cmd_init(
         "list": index_list,
         "url": urls.first().cloned().unwrap_or_default(),
         "urls": urls,
-        "update": update,
-        "change": change,
         "new_version": new_version,
         "info": info,
         "default_config": default_config(&lang),
@@ -627,8 +618,6 @@ fn cmd_check(
     let tmp = format!("{data_dir}/temp");
     let _ = std::fs::create_dir_all(&tmp);
     let completions_json = format!("{tmp}/completions.json");
-    let change_path = format!("{tmp}/change.txt");
-    let update_path = format!("{tmp}/update.txt");
     let module_update_path = format!("{tmp}/module-update.txt");
     let last_update_path = format!("{tmp}/last-update.txt");
 
@@ -665,23 +654,45 @@ fn cmd_check(
             .and_then(|u| u.as_object())
             .map(|o| o.keys().cloned().collect())
             .unwrap_or_default();
-        let mut diff: Vec<String> = Vec::new();
-        for n in &new_list {
-            if !old_list.contains(n) {
-                diff.push(n.clone());
+        // Record added/removed/renamed in the shared library-changes.json.
+        let mut changes = LibraryChanges::load(data_dir);
+        changes.removed.clear();
+        // Rename detection: a locally installed completion whose stable id now maps to a
+        // different remote name has been renamed upstream (same logic as `psc update`).
+        let index = Index::from_value(v.clone());
+        let mut rename_map: std::collections::HashMap<String, String> =
+            std::collections::HashMap::new();
+        for installed in settings.list() {
+            let Some(id) = local_completion_id(data_dir, &installed) else {
+                continue;
+            };
+            if let Some((new_name, _)) = index.ids.iter().find(|(_, val)| **val == id) {
+                if new_name != &installed {
+                    rename_map.insert(installed.clone(), new_name.clone());
+                }
             }
         }
-        for n in &old_list {
-            if !new_list.contains(n) {
-                diff.push(n.clone());
-            }
-        }
-        let change_text = if diff.is_empty() {
-            String::new()
-        } else {
-            diff.join("\n")
-        };
-        let _ = std::fs::write(&change_path, &change_text);
+        // Exclude renamed completions from added/removed; report them separately.
+        let rename_keys: std::collections::HashSet<String> = rename_map.keys().cloned().collect();
+        let rename_vals: std::collections::HashSet<String> = rename_map.values().cloned().collect();
+        changes.added = new_list
+            .iter()
+            .filter(|n| !old_list.contains(n))
+            .filter(|n| !rename_vals.contains(*n))
+            .cloned()
+            .collect();
+        changes.added.sort();
+        let mut removed: Vec<String> = old_list
+            .iter()
+            .filter(|n| !new_list.contains(n))
+            .filter(|n| !rename_keys.contains(*n))
+            .cloned()
+            .collect();
+        changes.removed = std::mem::take(&mut removed);
+        let mut renamed: Vec<(String, String)> = rename_map.into_iter().collect();
+        renamed.sort_by(|a, b| a.0.cmp(&b.0));
+        changes.renamed = renamed;
+        changes.save(data_dir);
         new_index = Some(v);
     }
 
@@ -735,12 +746,9 @@ fn cmd_check(
             }
         }
         need_update.sort();
-        let update_text = if need_update.is_empty() {
-            String::new()
-        } else {
-            need_update.join("\n")
-        };
-        let _ = std::fs::write(&update_path, &update_text);
+        let mut changes = LibraryChanges::load(data_dir);
+        changes.update = need_update;
+        changes.save(data_dir);
     }
 
     let _ = std::fs::write(
@@ -793,11 +801,10 @@ fn cmd_add(
             .collect()
     };
     // Download multiple completions concurrently (shared client + bounded worker pool).
-    // Workers stay low so a single-threaded local mirror isn't flooded.
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let results: std::sync::Mutex<Vec<serde_json::Value>> = std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
-    run_parallel(&names, 4, |name| {
+    run_parallel(&names, 8, |name| {
         let entry = if !list.contains(name) {
             // Not in the remote library: report + mark failure
             if !json {
@@ -891,6 +898,12 @@ fn cmd_rm(
         args.iter().filter(|a| *a != "--all").cloned().collect()
     };
     if names.is_empty() {
+        if all {
+            if json {
+                println!("[]");
+            }
+            return ExitCode::SUCCESS;
+        }
         param_err(out, lang);
         return ExitCode::FAILURE;
     }
@@ -924,13 +937,10 @@ fn cmd_rm(
         }
         results.push(serde_json::json!({"completion": name, "ok": true}));
     }
-    if let Ok(text) = std::fs::read_to_string(format!("{data_dir}/temp/update.txt")) {
-        let remaining: Vec<&str> = text
-            .lines()
-            .filter(|l| !names.iter().any(|n| n == l))
-            .collect();
-        let _ = std::fs::write(format!("{data_dir}/temp/update.txt"), remaining.join("\n"));
-    }
+    // Drop removed completions from the persisted update list.
+    let mut changes = LibraryChanges::load(data_dir);
+    changes.update.retain(|u| !names.iter().any(|n| n == u));
+    changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
         if !json {
             out.line(&format!("error: {e}"));
@@ -950,6 +960,7 @@ fn cmd_rm(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn cmd_update(
     args: &[String],
     settings_path: &str,
@@ -958,6 +969,7 @@ fn cmd_update(
     data_dir: &str,
     lang: &str,
     out: &Out,
+    json: bool,
 ) -> ExitCode {
     let urls = resolve_urls(settings);
     let old_list: Vec<String> =
@@ -980,6 +992,19 @@ fn cmd_update(
             return ExitCode::FAILURE;
         }
     };
+    // Rename detection: a locally installed completion whose stable id now maps to a different remote name has been renamed upstream.
+    let mut rename_map: std::collections::HashMap<String, String> =
+        std::collections::HashMap::new();
+    for installed in settings.list() {
+        let Some(id) = local_completion_id(data_dir, &installed) else {
+            continue;
+        };
+        if let Some((new_name, _)) = index.ids.iter().find(|(_, v)| **v == id) {
+            if new_name != &installed {
+                rename_map.insert(installed.clone(), new_name.clone());
+            }
+        }
+    }
     let needs_update = |name: &String| -> bool {
         let dir = format!("{data_dir}/completions/{name}");
         if let Ok(meta) = std::fs::symlink_metadata(&dir) {
@@ -994,15 +1019,17 @@ fn cmd_update(
     let need_update: Vec<String> = settings
         .list()
         .into_iter()
-        .filter(|name| list.contains(name) && needs_update(name))
+        .filter(|name| (list.contains(name) || rename_map.contains_key(name)) && needs_update(name))
         .collect();
 
     let is_check = args.is_empty();
     if is_check {
-        let _ = std::fs::write(
-            format!("{data_dir}/temp/update.txt"),
-            need_update.join("\n"),
-        );
+        let rename_keys: std::collections::HashSet<String> = rename_map.keys().cloned().collect();
+        let update_no_rename: Vec<String> = need_update
+            .iter()
+            .filter(|n| !rename_keys.contains(*n))
+            .cloned()
+            .collect();
         let new_list: Vec<String> = index.update.keys().cloned().collect();
         let mut added: Vec<String> = new_list
             .iter()
@@ -1014,17 +1041,33 @@ fn cmd_update(
             .filter(|n| !new_list.contains(n))
             .cloned()
             .collect();
+        let rename_vals: std::collections::HashSet<String> = rename_map.values().cloned().collect();
+        added.retain(|n| !rename_vals.contains(n));
+        removed.retain(|n| !rename_keys.contains(n));
         added.sort();
         removed.sort();
-        let mut diff: Vec<String> = added.clone();
-        diff.extend(removed.iter().cloned());
-        let _ = std::fs::write(format!("{data_dir}/temp/change.txt"), diff.join("\n"));
+        let mut renamed: Vec<(String, String)> = rename_map
+            .iter()
+            .map(|(k, v)| (k.clone(), v.clone()))
+            .collect();
+        renamed.sort_by(|a, b| a.0.cmp(&b.0));
+        LibraryChanges {
+            update: update_no_rename.clone(),
+            added: added.clone(),
+            removed: removed.clone(),
+            renamed: renamed.clone(),
+        }
+        .save(data_dir);
 
         let mut any = false;
-        if !need_update.is_empty() {
+        let updatable_no_rename: Vec<&String> = need_update
+            .iter()
+            .filter(|n| !rename_keys.contains(*n))
+            .collect();
+        if !updatable_no_rename.is_empty() {
             any = true;
             out.line(&msg_cli(lang, "updatable"));
-            for n in &need_update {
+            for n in &updatable_no_rename {
                 out.line(&format!("  {n}"));
             }
         }
@@ -1042,8 +1085,27 @@ fn cmd_update(
                 out.line(&format!("  {n}"));
             }
         }
+        if !renamed.is_empty() {
+            any = true;
+            out.line(&msg_cli(lang, "lib_rename"));
+            for (old_n, new_n) in &renamed {
+                out.line(&format!("  {old_n} -> {new_n}"));
+            }
+        }
         if !any {
             out.line(&msg_cli(lang, "update_no"));
+        }
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({
+                    "update": update_no_rename,
+                    "added": added,
+                    "removed": removed,
+                    "renamed": renamed.iter().map(|(a, b)| json!([a, b])).collect::<Vec<_>>(),
+                }))
+                .unwrap_or_default()
+            );
         }
         return ExitCode::SUCCESS;
     }
@@ -1067,47 +1129,135 @@ fn cmd_update(
     let installed: std::collections::HashSet<String> = settings.list().into_iter().collect();
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let had_error = std::sync::atomic::AtomicBool::new(false);
+    let results: std::sync::Mutex<Vec<Value>> = std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
-    run_parallel(&names, 4, |name| {
+    run_parallel(&names, 8, |name| {
         let known = installed.contains(name)
             || std::path::Path::new(&format!("{data_dir}/completions/{name}")).exists()
             || list.contains(name);
         if !known {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            out.line(&format!("{name} {}", msg_cli(lang, "not_available")));
+            let err = msg_cli(lang, "not_available");
+            results
+                .lock()
+                .unwrap()
+                .push(json!({"completion": name, "ok": false, "error": err}));
+            if !json {
+                out.line(&format!("{name} {err}"));
+            }
+            return;
+        }
+        // Renamed upstream: migrate the old install (download new files, move settings, drop the old directory) instead of a plain update.
+        // Must run before the `list.contains` check — a renamed old name no longer exists in the remote list.
+        if let Some(new_name) = rename_map.get(name).cloned() {
+            let version = index_ref.update.get(&new_name).cloned().unwrap_or_default();
+            let mut sg = settings_lock.lock().unwrap();
+            match rename_completion(&mut sg, data_dir, name, &new_name, &urls, &version) {
+                Ok(()) => {
+                    if json {
+                        results.lock().unwrap().push(json!({
+                            "completion": new_name, "ok": true, "renamed_from": name
+                        }));
+                    } else {
+                        out.line(&format!(
+                            "{name} {} {new_name}",
+                            msg_cli(lang, "rename_done")
+                        ));
+                    }
+                    // Persist the migration so the module can render a rename notice (its -Quiet forwarding discards CLI stdout).
+                    let mut changes = LibraryChanges::load(data_dir);
+                    if !changes.renamed.iter().any(|(o, _)| o == name) {
+                        changes.renamed.push((name.to_string(), new_name.clone()));
+                        changes.save(data_dir);
+                    }
+                }
+                Err(e) => {
+                    had_error.store(true, std::sync::atomic::Ordering::SeqCst);
+                    if json {
+                        results
+                            .lock()
+                            .unwrap()
+                            .push(json!({"completion": name, "ok": false, "error": e}));
+                    } else {
+                        out.line(&format!("{name}: error: {e}"));
+                    }
+                }
+            }
             return;
         }
         if !list.contains(name) {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            out.line(&format!("{name}: {}", msg_cli(lang, "no_completion")));
+            let err = msg_cli(lang, "no_completion");
+            results
+                .lock()
+                .unwrap()
+                .push(json!({"completion": name, "ok": false, "error": err}));
+            if !json {
+                out.line(&format!("{name}: {err}"));
+            }
             return;
         }
         let version = index_ref.update.get(name).cloned().unwrap_or_default();
         match add_completion(data_dir, name, &urls, &version) {
             Ok(updated) => {
                 if !updated {
-                    out.line(&format!("{name}: {}", msg_cli(lang, "update_skip")));
+                    let err = msg_cli(lang, "update_skip");
+                    results
+                        .lock()
+                        .unwrap()
+                        .push(json!({"completion": name, "ok": false, "error": err}));
+                    if !json {
+                        out.line(&format!("{name}: {err}"));
+                    }
                     return;
                 }
                 let mut sg = settings_lock.lock().unwrap();
                 if let Err(e) = refresh_settings_after_add(&mut sg, data_dir, name) {
                     had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                    out.line(&format!("error: {e}"));
+                    if json {
+                        results
+                            .lock()
+                            .unwrap()
+                            .push(json!({"completion": name, "ok": false, "error": e}));
+                    } else {
+                        out.line(&format!("error: {e}"));
+                    }
                 }
-                out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
+                if json {
+                    results
+                        .lock()
+                        .unwrap()
+                        .push(json!({"completion": name, "ok": true}));
+                } else {
+                    out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
+                }
             }
             Err(e) => {
                 had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                out.line(&format!("{name}: error: {e}"));
+                if json {
+                    results
+                        .lock()
+                        .unwrap()
+                        .push(json!({"completion": name, "ok": false, "error": e}));
+                } else {
+                    out.line(&format!("{name}: error: {e}"));
+                }
             }
         }
     });
+    if json {
+        let results = results.lock().unwrap();
+        println!("{}", serde_json::to_string(&*results).unwrap_or_default());
+    }
     let remaining: Vec<String> = settings
         .list()
         .into_iter()
         .filter(|name| list.contains(name) && needs_update(name))
         .collect();
-    let _ = std::fs::write(format!("{data_dir}/temp/update.txt"), remaining.join("\n"));
+    // Refresh the persisted update list so a later no-arg check reports what's left.
+    let mut changes = LibraryChanges::load(data_dir);
+    changes.update = remaining;
+    changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;

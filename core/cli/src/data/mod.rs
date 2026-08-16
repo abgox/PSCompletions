@@ -116,11 +116,13 @@ impl Settings {
     }
 }
 
-/// `temp/completions.json` — `{ update: {name: version}, meta: {name: {lang: {url, description}}} }`.
+/// `temp/completions.json` — `{ update: {name: version}, meta: {name: {id, lang: {url, description}}} }`.
 #[derive(Debug, Clone, Default)]
 pub struct Index {
     pub update: HashMap<String, String>,
     pub meta: Value,
+    /// completion name -> stable id (from meta.<name>.id).
+    pub ids: HashMap<String, String>,
 }
 
 impl Index {
@@ -141,10 +143,20 @@ impl Index {
                     .collect()
             })
             .unwrap_or_default();
-        Index {
-            update,
-            meta: v.get("meta").cloned().unwrap_or_else(|| json!({})),
-        }
+        let meta = v.get("meta").cloned().unwrap_or_else(|| json!({}));
+        let ids = meta
+            .as_object()
+            .map(|m| {
+                m.iter()
+                    .filter_map(|(name, info)| {
+                        info.get("id")
+                            .and_then(|i| i.as_str())
+                            .map(|i| (name.clone(), i.to_string()))
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        Index { update, meta, ids }
     }
 
     /// Sorted remote completion names (update keys).
@@ -152,6 +164,45 @@ impl Index {
         let mut v: Vec<String> = self.update.keys().cloned().collect();
         v.sort();
         v
+    }
+}
+
+/// `temp/library-changes.json` — a single JSON recording the completion-library state
+/// changes surfaced to the module: which completions need an update, which were added or
+/// removed in the library, and which were renamed (`[old, new]` pairs).
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+pub struct LibraryChanges {
+    #[serde(default)]
+    pub update: Vec<String>,
+    #[serde(default)]
+    pub added: Vec<String>,
+    #[serde(default)]
+    pub removed: Vec<String>,
+    #[serde(default)]
+    pub renamed: Vec<(String, String)>,
+}
+
+impl LibraryChanges {
+    /// Load from `<data>/temp/library-changes.json`; a missing or corrupt file yields empty defaults.
+    pub fn load(data_dir: &str) -> LibraryChanges {
+        let path = format!("{data_dir}/temp/library-changes.json");
+        read_text(&path)
+            .and_then(|t| serde_json::from_str(&t).ok())
+            .unwrap_or_default()
+    }
+
+    /// Atomically save to `<data>/temp/library-changes.json`.
+    pub fn save(&self, data_dir: &str) {
+        if let Ok(text) = serde_json::to_string(self) {
+            let tmp = format!(
+                "{data_dir}/temp/library-changes.json.{}.tmp",
+                std::process::id()
+            );
+            let path = format!("{data_dir}/temp/library-changes.json");
+            if std::fs::write(&tmp, text).is_ok() {
+                let _ = std::fs::rename(&tmp, path);
+            }
+        }
     }
 }
 
@@ -327,7 +378,7 @@ mod tests {
     #[test]
     fn index_load_update_and_meta() {
         let (_p, path) = tmp_file(
-            r#"{"update":{"git":"2024-01-01","scoop":"2024-02-01"},"meta":{"git":{"en-US":{"url":"https://git-scm.com","description":["VCS"]}}}}"#,
+            r#"{"update":{"git":"2024-01-01","scoop":"2024-02-01"},"meta":{"git":{"id":"11111111-2222-3333-4444-555555555555","en-US":{"url":"https://git-scm.com","description":["VCS"]}}}}"#,
         );
         let idx = Index::load(&path).unwrap();
         assert_eq!(
@@ -335,6 +386,20 @@ mod tests {
             Some("2024-01-01")
         );
         assert_eq!(idx.meta["git"]["en-US"]["url"], "https://git-scm.com");
+        assert_eq!(
+            idx.ids.get("git").map(|s| s.as_str()),
+            Some("11111111-2222-3333-4444-555555555555")
+        );
+        std::fs::remove_file(_p).ok();
+    }
+
+    #[test]
+    fn index_ids_missing_meta_id_defaults_empty() {
+        let (_p, path) = tmp_file(
+            r#"{"update":{"git":"2024-01-01"},"meta":{"git":{"en-US":{"url":"u","description":["d"]}}}}"#,
+        );
+        let idx = Index::load(&path).unwrap();
+        assert!(idx.ids.is_empty());
         std::fs::remove_file(_p).ok();
     }
 
@@ -445,5 +510,34 @@ mod tests {
             "linked source must be untouched"
         );
         std::fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn library_changes_roundtrip() {
+        let n = TMP_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let mut data_dir = std::env::temp_dir();
+        data_dir.push(format!("psc-data-lc-{}-{n}", std::process::id()));
+        std::fs::create_dir_all(data_dir.join("temp")).unwrap();
+        let d = data_dir.to_string_lossy().to_string();
+
+        let c = LibraryChanges {
+            update: vec!["7z".into(), "docker".into()],
+            added: vec!["new-tool".into()],
+            removed: vec!["old-tool".into()],
+            renamed: vec![("git".into(), "git1".into())],
+        };
+        c.save(&d);
+
+        let loaded = LibraryChanges::load(&d);
+        assert_eq!(loaded.update, vec!["7z", "docker"]);
+        assert_eq!(loaded.added, vec!["new-tool"]);
+        assert_eq!(loaded.removed, vec!["old-tool"]);
+        assert_eq!(loaded.renamed, vec![("git".into(), "git1".into())]);
+
+        // Missing file yields empty defaults.
+        std::fs::remove_file(data_dir.join("temp/library-changes.json")).ok();
+        let empty = LibraryChanges::load(&d);
+        assert!(empty.update.is_empty() && empty.renamed.is_empty());
+        std::fs::remove_dir_all(&data_dir).ok();
     }
 }

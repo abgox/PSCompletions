@@ -126,11 +126,8 @@ pub fn add_completion(
         let config_text = fetch_text(urls, &format!("completions/{name}/config.json"))?;
         let config: Value =
             serde_json::from_str(&config_text).map_err(|e| format!("bad config.json: {e}"))?;
-        std::fs::write(
-            format!("{tmp_dir}/config.json"),
-            serde_json::to_string(&config).map_err(|e| e.to_string())?,
-        )
-        .map_err(|e| e.to_string())?;
+        std::fs::write(format!("{tmp_dir}/config.json"), &config_text)
+            .map_err(|e| e.to_string())?;
 
         // (url_path, local_path, is_hooks)
         let mut jobs: Vec<(String, String, bool)> = Vec::new();
@@ -340,6 +337,46 @@ pub fn refresh_settings_after_add(
     Ok(())
 }
 
+/// Read a locally installed completion's stable id from its config.json.
+pub fn local_completion_id(data_dir: &str, name: &str) -> Option<String> {
+    let config_path = format!("{data_dir}/completions/{name}/config.json");
+    let text = crate::data::read_text(&config_path)?;
+    let v: Value = serde_json::from_str(&text).ok()?;
+    v.get("id").and_then(|i| i.as_str()).map(String::from)
+}
+
+/// Migrate an installed completion `old` to its renamed remote name `new`
+pub fn rename_completion(
+    settings: &mut Settings,
+    data_dir: &str,
+    old: &str,
+    new: &str,
+    urls: &[String],
+    version: &str,
+) -> Result<(), String> {
+    // Download the new completion first (aborts on failure, old stays intact).
+    add_completion(data_dir, new, urls, version)?;
+    // Move per-completion settings: alias + config.completion entry
+    // (including enable_hooks). Do NOT call refresh_settings_after_add here —
+    // it would overwrite the migrated user aliases with the new manifest's defaults.
+    if let Some(aliases) = settings.alias.remove(old) {
+        settings.alias.insert(new.to_string(), aliases);
+    }
+    if let Some(comp) = settings
+        .config
+        .get_mut("completion")
+        .and_then(|c| c.as_object_mut())
+    {
+        if let Some(v) = comp.remove(old) {
+            comp.insert(new.to_string(), v);
+        }
+    }
+    // Remove the old directory.
+    let old_dir = format!("{data_dir}/completions/{old}");
+    let _ = std::fs::remove_dir_all(&old_dir);
+    Ok(())
+}
+
 /// Simple `*` wildcard match (used for search).
 pub fn glob_match(pat: &str, text: &str) -> bool {
     let p: Vec<char> = pat.chars().collect();
@@ -522,6 +559,27 @@ mod tests {
         // The previous version survives and is restored in place.
         assert!(dir.join("old.txt").exists());
         assert!(!old.exists());
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn local_completion_id_reads_config_id() {
+        let base = test_base();
+        let dir = base.join("completions/x");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("config.json"),
+            r#"{"language":["en-US"],"id":"aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"}"#,
+        )
+        .unwrap();
+        let id = local_completion_id(base.to_str().unwrap(), "x");
+        assert_eq!(id.as_deref(), Some("aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"));
+        // Missing id -> None.
+        std::fs::write(dir.join("config.json"), r#"{"language":["en-US"]}"#).unwrap();
+        assert!(local_completion_id(base.to_str().unwrap(), "x").is_none());
+        // Missing config.json -> None.
+        std::fs::remove_file(dir.join("config.json")).ok();
+        assert!(local_completion_id(base.to_str().unwrap(), "x").is_none());
         std::fs::remove_dir_all(&base).ok();
     }
 }

@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "required": [
+    "id",
     "language"
   ],
   "definitions": {
@@ -24,6 +25,11 @@
     }
   },
   "properties": {
+    "id": {
+      "markdownDescription": "补全的稳定唯一标识符。\n\n- 创建补全时生成的随机 UUID\n- 即使补全被重命名（目录名改变）也保持不变\n- 引擎用它检测重命名并自动迁移配置",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
     "language": {
       "markdownDescription": "可用的语言\n- 它应该与 `language` 目录下的 json 文件相对应\n- 如果有效值不包括你想要指定的语言，请提交一个 issue",
       "examples": [

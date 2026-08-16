@@ -18,8 +18,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         log              = "$_/temp/log"
         order            = "$_/temp/order"
         completions_json = "$_/temp/completions.json"
-        update           = "$_/temp/update.txt"
-        change           = "$_/temp/change.txt"
+        library_changes  = "$_/temp/library-changes.json"
         last_update      = "$_/temp/last-update.txt"
         module_update    = "$_/temp/module-update.txt"
     }
@@ -333,6 +332,34 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content 
     }
     if ($data -match $PSCompletions.replace_pattern) { $PSCompletions.replace_content($data) }else { return $data }
 }
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_library_changes {
+    $json = $PSCompletions.get_raw_content($PSCompletions.path.library_changes)
+    if (-not $json) { return }
+    $changes = $null
+    try { $changes = $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
+    if ($null -eq $changes) { return }
+    $upd = @($changes.update)
+    $add = @($changes.added)
+    $rm = @($changes.removed)
+    $renamed = @($changes.renamed)
+    if ($upd -or $add -or $rm -or $renamed) {
+        $PSCompletions.update = $upd
+        $PSCompletions.added = $add
+        $PSCompletions.removed = $rm
+        $PSCompletions.renamed = $renamed
+        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
+        # added/removed are one-shot (consumed on display); update/renamed persist until the user actually updates.
+        $changes.added = @()
+        $changes.removed = @()
+        try {
+            [System.IO.File]::WriteAllText(
+                $PSCompletions.path.library_changes,
+                ($changes | ConvertTo-Json -Depth 6 -Compress),
+                [System.Text.Encoding]::UTF8)
+        }
+        catch { }
+    }
+}
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod write_with_color {
     param([string]$str)
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
@@ -436,8 +463,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.language = $PSCompletions.config.language
     $PSCompletions.urls = @($all.urls)
     $PSCompletions.list = @($all.list)
-    $PSCompletions.update = @($all.update)
-    $PSCompletions.change = @($all.change)
     $PSCompletions.new_version = [string]$all.new_version
     $PSCompletions.info = $all.info
     $PSCompletions.binary_ok = $true
@@ -998,10 +1023,5 @@ if ($PSCompletions.new_version) {
     }
 }
 else {
-    if ($PSCompletions.update -or $PSCompletions.change) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
-    }
-    if ($PSCompletions.change) {
-        Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue
-    }
+    $PSCompletions.render_library_changes()
 }

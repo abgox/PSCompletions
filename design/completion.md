@@ -118,7 +118,7 @@ engine.
 A completion lives in `completions/<command>/`:
 
 ```
-config.json        { "language": ["en-US","zh-CN"], "alias": [...], "hooks": true }
+config.json        { "language": ["en-US","zh-CN"], "alias": [...], "hooks": true, "id": "<uuid>" }
 hooks.lua          present only when config.json has "hooks": true
 language/en-US.json  the manifest (single source of truth)
 language/zh-CN.json  translated copy (same structure, only tip/usage/example localized)

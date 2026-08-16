@@ -20,7 +20,7 @@ Windows PowerShell 5.1 and PowerShell 7+.
 PSCompletions/
 ├── completions/            # Completion definitions (the "data" of the system)
 │   └── <command>/
-│       ├── config.json     # Per-completion config: language, hooks flag, trigger alias
+│       ├── config.json     # Per-completion config: language, hooks flag, trigger alias, stable id
 │       ├── hooks.lua       # Dynamic completions (present only when config.json has hooks: true)
 │       └── language/
 │           ├── en-US.json  # English completion data (single source of truth)

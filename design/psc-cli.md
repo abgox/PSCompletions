@@ -36,10 +36,26 @@ The CLI operates on a module data directory, passed by the host:
     half-written file; a corrupt file is backed up to `settings.json.corrupt` on load and defaults
     are used instead of silently dropping the damaged content. Concurrent `psc` processes writing
     the same file are last-write-wins — avoid racing two config edits.
-  - `temp/completions.json` — remote index (`update` versions + `meta` url/description per language).
-  - `temp/update.txt`, `temp/change.txt`, `temp/module-update.txt`, `temp/last-update.txt` — update tracking.
+  - `temp/completions.json` — remote index (`update` versions + `meta` per completion: stable `id`,
+    url/description per language).
+  - `temp/library-changes.json` — single JSON recording library state changes for the module:
+    `{ update, added, removed, renamed: [[old, new], ...] }`.
+  - `temp/module-update.txt`, `temp/last-update.txt` — module update tracking.
   - `completions/<name>/` — installed completion files (config.json, language/*.json, hooks.lua, `.update`).
   - `completions/psc/language/<lang>.json` — psc's own manifest (module-side `info` templates).
+
+### Rename detection
+
+Each completion's `config.json` carries a stable `id` (random UUID, generated at creation, never
+changed). `temp/completions.json` records it under `meta.<name>.id`. Both `psc update` (real-time)
+and the background `check` compare each locally installed completion's `id` against the remote
+index: if a local id now maps to a *different* remote name, the completion was **renamed
+upstream**. The old name is excluded from `added`/`removed` in `temp/library-changes.json` and
+recorded under `renamed: [[old, new], ...]`; the module renders it in the `[Update]` block as
+`old -> new`. Running `psc update --old` (or naming the old completion) migrates it automatically —
+downloads the new files, moves the per-completion settings (`alias`, `config.completion.<old>`
+incl. `enable_hooks`) to the new name, and removes the old directory. Renamed entries persist in
+`library-changes.json` until actually migrated (only `added`/`removed` are consumed on display).
 
 ## 4. Dispatch
 
@@ -91,17 +107,17 @@ psc add <name>...
 psc add --all
 ```
 
-- **Behavior**: downloads the remote index, then installs each named completion (concurrently,
-  4 workers). `--all` installs every available completion, with an interactive confirm.
+- **Behavior**: downloads the remote index, then installs each named completion. `--all` installs every available completion, with an interactive confirm.
   Each installed completion: files are copied into `completions/<name>/`, `.update` records the
   remote version, and settings are refreshed (`refresh_settings_after_add` builds the
   trigger-alias map). An already-installed name follows the update path (no error).
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`.
-- **Output**: `<name>: Added.` per completion; any error → exit code `FAILURE`.
+- **Output**: with `--json`, per-completion results `{completion, ok, error}`; plain text
+  `<name>: Added.` otherwise. Any error → exit code `FAILURE`.
 - **PS wrapper**: computes targets (if `--all`, all known completions; else the args), shows the
-  `--all` confirm, forwards, then `init_data()` and renders the rich `info.add.done` /
-  `info.update.done` template per added completion.
+  `--all` confirm + a "please wait" notice, forwards with `--json`, then `init_data()` and renders
+  the rich `info.add.done` / `info.update.done` template per added completion.
 
 ### 6.2 `alias` — manage trigger aliases
 
@@ -208,8 +224,9 @@ psc rm --all
 - **Behavior**: `--all` removes every installed completion except `psc` itself (interactive
   confirm; `psc` is kept — it is the module's own completion and init re-adds it anyway, so no
   network re-fetch happens here); otherwise the named ones. Each removal drops the entry from
-  `settings.alias` and `config.completion`, removes the name from `temp/update.txt`, and removes
-  the completion entry from disk.
+  `settings.alias` and `config.completion`, removes the name from `temp/library-changes.json`
+  (`update`), and removes the completion entry from disk. `rm --all` with nothing to remove
+  (e.g. only `psc` installed) is a silent no-op.
 - **Data/directory sync**: `rm` treats a name as present if it is registered in `settings.alias`
   **or** its entry exists on disk. A directory that exists without a config entry (manual copy or
   a link whose config drifted) is still removed — the explicit name is the user's intent, and
@@ -242,17 +259,19 @@ psc update --all              # update every installed completion
   - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
     current" path).
   - **`--all`**: updates **every installed** completion (a full sweep).
-  - **No-arg = real-time check**: refreshes `temp/update.txt` and `temp/change.txt` and reports
-    the library status (out-of-date completions + newly added/removed completions), mirroring the
+  - **No-arg = real-time check**: writes `temp/library-changes.json` and reports the library
+    status (out-of-date completions + newly added/removed/renamed completions), mirroring the
     startup notification.
-  - After any successful update, the updated names are dropped from `temp/update.txt` so the next
-    startup does not re-report them.
+  - After any successful update, the remaining out-of-date names are written back to
+    `temp/library-changes.json` (`update`) so the next startup does not re-report them.
 - **Errors**: name not installed and not in the remote list → `<name> is not an available completion.`;
   installed but not in the remote list → `<name>: Completion not added.`; download failure →
   `error: <err>`.
-- **Output**: `<name>: Updated.` per completion; any error → exit `FAILURE`.
-- **PS wrapper**: computes targets from `--all` / `--old` / the named arguments, forwards, then
-  renders `info.update.done` per updated completion.
+- **Output**: with `--json`, per-completion results `{completion, ok, error}` (renames add
+  `renamed_from`); plain text otherwise. Any failure → exit `FAILURE`.
+- **PS wrapper**: forwards `--all` / `--old` / the named arguments with `--json`, then renders
+  `info.update.done` per successful result (migrated renames show `old -> new` in the name line),
+  red errors for failures — so a partial failure still shows the successful ones.
 
 ### 6.9 `--reset` — nuclear reset (PowerShell only, top-level flag)
 
@@ -267,16 +286,18 @@ psc --reset
 ### 6.10 `init` / `check` — internal commands (not user-facing)
 
 - `init`: bootstraps `settings.json` when missing/empty (default data from the installed
-  completions dir and a language hint), builds `aliasMap`, reads `temp/update.txt` /
-  `temp/change.txt` and `temp/module-update.txt`, resolves URLs, loads the psc `info` templates,
-  sanitizes the config, and emits one large JSON payload (or writes it to `--result`). Called by
-  the module on import. The payload includes `new_version` (the newer module version found by a
-  previous `check`, or `null`) so the module's update notification reads it from the parsed data.
+  completions dir and a language hint), builds `aliasMap`, reads `temp/module-update.txt`, resolves
+  URLs, loads the psc `info` templates, sanitizes the config, and emits one large JSON payload (or
+  writes it to `--result`). Called by the module on import. The payload includes `new_version` (the
+  newer module version found by a previous `check`, or `null`) so the module's update notification
+  reads it from the parsed data. Library state changes are read separately by the module from
+  `temp/library-changes.json` (`render_library_changes`), not via this payload.
 - `check`: background update check gated by `temp/last-update.txt` (runs at most every 6 hours).
-  Refreshes `temp/completions.json`, writes the diff to `temp/change.txt`, checks the module
-  version against the **running** module version (passed as `check <version>`, compared against
-  `module/version.json` via `--data`'s urls, with the project site as an extra fallback) into
-  `temp/module-update.txt`, and recomputes `temp/update.txt`.
+  Refreshes `temp/completions.json`, writes the added/removed diff, the out-of-date list, and the
+  renamed completions (same id-based detection as `psc update`) to `temp/library-changes.json`,
+  checks the module version against the **running** module version (passed as `check <version>`,
+  compared against `module/version.json` via `--data`'s urls, with the project site as an extra
+  fallback) into `temp/module-update.txt`.
 
 ### 6.11 `psc` with no arguments
 

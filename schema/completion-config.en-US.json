@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "type": "object",
   "required": [
+    "id",
     "language"
   ],
   "definitions": {
@@ -24,6 +25,11 @@
     }
   },
   "properties": {
+    "id": {
+      "markdownDescription": "Stable unique identifier for the completion.\n\n- A random UUID generated when the completion is created\n- Never changes, even if the completion is renamed (directory name changes)\n- Used by the engine to detect renames and migrate configs automatically",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
     "language": {
       "markdownDescription": "Available languages\n- It should correspond to the json file in the `language` directory\n- If the valid value does not include the language you want to specify, please submit an issue",
       "examples": [

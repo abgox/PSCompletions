@@ -141,6 +141,27 @@ function Sort-JsonStructure {
     }
 }
 
+# Reorder a completion's config.json fields: id, hooks, alias, language (others appended at end).
+function Sort-ConfigJson {
+    param(
+        [string]$Path
+    )
+    $json = Get-Content -Path $Path -Raw | ConvertFrom-Json
+    $order = @('id', 'hooks', 'alias', 'language')
+    $sorted = [ordered]@{}
+    foreach ($prop in $order) {
+        if ($json.PSObject.Properties.Name -contains $prop) {
+            $sorted[$prop] = $json.$prop
+        }
+    }
+    foreach ($prop in $json.PSObject.Properties.Name) {
+        if (-not $sorted.Contains($prop)) {
+            $sorted[$prop] = $json.$prop
+        }
+    }
+    $sorted | ConvertTo-Json | Out-File -FilePath $Path -Encoding utf8
+}
+
 function Optimize-CompletionJson {
     param(
         [string]$Path
@@ -172,6 +193,11 @@ foreach ($completion in $CompletionList) {
     $langDir = "$completionsDir\$completion\language"
     if (!(Test-Path -LiteralPath $langDir)) {
         continue
+    }
+    # Keep config.json fields in a stable order (id, hooks, alias, language).
+    $configFile = "$completionsDir\$completion\config.json"
+    if (Test-Path -LiteralPath $configFile) {
+        Sort-ConfigJson -Path $configFile
     }
     $langFiles = Get-ChildItem -Path $langDir -File -Filter '*.json'
     if ($langFiles.Count -eq 0) {

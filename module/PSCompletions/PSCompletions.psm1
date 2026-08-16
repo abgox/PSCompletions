@@ -14,6 +14,13 @@
         }
         if ($data -match $PSCompletions.replace_pattern) { _replace $data }else { return $data }
     }
+    function _get_library_changes {
+        $json = $PSCompletions.get_raw_content($PSCompletions.path.library_changes)
+        if ($json) {
+            try { return $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
+        }
+        return $null
+    }
     function _param_err {
         param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag)
         $err = if ($flag -eq 'min') { $PSCompletions.info.param_min }
@@ -78,9 +85,10 @@
             [pscustomobject]@{ Completion = $row.completion; Alias = $row.aliases }
         }
     }
-    # Render info.<kind>.done (add/update/rm); its {{ }} templates read $completion/$config/$json/$conflict_alias via dynamic scope
+    # Render info.<kind>.done; templates read $completion/$display/etc via dynamic scope.
+    # $display overrides the name line (e.g. "git -> git1" for a rename); aliases read local data.alias.
     function _render_completion_done {
-        param([string]$completion, [string]$kind)
+        param([string]$completion, [string]$kind, [string]$display = '')
         $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.completions, $completion)
         $config = $null
         $json = $null
@@ -118,6 +126,9 @@
             if ($targets.Count) {
                 $is_exist_before = @{}
                 foreach ($t in $targets) { if ($t) { $is_exist_before[$t] = [System.IO.Directory]::Exists([System.IO.Path]::Combine($PSCompletions.path.completions, $t)) } }
+                if ($arg -contains '--all') {
+                    $PSCompletions.write_with_color("`n" + (_replace $PSCompletions.info.add.waiting))
+                }
                 $result = _forward_psc -Json
                 if ($null -ne $result) {
                     $PSCompletions.init_data()
@@ -165,52 +176,84 @@
             $need_init = $false
         }
         'update' {
-            $targets = @()
-            if ($arg -contains '--all') {
-                # --all = force-update every installed completion; only render feedback for completions in the remote repo
-                $remote = @()
-                try { $remote = @(($PSCompletions.get_raw_content($PSCompletions.path.completions_json) | ConvertFrom-Json).update.PSObject.Properties.Name) } catch { }
-                $targets = @($PSCompletions.data.list | Where-Object { $_ -in $remote })
-            }
-            elseif ($arg -contains '--old') {
-                # --old = update only the out-of-date completions
-                $targets = @($PSCompletions.update)
-            }
-            elseif ($arg.Count -gt 1) { $targets = @($arg[1..($arg.Count - 1)] | Where-Object { $_ -notin '--all', '--old' }) }
-            # Plain `psc update` (no targets) = live check; the CLI refreshes update.txt/change.txt
+            # Plain `psc update` (no targets) = live check; the CLI refreshes library-changes.json.
+            # --all / --old / named update: the CLI returns per-completion JSON results.
             $isNoArg = $arg.Count -eq 1
-            # -Quiet: feedback is rendered below via _render_completion_done
-            _forward_psc -Quiet | Out-Null
             if ($isNoArg) {
-                # no-arg live check: CLI refreshed update.txt/change.txt; render update_info if there's content, else a one-line reply
-                $PSCompletions.update = $PSCompletions.get_content($PSCompletions.path.update)
-                $PSCompletions.change = $PSCompletions.get_content($PSCompletions.path.change)
-                if ($PSCompletions.update -or $PSCompletions.change) {
+                # no-arg live check: render library-changes.json, else a one-line reply.
+                # update/renamed persist until `psc update --old`; added/removed are one-shot.
+                _forward_psc -Quiet | Out-Null
+                $changes = _get_library_changes
+                $upd = @($changes.update)
+                $add = @($changes.added)
+                $rm = @($changes.removed)
+                $renamed = @($changes.renamed)
+                if ($upd -or $add -or $rm -or $renamed) {
+                    $PSCompletions.update = $upd
+                    $PSCompletions.added = $add
+                    $PSCompletions.removed = $rm
+                    $PSCompletions.renamed = $renamed
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.update_info))
-                    if ($PSCompletions.change) { Clear-Content $PSCompletions.path.change -Force -ErrorAction SilentlyContinue }
+                    $changes.added = @()
+                    $changes.removed = @()
+                    try {
+                        [System.IO.File]::WriteAllText(
+                            $PSCompletions.path.library_changes,
+                            ($changes | ConvertTo-Json -Depth 6 -Compress),
+                            [System.Text.Encoding]::UTF8)
+                    }
+                    catch { }
                 }
                 else {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
                 }
             }
-            elseif ($LASTEXITCODE -eq 0) {
-                if (-not $targets.Count) {
-                    # --old / --all but nothing to update: reply with a message rather than staying silent
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
-                }
-                else {
+            else {
+                # --all / --old / named update: the CLI returns per-completion JSON results.
+                $result = _forward_psc -Json
+                if ($null -ne $result) {
                     $PSCompletions.init_data()
-                    foreach ($completion in $targets) {
-                        if ($completion -in $PSCompletions.data.list) {
-                            # Locally-linked completion: update skips it
-                            $isLink = $false
-                            try { $isLink = $null -ne (Get-Item (Join-Path $PSCompletions.path.completions $completion) -Force).LinkType } catch { }
-                            if ($isLink) {
-                                $PSCompletions.write_with_color((_replace $PSCompletions.info.update.skip))
+                    $anyOk = $false
+                    $migratedRenamed = @()
+                    foreach ($r in @($result)) {
+                        if ($r.ok) {
+                            $anyOk = $true
+                            if ($r.renamed_from) {
+                                $migratedRenamed += , @($r.renamed_from, $r.completion)
+                                # Migrated rename: display "old -> new", resolve config/alias from the real name.
+                                _render_completion_done $r.completion 'update' "$($r.renamed_from) -> $($r.completion)"
                             }
                             else {
-                                _render_completion_done $completion 'update'
+                                _render_completion_done $r.completion 'update'
                             }
+                        }
+                        else {
+                            $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
+                        }
+                    }
+                    if (-not $anyOk -and -not @($result).Count) {
+                        $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
+                    }
+                    # Consume only the renames actually migrated this run (from the CLI results);
+                    # unmigrated renames (e.g. a different renamed completion) stay for later prompts.
+                    if ($migratedRenamed.Count) {
+                        $changes = _get_library_changes
+                        if ($changes) {
+                            $changes.renamed = @(@($changes.renamed) | Where-Object {
+                                    $pair = @($_)
+                                    $hit = $false
+                                    foreach ($m in $migratedRenamed) {
+                                        if ($pair[0] -eq $m[0] -and $pair[1] -eq $m[1]) { $hit = $true; break }
+                                    }
+                                    -not $hit
+                                })
+                            try {
+                                [System.IO.File]::WriteAllText(
+                                    $PSCompletions.path.library_changes,
+                                    ($changes | ConvertTo-Json -Depth 6 -Compress),
+                                    [System.Text.Encoding]::UTF8)
+                            }
+                            catch { }
                         }
                     }
                 }

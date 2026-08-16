@@ -139,6 +139,13 @@ if ($env:GITHUB_ACTIONS) {
         $completion = $_.Name
         $info.update[$completion] = Get-StringHash $_.FullName
         $info.meta[$completion] = [ordered]@{}
+        $cfgPath = "$($_.FullName)/config.json"
+        if (Test-Path -LiteralPath $cfgPath) {
+            $cfg = Get-Content -LiteralPath $cfgPath -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
+            if ($cfg.id) {
+                $info.meta.$completion['id'] = $cfg.id
+            }
+        }
         Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
             $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
         }
