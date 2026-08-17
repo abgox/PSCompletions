@@ -52,6 +52,7 @@
 |[dirname](https://uutils.org)|去除文件名的最后一个组件。|
 |[docker](https://www.docker.com)|容器应用开发。|
 |[docker-compose](https://github.com/docker/compose)|使用 Docker 定义并运行多容器应用|
+|[doctl](https://github.com/digitalocean/doctl)|DigitalOcean 官方命令行工具。<br>管理 Droplet、数据库、Kubernetes、应用等资源。|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
 |[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
 |[du](https://uutils.org)|估算文件空间使用情况。|
@@ -98,7 +99,13 @@
 |[join](https://uutils.org)|按公共字段连接两个文件的行。|
 |[jq](https://jqlang.org/)|轻量灵活的命令行 JSON 处理器。|
 |[just](https://github.com/casey/just)|一个命令运行器。|
+|[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|
+|[k9s](https://k9scli.io/)|K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。<br>它简化了浏览、观察和管理你部署的应用程序。|
+|[kind](https://kind.sigs.k8s.io/)|kind 是一个使用 Docker 容器 'nodes' 运行本地 Kubernetes 集群的工具。<br>kind 最初主要用于测试 Kubernetes 本身，但也可用于本地开发或 CI。|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br>kubectl 是它的命令行工具|
+|[kubectx](https://github.com/ahmetb/kubectx)|在不同 Kubernetes 上下文之间切换（kubectl config use-context）。|
+|[kubens](https://github.com/ahmetb/kubens)|在不同 Kubernetes 命名空间之间切换。|
+|[kustomize](https://github.com/kubernetes-sigs/kustomize)|定制 kubernetes YAML 配置|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
@@ -107,6 +114,7 @@
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum](https://uutils.org)|计算和校验 MD5 消息摘要。|
+|[minikube](https://minikube.sigs.k8s.io/)|提供并管理针对开发工作流程优化的本地 Kubernetes 集群。|
 |[mise](https://mise.jdx.dev/)|多语言工具版本管理器、环境变量管理器和任务运行器。|
 |[mktemp](https://uutils.org)|创建临时文件或目录。|
 |[more](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/more)|逐屏显示文本文件内容。|
@@ -136,6 +144,7 @@
 |[ouch](https://github.com/ouch-org/ouch)|一个用于轻松压缩和解压文件与目录的命令行工具<br>支持格式：tar、zip、gz、7z、xz、lzma、bz2、bz3、lz4、zst、rar、br|
 |[oxfmt](https://oxc.rs)|一个极快的 JavaScript、TypeScript、JSX 和 TSX 格式化工具和代码风格指南检查器|
 |[oxlint](https://oxc.rs)|TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则|
+|[packer](https://www.packer.io/)|Packer 是一个工具，用于从单一源配置为多个平台构建完全相同的机器镜像。|
 |[pandoc](https://pandoc.org)|通用文档转换器。|
 |[paste](https://uutils.org)|将每个文件的行按顺序对应输出到标准输出。|
 |[pathchk](https://www.gnu.org/software/coreutils/)|诊断无效或不可移植的文件名。|

@@ -52,6 +52,7 @@
 |[dirname](https://uutils.org)|Strip last component from file name.|
 |[docker](https://www.docker.com)|Container Application Development.|
 |[docker-compose](https://github.com/docker/compose)|Define and run multi-container applications with Docker|
+|[doctl](https://github.com/digitalocean/doctl)|DigitalOcean official CLI.<br>Manage Droplets, databases, Kubernetes, apps, and more.|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
 |[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
 |[du](https://uutils.org)|Estimate file space usage.|
@@ -98,7 +99,13 @@
 |[join](https://uutils.org)|Join lines of two files on a common field.|
 |[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
 |[just](https://github.com/casey/just)|A command runner.|
+|[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
+|[k9s](https://k9scli.io/)|K9s is a terminal based UI to interact with your Kubernetes clusters.<br>It eases navigating, observing and managing your deployed applications.|
+|[kind](https://kind.sigs.k8s.io/)|kind is a tool for running local Kubernetes clusters using Docker container 'nodes'.<br>kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI.|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
+|[kubectx](https://github.com/ahmetb/kubectx)|Switch between Kubernetes contexts (kubectl config use-context).|
+|[kubens](https://github.com/ahmetb/kubens)|Switch between Kubernetes namespaces.|
+|[kustomize](https://github.com/kubernetes-sigs/kustomize)|Customize kubernetes YAML configurations|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
@@ -107,6 +114,7 @@
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
+|[minikube](https://minikube.sigs.k8s.io/)|Provides and manages local Kubernetes clusters optimized for development workflows.|
 |[mise](https://mise.jdx.dev/)|Polyglot tool version manager, env vars manager and task runner.|
 |[mktemp](https://uutils.org)|Create a temporary file or directory.|
 |[more](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/more)|Display the contents of a text file one screen at a time.|
@@ -136,6 +144,7 @@
 |[ouch](https://github.com/ouch-org/ouch)|A command-line utility for easily compressing and decompressing files and directories<br>Supported formats: tar, zip, gz, 7z, xz, lzma, bz2, bz3, lz4, zst, rar, br|
 |[oxfmt](https://oxc.rs)|An extremely fast formatter and code style guide linter for JavaScript, TypeScript, JSX, and TSX|
 |[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
+|[packer](https://www.packer.io/)|Packer is a tool for building identical machine images for multiple platforms from a single source configuration.|
 |[pandoc](https://pandoc.org)|Universal document converter.|
 |[paste](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
 |[pathchk](https://www.gnu.org/software/coreutils/)|Diagnose invalid or unportable file names.|
