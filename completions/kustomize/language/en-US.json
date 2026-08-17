@@ -1,0 +1,1633 @@
+{
+  "meta": {
+    "url": "https://github.com/kubernetes-sigs/kustomize",
+    "description": [
+      "Customize kubernetes YAML configurations"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "usage": [
+        "build <DIR>"
+      ],
+      "tip": [
+        "Build a kustomization target from a directory or URL"
+      ],
+      "option": [
+        {
+          "name": "--as-current-user",
+          "tip": [
+            "Run function container as current uid/gid"
+          ]
+        },
+        {
+          "name": "--enable-alpha-plugins",
+          "tip": [
+            "Enable alpha plugins"
+          ]
+        },
+        {
+          "name": "--enable-exec",
+          "tip": [
+            "Enable exec functions (Alpha)"
+          ]
+        },
+        {
+          "name": "--enable-helm",
+          "tip": [
+            "Enable Helm chart inflator"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "Env vars for functions"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <versions>"
+          ],
+          "tip": [
+            "Helm API versions"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-command",
+          "usage": [
+            "--helm-command <cmd>"
+          ],
+          "tip": [
+            "Helm command (default helm)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-debug",
+          "tip": [
+            "Enable Helm debug"
+          ]
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <version>"
+          ],
+          "tip": [
+            "Kubernetes version used for Helm's Capabilities"
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-restrictor",
+          "usage": [
+            "--load-restrictor <value>"
+          ],
+          "tip": [
+            "Restrict loading of files outside the kustomization root"
+          ],
+          "next": [
+            {
+              "name": "LoadRestrictionsNone",
+              "tip": [
+                "No restrictions"
+              ]
+            },
+            {
+              "name": "LoadRestrictionsRootOnly",
+              "tip": [
+                "Only load files within the root (default)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mount",
+          "usage": [
+            "--mount <mount>"
+          ],
+          "tip": [
+            "Storage options"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--network",
+          "tip": [
+            "Enable network access for functions"
+          ]
+        },
+        {
+          "name": "--network-name",
+          "usage": [
+            "--network-name <name>"
+          ],
+          "tip": [
+            "Network name (default bridge)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <path>"
+          ],
+          "tip": [
+            "Write output to path"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "cfg",
+      "usage": [
+        "cfg <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Commands for reading and writing kustomize config"
+      ],
+      "next": [
+        {
+          "name": "cat",
+          "usage": [
+            "cat <DIR>"
+          ],
+          "tip": [
+            "Print the configs"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "tip": [
+                "Annotate with file origins"
+              ]
+            },
+            {
+              "name": "--dest",
+              "usage": [
+                "--dest <file>"
+              ],
+              "tip": [
+                "Write to file instead of stdout"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exclude-non-local",
+              "tip": [
+                "Exclude non-local resources"
+              ]
+            },
+            {
+              "name": "--format",
+              "tip": [
+                "Format output (default true)"
+              ]
+            },
+            {
+              "name": "--function-config",
+              "usage": [
+                "--function-config <path>"
+              ],
+              "tip": [
+                "Path to function config"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-local",
+              "tip": [
+                "Include local files"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "Recurse into subpackages (default true)"
+              ]
+            },
+            {
+              "name": "--strip-comments",
+              "tip": [
+                "Strip comments"
+              ]
+            },
+            {
+              "name": "--style",
+              "usage": [
+                "--style <style>"
+              ],
+              "tip": [
+                "Output style"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "DoubleQuotedStyle",
+                  "tip": [
+                    "Double quoted style"
+                  ]
+                },
+                {
+                  "name": "FlowStyle",
+                  "tip": [
+                    "Flow style"
+                  ]
+                },
+                {
+                  "name": "FoldedStyle",
+                  "tip": [
+                    "Folded style"
+                  ]
+                },
+                {
+                  "name": "LiteralStyle",
+                  "tip": [
+                    "Literal style"
+                  ]
+                },
+                {
+                  "name": "TaggedStyle",
+                  "tip": [
+                    "Tagged style"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--wrap-kind",
+              "usage": [
+                "--wrap-kind <kind>"
+              ],
+              "tip": [
+                "Wrap output in a resource of this kind"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wrap-version",
+              "usage": [
+                "--wrap-version <version>"
+              ],
+              "tip": [
+                "Wrap output in a resource of this version"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "count",
+          "usage": [
+            "count [DIR]"
+          ],
+          "tip": [
+            "Count the resources"
+          ],
+          "option": [
+            {
+              "name": "--kind",
+              "tip": [
+                "Count by kind (default true)"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "Recurse into subpackages (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grep",
+          "usage": [
+            "grep <QUERY> [DIR]"
+          ],
+          "tip": [
+            "Search for matching resources"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "tip": [
+                "Annotate with file origins (default true)"
+              ]
+            },
+            {
+              "name": "--invert-match",
+              "tip": [
+                "Invert match"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "Recurse into subpackages (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tree",
+          "usage": [
+            "tree [DIR]"
+          ],
+          "tip": [
+            "Display the resources in a tree structure"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Print all field infos"
+              ]
+            },
+            {
+              "name": "--args",
+              "tip": [
+                "Print args"
+              ]
+            },
+            {
+              "name": "--command",
+              "tip": [
+                "Print command"
+              ]
+            },
+            {
+              "name": "--env",
+              "tip": [
+                "Print env"
+              ]
+            },
+            {
+              "name": "--exclude-non-local",
+              "tip": [
+                "Exclude non-local resources"
+              ]
+            },
+            {
+              "name": "--field",
+              "usage": [
+                "--field <path>"
+              ],
+              "tip": [
+                "Arbitrary field path"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--graph-structure",
+              "usage": [
+                "--graph-structure <structure>"
+              ],
+              "tip": [
+                "Graph structure"
+              ],
+              "next": [
+                {
+                  "name": "directory",
+                  "tip": [
+                    "Group by directory"
+                  ]
+                },
+                {
+                  "name": "owners",
+                  "tip": [
+                    "Group by owners"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "tip": [
+                "Print images"
+              ]
+            },
+            {
+              "name": "--include-local",
+              "tip": [
+                "Include local files"
+              ]
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "Print names"
+              ]
+            },
+            {
+              "name": "--ports",
+              "tip": [
+                "Print ports"
+              ]
+            },
+            {
+              "name": "--replicas",
+              "tip": [
+                "Print replicas"
+              ]
+            },
+            {
+              "name": "--resources",
+              "tip": [
+                "Print resources"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "Generate completion script for a shell"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate bash completion script"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate fish completion script"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate powershell completion script"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate zsh completion script"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "alias": [
+        "init"
+      ],
+      "usage": [
+        "init|create"
+      ],
+      "tip": [
+        "Create a new kustomization.yaml file"
+      ],
+      "option": [
+        {
+          "name": "--annotations",
+          "usage": [
+            "--annotations <annotations>"
+          ],
+          "tip": [
+            "Add annotations to the kustomization"
+          ],
+          "next": []
+        },
+        {
+          "name": "--autodetect",
+          "tip": [
+            "Search for kubernetes resources in the directory"
+          ]
+        },
+        {
+          "name": "--labels",
+          "usage": [
+            "--labels <labels>"
+          ],
+          "tip": [
+            "Add labels to the kustomization"
+          ],
+          "next": []
+        },
+        {
+          "name": "--nameprefix",
+          "usage": [
+            "--nameprefix <prefix>"
+          ],
+          "tip": [
+            "Set the value of the namePrefix field"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace",
+          "usage": [
+            "--namespace <namespace>"
+          ],
+          "tip": [
+            "Set the value of the namespace field"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namesuffix",
+          "usage": [
+            "--namesuffix <suffix>"
+          ],
+          "tip": [
+            "Set the value of the nameSuffix field"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "tip": [
+            "Search recursively for kubernetes resources"
+          ]
+        },
+        {
+          "name": "--resources",
+          "usage": [
+            "--resources <resources>"
+          ],
+          "tip": [
+            "Add resources to the kustomization"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Edit a kustomization file"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <SUBCOMMAND>"
+          ],
+          "tip": [
+            "Add an item to the kustomization file"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "Add an annotation"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "Overwrite if exists"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "base",
+              "tip": [
+                "Add a base"
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "Add buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "Add managedBy label"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "Add origin annotations"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "Add transformer annotations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "component",
+              "tip": [
+                "Add a component"
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "Add a configmap"
+              ],
+              "option": [
+                {
+                  "name": "--behavior",
+                  "usage": [
+                    "--behavior <behavior>"
+                  ],
+                  "tip": [
+                    "Behavior when configmap keys conflict"
+                  ],
+                  "next": [
+                    {
+                      "name": "create",
+                      "tip": [
+                        "Create a new configmap (default)"
+                      ]
+                    },
+                    {
+                      "name": "merge",
+                      "tip": [
+                        "Merge with existing"
+                      ]
+                    },
+                    {
+                      "name": "replace",
+                      "tip": [
+                        "Replace existing"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--disableNameSuffixHash",
+                  "tip": [
+                    "Disable name suffix hash"
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <file>"
+                  ],
+                  "tip": [
+                    "Create configmap from env file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <file>"
+                  ],
+                  "tip": [
+                    "Create configmap from file"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "Create configmap from literal value"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the configmap"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "generator",
+              "tip": [
+                "Add a generator"
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "Add a label"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "Overwrite if exists"
+                  ]
+                },
+                {
+                  "name": "--include-templates",
+                  "tip": [
+                    "Include templates"
+                  ]
+                },
+                {
+                  "name": "--without-selector",
+                  "tip": [
+                    "Do not add selector"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "Add a patch"
+              ],
+              "option": [
+                {
+                  "name": "--annotation-selector",
+                  "usage": [
+                    "--annotation-selector <selector>"
+                  ],
+                  "tip": [
+                    "Annotation selector"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--group",
+                  "usage": [
+                    "--group <group>"
+                  ],
+                  "tip": [
+                    "API group in target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--kind",
+                  "usage": [
+                    "--kind <kind>"
+                  ],
+                  "tip": [
+                    "Kind of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--label-selector",
+                  "usage": [
+                    "--label-selector <selector>"
+                  ],
+                  "tip": [
+                    "Label selector"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <name>"
+                  ],
+                  "tip": [
+                    "Name of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--patch",
+                  "usage": [
+                    "--patch <patch>"
+                  ],
+                  "tip": [
+                    "Inline patch"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "Path to patch file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--version",
+                  "usage": [
+                    "--version <version>"
+                  ],
+                  "tip": [
+                    "API version in target"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "Add a resource"
+              ],
+              "option": [
+                {
+                  "name": "--no-verify",
+                  "tip": [
+                    "Skip validation"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "Add a secret"
+              ],
+              "option": [
+                {
+                  "name": "--disableNameSuffixHash",
+                  "tip": [
+                    "Disable name suffix hash"
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <file>"
+                  ],
+                  "tip": [
+                    "Create secret from env file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <file>"
+                  ],
+                  "tip": [
+                    "Create secret from file"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "Create secret from literal value"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the secret"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "usage": [
+                    "--type <type>"
+                  ],
+                  "tip": [
+                    "Secret type"
+                  ],
+                  "next": [
+                    {
+                      "name": "kubernetes.io/tls",
+                      "tip": [
+                        "TLS secret"
+                      ]
+                    },
+                    {
+                      "name": "Opaque",
+                      "tip": [
+                        "Opaque secret (default)"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "transformer",
+              "tip": [
+                "Add a transformer"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "alpha-list-builtin-plugin",
+          "tip": [
+            "List builtin plugins (Alpha)"
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "Fix the kustomization file"
+          ],
+          "option": [
+            {
+              "name": "--vars",
+              "tip": [
+                "Convert vars to replacements"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <SUBCOMMAND>"
+          ],
+          "tip": [
+            "Remove an item from the kustomization file"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "Remove an annotation"
+              ],
+              "option": [
+                {
+                  "name": "--ignore-non-existence",
+                  "alias": [
+                    "-i"
+                  ],
+                  "usage": [
+                    "-i, --ignore-non-existence"
+                  ],
+                  "tip": [
+                    "Ignore if the annotation does not exist"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "Remove buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "Remove managedBy label"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "Remove origin annotations"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "Remove transformer annotations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "Remove a configmap"
+              ],
+              "option": [
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the configmap"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "Remove a label"
+              ],
+              "option": [
+                {
+                  "name": "--ignore-non-existence",
+                  "alias": [
+                    "-i"
+                  ],
+                  "usage": [
+                    "-i, --ignore-non-existence"
+                  ],
+                  "tip": [
+                    "Ignore if the label does not exist"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "Remove a patch"
+              ],
+              "option": [
+                {
+                  "name": "--annotation-selector",
+                  "usage": [
+                    "--annotation-selector <selector>"
+                  ],
+                  "tip": [
+                    "Annotation selector"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--group",
+                  "usage": [
+                    "--group <group>"
+                  ],
+                  "tip": [
+                    "API group in target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--kind",
+                  "usage": [
+                    "--kind <kind>"
+                  ],
+                  "tip": [
+                    "Kind of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--label-selector",
+                  "usage": [
+                    "--label-selector <selector>"
+                  ],
+                  "tip": [
+                    "Label selector"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <name>"
+                  ],
+                  "tip": [
+                    "Name of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the target"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--patch",
+                  "usage": [
+                    "--patch <patch>"
+                  ],
+                  "tip": [
+                    "Inline patch"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "Path to patch file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--version",
+                  "usage": [
+                    "--version <version>"
+                  ],
+                  "tip": [
+                    "API version in target"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "Remove a resource"
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "Remove a secret"
+              ],
+              "option": [
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the secret"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "transformer",
+              "tip": [
+                "Remove a transformer"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <SUBCOMMAND>"
+          ],
+          "tip": [
+            "Set a value in the kustomization file"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "Set an annotation"
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "Set buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "Add managedBy label"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "Add origin annotations"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "Add transformer annotations"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "Set a configmap"
+              ],
+              "option": [
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "Set from literal value"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the configmap"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--new-namespace",
+                  "usage": [
+                    "--new-namespace <namespace>"
+                  ],
+                  "tip": [
+                    "New namespace of the configmap"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "image",
+              "tip": [
+                "Set image name"
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "Set labels"
+              ]
+            },
+            {
+              "name": "nameprefix",
+              "tip": [
+                "Set name prefix"
+              ]
+            },
+            {
+              "name": "namespace",
+              "tip": [
+                "Set namespace"
+              ]
+            },
+            {
+              "name": "namesuffix",
+              "tip": [
+                "Set name suffix"
+              ]
+            },
+            {
+              "name": "replicas",
+              "tip": [
+                "Set replicas"
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "Set a secret"
+              ],
+              "option": [
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "Set from literal value"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "Namespace of the secret"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--new-namespace",
+                  "usage": [
+                    "--new-namespace <namespace>"
+                  ],
+                  "tip": [
+                    "New namespace of the secret"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fn",
+      "usage": [
+        "fn <SUBCOMMAND>"
+      ],
+      "tip": [
+        "Commands for running functions"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "usage": [
+            "run [DIR]"
+          ],
+          "tip": [
+            "Run a function"
+          ],
+          "option": [
+            {
+              "name": "--as-current-user",
+              "tip": [
+                "Run function container as current uid/gid"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Print results to stdout"
+              ]
+            },
+            {
+              "name": "--enable-exec",
+              "tip": [
+                "Enable exec functions (Alpha)"
+              ]
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <env>"
+              ],
+              "tip": [
+                "Env vars for functions"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-path",
+              "usage": [
+                "--exec-path <path>"
+              ],
+              "tip": [
+                "Path to exec functions"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fn-path",
+              "usage": [
+                "--fn-path <dir>"
+              ],
+              "tip": [
+                "Read functions from dirs"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--global-scope",
+              "tip": [
+                "Run functions in global scope"
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "Run this image as function"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-subpackages",
+              "tip": [
+                "Include subpackages (default true)"
+              ]
+            },
+            {
+              "name": "--log-steps",
+              "tip": [
+                "Log steps"
+              ]
+            },
+            {
+              "name": "--mount",
+              "usage": [
+                "--mount <mount>"
+              ],
+              "tip": [
+                "Storage options"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--network",
+              "tip": [
+                "Enable network access for functions"
+              ]
+            },
+            {
+              "name": "--results-dir",
+              "usage": [
+                "--results-dir <dir>"
+              ],
+              "tip": [
+                "Results directory"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Help about any command"
+      ]
+    },
+    {
+      "name": "localize",
+      "usage": [
+        "localize [target [destination]]"
+      ],
+      "tip": [
+        "Create local copy of a kustomization target"
+      ],
+      "option": [
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Skip build-output verification"
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <path>"
+          ],
+          "tip": [
+            "Path to restrict localization to"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Prints the kustomize version"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FORMAT>"
+          ],
+          "tip": [
+            "Output format"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML format"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--stack-trace",
+      "tip": [
+        "Print stack-trace on error"
+      ]
+    }
+  ]
+}

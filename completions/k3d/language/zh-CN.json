@@ -1,0 +1,1901 @@
+{
+  "meta": {
+    "url": "https://k3d.io/",
+    "description": [
+      "在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "cluster",
+      "tip": [
+        "管理集群。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "创建一个由容器化节点组成的新 k3s 集群（docker 中的 k3s）。"
+          ],
+          "option": [
+            {
+              "name": "--agents",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --agents <N>"
+              ],
+              "tip": [
+                "指定要创建的 agent 节点数量。"
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--agents-memory",
+              "usage": [
+                "--agents-memory <SIZE>"
+              ],
+              "tip": [
+                "对 agent 节点施加的内存限制。"
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--api-port",
+              "usage": [
+                "--api-port <[HOST:]HOSTPORT>"
+              ],
+              "tip": [
+                "指定在 LoadBalancer 上暴露的 Kubernetes API 服务器端口。"
+              ],
+              "next": [
+                {
+                  "name": "0.0.0.0:6550"
+                },
+                {
+                  "name": "6443"
+                }
+              ]
+            },
+            {
+              "name": "--config",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --config <FILE>"
+              ],
+              "tip": [
+                "要使用的配置文件路径。"
+              ],
+              "next": [
+                {
+                  "name": "config.yaml"
+                },
+                {
+                  "name": "k3d-default.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            },
+            {
+              "name": "--enforce-registry-port-match",
+              "tip": [
+                "使内部 registry 端口与外部端口匹配。"
+              ]
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "向节点添加环境变量。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "HTTP_PROXY=my.proxy.com@server:0"
+                },
+                {
+                  "name": "SOME_KEY=SOME_VAL@agent:0"
+                }
+              ]
+            },
+            {
+              "name": "--gpus",
+              "usage": [
+                "--gpus <GPUS>"
+              ],
+              "tip": [
+                "要添加到集群节点容器中的 GPU 设备（传入 'all' 以传递所有 GPU）。"
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "device=0"
+                }
+              ]
+            },
+            {
+              "name": "--host-alias",
+              "usage": [
+                "--host-alias <ip:host[,host,...]>"
+              ],
+              "tip": [
+                "添加 ip:host[,host,...] 映射。"
+              ],
+              "next": [
+                {
+                  "name": "127.0.0.1:host.local"
+                }
+              ]
+            },
+            {
+              "name": "--host-pid-mode",
+              "tip": [
+                "启用 server 和 agent 节点的 host pid 模式。"
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "指定用于节点的 k3s 镜像。"
+              ],
+              "next": [
+                {
+                  "name": "docker.io/rancher/k3s:v1.27.4-k3s1"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-arg",
+              "usage": [
+                "--k3s-arg <ARG@NODEFILTER>"
+              ],
+              "tip": [
+                "传递给 k3s 命令的额外参数。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "--disable=traefik@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-node-label",
+              "usage": [
+                "--k3s-node-label <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "向 k3s 节点添加标签。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "my.label=somevalue@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--kubeconfig-switch-context",
+              "tip": [
+                "直接将默认 kubeconfig 的 current-context 切换到新集群的上下文。"
+              ]
+            },
+            {
+              "name": "--kubeconfig-update-default",
+              "tip": [
+                "直接用新集群的上下文更新默认 kubeconfig。"
+              ]
+            },
+            {
+              "name": "--lb-config-override",
+              "usage": [
+                "--lb-config-override <PATH>"
+              ],
+              "tip": [
+                "使用点分 YAML 路径语法覆盖 nginx loadbalancer 设置。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "server.service.type=NodePort"
+                }
+              ]
+            },
+            {
+              "name": "--network",
+              "usage": [
+                "--network <NETWORK>"
+              ],
+              "tip": [
+                "加入现有网络。"
+              ],
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--no-image-volume",
+              "tip": [
+                "禁用用于导入镜像的卷的创建。"
+              ]
+            },
+            {
+              "name": "--no-lb",
+              "tip": [
+                "禁用在 server 节点前创建 LoadBalancer。"
+              ]
+            },
+            {
+              "name": "--no-rollback",
+              "tip": [
+                "如果出现任何问题，禁用自动回滚操作。"
+              ]
+            },
+            {
+              "name": "--port",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --port <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "将节点容器（通过 serverlb）的端口映射到主机。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "8080:80@agent:0"
+                },
+                {
+                  "name": "8081@agent:1"
+                }
+              ]
+            },
+            {
+              "name": "--registry-config",
+              "usage": [
+                "--registry-config <FILE>"
+              ],
+              "tip": [
+                "指定额外的 registries.yaml 文件的路径。"
+              ],
+              "next": [
+                {
+                  "name": "registries.yaml"
+                }
+              ]
+            },
+            {
+              "name": "--registry-create",
+              "usage": [
+                "--registry-create <NAME[:HOST][:HOSTPORT]>"
+              ],
+              "tip": [
+                "创建由 k3d 管理的 registry 并将其连接到集群。"
+              ],
+              "next": [
+                {
+                  "name": "mycluster-registry:0.0.0.0:5432"
+                }
+              ]
+            },
+            {
+              "name": "--registry-use",
+              "usage": [
+                "--registry-use <NAME>"
+              ],
+              "tip": [
+                "连接到本地运行的一个或多个由 k3d 管理的 registry。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "k3d-myregistry"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-label",
+              "usage": [
+                "--runtime-label <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "向容器运行时添加标签。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "my.label=somevalue@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-ulimit",
+              "usage": [
+                "--runtime-ulimit <NAME[=SOFT]:[HARD]>"
+              ],
+              "tip": [
+                "向容器运行时添加 ulimit。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "nofile=1024:1024"
+                }
+              ]
+            },
+            {
+              "name": "--servers",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --servers <N>"
+              ],
+              "tip": [
+                "指定要创建的 server 节点数量。"
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--servers-memory",
+              "usage": [
+                "--servers-memory <SIZE>"
+              ],
+              "tip": [
+                "对 server 节点施加的内存限制。"
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--subnet",
+              "usage": [
+                "--subnet <CIDR>"
+              ],
+              "tip": [
+                "为新创建的容器网络定义子网。"
+              ],
+              "next": [
+                {
+                  "name": "172.28.0.0/16"
+                }
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "如果在指定时长内无法创建集群，则回滚更改。"
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "指定集群 token。默认情况下，我们会生成一个。"
+              ],
+              "next": [
+                {
+                  "name": "K10a1b2c3d4e5f6g7h8i9j"
+                }
+              ]
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <[SOURCE:]DEST[@NODEFILTER]>"
+              ],
+              "tip": [
+                "将卷挂载到节点中。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "/tmp/test:/tmp/other@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "在返回前等待 server 节点就绪。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|delete [NAME...]"
+          ],
+          "tip": [
+            "删除集群。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "删除所有现有集群。"
+              ]
+            },
+            {
+              "name": "--config",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --config <FILE>"
+              ],
+              "tip": [
+                "要使用的配置文件路径。"
+              ],
+              "next": [
+                {
+                  "name": "config.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NAME...]"
+          ],
+          "tip": [
+            "列出集群。"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "禁用表头。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "输出格式。可选值：json|yaml。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "tip": [
+                "打印 k3s 集群 token。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "restart",
+          "usage": [
+            "restart [NAME...]"
+          ],
+          "tip": [
+            "重启现有的 k3d 集群。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "重启所有现有集群。"
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "'--wait' 在取消/返回前的最长等待时间。"
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "在返回前等待 server 节点（和 loadbalancer）就绪。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start [NAME...]"
+          ],
+          "tip": [
+            "启动现有的 k3d 集群。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "启动所有现有集群。"
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "'--wait' 在取消/返回前的最长等待时间。"
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "在返回前等待 server 节点（和 loadbalancer）就绪。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [NAME...]"
+          ],
+          "tip": [
+            "停止现有的 k3d 集群。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "停止所有现有集群。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "edit"
+          ],
+          "usage": [
+            "edit|update CLUSTER"
+          ],
+          "tip": [
+            "[实验性] 编辑集群。"
+          ],
+          "option": [
+            {
+              "name": "--port-add",
+              "usage": [
+                "--port-add <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "将节点容器（通过 serverlb）的端口映射到主机。"
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            },
+            {
+              "name": "--port-delete",
+              "usage": [
+                "--port-delete <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "删除具有给定格式的端口映射。"
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "为 bash、zsh、fish、powershell 生成补全脚本。"
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "处理配置文件。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "init"
+          ],
+          "usage": [
+            "init|create"
+          ],
+          "tip": [
+            "编写默认的 k3d 配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制覆盖目标文件。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FILE>"
+              ],
+              "tip": [
+                "编写默认的 k3d 配置。"
+              ],
+              "next": [
+                {
+                  "name": "k3d-default.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "alias": [
+            "update"
+          ],
+          "usage": [
+            "update|migrate INPUT [OUTPUT]"
+          ],
+          "tip": [
+            "将配置文件迁移到最新格式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "获取任意命令的帮助。"
+      ]
+    },
+    {
+      "name": "images",
+      "alias": [
+        "image"
+      ],
+      "usage": [
+        "image|images"
+      ],
+      "tip": [
+        "处理容器镜像。"
+      ],
+      "next": [
+        {
+          "name": "import",
+          "alias": [
+            "load"
+          ],
+          "usage": [
+            "load|import [IMAGE | ARCHIVE...]"
+          ],
+          "tip": [
+            "将镜像从 docker 导入到 k3d 集群中。"
+          ],
+          "option": [
+            {
+              "name": "--cluster",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cluster <NAME>"
+              ],
+              "tip": [
+                "选择要加载镜像的集群。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "k3s-default"
+                },
+                {
+                  "name": "mycluster"
+                }
+              ]
+            },
+            {
+              "name": "--keep-tarball",
+              "alias": [
+                "-k"
+              ],
+              "usage": [
+                "-k, --keep-tarball"
+              ],
+              "tip": [
+                "不删除共享卷中包含已保存镜像的 tarball。"
+              ]
+            },
+            {
+              "name": "--keep-tools",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --keep-tools"
+              ],
+              "tip": [
+                "导入后不删除 tools 节点。"
+              ]
+            },
+            {
+              "name": "--mode",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mode <MODE>"
+              ],
+              "tip": [
+                "使用哪种方法将镜像导入集群。"
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "自动选择导入方法。"
+                  ]
+                },
+                {
+                  "name": "direct",
+                  "tip": [
+                    "无需 tools 节点直接导入。"
+                  ]
+                },
+                {
+                  "name": "tools",
+                  "tip": [
+                    "通过临时 tools 节点导入。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kubeconfig",
+      "tip": [
+        "管理 kubeconfig。"
+      ],
+      "next": [
+        {
+          "name": "merge",
+          "alias": [
+            "write"
+          ],
+          "usage": [
+            "merge|write [CLUSTER...]"
+          ],
+          "tip": [
+            "将集群的 kubeconfig 写入/合并到新的或现有的 kubeconfig/文件中。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "获取所有现有集群的 kubeconfig。"
+              ]
+            },
+            {
+              "name": "--kubeconfig-merge-default",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --kubeconfig-merge-default"
+              ],
+              "tip": [
+                "合并到默认 kubeconfig 中。"
+              ]
+            },
+            {
+              "name": "--kubeconfig-switch-context",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --kubeconfig-switch-context"
+              ],
+              "tip": [
+                "切换到新上下文。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FILE|->"
+              ],
+              "tip": [
+                "定义输出 [- | FILE]。"
+              ],
+              "next": [
+                {
+                  "name": "-",
+                  "tip": [
+                    "写入 stdout"
+                  ]
+                },
+                {
+                  "name": "kubeconfig"
+                }
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "[小心！] 覆盖现有文件，忽略其内容。"
+              ]
+            },
+            {
+              "name": "--update",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --update"
+              ],
+              "tip": [
+                "更新现有 kubeconfig 中的冲突字段。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "alias": [
+            "show",
+            "get"
+          ],
+          "usage": [
+            "get|show|print [CLUSTER...]"
+          ],
+          "tip": [
+            "打印集群的 kubeconfig。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "输出所有现有集群的 kubeconfig。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "tip": [
+        "管理节点。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "创建新的容器化 k3s 节点（docker 中的 k3s）。"
+          ],
+          "option": [
+            {
+              "name": "--cluster",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cluster <NAME>"
+              ],
+              "tip": [
+                "要连接的集群 URL 或 k3d 集群名称。"
+              ],
+              "next": [
+                {
+                  "name": "k3s-default"
+                },
+                {
+                  "name": "mycluster"
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "指定用于节点的 k3s 镜像。"
+              ],
+              "next": [
+                {
+                  "name": "docker.io/rancher/k3s:v1.27.4-k3s1"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-arg",
+              "usage": [
+                "--k3s-arg <ARG>"
+              ],
+              "tip": [
+                "传递给 k3d 命令的额外参数。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "--disable=traefik"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-node-label",
+              "usage": [
+                "--k3s-node-label <LABEL>"
+              ],
+              "tip": [
+                "以 \"foo=bar\" 格式指定 k3s 节点标签。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar"
+                }
+              ]
+            },
+            {
+              "name": "--memory",
+              "usage": [
+                "--memory <SIZE>"
+              ],
+              "tip": [
+                "对节点施加的内存限制。"
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--network",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --network <NETWORK>"
+              ],
+              "tip": [
+                "将节点添加到（另一个）运行时网络。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--replicas",
+              "usage": [
+                "--replicas <N>"
+              ],
+              "tip": [
+                "此节点规格的副本数量。"
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--role",
+              "usage": [
+                "--role <ROLE>"
+              ],
+              "tip": [
+                "指定节点角色。"
+              ],
+              "next": [
+                {
+                  "name": "agent",
+                  "tip": [
+                    "Agent 节点"
+                  ]
+                },
+                {
+                  "name": "server",
+                  "tip": [
+                    "Server 节点"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--runtime-label",
+              "usage": [
+                "--runtime-label <LABEL>"
+              ],
+              "tip": [
+                "以 \"foo=bar\" 格式指定容器运行时标签。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-ulimit",
+              "usage": [
+                "--runtime-ulimit <ULIMIT>"
+              ],
+              "tip": [
+                "以 \"ulimit=soft:hard\" 格式指定容器运行时 ulimit。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "nofile=1024:1024"
+                }
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "'--wait' 在取消/返回前的最长等待时间。"
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --token <TOKEN>"
+              ],
+              "tip": [
+                "覆盖集群 token（连接外部集群时需要）。"
+              ],
+              "next": [
+                {
+                  "name": "K10a1b2c3d4e5f6g7h8i9j"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "在返回前等待节点就绪。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete NAME"
+          ],
+          "tip": [
+            "删除节点。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "删除所有现有节点。"
+              ]
+            },
+            {
+              "name": "--registries",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --registries"
+              ],
+              "tip": [
+                "同时删除 registry。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NODE...]"
+          ],
+          "tip": [
+            "列出节点。"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "禁用表头。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "输出格式。可选值：json|yaml。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start NODE"
+          ],
+          "tip": [
+            "启动现有的 k3d 节点。"
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop NODE"
+          ],
+          "tip": [
+            "停止现有的 k3d 节点。"
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "edit"
+          ],
+          "usage": [
+            "edit|update NODE"
+          ],
+          "tip": [
+            "[实验性] 编辑节点。"
+          ],
+          "option": [
+            {
+              "name": "--port-add",
+              "usage": [
+                "--port-add <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "将节点容器的端口映射到主机。"
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            },
+            {
+              "name": "--port-delete",
+              "usage": [
+                "--port-delete <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "移除节点与主机之间的端口映射。"
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "registries",
+      "alias": [
+        "registry",
+        "reg"
+      ],
+      "usage": [
+        "reg|registry|registries"
+      ],
+      "tip": [
+        "管理 registry。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "创建新的 registry。"
+          ],
+          "option": [
+            {
+              "name": "--default-network",
+              "usage": [
+                "--default-network <NETWORK>"
+              ],
+              "tip": [
+                "指定连接到 registry 的网络。"
+              ],
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--delete-enabled",
+              "tip": [
+                "启用镜像删除。"
+              ]
+            },
+            {
+              "name": "--enforce-port-match",
+              "tip": [
+                "使内部 registry 端口与外部端口匹配。"
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "指定用于 registry 的镜像。"
+              ],
+              "next": [
+                {
+                  "name": "docker.io/library/registry:2"
+                }
+              ]
+            },
+            {
+              "name": "--no-help",
+              "tip": [
+                "禁用帮助文本（如何使用 registry）。"
+              ]
+            },
+            {
+              "name": "--port",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --port <[HOST:]HOSTPORT>"
+              ],
+              "tip": [
+                "选择 registry 应在本机（localhost）上监听的端口。"
+              ],
+              "next": [
+                {
+                  "name": "0.0.0.0:5111"
+                },
+                {
+                  "name": "5000"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-password",
+              "usage": [
+                "--proxy-password <PASSWORD>"
+              ],
+              "tip": [
+                "指定代理的远程 registry 的密码。"
+              ],
+              "next": [
+                {
+                  "name": "secret"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-remote-url",
+              "usage": [
+                "--proxy-remote-url <URL>"
+              ],
+              "tip": [
+                "指定代理的远程 registry 的 URL。"
+              ],
+              "next": [
+                {
+                  "name": "https://registry-1.docker.io"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-username",
+              "usage": [
+                "--proxy-username <USERNAME>"
+              ],
+              "tip": [
+                "指定代理的远程 registry 的用户名。"
+              ],
+              "next": [
+                {
+                  "name": "user"
+                }
+              ]
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <[SOURCE:]DEST>"
+              ],
+              "tip": [
+                "将卷挂载到 registry 节点中。"
+              ],
+              "next": [
+                {
+                  "name": "/tmp/registry:/var/lib/registry"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|delete (NAME | --all)"
+          ],
+          "tip": [
+            "删除 registry。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "删除所有现有 registry。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NAME...]"
+          ],
+          "tip": [
+            "列出 registry。"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "禁用表头。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "输出格式。可选值：json|yaml。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML 格式"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示 k3d 和默认的 k3s 版本。"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FORMAT>"
+          ],
+          "tip": [
+            "以不同格式返回版本信息。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list COMPONENT"
+          ],
+          "tip": [
+            "列出 k3d/K3s 版本。组件可以是 'k3d'、'k3s'、'k3d-proxy'、'k3d-tools' 之一。"
+          ],
+          "option": [
+            {
+              "name": "--exclude",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --exclude <REGEXP>"
+              ],
+              "tip": [
+                "排除正则表达式（默认排除预发布版本、特定架构的标签和摘要）。"
+              ],
+              "next": [
+                {
+                  "name": "^sha-"
+                }
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <FORMAT>"
+              ],
+              "tip": [
+                "[已弃用] 请改用 --output。"
+              ],
+              "next": [
+                {
+                  "name": "raw"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            },
+            {
+              "name": "--include",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --include <REGEXP>"
+              ],
+              "tip": [
+                "包含正则表达式。"
+              ],
+              "next": [
+                {
+                  "name": ".*"
+                }
+              ]
+            },
+            {
+              "name": "--limit",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --limit <N>"
+              ],
+              "tip": [
+                "限制输出中的标签数量（0 = 无限制）。"
+              ],
+              "next": [
+                {
+                  "name": "0"
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "5"
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "输出格式 [raw | repo]。"
+              ],
+              "next": [
+                {
+                  "name": "raw"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            },
+            {
+              "name": "--sort",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --sort <MODE>"
+              ],
+              "tip": [
+                "排序模式（asc | desc | off）。"
+              ],
+              "next": [
+                {
+                  "name": "asc",
+                  "tip": [
+                    "升序"
+                  ]
+                },
+                {
+                  "name": "desc",
+                  "tip": [
+                    "降序"
+                  ]
+                },
+                {
+                  "name": "off",
+                  "tip": [
+                    "不排序"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "显示 k3d 和默认的 k3s 版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--timestamps",
+      "tip": [
+        "启用日志时间戳。"
+      ]
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "启用超级详细输出（trace 日志）。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "启用详细输出（debug 日志）。"
+      ]
+    }
+  ]
+}

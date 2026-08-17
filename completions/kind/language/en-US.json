@@ -1,0 +1,748 @@
+{
+  "meta": {
+    "url": "https://kind.sigs.k8s.io/",
+    "description": [
+      "kind is a tool for running local Kubernetes clusters using Docker container 'nodes'.",
+      "kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI."
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "tip": [
+        "Build one of [node-image]."
+      ],
+      "next": [
+        {
+          "name": "node-image",
+          "usage": [
+            "node-image [kubernetes-source]"
+          ],
+          "tip": [
+            "Build the node image which contains Kubernetes build artifacts and other kind requirements."
+          ],
+          "option": [
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <arch>"
+              ],
+              "tip": [
+                "Architecture to build for, defaults to the host architecture."
+              ],
+              "next": [
+                {
+                  "name": "amd64",
+                  "tip": [
+                    "AMD64 architecture."
+                  ]
+                },
+                {
+                  "name": "arm64",
+                  "tip": [
+                    "ARM64 architecture."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--base-image",
+              "usage": [
+                "--base-image <image>"
+              ],
+              "tip": [
+                "Name:tag of the base image to use for the build."
+              ],
+              "next": [
+                {
+                  "name": "docker.io/kindest/base:v20260601-995e8fa5",
+                  "tip": [
+                    "Default base image."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "Name:tag of the resulting image to be built."
+              ],
+              "next": [
+                {
+                  "name": "kindest/node:latest",
+                  "tip": [
+                    "Default resulting image tag."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <type>"
+              ],
+              "tip": [
+                "Optionally specify the type of build."
+              ],
+              "next": [
+                {
+                  "name": "ci",
+                  "tip": [
+                    "Build from a Kubernetes CI build version marker."
+                  ]
+                },
+                {
+                  "name": "file",
+                  "tip": [
+                    "Build from a local Kubernetes release tarball."
+                  ]
+                },
+                {
+                  "name": "release",
+                  "tip": [
+                    "Build from a release version."
+                  ]
+                },
+                {
+                  "name": "source",
+                  "tip": [
+                    "Build from a local Kubernetes source directory."
+                  ]
+                },
+                {
+                  "name": "url",
+                  "tip": [
+                    "Build from a URL to a Kubernetes release tarball."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [bash|fish|powershell|zsh]"
+      ],
+      "tip": [
+        "Output shell completion code for the specified shell."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Output shell completions for bash."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Output shell completions for fish."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Output shell completions for powershell."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Output shell completions for zsh."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "Create a local Kubernetes cluster."
+      ],
+      "next": [
+        {
+          "name": "cluster",
+          "tip": [
+            "Create a local Kubernetes cluster using Docker container 'nodes'."
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <file>"
+              ],
+              "tip": [
+                "Path to a kind config file."
+              ],
+              "next": [
+                {
+                  "name": "kind-config.yaml",
+                  "tip": [
+                    "Example kind config file."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "Node docker image to use for booting the cluster."
+              ],
+              "next": [
+                {
+                  "name": "kindest/node:latest",
+                  "tip": [
+                    "Default node image."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "Set kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config."
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "Default kubeconfig location."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "Cluster name, overrides KIND_CLUSTER_NAME and config."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--retain",
+              "tip": [
+                "Retain nodes for debugging when cluster creation fails."
+              ]
+            },
+            {
+              "name": "--wait",
+              "usage": [
+                "--wait <duration>"
+              ],
+              "tip": [
+                "Wait for control plane node to be ready."
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "Do not wait (default)."
+                  ]
+                },
+                {
+                  "name": "1m",
+                  "tip": [
+                    "Wait 1 minute."
+                  ]
+                },
+                {
+                  "name": "30s",
+                  "tip": [
+                    "Wait 30 seconds."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "Delete one of [cluster, clusters]."
+      ],
+      "next": [
+        {
+          "name": "cluster",
+          "tip": [
+            "Delete a kind cluster from the system.",
+            "Idempotent operation; errors only occur if cluster resources exist and cannot be deleted."
+          ],
+          "option": [
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "Set kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config."
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "Default kubeconfig location."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "clusters",
+          "tip": [
+            "Delete one or more kind clusters from the system."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all"
+              ],
+              "tip": [
+                "Delete all clusters."
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "Set kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config."
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "Default kubeconfig location."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "Export one of [kubeconfig, logs]."
+      ],
+      "next": [
+        {
+          "name": "kubeconfig",
+          "tip": [
+            "Export cluster kubeconfig."
+          ],
+          "option": [
+            {
+              "name": "--internal",
+              "tip": [
+                "Use internal address instead of external."
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "Set kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config."
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "Default kubeconfig location."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "usage": [
+            "logs [output-dir]"
+          ],
+          "tip": [
+            "Export logs to a tempdir or [output-dir] if specified."
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "Get one of [clusters, nodes, kubeconfig]."
+      ],
+      "next": [
+        {
+          "name": "clusters",
+          "tip": [
+            "List existing kind clusters by their name."
+          ]
+        },
+        {
+          "name": "kubeconfig",
+          "tip": [
+            "Print cluster kubeconfig."
+          ],
+          "option": [
+            {
+              "name": "--internal",
+              "tip": [
+                "Use internal address instead of external."
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "nodes",
+          "tip": [
+            "List existing kind nodes by their name."
+          ],
+          "option": [
+            {
+              "name": "--all-clusters",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-clusters"
+              ],
+              "tip": [
+                "List all the available nodes across all cluster contexts."
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "load",
+      "tip": [
+        "Load images into nodes."
+      ],
+      "next": [
+        {
+          "name": "docker-image",
+          "usage": [
+            "docker-image <IMAGE> [IMAGE...]"
+          ],
+          "tip": [
+            "Load docker images from host into all or specified nodes by name."
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--nodes",
+              "usage": [
+                "--nodes <nodes>"
+              ],
+              "tip": [
+                "Comma separated list of nodes to load images into."
+              ],
+              "next": [
+                {
+                  "name": "control-plane",
+                  "tip": [
+                    "Control-plane node."
+                  ]
+                },
+                {
+                  "name": "worker",
+                  "tip": [
+                    "Worker node."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "image-archive",
+          "usage": [
+            "image-archive <IMAGE.tar>"
+          ],
+          "tip": [
+            "Load docker image from archive into all or specified nodes by name."
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "The cluster context name."
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "Default cluster name."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--nodes",
+              "usage": [
+                "--nodes <nodes>"
+              ],
+              "tip": [
+                "Comma separated list of nodes to load images into."
+              ],
+              "next": [
+                {
+                  "name": "control-plane",
+                  "tip": [
+                    "Control-plane node."
+                  ]
+                },
+                {
+                  "name": "worker",
+                  "tip": [
+                    "Worker node."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Print the kind CLI version."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "Version for kind."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Silence all stderr output."
+      ]
+    },
+    {
+      "name": "--verbosity",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbosity <level>"
+      ],
+      "tip": [
+        "Info log verbosity, higher value produces more output."
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Silent."
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "Default verbosity."
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "More verbose."
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "Very verbose."
+          ]
+        }
+      ]
+    }
+  ]
+}

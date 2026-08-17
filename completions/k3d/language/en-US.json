@@ -1,0 +1,1901 @@
+{
+  "meta": {
+    "url": "https://k3d.io/",
+    "description": [
+      "Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker."
+    ]
+  },
+  "next": [
+    {
+      "name": "cluster",
+      "tip": [
+        "Manage cluster(s)."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a new k3s cluster with containerized nodes (k3s in docker)."
+          ],
+          "option": [
+            {
+              "name": "--agents",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --agents <N>"
+              ],
+              "tip": [
+                "Specify how many agents you want to create."
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--agents-memory",
+              "usage": [
+                "--agents-memory <SIZE>"
+              ],
+              "tip": [
+                "Memory limit imposed on the agents nodes."
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--api-port",
+              "usage": [
+                "--api-port <[HOST:]HOSTPORT>"
+              ],
+              "tip": [
+                "Specify the Kubernetes API server port exposed on the LoadBalancer."
+              ],
+              "next": [
+                {
+                  "name": "0.0.0.0:6550"
+                },
+                {
+                  "name": "6443"
+                }
+              ]
+            },
+            {
+              "name": "--config",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --config <FILE>"
+              ],
+              "tip": [
+                "Path of a config file to use."
+              ],
+              "next": [
+                {
+                  "name": "config.yaml"
+                },
+                {
+                  "name": "k3d-default.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            },
+            {
+              "name": "--enforce-registry-port-match",
+              "tip": [
+                "Make the internal registry port match the external one."
+              ]
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Add environment variables to nodes."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "HTTP_PROXY=my.proxy.com@server:0"
+                },
+                {
+                  "name": "SOME_KEY=SOME_VAL@agent:0"
+                }
+              ]
+            },
+            {
+              "name": "--gpus",
+              "usage": [
+                "--gpus <GPUS>"
+              ],
+              "tip": [
+                "GPU devices to add to the cluster node containers ('all' to pass all GPUs)."
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "device=0"
+                }
+              ]
+            },
+            {
+              "name": "--host-alias",
+              "usage": [
+                "--host-alias <ip:host[,host,...]>"
+              ],
+              "tip": [
+                "Add ip:host[,host,...] mappings."
+              ],
+              "next": [
+                {
+                  "name": "127.0.0.1:host.local"
+                }
+              ]
+            },
+            {
+              "name": "--host-pid-mode",
+              "tip": [
+                "Enable host pid mode of server(s) and agent(s)."
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "Specify k3s image that you want to use for the nodes."
+              ],
+              "next": [
+                {
+                  "name": "docker.io/rancher/k3s:v1.27.4-k3s1"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-arg",
+              "usage": [
+                "--k3s-arg <ARG@NODEFILTER>"
+              ],
+              "tip": [
+                "Additional args passed to k3s command."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "--disable=traefik@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-node-label",
+              "usage": [
+                "--k3s-node-label <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Add label to k3s node."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "my.label=somevalue@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--kubeconfig-switch-context",
+              "tip": [
+                "Directly switch the default kubeconfig's current-context to the new cluster's context."
+              ]
+            },
+            {
+              "name": "--kubeconfig-update-default",
+              "tip": [
+                "Directly update the default kubeconfig with the new cluster's context."
+              ]
+            },
+            {
+              "name": "--lb-config-override",
+              "usage": [
+                "--lb-config-override <PATH>"
+              ],
+              "tip": [
+                "Use dotted YAML path syntax to override nginx loadbalancer settings."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "server.service.type=NodePort"
+                }
+              ]
+            },
+            {
+              "name": "--network",
+              "usage": [
+                "--network <NETWORK>"
+              ],
+              "tip": [
+                "Join an existing network."
+              ],
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--no-image-volume",
+              "tip": [
+                "Disable the creation of a volume for importing images."
+              ]
+            },
+            {
+              "name": "--no-lb",
+              "tip": [
+                "Disable the creation of a LoadBalancer in front of the server nodes."
+              ]
+            },
+            {
+              "name": "--no-rollback",
+              "tip": [
+                "Disable the automatic rollback actions, if anything goes wrong."
+              ]
+            },
+            {
+              "name": "--port",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --port <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Map ports from the node containers (via the serverlb) to the host."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "8080:80@agent:0"
+                },
+                {
+                  "name": "8081@agent:1"
+                }
+              ]
+            },
+            {
+              "name": "--registry-config",
+              "usage": [
+                "--registry-config <FILE>"
+              ],
+              "tip": [
+                "Specify path to an extra registries.yaml file."
+              ],
+              "next": [
+                {
+                  "name": "registries.yaml"
+                }
+              ]
+            },
+            {
+              "name": "--registry-create",
+              "usage": [
+                "--registry-create <NAME[:HOST][:HOSTPORT]>"
+              ],
+              "tip": [
+                "Create a k3d-managed registry and connect it to the cluster."
+              ],
+              "next": [
+                {
+                  "name": "mycluster-registry:0.0.0.0:5432"
+                }
+              ]
+            },
+            {
+              "name": "--registry-use",
+              "usage": [
+                "--registry-use <NAME>"
+              ],
+              "tip": [
+                "Connect to one or more k3d-managed registries running locally."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "k3d-myregistry"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-label",
+              "usage": [
+                "--runtime-label <KEY[=VALUE][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Add label to container runtime."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "my.label=somevalue@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-ulimit",
+              "usage": [
+                "--runtime-ulimit <NAME[=SOFT]:[HARD]>"
+              ],
+              "tip": [
+                "Add ulimit to container runtime."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "nofile=1024:1024"
+                }
+              ]
+            },
+            {
+              "name": "--servers",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --servers <N>"
+              ],
+              "tip": [
+                "Specify how many servers you want to create."
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--servers-memory",
+              "usage": [
+                "--servers-memory <SIZE>"
+              ],
+              "tip": [
+                "Memory limit imposed on the server nodes."
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--subnet",
+              "usage": [
+                "--subnet <CIDR>"
+              ],
+              "tip": [
+                "Define a subnet for the newly created container network."
+              ],
+              "next": [
+                {
+                  "name": "172.28.0.0/16"
+                }
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "Rollback changes if cluster couldn't be created in specified duration."
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "Specify a cluster token. By default, we generate one."
+              ],
+              "next": [
+                {
+                  "name": "K10a1b2c3d4e5f6g7h8i9j"
+                }
+              ]
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <[SOURCE:]DEST[@NODEFILTER]>"
+              ],
+              "tip": [
+                "Mount volumes into the nodes."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "/tmp/test:/tmp/other@server:0"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "Wait for the server(s) to be ready before returning."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|delete [NAME...]"
+          ],
+          "tip": [
+            "Delete cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Delete all existing clusters."
+              ]
+            },
+            {
+              "name": "--config",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --config <FILE>"
+              ],
+              "tip": [
+                "Path of a config file to use."
+              ],
+              "next": [
+                {
+                  "name": "config.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NAME...]"
+          ],
+          "tip": [
+            "List cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "Disable headers."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "Output format. One of: json|yaml."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "tip": [
+                "Print k3s cluster token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "restart",
+          "usage": [
+            "restart [NAME...]"
+          ],
+          "tip": [
+            "Restart existing k3d cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Restart all existing clusters."
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "Maximum waiting time for '--wait' before canceling/returning."
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "Wait for the server(s) (and loadbalancer) to be ready before returning."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start [NAME...]"
+          ],
+          "tip": [
+            "Start existing k3d cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Start all existing clusters."
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "Maximum waiting time for '--wait' before canceling/returning."
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "Wait for the server(s) (and loadbalancer) to be ready before returning."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [NAME...]"
+          ],
+          "tip": [
+            "Stop existing k3d cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Stop all existing clusters."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "edit"
+          ],
+          "usage": [
+            "edit|update CLUSTER"
+          ],
+          "tip": [
+            "[EXPERIMENTAL] Edit cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--port-add",
+              "usage": [
+                "--port-add <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Map ports from the node containers (via the serverlb) to the host."
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            },
+            {
+              "name": "--port-delete",
+              "usage": [
+                "--port-delete <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Delete a port mapping with the given format."
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "Generate completion scripts for bash, zsh, fish, powershell."
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Work with config file(s)."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "init"
+          ],
+          "usage": [
+            "init|create"
+          ],
+          "tip": [
+            "Write a default k3d config file."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force overwrite of target file."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FILE>"
+              ],
+              "tip": [
+                "Write a default k3d config."
+              ],
+              "next": [
+                {
+                  "name": "k3d-default.yaml"
+                },
+                {
+                  "name": "k3d.yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "alias": [
+            "update"
+          ],
+          "usage": [
+            "update|migrate INPUT [OUTPUT]"
+          ],
+          "tip": [
+            "Migrate the configuration file to the latest format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "Help about any command."
+      ]
+    },
+    {
+      "name": "images",
+      "alias": [
+        "image"
+      ],
+      "usage": [
+        "image|images"
+      ],
+      "tip": [
+        "Handle container images."
+      ],
+      "next": [
+        {
+          "name": "import",
+          "alias": [
+            "load"
+          ],
+          "usage": [
+            "load|import [IMAGE | ARCHIVE...]"
+          ],
+          "tip": [
+            "Import image(s) from docker into k3d cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--cluster",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cluster <NAME>"
+              ],
+              "tip": [
+                "Select clusters to load the image to."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "k3s-default"
+                },
+                {
+                  "name": "mycluster"
+                }
+              ]
+            },
+            {
+              "name": "--keep-tarball",
+              "alias": [
+                "-k"
+              ],
+              "usage": [
+                "-k, --keep-tarball"
+              ],
+              "tip": [
+                "Do not delete the tarball containing the saved images from the shared volume."
+              ]
+            },
+            {
+              "name": "--keep-tools",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --keep-tools"
+              ],
+              "tip": [
+                "Do not delete the tools node after import."
+              ]
+            },
+            {
+              "name": "--mode",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mode <MODE>"
+              ],
+              "tip": [
+                "Which method to use to import images into the cluster."
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "Automatically choose the import method."
+                  ]
+                },
+                {
+                  "name": "direct",
+                  "tip": [
+                    "Import directly without a tools node."
+                  ]
+                },
+                {
+                  "name": "tools",
+                  "tip": [
+                    "Import via a temporary tools node."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kubeconfig",
+      "tip": [
+        "Manage kubeconfig(s)."
+      ],
+      "next": [
+        {
+          "name": "merge",
+          "alias": [
+            "write"
+          ],
+          "usage": [
+            "merge|write [CLUSTER...]"
+          ],
+          "tip": [
+            "Write/Merge kubeconfig(s) from cluster(s) into new or existing kubeconfig/file."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Get kubeconfigs from all existing clusters."
+              ]
+            },
+            {
+              "name": "--kubeconfig-merge-default",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --kubeconfig-merge-default"
+              ],
+              "tip": [
+                "Merge into the default kubeconfig."
+              ]
+            },
+            {
+              "name": "--kubeconfig-switch-context",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --kubeconfig-switch-context"
+              ],
+              "tip": [
+                "Switch to new context."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FILE|->"
+              ],
+              "tip": [
+                "Define output [- | FILE]."
+              ],
+              "next": [
+                {
+                  "name": "-",
+                  "tip": [
+                    "Write to stdout"
+                  ]
+                },
+                {
+                  "name": "kubeconfig"
+                }
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "[Careful!] Overwrite existing file, ignoring its contents."
+              ]
+            },
+            {
+              "name": "--update",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --update"
+              ],
+              "tip": [
+                "Update conflicting fields in existing kubeconfig."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "alias": [
+            "show",
+            "get"
+          ],
+          "usage": [
+            "get|show|print [CLUSTER...]"
+          ],
+          "tip": [
+            "Print kubeconfig(s) from cluster(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Output kubeconfigs from all existing clusters."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "tip": [
+        "Manage node(s)."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a new containerized k3s node (k3s in docker)."
+          ],
+          "option": [
+            {
+              "name": "--cluster",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cluster <NAME>"
+              ],
+              "tip": [
+                "Cluster URL or k3d cluster name to connect to."
+              ],
+              "next": [
+                {
+                  "name": "k3s-default"
+                },
+                {
+                  "name": "mycluster"
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "Specify k3s image used for the node(s)."
+              ],
+              "next": [
+                {
+                  "name": "docker.io/rancher/k3s:v1.27.4-k3s1"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-arg",
+              "usage": [
+                "--k3s-arg <ARG>"
+              ],
+              "tip": [
+                "Additional args passed to k3d command."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "--disable=traefik"
+                }
+              ]
+            },
+            {
+              "name": "--k3s-node-label",
+              "usage": [
+                "--k3s-node-label <LABEL>"
+              ],
+              "tip": [
+                "Specify k3s node labels in format \"foo=bar\"."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar"
+                }
+              ]
+            },
+            {
+              "name": "--memory",
+              "usage": [
+                "--memory <SIZE>"
+              ],
+              "tip": [
+                "Memory limit imposed on the node."
+              ],
+              "next": [
+                {
+                  "name": "1Gi"
+                },
+                {
+                  "name": "2Gi"
+                },
+                {
+                  "name": "512Mi"
+                }
+              ]
+            },
+            {
+              "name": "--network",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --network <NETWORK>"
+              ],
+              "tip": [
+                "Add node to (another) runtime network."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--replicas",
+              "usage": [
+                "--replicas <N>"
+              ],
+              "tip": [
+                "Number of replicas of this node specification."
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                }
+              ]
+            },
+            {
+              "name": "--role",
+              "usage": [
+                "--role <ROLE>"
+              ],
+              "tip": [
+                "Specify node role."
+              ],
+              "next": [
+                {
+                  "name": "agent",
+                  "tip": [
+                    "Agent node"
+                  ]
+                },
+                {
+                  "name": "server",
+                  "tip": [
+                    "Server node"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--runtime-label",
+              "usage": [
+                "--runtime-label <LABEL>"
+              ],
+              "tip": [
+                "Specify container runtime labels in format \"foo=bar\"."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "foo=bar"
+                }
+              ]
+            },
+            {
+              "name": "--runtime-ulimit",
+              "usage": [
+                "--runtime-ulimit <ULIMIT>"
+              ],
+              "tip": [
+                "Specify container runtime ulimit in format \"ulimit=soft:hard\"."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "nofile=1024:1024"
+                }
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "Maximum waiting time for '--wait' before canceling/returning."
+              ],
+              "next": [
+                {
+                  "name": "1m"
+                },
+                {
+                  "name": "30s"
+                },
+                {
+                  "name": "5m"
+                }
+              ]
+            },
+            {
+              "name": "--token",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --token <TOKEN>"
+              ],
+              "tip": [
+                "Override cluster token (required when connecting to an external cluster)."
+              ],
+              "next": [
+                {
+                  "name": "K10a1b2c3d4e5f6g7h8i9j"
+                }
+              ]
+            },
+            {
+              "name": "--wait",
+              "tip": [
+                "Wait for the node(s) to be ready before returning."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete NAME"
+          ],
+          "tip": [
+            "Delete node(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Delete all existing nodes."
+              ]
+            },
+            {
+              "name": "--registries",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --registries"
+              ],
+              "tip": [
+                "Also delete registries."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NODE...]"
+          ],
+          "tip": [
+            "List node(s)."
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "Disable headers."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "Output format. One of: json|yaml."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start NODE"
+          ],
+          "tip": [
+            "Start an existing k3d node."
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop NODE"
+          ],
+          "tip": [
+            "Stop an existing k3d node."
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "edit"
+          ],
+          "usage": [
+            "edit|update NODE"
+          ],
+          "tip": [
+            "[EXPERIMENTAL] Edit node(s)."
+          ],
+          "option": [
+            {
+              "name": "--port-add",
+              "usage": [
+                "--port-add <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Map ports from the node container to the host."
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            },
+            {
+              "name": "--port-delete",
+              "usage": [
+                "--port-delete <[HOST:][HOSTPORT:]CONTAINERPORT[/PROTOCOL][@NODEFILTER]>"
+              ],
+              "tip": [
+                "Remove port mappings between a node and the host."
+              ],
+              "next": [
+                {
+                  "name": "8080:80"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "registries",
+      "alias": [
+        "registry",
+        "reg"
+      ],
+      "usage": [
+        "reg|registry|registries"
+      ],
+      "tip": [
+        "Manage registry/registries."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a new registry."
+          ],
+          "option": [
+            {
+              "name": "--default-network",
+              "usage": [
+                "--default-network <NETWORK>"
+              ],
+              "tip": [
+                "Specify the network connected to the registry."
+              ],
+              "next": [
+                {
+                  "name": "bridge"
+                },
+                {
+                  "name": "my-network"
+                }
+              ]
+            },
+            {
+              "name": "--delete-enabled",
+              "tip": [
+                "Enable image deletion."
+              ]
+            },
+            {
+              "name": "--enforce-port-match",
+              "tip": [
+                "Make the internal registry port match the external one."
+              ]
+            },
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "Specify image used for the registry."
+              ],
+              "next": [
+                {
+                  "name": "docker.io/library/registry:2"
+                }
+              ]
+            },
+            {
+              "name": "--no-help",
+              "tip": [
+                "Disable the help text (How-To use the registry)."
+              ]
+            },
+            {
+              "name": "--port",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --port <[HOST:]HOSTPORT>"
+              ],
+              "tip": [
+                "Select which port the registry should be listening on on your machine (localhost)."
+              ],
+              "next": [
+                {
+                  "name": "0.0.0.0:5111"
+                },
+                {
+                  "name": "5000"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-password",
+              "usage": [
+                "--proxy-password <PASSWORD>"
+              ],
+              "tip": [
+                "Specify the password of the proxied remote registry."
+              ],
+              "next": [
+                {
+                  "name": "secret"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-remote-url",
+              "usage": [
+                "--proxy-remote-url <URL>"
+              ],
+              "tip": [
+                "Specify the url of the proxied remote registry."
+              ],
+              "next": [
+                {
+                  "name": "https://registry-1.docker.io"
+                }
+              ]
+            },
+            {
+              "name": "--proxy-username",
+              "usage": [
+                "--proxy-username <USERNAME>"
+              ],
+              "tip": [
+                "Specify the username of the proxied remote registry."
+              ],
+              "next": [
+                {
+                  "name": "user"
+                }
+              ]
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <[SOURCE:]DEST>"
+              ],
+              "tip": [
+                "Mount volumes into the registry node."
+              ],
+              "next": [
+                {
+                  "name": "/tmp/registry:/var/lib/registry"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "alias": [
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|delete (NAME | --all)"
+          ],
+          "tip": [
+            "Delete registry/registries."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Delete all existing registries."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "get",
+            "ls"
+          ],
+          "usage": [
+            "ls|get|list [NAME...]"
+          ],
+          "tip": [
+            "List registries."
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "Disable headers."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "Output format. One of: json|yaml."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format"
+                  ]
+                },
+                {
+                  "name": "yaml",
+                  "tip": [
+                    "YAML format"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Show k3d and default k3s version."
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FORMAT>"
+          ],
+          "tip": [
+            "Return version information in a different format."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list COMPONENT"
+          ],
+          "tip": [
+            "List k3d/K3s versions. Component can be one of 'k3d', 'k3s', 'k3d-proxy', 'k3d-tools'."
+          ],
+          "option": [
+            {
+              "name": "--exclude",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --exclude <REGEXP>"
+              ],
+              "tip": [
+                "Exclude Regexp (default excludes pre-releases, arch-specific tags and digests)."
+              ],
+              "next": [
+                {
+                  "name": "^sha-"
+                }
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <FORMAT>"
+              ],
+              "tip": [
+                "[DEPRECATED] Use --output instead."
+              ],
+              "next": [
+                {
+                  "name": "raw"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            },
+            {
+              "name": "--include",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --include <REGEXP>"
+              ],
+              "tip": [
+                "Include Regexp."
+              ],
+              "next": [
+                {
+                  "name": ".*"
+                }
+              ]
+            },
+            {
+              "name": "--limit",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --limit <N>"
+              ],
+              "tip": [
+                "Limit number of tags in output (0 = unlimited)."
+              ],
+              "next": [
+                {
+                  "name": "0"
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "5"
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <FORMAT>"
+              ],
+              "tip": [
+                "Output format [raw | repo]."
+              ],
+              "next": [
+                {
+                  "name": "raw"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            },
+            {
+              "name": "--sort",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --sort <MODE>"
+              ],
+              "tip": [
+                "Sort mode (asc | desc | off)."
+              ],
+              "next": [
+                {
+                  "name": "asc",
+                  "tip": [
+                    "Ascending order"
+                  ]
+                },
+                {
+                  "name": "desc",
+                  "tip": [
+                    "Descending order"
+                  ]
+                },
+                {
+                  "name": "off",
+                  "tip": [
+                    "No sorting"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "Show k3d and default k3s version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    },
+    {
+      "name": "--timestamps",
+      "tip": [
+        "Enable Log timestamps."
+      ]
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "Enable super verbose output (trace logging)."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Enable verbose output (debug logging)."
+      ]
+    }
+  ]
+}

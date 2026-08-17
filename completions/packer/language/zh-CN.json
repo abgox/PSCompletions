@@ -1,0 +1,872 @@
+{
+  "meta": {
+    "url": "https://www.packer.io/",
+    "description": [
+      "Packer 是一个工具，用于从单一源配置为多个平台构建完全相同的机器镜像。"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "usage": [
+        "build [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "从模板构建镜像。"
+      ],
+      "option": [
+        {
+          "name": "-color",
+          "tip": [
+            "禁用彩色输出（默认：彩色）。"
+          ]
+        },
+        {
+          "name": "-debug",
+          "tip": [
+            "为构建启用调试模式。"
+          ]
+        },
+        {
+          "name": "-except",
+          "usage": [
+            "-except <names>"
+          ],
+          "tip": [
+            "运行除这些之外的所有构建和后处理器。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "要排除的构建名称。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "tip": [
+            "如果存在构件则强制继续构建，删除现有构件。"
+          ]
+        },
+        {
+          "name": "-ignore-prerelease-plugins",
+          "tip": [
+            "禁用预发布插件二进制文件（x.y.z-dev）的加载。"
+          ]
+        },
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "生成机器可读的输出。"
+          ]
+        },
+        {
+          "name": "-on-error",
+          "usage": [
+            "-on-error <mode>"
+          ],
+          "tip": [
+            "构建失败时采取的操作。"
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "中止构建。"
+              ]
+            },
+            {
+              "name": "ask",
+              "tip": [
+                "继续前询问。"
+              ]
+            },
+            {
+              "name": "cleanup",
+              "tip": [
+                "清理（默认）。"
+              ]
+            },
+            {
+              "name": "run-cleanup-provisioner",
+              "tip": [
+                "运行清理 provisioner。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-only",
+          "usage": [
+            "-only <names>"
+          ],
+          "tip": [
+            "仅构建指定的构建。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "要包含的构建名称。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallel-builds",
+          "usage": [
+            "-parallel-builds <number>"
+          ],
+          "tip": [
+            "并行运行的构建数量。",
+            "1 表示禁用并行，0 表示无限制（默认）。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "无限制（默认）。"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "禁用并行化。"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "并行运行 2 个构建。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-skip-enforcement",
+          "tip": [
+            "跳过注入 HCP Packer 强制的 provisioner。"
+          ]
+        },
+        {
+          "name": "-timestamp-ui",
+          "tip": [
+            "为每个 ui 输出启用 RFC3339 时间戳前缀。"
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "回退到对 local/datasource 求值使用顺序方法。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "模板变量。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "示例 key=value 变量。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "包含用户变量的 JSON 或 HCL2 文件。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "示例变量文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-warn-on-undeclared-var",
+          "tip": [
+            "显示用户变量文件中包含未声明变量的警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [OPTIONS] [TEMPLATE]"
+      ],
+      "tip": [
+        "创建一个用于测试变量插值的控制台。"
+      ],
+      "option": [
+        {
+          "name": "-config-type",
+          "usage": [
+            "-config-type <type>"
+          ],
+          "tip": [
+            "未传入文件时设置为 'hcl2' 以在 HCL2 模式下运行。"
+          ],
+          "next": [
+            {
+              "name": "hcl2",
+              "tip": [
+                "在 HCL2 模式下运行。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "在 JSON 模式下运行（默认）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "回退到对 local/datasource 求值使用顺序方法。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "模板变量。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "示例 key=value 变量。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "包含用户变量的 JSON 或 HCL2 文件。"
+          ],
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "示例变量文件。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "usage": [
+        "fix [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "修复 packer 旧版本中的模板。"
+      ],
+      "option": [
+        {
+          "name": "-validate",
+          "tip": [
+            "验证修复后的模板（默认 true）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [OPTIONS] [TEMPLATE]"
+      ],
+      "tip": [
+        "将 HCL2 配置文件重写为规范格式。"
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "检查输入是否已格式化。",
+            "如果所有输入都正确格式化则退出状态为 0，否则非零。"
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "显示格式更改的差异。"
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "同时处理子目录中的文件。"
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "不写入源文件（使用 -check 时始终禁用）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcl2_upgrade",
+      "usage": [
+        "hcl2_upgrade [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "将 JSON 模板转换为 HCL2 配置。"
+      ],
+      "option": [
+        {
+          "name": "-output-file",
+          "usage": [
+            "-output-file <path>"
+          ],
+          "tip": [
+            "设置输出文件名。默认为 TEMPLATE 名称后附加 '.pkr.hcl'。"
+          ],
+          "next": [
+            {
+              "name": "template.pkr.hcl",
+              "tip": [
+                "示例输出文件名。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-with-annotations",
+          "tip": [
+            "在文件中添加辅助注释。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "安装缺失的插件或升级插件。",
+        "处理新的或现有模板时应该执行的第一条命令。"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "即使插件已经安装也强制重新安装。"
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "将已安装的插件更新到可用的最新版本（如果存在更高版本）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "usage": [
+        "inspect TEMPLATE"
+      ],
+      "tip": [
+        "检查模板，解析并输出模板定义的组件。"
+      ],
+      "option": [
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "生成机器可读的输出。"
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "回退到对 local/datasource 求值使用顺序方法。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "与 Packer 插件和目录交互。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [OPTIONS] <plugin> [<version constraint>]"
+          ],
+          "tip": [
+            "安装与版本约束匹配的最新兼容 Packer 插件。"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "即使插件已经安装也强制重新安装。"
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <path>"
+              ],
+              "tip": [
+                "从本地插件二进制文件安装插件。",
+                "不能与版本约束同时指定。"
+              ],
+              "next": [
+                {
+                  "name": "./packer-plugin-happycloud",
+                  "tip": [
+                    "示例本地插件二进制路径。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "installed",
+          "tip": [
+            "列出所有已安装的 Packer 插件二进制文件。"
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <plugin> [<version constraint>]"
+          ],
+          "tip": [
+            "移除一个或多个已安装的 Packer 插件。"
+          ]
+        },
+        {
+          "name": "required",
+          "usage": [
+            "required <path>"
+          ],
+          "tip": [
+            "列出配置所需的插件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "检查模板是否有效。"
+      ],
+      "option": [
+        {
+          "name": "-evaluate-datasources",
+          "tip": [
+            "在验证期间评估数据源（仅 HCL2，可能产生费用）。"
+          ]
+        },
+        {
+          "name": "-except",
+          "usage": [
+            "-except <names>"
+          ],
+          "tip": [
+            "验证除这些之外的所有构建。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "要排除的构建名称。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ignore-prerelease-plugins",
+          "tip": [
+            "禁用预发布插件二进制文件（x.y.z-dev）的加载。"
+          ]
+        },
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "生成机器可读的输出。"
+          ]
+        },
+        {
+          "name": "-no-warn-undeclared-var",
+          "tip": [
+            "禁用用户变量文件中包含未声明变量的警告。"
+          ]
+        },
+        {
+          "name": "-only",
+          "usage": [
+            "-only <names>"
+          ],
+          "tip": [
+            "仅验证这些构建。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "要包含的构建名称。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-syntax-only",
+          "tip": [
+            "仅检查语法，不验证模板的配置。"
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "回退到对 local/datasource 求值使用顺序方法。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "模板变量。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "示例 key=value 变量。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "包含用户变量的 JSON 或 HCL2 文件。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "示例变量文件。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "verify-attestation",
+      "usage": [
+        "verify-attestation [OPTIONS] ATTESTATION"
+      ],
+      "tip": [
+        "验证签名的 DSSE attestation，并可选择强制执行策略检查。"
+      ],
+      "option": [
+        {
+          "name": "-artifact",
+          "usage": [
+            "-artifact <path>"
+          ],
+          "tip": [
+            "用于匹配 attestation 主体的构件路径。"
+          ],
+          "next": [
+            {
+              "name": "image.sigstore.json",
+              "tip": [
+                "示例构件路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-builder-id",
+          "usage": [
+            "-builder-id <id>"
+          ],
+          "tip": [
+            "预期的 SLSA builder ID。"
+          ],
+          "next": [
+            {
+              "name": "https://github.com/hashicorp/packer",
+              "tip": [
+                "示例 builder ID。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-bundle",
+          "usage": [
+            "-bundle <path>"
+          ],
+          "tip": [
+            "用于 Rekor 或时间戳验证的可选 Sigstore bundle JSON。"
+          ],
+          "next": [
+            {
+              "name": "bundle.json",
+              "tip": [
+                "示例 bundle 文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-key",
+          "usage": [
+            "-key <path_or_uri>"
+          ],
+          "tip": [
+            "未提供 verifier 时用于验证的 PEM 密钥路径或 KMS/Vault URI。"
+          ],
+          "next": [
+            {
+              "name": "key.pem",
+              "tip": [
+                "示例 PEM 密钥路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-keyless-identity",
+          "usage": [
+            "-keyless-identity <identity>"
+          ],
+          "tip": [
+            "预期的 keyless 签名身份。"
+          ],
+          "next": [
+            {
+              "name": "me@example.com",
+              "tip": [
+                "示例 keyless 身份。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-keyless-oidc-issuer",
+          "usage": [
+            "-keyless-oidc-issuer <issuer>"
+          ],
+          "tip": [
+            "预期的 keyless OIDC 发行方。"
+          ],
+          "next": [
+            {
+              "name": "https://oauth2.sigstore.dev/auth",
+              "tip": [
+                "示例 OIDC 发行方。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-predicate-type",
+          "usage": [
+            "-predicate-type <type>"
+          ],
+          "tip": [
+            "预期的 attestation predicate 类型。"
+          ],
+          "next": [
+            {
+              "name": "https://slsa.dev/provenance/v1",
+              "tip": [
+                "示例 predicate 类型。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-require-rekor",
+          "tip": [
+            "要求从 bundle 中进行 Rekor 透明度日志验证。"
+          ]
+        },
+        {
+          "name": "-require-timestamp",
+          "tip": [
+            "要求来自 Rekor 集成时间或 RFC3161 证据的可信观察者时间戳。"
+          ]
+        },
+        {
+          "name": "-signing-mode",
+          "usage": [
+            "-signing-mode <mode>"
+          ],
+          "tip": [
+            "签名模式，尽可能自动检测。"
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "基于密钥的签名。"
+              ]
+            },
+            {
+              "name": "keyless",
+              "tip": [
+                "Keyless 签名。"
+              ]
+            },
+            {
+              "name": "kms",
+              "tip": [
+                "KMS 签名。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-source-uri",
+          "usage": [
+            "-source-uri <uri>"
+          ],
+          "tip": [
+            "预期的已解析源 URI。"
+          ],
+          "next": [
+            {
+              "name": "https://github.com/org/repo",
+              "tip": [
+                "示例源 URI。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-trusted-root-path",
+          "usage": [
+            "-trusted-root-path <path>"
+          ],
+          "tip": [
+            "用于 keyless 验证的可选 Sigstore trusted-root JSON。"
+          ],
+          "next": [
+            {
+              "name": "trusted-root.json",
+              "tip": [
+                "示例 trusted-root 文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verifier",
+          "usage": [
+            "-verifier <path>"
+          ],
+          "tip": [
+            "PEM verifier 路径。"
+          ],
+          "next": [
+            {
+              "name": "verifier.pem",
+              "tip": [
+                "示例 verifier 路径。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 Packer 版本并检查新版本。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    }
+  ]
+}

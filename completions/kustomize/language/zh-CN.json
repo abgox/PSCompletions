@@ -1,0 +1,1633 @@
+{
+  "meta": {
+    "url": "https://github.com/kubernetes-sigs/kustomize",
+    "description": [
+      "定制 kubernetes YAML 配置"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "usage": [
+        "build <DIR>"
+      ],
+      "tip": [
+        "从目录或 URL 构建 kustomization 目标"
+      ],
+      "option": [
+        {
+          "name": "--as-current-user",
+          "tip": [
+            "以当前 uid/gid 运行函数容器"
+          ]
+        },
+        {
+          "name": "--enable-alpha-plugins",
+          "tip": [
+            "启用 alpha 插件"
+          ]
+        },
+        {
+          "name": "--enable-exec",
+          "tip": [
+            "启用 exec 函数（Alpha）"
+          ]
+        },
+        {
+          "name": "--enable-helm",
+          "tip": [
+            "启用 Helm chart 展开"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <env>"
+          ],
+          "tip": [
+            "函数的环境变量"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <versions>"
+          ],
+          "tip": [
+            "Helm API 版本"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-command",
+          "usage": [
+            "--helm-command <cmd>"
+          ],
+          "tip": [
+            "Helm 命令（默认 helm）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-debug",
+          "tip": [
+            "启用 Helm 调试"
+          ]
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <version>"
+          ],
+          "tip": [
+            "Helm 的 Capabilities 使用的 Kubernetes 版本"
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-restrictor",
+          "usage": [
+            "--load-restrictor <value>"
+          ],
+          "tip": [
+            "限制从 kustomization 根目录之外加载文件"
+          ],
+          "next": [
+            {
+              "name": "LoadRestrictionsNone",
+              "tip": [
+                "无限制"
+              ]
+            },
+            {
+              "name": "LoadRestrictionsRootOnly",
+              "tip": [
+                "仅加载根目录内的文件（默认）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mount",
+          "usage": [
+            "--mount <mount>"
+          ],
+          "tip": [
+            "存储选项"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--network",
+          "tip": [
+            "为函数启用网络访问"
+          ]
+        },
+        {
+          "name": "--network-name",
+          "usage": [
+            "--network-name <name>"
+          ],
+          "tip": [
+            "网络名称（默认 bridge）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <path>"
+          ],
+          "tip": [
+            "将输出写入路径"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "cfg",
+      "usage": [
+        "cfg <SUBCOMMAND>"
+      ],
+      "tip": [
+        "读取和写入 kustomize 配置的命令"
+      ],
+      "next": [
+        {
+          "name": "cat",
+          "usage": [
+            "cat <DIR>"
+          ],
+          "tip": [
+            "打印配置"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "tip": [
+                "使用文件来源添加注释"
+              ]
+            },
+            {
+              "name": "--dest",
+              "usage": [
+                "--dest <file>"
+              ],
+              "tip": [
+                "写入文件而非 stdout"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exclude-non-local",
+              "tip": [
+                "排除非本地资源"
+              ]
+            },
+            {
+              "name": "--format",
+              "tip": [
+                "格式化输出（默认 true）"
+              ]
+            },
+            {
+              "name": "--function-config",
+              "usage": [
+                "--function-config <path>"
+              ],
+              "tip": [
+                "函数配置的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-local",
+              "tip": [
+                "包含本地文件"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "递归进入子包（默认 true）"
+              ]
+            },
+            {
+              "name": "--strip-comments",
+              "tip": [
+                "移除注释"
+              ]
+            },
+            {
+              "name": "--style",
+              "usage": [
+                "--style <style>"
+              ],
+              "tip": [
+                "输出样式"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "DoubleQuotedStyle",
+                  "tip": [
+                    "双引号样式"
+                  ]
+                },
+                {
+                  "name": "FlowStyle",
+                  "tip": [
+                    "流式样式"
+                  ]
+                },
+                {
+                  "name": "FoldedStyle",
+                  "tip": [
+                    "折叠样式"
+                  ]
+                },
+                {
+                  "name": "LiteralStyle",
+                  "tip": [
+                    "字面量样式"
+                  ]
+                },
+                {
+                  "name": "TaggedStyle",
+                  "tip": [
+                    "带标签样式"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--wrap-kind",
+              "usage": [
+                "--wrap-kind <kind>"
+              ],
+              "tip": [
+                "以此类型的资源包装输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wrap-version",
+              "usage": [
+                "--wrap-version <version>"
+              ],
+              "tip": [
+                "以此版本包装输出资源"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "count",
+          "usage": [
+            "count [DIR]"
+          ],
+          "tip": [
+            "统计资源数量"
+          ],
+          "option": [
+            {
+              "name": "--kind",
+              "tip": [
+                "按 kind 统计（默认 true）"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "递归进入子包（默认 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grep",
+          "usage": [
+            "grep <QUERY> [DIR]"
+          ],
+          "tip": [
+            "搜索匹配的资源"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "tip": [
+                "使用文件来源添加注释（默认 true）"
+              ]
+            },
+            {
+              "name": "--invert-match",
+              "tip": [
+                "反向匹配"
+              ]
+            },
+            {
+              "name": "--recurse-subpackages",
+              "alias": [
+                "-R"
+              ],
+              "usage": [
+                "-R, --recurse-subpackages"
+              ],
+              "tip": [
+                "递归进入子包（默认 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tree",
+          "usage": [
+            "tree [DIR]"
+          ],
+          "tip": [
+            "以树状结构显示资源"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "打印所有字段信息"
+              ]
+            },
+            {
+              "name": "--args",
+              "tip": [
+                "打印参数"
+              ]
+            },
+            {
+              "name": "--command",
+              "tip": [
+                "打印命令"
+              ]
+            },
+            {
+              "name": "--env",
+              "tip": [
+                "打印环境变量"
+              ]
+            },
+            {
+              "name": "--exclude-non-local",
+              "tip": [
+                "排除非本地资源"
+              ]
+            },
+            {
+              "name": "--field",
+              "usage": [
+                "--field <path>"
+              ],
+              "tip": [
+                "任意字段路径"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--graph-structure",
+              "usage": [
+                "--graph-structure <structure>"
+              ],
+              "tip": [
+                "图结构"
+              ],
+              "next": [
+                {
+                  "name": "directory",
+                  "tip": [
+                    "按目录分组"
+                  ]
+                },
+                {
+                  "name": "owners",
+                  "tip": [
+                    "按所有者分组"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "tip": [
+                "打印镜像"
+              ]
+            },
+            {
+              "name": "--include-local",
+              "tip": [
+                "包含本地文件"
+              ]
+            },
+            {
+              "name": "--name",
+              "tip": [
+                "打印名称"
+              ]
+            },
+            {
+              "name": "--ports",
+              "tip": [
+                "打印端口"
+              ]
+            },
+            {
+              "name": "--replicas",
+              "tip": [
+                "打印副本数"
+              ]
+            },
+            {
+              "name": "--resources",
+              "tip": [
+                "打印资源"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "为 Shell 生成补全脚本"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 补全脚本"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "alias": [
+        "init"
+      ],
+      "usage": [
+        "init|create"
+      ],
+      "tip": [
+        "创建新的 kustomization.yaml 文件"
+      ],
+      "option": [
+        {
+          "name": "--annotations",
+          "usage": [
+            "--annotations <annotations>"
+          ],
+          "tip": [
+            "向 kustomization 添加注释"
+          ],
+          "next": []
+        },
+        {
+          "name": "--autodetect",
+          "tip": [
+            "在目录中搜索 kubernetes 资源"
+          ]
+        },
+        {
+          "name": "--labels",
+          "usage": [
+            "--labels <labels>"
+          ],
+          "tip": [
+            "向 kustomization 添加标签"
+          ],
+          "next": []
+        },
+        {
+          "name": "--nameprefix",
+          "usage": [
+            "--nameprefix <prefix>"
+          ],
+          "tip": [
+            "设置 namePrefix 字段的值"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace",
+          "usage": [
+            "--namespace <namespace>"
+          ],
+          "tip": [
+            "设置 namespace 字段的值"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namesuffix",
+          "usage": [
+            "--namesuffix <suffix>"
+          ],
+          "tip": [
+            "设置 nameSuffix 字段的值"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "tip": [
+            "递归搜索 kubernetes 资源"
+          ]
+        },
+        {
+          "name": "--resources",
+          "usage": [
+            "--resources <resources>"
+          ],
+          "tip": [
+            "向 kustomization 添加资源"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit <SUBCOMMAND>"
+      ],
+      "tip": [
+        "编辑 kustomization 文件"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <SUBCOMMAND>"
+          ],
+          "tip": [
+            "向 kustomization 文件添加项目"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "添加注释"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "存在则覆盖"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "base",
+              "tip": [
+                "添加 base"
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "添加 buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "添加 managedBy 标签"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "添加上游注释"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "添加转换器注释"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "component",
+              "tip": [
+                "添加组件"
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "添加 configmap"
+              ],
+              "option": [
+                {
+                  "name": "--behavior",
+                  "usage": [
+                    "--behavior <behavior>"
+                  ],
+                  "tip": [
+                    "configmap 键冲突时的行为"
+                  ],
+                  "next": [
+                    {
+                      "name": "create",
+                      "tip": [
+                        "创建新 configmap（默认）"
+                      ]
+                    },
+                    {
+                      "name": "merge",
+                      "tip": [
+                        "与现有合并"
+                      ]
+                    },
+                    {
+                      "name": "replace",
+                      "tip": [
+                        "替换现有"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--disableNameSuffixHash",
+                  "tip": [
+                    "禁用名称后缀哈希"
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <file>"
+                  ],
+                  "tip": [
+                    "从 env 文件创建 configmap"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <file>"
+                  ],
+                  "tip": [
+                    "从文件创建 configmap"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "从字面量值创建 configmap"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "configmap 的命名空间"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "generator",
+              "tip": [
+                "添加生成器"
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "添加标签"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "存在则覆盖"
+                  ]
+                },
+                {
+                  "name": "--include-templates",
+                  "tip": [
+                    "包含模板"
+                  ]
+                },
+                {
+                  "name": "--without-selector",
+                  "tip": [
+                    "不添加选择器"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "添加补丁"
+              ],
+              "option": [
+                {
+                  "name": "--annotation-selector",
+                  "usage": [
+                    "--annotation-selector <selector>"
+                  ],
+                  "tip": [
+                    "注释选择器"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--group",
+                  "usage": [
+                    "--group <group>"
+                  ],
+                  "tip": [
+                    "目标 API 组"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--kind",
+                  "usage": [
+                    "--kind <kind>"
+                  ],
+                  "tip": [
+                    "目标的 kind"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--label-selector",
+                  "usage": [
+                    "--label-selector <selector>"
+                  ],
+                  "tip": [
+                    "标签选择器"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <name>"
+                  ],
+                  "tip": [
+                    "目标的名称"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "目标的命名空间"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--patch",
+                  "usage": [
+                    "--patch <patch>"
+                  ],
+                  "tip": [
+                    "内联补丁"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "补丁文件的路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--version",
+                  "usage": [
+                    "--version <version>"
+                  ],
+                  "tip": [
+                    "目标 API 版本"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "添加资源"
+              ],
+              "option": [
+                {
+                  "name": "--no-verify",
+                  "tip": [
+                    "跳过验证"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "添加 secret"
+              ],
+              "option": [
+                {
+                  "name": "--disableNameSuffixHash",
+                  "tip": [
+                    "禁用名称后缀哈希"
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <file>"
+                  ],
+                  "tip": [
+                    "从 env 文件创建 secret"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <file>"
+                  ],
+                  "tip": [
+                    "从文件创建 secret"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "从字面量值创建 secret"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "secret 的命名空间"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "usage": [
+                    "--type <type>"
+                  ],
+                  "tip": [
+                    "secret 类型"
+                  ],
+                  "next": [
+                    {
+                      "name": "kubernetes.io/tls",
+                      "tip": [
+                        "TLS 密钥"
+                      ]
+                    },
+                    {
+                      "name": "Opaque",
+                      "tip": [
+                        "Opaque secret（默认）"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "transformer",
+              "tip": [
+                "添加转换器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "alpha-list-builtin-plugin",
+          "tip": [
+            "列出内置插件（Alpha）"
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "修复 kustomization 文件"
+          ],
+          "option": [
+            {
+              "name": "--vars",
+              "tip": [
+                "将 vars 转换为 replacements"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <SUBCOMMAND>"
+          ],
+          "tip": [
+            "从 kustomization 文件移除项目"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "移除注释"
+              ],
+              "option": [
+                {
+                  "name": "--ignore-non-existence",
+                  "alias": [
+                    "-i"
+                  ],
+                  "usage": [
+                    "-i, --ignore-non-existence"
+                  ],
+                  "tip": [
+                    "注释不存在时忽略"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "移除 buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "移除 managedBy 标签"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "移除来源注释"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "移除转换器注释"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "移除 configmap"
+              ],
+              "option": [
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "configmap 的命名空间"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "移除标签"
+              ],
+              "option": [
+                {
+                  "name": "--ignore-non-existence",
+                  "alias": [
+                    "-i"
+                  ],
+                  "usage": [
+                    "-i, --ignore-non-existence"
+                  ],
+                  "tip": [
+                    "标签不存在时忽略"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "移除补丁"
+              ],
+              "option": [
+                {
+                  "name": "--annotation-selector",
+                  "usage": [
+                    "--annotation-selector <selector>"
+                  ],
+                  "tip": [
+                    "注释选择器"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--group",
+                  "usage": [
+                    "--group <group>"
+                  ],
+                  "tip": [
+                    "目标 API 组"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--kind",
+                  "usage": [
+                    "--kind <kind>"
+                  ],
+                  "tip": [
+                    "目标的 kind"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--label-selector",
+                  "usage": [
+                    "--label-selector <selector>"
+                  ],
+                  "tip": [
+                    "标签选择器"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <name>"
+                  ],
+                  "tip": [
+                    "目标的名称"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "目标的命名空间"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--patch",
+                  "usage": [
+                    "--patch <patch>"
+                  ],
+                  "tip": [
+                    "内联补丁"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "补丁文件的路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--version",
+                  "usage": [
+                    "--version <version>"
+                  ],
+                  "tip": [
+                    "目标 API 版本"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resource",
+              "tip": [
+                "移除资源"
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "移除 secret"
+              ],
+              "option": [
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "secret 的命名空间"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "transformer",
+              "tip": [
+                "移除转换器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <SUBCOMMAND>"
+          ],
+          "tip": [
+            "设置 kustomization 文件中的值"
+          ],
+          "next": [
+            {
+              "name": "annotation",
+              "tip": [
+                "设置注释"
+              ]
+            },
+            {
+              "name": "buildmetadata",
+              "usage": [
+                "buildmetadata <managedByLabel|originAnnotations|transformerAnnotations>"
+              ],
+              "tip": [
+                "设置 buildmetadata"
+              ],
+              "next": [
+                {
+                  "name": "managedByLabel",
+                  "tip": [
+                    "添加 managedBy 标签"
+                  ]
+                },
+                {
+                  "name": "originAnnotations",
+                  "tip": [
+                    "添加上游注释"
+                  ]
+                },
+                {
+                  "name": "transformerAnnotations",
+                  "tip": [
+                    "添加转换器注释"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "configmap",
+              "usage": [
+                "configmap <NAME>"
+              ],
+              "tip": [
+                "设置 configmap"
+              ],
+              "option": [
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "从字面量值设置"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "configmap 的命名空间"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--new-namespace",
+                  "usage": [
+                    "--new-namespace <namespace>"
+                  ],
+                  "tip": [
+                    "configmap 的新命名空间"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "image",
+              "tip": [
+                "设置镜像名称"
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "设置标签"
+              ]
+            },
+            {
+              "name": "nameprefix",
+              "tip": [
+                "设置名称前缀"
+              ]
+            },
+            {
+              "name": "namespace",
+              "tip": [
+                "设置命名空间"
+              ]
+            },
+            {
+              "name": "namesuffix",
+              "tip": [
+                "设置名称后缀"
+              ]
+            },
+            {
+              "name": "replicas",
+              "tip": [
+                "设置副本数"
+              ]
+            },
+            {
+              "name": "secret",
+              "usage": [
+                "secret <NAME>"
+              ],
+              "tip": [
+                "设置 secret"
+              ],
+              "option": [
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <value>"
+                  ],
+                  "tip": [
+                    "从字面量值设置"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--namespace",
+                  "usage": [
+                    "--namespace <namespace>"
+                  ],
+                  "tip": [
+                    "secret 的命名空间"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--new-namespace",
+                  "usage": [
+                    "--new-namespace <namespace>"
+                  ],
+                  "tip": [
+                    "secret 的新命名空间"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fn",
+      "usage": [
+        "fn <SUBCOMMAND>"
+      ],
+      "tip": [
+        "运行函数的命令"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "usage": [
+            "run [DIR]"
+          ],
+          "tip": [
+            "运行函数"
+          ],
+          "option": [
+            {
+              "name": "--as-current-user",
+              "tip": [
+                "以当前 uid/gid 运行函数容器"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "将结果打印到 stdout"
+              ]
+            },
+            {
+              "name": "--enable-exec",
+              "tip": [
+                "启用 exec 函数（Alpha）"
+              ]
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <env>"
+              ],
+              "tip": [
+                "函数的 env 变量"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-path",
+              "usage": [
+                "--exec-path <path>"
+              ],
+              "tip": [
+                "exec 函数的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fn-path",
+              "usage": [
+                "--fn-path <dir>"
+              ],
+              "tip": [
+                "从目录读取函数"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--global-scope",
+              "tip": [
+                "在全局作用域运行函数"
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "以此镜像作为函数运行"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-subpackages",
+              "tip": [
+                "包含子包（默认 true）"
+              ]
+            },
+            {
+              "name": "--log-steps",
+              "tip": [
+                "记录步骤"
+              ]
+            },
+            {
+              "name": "--mount",
+              "usage": [
+                "--mount <mount>"
+              ],
+              "tip": [
+                "存储选项"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--network",
+              "tip": [
+                "为函数启用网络访问"
+              ]
+            },
+            {
+              "name": "--results-dir",
+              "usage": [
+                "--results-dir <dir>"
+              ],
+              "tip": [
+                "结果目录"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
+      "name": "localize",
+      "usage": [
+        "localize [target [destination]]"
+      ],
+      "tip": [
+        "创建 kustomization 目标的本地副本"
+      ],
+      "option": [
+        {
+          "name": "--no-verify",
+          "tip": [
+            "跳过构建输出验证"
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <path>"
+          ],
+          "tip": [
+            "限制本地化的路径"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 kustomize 版本"
+      ],
+      "option": [
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FORMAT>"
+          ],
+          "tip": [
+            "输出格式"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML 格式"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--stack-trace",
+      "tip": [
+        "出错时打印堆栈跟踪"
+      ]
+    }
+  ]
+}

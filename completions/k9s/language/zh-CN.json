@@ -1,0 +1,514 @@
+{
+  "meta": {
+    "url": "https://k9scli.io/",
+    "description": [
+      "K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。",
+      "它简化了浏览、观察和管理你部署的应用程序。"
+    ]
+  },
+  "next": [
+    {
+      "name": "completion",
+      "usage": [
+        "completion [bash|fish|powershell|zsh]"
+      ],
+      "tip": [
+        "为指定的 shell 生成自动补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "为 bash 生成自动补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "为 fish 生成自动补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "为 powershell 生成自动补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "为 zsh 生成自动补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "列出 K9s 配置信息。"
+      ]
+    },
+    {
+      "name": "version",
+      "usage": [
+        "version [-s|--short]"
+      ],
+      "tip": [
+        "打印版本/构建信息。"
+      ],
+      "option": [
+        {
+          "name": "--short",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --short"
+          ],
+          "tip": [
+            "以简短格式打印 K9s 版本信息。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all-namespaces",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all-namespaces"
+      ],
+      "tip": [
+        "在所有命名空间中启动 K9s。"
+      ]
+    },
+    {
+      "name": "--as",
+      "usage": [
+        "--as <username>"
+      ],
+      "tip": [
+        "要模拟的用户名。"
+      ],
+      "next": [
+        {
+          "name": "admin",
+          "tip": [
+            "管理员用户。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <group>"
+      ],
+      "tip": [
+        "要模拟的用户组。",
+        "可以多次指定。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "system:masters",
+          "tip": [
+            "集群管理员组。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--certificate-authority",
+      "usage": [
+        "--certificate-authority <file>"
+      ],
+      "tip": [
+        "证书颁发机构证书文件的路径。"
+      ],
+      "next": [
+        {
+          "name": "ca.crt",
+          "tip": [
+            "CA 证书文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--client-certificate",
+      "usage": [
+        "--client-certificate <file>"
+      ],
+      "tip": [
+        "TLS 客户端证书文件的路径。"
+      ],
+      "next": [
+        {
+          "name": "client.crt",
+          "tip": [
+            "客户端证书文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--client-key",
+      "usage": [
+        "--client-key <file>"
+      ],
+      "tip": [
+        "TLS 客户端密钥文件的路径。"
+      ],
+      "next": [
+        {
+          "name": "client.key",
+          "tip": [
+            "客户端密钥文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cluster",
+      "usage": [
+        "--cluster <name>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 集群名称。"
+      ],
+      "next": [
+        {
+          "name": "cluster-name",
+          "tip": [
+            "kubeconfig 集群名称。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--command",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --command <resource>"
+      ],
+      "tip": [
+        "覆盖应用程序启动时要加载的默认资源。"
+      ],
+      "next": [
+        {
+          "name": "deployments",
+          "tip": [
+            "加载 deployments 资源。"
+          ]
+        },
+        {
+          "name": "pods",
+          "tip": [
+            "加载 pods 资源。"
+          ]
+        },
+        {
+          "name": "services",
+          "tip": [
+            "加载 services 资源。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <name>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 上下文名称。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认的 kubeconfig 上下文。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--crumbsless",
+      "tip": [
+        "关闭 K9s 的面包屑导航。"
+      ]
+    },
+    {
+      "name": "--headless",
+      "tip": [
+        "关闭 K9s 的头部。"
+      ]
+    },
+    {
+      "name": "--insecure-skip-tls-verify",
+      "tip": [
+        "跳过服务器 CA 证书的校验。"
+      ]
+    },
+    {
+      "name": "--invert",
+      "tip": [
+        "反转默认配色方案（深色到浅色，浅色到深色）。"
+      ]
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <file>"
+      ],
+      "tip": [
+        "用于 CLI 请求的 kubeconfig 文件路径。"
+      ],
+      "next": [
+        {
+          "name": "~/.kube/config",
+          "tip": [
+            "默认 kubeconfig 位置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--logFile",
+      "usage": [
+        "--logFile <file>"
+      ],
+      "tip": [
+        "指定日志文件。"
+      ],
+      "next": [
+        {
+          "name": "k9s.log",
+          "tip": [
+            "日志文件名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--logLevel",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --logLevel <level>"
+      ],
+      "tip": [
+        "指定日志级别。"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "记录调试消息及更高级别。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "仅记录错误。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "记录信息、警告和错误。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "记录警告和错误。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--logoless",
+      "tip": [
+        "关闭 K9s 的 logo。"
+      ]
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <namespace>"
+      ],
+      "tip": [
+        "为此 CLI 请求设置命名空间范围。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认命名空间。"
+          ]
+        },
+        {
+          "name": "kube-public",
+          "tip": [
+            "可公开读取的命名空间。"
+          ]
+        },
+        {
+          "name": "kube-system",
+          "tip": [
+            "Kubernetes 系统命名空间。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--readonly",
+      "tip": [
+        "通过覆盖 readOnly 配置设置来启用只读模式。"
+      ]
+    },
+    {
+      "name": "--refresh",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --refresh <sec>"
+      ],
+      "tip": [
+        "以浮点数（秒）指定默认刷新率。"
+      ],
+      "next": [
+        {
+          "name": "10",
+          "tip": [
+            "10 秒。"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "默认刷新率。"
+          ]
+        },
+        {
+          "name": "5",
+          "tip": [
+            "5 秒。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <duration>"
+      ],
+      "tip": [
+        "放弃单个服务器请求前等待的时间。"
+      ],
+      "next": [
+        {
+          "name": "10s",
+          "tip": [
+            "10 秒。"
+          ]
+        },
+        {
+          "name": "1m",
+          "tip": [
+            "1 分钟。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--screen-dump-dir",
+      "usage": [
+        "--screen-dump-dir <dir>"
+      ],
+      "tip": [
+        "设置屏幕转储目录的路径。"
+      ],
+      "next": [
+        {
+          "name": "screen-dumps",
+          "tip": [
+            "屏幕转储目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--splashless",
+      "tip": [
+        "关闭 K9s 启动画面。"
+      ]
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <token>"
+      ],
+      "tip": [
+        "用于 API 服务器身份验证的 Bearer token。"
+      ],
+      "next": [
+        {
+          "name": "k9s-bearer-token",
+          "tip": [
+            "示例 Bearer token。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <name>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 用户名。"
+      ],
+      "next": [
+        {
+          "name": "user-name",
+          "tip": [
+            "kubeconfig 用户名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--write",
+      "tip": [
+        "通过覆盖 readOnly 配置设置来启用写入模式。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    }
+  ]
+}

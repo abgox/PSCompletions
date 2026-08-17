@@ -1,0 +1,748 @@
+{
+  "meta": {
+    "url": "https://kind.sigs.k8s.io/",
+    "description": [
+      "kind 是一个使用 Docker 容器 'nodes' 运行本地 Kubernetes 集群的工具。",
+      "kind 最初主要用于测试 Kubernetes 本身，但也可用于本地开发或 CI。"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "tip": [
+        "构建 [node-image] 之一。"
+      ],
+      "next": [
+        {
+          "name": "node-image",
+          "usage": [
+            "node-image [kubernetes-source]"
+          ],
+          "tip": [
+            "构建包含 Kubernetes 构建产物和其他 kind 依赖的节点镜像。"
+          ],
+          "option": [
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <arch>"
+              ],
+              "tip": [
+                "要构建的架构，默认为主机架构。"
+              ],
+              "next": [
+                {
+                  "name": "amd64",
+                  "tip": [
+                    "AMD64 架构。"
+                  ]
+                },
+                {
+                  "name": "arm64",
+                  "tip": [
+                    "ARM64 架构。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--base-image",
+              "usage": [
+                "--base-image <image>"
+              ],
+              "tip": [
+                "用于构建的基础镜像的 name:tag。"
+              ],
+              "next": [
+                {
+                  "name": "docker.io/kindest/base:v20260601-995e8fa5",
+                  "tip": [
+                    "默认基础镜像。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "构建结果镜像的 name:tag。"
+              ],
+              "next": [
+                {
+                  "name": "kindest/node:latest",
+                  "tip": [
+                    "默认构建结果镜像的 tag。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <type>"
+              ],
+              "tip": [
+                "可选地指定构建类型。"
+              ],
+              "next": [
+                {
+                  "name": "ci",
+                  "tip": [
+                    "从 Kubernetes CI 构建版本标记构建。"
+                  ]
+                },
+                {
+                  "name": "file",
+                  "tip": [
+                    "从本地 Kubernetes 发布 tarball 构建。"
+                  ]
+                },
+                {
+                  "name": "release",
+                  "tip": [
+                    "从发布版本构建。"
+                  ]
+                },
+                {
+                  "name": "source",
+                  "tip": [
+                    "从本地 Kubernetes 源码目录构建。"
+                  ]
+                },
+                {
+                  "name": "url",
+                  "tip": [
+                    "从 Kubernetes 发布 tarball 的 URL 构建。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [bash|fish|powershell|zsh]"
+      ],
+      "tip": [
+        "为指定的 shell 输出 shell 补全代码。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "为 bash 输出 shell 补全代码。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "为 fish 输出 shell 补全代码。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "为 powershell 输出 shell 补全代码。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "为 zsh 输出 shell 补全代码。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "创建本地 Kubernetes 集群。"
+      ],
+      "next": [
+        {
+          "name": "cluster",
+          "tip": [
+            "使用 Docker 容器 'nodes' 创建本地 Kubernetes 集群。"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <file>"
+              ],
+              "tip": [
+                "kind 配置文件的路径。"
+              ],
+              "next": [
+                {
+                  "name": "kind-config.yaml",
+                  "tip": [
+                    "示例 kind 配置文件。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <image>"
+              ],
+              "tip": [
+                "用于启动集群的节点 docker 镜像。"
+              ],
+              "next": [
+                {
+                  "name": "kindest/node:latest",
+                  "tip": [
+                    "默认节点镜像。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "设置 kubeconfig 路径，而不是使用 $KUBECONFIG 或 $HOME/.kube/config。"
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "默认 kubeconfig 位置。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群名称，覆盖 KIND_CLUSTER_NAME 和配置文件中的设置。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--retain",
+              "tip": [
+                "集群创建失败时保留节点以便调试。"
+              ]
+            },
+            {
+              "name": "--wait",
+              "usage": [
+                "--wait <duration>"
+              ],
+              "tip": [
+                "等待控制平面节点就绪。"
+              ],
+              "next": [
+                {
+                  "name": "0s",
+                  "tip": [
+                    "不等待（默认）。"
+                  ]
+                },
+                {
+                  "name": "1m",
+                  "tip": [
+                    "等待 1 分钟。"
+                  ]
+                },
+                {
+                  "name": "30s",
+                  "tip": [
+                    "等待 30 秒。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "删除 [cluster, clusters] 之一。"
+      ],
+      "next": [
+        {
+          "name": "cluster",
+          "tip": [
+            "从系统中删除一个 kind 集群。",
+            "幂等操作；仅当集群资源存在且无法删除时才会报错。"
+          ],
+          "option": [
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "设置 kubeconfig 路径，而不是使用 $KUBECONFIG 或 $HOME/.kube/config。"
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "默认 kubeconfig 位置。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "clusters",
+          "tip": [
+            "从系统中删除一个或多个 kind 集群。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all"
+              ],
+              "tip": [
+                "删除所有集群。"
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "设置 kubeconfig 路径，而不是使用 $KUBECONFIG 或 $HOME/.kube/config。"
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "默认 kubeconfig 位置。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "tip": [
+        "导出 [kubeconfig, logs] 之一。"
+      ],
+      "next": [
+        {
+          "name": "kubeconfig",
+          "tip": [
+            "导出集群的 kubeconfig。"
+          ],
+          "option": [
+            {
+              "name": "--internal",
+              "tip": [
+                "使用内部地址而不是外部地址。"
+              ]
+            },
+            {
+              "name": "--kubeconfig",
+              "usage": [
+                "--kubeconfig <file>"
+              ],
+              "tip": [
+                "设置 kubeconfig 路径，而不是使用 $KUBECONFIG 或 $HOME/.kube/config。"
+              ],
+              "next": [
+                {
+                  "name": "~/.kube/config",
+                  "tip": [
+                    "默认 kubeconfig 位置。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "usage": [
+            "logs [output-dir]"
+          ],
+          "tip": [
+            "将日志导出到临时目录，或指定的 [output-dir]。"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "获取 [clusters, nodes, kubeconfig] 之一。"
+      ],
+      "next": [
+        {
+          "name": "clusters",
+          "tip": [
+            "按名称列出现有的 kind 集群。"
+          ]
+        },
+        {
+          "name": "kubeconfig",
+          "tip": [
+            "打印集群的 kubeconfig。"
+          ],
+          "option": [
+            {
+              "name": "--internal",
+              "tip": [
+                "使用内部地址而不是外部地址。"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "nodes",
+          "tip": [
+            "按名称列出现有的 kind 节点。"
+          ],
+          "option": [
+            {
+              "name": "--all-clusters",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-clusters"
+              ],
+              "tip": [
+                "列出所有集群上下文中的可用节点。"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "load",
+      "tip": [
+        "将镜像加载到节点中。"
+      ],
+      "next": [
+        {
+          "name": "docker-image",
+          "usage": [
+            "docker-image <IMAGE> [IMAGE...]"
+          ],
+          "tip": [
+            "将 docker 镜像从主机加载到全部或指定名称的节点中。"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--nodes",
+              "usage": [
+                "--nodes <nodes>"
+              ],
+              "tip": [
+                "将镜像加载到其中的节点列表，以逗号分隔。"
+              ],
+              "next": [
+                {
+                  "name": "control-plane",
+                  "tip": [
+                    "控制平面节点。"
+                  ]
+                },
+                {
+                  "name": "worker",
+                  "tip": [
+                    "工作节点。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "image-archive",
+          "usage": [
+            "image-archive <IMAGE.tar>"
+          ],
+          "tip": [
+            "将 docker 镜像从归档文件加载到全部或指定名称的节点中。"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <name>"
+              ],
+              "tip": [
+                "集群上下文名称。"
+              ],
+              "next": [
+                {
+                  "name": "kind",
+                  "tip": [
+                    "默认集群名称。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--nodes",
+              "usage": [
+                "--nodes <nodes>"
+              ],
+              "tip": [
+                "将镜像加载到其中的节点列表，以逗号分隔。"
+              ],
+              "next": [
+                {
+                  "name": "control-plane",
+                  "tip": [
+                    "控制平面节点。"
+                  ]
+                },
+                {
+                  "name": "worker",
+                  "tip": [
+                    "工作节点。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 kind CLI 版本。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "kind 的版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "静默所有 stderr 输出。"
+      ]
+    },
+    {
+      "name": "--verbosity",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbosity <level>"
+      ],
+      "tip": [
+        "信息日志详细程度，值越大输出越多。"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "静默。"
+          ]
+        },
+        {
+          "name": "1",
+          "tip": [
+            "默认详细程度。"
+          ]
+        },
+        {
+          "name": "2",
+          "tip": [
+            "更详细。"
+          ]
+        },
+        {
+          "name": "3",
+          "tip": [
+            "非常详细。"
+          ]
+        }
+      ]
+    }
+  ]
+}

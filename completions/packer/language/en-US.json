@@ -1,0 +1,872 @@
+{
+  "meta": {
+    "url": "https://www.packer.io/",
+    "description": [
+      "Packer is a tool for building identical machine images for multiple platforms from a single source configuration."
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "usage": [
+        "build [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "Build image(s) from template."
+      ],
+      "option": [
+        {
+          "name": "-color",
+          "tip": [
+            "Disable color output (default: color)."
+          ]
+        },
+        {
+          "name": "-debug",
+          "tip": [
+            "Debug mode enabled for builds."
+          ]
+        },
+        {
+          "name": "-except",
+          "usage": [
+            "-except <names>"
+          ],
+          "tip": [
+            "Run all builds and post-processors other than these.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "Name of a build to exclude."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-force",
+          "tip": [
+            "Force a build to continue if artifacts exist, deletes existing artifacts."
+          ]
+        },
+        {
+          "name": "-ignore-prerelease-plugins",
+          "tip": [
+            "Disable the loading of prerelease plugin binaries (x.y.z-dev)."
+          ]
+        },
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "Produce machine-readable output."
+          ]
+        },
+        {
+          "name": "-on-error",
+          "usage": [
+            "-on-error <mode>"
+          ],
+          "tip": [
+            "Action to take if the build fails."
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "Abort the build."
+              ]
+            },
+            {
+              "name": "ask",
+              "tip": [
+                "Ask before proceeding."
+              ]
+            },
+            {
+              "name": "cleanup",
+              "tip": [
+                "Clean up (default)."
+              ]
+            },
+            {
+              "name": "run-cleanup-provisioner",
+              "tip": [
+                "Run the cleanup provisioner."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-only",
+          "usage": [
+            "-only <names>"
+          ],
+          "tip": [
+            "Build only the specified builds.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "Name of a build to include."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-parallel-builds",
+          "usage": [
+            "-parallel-builds <number>"
+          ],
+          "tip": [
+            "Number of builds to run in parallel.",
+            "1 disables parallelization, 0 means no limit (default)."
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "No limit (default)."
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Disable parallelization."
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "Run 2 builds in parallel."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-skip-enforcement",
+          "tip": [
+            "Skip injection of HCP Packer enforced provisioners."
+          ]
+        },
+        {
+          "name": "-timestamp-ui",
+          "tip": [
+            "Enable prefixing of each ui output with an RFC3339 timestamp."
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "Fallback to using a sequential approach for local/datasource evaluation."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "Variable for templates.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "Example key=value variable."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "JSON or HCL2 file containing user variables.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "Example variable file."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-warn-on-undeclared-var",
+          "tip": [
+            "Display warnings for user variable files containing undeclared variables."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "usage": [
+        "console [OPTIONS] [TEMPLATE]"
+      ],
+      "tip": [
+        "Create a console for testing variable interpolation."
+      ],
+      "option": [
+        {
+          "name": "-config-type",
+          "usage": [
+            "-config-type <type>"
+          ],
+          "tip": [
+            "Set to 'hcl2' to run in HCL2 mode when no file is passed."
+          ],
+          "next": [
+            {
+              "name": "hcl2",
+              "tip": [
+                "Run in HCL2 mode."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "Run in JSON mode (default)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "Fallback to using a sequential approach for local/datasource evaluation."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "Variable for templates.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "Example key=value variable."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "JSON or HCL2 file containing user variables."
+          ],
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "Example variable file."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "usage": [
+        "fix [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "Fix templates from old versions of packer."
+      ],
+      "option": [
+        {
+          "name": "-validate",
+          "tip": [
+            "Validate the fixed template (default true)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [OPTIONS] [TEMPLATE]"
+      ],
+      "tip": [
+        "Rewrite HCL2 config files to canonical format."
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "Check if the input is formatted.",
+            "Exit status is 0 if all input is properly formatted and non-zero otherwise."
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "Display diffs of formatting change."
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "Also process files in subdirectories."
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "Don't write to source files (always disabled if using -check)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hcl2_upgrade",
+      "usage": [
+        "hcl2_upgrade [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "Transform a JSON template into an HCL2 configuration."
+      ],
+      "option": [
+        {
+          "name": "-output-file",
+          "usage": [
+            "-output-file <path>"
+          ],
+          "tip": [
+            "Set output file name. Default is the TEMPLATE name with '.pkr.hcl' appended."
+          ],
+          "next": [
+            {
+              "name": "template.pkr.hcl",
+              "tip": [
+                "Example output file name."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-with-annotations",
+          "tip": [
+            "Add helper annotation comments to the file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "Install missing plugins or upgrade plugins.",
+        "The first command that should be executed when working with a new or existing template."
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "Force reinstallation of plugins, even if already installed."
+          ]
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "Update installed plugins to the latest available version, if a higher one exists."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "usage": [
+        "inspect TEMPLATE"
+      ],
+      "tip": [
+        "Inspect a template, parsing and outputting the components a template defines."
+      ],
+      "option": [
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "Produce machine-readable output."
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "Fallback to using a sequential approach for local/datasource evaluation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugins",
+      "tip": [
+        "Interact with Packer plugins and catalog."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [OPTIONS] <plugin> [<version constraint>]"
+          ],
+          "tip": [
+            "Install the most recent compatible Packer plugin matching the version constraint."
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Force reinstallation of plugins, even if already installed."
+              ]
+            },
+            {
+              "name": "-path",
+              "usage": [
+                "-path <path>"
+              ],
+              "tip": [
+                "Install the plugin from a locally-sourced plugin binary.",
+                "Cannot be specified with a version constraint."
+              ],
+              "next": [
+                {
+                  "name": "./packer-plugin-happycloud",
+                  "tip": [
+                    "Example local plugin binary path."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "installed",
+          "tip": [
+            "List all installed Packer plugin binaries."
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <plugin> [<version constraint>]"
+          ],
+          "tip": [
+            "Remove one or more installed Packer plugins."
+          ]
+        },
+        {
+          "name": "required",
+          "usage": [
+            "required <path>"
+          ],
+          "tip": [
+            "List plugins required by a config."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "usage": [
+        "validate [OPTIONS] TEMPLATE"
+      ],
+      "tip": [
+        "Check that a template is valid."
+      ],
+      "option": [
+        {
+          "name": "-evaluate-datasources",
+          "tip": [
+            "Evaluate data sources during validation (HCL2 only, may incur costs)."
+          ]
+        },
+        {
+          "name": "-except",
+          "usage": [
+            "-except <names>"
+          ],
+          "tip": [
+            "Validate all builds other than these.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "Name of a build to exclude."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-ignore-prerelease-plugins",
+          "tip": [
+            "Disable the loading of prerelease plugin binaries (x.y.z-dev)."
+          ]
+        },
+        {
+          "name": "-machine-readable",
+          "tip": [
+            "Produce machine-readable output."
+          ]
+        },
+        {
+          "name": "-no-warn-undeclared-var",
+          "tip": [
+            "Disable warnings for user variable files containing undeclared variables."
+          ]
+        },
+        {
+          "name": "-only",
+          "usage": [
+            "-only <names>"
+          ],
+          "tip": [
+            "Validate only these builds.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "build-name",
+              "tip": [
+                "Name of a build to include."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-syntax-only",
+          "tip": [
+            "Only check syntax, do not verify config of the template."
+          ]
+        },
+        {
+          "name": "-use-sequential-evaluation",
+          "tip": [
+            "Fallback to using a sequential approach for local/datasource evaluation."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <key=value>"
+          ],
+          "tip": [
+            "Variable for templates.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "region=us-east-1",
+              "tip": [
+                "Example key=value variable."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <path>"
+          ],
+          "tip": [
+            "JSON or HCL2 file containing user variables.",
+            "Can be used multiple times."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "variables.pkr.hcl",
+              "tip": [
+                "Example variable file."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "verify-attestation",
+      "usage": [
+        "verify-attestation [OPTIONS] ATTESTATION"
+      ],
+      "tip": [
+        "Verify a signed DSSE attestation and optionally enforce policy checks."
+      ],
+      "option": [
+        {
+          "name": "-artifact",
+          "usage": [
+            "-artifact <path>"
+          ],
+          "tip": [
+            "Artifact path to match against attestation subjects."
+          ],
+          "next": [
+            {
+              "name": "image.sigstore.json",
+              "tip": [
+                "Example artifact path."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-builder-id",
+          "usage": [
+            "-builder-id <id>"
+          ],
+          "tip": [
+            "Expected SLSA builder ID."
+          ],
+          "next": [
+            {
+              "name": "https://github.com/hashicorp/packer",
+              "tip": [
+                "Example builder ID."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-bundle",
+          "usage": [
+            "-bundle <path>"
+          ],
+          "tip": [
+            "Optional Sigstore bundle JSON for Rekor or timestamp verification."
+          ],
+          "next": [
+            {
+              "name": "bundle.json",
+              "tip": [
+                "Example bundle file."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-key",
+          "usage": [
+            "-key <path_or_uri>"
+          ],
+          "tip": [
+            "PEM key path or KMS/Vault URI used for verification when no verifier is supplied."
+          ],
+          "next": [
+            {
+              "name": "key.pem",
+              "tip": [
+                "Example PEM key path."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-keyless-identity",
+          "usage": [
+            "-keyless-identity <identity>"
+          ],
+          "tip": [
+            "Expected keyless signing identity."
+          ],
+          "next": [
+            {
+              "name": "me@example.com",
+              "tip": [
+                "Example keyless identity."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-keyless-oidc-issuer",
+          "usage": [
+            "-keyless-oidc-issuer <issuer>"
+          ],
+          "tip": [
+            "Expected keyless OIDC issuer."
+          ],
+          "next": [
+            {
+              "name": "https://oauth2.sigstore.dev/auth",
+              "tip": [
+                "Example OIDC issuer."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-predicate-type",
+          "usage": [
+            "-predicate-type <type>"
+          ],
+          "tip": [
+            "Expected attestation predicate type."
+          ],
+          "next": [
+            {
+              "name": "https://slsa.dev/provenance/v1",
+              "tip": [
+                "Example predicate type."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-require-rekor",
+          "tip": [
+            "Require Rekor transparency log verification from the bundle."
+          ]
+        },
+        {
+          "name": "-require-timestamp",
+          "tip": [
+            "Require a trusted observer timestamp from Rekor integrated time or RFC3161 evidence."
+          ]
+        },
+        {
+          "name": "-signing-mode",
+          "usage": [
+            "-signing-mode <mode>"
+          ],
+          "tip": [
+            "Signing mode, auto-detected when possible."
+          ],
+          "next": [
+            {
+              "name": "key",
+              "tip": [
+                "Key-based signing."
+              ]
+            },
+            {
+              "name": "keyless",
+              "tip": [
+                "Keyless signing."
+              ]
+            },
+            {
+              "name": "kms",
+              "tip": [
+                "KMS signing."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-source-uri",
+          "usage": [
+            "-source-uri <uri>"
+          ],
+          "tip": [
+            "Expected resolved source URI."
+          ],
+          "next": [
+            {
+              "name": "https://github.com/org/repo",
+              "tip": [
+                "Example source URI."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-trusted-root-path",
+          "usage": [
+            "-trusted-root-path <path>"
+          ],
+          "tip": [
+            "Optional Sigstore trusted-root JSON for keyless verification."
+          ],
+          "next": [
+            {
+              "name": "trusted-root.json",
+              "tip": [
+                "Example trusted-root file."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-verifier",
+          "usage": [
+            "-verifier <path>"
+          ],
+          "tip": [
+            "PEM verifier path."
+          ],
+          "next": [
+            {
+              "name": "verifier.pem",
+              "tip": [
+                "Example verifier path."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Print the Packer version and check for new releases."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show the version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    }
+  ]
+}

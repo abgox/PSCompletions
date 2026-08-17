@@ -1,0 +1,3329 @@
+{
+  "meta": {
+    "url": "https://minikube.sigs.k8s.io/",
+    "description": [
+      "提供并管理针对开发工作流程优化的本地 Kubernetes 集群。"
+    ]
+  },
+  "next": [
+    {
+      "name": "addons",
+      "tip": [
+        "启用或禁用 minikube 插件。"
+      ],
+      "next": [
+        {
+          "name": "configure",
+          "usage": [
+            "configure <ADDON_NAME>"
+          ],
+          "tip": [
+            "在 minikube 中配置 ADDON_NAME 插件。"
+          ],
+          "option": [
+            {
+              "name": "--config-file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --config-file <path>"
+              ],
+              "tip": [
+                "用于读取插件特定配置的可选配置文件，无需每次进行交互式提示。"
+              ],
+              "next": [
+                {
+                  "name": "config.json"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "disable",
+          "usage": [
+            "disable <ADDON_NAME>"
+          ],
+          "tip": [
+            "在 minikube 中禁用 ADDON_NAME 插件。"
+          ]
+        },
+        {
+          "name": "enable",
+          "usage": [
+            "enable <ADDON_NAME>"
+          ],
+          "tip": [
+            "在 minikube 中启用 ADDON_NAME 插件。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "如果为 true，将执行潜在的危险操作。请谨慎使用。"
+              ]
+            },
+            {
+              "name": "--images",
+              "usage": [
+                "--images <images>"
+              ],
+              "tip": [
+                "此插件使用的镜像。以逗号分隔。"
+              ],
+              "next": [
+                {
+                  "name": "gcr.io/k8s-minikube/storage-provisioner:v5"
+                }
+              ]
+            },
+            {
+              "name": "--refresh",
+              "tip": [
+                "如果为 true，启用插件时 pod 可能会被删除并重新启动。"
+              ]
+            },
+            {
+              "name": "--registries",
+              "usage": [
+                "--registries <registries>"
+              ],
+              "tip": [
+                "此插件使用的注册表。以逗号分隔。"
+              ],
+              "next": [
+                {
+                  "name": "registry.k8s.io"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "images",
+          "usage": [
+            "images <ADDON_NAME>"
+          ],
+          "tip": [
+            "列出 ADDON_NAME 插件使用的镜像名称。"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式。table、json。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "table"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有可用的 minikube 插件及其当前状态（enabled/disabled）。"
+          ],
+          "option": [
+            {
+              "name": "--docs",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --docs"
+              ],
+              "tip": [
+                "如果为 true，则在 list 输出中输出指向插件文档的网页链接。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式。json、list。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "list"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "open",
+          "usage": [
+            "open <ADDON_NAME>"
+          ],
+          "tip": [
+            "在 minikube 中打开 ADDON_NAME 插件。"
+          ],
+          "option": [
+            {
+              "name": "--https",
+              "tip": [
+                "使用 https 而非 http 打开插件 URL。"
+              ]
+            },
+            {
+              "name": "--interval",
+              "usage": [
+                "--interval <seconds>"
+              ],
+              "tip": [
+                "wait 执行的每次检查的时间间隔，以秒为单位。"
+              ],
+              "next": [
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "5"
+                }
+              ]
+            },
+            {
+              "name": "--url",
+              "tip": [
+                "在 CLI 中显示 Kubernetes 插件 URL，而不是在默认浏览器中打开。"
+              ]
+            },
+            {
+              "name": "--wait",
+              "usage": [
+                "--wait <seconds>"
+              ],
+              "tip": [
+                "等待服务的时间，以秒为单位。"
+              ],
+              "next": [
+                {
+                  "name": "10"
+                },
+                {
+                  "name": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "tip": [
+        "将 image 作为本地缓存添加到 minikube 中，或删除、重新加载缓存中的 images。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <IMAGE>..."
+          ],
+          "tip": [
+            "将 image 添加到本地缓存。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "为所有正在运行的 minikube 集群添加镜像到缓存。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <IMAGE>..."
+          ],
+          "tip": [
+            "从本地缓存中删除 image。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出本地缓存中所有可用的镜像。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <template>"
+              ],
+              "tip": [
+                "用于缓存列表输出的 Go 模板格式字符串。"
+              ],
+              "next": [
+                {
+                  "name": "{{.CacheImage}}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "重新加载缓存的镜像。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion <SHELL>"
+      ],
+      "tip": [
+        "为指定的 shell 生成命令补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 自动补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 PowerShell 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 自动补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "修改持久配置值。"
+      ],
+      "next": [
+        {
+          "name": "defaults",
+          "usage": [
+            "defaults <PROPERTY_NAME>"
+          ],
+          "tip": [
+            "列出 PROPERTY_NAME 所有有效的默认值。"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出格式。可接受的值：json、yaml。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <PROPERTY_NAME>"
+          ],
+          "tip": [
+            "从 minikube 配置文件中获取 PROPERTY_NAME 的值。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <PROPERTY_NAME> <PROPERTY_VALUE>"
+          ],
+          "tip": [
+            "在 minikube 配置文件中将 PROPERTY_NAME 的值设置为 PROPERTY_VALUE。"
+          ]
+        },
+        {
+          "name": "unset",
+          "usage": [
+            "unset <PROPERTY_NAME>"
+          ],
+          "tip": [
+            "从 minikube 配置文件中取消设置 PROPERTY_NAME。"
+          ]
+        },
+        {
+          "name": "view",
+          "tip": [
+            "显示当前在 minikube 配置文件中设置的值。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <template>"
+              ],
+              "tip": [
+                "用于配置视图输出的 Go 模板格式字符串。"
+              ],
+              "next": [
+                {
+                  "name": "'- {{.ConfigKey}}: {{.ConfigValue}}'"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cp",
+      "usage": [
+        "cp <SOURCE_NODE>:<SOURCE_PATH> <TARGET_NODE>:<TARGET_PATH>"
+      ],
+      "tip": [
+        "将指定的文件复制到 minikube，将其保存为目标文件绝对路径。"
+      ]
+    },
+    {
+      "name": "dashboard",
+      "tip": [
+        "访问在 minikube 集群中运行的 Kubernetes dashboard。"
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "usage": [
+            "--port <port>"
+          ],
+          "tip": [
+            "暴露 dashboard 的端口。设置为 0 将选择一个随机端口。"
+          ],
+          "next": [
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "显示 dashboard URL，而不是打开浏览器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "delete",
+      "tip": [
+        "删除本地 Kubernetes 集群。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "设置标志以删除所有配置文件（集群）。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "标准输出的格式。可选项包括：text、json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "设置此标志以删除您用户目录下的 '.minikube' 文件夹。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docker-env",
+      "tip": [
+        "提供将终端的 docker-cli 指向 minikube 内部 Docker Engine 的说明。"
+      ],
+      "option": [
+        {
+          "name": "--no-proxy",
+          "tip": [
+            "将机器 IP 添加到 NO_PROXY 环境变量中。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式。可选项：text、yaml 或 json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            },
+            {
+              "name": "yaml"
+            }
+          ]
+        },
+        {
+          "name": "--shell",
+          "usage": [
+            "--shell <shell>"
+          ],
+          "tip": [
+            "强制为指定的 shell 配置环境：fish、cmd、powershell、tcsh、bash、zsh。"
+          ],
+          "next": [
+            {
+              "name": "bash"
+            },
+            {
+              "name": "cmd"
+            },
+            {
+              "name": "fish"
+            },
+            {
+              "name": "powershell"
+            },
+            {
+              "name": "tcsh"
+            },
+            {
+              "name": "zsh"
+            }
+          ]
+        },
+        {
+          "name": "--ssh-add",
+          "tip": [
+            "将 SSH 身份密钥添加到 SSH 身份验证代理。"
+          ]
+        },
+        {
+          "name": "--ssh-host",
+          "tip": [
+            "使用 SSH 连接而非 HTTPS 连接（端口 2376）。"
+          ]
+        },
+        {
+          "name": "--unset",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --unset"
+          ],
+          "tip": [
+            "取消设置变量，而不是设置它们。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "image",
+      "tip": [
+        "管理 images。"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "usage": [
+            "build <PATH | URL | ->"
+          ],
+          "tip": [
+            "在 minikube 中构建容器镜像。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "在所有节点上构建镜像。"
+              ]
+            },
+            {
+              "name": "--build-env",
+              "usage": [
+                "--build-env <key=value>"
+              ],
+              "tip": [
+                "传递给构建过程的环境变量。（格式：key=value）"
+              ],
+              "next": [
+                {
+                  "name": "FOO=bar"
+                }
+              ]
+            },
+            {
+              "name": "--build-opt",
+              "usage": [
+                "--build-opt <key=value>"
+              ],
+              "tip": [
+                "指定传递给构建过程的任意标志。（格式：key=value）"
+              ],
+              "next": [
+                {
+                  "name": "network=host"
+                }
+              ]
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <path>"
+              ],
+              "tip": [
+                "Dockerfile 的路径（可选）。"
+              ],
+              "next": [
+                {
+                  "name": "Dockerfile"
+                }
+              ]
+            },
+            {
+              "name": "--node",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --node <name>"
+              ],
+              "tip": [
+                "要构建的节点。默认为主控制平面。"
+              ],
+              "next": [
+                {
+                  "name": "minikube"
+                }
+              ]
+            },
+            {
+              "name": "--push",
+              "tip": [
+                "推送新镜像（需要标签）。"
+              ]
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <tag>"
+              ],
+              "tip": [
+                "要应用于新镜像的标签（可选）。"
+              ],
+              "next": [
+                {
+                  "name": "myimage:v1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出镜像。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <format>"
+              ],
+              "tip": [
+                "格式化输出。可选值为：short、table、json、yaml。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "short"
+                },
+                {
+                  "name": "table"
+                },
+                {
+                  "name": "yaml"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "load",
+          "usage": [
+            "load <IMAGE | ARCHIVE | ->"
+          ],
+          "tip": [
+            "将镜像加载到 minikube 中。"
+          ],
+          "option": [
+            {
+              "name": "--daemon",
+              "tip": [
+                "从 docker daemon 中缓存镜像。"
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "即使存在相同的 image:tag 也覆盖镜像。"
+              ]
+            },
+            {
+              "name": "--pull",
+              "tip": [
+                "拉取远程镜像（禁用缓存）。"
+              ]
+            },
+            {
+              "name": "--remote",
+              "tip": [
+                "在远程仓库中缓存镜像。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "usage": [
+            "pull <IMAGE>"
+          ],
+          "tip": [
+            "拉取镜像。"
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push <IMAGE>"
+          ],
+          "tip": [
+            "推送镜像。"
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "unload",
+            "rm"
+          ],
+          "usage": [
+            "rm|remove|unload <IMAGE> [IMAGE...]"
+          ],
+          "tip": [
+            "移除一个或多个镜像。"
+          ]
+        },
+        {
+          "name": "save",
+          "usage": [
+            "save <IMAGE> [ARCHIVE | -]"
+          ],
+          "tip": [
+            "从 minikube 中保存一个镜像。"
+          ],
+          "option": [
+            {
+              "name": "--daemon",
+              "tip": [
+                "将镜像缓存到 docker daemon。"
+              ]
+            },
+            {
+              "name": "--remote",
+              "tip": [
+                "将镜像缓存到远程仓库。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tag",
+          "usage": [
+            "tag <SOURCE> <TARGET>"
+          ],
+          "tip": [
+            "为镜像打标签。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ip",
+      "tip": [
+        "检索指定节点的 IP 地址，并将其写入 STDOUT。"
+      ],
+      "option": [
+        {
+          "name": "--node",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --node <name>"
+          ],
+          "tip": [
+            "要获取 IP 的节点。默认为主控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "kubectl",
+      "usage": [
+        "kubectl -- <COMMAND>"
+      ],
+      "tip": [
+        "运行与集群版本匹配的 Kubernetes 客户端（kubectl），如有必要请下载。"
+      ],
+      "option": [
+        {
+          "name": "--ssh",
+          "tip": [
+            "使用 SSH 在节点上运行 Kubernetes 客户端。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "license",
+      "tip": [
+        "将依赖项的 licenses 输出到一个目录。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dir <directory>"
+          ],
+          "tip": [
+            "输出许可证的目录。"
+          ],
+          "next": [
+            {
+              "name": "licenses"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logs",
+      "tip": [
+        "获取正在运行的实例的日志，用于调试 minikube，而不是用户代码。"
+      ],
+      "option": [
+        {
+          "name": "--audit",
+          "tip": [
+            "仅显示审计日志。"
+          ]
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <path>"
+          ],
+          "tip": [
+            "如果存在，则写入所提供的文件而不是标准输出。"
+          ],
+          "next": [
+            {
+              "name": "minikube.log"
+            }
+          ]
+        },
+        {
+          "name": "--follow",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --follow"
+          ],
+          "tip": [
+            "仅显示最近的日志条目，并持续打印新添加到日志中的条目。"
+          ]
+        },
+        {
+          "name": "--last-start-only",
+          "tip": [
+            "仅显示最近一次启动的日志。"
+          ]
+        },
+        {
+          "name": "--length",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --length <lines>"
+          ],
+          "tip": [
+            "日志中回溯的行数。"
+          ],
+          "next": [
+            {
+              "name": "100"
+            },
+            {
+              "name": "60"
+            }
+          ]
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <name>"
+          ],
+          "tip": [
+            "要获取日志的节点。默认为主控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        },
+        {
+          "name": "--problems",
+          "tip": [
+            "仅显示指向已知问题的日志条目。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mount",
+      "usage": [
+        "mount <SOURCE>:<TARGET>"
+      ],
+      "tip": [
+        "将指定的目录挂载到 minikube。"
+      ],
+      "option": [
+        {
+          "name": "--9p-version",
+          "usage": [
+            "--9p-version <version>"
+          ],
+          "tip": [
+            "指定 mount 应使用的 9p 版本。"
+          ],
+          "next": [
+            {
+              "name": "9p2000.L"
+            }
+          ]
+        },
+        {
+          "name": "--gid",
+          "usage": [
+            "--gid <gid>"
+          ],
+          "tip": [
+            "用于 mount 的默认组 id。"
+          ],
+          "next": [
+            {
+              "name": "docker"
+            }
+          ]
+        },
+        {
+          "name": "--ip",
+          "usage": [
+            "--ip <ip>"
+          ],
+          "tip": [
+            "指定 mount 应设置的 ip。"
+          ],
+          "next": [
+            {
+              "name": "192.168.49.2"
+            }
+          ]
+        },
+        {
+          "name": "--kill",
+          "tip": [
+            "终止由 minikube start 生成的挂载进程。"
+          ]
+        },
+        {
+          "name": "--msize",
+          "usage": [
+            "--msize <bytes>"
+          ],
+          "tip": [
+            "用于 9p 数据包有效负载的字节数。"
+          ],
+          "next": [
+            {
+              "name": "262144"
+            }
+          ]
+        },
+        {
+          "name": "--options",
+          "usage": [
+            "--options <options>"
+          ],
+          "tip": [
+            "其他挂载选项，例如 cache=fscache。"
+          ],
+          "next": [
+            {
+              "name": "cache=fscache"
+            }
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <port>"
+          ],
+          "tip": [
+            "指定 mount 应设置的端口，其中 0 表示任意空闲端口。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <type>"
+          ],
+          "tip": [
+            "指定挂载文件系统类型（支持的类型：9p）。"
+          ],
+          "next": [
+            {
+              "name": "9p"
+            }
+          ]
+        },
+        {
+          "name": "--uid",
+          "usage": [
+            "--uid <uid>"
+          ],
+          "tip": [
+            "用于 mount 的默认用户 id。"
+          ],
+          "next": [
+            {
+              "name": "docker"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "tip": [
+        "添加、删除或列出其他节点。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "将节点添加到给定集群配置中，然后启动它。"
+          ],
+          "option": [
+            {
+              "name": "--control-plane",
+              "tip": [
+                "如果设置，则添加的节点将成为控制平面。默认值为 false。"
+              ]
+            },
+            {
+              "name": "--delete-on-failure",
+              "tip": [
+                "如果设置为 true，则在启动失败时删除当前集群，然后重试。默认为 false。"
+              ]
+            },
+            {
+              "name": "--worker",
+              "tip": [
+                "如果设置，则添加的节点将作为 worker 可用。默认值为 true。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "tip": [
+            "从集群中删除节点。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出节点。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "启动一个节点。"
+          ],
+          "option": [
+            {
+              "name": "--delete-on-failure",
+              "tip": [
+                "如果设置为 true，则在启动失败时删除当前集群，然后重试。默认为 false。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止集群中的一个节点。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "options",
+      "tip": [
+        "显示全局命令行选项列表（应用于所有命令）。"
+      ]
+    },
+    {
+      "name": "pause",
+      "tip": [
+        "暂停 Kubernetes。"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "如果设置为 true，则暂停所有 namespace。"
+          ]
+        },
+        {
+          "name": "--namespaces",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --namespaces <namespaces>"
+          ],
+          "tip": [
+            "需要暂停的命名空间。"
+          ],
+          "next": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "kube-system"
+            },
+            {
+              "name": "kubernetes-dashboard"
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "标准输出的格式。可选项包括：text、json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "podman-env",
+      "tip": [
+        "设置 podman env 变量；类似于 '$(podman-machine env)'。"
+      ],
+      "option": [
+        {
+          "name": "--shell",
+          "usage": [
+            "--shell <shell>"
+          ],
+          "tip": [
+            "强制为指定的 shell 配置环境：fish、cmd、powershell、tcsh、bash、zsh。"
+          ],
+          "next": [
+            {
+              "name": "bash"
+            },
+            {
+              "name": "cmd"
+            },
+            {
+              "name": "fish"
+            },
+            {
+              "name": "powershell"
+            },
+            {
+              "name": "tcsh"
+            },
+            {
+              "name": "zsh"
+            }
+          ]
+        },
+        {
+          "name": "--unset",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --unset"
+          ],
+          "tip": [
+            "取消设置变量，而不是设置它们。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "profile",
+      "usage": [
+        "profile [MINIKUBE_PROFILE_NAME]"
+      ],
+      "tip": [
+        "profile 命令用于设置当前的 minikube 配置文件，如果没有提供参数，则获取当前配置文件。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出所有有效的 minikube 配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--detailed",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --detailed"
+              ],
+              "tip": [
+                "如果为 true，则返回详细的配置文件列表。"
+              ]
+            },
+            {
+              "name": "--light",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --light"
+              ],
+              "tip": [
+                "如果为 true，则通过跳过验证集群的状态来更快地返回配置文件列表。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出的格式。'json' 或 'table'。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "table"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "usage": [
+        "service <SERVICE>"
+      ],
+      "tip": [
+        "返回本地集群中服务的 Kubernetes URL。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "转发命名空间中的所有服务（默认为 false）。"
+          ]
+        },
+        {
+          "name": "--https",
+          "tip": [
+            "使用 https 而非 http 打开服务 URL（默认为 false）。"
+          ]
+        },
+        {
+          "name": "--interval",
+          "usage": [
+            "--interval <seconds>"
+          ],
+          "tip": [
+            "wait 执行的每次检查的初始时间间隔，以秒为单位。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--namespace",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --namespace <name>"
+          ],
+          "tip": [
+            "服务的命名空间。"
+          ],
+          "next": [
+            {
+              "name": "default"
+            }
+          ]
+        },
+        {
+          "name": "--url",
+          "tip": [
+            "在 CLI 中显示 Kubernetes 服务 URL，而不是在默认浏览器中打开。"
+          ]
+        },
+        {
+          "name": "--wait",
+          "usage": [
+            "--wait <seconds>"
+          ],
+          "tip": [
+            "等待服务的时间，以秒为单位。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "2"
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出本地集群中服务的 URL。"
+          ],
+          "option": [
+            {
+              "name": "--namespace",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --namespace <name>"
+              ],
+              "tip": [
+                "服务命名空间。"
+              ],
+              "next": [
+                {
+                  "name": "default"
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <format>"
+              ],
+              "tip": [
+                "输出的格式。'json' 或 'table'。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "table"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ssh",
+      "tip": [
+        "使用 SSH 登录或在机器上运行命令；类似于 'docker-machine ssh'。"
+      ],
+      "option": [
+        {
+          "name": "--native-ssh",
+          "tip": [
+            "使用原生的 Golang SSH 客户端（默认为 true）。"
+          ]
+        },
+        {
+          "name": "--node",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --node <name>"
+          ],
+          "tip": [
+            "要 ssh 访问的节点。默认为主控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ssh-host",
+      "tip": [
+        "检索指定节点的 SSH 主机密钥。"
+      ],
+      "option": [
+        {
+          "name": "--append-known",
+          "tip": [
+            "在 SSH known_hosts 文件中添加主机密钥。"
+          ]
+        },
+        {
+          "name": "--node",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --node <name>"
+          ],
+          "tip": [
+            "要 ssh 访问的节点。默认为主控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ssh-key",
+      "tip": [
+        "检索指定节点的 SSH 密钥路径，并将其写入 STDOUT。"
+      ],
+      "option": [
+        {
+          "name": "--node",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --node <name>"
+          ],
+          "tip": [
+            "获取 ssh 密钥路径的节点。默认为主控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "start",
+      "tip": [
+        "启动本地 Kubernetes 集群。"
+      ],
+      "option": [
+        {
+          "name": "--addons",
+          "usage": [
+            "--addons <addons>"
+          ],
+          "tip": [
+            "启用一个或多个插件。请参阅 `minikube addons list` 查看有效插件名称列表。"
+          ],
+          "next": [
+            {
+              "name": "dashboard"
+            },
+            {
+              "name": "ingress"
+            },
+            {
+              "name": "metrics-server"
+            },
+            {
+              "name": "registry"
+            }
+          ]
+        },
+        {
+          "name": "--apiserver-ips",
+          "usage": [
+            "--apiserver-ips <ips>"
+          ],
+          "tip": [
+            "一组在为 Kubernetes 生成的证书中使用的 apiserver IP 地址。"
+          ],
+          "next": [
+            {
+              "name": "192.168.49.2"
+            }
+          ]
+        },
+        {
+          "name": "--apiserver-name",
+          "usage": [
+            "--apiserver-name <name>"
+          ],
+          "tip": [
+            "用于 apiserver 证书和连接的权威 apiserver 主机名。"
+          ],
+          "next": [
+            {
+              "name": "minikubeCA"
+            }
+          ]
+        },
+        {
+          "name": "--apiserver-names",
+          "usage": [
+            "--apiserver-names <names>"
+          ],
+          "tip": [
+            "一组在为 Kubernetes 生成的证书中使用的 apiserver 名称。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        },
+        {
+          "name": "--apiserver-port",
+          "usage": [
+            "--apiserver-port <port>"
+          ],
+          "tip": [
+            "apiserver 侦听的端口。"
+          ],
+          "next": [
+            {
+              "name": "6443"
+            },
+            {
+              "name": "8443"
+            }
+          ]
+        },
+        {
+          "name": "--auto-pause-interval",
+          "usage": [
+            "--auto-pause-interval <duration>"
+          ],
+          "tip": [
+            "minikube VM 暂停之前的不活动时间（默认为 1 分钟）。"
+          ],
+          "next": [
+            {
+              "name": "1m0s"
+            }
+          ]
+        },
+        {
+          "name": "--auto-update-drivers",
+          "tip": [
+            "如果设置为 true，将自动更新驱动到最新版本。默认为 true。"
+          ]
+        },
+        {
+          "name": "--base-image",
+          "usage": [
+            "--base-image <image>"
+          ],
+          "tip": [
+            "Docker/Podman 驱动使用的基础镜像。用于本地部署。"
+          ],
+          "next": [
+            {
+              "name": "gcr.io/k8s-minikube/kicbase:v0.0.50"
+            }
+          ]
+        },
+        {
+          "name": "--binary-mirror",
+          "usage": [
+            "--binary-mirror <url>"
+          ],
+          "tip": [
+            "kubectl、kubelet、kubeadm 二进制文件的来源。"
+          ],
+          "next": [
+            {
+              "name": "https://storage.googleapis.com"
+            }
+          ]
+        },
+        {
+          "name": "--cache-images",
+          "tip": [
+            "如果为 true，则缓存当前引导程序的 docker 镜像并加载到机器中。"
+          ]
+        },
+        {
+          "name": "--cert-expiration",
+          "usage": [
+            "--cert-expiration <duration>"
+          ],
+          "tip": [
+            "minikube 证书的有效期（默认三年，即 26280 小时）。"
+          ],
+          "next": [
+            {
+              "name": "26280h0m0s"
+            }
+          ]
+        },
+        {
+          "name": "--cni",
+          "usage": [
+            "--cni <cni>"
+          ],
+          "tip": [
+            "要使用的 CNI 插件。可选包括：auto、bridge、calico、cilium、flannel、kindnet 或 CNI 配置清单的路径。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "bridge"
+            },
+            {
+              "name": "calico"
+            },
+            {
+              "name": "cilium"
+            },
+            {
+              "name": "flannel"
+            },
+            {
+              "name": "kindnet"
+            }
+          ]
+        },
+        {
+          "name": "--container-runtime",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container-runtime <name>"
+          ],
+          "tip": [
+            "要使用的容器运行时。有效选项：docker、cri-o、containerd。"
+          ],
+          "next": [
+            {
+              "name": "containerd"
+            },
+            {
+              "name": "cri-o"
+            },
+            {
+              "name": "docker"
+            }
+          ]
+        },
+        {
+          "name": "--cpus",
+          "usage": [
+            "--cpus <count>"
+          ],
+          "tip": [
+            "分配给 Kubernetes 的 CPU 数量。使用 \"max\" 使用最大 CPU 数量，或 \"no-limit\" 表示不限制。"
+          ],
+          "next": [
+            {
+              "name": "2"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "max"
+            }
+          ]
+        },
+        {
+          "name": "--cri-socket",
+          "usage": [
+            "--cri-socket <path>"
+          ],
+          "tip": [
+            "需要使用的 cri 套接字路径。"
+          ],
+          "next": [
+            {
+              "name": "/var/run/cri.sock"
+            }
+          ]
+        },
+        {
+          "name": "--delete-on-failure",
+          "tip": [
+            "如果设置为 true，则在启动失败时删除当前集群，然后重试。默认为 false。"
+          ]
+        },
+        {
+          "name": "--disable-coredns-log",
+          "tip": [
+            "如果设置，则禁用 CoreDNS 详细日志记录。默认为 false。"
+          ]
+        },
+        {
+          "name": "--disable-driver-mounts",
+          "tip": [
+            "停用由管理程序提供的文件系统挂载。"
+          ]
+        },
+        {
+          "name": "--disable-metrics",
+          "tip": [
+            "如果设置为 true，则禁用指标报告（CPU 和内存使用率），这可以提高 CPU 利用率。"
+          ]
+        },
+        {
+          "name": "--disable-optimizations",
+          "tip": [
+            "如果设置为 true，则禁用为本地 Kubernetes 所做的优化，包括将 CoreDNS 副本数从 2 减少到 1。"
+          ]
+        },
+        {
+          "name": "--disk-size",
+          "usage": [
+            "--disk-size <size>"
+          ],
+          "tip": [
+            "分配给 minikube VM 的磁盘大小（格式：<数字>[<单位>]，其中单位 = b、k、m 或 g）。"
+          ],
+          "next": [
+            {
+              "name": "20000mb"
+            },
+            {
+              "name": "40g"
+            }
+          ]
+        },
+        {
+          "name": "--dns-domain",
+          "usage": [
+            "--dns-domain <domain>"
+          ],
+          "tip": [
+            "Kubernetes 集群中使用的集群 DNS 域名。"
+          ],
+          "next": [
+            {
+              "name": "cluster.local"
+            }
+          ]
+        },
+        {
+          "name": "--dns-proxy",
+          "tip": [
+            "为 NAT DNS 请求启用代理（仅限 virtualbox 驱动）。"
+          ]
+        },
+        {
+          "name": "--docker-env",
+          "usage": [
+            "--docker-env <key=value>"
+          ],
+          "tip": [
+            "传递给 Docker 守护进程的环境变量。（格式：key=value）"
+          ],
+          "next": [
+            {
+              "name": "HTTP_PROXY=http://proxy.example"
+            }
+          ]
+        },
+        {
+          "name": "--docker-opt",
+          "usage": [
+            "--docker-opt <key=value>"
+          ],
+          "tip": [
+            "指定要传递给 Docker 守护进程的任意标志。（格式：key=value）"
+          ],
+          "next": [
+            {
+              "name": "nat=efuse"
+            }
+          ]
+        },
+        {
+          "name": "--download-only",
+          "tip": [
+            "如果为 true，仅下载和缓存文件以备后用 - 不会安装或启动任何项。"
+          ]
+        },
+        {
+          "name": "--driver",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --driver <name>"
+          ],
+          "tip": [
+            "Driver 是以下之一：virtualbox、hyperv、vmware、qemu2、docker、podman、ssh。"
+          ],
+          "next": [
+            {
+              "name": "docker"
+            },
+            {
+              "name": "hyperv"
+            },
+            {
+              "name": "kvm2"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "podman"
+            },
+            {
+              "name": "qemu2"
+            },
+            {
+              "name": "ssh"
+            },
+            {
+              "name": "virtualbox"
+            },
+            {
+              "name": "vmware"
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "dry-run 模式。仅验证配置，不改变系统状态。"
+          ]
+        },
+        {
+          "name": "--embed-certs",
+          "tip": [
+            "如果为 true，将在 kubeconfig 中嵌入证书。"
+          ]
+        },
+        {
+          "name": "--extra-config",
+          "usage": [
+            "--extra-config <key=value>"
+          ],
+          "tip": [
+            "一组描述可传递给不同组件的配置的 key=value 对。"
+          ],
+          "next": [
+            {
+              "name": "kubelet.max-pods=100"
+            }
+          ]
+        },
+        {
+          "name": "--extra-disks",
+          "usage": [
+            "--extra-disks <count>"
+          ],
+          "tip": [
+            "创建并附加到 minikube VM 的额外磁盘数。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "2"
+            }
+          ]
+        },
+        {
+          "name": "--feature-gates",
+          "usage": [
+            "--feature-gates <key=value>"
+          ],
+          "tip": [
+            "一组用于描述 alpha/实验性功能的功能门控的 key=value 对。"
+          ],
+          "next": [
+            {
+              "name": "SupportPodPidsLimit=true"
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制 minikube 执行可能有风险的操作。"
+          ]
+        },
+        {
+          "name": "--force-systemd",
+          "tip": [
+            "如果设置为 true，则强制容器运行时使用 systemd 作为 cgroup 管理器。默认为 false。"
+          ]
+        },
+        {
+          "name": "--gpus",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --gpus <gpus>"
+          ],
+          "tip": [
+            "允许 pod 使用您的 GPU。选项包括：all、nvidia、amd。"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "amd"
+            },
+            {
+              "name": "nvidia"
+            }
+          ]
+        },
+        {
+          "name": "--ha",
+          "tip": [
+            "创建高可用的多控制平面集群，其中包含至少三个控制平面节点，这些节点也作为工作节点。"
+          ]
+        },
+        {
+          "name": "--host-dns-resolver",
+          "tip": [
+            "为 NAT DNS 请求启用主机解析器（仅限 virtualbox 驱动）。"
+          ]
+        },
+        {
+          "name": "--host-only-cidr",
+          "usage": [
+            "--host-only-cidr <cidr>"
+          ],
+          "tip": [
+            "用于 minikube VM 的 CIDR（仅限 virtualbox 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "192.168.59.1/24"
+            }
+          ]
+        },
+        {
+          "name": "--host-only-nic-type",
+          "usage": [
+            "--host-only-nic-type <type>"
+          ],
+          "tip": [
+            "用于仅主机网络的 NIC 类型。Am79C970A、Am79C973、82540EM、82543GC、82545EM 或 virtio 之一（仅限 virtualbox 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "82540EM"
+            },
+            {
+              "name": "82543GC"
+            },
+            {
+              "name": "82545EM"
+            },
+            {
+              "name": "Am79C970A"
+            },
+            {
+              "name": "Am79C973"
+            },
+            {
+              "name": "virtio"
+            }
+          ]
+        },
+        {
+          "name": "--hyperkit-vpnkit-sock",
+          "usage": [
+            "--hyperkit-vpnkit-sock <path>"
+          ],
+          "tip": [
+            "用于网络连接的 VPNKit 套接字的位置。如果为空，则停用 Hyperkit VPNKitSock；如果为 'auto'，则使用 Docker for Mac VPNKit 连接。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            }
+          ]
+        },
+        {
+          "name": "--hyperkit-vsock-ports",
+          "usage": [
+            "--hyperkit-vsock-ports <ports>"
+          ],
+          "tip": [
+            "应在主机上公开为套接字的访客 VSock 端口列表（仅限 hyperkit 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            }
+          ]
+        },
+        {
+          "name": "--hyperv-external-adapter",
+          "usage": [
+            "--hyperv-external-adapter <adapter>"
+          ],
+          "tip": [
+            "如果找不到外部交换机，将在外部适配器上创建外部交换机（仅限 hyperv 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "eth0"
+            }
+          ]
+        },
+        {
+          "name": "--hyperv-use-external-switch",
+          "tip": [
+            "是否在未显式指定虚拟开关时使用外部开关而非默认开关。仅适用于 hyperv 驱动。"
+          ]
+        },
+        {
+          "name": "--hyperv-virtual-switch",
+          "usage": [
+            "--hyperv-virtual-switch <name>"
+          ],
+          "tip": [
+            "hyperv 虚拟交换机名称。默认为找到的第一个 hyperv 虚拟交换机（仅限 hyperv 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "'Default Switch'"
+            }
+          ]
+        },
+        {
+          "name": "--image-mirror-country",
+          "usage": [
+            "--image-mirror-country <code>"
+          ],
+          "tip": [
+            "需要使用的镜像的国家/地区代码。留空以使用全球代码。对于中国大陆用户，请将其设置为 cn。"
+          ],
+          "next": [
+            {
+              "name": "cn"
+            }
+          ]
+        },
+        {
+          "name": "--image-repository",
+          "usage": [
+            "--image-repository <repository>"
+          ],
+          "tip": [
+            "用于从中拉取 docker 镜像的备选镜像存储库。设置为 'auto' 可让 minikube 为您选择一个存储库。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "registry.cn-hangzhou.aliyuncs.com/google_containers"
+            }
+          ]
+        },
+        {
+          "name": "--insecure-registry",
+          "usage": [
+            "--insecure-registry <registry>"
+          ],
+          "tip": [
+            "传递给 Docker 守护进程的不安全 Docker 注册表。系统会自动添加默认 service CIDR 范围。"
+          ],
+          "next": [
+            {
+              "name": "localhost:5000"
+            }
+          ]
+        },
+        {
+          "name": "--install-addons",
+          "tip": [
+            "如果设置为 true，则安装插件。默认为 true。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "tip": [
+            "允许用户提示以获取更多信息。"
+          ]
+        },
+        {
+          "name": "--iso-url",
+          "usage": [
+            "--iso-url <url>"
+          ],
+          "tip": [
+            "minikube ISO 镜像的位置。"
+          ],
+          "next": [
+            {
+              "name": "https://storage.googleapis.com/minikube/iso/minikube-v1.38.0-amd64.iso"
+            }
+          ]
+        },
+        {
+          "name": "--keep-context",
+          "tip": [
+            "这将保留现有的 kubectl context 并创建 minikube context。"
+          ]
+        },
+        {
+          "name": "--kubernetes-version",
+          "usage": [
+            "--kubernetes-version <version>"
+          ],
+          "tip": [
+            "minikube VM 将使用的 Kubernetes 版本（例如：v1.2.3、'stable'、'latest'）。"
+          ],
+          "next": [
+            {
+              "name": "latest"
+            },
+            {
+              "name": "stable"
+            },
+            {
+              "name": "v1.35.1"
+            }
+          ]
+        },
+        {
+          "name": "--kvm-gpu",
+          "tip": [
+            "在 minikube 中启用实验性 NVIDIA GPU 支持。"
+          ]
+        },
+        {
+          "name": "--kvm-hidden",
+          "tip": [
+            "向 minikube 中的访客隐藏管理程序签名（仅限 kvm2 驱动）。"
+          ]
+        },
+        {
+          "name": "--kvm-network",
+          "usage": [
+            "--kvm-network <name>"
+          ],
+          "tip": [
+            "KVM 默认 network 名称（仅限 kvm2 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "default"
+            }
+          ]
+        },
+        {
+          "name": "--kvm-numa-count",
+          "usage": [
+            "--kvm-numa-count <count>"
+          ],
+          "tip": [
+            "在 minikube 中模拟 numa 节点数量，支持的 numa 节点数量范围为 1-8（仅限 kvm2 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "2"
+            }
+          ]
+        },
+        {
+          "name": "--kvm-qemu-uri",
+          "usage": [
+            "--kvm-qemu-uri <uri>"
+          ],
+          "tip": [
+            "KVM QEMU 连接 URI（仅限 kvm2 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "qemu:///system"
+            }
+          ]
+        },
+        {
+          "name": "--listen-address",
+          "usage": [
+            "--listen-address <address>"
+          ],
+          "tip": [
+            "用于暴露端口的 IP 地址（仅限 docker 和 podman 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "0.0.0.0"
+            }
+          ]
+        },
+        {
+          "name": "--memory",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --memory <size>"
+          ],
+          "tip": [
+            "分配给 Kubernetes 的 RAM 数量（格式：<数字>[<单位>]，其中单位 = b、k、m 或 g）。使用 \"max\" 或 \"no-limit\" 表示不限制。"
+          ],
+          "next": [
+            {
+              "name": "2048"
+            },
+            {
+              "name": "4096"
+            },
+            {
+              "name": "8192"
+            }
+          ]
+        },
+        {
+          "name": "--mount",
+          "tip": [
+            "为向后兼容而保留，该值将被忽略。"
+          ]
+        },
+        {
+          "name": "--mount-9p-version",
+          "usage": [
+            "--mount-9p-version <version>"
+          ],
+          "tip": [
+            "指定 mount 应使用的 9p 版本。"
+          ],
+          "next": [
+            {
+              "name": "9p2000.L"
+            }
+          ]
+        },
+        {
+          "name": "--mount-gid",
+          "usage": [
+            "--mount-gid <gid>"
+          ],
+          "tip": [
+            "用于 mount 的默认组 id。"
+          ],
+          "next": [
+            {
+              "name": "docker"
+            }
+          ]
+        },
+        {
+          "name": "--mount-ip",
+          "usage": [
+            "--mount-ip <ip>"
+          ],
+          "tip": [
+            "指定 mount 应设置的 ip。"
+          ],
+          "next": [
+            {
+              "name": "192.168.49.2"
+            }
+          ]
+        },
+        {
+          "name": "--mount-msize",
+          "usage": [
+            "--mount-msize <bytes>"
+          ],
+          "tip": [
+            "用于 9p 数据包有效负载的字节数。"
+          ],
+          "next": [
+            {
+              "name": "262144"
+            }
+          ]
+        },
+        {
+          "name": "--mount-options",
+          "usage": [
+            "--mount-options <options>"
+          ],
+          "tip": [
+            "其他挂载选项，例如 cache=fscache。"
+          ],
+          "next": [
+            {
+              "name": "cache=fscache"
+            }
+          ]
+        },
+        {
+          "name": "--mount-port",
+          "usage": [
+            "--mount-port <port>"
+          ],
+          "tip": [
+            "指定 mount 应设置的端口，其中 0 表示任意空闲端口。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            }
+          ]
+        },
+        {
+          "name": "--mount-string",
+          "usage": [
+            "--mount-string <source>:<target>"
+          ],
+          "tip": [
+            "要挂载到客户机的目录，格式为 '/host-path:/guest-path'。"
+          ],
+          "next": [
+            {
+              "name": "/host-path:/guest-path"
+            }
+          ]
+        },
+        {
+          "name": "--mount-type",
+          "usage": [
+            "--mount-type <type>"
+          ],
+          "tip": [
+            "指定挂载文件系统类型（支持的类型：9p）。"
+          ],
+          "next": [
+            {
+              "name": "9p"
+            }
+          ]
+        },
+        {
+          "name": "--mount-uid",
+          "usage": [
+            "--mount-uid <uid>"
+          ],
+          "tip": [
+            "用于 mount 的默认用户 id。"
+          ],
+          "next": [
+            {
+              "name": "docker"
+            }
+          ]
+        },
+        {
+          "name": "--namespace",
+          "usage": [
+            "--namespace <name>"
+          ],
+          "tip": [
+            "启动后要激活的命名空间。"
+          ],
+          "next": [
+            {
+              "name": "default"
+            }
+          ]
+        },
+        {
+          "name": "--nat-nic-type",
+          "usage": [
+            "--nat-nic-type <type>"
+          ],
+          "tip": [
+            "用于 NAT 网络的 NIC 类型。Am79C970A、Am79C973、82540EM、82543GC、82545EM 或 virtio 之一（仅限 virtualbox 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "82540EM"
+            },
+            {
+              "name": "82543GC"
+            },
+            {
+              "name": "82545EM"
+            },
+            {
+              "name": "Am79C970A"
+            },
+            {
+              "name": "Am79C973"
+            },
+            {
+              "name": "virtio"
+            }
+          ]
+        },
+        {
+          "name": "--native-ssh",
+          "tip": [
+            "使用原生的 Golang SSH 客户端（默认为 true）。设置为 'false' 以在访问 Docker 机器时使用命令行的 'ssh' 命令。"
+          ]
+        },
+        {
+          "name": "--network",
+          "usage": [
+            "--network <name>"
+          ],
+          "tip": [
+            "运行 minikube 的网络。由 docker/podman、qemu、kvm 和 vfkit 驱动使用。如果留空，minikube 将创建一个新网络。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        },
+        {
+          "name": "--nfs-share",
+          "usage": [
+            "--nfs-share <path>"
+          ],
+          "tip": [
+            "通过 NFS 挂载与访客共享的本地文件夹（仅限 hyperkit 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "/home/user"
+            }
+          ]
+        },
+        {
+          "name": "--nfs-shares-root",
+          "usage": [
+            "--nfs-shares-root <path>"
+          ],
+          "tip": [
+            "NFS 共享的根目录位置，默认为 /nfsshares（仅限 hyperkit 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "/nfsshares"
+            }
+          ]
+        },
+        {
+          "name": "--no-kubernetes",
+          "tip": [
+            "如果设置为 true，minikube VM/容器将在不启动或配置 Kubernetes 的情况下启动（仅适用于新集群）。"
+          ]
+        },
+        {
+          "name": "--no-vtx-check",
+          "tip": [
+            "禁用在启动虚拟机之前检查硬件虚拟化的可用性（仅限 virtualbox 驱动）。"
+          ]
+        },
+        {
+          "name": "--nodes",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --nodes <count>"
+          ],
+          "tip": [
+            "要启动的节点总数。默认值为 1。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "2"
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "标准输出的格式。可选项包括：text、json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--ports",
+          "usage": [
+            "--ports <ports>"
+          ],
+          "tip": [
+            "应该公开的端口列表（仅限 docker 和 podman 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "443"
+            },
+            {
+              "name": "80"
+            }
+          ]
+        },
+        {
+          "name": "--preload",
+          "tip": [
+            "如果为 true，则在可用时下载预加载镜像的 tarball 以提高启动时间。默认为 true。"
+          ]
+        },
+        {
+          "name": "--preload-source",
+          "usage": [
+            "--preload-source <source>"
+          ],
+          "tip": [
+            "从哪个源下载预加载内容（有效选项：gcs、github、auto）。"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "gcs"
+            },
+            {
+              "name": "github"
+            }
+          ]
+        },
+        {
+          "name": "--qemu-firmware-path",
+          "usage": [
+            "--qemu-firmware-path <path>"
+          ],
+          "tip": [
+            "qemu 固件文件的路径。"
+          ],
+          "next": [
+            {
+              "name": "'C:\\Program Files\\qemu\\share'"
+            }
+          ]
+        },
+        {
+          "name": "--registry-mirror",
+          "usage": [
+            "--registry-mirror <registry>"
+          ],
+          "tip": [
+            "传递给 Docker 守护进程的注册表镜像。"
+          ],
+          "next": [
+            {
+              "name": "https://registry.docker-cn.com"
+            }
+          ]
+        },
+        {
+          "name": "--rosetta",
+          "tip": [
+            "启用 Rosetta 以支持在 Apple 芯片的 Mac 上运行为 Intel 处理器构建的应用（仅限 vfkit 驱动）。"
+          ]
+        },
+        {
+          "name": "--service-cluster-ip-range",
+          "usage": [
+            "--service-cluster-ip-range <cidr>"
+          ],
+          "tip": [
+            "需要用于服务集群 IP 的 CIDR。"
+          ],
+          "next": [
+            {
+              "name": "10.96.0.0/12"
+            }
+          ]
+        },
+        {
+          "name": "--socket-vmnet-client-path",
+          "usage": [
+            "--socket-vmnet-client-path <path>"
+          ],
+          "tip": [
+            "vmnet 客户端二进制文件的路径（仅限 QEMU 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "/opt/homebrew/bin/vmnet-cli"
+            }
+          ]
+        },
+        {
+          "name": "--socket-vmnet-path",
+          "usage": [
+            "--socket-vmnet-path <path>"
+          ],
+          "tip": [
+            "vmnet 二进制文件的路径（仅限 QEMU 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "/opt/homebrew/bin/vmnet"
+            }
+          ]
+        },
+        {
+          "name": "--ssh-ip-address",
+          "usage": [
+            "--ssh-ip-address <address>"
+          ],
+          "tip": [
+            "SSH 主机 IP 地址（仅限 SSH 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "192.168.49.2"
+            }
+          ]
+        },
+        {
+          "name": "--ssh-key",
+          "usage": [
+            "--ssh-key <path>"
+          ],
+          "tip": [
+            "SSH 密钥（仅限 SSH 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "~/.minikube/ssh/id_rsa"
+            }
+          ]
+        },
+        {
+          "name": "--ssh-port",
+          "usage": [
+            "--ssh-port <port>"
+          ],
+          "tip": [
+            "SSH 端口（仅限 SSH 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "22"
+            }
+          ]
+        },
+        {
+          "name": "--ssh-user",
+          "usage": [
+            "--ssh-user <user>"
+          ],
+          "tip": [
+            "SSH 用户名（仅限 SSH 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "root"
+            }
+          ]
+        },
+        {
+          "name": "--static-ip",
+          "usage": [
+            "--static-ip <ip>"
+          ],
+          "tip": [
+            "为 minikube 集群设置静态 IP。该 IP 必须是私有 IPv4 地址，最后一位必须介于 2 和 254 之间。"
+          ],
+          "next": [
+            {
+              "name": "192.168.200.200"
+            }
+          ]
+        },
+        {
+          "name": "--subnet",
+          "usage": [
+            "--subnet <subnet>"
+          ],
+          "tip": [
+            "在 kic 集群上使用的子网。如果留空，minikube 将从 192.168.49.0 开始选择子网地址。"
+          ],
+          "next": [
+            {
+              "name": "192.168.49.0/24"
+            }
+          ]
+        },
+        {
+          "name": "--trace",
+          "usage": [
+            "--trace <trace>"
+          ],
+          "tip": [
+            "发送跟踪事件。选项包括：gcp。"
+          ],
+          "next": [
+            {
+              "name": "gcp"
+            }
+          ]
+        },
+        {
+          "name": "--uuid",
+          "usage": [
+            "--uuid <uuid>"
+          ],
+          "tip": [
+            "提供 VM UUID 以恢复 MAC 地址（仅限 hyperkit 驱动）。"
+          ],
+          "next": [
+            {
+              "name": "00000000-0000-0000-0000-000000000000"
+            }
+          ]
+        },
+        {
+          "name": "--vm",
+          "tip": [
+            "仅用于 VM 驱动的筛选器。"
+          ]
+        },
+        {
+          "name": "--wait",
+          "usage": [
+            "--wait <components>"
+          ],
+          "tip": [
+            "启动集群后要验证并等待的 Kubernetes 组件列表（以逗号分隔）。可用选项：apiserver、system_pods、default_sa、apps_running、node_ready、kubelet、extra。其他可接受的值是 'all'、'none'、'true' 和 'false'。"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "apiserver"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "system_pods"
+            }
+          ]
+        },
+        {
+          "name": "--wait-timeout",
+          "usage": [
+            "--wait-timeout <duration>"
+          ],
+          "tip": [
+            "等待 Kubernetes/主机达到健康状态的最大时间。"
+          ],
+          "next": [
+            {
+              "name": "6m0s"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "获取本地 Kubernetes 集群的状态。"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <template>"
+          ],
+          "tip": [
+            "用于状态输出的 Go 模板格式字符串。"
+          ],
+          "next": [
+            {
+              "name": "{{.Host}}"
+            },
+            {
+              "name": "{{.Name}}"
+            }
+          ]
+        },
+        {
+          "name": "--layout",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --layout <layout>"
+          ],
+          "tip": [
+            "输出布局（实验性功能，仅限 JSON）：'nodes' 或 'cluster'。"
+          ],
+          "next": [
+            {
+              "name": "cluster"
+            },
+            {
+              "name": "nodes"
+            }
+          ]
+        },
+        {
+          "name": "--node",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --node <name>"
+          ],
+          "tip": [
+            "要检查状态的节点。默认为控制平面。"
+          ],
+          "next": [
+            {
+              "name": "minikube"
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "输出格式。json 或 text。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch <interval>"
+          ],
+          "tip": [
+            "以可选的间隔持续列出/获取状态。"
+          ],
+          "next": [
+            {
+              "name": "1s"
+            },
+            {
+              "name": "5s"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "停止正在运行的本地 Kubernetes 集群。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "设置标志以停止所有配置文件（集群）。"
+          ]
+        },
+        {
+          "name": "--cancel-scheduled",
+          "tip": [
+            "取消任何已存在的计划停止请求。"
+          ]
+        },
+        {
+          "name": "--keep-context-active",
+          "tip": [
+            "在集群停止后保持 kube-context 处于活动状态。默认值为 false。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "标准输出的格式。可选项包括：text、json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "--schedule",
+          "usage": [
+            "--schedule <duration>"
+          ],
+          "tip": [
+            "设置标志以在一定时间后停止集群（例如：--schedule=5m）。"
+          ],
+          "next": [
+            {
+              "name": "10m"
+            },
+            {
+              "name": "5m"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tunnel",
+      "tip": [
+        "tunnel 创建到以 LoadBalancer 类型部署的服务的路由中，并将其入口设置为其 ClusterIP。"
+      ],
+      "option": [
+        {
+          "name": "--bind-address",
+          "usage": [
+            "--bind-address <address>"
+          ],
+          "tip": [
+            "设置隧道绑定地址。'' 或 '*' 表示隧道应对所有接口可用。"
+          ],
+          "next": [
+            {
+              "name": "*"
+            }
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --cleanup"
+          ],
+          "tip": [
+            "使用 cleanup=true 参数调用以删除旧的隧道。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpause",
+      "alias": [
+        "resume"
+      ],
+      "usage": [
+        "resume|unpause"
+      ],
+      "tip": [
+        "恢复 Kubernetes。"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "如果设置为 true，则取消暂停所有 namespace。"
+          ]
+        },
+        {
+          "name": "--namespaces",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --namespaces <namespaces>"
+          ],
+          "tip": [
+            "需要取消暂停的命名空间。"
+          ],
+          "next": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "kube-system"
+            },
+            {
+              "name": "kubernetes-dashboard"
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "标准输出的格式。可选项包括：text、json。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update-check",
+      "tip": [
+        "打印当前版本和最新版本。"
+      ]
+    },
+    {
+      "name": "update-context",
+      "tip": [
+        "检索运行集群的 IP 地址，将其与 kubeconfig 中的 IP 进行比较，并在有误时纠正 kubeconfig。"
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印 minikube 版本。"
+      ],
+      "option": [
+        {
+          "name": "--components",
+          "tip": [
+            "列出 minikube 包含的所有组件的版本（集群必须正在运行）。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <format>"
+          ],
+          "tip": [
+            "'yaml' 或 'json' 中的一个。"
+          ],
+          "next": [
+            {
+              "name": "json"
+            },
+            {
+              "name": "yaml"
+            }
+          ]
+        },
+        {
+          "name": "--short",
+          "tip": [
+            "仅打印版本号。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--bootstrapper",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bootstrapper <name>"
+      ],
+      "tip": [
+        "将设置 Kubernetes 集群的集群引导程序的名称。"
+      ],
+      "next": [
+        {
+          "name": "kubeadm"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "minikube 帮助信息。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --profile <name>"
+      ],
+      "tip": [
+        "正在使用的 minikube VM 的名称。可以设置为允许独立运行多个 minikube 实例。"
+      ],
+      "next": [
+        {
+          "name": "minikube"
+        }
+      ]
+    },
+    {
+      "name": "--rootless",
+      "tip": [
+        "强制使用 rootless 驱动（仅限 docker 和 podman 驱动）。"
+      ]
+    },
+    {
+      "name": "--skip-audit",
+      "tip": [
+        "跳过在审计日志中记录当前命令。"
+      ]
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <name>"
+      ],
+      "tip": [
+        "指定执行操作的用户。用于审计由第三方工具执行的操作。"
+      ],
+      "next": [
+        {
+          "name": "root"
+        }
+      ]
+    },
+    {
+      "name": "--v",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --v <level>"
+      ],
+      "tip": [
+        "日志级别详细程度的数字。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 local function scoop_config()
     local root = psc.env("SCOOP")
+    local home = psc.env("USERPROFILE") or psc.env("HOME")
     if root then
-        for _, p in ipairs({ root .. "/config.json", psc.env("UserProfile") .. "/.config/scoop/config.json" }) do
+        for _, p in ipairs({ root .. "/config.json", home .. "/.config/scoop/config.json" }) do
             if psc.exist(p) then
                 return psc.json(p)
             end
