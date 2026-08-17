@@ -541,7 +541,7 @@ function psc.exist(path) end
 --- 读取环境变量；未设置返回 `nil`。
 ---
 --- Reads an environment variable; `nil` if unset.
----@param name string
+---@param name string|"HOME"|"USERPROFILE"|"APPDATA"|"LOCALAPPDATA"|"TEMP"|"TMP"|"TMPDIR"|"PATH"|"PATHEXT"|"SHELL"|"COMSPEC"|"XDG_CONFIG_HOME"|"XDG_DATA_HOME"|"XDG_CACHE_HOME"|"XDG_STATE_HOME"|"MSYSTEM"|"MSYS"|"MINGW_PREFIX"|"OS"|"SYSTEMROOT"|"WINDIR"
 ---@return string?
 function psc.env(name) end
 
