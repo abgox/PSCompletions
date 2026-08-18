@@ -12,11 +12,7 @@ if not cmd1 then
     end
 elseif psc.eq(cmd1, "remove") then
     psc.add(cs,
-        psc.items(psc.run({ "zoxide", "query", "--list" }) or {},
-            function(e)
-                return { name = e, symbol = "stay" }
-            end
-        )
+        psc.items(psc.run({ "zoxide", "query", "--list" }) or {}, "stay")
     )
 end
 
