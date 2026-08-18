@@ -206,7 +206,7 @@ Before writing, skim a few existing completions to match the house style — e.g
           "alias": ["-o"],
           "usage": ["-o, --output <DIR>"],
           "tip": ["Output directory"],
-          "next": 0
+          "next": []
         }
       ]
     }
@@ -342,7 +342,7 @@ menu is built (see `design/hooks.md`; `completions/scoop/` shows a live-value ex
     "Exclude a path (can be used multiple times)"
   ],
   "repeat": 99,
-  "next": 0
+  "next": []
 }
 ```
 
@@ -419,10 +419,10 @@ Every item may carry three text arrays. `tip` is the description (shown under `[
 { "name": "--force", "alias": ["-f"], "usage": ["-f, --force"], "tip": ["Force action"] }
 
 // Has argument and you know the value → usage is recommended (shows what to write)
-{ "name": "--output", "usage": ["--output <FILE>"], "tip": ["Output path"], "next": 0 }
+{ "name": "--output", "usage": ["--output <FILE>"], "tip": ["Output path"], "next": [] }
 
 // Has argument but the value is unknown → usage may be omitted (optional)
-{ "name": "--script", "tip": ["Run the given script"], "next": 0 }  // OK — no usage
+{ "name": "--script", "tip": ["Run the given script"] }  // OK — no usage
 
 // No alias, no argument → usage must NOT be added
 { "name": "--dry-run", "tip": ["Dry run without changes"] }  // CORRECT

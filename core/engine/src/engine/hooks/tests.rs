@@ -145,7 +145,7 @@ fn nested_manifest_ctx() -> HookContext {
                 "next": [
                     { "name": "set" },
                     { "name": "get", "next": [ { "name": "theme" }, { "name": "lang" } ] },
-                    { "name": "delete", "next": 0 },
+                    { "name": "delete", "next": [] },
                     { "name": "verbose", "option": [ { "name": "--all" } ] }
                 ]
             }
