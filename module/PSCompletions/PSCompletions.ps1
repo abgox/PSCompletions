@@ -665,7 +665,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             top = 0
             h   = [int]$rawUI.BufferSize.Height
         }
-        platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } else { 'unix' }
+        platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } elseif ($IsMacOS) { 'macos' } else { 'linux' }
     }
     if ($menuOrder) {
         $input.order = [ordered]@{
