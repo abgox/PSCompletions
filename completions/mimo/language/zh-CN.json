@@ -1,0 +1,1500 @@
+{
+  "meta": {
+    "url": "https://github.com/XiaomiMiMo/MiMo-Code",
+    "description": [
+      "mimocode - AI 驱动的编码助手。"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "usage": [
+        "acp [options]"
+      ],
+      "tip": [
+        "启动 ACP (Agent Client Protocol) 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "允许 CORS 的额外域名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <string>"
+          ],
+          "tip": [
+            "监听主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "启用 mDNS 服务发现。"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "usage": [
+            "--mdns-domain <string>"
+          ],
+          "tip": [
+            "mDNS 服务的自定义域名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "允许在非回环地址上无需认证启动。"
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "监听端口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "usage": [
+        "agent <create|list>"
+      ],
+      "tip": [
+        "管理代理。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新代理。"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <string>"
+              ],
+              "tip": [
+                "代理应执行的操作。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mode",
+              "usage": [
+                "--mode <all|primary|subagent>"
+              ],
+              "tip": [
+                "代理模式。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "所有模式。"
+                  ]
+                },
+                {
+                  "name": "primary",
+                  "tip": [
+                    "主要模式。"
+                  ]
+                },
+                {
+                  "name": "subagent",
+                  "tip": [
+                    "子代理模式。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--model",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --model <provider/model>"
+              ],
+              "tip": [
+                "要使用的模型。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <string>"
+              ],
+              "tip": [
+                "生成代理文件的目录路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tools",
+              "usage": [
+                "--tools <string>"
+              ],
+              "tip": [
+                "要启用的工具的逗号分隔列表。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有可用的代理。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "usage": [
+        "attach <url>"
+      ],
+      "tip": [
+        "连接到正在运行的 mimocode 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --continue"
+          ],
+          "tip": [
+            "继续上次的会话。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <string>"
+          ],
+          "tip": [
+            "运行目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "继续时分叉会话。"
+          ]
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --password <string>"
+          ],
+          "tip": [
+            "基本认证密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --session <string>"
+          ],
+          "tip": [
+            "要继续的会话 ID。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 自动补全脚本。"
+      ]
+    },
+    {
+      "name": "db",
+      "usage": [
+        "db [query|path|migrate]"
+      ],
+      "tip": [
+        "数据库工具。"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <json|tsv>"
+          ],
+          "tip": [
+            "输出格式。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式。"
+              ]
+            },
+            {
+              "name": "tsv",
+              "tip": [
+                "TSV 格式。"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "migrate",
+          "tip": [
+            "将 JSON 数据迁移到 SQLite。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "打印数据库路径。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "usage": [
+        "debug <config|lsp|rg|file|scrap|skill|snapshot|agent|paths|wait>"
+      ],
+      "tip": [
+        "调试和故障排除工具。"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "usage": [
+            "agent <name>"
+          ],
+          "tip": [
+            "显示代理配置详情。"
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "显示解析后的配置。"
+          ]
+        },
+        {
+          "name": "file",
+          "usage": [
+            "file <read|status|list|search|tree>"
+          ],
+          "tip": [
+            "文件系统调试工具。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list <path>"
+              ],
+              "tip": [
+                "列出目录中的文件。"
+              ]
+            },
+            {
+              "name": "read",
+              "usage": [
+                "read <path>"
+              ],
+              "tip": [
+                "以 JSON 格式读取文件内容。"
+              ]
+            },
+            {
+              "name": "search",
+              "usage": [
+                "search <query>"
+              ],
+              "tip": [
+                "按查询搜索文件。"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示文件状态信息。"
+              ]
+            },
+            {
+              "name": "tree",
+              "usage": [
+                "tree [dir]"
+              ],
+              "tip": [
+                "显示目录树。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lsp",
+          "usage": [
+            "lsp <diagnostics|symbols|document-symbols>"
+          ],
+          "tip": [
+            "LSP 调试工具。"
+          ],
+          "next": [
+            {
+              "name": "diagnostics",
+              "usage": [
+                "diagnostics <file>"
+              ],
+              "tip": [
+                "获取文件的诊断信息。"
+              ]
+            },
+            {
+              "name": "document-symbols",
+              "usage": [
+                "document-symbols <uri>"
+              ],
+              "tip": [
+                "获取文档中的符号。"
+              ]
+            },
+            {
+              "name": "symbols",
+              "usage": [
+                "symbols <query>"
+              ],
+              "tip": [
+                "搜索工作区符号。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "显示全局路径（数据、配置、缓存、状态）。"
+          ]
+        },
+        {
+          "name": "rg",
+          "usage": [
+            "rg <tree|files|search>"
+          ],
+          "tip": [
+            "ripgrep 调试工具。"
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "使用 ripgrep 列出文件。"
+              ]
+            },
+            {
+              "name": "search",
+              "usage": [
+                "search <pattern>"
+              ],
+              "tip": [
+                "使用 ripgrep 搜索文件内容。"
+              ]
+            },
+            {
+              "name": "tree",
+              "tip": [
+                "使用 ripgrep 显示文件树。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "scrap",
+          "tip": [
+            "列出所有已知项目。"
+          ]
+        },
+        {
+          "name": "skill",
+          "tip": [
+            "列出所有可用的技能。"
+          ]
+        },
+        {
+          "name": "snapshot",
+          "usage": [
+            "snapshot <track|patch|diff>"
+          ],
+          "tip": [
+            "快照调试工具。"
+          ],
+          "next": [
+            {
+              "name": "diff",
+              "usage": [
+                "diff <hash>"
+              ],
+              "tip": [
+                "显示快照哈希的差异。"
+              ]
+            },
+            {
+              "name": "patch",
+              "usage": [
+                "patch <hash>"
+              ],
+              "tip": [
+                "显示快照哈希的补丁。"
+              ]
+            },
+            {
+              "name": "track",
+              "tip": [
+                "跟踪当前快照状态。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "无限期等待（用于调试）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "usage": [
+        "export [sessionID]"
+      ],
+      "tip": [
+        "以 JSON 格式导出会话数据。"
+      ],
+      "option": [
+        {
+          "name": "--sanitize",
+          "tip": [
+            "编辑敏感的对话记录和文件数据。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "usage": [
+        "github <install|run>"
+      ],
+      "tip": [
+        "管理 GitHub 代理。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装 GitHub 代理。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行 GitHub 代理。"
+          ],
+          "option": [
+            {
+              "name": "--event",
+              "usage": [
+                "--event <string>"
+              ],
+              "tip": [
+                "要运行代理的 GitHub 模拟事件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <string>"
+              ],
+              "tip": [
+                "GitHub 个人访问令牌。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import <file>"
+      ],
+      "tip": [
+        "从 JSON 文件或 URL 导入会话数据。"
+      ]
+    },
+    {
+      "name": "mcp",
+      "usage": [
+        "mcp <add|list|auth|logout|debug>"
+      ],
+      "tip": [
+        "管理 MCP (Model Context Protocol) 服务器。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加 MCP 服务器。"
+          ]
+        },
+        {
+          "name": "auth",
+          "usage": [
+            "auth [name]"
+          ],
+          "tip": [
+            "使用 OAuth 认证 MCP 服务器。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list"
+              ],
+              "tip": [
+                "列出支持 OAuth 的 MCP 服务器及其认证状态。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "debug",
+          "usage": [
+            "debug <name>"
+          ],
+          "tip": [
+            "调试 MCP 服务器的 OAuth 连接。"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出 MCP 服务器及其状态。"
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [name]"
+          ],
+          "tip": [
+            "移除 MCP 服务器的 OAuth 凭据。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "usage": [
+        "models [provider]"
+      ],
+      "tip": [
+        "列出所有可用的模型。"
+      ],
+      "option": [
+        {
+          "name": "--refresh",
+          "tip": [
+            "从 models.dev 刷新模型缓存。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "使用更详细的模型输出（包含成本等元数据）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "plug"
+      ],
+      "usage": [
+        "plug|plugin <module>"
+      ],
+      "tip": [
+        "安装插件并更新配置。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "替换现有的插件版本。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "在全局配置中安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pr",
+      "usage": [
+        "pr <number>"
+      ],
+      "tip": [
+        "获取并检出 GitHub PR 分支，然后运行 mimocode。"
+      ]
+    },
+    {
+      "name": "providers",
+      "alias": [
+        "auth"
+      ],
+      "usage": [
+        "auth|providers <list|login|logout|whoami>"
+      ],
+      "tip": [
+        "管理 AI 提供商和凭据。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出提供商和凭据。"
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login [url]"
+          ],
+          "tip": [
+            "登录提供商。"
+          ],
+          "option": [
+            {
+              "name": "--method",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --method <string>"
+              ],
+              "tip": [
+                "登录方法标签。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--provider",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --provider <string>"
+              ],
+              "tip": [
+                "要登录的提供商 ID 或名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "从已配置的提供商登出。"
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "显示当前登录用户信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [message..]"
+      ],
+      "tip": [
+        "使用消息运行 mimocode。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <string>"
+          ],
+          "tip": [
+            "要使用的代理。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--attach",
+          "usage": [
+            "--attach <url>"
+          ],
+          "tip": [
+            "连接到正在运行的 mimocode 服务器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--command",
+          "usage": [
+            "--command <string>"
+          ],
+          "tip": [
+            "要运行的命令，使用 message 作为参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --continue"
+          ],
+          "tip": [
+            "继续上次的会话。"
+          ]
+        },
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "自动批准未明确拒绝的权限。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <string>"
+          ],
+          "tip": [
+            "运行目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <file>"
+          ],
+          "tip": [
+            "附加到消息的文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "继续前分叉会话。"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <default|json>"
+          ],
+          "tip": [
+            "输出格式。"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "格式化输出。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "原始 JSON 事件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <provider/model>"
+          ],
+          "tip": [
+            "使用 provider/model 格式的模型。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --password <string>"
+          ],
+          "tip": [
+            "基本认证密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "本地服务器端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--role",
+          "usage": [
+            "--role <user|assistant>"
+          ],
+          "tip": [
+            "注入消息的角色。"
+          ],
+          "next": [
+            {
+              "name": "assistant",
+              "tip": [
+                "助手角色。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户角色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --session <string>"
+          ],
+          "tip": [
+            "要继续的会话 ID。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--share",
+          "tip": [
+            "共享会话。"
+          ]
+        },
+        {
+          "name": "--thinking",
+          "tip": [
+            "显示思考块。"
+          ]
+        },
+        {
+          "name": "--title",
+          "usage": [
+            "--title <string>"
+          ],
+          "tip": [
+            "会话标题。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--variant",
+          "usage": [
+            "--variant <string>"
+          ],
+          "tip": [
+            "模型变体（提供商特定的推理力度）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "usage": [
+        "serve [options]"
+      ],
+      "tip": [
+        "启动无头 mimocode 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "允许 CORS 的额外域名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <string>"
+          ],
+          "tip": [
+            "监听主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "启用 mDNS 服务发现。"
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "usage": [
+            "--mdns-domain <string>"
+          ],
+          "tip": [
+            "mDNS 服务的自定义域名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "允许在非回环地址上无需认证启动。"
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "监听端口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "session",
+      "usage": [
+        "session <list|delete|import-claude>"
+      ],
+      "tip": [
+        "管理会话。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <sessionID>"
+          ],
+          "tip": [
+            "删除会话。"
+          ]
+        },
+        {
+          "name": "import-claude",
+          "tip": [
+            "将 Claude Code 会话导入 mimocode。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出会话。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <table|json>"
+              ],
+              "tip": [
+                "输出格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 格式。"
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "表格格式。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--max-count",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --max-count <number>"
+              ],
+              "tip": [
+                "限制为最近 N 个会话。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "显示 token 使用量和成本统计。"
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "usage": [
+            "--days <number>"
+          ],
+          "tip": [
+            "显示最近 N 天的统计。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--models",
+          "usage": [
+            "--models [number]"
+          ],
+          "tip": [
+            "显示模型统计。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <string>"
+          ],
+          "tip": [
+            "按项目过滤。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tools",
+          "usage": [
+            "--tools <number>"
+          ],
+          "tip": [
+            "要显示的工具数量。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "卸载 mimocode 并移除所有相关文件。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示将被移除的内容但不实际移除。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "跳过确认提示。"
+          ]
+        },
+        {
+          "name": "--keep-config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --keep-config"
+          ],
+          "tip": [
+            "保留配置文件。"
+          ]
+        },
+        {
+          "name": "--keep-data",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --keep-data"
+          ],
+          "tip": [
+            "保留会话数据和快照。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [target]"
+      ],
+      "tip": [
+        "将 mimocode 升级到最新版本或指定版本。"
+      ],
+      "option": [
+        {
+          "name": "--method",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --method <curl|npm|pnpm|bun|brew|choco|scoop>"
+          ],
+          "tip": [
+            "要使用的安装方法。"
+          ],
+          "next": [
+            {
+              "name": "brew",
+              "tip": [
+                "通过 Homebrew 安装。"
+              ]
+            },
+            {
+              "name": "bun",
+              "tip": [
+                "通过 bun 安装。"
+              ]
+            },
+            {
+              "name": "choco",
+              "tip": [
+                "通过 Chocolatey 安装。"
+              ]
+            },
+            {
+              "name": "curl",
+              "tip": [
+                "通过 curl 安装。"
+              ]
+            },
+            {
+              "name": "npm",
+              "tip": [
+                "通过 npm 安装。"
+              ]
+            },
+            {
+              "name": "pnpm",
+              "tip": [
+                "通过 pnpm 安装。"
+              ]
+            },
+            {
+              "name": "scoop",
+              "tip": [
+                "通过 Scoop 安装。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--agent",
+      "usage": [
+        "--agent <string>"
+      ],
+      "tip": [
+        "要使用的代理。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --continue"
+      ],
+      "tip": [
+        "继续上次的会话。"
+      ]
+    },
+    {
+      "name": "--cors",
+      "tip": [
+        "允许 CORS 的额外域名。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--dangerously-skip-permissions",
+      "tip": [
+        "自动批准未明确拒绝的权限。"
+      ]
+    },
+    {
+      "name": "--fork",
+      "tip": [
+        "继续时分叉会话。"
+      ]
+    },
+    {
+      "name": "--hostname",
+      "usage": [
+        "--hostname <string>"
+      ],
+      "tip": [
+        "监听主机名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <DEBUG|INFO|WARN|ERROR>"
+      ],
+      "tip": [
+        "日志级别。"
+      ],
+      "next": [
+        {
+          "name": "DEBUG",
+          "tip": [
+            "调试级别。"
+          ]
+        },
+        {
+          "name": "ERROR",
+          "tip": [
+            "错误级别。"
+          ]
+        },
+        {
+          "name": "INFO",
+          "tip": [
+            "信息级别。"
+          ]
+        },
+        {
+          "name": "WARN",
+          "tip": [
+            "警告级别。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mdns",
+      "tip": [
+        "启用 mDNS 服务发现。"
+      ]
+    },
+    {
+      "name": "--mdns-domain",
+      "usage": [
+        "--mdns-domain <string>"
+      ],
+      "tip": [
+        "mDNS 服务的自定义域名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --model <provider/model>"
+      ],
+      "tip": [
+        "使用 provider/model 格式的模型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--never-ask",
+      "tip": [
+        "以永不询问模式启动。"
+      ]
+    },
+    {
+      "name": "--no-auth",
+      "tip": [
+        "允许在非回环地址上无需认证启动。"
+      ]
+    },
+    {
+      "name": "--port",
+      "usage": [
+        "--port <number>"
+      ],
+      "tip": [
+        "监听端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--print-logs",
+      "tip": [
+        "将日志输出到 stderr。"
+      ]
+    },
+    {
+      "name": "--prompt",
+      "usage": [
+        "--prompt <string>"
+      ],
+      "tip": [
+        "要使用的提示词。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pure",
+      "tip": [
+        "不加载外部插件运行。"
+      ]
+    },
+    {
+      "name": "--session",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --session <string>"
+      ],
+      "tip": [
+        "要继续的会话 ID。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trust",
+      "tip": [
+        "跳过工作区信任提示并信任该目录。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    }
+  ]
+}

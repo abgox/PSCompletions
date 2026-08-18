@@ -1,0 +1,2509 @@
+{
+  "meta": {
+    "url": "https://github.com/can1357/oh-my-pi",
+    "description": [
+      "Oh My Pi - AI-powered coding assistant in the terminal."
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "Run Oh My Pi as an ACP (Agent Client Protocol) server over stdio."
+      ]
+    },
+    {
+      "name": "agents",
+      "usage": [
+        "agents [ACTION]"
+      ],
+      "tip": [
+        "Manage bundled task agents."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <value>"
+          ],
+          "tip": [
+            "Output directory (overrides --user/--project)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Overwrite existing agent files."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "Write to ./.omp/agents."
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "Write to ~/.omp/agent/agents (default)."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "unpack",
+          "tip": [
+            "Export bundled agents to disk."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth-broker",
+      "usage": [
+        "auth-broker [ACTION] [SOURCE]"
+      ],
+      "tip": [
+        "Manage the omp auth-broker (credential vault)."
+      ],
+      "option": [
+        {
+          "name": "--bind",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --bind <value>"
+          ],
+          "tip": [
+            "Bind address for serve (host:port)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print actions without executing."
+          ]
+        },
+        {
+          "name": "--from-local",
+          "tip": [
+            "Migrate source: local SQLite + env vars (required for migrate)."
+          ]
+        },
+        {
+          "name": "--include-disabled",
+          "tip": [
+            "Import credentials whose JSON has disabled: true."
+          ]
+        },
+        {
+          "name": "--include-env",
+          "tip": [
+            "Capture env-var API keys for providers not yet on broker."
+          ]
+        },
+        {
+          "name": "--include-oauth",
+          "tip": [
+            "Also upload OAuth from local SQLite during migrate."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--provider",
+          "usage": [
+            "--provider <value>"
+          ],
+          "tip": [
+            "Override provider id for import."
+          ],
+          "next": []
+        },
+        {
+          "name": "--regenerate",
+          "tip": [
+            "Regenerate the bearer token."
+          ]
+        },
+        {
+          "name": "--via",
+          "usage": [
+            "--via <value>"
+          ],
+          "tip": [
+            "SSH user@host for remote login."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "import",
+          "tip": [
+            "Import a CLIProxyAPI auth dump."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List supported OAuth providers."
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Login to an OAuth provider."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out of a provider."
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": [
+            "Migrate credentials from local store to broker."
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Boot the broker against the local SQLite store."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Health-check the configured remote broker."
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "Print the bearer token."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth-gateway",
+      "usage": [
+        "auth-gateway [ACTION]"
+      ],
+      "tip": [
+        "Run an auth-gateway forward proxy backed by the configured broker."
+      ],
+      "option": [
+        {
+          "name": "--bind",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --bind <value>"
+          ],
+          "tip": [
+            "Bind address for serve (host:port)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "Disable inbound bearer-token auth (serve)."
+          ]
+        },
+        {
+          "name": "--regenerate",
+          "tip": [
+            "Regenerate the gateway bearer token."
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Additionally probe each credential against its provider endpoint."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Probe each broker credential to see which one is producing 401s."
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Boot the gateway against the configured broker."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show local gateway + broker config status."
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "Print the gateway bearer token."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bench",
+      "usage": [
+        "bench MODELS..."
+      ],
+      "tip": [
+        "Benchmark models with the same prompt: time-to-first-token and generation throughput."
+      ],
+      "option": [
+        {
+          "name": "--cache",
+          "tip": [
+            "Run independent cold/warm prompt-cache pairs."
+          ]
+        },
+        {
+          "name": "--cache-concurrency",
+          "usage": [
+            "--cache-concurrency <int>"
+          ],
+          "tip": [
+            "Concurrent cache pairs for --cache (default: 1)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-pairs",
+          "usage": [
+            "--cache-pairs <int>"
+          ],
+          "tip": [
+            "Cold/warm pairs per model for --cache (default: 1)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-prefix-bytes",
+          "usage": [
+            "--cache-prefix-bytes <int>"
+          ],
+          "tip": [
+            "Stable prefix byte budget for --cache (default: 8192)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-prefix-file",
+          "usage": [
+            "--cache-prefix-file <value>"
+          ],
+          "tip": [
+            "Stable prompt prefix file for --cache."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--max-tokens",
+          "usage": [
+            "--max-tokens <int>"
+          ],
+          "tip": [
+            "Max output tokens per request (default: 512; cache mode: 64)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--par",
+          "usage": [
+            "--par <int>"
+          ],
+          "tip": [
+            "Execute runs with N parallel queries (default: 4)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prompt",
+          "usage": [
+            "--prompt <value>"
+          ],
+          "tip": [
+            "Custom prompt text."
+          ],
+          "next": []
+        },
+        {
+          "name": "--runs",
+          "usage": [
+            "--runs <int>"
+          ],
+          "tip": [
+            "Requests per model (results are averaged; default: 10)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--service-tier",
+          "usage": [
+            "--service-tier <value>"
+          ],
+          "tip": [
+            "Service tier applied per model family."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "browser-relay",
+      "usage": [
+        "browser-relay [ACTION]"
+      ],
+      "tip": [
+        "Run the local CDP relay that lets the browser tool drive your own Chrome tabs."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <value>"
+          ],
+          "tip": [
+            "Extension install directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "Don't gather controllable tabs into an omp tab group."
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <int>"
+          ],
+          "tip": [
+            "Port to listen on."
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <value>"
+          ],
+          "tip": [
+            "Require the extension to present this token."
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Log relay traffic summaries to stderr."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Write the Chrome extension to disk."
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "Serve the relay on the default port."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanse",
+      "tip": [
+        "Detect and fix project diagnostics with weighted parallel subagents."
+      ],
+      "option": [
+        {
+          "name": "--agents",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --agents <int>"
+          ],
+          "tip": [
+            "Maximum number of file-disjoint subagents."
+          ],
+          "next": []
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <value>"
+          ],
+          "tip": [
+            "Subagent model selector."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tests",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tests"
+          ],
+          "tip": [
+            "Also run configured project test suites."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "tip": [
+        "Generate a commit message and update changelogs."
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --context <value>"
+          ],
+          "tip": [
+            "Additional context for the model."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Preview without committing."
+          ]
+        },
+        {
+          "name": "--legacy",
+          "tip": [
+            "Use legacy deterministic pipeline."
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <value>"
+          ],
+          "tip": [
+            "Override model selection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-changelog",
+          "tip": [
+            "Skip changelog updates."
+          ]
+        },
+        {
+          "name": "--push",
+          "tip": [
+            "Push after committing."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions SHELL"
+      ],
+      "tip": [
+        "Print a shell completion script (bash, zsh, or fish)."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate completion script for bash."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate completion script for fish."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate completion script for zsh."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [ACTION] [KEY] [VALUE...]"
+      ],
+      "tip": [
+        "Manage configuration settings."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "Get a configuration value."
+          ]
+        },
+        {
+          "name": "init-xdg",
+          "tip": [
+            "Initialize XDG config directory."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all configuration settings."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Print the config file path."
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "Reset a configuration value."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set a configuration value."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dry-balance",
+      "tip": [
+        "Dry-run OAuth account balancing across random session ids."
+      ],
+      "option": [
+        {
+          "name": "--bench",
+          "tip": [
+            "Send one live benchmark request per OAuth account."
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "Maximum concurrent credential resolutions."
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <int>"
+          ],
+          "tip": [
+            "Number of random session ids to try."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <value>"
+          ],
+          "tip": [
+            "Model selector (same syntax as --model on omp)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gallery",
+      "tip": [
+        "Preview tool renderers across streaming, in-progress, success, and failure states."
+      ],
+      "option": [
+        {
+          "name": "--expanded",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --expanded"
+          ],
+          "tip": [
+            "Render the expanded variant of each renderer."
+          ]
+        },
+        {
+          "name": "--font",
+          "usage": [
+            "--font <value>"
+          ],
+          "tip": [
+            "Screenshot font family."
+          ],
+          "next": []
+        },
+        {
+          "name": "--font-size",
+          "usage": [
+            "--font-size <int>"
+          ],
+          "tip": [
+            "Screenshot font size in points (default: 18)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <value>"
+          ],
+          "tip": [
+            "Screenshot output path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--plain",
+          "tip": [
+            "Strip ANSI styling from the output."
+          ]
+        },
+        {
+          "name": "--screenshot",
+          "tip": [
+            "Capture the rendered output as PNG screenshot(s) via VHS."
+          ]
+        },
+        {
+          "name": "--state",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --state <value>"
+          ],
+          "tip": [
+            "Render only the given lifecycle state(s)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tool <value>"
+          ],
+          "tip": [
+            "Render a single tool by name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--width",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --width <int>"
+          ],
+          "tip": [
+            "Render width in columns."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gc",
+      "tip": [
+        "Run storage garbage collection."
+      ],
+      "option": [
+        {
+          "name": "--agent-dir",
+          "usage": [
+            "--agent-dir <value>"
+          ],
+          "tip": [
+            "Agent directory to maintain."
+          ],
+          "next": []
+        },
+        {
+          "name": "--apply",
+          "tip": [
+            "Apply changes (default is dry-run)."
+          ]
+        },
+        {
+          "name": "--archive",
+          "tip": [
+            "Archive cold sessions."
+          ]
+        },
+        {
+          "name": "--blobs",
+          "tip": [
+            "Sweep unreferenced blobs."
+          ]
+        },
+        {
+          "name": "--cold-archive-after-days",
+          "usage": [
+            "--cold-archive-after-days <int>"
+          ],
+          "tip": [
+            "Minimum session age before archiving."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--retain-newest-global",
+          "usage": [
+            "--retain-newest-global <int>"
+          ],
+          "tip": [
+            "Always keep this many newest sessions active."
+          ],
+          "next": []
+        },
+        {
+          "name": "--retain-newest-per-cwd",
+          "usage": [
+            "--retain-newest-per-cwd <int>"
+          ],
+          "tip": [
+            "Always keep this many newest sessions per cwd active."
+          ],
+          "next": []
+        },
+        {
+          "name": "--wal",
+          "tip": [
+            "Checkpoint history/model database WAL files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grep",
+      "usage": [
+        "grep [PATTERN] [PATH]"
+      ],
+      "tip": [
+        "Test grep tool."
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <int>"
+          ],
+          "tip": [
+            "Context lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --count"
+          ],
+          "tip": [
+            "Output match counts per file."
+          ]
+        },
+        {
+          "name": "--files",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --files"
+          ],
+          "tip": [
+            "Output file names only."
+          ]
+        },
+        {
+          "name": "--glob",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --glob <value>"
+          ],
+          "tip": [
+            "Filter files by glob pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --limit <int>"
+          ],
+          "tip": [
+            "Max matches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-gitignore",
+          "tip": [
+            "Include files excluded by .gitignore."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grievances",
+      "usage": [
+        "grievances [ACTION]"
+      ],
+      "tip": [
+        "View, clean, or push reported tool issues (auto-QA grievances)."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Delete every grievance."
+          ]
+        },
+        {
+          "name": "--id",
+          "usage": [
+            "--id <int>"
+          ],
+          "tip": [
+            "Delete a single grievance by id."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Output as JSON."
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --limit <int>"
+          ],
+          "tip": [
+            "Number of recent issues to show."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tool <value>"
+          ],
+          "tip": [
+            "Filter by tool name."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "Clean reported tool issues."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List reported tool issues."
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Push reported tool issues."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [TARGETS...]"
+      ],
+      "tip": [
+        "Install or link an extension package (alias of plugin install/link)."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Show actions without applying changes."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force install."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "Install scope: user (default) or project."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "join",
+      "usage": [
+        "join LINK"
+      ],
+      "tip": [
+        "Join a shared collab session (same as /join)."
+      ]
+    },
+    {
+      "name": "models",
+      "usage": [
+        "models [ACTION] [PATTERN]"
+      ],
+      "tip": [
+        "List, search, and refresh available models."
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "Load an extra config.yml-style overlay."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extension",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --extension <value>"
+          ],
+          "tip": [
+            "Load an extension file before listing."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--no-extensions",
+          "tip": [
+            "Disable extension discovery."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "find",
+          "tip": [
+            "Find models by substring."
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List every available model, grouped by provider."
+          ]
+        },
+        {
+          "name": "refresh",
+          "tip": [
+            "Force a fresh catalog fetch."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "usage": [
+        "plugin [ACTION] [TARGETS...]"
+      ],
+      "tip": [
+        "Manage plugins (install, uninstall, list, etc.)."
+      ],
+      "option": [
+        {
+          "name": "--disable",
+          "usage": [
+            "--disable <value>"
+          ],
+          "tip": [
+            "Disable a feature."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Show actions without applying changes."
+          ]
+        },
+        {
+          "name": "--enable",
+          "usage": [
+            "--enable <value>"
+          ],
+          "tip": [
+            "Enable a feature."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Attempt to fix issues (doctor)."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force install."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "Operate on local plugin directory."
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "Install scope: user (default) or project."
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <value>"
+          ],
+          "tip": [
+            "Set plugin config (key=value)."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "Manage plugin configuration."
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "Disable a plugin feature."
+          ]
+        },
+        {
+          "name": "discover",
+          "tip": [
+            "Discover available plugins."
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "Check plugin health."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enable a plugin feature."
+          ]
+        },
+        {
+          "name": "features",
+          "tip": [
+            "List plugin features."
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install a plugin."
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "Link a local plugin directory."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List installed plugins."
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "Browse the plugin marketplace."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "Uninstall a plugin."
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "Upgrade installed plugins."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read",
+      "usage": [
+        "read PATH"
+      ],
+      "tip": [
+        "Show what the read tool will return for a path, URL, or internal URI."
+      ]
+    },
+    {
+      "name": "say",
+      "usage": [
+        "say [TEXT]"
+      ],
+      "tip": [
+        "Synthesize text with the local TTS engine and play it through the speakers."
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <value>"
+          ],
+          "tip": [
+            "Read the text to speak from this file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <value>"
+          ],
+          "tip": [
+            "Local TTS model key."
+          ],
+          "next": []
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <value>"
+          ],
+          "tip": [
+            "Write WAV to this path instead of playing."
+          ],
+          "next": []
+        },
+        {
+          "name": "--voice",
+          "usage": [
+            "--voice <value>"
+          ],
+          "tip": [
+            "Voice id."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search [QUERY...]"
+      ],
+      "tip": [
+        "Test web search providers."
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "tip": [
+            "Render condensed output."
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --limit <int>"
+          ],
+          "tip": [
+            "Max results to return."
+          ],
+          "next": []
+        },
+        {
+          "name": "--provider",
+          "usage": [
+            "--provider <value>"
+          ],
+          "tip": [
+            "Search provider."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recency",
+          "usage": [
+            "--recency <value>"
+          ],
+          "tip": [
+            "Recency filter."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "usage": [
+        "setup [COMPONENT]"
+      ],
+      "tip": [
+        "Run onboarding setup or install dependencies for optional features."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --check"
+          ],
+          "tip": [
+            "Check if dependencies are installed."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output status as JSON."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "python",
+          "tip": [
+            "Install Python dependencies."
+          ]
+        },
+        {
+          "name": "speech",
+          "tip": [
+            "Install speech/TTS dependencies."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shell",
+      "tip": [
+        "Interactive shell console."
+      ],
+      "option": [
+        {
+          "name": "--cwd",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --cwd <value>"
+          ],
+          "tip": [
+            "Set working directory for commands."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-snapshot",
+          "tip": [
+            "Skip sourcing snapshot from user shell."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <int>"
+          ],
+          "tip": [
+            "Timeout per command in milliseconds."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "ssh",
+      "usage": [
+        "ssh [ACTION] [TARGETS...]"
+      ],
+      "tip": [
+        "Manage SSH host configurations."
+      ],
+      "option": [
+        {
+          "name": "--compat",
+          "tip": [
+            "Enable compatibility mode."
+          ]
+        },
+        {
+          "name": "--desc",
+          "usage": [
+            "--desc <value>"
+          ],
+          "tip": [
+            "Host description."
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <value>"
+          ],
+          "tip": [
+            "Host address."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--key",
+          "usage": [
+            "--key <value>"
+          ],
+          "tip": [
+            "Identity key path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <value>"
+          ],
+          "tip": [
+            "Port number."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "Config scope (project|user)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--user",
+          "usage": [
+            "--user <value>"
+          ],
+          "tip": [
+            "Username."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add an SSH host configuration."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List SSH host configurations."
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove an SSH host configuration."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "View usage statistics."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Output stats as JSON."
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <int>"
+          ],
+          "tip": [
+            "Port for the dashboard server."
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --summary"
+          ],
+          "tip": [
+            "Print summary to console."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tiny-models",
+      "usage": [
+        "tiny-models [ACTION] [MODEL]"
+      ],
+      "tip": [
+        "Download tiny local models (session titles + memory)."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "download",
+          "tip": [
+            "Download a tiny model."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List available tiny models."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token PROVIDER"
+      ],
+      "tip": [
+        "Get the API key or OAuth token for a provider."
+      ],
+      "option": [
+        {
+          "name": "--account",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --account <int>"
+          ],
+          "tip": [
+            "Select the Nth OAuth account (1-based)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-refresh",
+          "tip": [
+            "Force refresh the OAuth token even if it has not expired."
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "List the provider's OAuth accounts and exit."
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "Output the raw credential value without parsing."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ttsr",
+      "usage": [
+        "ttsr [ACTION] [SNIPPET]"
+      ],
+      "tip": [
+        "Inspect and test Time-Traveling Stream Rules (TTSR)."
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "usage": [
+            "--file <value>"
+          ],
+          "tip": [
+            "Snippet file path, or - for stdin."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--max-bytes",
+          "usage": [
+            "--max-bytes <int>"
+          ],
+          "tip": [
+            "Maximum file size to scan in bytes; 0 disables the limit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-gitignore",
+          "tip": [
+            "Include files excluded by .gitignore."
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --path <value>"
+          ],
+          "tip": [
+            "Candidate file path for scope/glob matching."
+          ],
+          "next": []
+        },
+        {
+          "name": "--rule",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rule <value>"
+          ],
+          "tip": [
+            "Rule markdown file to test in isolation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <value>"
+          ],
+          "tip": [
+            "Match source: text, thinking, or tool."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "usage": [
+            "--tool <value>"
+          ],
+          "tip": [
+            "Tool name when source is tool."
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show every evaluated rule, not just triggered ones."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List available TTSR rules."
+          ]
+        },
+        {
+          "name": "scan",
+          "tip": [
+            "Scan a directory for TTSR rule violations."
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "Test a snippet against TTSR rules."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Check for and install updates."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --check"
+          ],
+          "tip": [
+            "Check for updates without installing."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force update."
+          ]
+        },
+        {
+          "name": "--plugins",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --plugins"
+          ],
+          "tip": [
+            "Update installed plugins."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "usage",
+      "usage": [
+        "usage [ACTION]"
+      ],
+      "tip": [
+        "Show provider usage limits for every authenticated account."
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "usage": [
+            "--days <int>"
+          ],
+          "tip": [
+            "History window in days (with --history)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--history",
+          "tip": [
+            "Show recorded usage-limit history instead of a live snapshot."
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Output usage reports as JSON."
+          ]
+        },
+        {
+          "name": "--provider",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --provider <value>"
+          ],
+          "tip": [
+            "Only show usage for this provider id."
+          ],
+          "next": []
+        },
+        {
+          "name": "--redact",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --redact"
+          ],
+          "tip": [
+            "Redact account emails/ids for sharing screenshots."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "invalidate",
+          "tip": [
+            "Invalidate cached usage reports."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "worktree",
+      "usage": [
+        "worktree [ACTION]"
+      ],
+      "tip": [
+        "List or clear agent-managed git worktrees."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Clear every entry, including live PR-checkout worktrees."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "Print what would be removed without touching the filesystem."
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Emit machine-readable JSON."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "Clear agent-managed worktrees."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List agent-managed worktrees."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "usage": [
+        "--add-dir <value>"
+      ],
+      "tip": [
+        "Add a workspace directory beyond the working directory."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--advisor",
+      "tip": [
+        "Enable the advisor runtime (passively reviews each turn and injects notes)."
+      ]
+    },
+    {
+      "name": "--alias",
+      "usage": [
+        "--alias <value>"
+      ],
+      "tip": [
+        "Create a shell shortcut for the selected profile and exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--allow-home",
+      "tip": [
+        "Allow starting in ~ without auto-switching to a temp dir."
+      ]
+    },
+    {
+      "name": "--api-key",
+      "usage": [
+        "--api-key <value>"
+      ],
+      "tip": [
+        "API key (defaults to env vars)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--append-system-prompt",
+      "usage": [
+        "--append-system-prompt <value>"
+      ],
+      "tip": [
+        "Append text or file contents to the system prompt."
+      ],
+      "next": []
+    },
+    {
+      "name": "--approval-mode",
+      "usage": [
+        "--approval-mode <value>"
+      ],
+      "tip": [
+        "Override tools.approvalMode for this session (always-ask|write|yolo)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--auto-approve",
+      "tip": [
+        "Auto-approve all tool calls (skip approval prompts)."
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <value>"
+      ],
+      "tip": [
+        "Load an extra config.yml-style overlay for this run."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --continue"
+      ],
+      "tip": [
+        "Continue previous session."
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <value>"
+      ],
+      "tip": [
+        "Directory to start in (overrides the launch cwd)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--export",
+      "usage": [
+        "--export <value>"
+      ],
+      "tip": [
+        "Export session file to HTML and exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--extension",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --extension <value>"
+      ],
+      "tip": [
+        "Load an extension file (can be used multiple times)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--from-claude",
+      "tip": [
+        "Import a Claude Code session into OMP."
+      ]
+    },
+    {
+      "name": "--from-codex",
+      "tip": [
+        "Import a Codex session into OMP."
+      ]
+    },
+    {
+      "name": "--hide-thinking",
+      "tip": [
+        "Hide thinking blocks in TUI output."
+      ]
+    },
+    {
+      "name": "--hook",
+      "usage": [
+        "--hook <value>"
+      ],
+      "tip": [
+        "Load a hook/extension file (can be used multiple times)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--max-time",
+      "usage": [
+        "--max-time <value>"
+      ],
+      "tip": [
+        "Stop the session after this duration (e.g. 600, 10m, 1h)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <value>"
+      ],
+      "tip": [
+        "Output mode: text (default), json, rpc, or rpc-ui."
+      ],
+      "next": []
+    },
+    {
+      "name": "--model",
+      "usage": [
+        "--model <value>"
+      ],
+      "tip": [
+        "Model to use (fuzzy match: opus, gpt-5.2, or openai/gpt-5.2)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--models",
+      "usage": [
+        "--models <value>"
+      ],
+      "tip": [
+        "Comma-separated model patterns for Ctrl+P cycling."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-extensions",
+      "tip": [
+        "Disable extension discovery (explicit -e paths still work)."
+      ]
+    },
+    {
+      "name": "--no-lsp",
+      "tip": [
+        "Disable LSP tools, formatting, and diagnostics."
+      ]
+    },
+    {
+      "name": "--no-prewalk",
+      "tip": [
+        "Disable prewalk even if prewalk.enabled is set."
+      ]
+    },
+    {
+      "name": "--no-pty",
+      "tip": [
+        "Disable PTY-based interactive bash execution."
+      ]
+    },
+    {
+      "name": "--no-rules",
+      "tip": [
+        "Disable rules discovery and loading."
+      ]
+    },
+    {
+      "name": "--no-session",
+      "tip": [
+        "Don't save session (ephemeral)."
+      ]
+    },
+    {
+      "name": "--no-skills",
+      "tip": [
+        "Disable skills discovery and loading."
+      ]
+    },
+    {
+      "name": "--no-title",
+      "tip": [
+        "Disable title auto-generation."
+      ]
+    },
+    {
+      "name": "--no-tools",
+      "tip": [
+        "Disable all built-in tools."
+      ]
+    },
+    {
+      "name": "--plan",
+      "usage": [
+        "--plan <value>"
+      ],
+      "tip": [
+        "Plan model for architectural planning."
+      ],
+      "next": []
+    },
+    {
+      "name": "--plan-yolo",
+      "tip": [
+        "Force read-only plan mode at start, auto-approve the plan, then switch to --plan-yolo-into to implement it."
+      ]
+    },
+    {
+      "name": "--plan-yolo-into",
+      "usage": [
+        "--plan-yolo-into <value>"
+      ],
+      "tip": [
+        "Target model for plan-yolo execution (default the smol role)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--plugin-dir",
+      "usage": [
+        "--plugin-dir <path>"
+      ],
+      "tip": [
+        "Load plugin from directory (repeatable)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--prewalk",
+      "tip": [
+        "Switch from the active model to a fast/cheap model at the first edit/write after the plan's todo list exists."
+      ]
+    },
+    {
+      "name": "--prewalk-into",
+      "usage": [
+        "--prewalk-into <value>"
+      ],
+      "tip": [
+        "Target model for prewalk (default the smol role)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print"
+      ],
+      "tip": [
+        "Non-interactive mode: process prompt and exit."
+      ]
+    },
+    {
+      "name": "--print-thoughts",
+      "tip": [
+        "Include thinking blocks in print mode text output."
+      ]
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <value>"
+      ],
+      "tip": [
+        "Use an isolated profile for auth, sessions, settings, and caches."
+      ],
+      "next": []
+    },
+    {
+      "name": "--provider",
+      "usage": [
+        "--provider <value>"
+      ],
+      "tip": [
+        "Provider to use (legacy; prefer --model)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --resume <value>"
+      ],
+      "tip": [
+        "Resume a session (by ID prefix, path, or picker if omitted)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-tier",
+      "usage": [
+        "--service-tier <value>"
+      ],
+      "tip": [
+        "OpenAI service tier for this session."
+      ],
+      "next": []
+    },
+    {
+      "name": "--session-dir",
+      "usage": [
+        "--session-dir <value>"
+      ],
+      "tip": [
+        "Directory for session storage and lookup."
+      ],
+      "next": []
+    },
+    {
+      "name": "--skills",
+      "usage": [
+        "--skills <value>"
+      ],
+      "tip": [
+        "Comma-separated glob patterns to filter skills."
+      ],
+      "next": []
+    },
+    {
+      "name": "--slow",
+      "usage": [
+        "--slow <value>"
+      ],
+      "tip": [
+        "Slow/reasoning model for thorough analysis."
+      ],
+      "next": []
+    },
+    {
+      "name": "--smol",
+      "usage": [
+        "--smol <value>"
+      ],
+      "tip": [
+        "Smol/fast model for lightweight tasks."
+      ],
+      "next": []
+    },
+    {
+      "name": "--system-prompt",
+      "usage": [
+        "--system-prompt <value>"
+      ],
+      "tip": [
+        "System prompt (default: coding assistant prompt)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--thinking",
+      "usage": [
+        "--thinking <value>"
+      ],
+      "tip": [
+        "Set thinking level: off, minimal, low, medium, high, xhigh, max, auto."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tools",
+      "usage": [
+        "--tools <value>"
+      ],
+      "tip": [
+        "Comma-separated list of tools to enable (default: all)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print the version number and exit."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show the help."
+      ]
+    }
+  ]
+}

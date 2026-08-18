@@ -1,0 +1,1500 @@
+{
+  "meta": {
+    "url": "https://github.com/XiaomiMiMo/MiMo-Code",
+    "description": [
+      "mimocode - an AI-powered coding assistant."
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "usage": [
+        "acp [options]"
+      ],
+      "tip": [
+        "Start ACP (Agent Client Protocol) server."
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "Additional domains to allow for CORS."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <string>"
+          ],
+          "tip": [
+            "Hostname to listen on."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "Enable mDNS service discovery."
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "usage": [
+            "--mdns-domain <string>"
+          ],
+          "tip": [
+            "Custom domain name for mDNS service."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "Allow starting without authentication on non-loopback addresses."
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "Port to listen on."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "agent",
+      "usage": [
+        "agent <create|list>"
+      ],
+      "tip": [
+        "Manage agents."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new agent."
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <string>"
+              ],
+              "tip": [
+                "What the agent should do."
+              ],
+              "next": []
+            },
+            {
+              "name": "--mode",
+              "usage": [
+                "--mode <all|primary|subagent>"
+              ],
+              "tip": [
+                "Agent mode."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "All modes."
+                  ]
+                },
+                {
+                  "name": "primary",
+                  "tip": [
+                    "Primary mode."
+                  ]
+                },
+                {
+                  "name": "subagent",
+                  "tip": [
+                    "Subagent mode."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--model",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --model <provider/model>"
+              ],
+              "tip": [
+                "Model to use."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <string>"
+              ],
+              "tip": [
+                "Directory path to generate the agent file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--tools",
+              "usage": [
+                "--tools <string>"
+              ],
+              "tip": [
+                "Comma-separated list of tools to enable."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all available agents."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "attach",
+      "usage": [
+        "attach <url>"
+      ],
+      "tip": [
+        "Attach to a running mimocode server."
+      ],
+      "option": [
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --continue"
+          ],
+          "tip": [
+            "Continue the last session."
+          ]
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <string>"
+          ],
+          "tip": [
+            "Directory to run in."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "Fork the session when continuing."
+          ]
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --password <string>"
+          ],
+          "tip": [
+            "Basic auth password."
+          ],
+          "next": []
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --session <string>"
+          ],
+          "tip": [
+            "Session id to continue."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "Generate shell completion script."
+      ]
+    },
+    {
+      "name": "db",
+      "usage": [
+        "db [query|path|migrate]"
+      ],
+      "tip": [
+        "Database tools."
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "usage": [
+            "--format <json|tsv>"
+          ],
+          "tip": [
+            "Output format."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON format."
+              ]
+            },
+            {
+              "name": "tsv",
+              "tip": [
+                "TSV format."
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "migrate",
+          "tip": [
+            "Migrate JSON data to SQLite."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Print the database path."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debug",
+      "usage": [
+        "debug <config|lsp|rg|file|scrap|skill|snapshot|agent|paths|wait>"
+      ],
+      "tip": [
+        "Debugging and troubleshooting tools."
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "usage": [
+            "agent <name>"
+          ],
+          "tip": [
+            "Show agent configuration details."
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Show resolved configuration."
+          ]
+        },
+        {
+          "name": "file",
+          "usage": [
+            "file <read|status|list|search|tree>"
+          ],
+          "tip": [
+            "File system debugging utilities."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list <path>"
+              ],
+              "tip": [
+                "List files in a directory."
+              ]
+            },
+            {
+              "name": "read",
+              "usage": [
+                "read <path>"
+              ],
+              "tip": [
+                "Read file contents as JSON."
+              ]
+            },
+            {
+              "name": "search",
+              "usage": [
+                "search <query>"
+              ],
+              "tip": [
+                "Search files by query."
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show file status information."
+              ]
+            },
+            {
+              "name": "tree",
+              "usage": [
+                "tree [dir]"
+              ],
+              "tip": [
+                "Show directory tree."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "lsp",
+          "usage": [
+            "lsp <diagnostics|symbols|document-symbols>"
+          ],
+          "tip": [
+            "LSP debugging utilities."
+          ],
+          "next": [
+            {
+              "name": "diagnostics",
+              "usage": [
+                "diagnostics <file>"
+              ],
+              "tip": [
+                "Get diagnostics for a file."
+              ]
+            },
+            {
+              "name": "document-symbols",
+              "usage": [
+                "document-symbols <uri>"
+              ],
+              "tip": [
+                "Get symbols from a document."
+              ]
+            },
+            {
+              "name": "symbols",
+              "usage": [
+                "symbols <query>"
+              ],
+              "tip": [
+                "Search workspace symbols."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "Show global paths (data, config, cache, state)."
+          ]
+        },
+        {
+          "name": "rg",
+          "usage": [
+            "rg <tree|files|search>"
+          ],
+          "tip": [
+            "Ripgrep debugging utilities."
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "List files using ripgrep."
+              ]
+            },
+            {
+              "name": "search",
+              "usage": [
+                "search <pattern>"
+              ],
+              "tip": [
+                "Search file contents using ripgrep."
+              ]
+            },
+            {
+              "name": "tree",
+              "tip": [
+                "Show file tree using ripgrep."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "scrap",
+          "tip": [
+            "List all known projects."
+          ]
+        },
+        {
+          "name": "skill",
+          "tip": [
+            "List all available skills."
+          ]
+        },
+        {
+          "name": "snapshot",
+          "usage": [
+            "snapshot <track|patch|diff>"
+          ],
+          "tip": [
+            "Snapshot debugging utilities."
+          ],
+          "next": [
+            {
+              "name": "diff",
+              "usage": [
+                "diff <hash>"
+              ],
+              "tip": [
+                "Show diff for a snapshot hash."
+              ]
+            },
+            {
+              "name": "patch",
+              "usage": [
+                "patch <hash>"
+              ],
+              "tip": [
+                "Show patch for a snapshot hash."
+              ]
+            },
+            {
+              "name": "track",
+              "tip": [
+                "Track current snapshot state."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "Wait indefinitely (for debugging)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "usage": [
+        "export [sessionID]"
+      ],
+      "tip": [
+        "Export session data as JSON."
+      ],
+      "option": [
+        {
+          "name": "--sanitize",
+          "tip": [
+            "Redact sensitive transcript and file data."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "github",
+      "usage": [
+        "github <install|run>"
+      ],
+      "tip": [
+        "Manage GitHub agent."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Install the GitHub agent."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run the GitHub agent."
+          ],
+          "option": [
+            {
+              "name": "--event",
+              "usage": [
+                "--event <string>"
+              ],
+              "tip": [
+                "GitHub mock event to run the agent for."
+              ],
+              "next": []
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <string>"
+              ],
+              "tip": [
+                "GitHub personal access token."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import <file>"
+      ],
+      "tip": [
+        "Import session data from JSON file or URL."
+      ]
+    },
+    {
+      "name": "mcp",
+      "usage": [
+        "mcp <add|list|auth|logout|debug>"
+      ],
+      "tip": [
+        "Manage MCP (Model Context Protocol) servers."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add an MCP server."
+          ]
+        },
+        {
+          "name": "auth",
+          "usage": [
+            "auth [name]"
+          ],
+          "tip": [
+            "Authenticate with an OAuth-enabled MCP server."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list"
+              ],
+              "tip": [
+                "List OAuth-capable MCP servers and their auth status."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "debug",
+          "usage": [
+            "debug <name>"
+          ],
+          "tip": [
+            "Debug OAuth connection for an MCP server."
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List MCP servers and their status."
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [name]"
+          ],
+          "tip": [
+            "Remove OAuth credentials for an MCP server."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "models",
+      "usage": [
+        "models [provider]"
+      ],
+      "tip": [
+        "List all available models."
+      ],
+      "option": [
+        {
+          "name": "--refresh",
+          "tip": [
+            "Refresh the models cache from models.dev."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Use more verbose model output (includes metadata like costs)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "plug"
+      ],
+      "usage": [
+        "plug|plugin <module>"
+      ],
+      "tip": [
+        "Install plugin and update config."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Replace existing plugin version."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install in global config."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pr",
+      "usage": [
+        "pr <number>"
+      ],
+      "tip": [
+        "Fetch and checkout a GitHub PR branch, then run mimocode."
+      ]
+    },
+    {
+      "name": "providers",
+      "alias": [
+        "auth"
+      ],
+      "usage": [
+        "auth|providers <list|login|logout|whoami>"
+      ],
+      "tip": [
+        "Manage AI providers and credentials."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List providers and credentials."
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login [url]"
+          ],
+          "tip": [
+            "Log in to a provider."
+          ],
+          "option": [
+            {
+              "name": "--method",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --method <string>"
+              ],
+              "tip": [
+                "Login method label."
+              ],
+              "next": []
+            },
+            {
+              "name": "--provider",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --provider <string>"
+              ],
+              "tip": [
+                "Provider id or name to log in to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out from a configured provider."
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "Show current logged-in user info."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [message..]"
+      ],
+      "tip": [
+        "Run mimocode with a message."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <string>"
+          ],
+          "tip": [
+            "Agent to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--attach",
+          "usage": [
+            "--attach <url>"
+          ],
+          "tip": [
+            "Attach to a running mimocode server."
+          ],
+          "next": []
+        },
+        {
+          "name": "--command",
+          "usage": [
+            "--command <string>"
+          ],
+          "tip": [
+            "The command to run, use message for args."
+          ],
+          "next": []
+        },
+        {
+          "name": "--continue",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --continue"
+          ],
+          "tip": [
+            "Continue the last session."
+          ]
+        },
+        {
+          "name": "--dangerously-skip-permissions",
+          "tip": [
+            "Auto-approve permissions that are not explicitly denied."
+          ]
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <string>"
+          ],
+          "tip": [
+            "Directory to run in."
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <file>"
+          ],
+          "tip": [
+            "File(s) to attach to message."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--fork",
+          "tip": [
+            "Fork the session before continuing."
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <default|json>"
+          ],
+          "tip": [
+            "Output format."
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "Formatted output."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "Raw JSON events."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <provider/model>"
+          ],
+          "tip": [
+            "Model to use in the format of provider/model."
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --password <string>"
+          ],
+          "tip": [
+            "Basic auth password."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "Port for the local server."
+          ],
+          "next": []
+        },
+        {
+          "name": "--role",
+          "usage": [
+            "--role <user|assistant>"
+          ],
+          "tip": [
+            "Role for the injected message."
+          ],
+          "next": [
+            {
+              "name": "assistant",
+              "tip": [
+                "Assistant role."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User role."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--session",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --session <string>"
+          ],
+          "tip": [
+            "Session id to continue."
+          ],
+          "next": []
+        },
+        {
+          "name": "--share",
+          "tip": [
+            "Share the session."
+          ]
+        },
+        {
+          "name": "--thinking",
+          "tip": [
+            "Show thinking blocks."
+          ]
+        },
+        {
+          "name": "--title",
+          "usage": [
+            "--title <string>"
+          ],
+          "tip": [
+            "Title for the session."
+          ],
+          "next": []
+        },
+        {
+          "name": "--variant",
+          "usage": [
+            "--variant <string>"
+          ],
+          "tip": [
+            "Model variant (provider-specific reasoning effort)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "usage": [
+        "serve [options]"
+      ],
+      "tip": [
+        "Start a headless mimocode server."
+      ],
+      "option": [
+        {
+          "name": "--cors",
+          "tip": [
+            "Additional domains to allow for CORS."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <string>"
+          ],
+          "tip": [
+            "Hostname to listen on."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdns",
+          "tip": [
+            "Enable mDNS service discovery."
+          ]
+        },
+        {
+          "name": "--mdns-domain",
+          "usage": [
+            "--mdns-domain <string>"
+          ],
+          "tip": [
+            "Custom domain name for mDNS service."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "Allow starting without authentication on non-loopback addresses."
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <number>"
+          ],
+          "tip": [
+            "Port to listen on."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "session",
+      "usage": [
+        "session <list|delete|import-claude>"
+      ],
+      "tip": [
+        "Manage sessions."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <sessionID>"
+          ],
+          "tip": [
+            "Delete a session."
+          ]
+        },
+        {
+          "name": "import-claude",
+          "tip": [
+            "Import Claude Code sessions into mimocode."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List sessions."
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <table|json>"
+              ],
+              "tip": [
+                "Output format."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON format."
+                  ]
+                },
+                {
+                  "name": "table",
+                  "tip": [
+                    "Table format."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--max-count",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --max-count <number>"
+              ],
+              "tip": [
+                "Limit to N most recent sessions."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "Show token usage and cost statistics."
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "usage": [
+            "--days <number>"
+          ],
+          "tip": [
+            "Show stats for the last N days."
+          ],
+          "next": []
+        },
+        {
+          "name": "--models",
+          "usage": [
+            "--models [number]"
+          ],
+          "tip": [
+            "Show model statistics."
+          ],
+          "next": []
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <string>"
+          ],
+          "tip": [
+            "Filter by project."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tools",
+          "usage": [
+            "--tools <number>"
+          ],
+          "tip": [
+            "Number of tools to show."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "tip": [
+        "Uninstall mimocode and remove all related files."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Show what would be removed without removing."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Skip confirmation prompts."
+          ]
+        },
+        {
+          "name": "--keep-config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --keep-config"
+          ],
+          "tip": [
+            "Keep configuration files."
+          ]
+        },
+        {
+          "name": "--keep-data",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --keep-data"
+          ],
+          "tip": [
+            "Keep session data and snapshots."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [target]"
+      ],
+      "tip": [
+        "Upgrade mimocode to the latest or a specific version."
+      ],
+      "option": [
+        {
+          "name": "--method",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --method <curl|npm|pnpm|bun|brew|choco|scoop>"
+          ],
+          "tip": [
+            "Installation method to use."
+          ],
+          "next": [
+            {
+              "name": "brew",
+              "tip": [
+                "Install via Homebrew."
+              ]
+            },
+            {
+              "name": "bun",
+              "tip": [
+                "Install via bun."
+              ]
+            },
+            {
+              "name": "choco",
+              "tip": [
+                "Install via Chocolatey."
+              ]
+            },
+            {
+              "name": "curl",
+              "tip": [
+                "Install via curl."
+              ]
+            },
+            {
+              "name": "npm",
+              "tip": [
+                "Install via npm."
+              ]
+            },
+            {
+              "name": "pnpm",
+              "tip": [
+                "Install via pnpm."
+              ]
+            },
+            {
+              "name": "scoop",
+              "tip": [
+                "Install via Scoop."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--agent",
+      "usage": [
+        "--agent <string>"
+      ],
+      "tip": [
+        "Agent to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --continue"
+      ],
+      "tip": [
+        "Continue the last session."
+      ]
+    },
+    {
+      "name": "--cors",
+      "tip": [
+        "Additional domains to allow for CORS."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--dangerously-skip-permissions",
+      "tip": [
+        "Auto-approve permissions that are not explicitly denied."
+      ]
+    },
+    {
+      "name": "--fork",
+      "tip": [
+        "Fork the session when continuing."
+      ]
+    },
+    {
+      "name": "--hostname",
+      "usage": [
+        "--hostname <string>"
+      ],
+      "tip": [
+        "Hostname to listen on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <DEBUG|INFO|WARN|ERROR>"
+      ],
+      "tip": [
+        "Log level."
+      ],
+      "next": [
+        {
+          "name": "DEBUG",
+          "tip": [
+            "Debug level."
+          ]
+        },
+        {
+          "name": "ERROR",
+          "tip": [
+            "Error level."
+          ]
+        },
+        {
+          "name": "INFO",
+          "tip": [
+            "Info level."
+          ]
+        },
+        {
+          "name": "WARN",
+          "tip": [
+            "Warning level."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--mdns",
+      "tip": [
+        "Enable mDNS service discovery."
+      ]
+    },
+    {
+      "name": "--mdns-domain",
+      "usage": [
+        "--mdns-domain <string>"
+      ],
+      "tip": [
+        "Custom domain name for mDNS service."
+      ],
+      "next": []
+    },
+    {
+      "name": "--model",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --model <provider/model>"
+      ],
+      "tip": [
+        "Model to use in the format of provider/model."
+      ],
+      "next": []
+    },
+    {
+      "name": "--never-ask",
+      "tip": [
+        "Start in never-ask mode."
+      ]
+    },
+    {
+      "name": "--no-auth",
+      "tip": [
+        "Allow starting without authentication on non-loopback addresses."
+      ]
+    },
+    {
+      "name": "--port",
+      "usage": [
+        "--port <number>"
+      ],
+      "tip": [
+        "Port to listen on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--print-logs",
+      "tip": [
+        "Print logs to stderr."
+      ]
+    },
+    {
+      "name": "--prompt",
+      "usage": [
+        "--prompt <string>"
+      ],
+      "tip": [
+        "Prompt to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pure",
+      "tip": [
+        "Run without external plugins."
+      ]
+    },
+    {
+      "name": "--session",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --session <string>"
+      ],
+      "tip": [
+        "Session id to continue."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trust",
+      "tip": [
+        "Skip workspace trust prompt and trust the directory."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show version number."
+      ]
+    }
+  ]
+}

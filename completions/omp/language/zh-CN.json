@@ -1,0 +1,2509 @@
+{
+  "meta": {
+    "url": "https://github.com/can1357/oh-my-pi",
+    "description": [
+      "Oh My Pi - 终端中的 AI 编程助手。"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "将 Oh My Pi 作为 ACP（Agent Client Protocol）服务器通过 stdio 运行。"
+      ]
+    },
+    {
+      "name": "agents",
+      "usage": [
+        "agents [ACTION]"
+      ],
+      "tip": [
+        "管理内置的任务代理。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <value>"
+          ],
+          "tip": [
+            "输出目录（覆盖 --user/--project）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "覆盖已存在的代理文件。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--project",
+          "tip": [
+            "写入 ./.omp/agents。"
+          ]
+        },
+        {
+          "name": "--user",
+          "tip": [
+            "写入 ~/.omp/agent/agents（默认）。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "unpack",
+          "tip": [
+            "导出内置代理到磁盘。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth-broker",
+      "usage": [
+        "auth-broker [ACTION] [SOURCE]"
+      ],
+      "tip": [
+        "管理 omp 认证代理（凭证保险库）。"
+      ],
+      "option": [
+        {
+          "name": "--bind",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --bind <value>"
+          ],
+          "tip": [
+            "serve 的绑定地址（host:port）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印操作但不执行。"
+          ]
+        },
+        {
+          "name": "--from-local",
+          "tip": [
+            "迁移源：本地 SQLite + 环境变量（migrate 必需）。"
+          ]
+        },
+        {
+          "name": "--include-disabled",
+          "tip": [
+            "导入 JSON 中带有 disabled: true 的凭证。"
+          ]
+        },
+        {
+          "name": "--include-env",
+          "tip": [
+            "捕获尚未在 broker 上的提供者的环境变量 API 密钥。"
+          ]
+        },
+        {
+          "name": "--include-oauth",
+          "tip": [
+            "迁移时 also 上传本地 SQLite 中的 OAuth。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--provider",
+          "usage": [
+            "--provider <value>"
+          ],
+          "tip": [
+            "覆盖 import 的提供者 ID。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--regenerate",
+          "tip": [
+            "重新生成 bearer 令牌。"
+          ]
+        },
+        {
+          "name": "--via",
+          "usage": [
+            "--via <value>"
+          ],
+          "tip": [
+            "用于远程登录的 SSH user@host。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "import",
+          "tip": [
+            "导入 CLIProxyAPI 认证转储。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出支持的 OAuth 提供者。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "登录 OAuth 提供者。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "登出提供者。"
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": [
+            "将凭证从本地存储迁移到 broker。"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "针对本地 SQLite 存储启动 broker。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "健康检查配置的远程 broker。"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "打印 bearer 令牌。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth-gateway",
+      "usage": [
+        "auth-gateway [ACTION]"
+      ],
+      "tip": [
+        "运行由配置的 broker 支持的认证网关正向代理。"
+      ],
+      "option": [
+        {
+          "name": "--bind",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --bind <value>"
+          ],
+          "tip": [
+            "serve 的绑定地址（host:port）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--no-auth",
+          "tip": [
+            "禁用入站 bearer 令牌认证（serve）。"
+          ]
+        },
+        {
+          "name": "--regenerate",
+          "tip": [
+            "重新生成网关 bearer 令牌。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "额外对每个凭证进行提供者端点探测。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "探测每个 broker 凭证以查看哪些返回 401。"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "针对配置的 broker 启动网关。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示本地网关和 broker 配置状态。"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "打印网关 bearer 令牌。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bench",
+      "usage": [
+        "bench MODELS..."
+      ],
+      "tip": [
+        "使用相同提示词对模型进行基准测试：首 token 时间和生成吞吐量。"
+      ],
+      "option": [
+        {
+          "name": "--cache",
+          "tip": [
+            "运行独立的冷/热提示缓存对。"
+          ]
+        },
+        {
+          "name": "--cache-concurrency",
+          "usage": [
+            "--cache-concurrency <int>"
+          ],
+          "tip": [
+            "--cache 的并发缓存对数（默认：1）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-pairs",
+          "usage": [
+            "--cache-pairs <int>"
+          ],
+          "tip": [
+            "每个模型的冷/热缓存对数（默认：1）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-prefix-bytes",
+          "usage": [
+            "--cache-prefix-bytes <int>"
+          ],
+          "tip": [
+            "用于 --cache 的稳定前缀字节预算（默认：8192）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-prefix-file",
+          "usage": [
+            "--cache-prefix-file <value>"
+          ],
+          "tip": [
+            "用于 --cache 的稳定提示前缀文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--max-tokens",
+          "usage": [
+            "--max-tokens <int>"
+          ],
+          "tip": [
+            "每次请求的最大输出 token 数（默认：512；缓存模式：64）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--par",
+          "usage": [
+            "--par <int>"
+          ],
+          "tip": [
+            "使用 N 个并行查询执行运行（默认：4）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prompt",
+          "usage": [
+            "--prompt <value>"
+          ],
+          "tip": [
+            "自定义提示文本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--runs",
+          "usage": [
+            "--runs <int>"
+          ],
+          "tip": [
+            "每个模型的请求数（结果取平均；默认：10）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--service-tier",
+          "usage": [
+            "--service-tier <value>"
+          ],
+          "tip": [
+            "应用于每个模型族的服务层级。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "browser-relay",
+      "usage": [
+        "browser-relay [ACTION]"
+      ],
+      "tip": [
+        "运行本地 CDP 中继，让浏览器工具驱动你自己的 Chrome 标签页。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <value>"
+          ],
+          "tip": [
+            "扩展安装目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-group",
+          "tip": [
+            "不要将可控标签页收集到 omp 标签组中。"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <int>"
+          ],
+          "tip": [
+            "监听端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <value>"
+          ],
+          "tip": [
+            "要求扩展程序出示此令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "将中继流量摘要记录到 stderr。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "将 Chrome 扩展写入磁盘。"
+          ]
+        },
+        {
+          "name": "serve",
+          "tip": [
+            "在默认端口上提供中继服务。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanse",
+      "tip": [
+        "使用加权并行子代理检测和修复项目诊断。"
+      ],
+      "option": [
+        {
+          "name": "--agents",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --agents <int>"
+          ],
+          "tip": [
+            "最大文件不相交子代理数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <value>"
+          ],
+          "tip": [
+            "子代理模型选择器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tests",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tests"
+          ],
+          "tip": [
+            " also 运行配置的项目测试套件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "tip": [
+        "生成提交信息并更新变更日志。"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --context <value>"
+          ],
+          "tip": [
+            "给模型的额外上下文。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "预览但不提交。"
+          ]
+        },
+        {
+          "name": "--legacy",
+          "tip": [
+            "使用旧版确定性管道。"
+          ]
+        },
+        {
+          "name": "--model",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --model <value>"
+          ],
+          "tip": [
+            "覆盖模型选择。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-changelog",
+          "tip": [
+            "跳过变更日志更新。"
+          ]
+        },
+        {
+          "name": "--push",
+          "tip": [
+            "提交后推送。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions SHELL"
+      ],
+      "tip": [
+        "打印 shell 补全脚本（bash、zsh 或 fish）。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [ACTION] [KEY] [VALUE...]"
+      ],
+      "tip": [
+        "管理配置设置。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "获取配置值。"
+          ]
+        },
+        {
+          "name": "init-xdg",
+          "tip": [
+            "初始化 XDG 配置目录。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有配置设置。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "打印配置文件路径。"
+          ]
+        },
+        {
+          "name": "reset",
+          "tip": [
+            "重置配置值。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置配置值。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dry-balance",
+      "tip": [
+        "跨随机会话 ID 干运行 OAuth 账户平衡。"
+      ],
+      "option": [
+        {
+          "name": "--bench",
+          "tip": [
+            "为每个 OAuth 账户发送一个实时基准请求。"
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <int>"
+          ],
+          "tip": [
+            "最大并发凭证解析数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <int>"
+          ],
+          "tip": [
+            "要尝试的随机会话 ID 数量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <value>"
+          ],
+          "tip": [
+            "模型选择器（与 omp 的 --model 语法相同）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gallery",
+      "tip": [
+        "预览工具渲染器在流式传输、进行中、成功和失败状态下的效果。"
+      ],
+      "option": [
+        {
+          "name": "--expanded",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --expanded"
+          ],
+          "tip": [
+            "渲染每个渲染器的展开变体。"
+          ]
+        },
+        {
+          "name": "--font",
+          "usage": [
+            "--font <value>"
+          ],
+          "tip": [
+            "截图字体族。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--font-size",
+          "usage": [
+            "--font-size <int>"
+          ],
+          "tip": [
+            "截图字体大小（磅，默认：18）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <value>"
+          ],
+          "tip": [
+            "截图输出路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--plain",
+          "tip": [
+            "从输出中去除 ANSI 样式。"
+          ]
+        },
+        {
+          "name": "--screenshot",
+          "tip": [
+            "通过 VHS 将渲染输出捕获为 PNG 截图。"
+          ]
+        },
+        {
+          "name": "--state",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --state <value>"
+          ],
+          "tip": [
+            "仅渲染给定的生命周期状态。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tool <value>"
+          ],
+          "tip": [
+            "按名称渲染单个工具。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--width",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --width <int>"
+          ],
+          "tip": [
+            "渲染宽度（列数）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "gc",
+      "tip": [
+        "运行存储垃圾回收。"
+      ],
+      "option": [
+        {
+          "name": "--agent-dir",
+          "usage": [
+            "--agent-dir <value>"
+          ],
+          "tip": [
+            "要维护的代理目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--apply",
+          "tip": [
+            "应用更改（默认是干运行）。"
+          ]
+        },
+        {
+          "name": "--archive",
+          "tip": [
+            "归档冷会话。"
+          ]
+        },
+        {
+          "name": "--blobs",
+          "tip": [
+            "清理未引用的 blob。"
+          ]
+        },
+        {
+          "name": "--cold-archive-after-days",
+          "usage": [
+            "--cold-archive-after-days <int>"
+          ],
+          "tip": [
+            "归档前的最短会话存活天数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--retain-newest-global",
+          "usage": [
+            "--retain-newest-global <int>"
+          ],
+          "tip": [
+            "始终保留的最新会话数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--retain-newest-per-cwd",
+          "usage": [
+            "--retain-newest-per-cwd <int>"
+          ],
+          "tip": [
+            "每个工作目录始终保留的最新会话数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wal",
+          "tip": [
+            "检查点历史/模型数据库 WAL 文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grep",
+      "usage": [
+        "grep [PATTERN] [PATH]"
+      ],
+      "tip": [
+        "测试 grep 工具。"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <int>"
+          ],
+          "tip": [
+            "上下文行数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --count"
+          ],
+          "tip": [
+            "输出每个文件的匹配计数。"
+          ]
+        },
+        {
+          "name": "--files",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --files"
+          ],
+          "tip": [
+            "仅输出文件名。"
+          ]
+        },
+        {
+          "name": "--glob",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --glob <value>"
+          ],
+          "tip": [
+            "按 glob 模式过滤文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --limit <int>"
+          ],
+          "tip": [
+            "最大匹配数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-gitignore",
+          "tip": [
+            "包含被 .gitignore 排除的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "grievances",
+      "usage": [
+        "grievances [ACTION]"
+      ],
+      "tip": [
+        "查看、清理或推送报告的工具问题（自动 QA 问题）。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "删除所有问题。"
+          ]
+        },
+        {
+          "name": "--id",
+          "usage": [
+            "--id <int>"
+          ],
+          "tip": [
+            "按 ID 删除单个问题。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "输出为 JSON。"
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --limit <int>"
+          ],
+          "tip": [
+            "显示的最近问题数量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tool <value>"
+          ],
+          "tip": [
+            "按工具名称过滤。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "清理报告的工具问题。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出报告的工具问题。"
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "推送报告的工具问题。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [TARGETS...]"
+      ],
+      "tip": [
+        "安装或链接扩展包（plugin install/link 的别名）。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示操作但不应用更改。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制安装。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "安装范围：user（默认）或 project。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "join",
+      "usage": [
+        "join LINK"
+      ],
+      "tip": [
+        "加入共享的协作会话（同 /join）。"
+      ]
+    },
+    {
+      "name": "models",
+      "usage": [
+        "models [ACTION] [PATTERN]"
+      ],
+      "tip": [
+        "列出、搜索和刷新可用模型。"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "usage": [
+            "--config <value>"
+          ],
+          "tip": [
+            "加载额外的 config.yml 风格覆盖。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extension",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --extension <value>"
+          ],
+          "tip": [
+            "列出前加载扩展文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--no-extensions",
+          "tip": [
+            "禁用扩展发现。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "find",
+          "tip": [
+            "按子字符串搜索模型。"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出所有可用模型，按提供者分组。"
+          ]
+        },
+        {
+          "name": "refresh",
+          "tip": [
+            "强制刷新目录获取。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "usage": [
+        "plugin [ACTION] [TARGETS...]"
+      ],
+      "tip": [
+        "管理插件（安装、卸载、列表等）。"
+      ],
+      "option": [
+        {
+          "name": "--disable",
+          "usage": [
+            "--disable <value>"
+          ],
+          "tip": [
+            "禁用某个功能。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示操作但不应用更改。"
+          ]
+        },
+        {
+          "name": "--enable",
+          "usage": [
+            "--enable <value>"
+          ],
+          "tip": [
+            "启用某个功能。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "尝试修复问题（doctor）。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制安装。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--local",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --local"
+          ],
+          "tip": [
+            "在本地插件目录上操作。"
+          ]
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "安装范围：user（默认）或 project。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set",
+          "usage": [
+            "--set <value>"
+          ],
+          "tip": [
+            "设置插件配置（key=value）。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "config",
+          "tip": [
+            "管理插件配置。"
+          ]
+        },
+        {
+          "name": "disable",
+          "tip": [
+            "禁用插件功能。"
+          ]
+        },
+        {
+          "name": "discover",
+          "tip": [
+            "发现可用插件。"
+          ]
+        },
+        {
+          "name": "doctor",
+          "tip": [
+            "检查插件健康状态。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "启用插件功能。"
+          ]
+        },
+        {
+          "name": "features",
+          "tip": [
+            "列出插件功能。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装插件。"
+          ]
+        },
+        {
+          "name": "link",
+          "tip": [
+            "链接本地插件目录。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出已安装的插件。"
+          ]
+        },
+        {
+          "name": "marketplace",
+          "tip": [
+            "浏览插件市场。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "tip": [
+            "卸载插件。"
+          ]
+        },
+        {
+          "name": "upgrade",
+          "tip": [
+            "升级已安装的插件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "read",
+      "usage": [
+        "read PATH"
+      ],
+      "tip": [
+        "显示 read 工具将为路径、URL 或内部 URI 返回的内容。"
+      ]
+    },
+    {
+      "name": "say",
+      "usage": [
+        "say [TEXT]"
+      ],
+      "tip": [
+        "使用本地 TTS 引擎合成文本并通过扬声器播放。"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --file <value>"
+          ],
+          "tip": [
+            "从文件读取要朗读的文本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <value>"
+          ],
+          "tip": [
+            "本地 TTS 模型键。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <value>"
+          ],
+          "tip": [
+            "将 WAV 写入此路径而不是播放。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--voice",
+          "usage": [
+            "--voice <value>"
+          ],
+          "tip": [
+            "语音 ID。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search [QUERY...]"
+      ],
+      "tip": [
+        "测试网页搜索提供者。"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "tip": [
+            "渲染精简输出。"
+          ]
+        },
+        {
+          "name": "--limit",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --limit <int>"
+          ],
+          "tip": [
+            "返回的最大结果数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--provider",
+          "usage": [
+            "--provider <value>"
+          ],
+          "tip": [
+            "搜索提供者。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recency",
+          "usage": [
+            "--recency <value>"
+          ],
+          "tip": [
+            "时效性过滤器。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "setup",
+      "usage": [
+        "setup [COMPONENT]"
+      ],
+      "tip": [
+        "运行引导设置或安装可选功能的依赖项。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --check"
+          ],
+          "tip": [
+            "检查依赖项是否已安装。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出状态为 JSON。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "python",
+          "tip": [
+            "安装 Python 依赖项。"
+          ]
+        },
+        {
+          "name": "speech",
+          "tip": [
+            "安装语音/TTS 依赖项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shell",
+      "tip": [
+        "交互式 shell 控制台。"
+      ],
+      "option": [
+        {
+          "name": "--cwd",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --cwd <value>"
+          ],
+          "tip": [
+            "设置命令的工作目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-snapshot",
+          "tip": [
+            "跳过从用户 shell 加载快照。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --timeout <int>"
+          ],
+          "tip": [
+            "每个命令的超时时间（毫秒）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "ssh",
+      "usage": [
+        "ssh [ACTION] [TARGETS...]"
+      ],
+      "tip": [
+        "管理 SSH 主机配置。"
+      ],
+      "option": [
+        {
+          "name": "--compat",
+          "tip": [
+            "启用兼容模式。"
+          ]
+        },
+        {
+          "name": "--desc",
+          "usage": [
+            "--desc <value>"
+          ],
+          "tip": [
+            "主机描述。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <value>"
+          ],
+          "tip": [
+            "主机地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--key",
+          "usage": [
+            "--key <value>"
+          ],
+          "tip": [
+            "身份密钥路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <value>"
+          ],
+          "tip": [
+            "端口号。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <value>"
+          ],
+          "tip": [
+            "配置范围（project|user）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user",
+          "usage": [
+            "--user <value>"
+          ],
+          "tip": [
+            "用户名。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加 SSH 主机配置。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 SSH 主机配置。"
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "删除 SSH 主机配置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "查看使用统计。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "输出统计为 JSON。"
+          ]
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <int>"
+          ],
+          "tip": [
+            "仪表板服务器的端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --summary"
+          ],
+          "tip": [
+            "在控制台打印摘要。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tiny-models",
+      "usage": [
+        "tiny-models [ACTION] [MODEL]"
+      ],
+      "tip": [
+        "下载微型本地模型（会话标题 + 记忆）。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "download",
+          "tip": [
+            "下载微型模型。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出可用的微型模型。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token PROVIDER"
+      ],
+      "tip": [
+        "获取提供者的 API 密钥或 OAuth 令牌。"
+      ],
+      "option": [
+        {
+          "name": "--account",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --account <int>"
+          ],
+          "tip": [
+            "选择第 N 个 OAuth 账户（从 1 开始）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-refresh",
+          "tip": [
+            "即使未过期也强制刷新 OAuth 令牌。"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出提供者的 OAuth 账户并退出。"
+          ]
+        },
+        {
+          "name": "--raw",
+          "tip": [
+            "输出原始凭证值而不解析。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ttsr",
+      "usage": [
+        "ttsr [ACTION] [SNIPPET]"
+      ],
+      "tip": [
+        "检查和测试时间旅行流规则（TTSR）。"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "usage": [
+            "--file <value>"
+          ],
+          "tip": [
+            "代码片段文件路径，或 - 表示 stdin。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--max-bytes",
+          "usage": [
+            "--max-bytes <int>"
+          ],
+          "tip": [
+            "要扫描的最大文件大小（字节）；0 表示无限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-gitignore",
+          "tip": [
+            "包含被 .gitignore 排除的文件。"
+          ]
+        },
+        {
+          "name": "--path",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --path <value>"
+          ],
+          "tip": [
+            "用于范围/glob 匹配的候选文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rule",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rule <value>"
+          ],
+          "tip": [
+            "单独测试的规则 markdown 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <value>"
+          ],
+          "tip": [
+            "匹配来源：text、thinking 或 tool。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tool",
+          "usage": [
+            "--tool <value>"
+          ],
+          "tip": [
+            "来源为 tool 时的工具名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示每个评估的规则，而不仅是触发的规则。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出可用的 TTSR 规则。"
+          ]
+        },
+        {
+          "name": "scan",
+          "tip": [
+            "扫描目录中的 TTSR 规则违规。"
+          ]
+        },
+        {
+          "name": "test",
+          "tip": [
+            "对代码片段测试 TTSR 规则。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "检查并安装更新。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --check"
+          ],
+          "tip": [
+            "检查更新但不安装。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制更新。"
+          ]
+        },
+        {
+          "name": "--plugins",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --plugins"
+          ],
+          "tip": [
+            "更新已安装的插件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "usage",
+      "usage": [
+        "usage [ACTION]"
+      ],
+      "tip": [
+        "显示每个已认证账户的提供者使用限制。"
+      ],
+      "option": [
+        {
+          "name": "--days",
+          "usage": [
+            "--days <int>"
+          ],
+          "tip": [
+            "历史窗口天数（与 --history 一起使用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--history",
+          "tip": [
+            "显示记录的使用限制历史而不是实时快照。"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "输出使用报告为 JSON。"
+          ]
+        },
+        {
+          "name": "--provider",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --provider <value>"
+          ],
+          "tip": [
+            "仅显示此提供者 ID 的使用情况。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redact",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --redact"
+          ],
+          "tip": [
+            "编辑账户邮箱/ID 以供分享截图。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "invalidate",
+          "tip": [
+            "使缓存的使用报告失效。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "worktree",
+      "usage": [
+        "worktree [ACTION]"
+      ],
+      "tip": [
+        "列出或清理代理管理的 git 工作树。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "清理所有条目，包括活跃的 PR checkout 工作树。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "打印将被删除的内容而不实际操作文件系统。"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "输出机器可读的 JSON。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "清理代理管理的工作树。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出代理管理的工作树。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--add-dir",
+      "usage": [
+        "--add-dir <value>"
+      ],
+      "tip": [
+        "添加工作目录之外的工作区目录。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--advisor",
+      "tip": [
+        "启用顾问运行时（被动审查每轮并注入笔记）。"
+      ]
+    },
+    {
+      "name": "--alias",
+      "usage": [
+        "--alias <value>"
+      ],
+      "tip": [
+        "为选定的配置文件创建 shell 快捷方式并退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--allow-home",
+      "tip": [
+        "允许在 ~ 目录中启动而不自动切换到临时目录。"
+      ]
+    },
+    {
+      "name": "--api-key",
+      "usage": [
+        "--api-key <value>"
+      ],
+      "tip": [
+        "API 密钥（默认使用环境变量）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--append-system-prompt",
+      "usage": [
+        "--append-system-prompt <value>"
+      ],
+      "tip": [
+        "向系统提示追加文本或文件内容。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--approval-mode",
+      "usage": [
+        "--approval-mode <value>"
+      ],
+      "tip": [
+        "覆盖本次会话的 tools.approvalMode（always-ask|write|yolo）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--auto-approve",
+      "tip": [
+        "自动批准所有工具调用（跳过批准提示）。"
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <value>"
+      ],
+      "tip": [
+        "为本次运行加载额外的 config.yml 风格覆盖。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--continue",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --continue"
+      ],
+      "tip": [
+        "继续上一个会话。"
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <value>"
+      ],
+      "tip": [
+        "启动目录（覆盖启动时的 cwd）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--export",
+      "usage": [
+        "--export <value>"
+      ],
+      "tip": [
+        "将会话文件导出为 HTML 并退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--extension",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --extension <value>"
+      ],
+      "tip": [
+        "加载扩展文件（可多次使用）。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--from-claude",
+      "tip": [
+        "将 Claude Code 会话导入 OMP。"
+      ]
+    },
+    {
+      "name": "--from-codex",
+      "tip": [
+        "将 Codex 会话导入 OMP。"
+      ]
+    },
+    {
+      "name": "--hide-thinking",
+      "tip": [
+        "在 TUI 输出中隐藏思考块。"
+      ]
+    },
+    {
+      "name": "--hook",
+      "usage": [
+        "--hook <value>"
+      ],
+      "tip": [
+        "加载钩子/扩展文件（可多次使用）。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--max-time",
+      "usage": [
+        "--max-time <value>"
+      ],
+      "tip": [
+        "在此时间后停止会话（例如 600、10m、1h）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mode",
+      "usage": [
+        "--mode <value>"
+      ],
+      "tip": [
+        "输出模式：text（默认）、json、rpc 或 rpc-ui。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--model",
+      "usage": [
+        "--model <value>"
+      ],
+      "tip": [
+        "要使用的模型（模糊匹配：opus、gpt-5.2 或 openai/gpt-5.2）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--models",
+      "usage": [
+        "--models <value>"
+      ],
+      "tip": [
+        "用于 Ctrl+P 循环的逗号分隔模型模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-extensions",
+      "tip": [
+        "禁用扩展发现（显式 -e 路径仍然有效）。"
+      ]
+    },
+    {
+      "name": "--no-lsp",
+      "tip": [
+        "禁用 LSP 工具、格式化和诊断。"
+      ]
+    },
+    {
+      "name": "--no-prewalk",
+      "tip": [
+        "即使 prewalk.enabled 已设置也禁用 prewalk。"
+      ]
+    },
+    {
+      "name": "--no-pty",
+      "tip": [
+        "禁用基于 PTY 的交互式 bash 执行。"
+      ]
+    },
+    {
+      "name": "--no-rules",
+      "tip": [
+        "禁用规则发现和加载。"
+      ]
+    },
+    {
+      "name": "--no-session",
+      "tip": [
+        "不保存会话（临时）。"
+      ]
+    },
+    {
+      "name": "--no-skills",
+      "tip": [
+        "禁用技能发现和加载。"
+      ]
+    },
+    {
+      "name": "--no-title",
+      "tip": [
+        "禁用标题自动生成。"
+      ]
+    },
+    {
+      "name": "--no-tools",
+      "tip": [
+        "禁用所有内置工具。"
+      ]
+    },
+    {
+      "name": "--plan",
+      "usage": [
+        "--plan <value>"
+      ],
+      "tip": [
+        "用于架构规划的规划模型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--plan-yolo",
+      "tip": [
+        "启动时强制只读规划模式，自动批准计划，然后切换到 --plan-yolo-into 来实现它。"
+      ]
+    },
+    {
+      "name": "--plan-yolo-into",
+      "usage": [
+        "--plan-yolo-into <value>"
+      ],
+      "tip": [
+        "plan-yolo 执行的目标模型（默认为 smol 角色）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--plugin-dir",
+      "usage": [
+        "--plugin-dir <path>"
+      ],
+      "tip": [
+        "从目录加载插件（可重复）。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--prewalk",
+      "tip": [
+        "在计划的待办列表存在后，从活跃模型切换到快速/廉价模型进行第一次编辑/写入。"
+      ]
+    },
+    {
+      "name": "--prewalk-into",
+      "usage": [
+        "--prewalk-into <value>"
+      ],
+      "tip": [
+        "prewalk 的目标模型（默认为 smol 角色）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print"
+      ],
+      "tip": [
+        "非交互模式：处理提示后退出。"
+      ]
+    },
+    {
+      "name": "--print-thoughts",
+      "tip": [
+        "在打印模式文本输出中包含思考块。"
+      ]
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <value>"
+      ],
+      "tip": [
+        "使用隔离的配置文件进行认证、会话、设置和缓存。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--provider",
+      "usage": [
+        "--provider <value>"
+      ],
+      "tip": [
+        "要使用的提供者（旧版；推荐使用 --model）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--resume",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --resume <value>"
+      ],
+      "tip": [
+        "恢复会话（按 ID 前缀、路径或选择器）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--service-tier",
+      "usage": [
+        "--service-tier <value>"
+      ],
+      "tip": [
+        "本次会话的 OpenAI 服务层级。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--session-dir",
+      "usage": [
+        "--session-dir <value>"
+      ],
+      "tip": [
+        "会话存储和查找的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--skills",
+      "usage": [
+        "--skills <value>"
+      ],
+      "tip": [
+        "用于过滤技能的逗号分隔 glob 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--slow",
+      "usage": [
+        "--slow <value>"
+      ],
+      "tip": [
+        "用于深入分析的慢速/推理模型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--smol",
+      "usage": [
+        "--smol <value>"
+      ],
+      "tip": [
+        "用于轻量任务的快速/小型模型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--system-prompt",
+      "usage": [
+        "--system-prompt <value>"
+      ],
+      "tip": [
+        "系统提示（默认：编程助手提示）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--thinking",
+      "usage": [
+        "--thinking <value>"
+      ],
+      "tip": [
+        "设置思考级别：off、minimal、low、medium、high、xhigh、max、auto。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tools",
+      "usage": [
+        "--tools <value>"
+      ],
+      "tip": [
+        "要启用的逗号分隔工具列表（默认：全部）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印版本号并退出。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    }
+  ]
+}
