@@ -1,0 +1,991 @@
+{
+  "meta": {
+    "url": "https://github.com/russellbanks/Komac",
+    "description": [
+      "The Community Manifest Creator for WinGet."
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "alias": [
+        "analyse"
+      ],
+      "usage": [
+        "analyse|analyze [OPTIONS] <FILE_PATH>"
+      ],
+      "tip": [
+        "Analyzes a file and outputs information about it."
+      ],
+      "option": [
+        {
+          "name": "--hash",
+          "tip": [
+            "Hash the file and include it in the InstallerSha256 field."
+          ]
+        },
+        {
+          "name": "--no-hash",
+          "tip": [
+            "Skip hashing the file."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "autocomplete",
+      "alias": [
+        "complete"
+      ],
+      "usage": [
+        "complete|autocomplete [SHELL]"
+      ],
+      "tip": [
+        "Outputs an autocompletion script for the given shell."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate completion script for Bash."
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Generate completion script for Elvish."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate completion script for Fish."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate completion script for PowerShell."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate completion script for Zsh."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "alias": [
+        "clean"
+      ],
+      "usage": [
+        "clean|cleanup [OPTIONS]"
+      ],
+      "tip": [
+        "Finds branches from the fork of winget-pkgs that have had a merged or closed pull request, prompting for which ones to delete."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Automatically delete all relevant branches."
+          ]
+        },
+        {
+          "name": "--only-closed",
+          "tip": [
+            "Only delete closed branches."
+          ]
+        },
+        {
+          "name": "--only-merged",
+          "tip": [
+            "Only delete merged branches."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-versions",
+      "alias": [
+        "list"
+      ],
+      "usage": [
+        "list|list-versions [OPTIONS] <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "Lists all versions for a given package."
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "tip": [
+            "Output the number of versions the package has."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output the versions as JSON."
+          ]
+        },
+        {
+          "name": "--pretty-json",
+          "tip": [
+            "Output the versions as prettified JSON."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--yaml",
+          "tip": [
+            "Output the versions as YAML."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "merge-upstream",
+      "alias": [
+        "sync-fork",
+        "sync"
+      ],
+      "usage": [
+        "sync|sync-fork|merge-upstream [OPTIONS]"
+      ],
+      "tip": [
+        "Merges changes from microsoft/winget-pkgs into the fork repository."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Merges changes even if the fork's default branch is not fast-forward."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "usage": [
+        "new [OPTIONS] [PACKAGE_IDENTIFIER]"
+      ],
+      "tip": [
+        "Create a new package from scratch."
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "usage": [
+            "--author <AUTHOR>"
+          ],
+          "tip": [
+            "The package's author."
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrent-downloads",
+          "usage": [
+            "--concurrent-downloads <CONCURRENT_DOWNLOADS>"
+          ],
+          "tip": [
+            "Number of installers to download at the same time."
+          ],
+          "next": [
+            {
+              "name": "12"
+            }
+          ]
+        },
+        {
+          "name": "--copyright",
+          "usage": [
+            "--copyright <COPYRIGHT>"
+          ],
+          "tip": [
+            "The package's copyright."
+          ],
+          "next": []
+        },
+        {
+          "name": "--copyright-url",
+          "usage": [
+            "--copyright-url <COPYRIGHT_URL>"
+          ],
+          "tip": [
+            "The URL of the copyright."
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with",
+          "usage": [
+            "--created-with <CREATED_WITH>"
+          ],
+          "tip": [
+            "Name of external tool that invoked Komac."
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with-url",
+          "usage": [
+            "--created-with-url <CREATED_WITH_URL>"
+          ],
+          "tip": [
+            "URL to external tool that invoked Komac."
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <DESCRIPTION>"
+          ],
+          "tip": [
+            "The package's full description."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Run without prompting or submitting."
+          ]
+        },
+        {
+          "name": "--license",
+          "usage": [
+            "--license <LICENSE>"
+          ],
+          "tip": [
+            "The package's license."
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-url",
+          "usage": [
+            "--license-url <LICENSE_URL>"
+          ],
+          "tip": [
+            "The URL of the license."
+          ],
+          "next": []
+        },
+        {
+          "name": "--moniker",
+          "usage": [
+            "--moniker <MONIKER>"
+          ],
+          "tip": [
+            "The package's moniker."
+          ],
+          "next": []
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "Open pull request link automatically."
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "Directory to output the manifests to."
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-locale",
+          "usage": [
+            "--package-locale <PACKAGE_LOCALE>"
+          ],
+          "tip": [
+            "The package's locale."
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-name",
+          "usage": [
+            "--package-name <PACKAGE_NAME>"
+          ],
+          "tip": [
+            "The package's name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-url",
+          "usage": [
+            "--package-url <PACKAGE_URL>"
+          ],
+          "tip": [
+            "The package's homepage URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher",
+          "usage": [
+            "--publisher <PUBLISHER>"
+          ],
+          "tip": [
+            "The package's publisher."
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher-support-url",
+          "usage": [
+            "--publisher-support-url <PUBLISHER_SUPPORT_URL>"
+          ],
+          "tip": [
+            "The publisher's support URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher-url",
+          "usage": [
+            "--publisher-url <PUBLISHER_URL>"
+          ],
+          "tip": [
+            "The publisher's homepage URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--release-notes-url",
+          "usage": [
+            "--release-notes-url <RELEASE_NOTES_URL>"
+          ],
+          "tip": [
+            "URL to package's release notes."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "List of issues that adding this package or version would resolve."
+          ],
+          "next": []
+        },
+        {
+          "name": "--short-description",
+          "usage": [
+            "--short-description <SHORT_DESCRIPTION>"
+          ],
+          "tip": [
+            "The package's short description."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-pr-check",
+          "tip": [
+            "Skip checking for existing pull requests."
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "Automatically submit a pull request."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --urls <URLS>..."
+          ],
+          "tip": [
+            "The list of package installers."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "The package's version."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove [OPTIONS] --version <PACKAGE_VERSION> <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "Remove a version from winget-pkgs.",
+        "To remove a package, all versions of that package must be removed."
+      ],
+      "option": [
+        {
+          "name": "--no-warning",
+          "tip": [
+            "Don't show the package removal warning."
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "Open pull request link automatically."
+          ]
+        },
+        {
+          "name": "--reason",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --reason <DELETION_REASON>"
+          ],
+          "tip": [
+            "The reason for deleting the package version."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "List of issues that removing this version would resolve."
+          ],
+          "next": []
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "Automatically submit a pull request."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "The package's version."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [OPTIONS] <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "Output the manifests for a given package and version."
+      ],
+      "option": [
+        {
+          "name": "--defaultlocale-manifest",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --defaultlocale-manifest"
+          ],
+          "tip": [
+            "Switch to display the default locale manifest."
+          ]
+        },
+        {
+          "name": "--installer-manifest",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --installer-manifest"
+          ],
+          "tip": [
+            "Switch to display the installer manifest."
+          ]
+        },
+        {
+          "name": "--locale-manifests",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --locale-manifests"
+          ],
+          "tip": [
+            "Switch to display all locale manifests."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "The package's version."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-manifest",
+          "tip": [
+            "Switch to display the version manifest."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "submit",
+      "usage": [
+        "submit [OPTIONS] <PATH>"
+      ],
+      "tip": [
+        "Submit manifests from a local directory."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Submit all packages present in the folder."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Run without submitting."
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "Open pull request link automatically."
+          ]
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "List of issues that submitting this version would resolve."
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Skip the confirmation prompt to submit the package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "Manage the stored GitHub token."
+      ],
+      "next": [
+        {
+          "name": "remove",
+          "alias": [
+            "delete"
+          ],
+          "usage": [
+            "delete|remove [OPTIONS]"
+          ],
+          "tip": [
+            "Remove the stored token."
+          ],
+          "option": [
+            {
+              "name": "--yes",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --yes"
+              ],
+              "tip": [
+                "Skip the confirmation prompt to delete the token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "new",
+            "add"
+          ],
+          "usage": [
+            "add|new|update [OPTIONS]"
+          ],
+          "tip": [
+            "Update the stored token."
+          ],
+          "option": [
+            {
+              "name": "--token",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --token <TOKEN>"
+              ],
+              "tip": [
+                "The new token to store."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [OPTIONS] --version <PACKAGE_VERSION> --urls <URLS>... <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "Add a version to a pre-existing package."
+      ],
+      "option": [
+        {
+          "name": "--concurrent-downloads",
+          "usage": [
+            "--concurrent-downloads <CONCURRENT_DOWNLOADS>"
+          ],
+          "tip": [
+            "Number of installers to download at the same time."
+          ],
+          "next": [
+            {
+              "name": "12"
+            }
+          ]
+        },
+        {
+          "name": "--created-with",
+          "usage": [
+            "--created-with <CREATED_WITH>"
+          ],
+          "tip": [
+            "Name of external tool that invoked Komac."
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with-url",
+          "usage": [
+            "--created-with-url <CREATED_WITH_URL>"
+          ],
+          "tip": [
+            "URL to external tool that invoked Komac."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Run without submitting."
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "Open pull request link automatically."
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "Directory to output the manifests to."
+          ],
+          "next": []
+        },
+        {
+          "name": "--release-notes-url",
+          "usage": [
+            "--release-notes-url <RELEASE_NOTES_URL>"
+          ],
+          "tip": [
+            "URL to package's release notes."
+          ],
+          "next": []
+        },
+        {
+          "name": "--replace",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --replace [<REPLACE>]"
+          ],
+          "tip": [
+            "Package version to replace."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "List of issues that updating this package would resolve."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-pr-check",
+          "tip": [
+            "Skip checking for existing pull requests."
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "Automatically submit a pull request."
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "GitHub personal access token with the public_repo scope."
+          ],
+          "next": []
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --urls <URLS>..."
+          ],
+          "tip": [
+            "The list of package installers."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "The package's version."
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help information."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print version information."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,991 @@
+{
+  "meta": {
+    "url": "https://github.com/russellbanks/Komac",
+    "description": [
+      "WinGet 的社区清单创建器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "alias": [
+        "analyse"
+      ],
+      "usage": [
+        "analyse|analyze [OPTIONS] <FILE_PATH>"
+      ],
+      "tip": [
+        "分析文件并输出其信息。"
+      ],
+      "option": [
+        {
+          "name": "--hash",
+          "tip": [
+            "对文件进行哈希计算并包含在 InstallerSha256 字段中。"
+          ]
+        },
+        {
+          "name": "--no-hash",
+          "tip": [
+            "跳过哈希计算。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "autocomplete",
+      "alias": [
+        "complete"
+      ],
+      "usage": [
+        "complete|autocomplete [SHELL]"
+      ],
+      "tip": [
+        "输出给定 Shell 的自动补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "为 Bash 生成补全脚本。"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "为 Elvish 生成补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "为 Fish 生成补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "为 PowerShell 生成补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "为 Zsh 生成补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "alias": [
+        "clean"
+      ],
+      "usage": [
+        "clean|cleanup [OPTIONS]"
+      ],
+      "tip": [
+        "查找 winget-pkgs 分支中已合并或关闭的 Pull Request 对应的分支，并提示删除。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "自动删除所有相关分支。"
+          ]
+        },
+        {
+          "name": "--only-closed",
+          "tip": [
+            "仅删除已关闭的分支。"
+          ]
+        },
+        {
+          "name": "--only-merged",
+          "tip": [
+            "仅删除已合并的分支。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "list-versions",
+      "alias": [
+        "list"
+      ],
+      "usage": [
+        "list|list-versions [OPTIONS] <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "列出给定包的所有版本。"
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "tip": [
+            "输出包的版本数量。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出版本。"
+          ]
+        },
+        {
+          "name": "--pretty-json",
+          "tip": [
+            "以格式化的 JSON 输出版本。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--yaml",
+          "tip": [
+            "以 YAML 格式输出版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "merge-upstream",
+      "alias": [
+        "sync-fork",
+        "sync"
+      ],
+      "usage": [
+        "sync|sync-fork|merge-upstream [OPTIONS]"
+      ],
+      "tip": [
+        "将 microsoft/winget-pkgs 的更改合并到 fork 仓库。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "即使分支不是 fast-forward 也强制合并。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "new",
+      "usage": [
+        "new [OPTIONS] [PACKAGE_IDENTIFIER]"
+      ],
+      "tip": [
+        "从零开始创建一个新包。"
+      ],
+      "option": [
+        {
+          "name": "--author",
+          "usage": [
+            "--author <AUTHOR>"
+          ],
+          "tip": [
+            "包的作者。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrent-downloads",
+          "usage": [
+            "--concurrent-downloads <CONCURRENT_DOWNLOADS>"
+          ],
+          "tip": [
+            "同时下载的安装程序数量。"
+          ],
+          "next": [
+            {
+              "name": "12"
+            }
+          ]
+        },
+        {
+          "name": "--copyright",
+          "usage": [
+            "--copyright <COPYRIGHT>"
+          ],
+          "tip": [
+            "包的版权信息。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--copyright-url",
+          "usage": [
+            "--copyright-url <COPYRIGHT_URL>"
+          ],
+          "tip": [
+            "版权信息的 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with",
+          "usage": [
+            "--created-with <CREATED_WITH>"
+          ],
+          "tip": [
+            "调用 Komac 的外部工具名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with-url",
+          "usage": [
+            "--created-with-url <CREATED_WITH_URL>"
+          ],
+          "tip": [
+            "调用 Komac 的外部工具 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--description",
+          "usage": [
+            "--description <DESCRIPTION>"
+          ],
+          "tip": [
+            "包的完整描述。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不提示或提交，仅模拟运行。"
+          ]
+        },
+        {
+          "name": "--license",
+          "usage": [
+            "--license <LICENSE>"
+          ],
+          "tip": [
+            "包的许可证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-url",
+          "usage": [
+            "--license-url <LICENSE_URL>"
+          ],
+          "tip": [
+            "许可证的 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--moniker",
+          "usage": [
+            "--moniker <MONIKER>"
+          ],
+          "tip": [
+            "包的简称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "自动打开 Pull Request 链接。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "输出清单的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-locale",
+          "usage": [
+            "--package-locale <PACKAGE_LOCALE>"
+          ],
+          "tip": [
+            "包的区域设置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-name",
+          "usage": [
+            "--package-name <PACKAGE_NAME>"
+          ],
+          "tip": [
+            "包的名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-url",
+          "usage": [
+            "--package-url <PACKAGE_URL>"
+          ],
+          "tip": [
+            "包的主页 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher",
+          "usage": [
+            "--publisher <PUBLISHER>"
+          ],
+          "tip": [
+            "包的发布者。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher-support-url",
+          "usage": [
+            "--publisher-support-url <PUBLISHER_SUPPORT_URL>"
+          ],
+          "tip": [
+            "发布者的支持 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--publisher-url",
+          "usage": [
+            "--publisher-url <PUBLISHER_URL>"
+          ],
+          "tip": [
+            "发布者的主页 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--release-notes-url",
+          "usage": [
+            "--release-notes-url <RELEASE_NOTES_URL>"
+          ],
+          "tip": [
+            "包发行说明的 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "添加此包或版本将解决的问题列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--short-description",
+          "usage": [
+            "--short-description <SHORT_DESCRIPTION>"
+          ],
+          "tip": [
+            "包的简短描述。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-pr-check",
+          "tip": [
+            "跳过检查已存在的 Pull Request。"
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "自动提交 Pull Request。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --urls <URLS>..."
+          ],
+          "tip": [
+            "包安装程序的 URL 列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "包的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove [OPTIONS] --version <PACKAGE_VERSION> <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "从 winget-pkgs 中移除一个版本。",
+        "要删除一个包，必须移除该包的所有版本。"
+      ],
+      "option": [
+        {
+          "name": "--no-warning",
+          "tip": [
+            "不显示包移除警告。"
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "自动打开 Pull Request 链接。"
+          ]
+        },
+        {
+          "name": "--reason",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --reason <DELETION_REASON>"
+          ],
+          "tip": [
+            "删除包版本的原因。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "移除此版本将解决的问题列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "自动提交 Pull Request。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "包的版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [OPTIONS] <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "输出给定包和版本的清单。"
+      ],
+      "option": [
+        {
+          "name": "--defaultlocale-manifest",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --defaultlocale-manifest"
+          ],
+          "tip": [
+            "切换显示默认区域清单。"
+          ]
+        },
+        {
+          "name": "--installer-manifest",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --installer-manifest"
+          ],
+          "tip": [
+            "切换显示安装程序清单。"
+          ]
+        },
+        {
+          "name": "--locale-manifests",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --locale-manifests"
+          ],
+          "tip": [
+            "切换显示所有区域清单。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "包的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-manifest",
+          "tip": [
+            "切换显示版本清单。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "submit",
+      "usage": [
+        "submit [OPTIONS] <PATH>"
+      ],
+      "tip": [
+        "从本地目录提交清单。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "提交文件夹中的所有包。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不提交，仅模拟运行。"
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "自动打开 Pull Request 链接。"
+          ]
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "提交此版本将解决的问题列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "跳过提交包的确认提示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "管理存储的 GitHub 令牌。"
+      ],
+      "next": [
+        {
+          "name": "remove",
+          "alias": [
+            "delete"
+          ],
+          "usage": [
+            "delete|remove [OPTIONS]"
+          ],
+          "tip": [
+            "移除存储的令牌。"
+          ],
+          "option": [
+            {
+              "name": "--yes",
+              "alias": [
+                "-y"
+              ],
+              "usage": [
+                "-y, --yes"
+              ],
+              "tip": [
+                "跳过删除令牌的确认提示。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "new",
+            "add"
+          ],
+          "usage": [
+            "add|new|update [OPTIONS]"
+          ],
+          "tip": [
+            "更新存储的令牌。"
+          ],
+          "option": [
+            {
+              "name": "--token",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --token <TOKEN>"
+              ],
+              "tip": [
+                "要存储的新令牌。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [OPTIONS] --version <PACKAGE_VERSION> --urls <URLS>... <PACKAGE_IDENTIFIER>"
+      ],
+      "tip": [
+        "向已有的包添加新版本。"
+      ],
+      "option": [
+        {
+          "name": "--concurrent-downloads",
+          "usage": [
+            "--concurrent-downloads <CONCURRENT_DOWNLOADS>"
+          ],
+          "tip": [
+            "同时下载的安装程序数量。"
+          ],
+          "next": [
+            {
+              "name": "12"
+            }
+          ]
+        },
+        {
+          "name": "--created-with",
+          "usage": [
+            "--created-with <CREATED_WITH>"
+          ],
+          "tip": [
+            "调用 Komac 的外部工具名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--created-with-url",
+          "usage": [
+            "--created-with-url <CREATED_WITH_URL>"
+          ],
+          "tip": [
+            "调用 Komac 的外部工具 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不提交，仅模拟运行。"
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "自动打开 Pull Request 链接。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "输出清单的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--release-notes-url",
+          "usage": [
+            "--release-notes-url <RELEASE_NOTES_URL>"
+          ],
+          "tip": [
+            "包发行说明的 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--replace",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --replace [<REPLACE>]"
+          ],
+          "tip": [
+            "要替换的包版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resolves",
+          "usage": [
+            "--resolves <RESOLVES>"
+          ],
+          "tip": [
+            "更新此包将解决的问题列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-pr-check",
+          "tip": [
+            "跳过检查已存在的 Pull Request。"
+          ]
+        },
+        {
+          "name": "--submit",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --submit"
+          ],
+          "tip": [
+            "自动提交 Pull Request。"
+          ]
+        },
+        {
+          "name": "--token",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --token <TOKEN>"
+          ],
+          "tip": [
+            "具有 public_repo 范围的 GitHub 个人访问令牌。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--urls",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --urls <URLS>..."
+          ],
+          "tip": [
+            "包安装程序的 URL 列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version <PACKAGE_VERSION>"
+          ],
+          "tip": [
+            "包的版本。"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ]
+}
