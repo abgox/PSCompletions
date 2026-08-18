@@ -80,6 +80,7 @@
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[git](https://git-scm.com)|版本控制系统。|
 |[gitversion](https://gitversion.net/)|一款可依据 Git 提交历史生成语义化版本号的工具|
+|[glab](https://gitlab.com/gitlab-org/cli)|一个开源的 GitLab CLI 工具，将 GitLab 带到你的命令行。|
 |[glow](https://github.com/charmbracelet/glow)|在终端中渲染 Markdown 文件！|
 |[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
 |[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|

@@ -80,6 +80,7 @@
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[git](https://git-scm.com)|Version control system.|
 |[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
+|[glab](https://gitlab.com/gitlab-org/cli)|An open source GitLab CLI tool that brings GitLab to your command line.|
 |[glow](https://github.com/charmbracelet/glow)|Render markdown on the CLI, with pizzazz!|
 |[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
 |[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
