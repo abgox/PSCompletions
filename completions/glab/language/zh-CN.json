@@ -1,0 +1,1198 @@
+{
+  "meta": {
+    "url": "https://gitlab.com/gitlab-org/cli",
+    "description": [
+      "一个开源的 GitLab CLI 工具，将 GitLab 带到你的命令行。"
+    ]
+  },
+  "next": [
+    {
+      "name": "alias",
+      "usage": [
+        "alias <set|list|delete>"
+      ],
+      "tip": [
+        "创建、列出和删除别名。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <alias-name>"
+          ],
+          "tip": [
+            "删除别名。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出别名。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <alias-name> '<command>'"
+          ],
+          "tip": [
+            "为更长的命令设置别名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "usage": [
+        "api <endpoint>"
+      ],
+      "tip": [
+        "向 GitLab API 发送经过身份验证的请求。"
+      ],
+      "option": [
+        {
+          "name": "--field",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --field <key=value>"
+          ],
+          "tip": [
+            "添加推断类型的参数。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--form",
+          "usage": [
+            "--form <key=value>"
+          ],
+          "tip": [
+            "添加多部分表单字段。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--header",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --header <header>"
+          ],
+          "tip": [
+            "添加额外的 HTTP 请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <hostname>"
+          ],
+          "tip": [
+            "请求的 GitLab 主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --include"
+          ],
+          "tip": [
+            "在输出中包含 HTTP 响应头。"
+          ]
+        },
+        {
+          "name": "--input",
+          "usage": [
+            "--input <file>"
+          ],
+          "tip": [
+            "用作 HTTP 请求主体的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--method",
+          "alias": [
+            "-X"
+          ],
+          "usage": [
+            "-X, --method <method>"
+          ],
+          "tip": [
+            "请求的 HTTP 方法。"
+          ],
+          "next": [
+            {
+              "name": "DELETE",
+              "tip": [
+                "DELETE 请求。"
+              ]
+            },
+            {
+              "name": "GET",
+              "tip": [
+                "GET 请求。"
+              ]
+            },
+            {
+              "name": "PATCH",
+              "tip": [
+                "PATCH 请求。"
+              ]
+            },
+            {
+              "name": "POST",
+              "tip": [
+                "POST 请求。"
+              ]
+            },
+            {
+              "name": "PUT",
+              "tip": [
+                "PUT 请求。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <json|ndjson>"
+          ],
+          "tip": [
+            "格式化输出。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "格式化 JSON。"
+              ]
+            },
+            {
+              "name": "ndjson",
+              "tip": [
+                "换行分隔的 JSON。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--paginate",
+          "tip": [
+            "发出额外的 HTTP 请求以获取所有页面。"
+          ]
+        },
+        {
+          "name": "--raw-field",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --raw-field <key=value>"
+          ],
+          "tip": [
+            "添加字符串参数。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "不打印响应体。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "usage": [
+        "auth <login|logout|status|configure-docker|docker-helper|dpop-gen>"
+      ],
+      "tip": [
+        "管理 glab 的身份验证。"
+      ],
+      "next": [
+        {
+          "name": "configure-docker",
+          "tip": [
+            "将 glab 注册为 Docker 凭据帮助程序。"
+          ]
+        },
+        {
+          "name": "docker-helper",
+          "tip": [
+            "用于 GitLab 注册表的 Docker 凭据帮助程序。"
+          ]
+        },
+        {
+          "name": "dpop-gen",
+          "tip": [
+            "生成 DPoP 证明 JWT。"
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "通过 GitLab 实例进行身份验证。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "从 GitLab 实例登出。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "查看身份验证状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check-update",
+      "tip": [
+        "检查最新的 glab 版本。"
+      ]
+    },
+    {
+      "name": "ci",
+      "usage": [
+        "ci <list|view|run|cancel|retry|trigger|trace|lint|get|delete|artifact|config|status|run-trig>"
+      ],
+      "tip": [
+        "使用 GitLab CI/CD 流水线和作业。"
+      ],
+      "next": [
+        {
+          "name": "artifact",
+          "usage": [
+            "artifact <refName> <jobName>"
+          ],
+          "tip": [
+            "从最后一个流水线下载所有制品。"
+          ]
+        },
+        {
+          "name": "cancel",
+          "usage": [
+            "cancel <id>"
+          ],
+          "tip": [
+            "取消正在运行的流水线或作业。"
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "查看和检查 GitLab CI/CD 配置。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "删除 CI/CD 流水线。"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取 CI/CD 流水线的详细信息。"
+          ]
+        },
+        {
+          "name": "lint",
+          "tip": [
+            "检查 .gitlab-ci.yml 文件是否有效。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 CI/CD 流水线。"
+          ]
+        },
+        {
+          "name": "retry",
+          "usage": [
+            "retry [<job-id|job-name>]"
+          ],
+          "tip": [
+            "重试 CI/CD 作业。"
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "创建新的 CI/CD 流水线。"
+          ]
+        },
+        {
+          "name": "run-trig",
+          "tip": [
+            "运行 CI/CD 流水线触发器。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "查看 CI/CD 流水线状态。"
+          ]
+        },
+        {
+          "name": "trace",
+          "usage": [
+            "trace [<job-id|job-name>]"
+          ],
+          "tip": [
+            "实时跟踪 CI/CD 作业日志。"
+          ]
+        },
+        {
+          "name": "trigger",
+          "usage": [
+            "trigger [<job-id|job-name>]"
+          ],
+          "tip": [
+            "触发手动 CI/CD 作业。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<branch|tag>]"
+          ],
+          "tip": [
+            "查看 CI/CD 流水线作业。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "生成 shell 自动补全脚本。"
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config <get|set|edit>"
+      ],
+      "tip": [
+        "管理 glab 设置。"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "打开 glab 配置文件。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "打印给定配置键的值。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "使用给定键的值更新配置。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [command]"
+      ],
+      "tip": [
+        "查看任何命令的帮助。"
+      ]
+    },
+    {
+      "name": "issue",
+      "usage": [
+        "issue <list|create|view|close|reopen|note|update|delete|board|subscribe|unsubscribe>"
+      ],
+      "tip": [
+        "处理 GitLab 议题。"
+      ],
+      "next": [
+        {
+          "name": "board",
+          "tip": [
+            "使用 GitLab 议题看板。"
+          ]
+        },
+        {
+          "name": "close",
+          "usage": [
+            "close [<id>|<url>]"
+          ],
+          "tip": [
+            "关闭议题。"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "创建议题。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "删除议题。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目议题。"
+          ]
+        },
+        {
+          "name": "note",
+          "usage": [
+            "note <issue-id>"
+          ],
+          "tip": [
+            "在议题上发表评论。"
+          ]
+        },
+        {
+          "name": "reopen",
+          "usage": [
+            "reopen [<id>|<url>]"
+          ],
+          "tip": [
+            "重新打开已关闭的议题。"
+          ]
+        },
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe <id>"
+          ],
+          "tip": [
+            "订阅议题。"
+          ]
+        },
+        {
+          "name": "unsubscribe",
+          "usage": [
+            "unsubscribe <id>"
+          ],
+          "tip": [
+            "取消订阅议题。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <id>"
+          ],
+          "tip": [
+            "更新议题。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <id>"
+          ],
+          "tip": [
+            "显示议题的标题、正文和其他信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "job",
+      "usage": [
+        "job artifact <refName> <jobName>"
+      ],
+      "tip": [
+        "处理 GitLab CI/CD 作业。"
+      ],
+      "next": [
+        {
+          "name": "artifact",
+          "usage": [
+            "artifact <refName> <jobName>"
+          ],
+          "tip": [
+            "从最近的流水线下载所有制品。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "usage": [
+        "label <create|list|edit|delete|get>"
+      ],
+      "tip": [
+        "管理远程标签。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "在项目中创建标签。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <name>"
+          ],
+          "tip": [
+            "从项目中删除标签。"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "编辑项目中的标签。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <label-id>"
+          ],
+          "tip": [
+            "通过 ID 获取单个标签的信息。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目或组中的标签。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mr",
+      "usage": [
+        "mr <list|create|view|merge|close|reopen|approve|checkout|diff|note|update|delete|rebase|revoke|subscribe|unsubscribe|todo|for|issues|approvers>"
+      ],
+      "tip": [
+        "创建、查看和管理合并请求。"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "usage": [
+            "approve [<id|branch>]"
+          ],
+          "tip": [
+            "批准合并请求。"
+          ]
+        },
+        {
+          "name": "approvers",
+          "usage": [
+            "approvers [<id|branch>]"
+          ],
+          "tip": [
+            "列出合并请求的合格审批者。"
+          ]
+        },
+        {
+          "name": "checkout",
+          "usage": [
+            "checkout [<id|branch|url>]"
+          ],
+          "tip": [
+            "检出打开的合并请求。"
+          ]
+        },
+        {
+          "name": "close",
+          "usage": [
+            "close [<id|branch>]"
+          ],
+          "tip": [
+            "关闭合并请求。"
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "创建新的合并请求。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [<id|branch>]"
+          ],
+          "tip": [
+            "删除合并请求。"
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [<id|branch>]"
+          ],
+          "tip": [
+            "查看合并请求中的更改。"
+          ]
+        },
+        {
+          "name": "for",
+          "tip": [
+            "为议题创建新的合并请求。"
+          ]
+        },
+        {
+          "name": "issues",
+          "usage": [
+            "issues [<id|branch>]"
+          ],
+          "tip": [
+            "获取合并请求合并时关闭的议题。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出合并请求。"
+          ]
+        },
+        {
+          "name": "merge",
+          "usage": [
+            "merge [<id|branch>]"
+          ],
+          "tip": [
+            "合并或接受合并请求。"
+          ]
+        },
+        {
+          "name": "note",
+          "usage": [
+            "note [<id|branch>]"
+          ],
+          "tip": [
+            "管理合并请求上的评论和讨论。"
+          ]
+        },
+        {
+          "name": "rebase",
+          "usage": [
+            "rebase [<id|branch>]"
+          ],
+          "tip": [
+            "将合并请求的源分支变基到目标分支。"
+          ]
+        },
+        {
+          "name": "reopen",
+          "usage": [
+            "reopen [<id|branch>]"
+          ],
+          "tip": [
+            "重新打开合并请求。"
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [<id|branch>]"
+          ],
+          "tip": [
+            "撤销合并请求的批准。"
+          ]
+        },
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [<id|branch>]"
+          ],
+          "tip": [
+            "订阅合并请求。"
+          ]
+        },
+        {
+          "name": "todo",
+          "usage": [
+            "todo [<id|branch>]"
+          ],
+          "tip": [
+            "向合并请求添加待办事项。"
+          ]
+        },
+        {
+          "name": "unsubscribe",
+          "usage": [
+            "unsubscribe [<id|branch>]"
+          ],
+          "tip": [
+            "取消订阅合并请求。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [<id|branch>]"
+          ],
+          "tip": [
+            "更新合并请求。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<id|branch>]"
+          ],
+          "tip": [
+            "显示合并请求的信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "usage": [
+        "release <create|delete|download|list|upload|view>"
+      ],
+      "tip": [
+        "管理 GitLab 发行版。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <tag> [<files>...]"
+          ],
+          "tip": [
+            "创建新的 GitLab 发行版。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <tag>"
+          ],
+          "tip": [
+            "删除 GitLab 发行版。"
+          ]
+        },
+        {
+          "name": "download",
+          "usage": [
+            "download [<tag>]"
+          ],
+          "tip": [
+            "从 GitLab 发行版下载资产文件。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出仓库中的发行版。"
+          ]
+        },
+        {
+          "name": "upload",
+          "usage": [
+            "upload <tag> [<files>...]"
+          ],
+          "tip": [
+            "上传发行版资产文件或链接。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<tag>]"
+          ],
+          "tip": [
+            "查看 GitLab 发行版的信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repo",
+      "usage": [
+        "repo <clone|create|fork|list|view|delete|archive|contributors|members|mirror|prune|publish|remote|search|transfer|update>"
+      ],
+      "tip": [
+        "处理 GitLab 仓库和项目。"
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "usage": [
+            "archive [<repo>] [<dir>]"
+          ],
+          "tip": [
+            "获取仓库的存档。"
+          ]
+        },
+        {
+          "name": "clone",
+          "usage": [
+            "clone [<repo>] [<dir>]"
+          ],
+          "tip": [
+            "克隆 GitLab 仓库或项目。"
+          ]
+        },
+        {
+          "name": "contributors",
+          "tip": [
+            "获取仓库贡献者列表。"
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [path]"
+          ],
+          "tip": [
+            "创建新的 GitLab 项目/仓库。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [[<NAMESPACE>/]<NAME>]"
+          ],
+          "tip": [
+            "删除 GitLab 上的现有项目。"
+          ]
+        },
+        {
+          "name": "fork",
+          "usage": [
+            "fork [<repo>]"
+          ],
+          "tip": [
+            "复刻 GitLab 仓库。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "获取仓库列表。"
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "管理项目成员。"
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror [<id|url|path>]"
+          ],
+          "tip": [
+            "在现有项目上配置镜像。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "删除已合并其合并请求的本地 Git 分支。"
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "发布项目中的资源。"
+          ]
+        },
+        {
+          "name": "remote",
+          "tip": [
+            "管理 GitLab 项目的 Git 远程仓库。"
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "按名称搜索 GitLab 仓库和项目。"
+          ]
+        },
+        {
+          "name": "transfer",
+          "usage": [
+            "transfer [repo]"
+          ],
+          "tip": [
+            "将仓库转移到新命名空间。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [path]"
+          ],
+          "tip": [
+            "更新现有的 GitLab 项目。"
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [repository]"
+          ],
+          "tip": [
+            "查看项目或仓库。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "schedule",
+      "usage": [
+        "schedule <create|delete|list|run|update>"
+      ],
+      "tip": [
+        "处理 GitLab CI/CD 计划。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新的流水线计划。"
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "按 ID 删除流水线计划。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目中的流水线计划。"
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run <id>"
+          ],
+          "tip": [
+            "立即触发流水线计划运行。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <id>"
+          ],
+          "tip": [
+            "更新流水线计划。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "snippet",
+      "usage": [
+        "snippet create"
+      ],
+      "tip": [
+        "创建、查看和管理代码片段。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新的代码片段。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "todo",
+      "usage": [
+        "todo <list|done>"
+      ],
+      "tip": [
+        "管理你的待办事项列表。"
+      ],
+      "next": [
+        {
+          "name": "done",
+          "usage": [
+            "done [<id>]"
+          ],
+          "tip": [
+            "将待办事项标记为已完成。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出你的待办事项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "管理个人、项目或组令牌。"
+      ]
+    },
+    {
+      "name": "user",
+      "usage": [
+        "user events"
+      ],
+      "tip": [
+        "与 GitLab 用户帐户交互。"
+      ],
+      "next": [
+        {
+          "name": "events",
+          "tip": [
+            "查看用户事件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "variable",
+      "usage": [
+        "variable <list|set|get|delete|update|export|import>"
+      ],
+      "tip": [
+        "管理 GitLab 项目或组的变量。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key>"
+          ],
+          "tip": [
+            "删除变量。"
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "从项目或组导出变量。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "获取变量。"
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "从 JSON 文件或标准输入导入变量。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目或组的变量。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "创建新变量。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <key> <value>"
+          ],
+          "tip": [
+            "更新现有变量。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示 glab 的版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此命令的帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示 glab 版本信息。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1198 @@
+{
+  "meta": {
+    "url": "https://gitlab.com/gitlab-org/cli",
+    "description": [
+      "An open source GitLab CLI tool that brings GitLab to your command line."
+    ]
+  },
+  "next": [
+    {
+      "name": "alias",
+      "usage": [
+        "alias <set|list|delete>"
+      ],
+      "tip": [
+        "Create, list, and delete aliases."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <alias-name>"
+          ],
+          "tip": [
+            "Delete an alias."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List aliases."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <alias-name> '<command>'"
+          ],
+          "tip": [
+            "Set an alias for a longer command."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "usage": [
+        "api <endpoint>"
+      ],
+      "tip": [
+        "Make an authenticated request to the GitLab API."
+      ],
+      "option": [
+        {
+          "name": "--field",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --field <key=value>"
+          ],
+          "tip": [
+            "Add a parameter of inferred type."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--form",
+          "usage": [
+            "--form <key=value>"
+          ],
+          "tip": [
+            "Add a multipart form field."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--header",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --header <header>"
+          ],
+          "tip": [
+            "Add an additional HTTP request header."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <hostname>"
+          ],
+          "tip": [
+            "The GitLab hostname for the request."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --include"
+          ],
+          "tip": [
+            "Include HTTP response headers in the output."
+          ]
+        },
+        {
+          "name": "--input",
+          "usage": [
+            "--input <file>"
+          ],
+          "tip": [
+            "The file to use as the body for the HTTP request."
+          ],
+          "next": []
+        },
+        {
+          "name": "--method",
+          "alias": [
+            "-X"
+          ],
+          "usage": [
+            "-X, --method <method>"
+          ],
+          "tip": [
+            "The HTTP method for the request."
+          ],
+          "next": [
+            {
+              "name": "DELETE",
+              "tip": [
+                "DELETE request."
+              ]
+            },
+            {
+              "name": "GET",
+              "tip": [
+                "GET request."
+              ]
+            },
+            {
+              "name": "PATCH",
+              "tip": [
+                "PATCH request."
+              ]
+            },
+            {
+              "name": "POST",
+              "tip": [
+                "POST request."
+              ]
+            },
+            {
+              "name": "PUT",
+              "tip": [
+                "PUT request."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <json|ndjson>"
+          ],
+          "tip": [
+            "Format output."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "Pretty-printed JSON."
+              ]
+            },
+            {
+              "name": "ndjson",
+              "tip": [
+                "Newline-delimited JSON."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--paginate",
+          "tip": [
+            "Make additional HTTP requests to fetch all pages."
+          ]
+        },
+        {
+          "name": "--raw-field",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --raw-field <key=value>"
+          ],
+          "tip": [
+            "Add a string parameter."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Do not print the response body."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "usage": [
+        "auth <login|logout|status|configure-docker|docker-helper|dpop-gen>"
+      ],
+      "tip": [
+        "Manage authentication for glab."
+      ],
+      "next": [
+        {
+          "name": "configure-docker",
+          "tip": [
+            "Register glab as a Docker credential helper."
+          ]
+        },
+        {
+          "name": "docker-helper",
+          "tip": [
+            "A Docker credential helper for GitLab registries."
+          ]
+        },
+        {
+          "name": "dpop-gen",
+          "tip": [
+            "Generate a DPoP proof JWT."
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Authenticate with a GitLab instance."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out from a GitLab instance."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "View authentication status."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check-update",
+      "tip": [
+        "Check for the latest glab version."
+      ]
+    },
+    {
+      "name": "ci",
+      "usage": [
+        "ci <list|view|run|cancel|retry|trigger|trace|lint|get|delete|artifact|config|status|run-trig>"
+      ],
+      "tip": [
+        "Work with GitLab CI/CD pipelines and jobs."
+      ],
+      "next": [
+        {
+          "name": "artifact",
+          "usage": [
+            "artifact <refName> <jobName>"
+          ],
+          "tip": [
+            "Download all artifacts from the last pipeline."
+          ]
+        },
+        {
+          "name": "cancel",
+          "usage": [
+            "cancel <id>"
+          ],
+          "tip": [
+            "Cancel a running pipeline or job."
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "View and inspect GitLab CI/CD configuration."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "Delete CI/CD pipelines."
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Get the details of a CI/CD pipeline."
+          ]
+        },
+        {
+          "name": "lint",
+          "tip": [
+            "Check if your .gitlab-ci.yml file is valid."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List CI/CD pipelines."
+          ]
+        },
+        {
+          "name": "retry",
+          "usage": [
+            "retry [<job-id|job-name>]"
+          ],
+          "tip": [
+            "Retry a CI/CD job."
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Create a new CI/CD pipeline."
+          ]
+        },
+        {
+          "name": "run-trig",
+          "tip": [
+            "Run a CI/CD pipeline trigger."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "View CI/CD pipeline status."
+          ]
+        },
+        {
+          "name": "trace",
+          "usage": [
+            "trace [<job-id|job-name>]"
+          ],
+          "tip": [
+            "Trace a CI/CD job log in real time."
+          ]
+        },
+        {
+          "name": "trigger",
+          "usage": [
+            "trigger [<job-id|job-name>]"
+          ],
+          "tip": [
+            "Trigger a manual CI/CD job."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<branch|tag>]"
+          ],
+          "tip": [
+            "View CI/CD pipeline jobs."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "Generate shell completion scripts."
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config <get|set|edit>"
+      ],
+      "tip": [
+        "Manage glab settings."
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "Opens the glab configuration file."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "Prints the value of a given configuration key."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "Updates configuration with the value of a given key."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [command]"
+      ],
+      "tip": [
+        "Help about any command."
+      ]
+    },
+    {
+      "name": "issue",
+      "usage": [
+        "issue <list|create|view|close|reopen|note|update|delete|board|subscribe|unsubscribe>"
+      ],
+      "tip": [
+        "Work with GitLab issues."
+      ],
+      "next": [
+        {
+          "name": "board",
+          "tip": [
+            "Work with GitLab issue boards."
+          ]
+        },
+        {
+          "name": "close",
+          "usage": [
+            "close [<id>|<url>]"
+          ],
+          "tip": [
+            "Close an issue."
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "Create an issue."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "Delete an issue."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List project issues."
+          ]
+        },
+        {
+          "name": "note",
+          "usage": [
+            "note <issue-id>"
+          ],
+          "tip": [
+            "Comment on an issue."
+          ]
+        },
+        {
+          "name": "reopen",
+          "usage": [
+            "reopen [<id>|<url>]"
+          ],
+          "tip": [
+            "Reopen a closed issue."
+          ]
+        },
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe <id>"
+          ],
+          "tip": [
+            "Subscribe to an issue."
+          ]
+        },
+        {
+          "name": "unsubscribe",
+          "usage": [
+            "unsubscribe <id>"
+          ],
+          "tip": [
+            "Unsubscribe from an issue."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <id>"
+          ],
+          "tip": [
+            "Update issue."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <id>"
+          ],
+          "tip": [
+            "Display the title, body, and other information about an issue."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "job",
+      "usage": [
+        "job artifact <refName> <jobName>"
+      ],
+      "tip": [
+        "Work with GitLab CI/CD jobs."
+      ],
+      "next": [
+        {
+          "name": "artifact",
+          "usage": [
+            "artifact <refName> <jobName>"
+          ],
+          "tip": [
+            "Download all artifacts from the most recent pipeline."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "usage": [
+        "label <create|list|edit|delete|get>"
+      ],
+      "tip": [
+        "Manage labels on remote."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a label in a project."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <name>"
+          ],
+          "tip": [
+            "Delete a label from a project."
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "Edit a label in a project."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <label-id>"
+          ],
+          "tip": [
+            "Get information about a single label by ID."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List labels in a project or group."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mr",
+      "usage": [
+        "mr <list|create|view|merge|close|reopen|approve|checkout|diff|note|update|delete|rebase|revoke|subscribe|unsubscribe|todo|for|issues|approvers>"
+      ],
+      "tip": [
+        "Create, view, and manage merge requests."
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "usage": [
+            "approve [<id|branch>]"
+          ],
+          "tip": [
+            "Approve merge requests."
+          ]
+        },
+        {
+          "name": "approvers",
+          "usage": [
+            "approvers [<id|branch>]"
+          ],
+          "tip": [
+            "List eligible approvers for merge requests."
+          ]
+        },
+        {
+          "name": "checkout",
+          "usage": [
+            "checkout [<id|branch|url>]"
+          ],
+          "tip": [
+            "Check out an open merge request."
+          ]
+        },
+        {
+          "name": "close",
+          "usage": [
+            "close [<id|branch>]"
+          ],
+          "tip": [
+            "Close a merge request."
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "Create a new merge request."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [<id|branch>]"
+          ],
+          "tip": [
+            "Delete a merge request."
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [<id|branch>]"
+          ],
+          "tip": [
+            "View changes in a merge request."
+          ]
+        },
+        {
+          "name": "for",
+          "tip": [
+            "Create a new merge request for an issue."
+          ]
+        },
+        {
+          "name": "issues",
+          "usage": [
+            "issues [<id|branch>]"
+          ],
+          "tip": [
+            "Get issues that close when a merge request is merged."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List merge requests."
+          ]
+        },
+        {
+          "name": "merge",
+          "usage": [
+            "merge [<id|branch>]"
+          ],
+          "tip": [
+            "Merge or accept a merge request."
+          ]
+        },
+        {
+          "name": "note",
+          "usage": [
+            "note [<id|branch>]"
+          ],
+          "tip": [
+            "Manage comments and discussions on a merge request."
+          ]
+        },
+        {
+          "name": "rebase",
+          "usage": [
+            "rebase [<id|branch>]"
+          ],
+          "tip": [
+            "Rebase the source branch of a merge request."
+          ]
+        },
+        {
+          "name": "reopen",
+          "usage": [
+            "reopen [<id|branch>]"
+          ],
+          "tip": [
+            "Reopen a merge request."
+          ]
+        },
+        {
+          "name": "revoke",
+          "usage": [
+            "revoke [<id|branch>]"
+          ],
+          "tip": [
+            "Revoke approval on a merge request."
+          ]
+        },
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [<id|branch>]"
+          ],
+          "tip": [
+            "Subscribe to a merge request."
+          ]
+        },
+        {
+          "name": "todo",
+          "usage": [
+            "todo [<id|branch>]"
+          ],
+          "tip": [
+            "Add a to-do item to a merge request."
+          ]
+        },
+        {
+          "name": "unsubscribe",
+          "usage": [
+            "unsubscribe [<id|branch>]"
+          ],
+          "tip": [
+            "Unsubscribe from a merge request."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [<id|branch>]"
+          ],
+          "tip": [
+            "Update a merge request."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<id|branch>]"
+          ],
+          "tip": [
+            "Display information about a merge request."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "usage": [
+        "release <create|delete|download|list|upload|view>"
+      ],
+      "tip": [
+        "Manage GitLab releases."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <tag> [<files>...]"
+          ],
+          "tip": [
+            "Create a new GitLab release."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <tag>"
+          ],
+          "tip": [
+            "Delete a GitLab release."
+          ]
+        },
+        {
+          "name": "download",
+          "usage": [
+            "download [<tag>]"
+          ],
+          "tip": [
+            "Download asset files from a GitLab release."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List releases in a repository."
+          ]
+        },
+        {
+          "name": "upload",
+          "usage": [
+            "upload <tag> [<files>...]"
+          ],
+          "tip": [
+            "Upload release asset files or links."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [<tag>]"
+          ],
+          "tip": [
+            "View information about a GitLab release."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repo",
+      "usage": [
+        "repo <clone|create|fork|list|view|delete|archive|contributors|members|mirror|prune|publish|remote|search|transfer|update>"
+      ],
+      "tip": [
+        "Work with GitLab repositories and projects."
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "usage": [
+            "archive [<repo>] [<dir>]"
+          ],
+          "tip": [
+            "Get an archive of the repository."
+          ]
+        },
+        {
+          "name": "clone",
+          "usage": [
+            "clone [<repo>] [<dir>]"
+          ],
+          "tip": [
+            "Clone a GitLab repository or project."
+          ]
+        },
+        {
+          "name": "contributors",
+          "tip": [
+            "Get repository contributors list."
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [path]"
+          ],
+          "tip": [
+            "Create a new GitLab project/repository."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [[<NAMESPACE>/]<NAME>]"
+          ],
+          "tip": [
+            "Delete an existing project on GitLab."
+          ]
+        },
+        {
+          "name": "fork",
+          "usage": [
+            "fork [<repo>]"
+          ],
+          "tip": [
+            "Fork a GitLab repository."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "Get list of repositories."
+          ]
+        },
+        {
+          "name": "members",
+          "tip": [
+            "Manage project members."
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror [<id|url|path>]"
+          ],
+          "tip": [
+            "Configure mirroring on an existing project."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Delete local Git branches whose merge request has been merged."
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "Publishes resources in the project."
+          ]
+        },
+        {
+          "name": "remote",
+          "tip": [
+            "Manage Git remotes for a GitLab project."
+          ]
+        },
+        {
+          "name": "search",
+          "tip": [
+            "Search for GitLab repositories and projects by name."
+          ]
+        },
+        {
+          "name": "transfer",
+          "usage": [
+            "transfer [repo]"
+          ],
+          "tip": [
+            "Transfer a repository to a new namespace."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [path]"
+          ],
+          "tip": [
+            "Update an existing GitLab project."
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view [repository]"
+          ],
+          "tip": [
+            "View a project or repository."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "schedule",
+      "usage": [
+        "schedule <create|delete|list|run|update>"
+      ],
+      "tip": [
+        "Work with GitLab CI/CD schedules."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new pipeline schedule."
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <id>"
+          ],
+          "tip": [
+            "Delete a pipeline schedule by ID."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List pipeline schedules in a project."
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run <id>"
+          ],
+          "tip": [
+            "Trigger a pipeline schedule to run immediately."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <id>"
+          ],
+          "tip": [
+            "Update a pipeline schedule."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "snippet",
+      "usage": [
+        "snippet create"
+      ],
+      "tip": [
+        "Create, view and manage snippets."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new snippet."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "todo",
+      "usage": [
+        "todo <list|done>"
+      ],
+      "tip": [
+        "Manage your to-do list."
+      ],
+      "next": [
+        {
+          "name": "done",
+          "usage": [
+            "done [<id>]"
+          ],
+          "tip": [
+            "Mark a to-do item as done."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List your to-do items."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "tip": [
+        "Manage personal, project, or group tokens."
+      ]
+    },
+    {
+      "name": "user",
+      "usage": [
+        "user events"
+      ],
+      "tip": [
+        "Interact with a GitLab user account."
+      ],
+      "next": [
+        {
+          "name": "events",
+          "tip": [
+            "View user events."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "variable",
+      "usage": [
+        "variable <list|set|get|delete|update|export|import>"
+      ],
+      "tip": [
+        "Manage variables for a GitLab project or group."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key>"
+          ],
+          "tip": [
+            "Delete a variable."
+          ]
+        },
+        {
+          "name": "export",
+          "tip": [
+            "Export variables from a project or group."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "Get a variable."
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "Import variables from a JSON file or standard input."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List variables for a project or group."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "Create a new variable."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <key> <value>"
+          ],
+          "tip": [
+            "Update an existing variable."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Show version information for glab."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help for this command."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show glab version information."
+      ]
+    }
+  ]
+}
