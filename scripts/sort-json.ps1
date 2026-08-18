@@ -175,6 +175,30 @@ function Optimize-CompletionJson {
                 $item.name = $sorted[0]
                 $item.alias = $sorted[1..($sorted.Count - 1)]
             }
+            if ($item.usage.Count -gt 0) {
+                $item.usage = @($item.usage | ForEach-Object {
+                        $u = $_
+                        if ($u -is [string]) {
+                            $m = [regex]::Match($u, '^([^\s,|<=\[|]+(?:\s*[,|]\s*[^\s,|<=\[|]+)*)')
+                            if ($m.Success) {
+                                $block = $m.Value
+                                $hasPipe = $block.Contains('|')
+                                $hasComma = $block.Contains(',')
+                                if ($hasPipe -and $hasComma) {
+                                    # mixed separators, skip
+                                }
+                                elseif ($hasPipe -or $hasComma) {
+                                    $sep = if ($hasPipe) { '|' } else { ',' }
+                                    $forms = @($block -split '[,|]' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' })
+                                    $sortedForms = @($forms | Sort-Object { $_.Length })
+                                    $newBlock = if ($sep -eq '|') { $sortedForms -join '|' } else { $sortedForms -join ', ' }
+                                    $u = $u.Replace($block, $newBlock)
+                                }
+                            }
+                        }
+                        $u
+                    })
+            }
             if ($item.next) { Optimize-Entry $item.next }
             if ($item.option) { Optimize-Entry $item.option }
         }

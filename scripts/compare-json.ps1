@@ -613,6 +613,7 @@ function Compare-Lang {
 
     Validate-Options -Content $baseContent
     Validate-AllTips -Content $baseContent -BasePath ''
+    Validate-AllTips -Content $targetContent -BasePath ''
 
     Compare-Fields -BaseObj $baseContent -TargetObj $targetContent -Path ''
 

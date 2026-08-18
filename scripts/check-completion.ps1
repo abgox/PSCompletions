@@ -76,9 +76,10 @@ if ($changedCompletions.Count -eq 0) {
     )
 }
 else {
+    & $PSScriptRoot\sort-json.ps1 @($changedCompletions) -Quiet
+
     $enFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-en.md')
     $zhFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-zh.md')
-
     $validationResults = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang en-US -OutFile $enFile
     $null = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang zh-CN -OutFile $zhFile
 
