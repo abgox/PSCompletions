@@ -117,6 +117,16 @@ pub const CONFIG_KEYS: &[CfgDef] = &[
         ty: CfgType::Bool,
     },
     CfgDef {
+        group: "menu",
+        key: "color_focus",
+        ty: CfgType::Str,
+    },
+    CfgDef {
+        group: "menu",
+        key: "color_match",
+        ty: CfgType::Str,
+    },
+    CfgDef {
         group: "context",
         key: "switch",
         ty: CfgType::Str,

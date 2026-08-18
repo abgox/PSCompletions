@@ -337,6 +337,8 @@ All keys live in one object (`settings.json` → `config`), managed through `con
 | `enable_cache` | bool | `true` |
 | `enable_append_space` | bool | `true` |
 | `enable_path_trailing_separator` | bool | `true` |
+| `color_focus` | string | `red` |
+| `color_match` | string | `cyan` |
 
 **`context`** (context indicator symbols):
 

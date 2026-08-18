@@ -219,6 +219,20 @@ root-level flag into deep contexts.
 
 **no width computation, no configurable width, no following the input cursor**:
 
+The focus color (`color_focus`, default red) carries a **three-layer focus** concept — each
+layer guides the user's attention to a different interactive element:
+
+1. **Input focus** — the `>` before the filter prompt. Signals "type here to filter"; the
+   first thing the eye lands on when the menu opens.
+2. **Position focus** — the current counter number (`3` in `3/12`). Signals "you are looking
+   at item 3 of 12"; a quick spatial reference without scanning the list.
+3. **Selection focus** — the left rail `▍` + the `>` prefix on the highlighted row. Signals
+   "this is the item that will be applied"; the direct target of the user's action.
+
+All three share the same color to reinforce that they are part of the same interaction
+loop: input → locate → select. The visual consistency helps users build a mental model
+where "red = where I am / what I'm doing" without needing to learn separate cues.
+
 - **Pinned to column 0**: the full-width separator line + right scrollbar span the whole line
   and do not move with the cursor.
 - **Filter prompt line (own row)**: `>` in **red** ("red = input/selected" language), content in
@@ -303,6 +317,8 @@ default as follows (see `design/psc-cli.md` for the full inventory). Boolean key
 | `enable_cache` | bool | `true` | cache the built completion result (static resolve + hook output) for 10 s, so quickly re-opening the same menu skips the rebuild |
 | `enable_append_space` | bool | `true` | append a space after applying |
 | `enable_path_trailing_separator` | bool | `true` | trailing `\`/`/` on path completions |
+| `color_focus` | string | `red` | color of the focused item (named color or `#rrggbb`) |
+| `color_match` | string | `cyan` | color of the match highlight (named color or `#rrggbb`) |
 
 **Result cache** (`enable_cache`, default `true`): the engine caches the **built completion
 result** (static resolve + hook output) so re-opening the same menu within 10 s skips the
@@ -323,13 +339,13 @@ rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 60
 
 Boolean keys are stored as JSON numbers (`1`/`0`); `psc config` accepts only `0`/`1` on input.
 
-**Fixed / not configurable**: the menu is fully Rust-driven with no theme, color, or width
-configuration — text uses the terminal default foreground; emphasis is red (`>` prompts, counter
-position, selected rail) and cyan (match highlight); structure is dark grey (rail/separators/
-scrollbar/description border); items are zero-width (pinned left, truncated). The filter prompt
-is `>`, the counter reads `current/total` (separator `/`); the predict-symbol characters
-themselves (`~` / `?`) come from the `context` config group. `psc menu` and `psc reset menu` are
-not commands.
+**Color configuration**: the menu supports two configurable colors — `color_focus` (default `red`,
+used for `>` prompts, counter position, selected rail) and `color_match` (default `cyan`, used
+for match highlighting). Structure elements (rail/separators/scrollbar/description border) use
+dark grey and are not configurable. Text uses the terminal default foreground. Items are
+zero-width (pinned left, truncated). The filter prompt is `>`, the counter reads `current/total`
+(separator `/`); the predict-symbol characters themselves (`~` / `?`) come from the `context`
+config group.
 
 ## 6. Order / history sorting
 

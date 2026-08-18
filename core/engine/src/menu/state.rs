@@ -751,6 +751,8 @@ mod tests {
                 enable_apply_when_single: false,
                 enable_apply_when_no_match: false,
                 show_mode: "auto".into(),
+                color_focus: "red".into(),
+                color_match: "cyan".into(),
             },
             context_switch: "~".into(),
             context_stay: "?".into(),
@@ -804,7 +806,7 @@ mod tests {
         let backend = ratatui::backend::TestBackend::new(120, 30);
         let mut terminal = ratatui::Terminal::new(backend).unwrap();
         terminal
-            .draw(|f| crate::menu::ui::render(f, &mut s, &term))
+            .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
             .unwrap();
         let buf = terminal.backend().buffer();
         // The description-box region must stay force-updated on the first frame; a cell.reset()
@@ -868,7 +870,7 @@ mod tests {
                 ratatui::backend::CrosstermBackend::new(std::io::BufWriter::new(&mut out));
             let mut terminal = ratatui::Terminal::new(backend).unwrap();
             terminal
-                .draw(|f| crate::menu::ui::render(f, &mut s2, &term))
+                .draw(|f| crate::menu::ui::render(f, &mut s2, &term, &c))
                 .unwrap();
         }
         let box_rect = s2.tip_box_rect.unwrap();
@@ -1174,7 +1176,7 @@ mod tests {
         let backend = ratatui::backend::TestBackend::new(term.buffer.w, term.buffer.h);
         let mut terminal = ratatui::Terminal::new(backend).unwrap();
         terminal
-            .draw(|f| crate::menu::ui::render(f, &mut s, &term))
+            .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
             .unwrap();
         // covered should span the menu rows [pos_y .. pos_y+ui_height-1] and not reach above cursor row 5.
         assert!(s.has_covered());
@@ -1475,7 +1477,7 @@ mod tests {
         let backend = ratatui::backend::TestBackend::new(term.buffer.w, term.buffer.h);
         let mut terminal = ratatui::Terminal::new(backend).unwrap();
         terminal
-            .draw(|f| crate::menu::ui::render(f, &mut s, &term))
+            .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
             .unwrap();
         let buf = terminal.backend().buffer();
         let rows: Vec<String> = (0..term.buffer.h)
@@ -1542,7 +1544,7 @@ mod tests {
         let backend = ratatui::backend::TestBackend::new(term.buffer.w, term.buffer.h);
         let mut terminal = ratatui::Terminal::new(backend).unwrap();
         terminal
-            .draw(|f| crate::menu::ui::render(f, &mut s, &term))
+            .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
             .unwrap();
         let buf = terminal.backend().buffer();
         // Desc characters on the continuation row should be secondary (DarkGray).
@@ -1592,7 +1594,7 @@ mod tests {
         let backend = ratatui::backend::TestBackend::new(term.buffer.w, term.buffer.h);
         let mut terminal = ratatui::Terminal::new(backend).unwrap();
         terminal
-            .draw(|f| crate::menu::ui::render(f, &mut s, &term))
+            .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
             .unwrap();
         let buf = terminal.backend().buffer();
         let rows: Vec<String> = (0..term.buffer.h)
@@ -1805,7 +1807,7 @@ mod tests {
             let backend = ratatui::backend::TestBackend::new(term().buffer.w, term().buffer.h);
             let mut terminal = ratatui::Terminal::new(backend).unwrap();
             terminal
-                .draw(|f| crate::menu::ui::render(f, state, &term()))
+                .draw(|f| crate::menu::ui::render(f, state, &term(), &c))
                 .unwrap();
             let buf = terminal.backend().buffer();
             (0..term().buffer.h)

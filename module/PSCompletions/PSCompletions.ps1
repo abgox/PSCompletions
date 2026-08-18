@@ -647,6 +647,8 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             enable_apply_when_single   = [bool]$config.enable_apply_when_single
             enable_apply_when_no_match = [bool]$config.enable_apply_when_no_match
             show_mode                  = [string]$config.show_mode
+            color_focus                = [string]$config.color_focus
+            color_match                = [string]$config.color_match
         }
         context_switch = [string]$config.switch
         context_stay   = [string]$config.stay

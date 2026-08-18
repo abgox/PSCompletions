@@ -228,7 +228,9 @@ pub fn default_config(language: &str) -> Value {
         "enable_sort_by_history": 1,
         "enable_cache": 1,
         "enable_path_trailing_separator": 1,
-        "enable_append_space": 1
+        "enable_append_space": 1,
+        "color_focus": "red",
+        "color_match": "cyan"
     })
 }
 

@@ -1,4 +1,4 @@
-use crate::menu::model::TerminalInfo;
+use crate::menu::model::{Config, TerminalInfo};
 use crate::menu::state::{match_segments, MenuState, TipPlacement, TIP_GAP};
 use ratatui::buffer::{Buffer, CellDiffOption};
 use ratatui::style::{Color, Modifier, Style};
@@ -6,16 +6,15 @@ use ratatui::Frame;
 use std::collections::HashSet;
 use unicode_width::UnicodeWidthChar;
 
-/// Theme: red = focus / cyan = match highlight / yellow = warning / gray = structure
-/// (see `design/menu.md`).
-const FOCUS_C: Color = Color::Red;
-const MATCH_C: Color = Color::Cyan;
+/// Default theme colors; overridden by `color_focus` / `color_match` config values.
+const DEFAULT_FOCUS_C: Color = Color::Red;
+const DEFAULT_MATCH_C: Color = Color::Cyan;
 const WARN_C: Color = Color::Yellow;
 const STRUCT_C: Color = Color::DarkGray;
 
 /// Left track: marks focus together with the selection marker (the selected row turns red).
 const TRACK: char = '\u{258D}'; // ▍
-/// Red arrow left of the selected item (double focus marker; no right `>` — it would
+/// Arrow left of the selected item (double focus marker; no right `>` — it would
 /// collide with predict symbols like `~`).
 const SELECT_L: char = '>';
 /// Divider line between the count and the list.
@@ -31,7 +30,43 @@ const TIP_BOX_BL: char = '\u{2570}'; // ╰
 const TIP_BOX_BR: char = '\u{256F}'; // ╯
 const TIP_BOX_V: char = '\u{2502}'; // │
 
-pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo) {
+/// Parse a color string into a `ratatui::style::Color`.
+///
+/// Supports named colors (`red`, `cyan`, …), 256-color index (`0`–`255`), and
+/// 24-bit RGB (`#rrggbb`).  Falls back to the given default on unrecognized input.
+fn parse_color(s: &str, fallback: Color) -> Color {
+    match s.to_lowercase().as_str() {
+        "red" => Color::Red,
+        "green" => Color::Green,
+        "yellow" => Color::Yellow,
+        "blue" => Color::Blue,
+        "magenta" => Color::Magenta,
+        "cyan" => Color::Cyan,
+        "white" => Color::White,
+        "gray" => Color::Gray,
+        "black" => Color::Black,
+        _ => {
+            if let Ok(idx) = s.parse::<u8>() {
+                return Color::Indexed(idx);
+            }
+            if s.len() == 7 && s.starts_with('#') {
+                if let (Ok(r), Ok(g), Ok(b)) = (
+                    u8::from_str_radix(&s[1..3], 16),
+                    u8::from_str_radix(&s[3..5], 16),
+                    u8::from_str_radix(&s[5..7], 16),
+                ) {
+                    return Color::Rgb(r, g, b);
+                }
+            }
+            fallback
+        }
+    }
+}
+
+pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg: &Config) {
+    let focus_c = parse_color(&cfg.flags.color_focus, DEFAULT_FOCUS_C);
+    let match_c = parse_color(&cfg.flags.color_match, DEFAULT_MATCH_C);
+
     let buf = frame.buffer_mut();
     let bg = Color::Reset;
 
@@ -70,7 +105,7 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo) {
         bx,
         y + prompt_row,
         '>',
-        Style::default().fg(FOCUS_C).bg(bg),
+        Style::default().fg(focus_c).bg(bg),
     );
 
     // The bar owns one cell: split the filter at the cursor and shift the right half over.
@@ -123,7 +158,7 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo) {
         content_x,
         y + count_row,
         &cur_text,
-        Style::default().fg(FOCUS_C).bg(bg),
+        Style::default().fg(focus_c).bg(bg),
         max_content,
     );
     let tail_text = format!("/{}", total);
@@ -187,9 +222,9 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo) {
         );
     }
 
-    let match_style = Style::default().fg(MATCH_C).bg(bg);
+    let match_style = Style::default().fg(match_c).bg(bg);
     let track_style = Style::default().fg(track_c).bg(bg);
-    let selected_style = Style::default().fg(FOCUS_C).bg(bg);
+    let selected_style = Style::default().fg(focus_c).bg(bg);
     for (i, line) in state.content_box.iter().enumerate() {
         let cy = y + item_top + i as u16;
         if cy >= y + h {

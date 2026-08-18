@@ -174,7 +174,7 @@ pub fn run(input_path: &str) -> Output {
             let _ = writeln!(std::io::stderr(), "HBT");
             last_heartbeat = Instant::now();
         }
-        if let Err(e) = terminal.draw(|f| ui::render(f, &mut state, &term)) {
+        if let Err(e) = terminal.draw(|f| ui::render(f, &mut state, &term, &cfg)) {
             break Err(format!("draw failed: {e}"));
         }
         let has_input = match crossterm::event::poll(Duration::from_millis(50)) {
@@ -442,6 +442,8 @@ mod tests {
                 enable_apply_when_single: false,
                 enable_apply_when_no_match: false,
                 show_mode: "auto".into(),
+                color_focus: "red".into(),
+                color_match: "cyan".into(),
             },
             context_switch: "~".into(),
             context_stay: "?".into(),

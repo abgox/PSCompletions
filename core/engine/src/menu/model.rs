@@ -129,6 +129,10 @@ pub struct Flags {
     pub enable_apply_when_no_match: bool,
     #[serde(default = "default_show_mode")]
     pub show_mode: String,
+    #[serde(default = "default_color_focus")]
+    pub color_focus: String,
+    #[serde(default = "default_color_match")]
+    pub color_match: String,
 }
 
 fn default_true() -> bool {
@@ -141,6 +145,14 @@ fn default_show_mode() -> String {
 
 fn default_filter_mode() -> String {
     "wildcard".into()
+}
+
+fn default_color_focus() -> String {
+    "red".into()
+}
+
+fn default_color_match() -> String {
+    "cyan".into()
 }
 
 fn default_switch_symbol() -> String {

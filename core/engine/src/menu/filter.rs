@@ -254,6 +254,8 @@ mod tests {
                 enable_apply_when_single: false,
                 enable_apply_when_no_match: false,
                 show_mode: "auto".into(),
+                color_focus: "red".into(),
+                color_match: "cyan".into(),
             },
             context_switch: "~".into(),
             context_stay: "?".into(),
