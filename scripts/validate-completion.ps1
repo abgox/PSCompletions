@@ -125,7 +125,7 @@ function Get-Report {
     foreach ($r in $Results) {
         $s = if ($r.issues.schema.Count) { "❌ $($r.issues.schema.Count)" } else { '✅' }
         $c = if ($r.issues.config.Count) { "❌ $($r.issues.config.Count)" } else { '✅' }
-        $h = if ($r.issues.hooks.Count) { "❌ $($r.issues.hooks.Count)" } else { '✅' }
+        $h = if (-not $r.hasHooks) { '' } elseif ($r.issues.hooks.Count) { "❌ $($r.issues.hooks.Count)" } else { '📝' }
         $p = if ($r.issues.compare.Count) { "❌ $($r.issues.compare.Count)" } else { '✅' }
         [void]$sb.AppendLine("| **$($r.name)** | $s | $c | $h | $p |")
     }
@@ -275,6 +275,7 @@ foreach ($name in $CompletionList) {
             compare = [System.Collections.Generic.List[object]]::new()
         }
         hasIssues   = $false
+        hasHooks    = $false
         fileCount   = 0
     }
 
@@ -308,6 +309,7 @@ foreach ($name in $CompletionList) {
     }
 
     if (Test-Path -LiteralPath $hooksFile) {
+        $entry.hasHooks = $true
         $hookIssues = Get-HookSyntaxIssues -HooksFile $hooksFile
         foreach ($i in $hookIssues) { $entry.issues.hooks.Add($i) }
     }
