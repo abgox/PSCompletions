@@ -2,6 +2,13 @@
 
 [English](./CHANGELOG.md)
 
+## 7.2.0
+
+- 新增了 `color_focus` 和 `color_match` 配置项，支持自定义 TUI 菜单颜色（命名色 + RGB）
+- `psc.items` 支持字符串简写，传 `"stay"` 或 `"switch"` 即可为所有项设置 symbol
+- 修复了 `psc.platform` 在非 Windows 平台返回 `"unix"` 而非 `"macos"` / `"linux"` 的问题
+- 修复了 `psc.contains` pattern 模式忽略 `case_sensitive` 选项的问题
+
 ## 7.1.0
 
 - 改进了补全状态变更的输出和更新逻辑

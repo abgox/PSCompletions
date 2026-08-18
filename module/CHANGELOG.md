@@ -2,6 +2,13 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.2.0
+
+- Added `color_focus` and `color_match` config keys to customize TUI menu colors (named colors + RGB).
+- Added string shorthand for `psc.items` — pass `"stay"` or `"switch"` to set symbol on all items.
+- Fixed `psc.platform` returning `"unix"` instead of `"macos"` / `"linux"` on non-Windows.
+- Fixed `psc.contains` pattern mode ignoring `case_sensitive` option.
+
 ## 7.1.0
 
 - Improved the output of completion state changes and the update logic.
