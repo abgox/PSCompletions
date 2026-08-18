@@ -102,6 +102,7 @@
 |[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|
 |[k9s](https://k9scli.io/)|K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。<br>它简化了浏览、观察和管理你部署的应用程序。|
 |[kind](https://kind.sigs.k8s.io/)|kind 是一个使用 Docker 容器 'nodes' 运行本地 Kubernetes 集群的工具。<br>kind 最初主要用于测试 Kubernetes 本身，但也可用于本地开发或 CI。|
+|[komac](https://github.com/russellbanks/Komac)|WinGet 的社区清单创建器。|
 |[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br>kubectl 是它的命令行工具|
 |[kubectx](https://github.com/ahmetb/kubectx)|在不同 Kubernetes 上下文之间切换（kubectl config use-context）。|
 |[kubens](https://github.com/ahmetb/kubens)|在不同 Kubernetes 命名空间之间切换。|

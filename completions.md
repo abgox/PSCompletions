@@ -102,6 +102,7 @@
 |[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
 |[k9s](https://k9scli.io/)|K9s is a terminal based UI to interact with your Kubernetes clusters.<br>It eases navigating, observing and managing your deployed applications.|
 |[kind](https://kind.sigs.k8s.io/)|kind is a tool for running local Kubernetes clusters using Docker container 'nodes'.<br>kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI.|
+|[komac](https://github.com/russellbanks/Komac)|The Community Manifest Creator for WinGet.|
 |[kubectl](https://kubernetes.io/docs/reference/kubectl/)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
 |[kubectx](https://github.com/ahmetb/kubectx)|Switch between Kubernetes contexts (kubectl config use-context).|
 |[kubens](https://github.com/ahmetb/kubens)|Switch between Kubernetes namespaces.|
