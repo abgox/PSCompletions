@@ -86,11 +86,11 @@
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
 |[head](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
+|[helix](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
-|[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
 |[istioctl](https://istio.io/)|Istio 命令行界面|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool <br>专注于正确性和性能的 jq 克隆|

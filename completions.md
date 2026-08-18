@@ -86,11 +86,11 @@
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
 |[head](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
+|[helix](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
-|[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
 |[istioctl](https://istio.io/)|The Istio command-line interface|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
