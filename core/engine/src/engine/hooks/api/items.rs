@@ -293,7 +293,12 @@ pub(crate) fn api_contains(
         for h in haystacks {
             if let Value::String(s) = h {
                 let text = s.to_str()?.to_string();
-                let r: Value = find.call((text, needle.clone()))?;
+                let (text_check, needle_check) = if case_sensitive {
+                    (text, needle.clone())
+                } else {
+                    (text.to_lowercase(), needle.to_lowercase())
+                };
+                let r: Value = find.call((text_check, needle_check))?;
                 if !matches!(r, Value::Nil) {
                     return Ok(true);
                 }
