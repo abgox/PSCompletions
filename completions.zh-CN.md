@@ -48,6 +48,7 @@
 |[delta](https://github.com/dandavison/delta)|Git 和 diff 输出的查看器。|
 |[deno](https://deno.com/)|现代 JavaScript 和 TypeScript 运行时。|
 |[df](https://uutils.org)|显示文件系统空间使用情况。|
+|[diny](https://github.com/dinoDanic/diny)|一个简单的 CLI 工具，用于分析 git diff 并生成提交消息。|
 |[dircolors](https://uutils.org)|输出设置 LS_COLORS 环境变量的命令。|
 |[dirname](https://uutils.org)|去除文件名的最后一个组件。|
 |[docker](https://www.docker.com)|容器应用开发。|
@@ -92,6 +93,7 @@
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
+|[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - Ionic 的命令行界面|
 |[istioctl](https://istio.io/)|Istio 命令行界面|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool <br>专注于正确性和性能的 jq 克隆|
 |[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - 兼容 Git 的版本控制系统。|
@@ -115,6 +117,7 @@
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum](https://uutils.org)|计算和校验 MD5 消息摘要。|
+|[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - AI 驱动的编码助手。|
 |[minikube](https://minikube.sigs.k8s.io/)|提供并管理针对开发工作流程优化的本地 Kubernetes 集群。|
 |[mise](https://mise.jdx.dev/)|多语言工具版本管理器、环境变量管理器和任务运行器。|
 |[mktemp](https://uutils.org)|创建临时文件或目录。|
@@ -131,6 +134,7 @@
 |[nomad](https://www.nomadproject.io/)|编排容器和非容器化应用的工作负载调度器|
 |[npm](https://www.npmjs.com/)|Node.js 包管理器。|
 |[nproc](https://uutils.org)|输出当前进程可用的核心数。|
+|[npx](https://docs.npmjs.com/cli/commands/npx)|从本地或远程 npm 包运行命令。|
 |[nrm](https://github.com/Pana/nrm)|npm 镜像源管理。|
 |[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
 |[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
@@ -140,6 +144,7 @@
 |[od](https://uutils.org)|以八进制和其他格式转储文件。|
 |[oh-my-posh](https://ohmyposh.dev)|跨平台终端提示符渲染工具。|
 |[ollama](https://docs.ollama.com/cli)|本地大语言模型运行器。|
+|[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - 终端中的 AI 编程助手。|
 |[openclaw](https://docs.openclaw.ai/cli)|OpenClaw 的命令行界面 (CLI)|
 |[opencode](https://github.com/nicholaswatertank/opencode)|终端中的 AI 编程智能体。|
 |[ouch](https://github.com/ouch-org/ouch)|一个用于轻松压缩和解压文件与目录的命令行工具<br>支持格式：tar、zip、gz、7z、xz、lzma、bz2、bz3、lz4、zst、rar、br|
@@ -169,6 +174,7 @@
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
+|[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|

@@ -48,6 +48,7 @@
 |[delta](https://github.com/dandavison/delta)|Viewer for git and diff output.|
 |[deno](https://deno.com/)|A modern JavaScript and TypeScript runtime.|
 |[df](https://uutils.org)|Show information about file system space usage.|
+|[diny](https://github.com/dinoDanic/diny)|A simple CLI tool that analyzes git diff and generates commit messages.|
 |[dircolors](https://uutils.org)|Output commands to set the LS_COLORS environment variable.|
 |[dirname](https://uutils.org)|Strip last component from file name.|
 |[docker](https://www.docker.com)|Container Application Development.|
@@ -92,6 +93,7 @@
 |[hostname](https://uutils.org)|Display or set the system's host name.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
+|[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - The command-line interface for Ionic|
 |[istioctl](https://istio.io/)|The Istio command-line interface|
 |[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
 |[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - Git-compatible version control system.|
@@ -115,6 +117,7 @@
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
+|[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - an AI-powered coding assistant.|
 |[minikube](https://minikube.sigs.k8s.io/)|Provides and manages local Kubernetes clusters optimized for development workflows.|
 |[mise](https://mise.jdx.dev/)|Polyglot tool version manager, env vars manager and task runner.|
 |[mktemp](https://uutils.org)|Create a temporary file or directory.|
@@ -131,6 +134,7 @@
 |[nomad](https://www.nomadproject.io/)|A workload scheduler that orchestrates containers and non-containerized applications|
 |[npm](https://www.npmjs.com/)|Node.js package manager.|
 |[nproc](https://uutils.org)|Print the number of cores available to the current process.|
+|[npx](https://docs.npmjs.com/cli/commands/npx)|Run a command from a local or remote npm package.|
 |[nrm](https://github.com/Pana/nrm)|npm registry manager.|
 |[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
 |[nu](https://github.com/nushell/nushell)|The nushell language and shell|
@@ -140,6 +144,7 @@
 |[od](https://uutils.org)|Dump files in octal and other formats.|
 |[oh-my-posh](https://ohmyposh.dev)|Cross-platform tool to render your prompt.|
 |[ollama](https://docs.ollama.com/cli)|Local large language model runner.|
+|[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - AI-powered coding assistant in the terminal.|
 |[openclaw](https://docs.openclaw.ai/cli)|The Command Line Interface (CLI) of OpenClaw|
 |[opencode](https://github.com/nicholaswatertank/opencode)|AI-powered coding agent for the terminal.|
 |[ouch](https://github.com/ouch-org/ouch)|A command-line utility for easily compressing and decompressing files and directories<br>Supported formats: tar, zip, gz, 7z, xz, lzma, bz2, bz3, lz4, zst, rar, br|
@@ -169,6 +174,7 @@
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
+|[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
