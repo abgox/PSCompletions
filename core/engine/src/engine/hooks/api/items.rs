@@ -83,9 +83,11 @@ fn append_one(lua: &Lua, tbl: &Table, item: &Table, language: &str) -> mlua::Res
     Ok(Some(1))
 }
 
-/// `psc.items(list, fn?)` → convert each element into a completion item (external `name` shape).
-/// Without fn, the element itself is the name (static: element must be a string).
-/// fn returning nil skips that element.
+/// `psc.items(list, symbol_or_fn?)` → convert each element into a completion item.
+///
+/// - Without second arg: the element itself is the name (element must be a string).
+/// - With a **string** (`"stay"` or `"switch"`): each element becomes `{ name = elem, symbol = ... }`.
+/// - With a **function**: `fn(elem)` returns the item table; returning nil skips that element.
 pub(crate) fn api_items(
     lua: &Lua,
     (list, fnv): (Table, Option<Value>),
@@ -93,26 +95,49 @@ pub(crate) fn api_items(
 ) -> mlua::Result<Table> {
     let t = lua.create_table()?;
     let mut n = 1;
+
+    // Determine the mode: string symbol, function converter, or plain.
+    let mode = match &fnv {
+        Some(Value::String(_)) => 0,   // symbol string
+        Some(Value::Function(_)) => 1, // converter function
+        _ => 2,                        // plain (element = name)
+    };
+
     for i in 1..=list.raw_len() {
         let elem = list.raw_get::<Value>(i)?;
-        let item: Option<Value> = match &fnv {
-            Some(f) => {
-                let func = f.as_function().ok_or_else(|| {
-                    mlua::Error::RuntimeError("psc.items: fn must be a function".into())
-                })?;
-                let res: Value = func.call(elem)?;
+        let item: Option<Value> = match mode {
+            0 => {
+                // String symbol — set symbol on every item.
+                let symbol = fnv.as_ref().unwrap().as_string().unwrap().to_str()?;
+                let name: String = match &elem {
+                    Value::String(s) => s.to_str()?.to_string(),
+                    _ => continue,
+                };
+                if name.trim().is_empty() {
+                    continue;
+                }
+                let tb = lua.create_table()?;
+                tb.set("name", name)?;
+                tb.set("symbol", symbol)?;
+                Some(Value::Table(tb))
+            }
+            1 => {
+                // Function converter — original behavior.
+                let func = fnv.as_ref().unwrap().as_function().unwrap();
+                let res: Value = func.call(elem.clone())?;
                 match res {
                     Value::Nil => None,
                     Value::Table(tb) => Some(Value::Table(tb)),
                     _ => None,
                 }
             }
-            None => {
+            _ => {
+                // Plain — element is the name.
                 let name: String = match &elem {
                     Value::String(s) => s.to_str()?.to_string(),
                     _ => continue,
                 };
-                // An empty string carries no usable name; skip it (like `add`'s empty-name rule).
+                // An empty string carries no usable name; skip it.
                 if name.trim().is_empty() {
                     continue;
                 }

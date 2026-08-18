@@ -199,22 +199,22 @@ psc.platform = "windows"
 --- 把数组每个元素转成补全项。
 ---
 --- - `elements`：要转换的元素数组
---- - `fn`（可选）：转换函数
----   - 默认：元素即 `name`（元素必须是 string）
----   - 元素为其他类型必须显式传 fn
----   - 返回 `nil` 跳过该元素
+--- - 第二参数有三种形式：
+---   - **不传**：元素本身即 `name`（元素必须是 string）
+---   - **字符串**：`"stay"` 或 `"switch"`，每项自动设置对应的 symbol
+---   - **函数**：`fn(elem)` 返回补全项表；返回 `nil` 跳过该元素
 ---
 --- Converts each array element into a completion item.
 ---
 --- - `elements`: the array of elements to convert
---- - `fn` (optional): the converter
----   - Without it the element itself is the `name` (the element must be a string)
----   - Other types require fn
----   - Returning `nil` skips that element
+--- - The second argument has three forms:
+---   - **omitted**: the element itself is the `name` (the element must be a string)
+---   - **string**: `"stay"` or `"switch"` — sets the symbol on every item
+---   - **function**: `fn(elem)` returns the item table; returning `nil` skips that element
 ---@param elements string[]
----@param fn? fun(elem: string): psc_item|nil
+---@param symbol_or_fn? "stay"|"switch"|fun(elem: string): psc_item|nil
 ---@return psc_item[]
-function psc.items(elements, fn) end
+function psc.items(elements, symbol_or_fn) end
 
 --- 把 manifest 路径上指定数组的**直接子项**挂载为补全项。
 ---
