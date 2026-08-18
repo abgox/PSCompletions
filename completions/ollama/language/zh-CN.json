@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "url": "https://ollama.com",
+    "description": ["Ollama - 在本地快速运行大语言模型。"]
+  },
+  "root": [
+    {
+      "name": "serve",
+      "alias": ["start"],
+      "tip": ["U: serve [flags]", "启动 Ollama 服务器。"]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create MODEL [flags]",
+        "从 Modelfile 创建模型。",
+        "E: create mymodel"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "alias": ["--file"],
+          "tip": [
+            "U: -f, --file <path>",
+            "Modelfile 文件名（默认 \"Modelfile\"）。",
+            "E: -f ./MyModelfile"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-q",
+          "alias": ["--quantize"],
+          "tip": [
+            "U: -q, --quantize <level>",
+            "将模型量化到指定级别（例如 q4_K_M）。",
+            "E: -q q4_K_M"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--draft-quantize",
+          "tip": ["将草稿模型量化到指定级别。"]
+        },
+        {
+          "name": "--experimental",
+          "tip": ["启用实验性 safetensors 模型创建。"]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": ["U: show MODEL [flags]", "显示模型信息。", "E: show llama3"],
+      "option": [
+        {
+          "name": "--license",
+          "tip": ["显示模型许可证。"]
+        },
+        {
+          "name": "--modelfile",
+          "tip": ["显示模型的 Modelfile。"]
+        },
+        {
+          "name": "--parameters",
+          "tip": ["显示模型参数。"]
+        },
+        {
+          "name": "--system",
+          "tip": ["显示模型的系统提示词。"]
+        },
+        {
+          "name": "--template",
+          "tip": ["显示模型的模板。"]
+        },
+        {
+          "name": "-v",
+          "alias": ["--verbose"],
+          "tip": ["U: -v, --verbose", "显示详细模型信息。"]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run MODEL [PROMPT] [flags]",
+        "运行模型。",
+        "E: run llama3.2 \"Why is the sky blue?\""
+      ],
+      "option": [
+        {
+          "name": "--dimensions",
+          "tip": ["将输出嵌入截断到指定维度（仅限嵌入模型）。"]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "响应格式（例如 json）。",
+            "E: --format json"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hidethinking",
+          "tip": ["隐藏思考输出（如果提供）。"]
+        },
+        {
+          "name": "--insecure",
+          "tip": ["使用不安全的注册表。"]
+        },
+        {
+          "name": "--keepalive",
+          "tip": [
+            "U: --keepalive <duration>",
+            "保持模型加载的持续时间（例如 5m）。",
+            "E: --keepalive 5m"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--nowordwrap",
+          "tip": ["不要自动换行。"]
+        },
+        {
+          "name": "--think",
+          "tip": [
+            "U: --think[=<mode>]",
+            "启用思考模式：true/false 或 high/medium/low（仅限支持的模型）。",
+            "E: --think=true"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--truncate",
+          "tip": [
+            "对于嵌入模型：截断超出上下文长度的输入（默认：true）。设置 --truncate=false 会报错。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": ["显示响应计时信息。"]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tip": ["U: stop MODEL [flags]", "停止正在运行的模型。", "E: stop llama3"]
+    },
+    {
+      "name": "pull",
+      "tip": [
+        "U: pull MODEL [flags]",
+        "从注册表拉取模型。",
+        "E: pull llama3.2"
+      ],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": ["使用不安全的注册表。"]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "tip": ["U: push MODEL [flags]", "推送模型到注册表。", "E: push mymodel"],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": ["使用不安全的注册表。"]
+        }
+      ]
+    },
+    {
+      "name": "signin",
+      "tip": ["U: signin [flags]", "登录 ollama.com。"]
+    },
+    {
+      "name": "signout",
+      "tip": ["U: signout [flags]", "从 ollama.com 登出。"]
+    },
+    {
+      "name": "list",
+      "alias": ["ls"],
+      "tip": ["U: list [flags]", "列出模型。"]
+    },
+    {
+      "name": "ps",
+      "tip": ["U: ps [flags]", "列出正在运行的模型。"]
+    },
+    {
+      "name": "cp",
+      "tip": [
+        "U: cp SOURCE DESTINATION [flags]",
+        "复制模型。",
+        "E: cp llama3 mymodel"
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": ["U: rm MODEL [MODEL...] [flags]", "删除模型。", "E: rm llama3.2"]
+    },
+    {
+      "name": "launch",
+      "tip": [
+        "U: launch [INTEGRATION] [-- [EXTRA_ARGS...]] [flags]",
+        "启动 Ollama 菜单或集成。",
+        "E: launch claude"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "tip": ["仅配置而不启动。"]
+        },
+        {
+          "name": "--model",
+          "tip": ["U: --model <model>", "要使用的模型。", "E: --model llama3"],
+          "next": 0
+        },
+        {
+          "name": "--restore",
+          "tip": ["将集成恢复为默认配置文件。"]
+        },
+        {
+          "name": "-y",
+          "alias": ["--yes"],
+          "tip": ["U: -y, --yes", "自动回答 yes 确认提示。"]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": ["U: help [command]", "显示任意命令的帮助信息。", "E: help create"]
+    }
+  ],
+  "option": [
+    {
+      "name": "-v",
+      "alias": ["--version"],
+      "tip": ["U: -v, --version", "显示版本信息。"]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "-h",
+      "alias": ["--help"],
+      "tip": ["U: -h, --help", "显示 ollama 或指定命令的帮助信息。"]
+    },
+    {
+      "name": "--nowordwrap",
+      "tip": ["不要自动换行。"]
+    },
+    {
+      "name": "--verbose",
+      "tip": ["显示响应计时信息。"]
+    }
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "meta": {
+    "url": "https://ollama.com",
+    "description": [
+      "Ollama - Get up and running with large language models locally."
+    ]
+  },
+  "root": [
+    {
+      "name": "serve",
+      "alias": ["start"],
+      "tip": ["U: serve [flags]", "Start the Ollama server."]
+    },
+    {
+      "name": "create",
+      "tip": [
+        "U: create MODEL [flags]",
+        "Create a model from a Modelfile.",
+        "E: create mymodel"
+      ],
+      "option": [
+        {
+          "name": "-f",
+          "alias": ["--file"],
+          "tip": [
+            "U: -f, --file <path>",
+            "Name of the Modelfile (default \"Modelfile\").",
+            "E: -f ./MyModelfile"
+          ],
+          "next": 0
+        },
+        {
+          "name": "-q",
+          "alias": ["--quantize"],
+          "tip": [
+            "U: -q, --quantize <level>",
+            "Quantize model to this level (e.g. q4_K_M).",
+            "E: -q q4_K_M"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--draft-quantize",
+          "tip": ["Quantize draft model to this level."]
+        },
+        {
+          "name": "--experimental",
+          "tip": ["Enable experimental safetensors model creation."]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "tip": [
+        "U: show MODEL [flags]",
+        "Show information for a model.",
+        "E: show llama3"
+      ],
+      "option": [
+        {
+          "name": "--license",
+          "tip": ["Show license of a model."]
+        },
+        {
+          "name": "--modelfile",
+          "tip": ["Show Modelfile of a model."]
+        },
+        {
+          "name": "--parameters",
+          "tip": ["Show parameters of a model."]
+        },
+        {
+          "name": "--system",
+          "tip": ["Show system message of a model."]
+        },
+        {
+          "name": "--template",
+          "tip": ["Show template of a model."]
+        },
+        {
+          "name": "-v",
+          "alias": ["--verbose"],
+          "tip": ["U: -v, --verbose", "Show detailed model information."]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "tip": [
+        "U: run MODEL [PROMPT] [flags]",
+        "Run a model.",
+        "E: run llama3.2 \"Why is the sky blue?\""
+      ],
+      "option": [
+        {
+          "name": "--dimensions",
+          "tip": [
+            "Truncate output embeddings to specified dimension (embedding models only)."
+          ]
+        },
+        {
+          "name": "--format",
+          "tip": [
+            "U: --format <format>",
+            "Response format (e.g. json).",
+            "E: --format json"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--hidethinking",
+          "tip": ["Hide thinking output (if provided)."]
+        },
+        {
+          "name": "--insecure",
+          "tip": ["Use an insecure registry."]
+        },
+        {
+          "name": "--keepalive",
+          "tip": [
+            "U: --keepalive <duration>",
+            "Duration to keep a model loaded (e.g. 5m).",
+            "E: --keepalive 5m"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--nowordwrap",
+          "tip": ["Don't wrap words to the next line automatically."]
+        },
+        {
+          "name": "--think",
+          "tip": [
+            "U: --think[=<mode>]",
+            "Enable thinking mode: true/false or high/medium/low for supported models.",
+            "E: --think=true"
+          ],
+          "next": 0
+        },
+        {
+          "name": "--truncate",
+          "tip": [
+            "For embedding models: truncate inputs exceeding context length (default: true). Set --truncate=false to error instead."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": ["Show timings for response."]
+        }
+      ]
+    },
+    {
+      "name": "stop",
+      "tip": [
+        "U: stop MODEL [flags]",
+        "Stop a running model.",
+        "E: stop llama3"
+      ]
+    },
+    {
+      "name": "pull",
+      "tip": [
+        "U: pull MODEL [flags]",
+        "Pull a model from a registry.",
+        "E: pull llama3.2"
+      ],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": ["Use an insecure registry."]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "tip": [
+        "U: push MODEL [flags]",
+        "Push a model to a registry.",
+        "E: push mymodel"
+      ],
+      "option": [
+        {
+          "name": "--insecure",
+          "tip": ["Use an insecure registry."]
+        }
+      ]
+    },
+    {
+      "name": "signin",
+      "tip": ["U: signin [flags]", "Sign in to ollama.com."]
+    },
+    {
+      "name": "signout",
+      "tip": ["U: signout [flags]", "Sign out from ollama.com."]
+    },
+    {
+      "name": "list",
+      "alias": ["ls"],
+      "tip": ["U: list [flags]", "List models."]
+    },
+    {
+      "name": "ps",
+      "tip": ["U: ps [flags]", "List running models."]
+    },
+    {
+      "name": "cp",
+      "tip": [
+        "U: cp SOURCE DESTINATION [flags]",
+        "Copy a model.",
+        "E: cp llama3 mymodel"
+      ]
+    },
+    {
+      "name": "rm",
+      "tip": [
+        "U: rm MODEL [MODEL...] [flags]",
+        "Remove a model.",
+        "E: rm llama3.2"
+      ]
+    },
+    {
+      "name": "launch",
+      "tip": [
+        "U: launch [INTEGRATION] [-- [EXTRA_ARGS...]] [flags]",
+        "Launch the Ollama menu or an integration.",
+        "E: launch claude"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "tip": ["Configure without launching."]
+        },
+        {
+          "name": "--model",
+          "tip": ["U: --model <model>", "Model to use.", "E: --model llama3"],
+          "next": 0
+        },
+        {
+          "name": "--restore",
+          "tip": ["Restore an integration to its default profile."]
+        },
+        {
+          "name": "-y",
+          "alias": ["--yes"],
+          "tip": [
+            "U: -y, --yes",
+            "Automatically answer yes to confirmation prompts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": ["U: help [command]", "Help about any command.", "E: help create"]
+    }
+  ],
+  "option": [
+    {
+      "name": "-v",
+      "alias": ["--version"],
+      "tip": ["U: -v, --version", "Show version information."]
+    }
+  ],
+  "common_option": [
+    {
+      "name": "-h",
+      "alias": ["--help"],
+      "tip": ["U: -h, --help", "Show help for ollama or a command."]
+    },
+    {
+      "name": "--nowordwrap",
+      "tip": ["Don't wrap words to the next line automatically."]
+    },
+    {
+      "name": "--verbose",
+      "tip": ["Show timings for response."]
+    }
+  ]
+}
