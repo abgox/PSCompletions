@@ -75,10 +75,10 @@ local function bucket_manifests(buckets_dir, exclude, enable_tip)
     return entries, manifests
 end
 
-local function add_bucket_apps(cs, entries, manifests, enable_tip)
+local function add_bucket_apps(cs, entries, manifests, enable_tip, installed)
     for _, e in ipairs(entries) do
         local name = e.path:match("([^/\\]+)%.json$")
-        if name and name ~= "scoop" then
+        if name and name ~= "scoop" and not (installed and installed[name]) then
             local app = e.bucket .. "/" .. name
             if not psc.typed(app) then
                 local tip = ""
@@ -90,20 +90,27 @@ local function add_bucket_apps(cs, entries, manifests, enable_tip)
 end
 
 local function installed_apps(apps_dirs, root)
-    local entries = {}
+    local candidates = {}
     for _, d in ipairs(apps_dirs) do
         for _, e in ipairs(psc.ls(d) or {}) do
             if e.is_dir and e.name ~= "scoop" and not psc.typed_unknown(e.name) then
-                table.insert(entries, { dir = d, name = e.name })
+                table.insert(candidates, { dir = d, name = e.name })
             end
         end
     end
     local paths = {}
-    for _, en in ipairs(entries) do
+    for _, en in ipairs(candidates) do
         table.insert(paths, en.dir .. "/" .. en.name .. "/current/manifest.json")
         table.insert(paths, en.dir .. "/" .. en.name .. "/current/install.json")
     end
     local jsons = psc.json_batch(paths)
+    -- Only a dir with a manifest counts as installed; a leftover dir after a failed install has no manifest.
+    local entries = {}
+    for _, en in ipairs(candidates) do
+        if jsons[en.dir .. "/" .. en.name .. "/current/manifest.json"] then
+            table.insert(entries, en)
+        end
+    end
     local cand_paths = {}
     for _, en in ipairs(entries) do
         local i = jsons[en.dir .. "/" .. en.name .. "/current/install.json"]
@@ -209,7 +216,7 @@ local function list_app_dirs()
     local out = {}
     for _, d in ipairs(apps_dirs) do
         for _, e in ipairs(psc.ls(d) or {}) do
-            if e.is_dir and e.name ~= "scoop" then
+            if e.is_dir and e.name ~= "scoop" and psc.exist(d .. "/" .. e.name .. "/current/manifest.json") then
                 table.insert(out, e.name)
             end
         end
@@ -251,7 +258,11 @@ elseif psc.eq(cmd1, "install") then
         end
         local enable_tip = not (psc.config.enable_hooks_tip == 0)
         local entries, manifests = bucket_manifests(buckets_dir, exclude, enable_tip)
-        add_bucket_apps(cs, entries, manifests, enable_tip)
+        local installed = {}
+        for _, name in ipairs(list_app_dirs()) do
+            installed[name] = true
+        end
+        add_bucket_apps(cs, entries, manifests, enable_tip, installed)
     end
 elseif psc.contains({ "uninstall", "cleanup", "prefix", "update", "depends", "hold", "unhold" }, cmd1) then
     local entries, jsons, cand_map = installed_apps(apps_dirs, root)

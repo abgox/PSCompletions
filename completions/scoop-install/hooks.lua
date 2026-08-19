@@ -18,8 +18,7 @@ local function scoop_config()
     return cfg
 end
 
-local function manifest_tip(path)
-    local c = psc.json(path)
+local function manifest_tip(c)
     if not c then
         return ""
     end
@@ -58,6 +57,38 @@ local function manifest_tip(path)
     return psc.join(lines, "\n")
 end
 
+local function bucket_manifests(buckets_dir, exclude, enable_tip)
+    local entries = {}
+    local paths = {}
+    for _, b in ipairs(psc.ls(buckets_dir) or {}) do
+        if b.is_dir and not psc.contains(exclude, b.name) then
+            for _, m in ipairs(psc.glob(buckets_dir .. "/" .. b.name .. "/bucket/**/*.json") or {}) do
+                table.insert(entries, { bucket = b.name, path = m })
+                table.insert(paths, m)
+            end
+        end
+    end
+    local manifests = {}
+    if enable_tip then
+        manifests = psc.json_batch(paths)
+    end
+    return entries, manifests
+end
+
+local function add_bucket_apps(cs, entries, manifests, enable_tip, installed)
+    for _, e in ipairs(entries) do
+        local name = e.path:match("([^/\\]+)%.json$")
+        if name and name ~= "scoop" and not (installed and installed[name]) then
+            local app = e.bucket .. "/" .. name
+            if not psc.typed(app) then
+                local tip = ""
+                if enable_tip then tip = manifest_tip(manifests[e.path]) end
+                psc.add(cs, { name = app, tip = tip, symbol = "stay" })
+            end
+        end
+    end
+end
+
 local cs = {}
 
 if psc.current.option_like then
@@ -76,7 +107,6 @@ if not root then
 end
 local global = psc.env("SCOOP_GLOBAL") or config.global_path
 
-local installed = {}
 local apps_dirs = {}
 if psc.exist(root .. "/apps") then
     table.insert(apps_dirs, root .. "/apps")
@@ -85,45 +115,30 @@ if global and psc.exist(global .. "/apps") then
     table.insert(apps_dirs, global .. "/apps")
 end
 
-for _, d in ipairs(apps_dirs) do
-    for _, e in ipairs(psc.ls(d) or {}) do
-        installed[e.name] = true
-    end
-end
-
-local exclude_buckets = {}
 local buckets_dir = root .. "/buckets"
-local enable_tip = not (psc.config.enable_hooks_tip == 0)
 
-for b in (psc.config.exclude_buckets or ""):gmatch("[^|]+") do
-    table.insert(exclude_buckets, b)
-end
-
-for _, b in ipairs(psc.ls(buckets_dir) or {}) do
-    if b.is_dir then
-        local excluded = false
-        for _, x in ipairs(exclude_buckets) do
-            if b.name == x then
-                excluded = true
-                break
-            end
-        end
-        if not excluded then
-            for _, m in ipairs(psc.glob(buckets_dir .. "/" .. b.name .. "/bucket/**/*.json") or {}) do
-                local name = m:match("([^/\\]+)%.json$")
-                if name and name ~= "scoop" and not installed[name] then
-                    local app = b.name .. "/" .. name
-                    if not psc.typed(app) then
-                        local tip = ""
-                        if enable_tip then
-                            tip = manifest_tip(m)
-                        end
-                        psc.add(cs, { name = app, tip = tip, symbol = "stay" })
-                    end
-                end
+local function list_app_dirs()
+    local out = {}
+    for _, d in ipairs(apps_dirs) do
+        for _, e in ipairs(psc.ls(d) or {}) do
+            if e.is_dir and e.name ~= "scoop" and psc.exist(d .. "/" .. e.name .. "/current/manifest.json") then
+                table.insert(out, e.name)
             end
         end
     end
+    return out
 end
+
+local exclude = {}
+for x in (psc.config.exclude_buckets or ""):gmatch("[^|]+") do
+    table.insert(exclude, x)
+end
+local enable_tip = not (psc.config.enable_hooks_tip == 0)
+local entries, manifests = bucket_manifests(buckets_dir, exclude, enable_tip)
+local installed = {}
+for _, name in ipairs(list_app_dirs()) do
+    installed[name] = true
+end
+add_bucket_apps(cs, entries, manifests, enable_tip, installed)
 
 return psc.merge(cs)
