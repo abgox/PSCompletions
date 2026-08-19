@@ -64,47 +64,29 @@ PSCompletions/
 
 ## How It Works
 
-Every command has its own **completion context** — what appears in its menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level. The engine builds a tree from the manifest; selecting a subcommand moves **into its context**, selecting an option stays (unless the option has `next`/`option`). See **`design/completion.md`** for the full system: context inheritance, option resolution (bubbling), the resolve walk, repeat filtering, and the manifest format.
+Every command has its own **completion context** — what appears in its menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level. The engine builds a tree from the manifest; selecting a subcommand moves **into its context**, selecting an option stays (unless the option has `next`/`option`).
 
-The parts you need when writing a manifest:
+> **For the full system** — context inheritance, option resolution (bubbling), the resolve walk, repeat filtering, predict symbols, and the manifest format — read **`design/completion.md`**. It is the authoritative reference. The rest of this section summarizes what you need to know when writing a manifest.
 
-Each menu item may carry a **predict symbol** showing how applying it changes the context:
+**Key rules for writing `next`:**
 
-| Symbol | Config item | Meaning |
-| --- | --- | --- |
-| `~` | `switch` | Apply → **switch a new context** (subcommand layer / candidate-value layer); the menu content changes |
-| `?` | `stay` | Apply → **stay in the current context** (options, global options, multi-select values, or value input that stays in place) |
-| — | — | No symbol: **nothing more to pick** (except the always-available `global_option`); a value that must be typed is conveyed by the `usage` placeholder |
+> **Decision flowchart — when writing `next` for an item:**
+>
+> ```
+> Is this item a command (inside a next array)?
+>   YES → next must be [...] (non-empty). No sub-subcommands? Omit next entirely.
+>         NEVER use next: [] (empty array is forbidden for commands).
+>   NO  → Is this item an option (inside option / global_option)?
+>     YES → Does it take a value (has usage <...>)?
+>       YES → Add next: [...] (if candidates exist) or next: [] (if free-form).
+>       NO  → Omit next (boolean flag).
+> ```
 
-An item's `next` field tells the engine what follows it. **It means different things for commands vs options**:
+**Summary** (see `design/completion.md` for the full symbol logic):
 
-| `next` | Command | Option |
-| --- | --- | --- |
-| `[...]` (non-empty) | subcommand layer → `~` | static candidate values; selecting one records it as the option's `value`, an out-of-list word is `unknown` → `~` |
-| `[]` (empty) | **not allowed** | no static candidates; hooks may supply dynamic items and set the symbol via `psc.set_symbol` — otherwise the value is typed manually and is `unknown` → no automatic symbol |
-
-A **command's** `next` is only its subcommand layer — it never "takes a value". A command's
-argument value (e.g. `git add <path>`) is expressed by the `usage` placeholder, never by `next`.
-
-An **option's** `next` means "this option consumes a value": a non-empty array offers static
-candidates; an empty array says "no static candidates" (hooks may provide them dynamically).
-
-The symbol rules above apply to **commands**. Options differ in one way: an option **without a
-candidate array** (`next: []` or no `next`) shows `stay` (`?`) — even when it takes a value —
-because selecting it keeps the current context while the value is typed. An option **with a
-non-empty candidate array** shows `switch` (`~`): selecting it switches into the candidate-value
-layer.
-
-**An empty array `[]` is not allowed for a command's `next`** (commands only ever have a
-subcommand layer or nothing). For an **option**, `next: []` is allowed and means "no static
-candidates" — dynamic children are added by `hooks.lua`, and the item's predict symbol is set
-explicitly: on a hook-added item via `psc.add(cs, { symbol = ... })`, or on a static item (in
-the current context) via `psc.set_symbol(name, symbol)`. Multi-select dynamic values should be
-marked `stay` only while more remain (the hook checks the remaining count).
-
-The manifest is **data, not code** — `tip`/`usage`/`example` are plain text; dynamic tip content is produced by `hooks.lua`.
-
-> See also: [Completion Context](https://pscompletions.abgox.com/en-us/docs/completion-context) — the core concept behind how the completion menu is built.
+- For commands, `next: []` (empty array) is **forbidden** — either use `next: [...]` (non-empty) or omit the field entirely.
+- For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). The engine auto-assigns `stay` (`?`) to such options. Hooks may override via `psc.set_symbol`.
+- These are opposite rules — don't mix them up.
 
 **Example — the `git` experience:**
 
@@ -112,7 +94,7 @@ The manifest is **data, not code** — `tip`/`usage`/`example` are plain text; d
 git <Tab>             → add, branch, checkout, commit, ...   (next)
 git add <Tab>         → --all, --patch, --dry-run, ...       (add's option)
 git stash <Tab>       → apply, pop, show, ...                (stash's next)
-git stash apply <Tab> → stash names supplied by hooks        (next: [])
+git stash apply <Tab> → stash names supplied by hooks        (dynamic via psc.add)
 ```
 
 ## Workflow (follow this order every time)
@@ -120,10 +102,13 @@ git stash apply <Tab> → stash names supplied by hooks        (next: [])
 1. **Generate scaffold**: `.\scripts\create-completion.ps1 <command>`
 2. **Collect CLI info** (see "Collecting Command Info" below)
 3. **Write `en-US.json`**, following the [JSON Schema](./schema/completion-manifest.en-US.json) — after writing, review it against the schema field definitions
-4. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
-5. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 4 until clean
-6. **Translate to `zh-CN.json`**
-7. **Run again**: `.\scripts\compare-json.ps1 <command>`
+4. **Self-check** — before running any tool, verify the two `next` rules manually:
+   - [ ] Every item inside a `next` array (commands) does **NOT** have `"next": []`
+   - [ ] Every item inside an `option` / `global_option` array that has `usage <...>` **does** have a `"next"` field (either `[]` or `[...]`)
+5. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
+6. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 5 until clean
+7. **Translate to `zh-CN.json`**
+8. **Run again**: `.\scripts\compare-json.ps1 <command>`
 
 ### Collecting Command Info
 
@@ -174,13 +159,13 @@ completions/<command>/
     └── zh-CN.json        # Template content, needs full rewrite
 ```
 
-The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` (see [Dynamic Hooks](#dynamic-hooks-lua) / `design/hooks.md`) and set `"hooks": true` in `config.json`; there is no hooks template — every hook is bespoke.
+The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` (see [Dynamic Hooks](#dynamic-hooks-lua) / `design/hooks.md`) and set `"hooks": true` in `config.json`; there is no automatic hooks generation — every hook is bespoke.
 
 Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (dynamic tips via hooks), or any simple tool like `completions/fd/`.
 
 ## Completion Data Structure
 
-> **Read the [JSON Schema](./schema/completion-manifest.en-US.json) first.** It is the strict, actually validated definition. This document explains _how to understand_ the fields.
+> **Read the [JSON Schema](./schema/completion-manifest.en-US.json) first.** It is the strict, actually validated definition. For the full field-by-field reference — `next` semantics, `option` vs `global_option`, predict symbols, and the manifest format — see **`design/completion.md`**. This section explains how to understand the fields through examples and practical rules.
 
 ### Minimal Example
 
@@ -207,6 +192,34 @@ Before writing, skim a few existing completions to match the house style — e.g
           "usage": ["-o, --output <DIR>"],
           "tip": ["Output directory"],
           "next": []
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "usage": ["deploy <ENV>"],
+      "tip": ["Deploy to a target environment."],
+      "option": [
+        {
+          "name": "--tag",
+          "usage": ["--tag <TAG>"],
+          "tip": ["Image tag to deploy."],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": ["Preview the deploy without applying."]
+        }
+      ],
+      "next": [
+        {
+          "name": "status",
+          "tip": ["Show deployment status."]
+        },
+        {
+          "name": "rollback",
+          "usage": ["rollback <VERSION>"],
+          "tip": ["Revert to a previous version."]
         }
       ]
     }
@@ -245,6 +258,14 @@ Before writing, skim a few existing completions to match the house style — e.g
 **Key points**:
 
 - `build`'s `option` is options specific to the `build` subcommand (e.g., `-o`)
+- `build` has **no `next` field** — it's a command, and commands must not have `next: []` (empty). If it had sub-subcommands, they'd go in a non-empty `next: [...]`.
+- `--output` (an option) **does** have `next: []` — it takes a value but has no static candidates. This is correct.
+- `deploy` shows a **nested scenario**: a command that has both `option` (for its own flags like `--tag`) and `next` (for its sub-subcommands like `status`, `rollback`). Note:
+  - `deploy` itself has no `next: []` — correct, it's a command.
+  - `--tag` has `next: []` — correct, it's an option taking a free-form value.
+  - `--dry-run` has no `next` — correct, it's a boolean flag (no value).
+  - `status` has no `next` — correct, it's a leaf command with nothing after it.
+  - `rollback` has no `next` — correct, its value is expressed by `usage <VERSION>`, not by `next`.
 - Top-level `option` is root-level options (available before any subcommand, e.g., `--version`)
 - `global_option` is available at all levels (e.g., `--help`)
 - `repeat: 2` means the option can appear up to twice; use `repeat: 99` only when the exact limit is unknown
@@ -271,65 +292,17 @@ Before writing, skim a few existing completions to match the house style — e.g
   disabled by default (install writes `enable_hooks=0`; users enable it with
   `psc completion <name> enable_hooks 1`). Omit when there is no `hooks.lua`.
 
-### Top-Level Fields
+### Manifest Field Summary
 
-| Field | Required | Description |
-| --- | --- | --- |
-| `meta` | Yes | Completion metadata (url, description) |
-| `next` | No | Subcommand list |
-| `option` | No | Root-level options (available before any subcommand) |
-| `global_option` | No | Global options (available at all levels) |
-| `config` | No | Completion's own configurable settings (advanced) |
-| `info` | No | Extra info, exposed to hooks via `psc.manifest.info` |
+For the full field definitions (`meta`, `next`, `option`, `global_option`, `config`, `info`) and their semantics, see **`design/completion.md`**. The key points when writing:
 
-**Empty arrays must be removed entirely** — don't keep `"option": []`.
-
-The `config` and `info` fields are advanced. For real usage, see [Json file structure](https://pscompletions.abgox.com/en-us/docs/completion/json) and the `completions/git/` completion.
-
-### `tip` is plain text
-
-`tip`/`usage`/`example`/`description` are **plain text**. Dynamic tip content (live values,
-file reads) is produced by the completion's `hooks.lua`, which renders the final text when the
-menu is built (see `design/hooks.md`; `completions/scoop/` shows a live-value example).
-
-### `next` — Subcommand List
-
-```jsonc
-{
-  "name": "install",           // Required: the longest/full name
-  "alias": ["i"],              // Optional: remaining shorter names
-  "usage": ["install [FLAGS] [TOOL@VERSION]..."],  // Optional: usage line
-  "tip": ["Install a tool version"],               // Optional: description line
-  "option": [...], // Optional: options for this subcommand
-  "next": [...]    // Optional: next-level completions (sub-subcommands or argument values)
-}
-```
-
-- `name`: Longest/full form. Must be wrapped in quotes if it contains spaces.
-- `alias`: All remaining shorter forms. Don't put short forms in `name` or long forms in `alias`.
-  When forms are equal in length, `name` is the canonical/official primary form; synonyms of
-  equal length go in `alias` (e.g. `git am` → name `--continue`, alias `--resolved`; `svn` →
-  name `delete`, alias `remove`).
-
-> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `usage` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the usage order is not a mistake.
-
-- `option`: **Options specific to this subcommand**, only shown after typing `<command> install`.
-- `next`: Arguments/sub-subcommands for this subcommand.
-
-### `option` — Options
-
-```json
-{
-  "name": "--force",
-  "alias": ["-f"],
-  "usage": ["-f, --force"],
-  "tip": ["Force reinstall even if already installed"]
-}
-```
+> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `usage` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the usage order is not a mistake. If a `name` or `alias` contains spaces, wrap it in quotes: `"hello world"` or `'hello world'` (see the JSON Schema for validation).
 
 **Boolean options** (no value needed): Don't include `next` field.
 
-**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: []`. See the `next` field rules below. **A value-taking option must declare `next` regardless of whether it has a `usage` placeholder** — the `compare-json` check keys on `usage <...>`, so an option with only a tip (e.g. `dotnet --roll-forward`) would otherwise be treated as a boolean switch and go unflagged.
+**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: []`. **A value-taking option must declare `next` regardless of whether it has a `usage` placeholder** — the `compare-json` check keys on `usage <...>`, so an option with only a tip (e.g. `dotnet --roll-forward`) would otherwise be treated as a boolean switch and go unflagged.
+
+> **Summary**: For commands, `next: []` (empty array) is **forbidden** — either use `next: [...]` (non-empty) or omit the field entirely. For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). These are opposite rules — don't mix them up.
 
 **Repeatable options**: Add `"repeat": N` where N is the max number of times the option can appear. Use a specific number when known (e.g., `2` for `-v -v`); use `99` only when the limit is unknown or effectively unlimited:
 
@@ -346,45 +319,7 @@ menu is built (see `design/hooks.md`; `completions/scoop/` shows a live-value ex
 }
 ```
 
-### `next` Field
-
-The rules here are for **options** (a command's `next` is only its subcommand layer — a non-empty
-array; see the table above). An **option's** `next` says "this option consumes a value":
-
-- `next: []`: The option consumes a value with **no static candidates** — the user types it
-  manually (e.g., a path, an arbitrary string). No automatic symbol is shown (no candidates);
-  the need for a value is conveyed by the `usage` placeholder. Hooks may supply dynamic
-  candidates via `psc.add` and set the symbol via `psc.set_symbol(name, "switch")`.
-- `next: [...]`: A list of values to complete from. Use it in two cases:
-  - **Fixed allowed values** — the help text enumerates them (an enum). List all of them. If a tip line already lists them (e.g. "Valid values: a, b, c" or `[a|b|c]`), mirror them into `next: [...]` so the menu can complete them instead of leaving them tip-only.
-  - **Deterministic examples** — the value isn't an enumerated set but has a known shape (status codes, numbers, IDs, time formats). Provide a few representative examples so the user can pick one instead of typing blindly; the module offers them as completions but the user can still type any value. E.g. `--status-code` → `[200, 404, 500]`, `--limit <N>` → `[1, 2]`, `--since <TIME>` → `["2024-01-01", "1h"]`.
-
-Prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values.
-
-```json
-{
-  "name": "--format",
-  "usage": ["--format <FORMAT>"],
-  "tip": ["Output format"],
-  "next": [
-    { "name": "json", "tip": ["JSON format"] },
-    { "name": "yaml", "tip": ["YAML format"] },
-    { "name": "table", "tip": ["Table format"] }
-  ]
-}
-```
-
-If `hooks: true` is enabled, `hooks.lua` dynamically generated completions are **appended** to the static array, not replaced.
-
-### `option` vs `global_option`
-
-| Availability | Where to put |
-| --- | --- |
-| Only at root level (e.g., `--version`) | `option` |
-| At root AND all subcommands (e.g., `--help`) | `global_option` |
-| Only for specific subcommands | That subcommand's `option` array |
-
-Don't put the same option in both `option` and `global_option`. Subcommand's own `option` inherits `global_option` — no need to repeat.
+**`next` for options** — prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values. If `hooks: true` is enabled, `hooks.lua` dynamically generated completions are **appended** to the static array, not replaced. See `design/completion.md` for the full `next` semantics.
 
 **Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
 
@@ -459,7 +394,8 @@ Leaf values inside a `next` array follow the same rules as commands: with an ali
 - [ ] Every option of every subcommand is captured, not just top-level `--help` options
 - [ ] Any option with fixed allowed values uses `next: [...]`, not `next: []`
 - [ ] Options whose value has a known shape (status codes, numbers, times, IDs) provide example values via `next: [...]`, not `next: []`
-- [ ] `next: []` is only used when `config.json` has `hooks: true`
+- [ ] `next: []` is only on **option** entries (commands must NEVER have `next: []` (empty) — omit the field entirely)
+- [ ] Every option with `usage <...>` has a `next` field (either `next: []` or `next: [...]`)
 - [ ] No duplicate `name` in any array (check `next`, `option`, `global_option`)
 - [ ] No option appears in both a subcommand's `option` and `global_option`
 - [ ] `repeat` only on `option`/`global_option` entries, only when CLI actually allows repetition
@@ -474,6 +410,144 @@ Leaf values inside a `next` array follow the same rules as commands: with an ali
 - [ ] `.\scripts\compare-json.ps1 <command>` runs clean
 
 All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run with `<command>` to check just one, or with `-All` to check every completion (slower). Without arguments it checks only recently changed / uncommitted completions.
+
+## Common Errors (before/after)
+
+These are the most frequent mistakes when writing a completion. Each shows the wrong version and the fix.
+
+### Error 1: `next: []` on a command
+
+**Wrong** — `delete` is a command, but has `next: []`:
+```json
+{
+  "name": "delete",
+  "usage": ["delete <NAME>"],
+  "tip": ["Delete an item."],
+  "next": []
+}
+```
+
+**Correct** — commands must not have `next: []`. If it has no sub-subcommands, omit `next` entirely:
+```json
+{
+  "name": "delete",
+  "usage": ["delete <NAME>"],
+  "tip": ["Delete an item."]
+}
+```
+
+If it has sub-subcommands, use a non-empty array:
+```json
+{
+  "name": "delete",
+  "usage": ["delete <NAME>"],
+  "tip": ["Delete an item."],
+  "next": [
+    { "name": "force", "tip": ["Force delete."] },
+    { "name": "interactive", "tip": ["Confirm before deleting."] }
+  ]
+}
+```
+
+### Error 2: Option with `usage <...>` but no `next`
+
+**Wrong** — `--output` takes a value (`<DIR>`), but has no `next` field:
+```json
+{
+  "name": "--output",
+  "alias": ["-o"],
+  "usage": ["-o, --output <DIR>"],
+  "tip": ["Output directory"]
+}
+```
+
+**Correct** — an option that takes a value must have `next`. Use `next: []` for free-form values:
+```json
+{
+  "name": "--output",
+  "alias": ["-o"],
+  "usage": ["-o, --output <DIR>"],
+  "tip": ["Output directory"],
+  "next": []
+}
+```
+
+Or `next: [...]` if there are known candidates:
+```json
+{
+  "name": "--format",
+  "usage": ["--format <FMT>"],
+  "tip": ["Output format."],
+  "next": [
+    { "name": "json", "tip": ["JSON"] },
+    { "name": "yaml", "tip": ["YAML"] },
+    { "name": "text", "tip": ["Plain text"] }
+  ]
+}
+```
+
+### Error 3: Boolean flag with meaningless `usage`
+
+**Wrong** — `--dry-run` has no alias and no value; `usage` just repeats the name:
+```json
+{
+  "name": "--dry-run",
+  "usage": ["--dry-run"],
+  "tip": ["Dry run."]
+}
+```
+
+**Correct** — boolean flags without aliases don't need `usage`:
+```json
+{
+  "name": "--dry-run",
+  "tip": ["Dry run."]
+}
+```
+
+### Error 4: Subcommand alias using `,` instead of `|`
+
+**Wrong**:
+```json
+{
+  "name": "remove",
+  "alias": ["rm"],
+  "usage": ["rm, remove <NAME>"],
+  "tip": ["Remove an item."]
+}
+```
+
+**Correct** — subcommands use `|`:
+```json
+{
+  "name": "remove",
+  "alias": ["rm"],
+  "usage": ["rm|remove <NAME>"],
+  "tip": ["Remove an item."]
+}
+```
+
+### Error 5: Usage shows long form first
+
+**Wrong**:
+```json
+{
+  "name": "--force",
+  "alias": ["-f"],
+  "usage": ["--force, -f"],
+  "tip": ["Force action."]
+}
+```
+
+**Correct** — short form first:
+```json
+{
+  "name": "--force",
+  "alias": ["-f"],
+  "usage": ["-f, --force"],
+  "tip": ["Force action."]
+}
+```
 
 ## Tooling & Environment
 
@@ -503,15 +577,7 @@ A new config key touches several places — follow the full chain:
 
 Use hooks when a static list can't know the real values at authoring time — they depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars). Dynamic items are **merged** with the static JSON items, not a replacement.
 
-> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules. Every hook is bespoke; there is no template.
-
-Essential contract to get started:
-
-- Every `hooks.lua`'s **top-level body** is the completion logic: `completions` is a global preset
-  with the parsed static data, and the body's top-level `return` is the merged array (returning
-  `nil` keeps static items only). There is no wrapper function.
-- Inside it, the `psc` table exposes: context values (`psc.tokens`, `psc.current`, `psc.cmds`, `psc.opts`, `psc.config`, `psc.manifest`, `psc.language`, `psc.cwd`, `psc.platform`) and capabilities (`psc.run`, `psc.read`, `psc.ls`, `psc.glob`, `psc.json`, `psc.add`, `psc.items`, `psc.merge`, ...). Pure helpers (e.g. `psc.typed_unknown`, `psc.has_unknown`, `psc.contains`) are injected via the prelude. **Items use the `name` key everywhere** (`text` is an engine-internal field).
-- Common pattern: return early when the user is typing an option (`psc.current.option_like`), then branch on `psc.cmds[1]` to add context-specific values.
+> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules.
 
 If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
 

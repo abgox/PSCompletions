@@ -324,11 +324,13 @@ default as follows (see `design/psc-cli.md` for the full inventory). Boolean key
 result** (static resolve + hook output) so re-opening the same menu within 10 s skips the
 rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 600 ms).
 
-- **Signature** = hash of `cmd` + `arg_tokens` + `treat_last_as_complete` + `manifest` path +
-  `manifest` mtime + `hooks.lua` mtime + `cwd` + the per-completion `config` (the same value
-  exposed to hooks as `psc.config`; the global config is not part of the signature). `hooks.lua`'s
-  *path* is excluded (it is fixed per completion, implied by `cmd`); its *mtime* is included so an
-  updated hook invalidates stale results. `manifest` includes the language variant (en-US vs zh-CN).
+- **Signature** = hash of `cmd` + `arg_tokens` + `treat_last_as_complete` + `hooks` (boolean,
+  whether hooks run at all) + `manifest` path + `manifest` mtime + `hooks.lua` mtime + `cwd` +
+  per-completion `config` (the same value exposed to hooks as `psc.config`) + `global_config`
+  (e.g. `language`, which hooks read for localized tips) + data file mtimes (`settings.json` /
+  `completions.json`, to invalidate when installed completions change). `hooks.lua`'s *path* is
+  excluded (it is fixed per completion, implied by `cmd`); its *mtime* is included so an updated
+  hook invalidates stale results. `manifest` includes the language variant (en-US vs zh-CN).
 - **Storage**: one JSON file per signature (`created` + items) in `temp/cache/<hash>.json`.
   Hashes keep file names fixed-size and free of path separators.
 - **TTL**: 10 s from the file's `created` timestamp (never refreshed by hits). Expired files are

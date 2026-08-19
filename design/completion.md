@@ -74,12 +74,18 @@ Each menu item may carry a **predict symbol** showing how applying it changes th
 | `?` | `stay` | Apply → **stay in the current context** (options, global options, multi-select values, or value input that stays in place) |
 | — | — | Nothing more to pick (except the always-available `global_option`); a value that must be typed is conveyed by the `usage` placeholder |
 
-**Engine judgement** (`node_symbols`): a node with a **non-empty** `next`/`option` **array** →
-`switch`; an option without such an array → `stay`; a command with nothing after it → no symbol.
-An **empty** `next: []` option carries no static candidates → **no automatic switch** (hooks
-provide dynamic items and set the symbol via `psc.set_symbol`); the value is typed manually and
-is `unknown`. A command's `next` is only its subcommand layer (a non-empty array); a command's
-argument value is expressed by the `usage` placeholder, never by `next`.
+**Engine judgement** (`node_symbols`): the symbol depends on whether the item has static
+candidates (a non-empty `next` or `option` array) and whether it is a command or option:
+
+- **Item with a non-empty `next` or `option`** → `switch` (`~`): selecting it switches into the subcommand layer or candidate-value layer.
+- **Option with no static candidates** (`next: []`, `option: []`, or neither field present) → `stay` (`?`): selecting it keeps the current context while the value is typed.
+- **Command with no static candidates** (no `next`/`option`, or both empty) → no symbol: nothing more to pick.
+- **`next: []` on a command** → **forbidden** — commands only have subcommand layers (`[...]`) or nothing.
+
+**Dynamic symbols**: an option with `next: []` automatically gets `stay` (`?`) from the
+engine. Hooks may override this via `psc.set_symbol(name, symbol)`, or add dynamic items via
+`psc.add(cs, { symbol = ... })`. Multi-select dynamic values should be marked `stay` only
+while more remain (the hook checks the remaining count).
 
 **Display**: the item's `symbol` is a **config key** (`switch`/`stay`). In build mode the
 engine maps it to a display character through `context_switch` / `context_stay`
@@ -87,12 +93,6 @@ engine maps it to a display character through `context_switch` / `context_stay`
 longer prints the symbol on every item — it shows **the current selected item's** symbol next
 to the counter (zero-padded to the total's width, e.g. `03/15 ~`), so the list stays clean
 and the symbol follows the selection.
-
-**Dynamic symbols**: an empty `next: []` is **not allowed**. Dynamic children are added by
-`hooks.lua`, and the symbol is set explicitly: on a hook-added item via `psc.add(cs, { symbol = ... })`,
-or on a static item (in the current context) via `psc.set_symbol(name, symbol)`. Multi-select
-dynamic values should be marked `stay` only while more remain (the hook checks the remaining
-count).
 
 ## 4. Repeat filtering
 
@@ -139,9 +139,13 @@ Top-level manifest fields:
 
 | `next` value | Meaning | Predict symbol |
 | --- | --- | --- |
-| `0` | An arbitrary value the user types manually (path, string) | — (no candidates; `usage` shows the placeholder) |
-| `[...]` | A fixed list of values to complete from | `~` |
-| (empty array) | **Not allowed** — dynamic children come from `hooks.lua` + explicit symbol | set via `psc.add` / `psc.set_symbol` |
+| `[...]` (non-empty) | A fixed list of values to complete from | `~` |
+| `[]` (empty) | **Options only** — no static candidates; user types manually (path, string). Hooks may add dynamic items via `psc.add` + `psc.set_symbol`. | `stay` (`?`); hooks may override via `psc.set_symbol` |
+| (omitted) | Command has no sub-subcommands; value is conveyed by `usage` placeholder | — |
+
+> **Rule**: `[]` (empty array) is **forbidden for commands** — commands only have a subcommand
+> layer (`[...]`) or nothing. `[]` is **allowed for options** — it means "this option takes a
+> free-form value with no static candidates".
 
 **`option` vs `global_option`**:
 
