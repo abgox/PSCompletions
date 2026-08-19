@@ -11,6 +11,7 @@
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
 |[aria2c](https://aria2.github.io)|轻量级多协议多源下载工具。|
+|[atac](https://github.com/Julien-cpsn/ATAC)|在终端中使用的简易 API 客户端|
 |[atuin](https://atuin.sh)|魔法 shell 历史记录<br>Atuin 使用 SQLite 数据库取代你现有的命令行历史记录，并为你的命令记录额外的上下文信息|
 |[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
 |[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
@@ -60,6 +61,7 @@
 |[duf](https://github.com/muesli/duf)|更好的 df 替代品，用于显示磁盘使用情况。|
 |[dufs](https://github.com/sigoden/dufs)|独特的实用文件服务器。|
 |[dust](https://github.com/bootandy/dust)|比 du 更直观。|
+|[eddy](https://github.com/70sh1/eddy)|简单快速的文件加密工具|
 |[env](https://uutils.org)|设置环境中的每个 NAME 为 VALUE 并运行 COMMAND。|
 |[esbuild](https://esbuild.github.io/)|极速 JavaScript 和 CSS 打包器与压缩器。|
 |[eslint](https://eslint.org)|可插拔的 JavaScript linter。|
@@ -110,10 +112,12 @@
 |[kubectx](https://github.com/ahmetb/kubectx)|在不同 Kubernetes 上下文之间切换（kubectl config use-context）。|
 |[kubens](https://github.com/ahmetb/kubens)|在不同 Kubernetes 命名空间之间切换。|
 |[kustomize](https://github.com/kubernetes-sigs/kustomize)|定制 kubernetes YAML 配置|
+|[lark-cli](https://github.com/larksuite/cli)|Lark/飞书 CLI 工具。|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
 |[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
 |[ln](https://uutils.org)|创建文件之间的链接。|
+|[lore](https://lore.org)|下一代开源版本控制系统。<br>专为大文件、大团队和可扩展工作流而设计。|
 |[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
@@ -139,6 +143,7 @@
 |[nrm](https://github.com/Pana/nrm)|npm 镜像源管理。|
 |[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
 |[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
+|[nub](https://nubjs.com/)|一体化 Node.js 工具包: 包管理器、脚本运行器和注册表客户端。|
 |[numfmt](https://uutils.org)|在数字和人类可读字符串之间转换。|
 |[nvim](https://neovim.io/)|专注于可扩展性和易用性的 Vim 分支。|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js 版本管理器。|

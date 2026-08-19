@@ -11,6 +11,7 @@
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
 |[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
+|[atac](https://github.com/Julien-cpsn/ATAC)|A simple API client in your terminal|
 |[atuin](https://atuin.sh)|Magical shell history.<br>Atuin replaces your existing shell history with a SQLite database, and records additional context for your commands.|
 |[aube](https://aube.jdx.dev)|A fast Node.js package manager|
 |[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
@@ -60,6 +61,7 @@
 |[duf](https://github.com/muesli/duf)|Better df alternative for displaying disk usage.|
 |[dufs](https://github.com/sigoden/dufs)|Distinctive utility file server.|
 |[dust](https://github.com/bootandy/dust)|Like du but more intuitive.|
+|[eddy](https://github.com/70sh1/eddy)|Simple and fast file encryption|
 |[env](https://uutils.org)|Set each NAME to VALUE in the environment and run COMMAND.|
 |[esbuild](https://esbuild.github.io/)|Extremely fast JavaScript and CSS bundler and minifier.|
 |[eslint](https://eslint.org)|Pluggable JavaScript linter.|
@@ -110,10 +112,12 @@
 |[kubectx](https://github.com/ahmetb/kubectx)|Switch between Kubernetes contexts (kubectl config use-context).|
 |[kubens](https://github.com/ahmetb/kubens)|Switch between Kubernetes namespaces.|
 |[kustomize](https://github.com/kubernetes-sigs/kustomize)|Customize kubernetes YAML configurations|
+|[lark-cli](https://github.com/larksuite/cli)|Lark/Feishu CLI tool.|
 |[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
 |[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
 |[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
 |[ln](https://uutils.org)|Make links between files.|
+|[lore](https://lore.org)|Next-generation, open-source version control system.<br>Designed for large files, large teams, and scalable workflows.|
 |[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
@@ -139,6 +143,7 @@
 |[nrm](https://github.com/Pana/nrm)|npm registry manager.|
 |[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
 |[nu](https://github.com/nushell/nushell)|The nushell language and shell|
+|[nub](https://nubjs.com/)|The all-in-one Node.js toolkit: package manager, script runner and registry client.|
 |[numfmt](https://uutils.org)|Convert numbers from/to human-readable strings.|
 |[nvim](https://neovim.io/)|Vim-fork focused on extensibility and usability.|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js Version Manager.|
