@@ -1,0 +1,7456 @@
+{
+  "meta": {
+    "url": "https://nubjs.com/",
+    "description": [
+      "The all-in-one Node.js toolkit: package manager, script runner and registry client."
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|add <package>..."
+      ],
+      "tip": [
+        "Add dependencies to package.json and install them."
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build=<PKG>"
+          ],
+          "tip": [
+            "Pre-approve a dependency's lifecycle scripts.",
+            "Repeatable. Conflicts with --no-save and --deny-build."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--allow-low-downloads",
+          "tip": [
+            "Bypass the lowDownloadThreshold confirm prompt / refusal.",
+            "Does not affect the OSV malicious-package check."
+          ]
+        },
+        {
+          "name": "--deny-build",
+          "usage": [
+            "--deny-build=<PKG>"
+          ],
+          "tip": [
+            "Mark a dependency's lifecycle scripts as reviewed and denied.",
+            "Repeatable. Conflicts with --no-save and --allow-build."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install the package globally.",
+            "Installs into the pnpm global directory and links its binaries."
+          ]
+        },
+        {
+          "name": "--ignore-workspace-root-check",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --ignore-workspace-root-check"
+          ],
+          "tip": [
+            "Allow add to run in a workspace root."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "Install without persisting the dependency to package.json.",
+            "Conflicts with -g/--global."
+          ]
+        },
+        {
+          "name": "--no-save-workspace-protocol",
+          "tip": [
+            "Force the manifest specifier into a registry-style spec.",
+            "Inverse of --save-workspace-protocol."
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "Save the new dependency into the workspace's default catalog.",
+            "Conflicts with --no-save."
+          ]
+        },
+        {
+          "name": "--save-catalog-name",
+          "usage": [
+            "--save-catalog-name <NAME>"
+          ],
+          "tip": [
+            "Save the new dependency into a named catalog.",
+            "Conflicts with --no-save."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "Add as a dev dependency."
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "Pin the exact resolved version (no ^ prefix)."
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "Add as an optional dependency."
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "Add as a peer dependency (written to peerDependencies).",
+            "Usually paired with --save-dev."
+          ]
+        },
+        {
+          "name": "--save-workspace-protocol",
+          "tip": [
+            "Force the manifest specifier into workspace: form.",
+            "Only meaningful when linkWorkspacePackages matches."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "Add the dependency to the workspace root's package.json."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "approve-builds",
+      "usage": [
+        "approve-builds [<pkg>...]"
+      ],
+      "tip": [
+        "Approve dependencies to run build scripts.",
+        "With names, approve directly and skip the picker."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Approve every pending ignored build without prompting."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Operate on globally-installed packages instead of the current project."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "Check installed packages for known vulnerabilities."
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "usage": [
+            "--audit-level <LEVEL>"
+          ],
+          "tip": [
+            "Only print advisories at or above this severity.",
+            "Default: low."
+          ],
+          "next": [
+            {
+              "name": "critical",
+              "tip": [
+                "Critical severity."
+              ]
+            },
+            {
+              "name": "high",
+              "tip": [
+                "High severity."
+              ]
+            },
+            {
+              "name": "low",
+              "tip": [
+                "Low severity.",
+                "Default."
+              ]
+            },
+            {
+              "name": "moderate",
+              "tip": [
+                "Moderate severity."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only audit devDependencies."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "usage": [
+            "--fix[=<fix>]"
+          ],
+          "tip": [
+            "Fix advisories.",
+            "Bare --fix writes overrides; --fix=update refreshes the lockfile."
+          ],
+          "next": [
+            {
+              "name": "override",
+              "tip": [
+                "Write package.json overrides that force patched versions."
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "Refresh the lockfile to patched versions allowed by existing ranges."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <ID>"
+          ],
+          "tip": [
+            "Drop advisories whose ID matches.",
+            "Repeatable; comma-separated values accepted."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-registry-errors",
+          "tip": [
+            "Use exit code 0 if the registry responds with an error.",
+            "Useful when audit runs in CI."
+          ]
+        },
+        {
+          "name": "--ignore-unfixable",
+          "tip": [
+            "Drop advisories that have no non-vulnerable upgrade."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Pick which advisories to fix interactively."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit the report as JSON instead of a table."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Skip optionalDependencies."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Only audit dependencies and optionalDependencies."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "bin",
+      "tip": [
+        "Print the project's bin directory."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Print the global bin directory instead of the project's."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <command>"
+      ],
+      "tip": [
+        "Manage the metadata cache."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <pattern>..."
+          ],
+          "tip": [
+            "Delete metadata cache for the specified package(s).",
+            "Supports glob patterns."
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [<pattern>...]"
+          ],
+          "tip": [
+            "List the available packages in the metadata cache."
+          ]
+        },
+        {
+          "name": "list-registries",
+          "tip": [
+            "List configured registries from the project + user .npmrc."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove stale extracted primer files from the metadata cache."
+          ],
+          "option": [
+            {
+              "name": "--age-days",
+              "usage": [
+                "--age-days <AGE_DAYS>"
+              ],
+              "tip": [
+                "Minimum age in days before an old primer file is removed.",
+                "Default: 30."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Do not actually delete anything."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <name>"
+          ],
+          "tip": [
+            "View the cached metadata for a single package."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Dump the raw on-disk cache JSON instead of a summary."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat-file",
+      "usage": [
+        "cat-file <hash>"
+      ],
+      "tip": [
+        "Print the file for a content-addressable hash.",
+        "Accepts sha512-<base64> (pnpm integrity) or a raw hex CAS digest."
+      ]
+    },
+    {
+      "name": "cat-index",
+      "usage": [
+        "cat-index <package>"
+      ],
+      "tip": [
+        "Inspect a package index in name@version form.",
+        "An exact version is required."
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "Check the project's install state."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit a JSON report instead of the human-readable list."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ci",
+      "tip": [
+        "Clean install for CI: delete node_modules, install strictly from the lockfile.",
+        "Drift or a missing lockfile is a hard error."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "Run as if started in <DIR>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip all lifecycle scripts (root and dependency)."
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root in recursive operations."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Skip optionalDependencies."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "alias": [
+        "c"
+      ],
+      "usage": [
+        "c|config <command>"
+      ],
+      "tip": [
+        "Manage configuration."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Also list settings that have no value set.",
+            "Only valid with --location merged."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit all entries as a JSON object keyed by setting name."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Shortcut for --location project.",
+            "Conflicts with --all."
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "Which config location(s) to list: merged, user, project, or global."
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "Alias for user."
+              ]
+            },
+            {
+              "name": "merged",
+              "tip": [
+                "Merge every runtime settings source, last-write-wins.",
+                "Default."
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "Project config sources."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User / global config sources."
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "alias": [
+            "remove",
+            "unset",
+            "rm"
+          ],
+          "usage": [
+            "rm|unset|remove|delete <key>"
+          ],
+          "tip": [
+            "Delete a key from nub config or the selected .npmrc file."
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "Shortcut for --location project."
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "Which config location to act on.",
+                "Default: user."
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "Alias for user."
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "Project .npmrc."
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "User config.",
+                    "Default."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "explain",
+          "usage": [
+            "explain <key>"
+          ],
+          "tip": [
+            "Explain a known setting, including defaults and supported config sources."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "Print the effective value of a key."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit the value as JSON."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Shortcut for --location project."
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "Which config location(s) to read.",
+                "Default: merged."
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "Alias for user."
+                  ]
+                },
+                {
+                  "name": "merged",
+                  "tip": [
+                    "Last-write-wins view.",
+                    "Default."
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "Project config."
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "User config."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "Print every key/value from nub config and selected .npmrc file(s)."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Also list settings that have no value set."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Emit all entries as a JSON object keyed by setting name."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Shortcut for --location project.",
+                "Conflicts with --all."
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "Which config location(s) to list.",
+                "Default: merged."
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "Alias for user."
+                  ]
+                },
+                {
+                  "name": "merged",
+                  "tip": [
+                    "Merge every runtime settings source.",
+                    "Default."
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "Project config."
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "User config."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "search",
+          "alias": [
+            "find"
+          ],
+          "usage": [
+            "find|search <query>..."
+          ],
+          "tip": [
+            "Search known settings by name, source key, or description."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "Write a key=value pair to nub config or the selected .npmrc file."
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "Shortcut for --location project."
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "Which config location to write to.",
+                "Default: user."
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "Alias for user."
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "Project .npmrc."
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "User config.",
+                    "Default."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tui",
+          "tip": [
+            "Browse known settings in an interactive terminal UI."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create <template> [args]..."
+      ],
+      "tip": [
+        "Fetch a template package and run its scaffold binary.",
+        "The first positional is the template; the rest are forwarded to create-<template>."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dedupe",
+      "tip": [
+        "Remove duplicated packages from the lockfile."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check whether dedupe would change the lockfile; don't write anything.",
+            "Exits non-zero when changes would be made (useful in CI)."
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "deprecate",
+      "usage": [
+        "deprecate <package> <message>"
+      ],
+      "tip": [
+        "Deprecate a package version (or every version).",
+        "An empty message clears an existing deprecation."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't PUT anything - print which versions would be touched and exit."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "One-time password from a 2FA authenticator; sent as npm-otp."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "deprecations",
+      "tip": [
+        "Inspect registry deprecations for installed packages."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "tip": [
+            "Exit with a non-zero status if any deprecations are found."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit JSON instead of the default text layout."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--transitive",
+          "tip": [
+            "Include transitive dependencies as well as direct ones."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dist-tag",
+      "usage": [
+        "dist-tag <add|ls|rm> ..."
+      ],
+      "tip": [
+        "Manage release dist-tags on a package."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <spec> [tag]"
+          ],
+          "tip": [
+            "Add or update a dist-tag on a package.",
+            "Spec must include a concrete version; tag defaults to latest."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "One-time password from a 2FA authenticator; sent as npm-otp."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls [package]"
+          ],
+          "tip": [
+            "List every dist-tag for a package.",
+            "Defaults to the current project's package.json name."
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove <package> <tag>"
+          ],
+          "tip": [
+            "Remove a dist-tag from a package."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "One-time password from a 2FA authenticator; sent as npm-otp."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dlx",
+      "usage": [
+        "dlx <bin> [args]..."
+      ],
+      "tip": [
+        "Run a tool, fetching it into a throwaway project on a local miss (npx / pnpm dlx)."
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build=<PKG>"
+          ],
+          "tip": [
+            "Allow named packages to run lifecycle scripts during the transient install.",
+            "Repeatable; equals form required."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <PACKAGE>"
+          ],
+          "tip": [
+            "Install a specific package.",
+            "Overrides inferring from the command. Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "Run the assembled command line through sh -c.",
+            "Use for pipelines, redirects, or env expansion."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <bin> [args]..."
+      ],
+      "tip": [
+        "Run a node_modules/.bin binary (same as nubx)."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "Run as if started in <DIR>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error if the filter selects zero packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTER>"
+          ],
+          "tip": [
+            "Filter workspace packages by name or glob.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Add the workspace root package to the recursive set."
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "Disable Nub's runtime augmentation for this invocation."
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run the bin in all packages concurrently with no topological ordering."
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--workspace",
+          "usage": [
+            "--workspace <NAME>"
+          ],
+          "tip": [
+            "npm-style member selection: alias for --filter <name>.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace-concurrency",
+          "usage": [
+            "--workspace-concurrency <N>"
+          ],
+          "tip": [
+            "Max concurrent packages per topological chunk."
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Run from the workspace root regardless of cwd."
+          ]
+        },
+        {
+          "name": "--workspaces",
+          "alias": [
+            "--recursive",
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive, --workspaces"
+          ],
+          "tip": [
+            "Run the bin in every workspace package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "Fetch packages into the content-addressable store."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only fetch devDependencies."
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Only fetch production + optional dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "find-hash",
+      "usage": [
+        "find-hash <hash>"
+      ],
+      "tip": [
+        "Locate which package(s) reference a content-addressable hash."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit machine-readable JSON instead of a plain text listing."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get <key>"
+      ],
+      "tip": [
+        "Print the effective value of a config key.",
+        "Accepts a pnpm canonical name or an .npmrc alias."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Emit the value as JSON.",
+            "A missing key renders as undefined."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Shortcut for --location project."
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "Which config location(s) to read.",
+            "Default: merged."
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "Alias for user."
+              ]
+            },
+            {
+              "name": "merged",
+              "tip": [
+                "Last-write-wins view.",
+                "Default."
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "Project config."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User config."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help <command>"
+      ],
+      "tip": [
+        "Show help for a command."
+      ]
+    },
+    {
+      "name": "ignored-builds",
+      "tip": [
+        "List currently-ignored dependency build scripts."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Operate on globally-installed packages instead of the current project."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "Generate a lockfile from another package manager's lockfile."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Overwrite an existing pnpm-lock.yaml."
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Write only the converted lockfile.",
+            "Kept as a no-op for compatibility."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install"
+      ],
+      "tip": [
+        "Install dependencies from package.json via the embedded engine.",
+        "Respects the project's existing lockfile."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Install only devDependencies."
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Re-resolve and relink even when the install state says up-to-date."
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Hard-fail if the lockfile is out of date.",
+            "Default in CI."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip all lifecycle scripts (root and dependency)."
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root in recursive operations."
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Resolve and write the lockfile, but skip linking node_modules."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Re-resolve and rewrite the lockfile even when it's stale."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Skip optionalDependencies."
+          ]
+        },
+        {
+          "name": "--node-linker",
+          "usage": [
+            "--node-linker <MODE>"
+          ],
+          "tip": [
+            "node_modules layout: isolated (pnpm-style) or hoisted (npm-style).",
+            "Overrides the lockfile-derived default."
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "npm-style node_modules layout."
+              ]
+            },
+            {
+              "name": "isolated",
+              "tip": [
+                "pnpm-style node_modules layout."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "Never hit the network; fail if a package isn't cached."
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale.",
+            "Default outside CI."
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Use cached packages when available, network otherwise."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Skip devDependencies; install only production deps."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation.",
+            "Overrides `registry` from .npmrc."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "List dependency licenses."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Show only devDependencies."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit a JSON array keyed by package instead of the default table."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Include the resolved path on disk for each package."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Show only production dependencies."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "alias": [
+        "ln"
+      ],
+      "usage": [
+        "ln|link [<package>]"
+      ],
+      "tip": [
+        "Link a local package (name or path to a local directory)."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Register into (or resolve from) the global link registry.",
+            "Default behavior for bare nub link."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls",
+        "la",
+        "ll"
+      ],
+      "usage": [
+        "ls|la|ll|list [<pattern>]"
+      ],
+      "tip": [
+        "List installed dependencies."
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "How deep to render the transitive tree.",
+            "0 shows only direct deps; 9999 shows the full graph."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Show only devDependencies."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages.",
+            "Default: warn and exit 0."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Supports exact names, globs, paths, graph and git-ref selectors.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter.",
+            "Graph walks skip devDependencies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "Output format: default, json, or parseable."
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "Human-readable tree."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON array of package entries."
+              ]
+            },
+            {
+              "name": "parseable",
+              "tip": [
+                "One tab-separated line per package."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "List globally-installed packages instead of the project's dependency tree."
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root alongside the selected packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Shortcut for --format json."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show version and path for each entry."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "Shortcut for --format parseable."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Show only production dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "Authenticate against the registry."
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "usage": [
+            "--auth-type <TYPE>"
+          ],
+          "tip": [
+            "Authentication flow: legacy (token paste) or web (OAuth).",
+            "Default: legacy."
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "Token paste flow.",
+                "Default."
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "OAuth flow against the registry."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <SCOPE>"
+          ],
+          "tip": [
+            "Scope to bind this registry to (e.g. @myorg)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "Clear the registry credentials."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <SCOPE>"
+          ],
+          "tip": [
+            "Scope whose registry mapping should also be removed (e.g. @myorg)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "usage": [
+        "node <command>"
+      ],
+      "tip": [
+        "Manage Node versions (install / ls / uninstall / pin)."
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [<version>...]"
+          ],
+          "tip": [
+            "Provision version(s) into nub's cache.",
+            "Bare: the project pin."
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List versions in nub's cache."
+          ]
+        },
+        {
+          "name": "pin",
+          "usage": [
+            "pin <version>"
+          ],
+          "tip": [
+            "Write the project's Node pin."
+          ]
+        },
+        {
+          "name": "uninstall",
+          "usage": [
+            "uninstall <version>"
+          ],
+          "tip": [
+            "Remove a version from nub's cache."
+          ]
+        },
+        {
+          "name": "which",
+          "tip": [
+            "Print the resolved Node binary path."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<pattern>]"
+      ],
+      "tip": [
+        "List dependencies with newer versions available."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Show only devDependencies."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages.",
+            "Default: warn and exit 0."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter.",
+            "Graph walks skip devDependencies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root alongside the selected packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit a JSON object keyed by package name instead of the default table."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Also show deps whose wanted version matches the installed version."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Show only production dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "--workspace",
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace, --workspace-root"
+          ],
+          "tip": [
+            "Operate on the workspace root regardless of cwd."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "usage": [
+        "owner <add|ls|rm> ..."
+      ],
+      "tip": [
+        "Manage package maintainers."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "One-time password from a 2FA authenticator (for add/rm)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package> <user>"
+          ],
+          "tip": [
+            "Add a maintainer to a package."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "One-time password from a 2FA authenticator."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list <package>"
+          ],
+          "tip": [
+            "List the maintainers of a package."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "One-time password from a 2FA authenticator."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove <package> <user>"
+          ],
+          "tip": [
+            "Remove a maintainer from a package."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "One-time password from a 2FA authenticator."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pack",
+      "tip": [
+        "Create a package tarball from the current package."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't write the tarball; print what would be packed."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip prepack / prepare / postpack lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print the result as a JSON object."
+          ]
+        },
+        {
+          "name": "--pack-destination",
+          "usage": [
+            "--pack-destination <DIR>"
+          ],
+          "tip": [
+            "Directory to write the tarball into.",
+            "Default: current directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "usage": [
+        "patch <name>@<version>"
+      ],
+      "tip": [
+        "Extract a package into a writable copy to author a patch.",
+        "The package must already be installed in node_modules."
+      ],
+      "option": [
+        {
+          "name": "--edit-dir",
+          "usage": [
+            "--edit-dir <DIR>"
+          ],
+          "tip": [
+            "Directory to extract the writable copy into.",
+            "Defaults to a fresh temp dir under the system tmpdir."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-existing",
+          "tip": [
+            "Ignore any existing patch entry for this package.",
+            "Extracts a pristine copy from node_modules."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch-commit",
+      "usage": [
+        "patch-commit <dir>"
+      ],
+      "tip": [
+        "Generate a .patch file from the edit directory printed by nub patch."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--patches-dir",
+          "usage": [
+            "--patches-dir <DIR>"
+          ],
+          "tip": [
+            "Where to write the generated .patch file, relative to the project root.",
+            "Default: patches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch-remove",
+      "usage": [
+        "patch-remove [<name>@<version>...]"
+      ],
+      "tip": [
+        "Remove declared patches.",
+        "With no arguments, every declared patch is removed."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "peers",
+      "usage": [
+        "peers <command>"
+      ],
+      "tip": [
+        "Check for unmet and missing peer-dependency issues."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "Check for unmet and missing peer-dependency issues by reading the lockfile.",
+            "Exits with status 1 if any issue is reported."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Emit a JSON report instead of the human-readable tree."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pkg",
+      "usage": [
+        "pkg <get|set|delete|fix> [args]..."
+      ],
+      "tip": [
+        "Manipulate package.json directly.",
+        "get/delete take keys; set takes key=value pairs; fix takes none."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Operate on the package.json in this directory.",
+            "Default: nearest project root, or the cwd."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "For set, parse each value as JSON.",
+            "For get of a single key, return its JSON-encoded form."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key>..."
+          ],
+          "tip": [
+            "Delete keys from package.json."
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "Repair common package.json problems."
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>..."
+          ],
+          "tip": [
+            "Print one or more keys from package.json."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key=value>..."
+          ],
+          "tip": [
+            "Set key=value pairs in package.json."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "usage": [
+        "pm <command>"
+      ],
+      "tip": [
+        "Manage the project's package manager."
+      ],
+      "next": [
+        {
+          "name": "cache",
+          "tip": [
+            "List cached package managers (or clear the cache)."
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "Clear the cached package managers."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shim",
+          "tip": [
+            "Link npm/pnpm/yarn shims into ~/.nub/shims.",
+            "Re-run after nub upgrade."
+          ]
+        },
+        {
+          "name": "unshim",
+          "tip": [
+            "Remove the shims and their PATH block."
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "up"
+          ],
+          "usage": [
+            "up|update"
+          ],
+          "tip": [
+            "Re-resolve within the pinned range and bump the pin."
+          ]
+        },
+        {
+          "name": "use",
+          "usage": [
+            "use <pm>[@<spec>]"
+          ],
+          "tip": [
+            "Declare the project's package manager (npm|pnpm|yarn|bun|nub).",
+            "Writes packageManager and aligns the lockfile."
+          ]
+        },
+        {
+          "name": "which",
+          "tip": [
+            "Print the resolved package-manager path."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "Remove extraneous packages from node_modules."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Also remove optionalDependencies."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Remove devDependencies from node_modules."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "Publish the package to the registry."
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "usage": [
+            "--access <LEVEL>"
+          ],
+          "tip": [
+            "Publish as public or restricted.",
+            "Scoped packages default to restricted."
+          ],
+          "next": [
+            {
+              "name": "public",
+              "tip": [
+                "World-readable."
+              ]
+            },
+            {
+              "name": "restricted",
+              "tip": [
+                "Access-restricted."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't upload; print what would be published."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Restrict the command to workspace packages matching the pattern.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Republish even when the version is already on the registry."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip publish lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit the publish result as JSON."
+          ]
+        },
+        {
+          "name": "--no-git-checks",
+          "tip": [
+            "Skip the working-tree-must-be-clean check."
+          ]
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "One-time password for registries that require 2FA."
+          ],
+          "next": []
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "Generate a SLSA provenance attestation.",
+            "Requires an OIDC-capable CI environment."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "Default dist-tag to publish under.",
+            "Default: latest."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query <selector>"
+      ],
+      "tip": [
+        "Query the package dependency graph.",
+        "Supports *, names, [name=value] attributes and :prod/:dev/:transitive/:scripts selectors."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only match devDependency roots and their transitive deps."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages.",
+            "Default: warn and exit 0."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter.",
+            "Graph walks skip devDependencies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root alongside the selected packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit a JSON array instead of the default text layout."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "Emit tab-separated rows: dep_path, name, version, source, flags."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Only match production/optional roots and their transitive deps."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "alias": [
+        "rb"
+      ],
+      "usage": [
+        "rb|rebuild [<pkg>...]"
+      ],
+      "tip": [
+        "Rebuild native modules: re-run the root package's lifecycle hooks.",
+        "With package names, run lifecycle scripts only for the named deps."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "usage": [
+        "rm|remove <package>..."
+      ],
+      "tip": [
+        "Remove dependencies from package.json and node_modules."
+      ],
+      "option": [
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Remove from the global install directory instead of the project."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip root lifecycle scripts during the chained reinstall."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "Remove only from devDependencies."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "Remove the dependency from the workspace root's package.json.",
+            "Takes precedence over --filter."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "root",
+      "tip": [
+        "Print the project's package directory."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Print the global package directory instead of the project's."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run <script> [args]..."
+      ],
+      "tip": [
+        "Run a package.json script (workspace-aware).",
+        "Omitted script name lists available scripts."
+      ],
+      "option": [
+        {
+          "name": "--aggregate-output",
+          "tip": [
+            "Buffer each package's output and flush it on completion.",
+            "Default on CI / non-TTY."
+          ]
+        },
+        {
+          "name": "--bail",
+          "tip": [
+            "Stop the run on first failure.",
+            "Default; accepted for explicitness."
+          ]
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "Run as if started in <DIR>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error if the filter selects zero packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTER>"
+          ],
+          "tip": [
+            "Filter workspace packages by name or glob.",
+            "Repeatable: filters union; `!`-prefixed filters subtract."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "Skip packages that don't have the named script."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip pre<x> / post<x> lifecycle hooks for every script run."
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Add the workspace root package to the recursive set."
+          ]
+        },
+        {
+          "name": "--no-bail",
+          "tip": [
+            "Don't stop on first failure; collect all results."
+          ]
+        },
+        {
+          "name": "--no-sort",
+          "tip": [
+            "Skip topological sort; treat all packages as one flat set."
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "Disable Nub's runtime augmentation for this invocation."
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run all packages concurrently with no topological ordering."
+          ]
+        },
+        {
+          "name": "--reporter",
+          "usage": [
+            "--reporter <MODE>"
+          ],
+          "tip": [
+            "Output reporter: default (prefixed/aggregated), silent (= -s), or ndjson."
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "Prefixed / aggregated output."
+              ]
+            },
+            {
+              "name": "ndjson",
+              "tip": [
+                "One JSON object per line for CI parsing."
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Same as -s."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--reporter-hide-prefix",
+          "tip": [
+            "Drop the <dir> <script>: prefix from each streamed output line.",
+            "Pairs with --stream."
+          ]
+        },
+        {
+          "name": "--resume-from",
+          "usage": [
+            "--resume-from <PKG>"
+          ],
+          "tip": [
+            "Skip topological predecessors of <pkg> (CI restart-after-failure)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "Reverse topological order (dependents before dependencies)."
+          ]
+        },
+        {
+          "name": "--script-shell",
+          "usage": [
+            "--script-shell <PATH>"
+          ],
+          "tip": [
+            "Override the shell used to invoke the script command."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sequential",
+          "tip": [
+            "Run packages strictly one at a time, ignoring topological order."
+          ]
+        },
+        {
+          "name": "--shell-emulator",
+          "tip": [
+            "Run script bodies through a POSIX sh instead of the platform default.",
+            "On Windows it replaces cmd so POSIX-isms work."
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--stream",
+          "tip": [
+            "Stream output with package-name prefix."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--workspace",
+          "usage": [
+            "--workspace <NAME>"
+          ],
+          "tip": [
+            "npm-style member selection: alias for --filter <name>.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace-concurrency",
+          "usage": [
+            "--workspace-concurrency <N>"
+          ],
+          "tip": [
+            "Max concurrent packages per topological chunk."
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Run from the workspace root regardless of cwd."
+          ]
+        },
+        {
+          "name": "--workspaces",
+          "alias": [
+            "--recursive",
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive, --workspaces"
+          ],
+          "tip": [
+            "Run in all workspace packages."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sbom",
+      "tip": [
+        "Generate a software bill of materials.",
+        "Not yet supported - use npm sbom."
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <query>..."
+      ],
+      "tip": [
+        "Search the registry for packages."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print the raw package objects as JSON."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-limit",
+          "usage": [
+            "--search-limit <N>"
+          ],
+          "tip": [
+            "Maximum number of results to show.",
+            "Default: 20."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "usage": [
+        "set <key> <value>"
+      ],
+      "tip": [
+        "Write a key=value pair to nub config or the selected .npmrc file."
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "tip": [
+            "Shortcut for --location project."
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "Which config location to write to.",
+            "Default: user."
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "Alias for user."
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "Project .npmrc."
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "User config.",
+                "Default."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-script",
+      "usage": [
+        "set-script <name> <command>..."
+      ],
+      "tip": [
+        "Add a script to package.json.",
+        "Remaining args are joined with spaces as the script body."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Operate on the package.json in this directory.",
+            "Default: nearest project root, or the cwd."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "store",
+      "usage": [
+        "store <add|path|prune|status>"
+      ],
+      "tip": [
+        "Manage the content-addressable store."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package>..."
+          ],
+          "tip": [
+            "Add packages to the global store without linking them into any project.",
+            "Each argument is a package spec."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Show the store path."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove unreferenced packages from the global store."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Verify the store against cached package indexes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token <create|list|revoke> ..."
+      ],
+      "tip": [
+        "Manage account auth tokens."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a new auth token."
+          ],
+          "option": [
+            {
+              "name": "--cidr",
+              "usage": [
+                "--cidr <CIDR>"
+              ],
+              "tip": [
+                "Restrict the token to these CIDR ranges.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --password <PASSWORD>"
+              ],
+              "tip": [
+                "Account password.",
+                "If omitted, read from stdin."
+              ],
+              "next": []
+            },
+            {
+              "name": "--read-only",
+              "tip": [
+                "Create a read-only token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List the account's auth tokens."
+          ]
+        },
+        {
+          "name": "revoke",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|revoke <key>"
+          ],
+          "tip": [
+            "Revoke a token by its key (or token-value prefix)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "undeprecate",
+      "usage": [
+        "undeprecate <package>"
+      ],
+      "tip": [
+        "Clear the deprecation on a package version (or every version)."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't PUT anything - print which versions would be touched and exit."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "One-time password from a 2FA authenticator; sent as npm-otp."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink [<package>]"
+      ],
+      "tip": [
+        "Unlink a local package (omit to unlink all linked dependencies)."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Operate on the global link registry instead of the current project."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpublish",
+      "usage": [
+        "unpublish [<spec>]"
+      ],
+      "tip": [
+        "Unpublish a package version, or the whole package.",
+        "Spec omitted uses the current project's package.json."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't talk to the registry; print what the command would do."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Required for whole-package unpublish (no @version in the spec)."
+          ]
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "One-time password for registries that require 2FA."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [<package>...]"
+      ],
+      "tip": [
+        "Update dependencies within range.",
+        "All packages if none are named."
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "Dependency traversal depth.",
+            "Parsed for pnpm compatibility but ignored: nub only refreshes direct deps."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Update only devDependencies."
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store off for this invocation."
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "Force the shared global virtual store on for this invocation."
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages."
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter."
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Error if the lockfile drifts from package.json."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Update globally installed packages.",
+            "Parsed for pnpm compatibility."
+          ]
+        },
+        {
+          "name": "--global-pnpmfile",
+          "usage": [
+            "--global-pnpmfile <PATH>"
+          ],
+          "tip": [
+            "Add a global pnpmfile that runs before the local one."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pnpmfile",
+          "tip": [
+            "Skip running .pnpmfile.mjs / .pnpmfile.cjs hooks for this update."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Interactive update picker.",
+            "Parsed for pnpm compatibility."
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "Update past the manifest range.",
+            "Rewrites package.json specifiers to the resolved versions."
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Refresh the lockfile without populating node_modules."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Always re-resolve, even if the lockfile is up to date."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Skip optionalDependencies."
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "Refresh the lockfile without rewriting package.json ranges."
+          ]
+        },
+        {
+          "name": "--pnpmfile",
+          "usage": [
+            "--pnpmfile <PATH>"
+          ],
+          "tip": [
+            "Override the local pnpmfile location."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "Use the lockfile when fresh, re-resolve when stale."
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running (like make -C)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Update only production dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "--exact",
+            "-E"
+          ],
+          "usage": [
+            "-E, --exact, --save-exact"
+          ],
+          "tip": [
+            "Pin manifest specifiers to the resolved version with no range prefix."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "Update dependencies in the current workspace package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "Upgrade nub itself to the latest version."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "Run as if started in <DIR>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Show what would happen without performing the upgrade."
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "Target version.",
+            "Default: latest."
+          ],
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Skip confirmation prompt."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "usage": [
+        "version [<new-version>]"
+      ],
+      "tip": [
+        "Print or bump the package version.",
+        "Accepts major/minor/patch/premajor/preminor/prepatch/prerelease or an explicit version."
+      ],
+      "option": [
+        {
+          "name": "--allow-same-version",
+          "tip": [
+            "Allow setting the version to its current value without erroring."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip preversion / version / postversion lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Emit the result as JSON instead of v<version> text."
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <MSG>"
+          ],
+          "tip": [
+            "Commit message template.",
+            "%s is replaced with the new version. Defaults to v%s."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-commit-hooks",
+          "tip": [
+            "Skip git pre-commit / commit-msg hooks (passes --no-verify)."
+          ]
+        },
+        {
+          "name": "--no-git-tag-version",
+          "tip": [
+            "Don't create a git commit or tag."
+          ]
+        },
+        {
+          "name": "--preid",
+          "usage": [
+            "--preid <ID>"
+          ],
+          "tip": [
+            "Prerelease identifier to use with the pre* keywords (e.g. rc)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sign-git-tag",
+          "tip": [
+            "GPG-sign the created tag (git tag -s)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "view",
+      "alias": [
+        "info",
+        "show",
+        "v"
+      ],
+      "usage": [
+        "v|info|show|view <package> [field]"
+      ],
+      "tip": [
+        "Show registry metadata for a package.",
+        "Supports a version or dist-tag (e.g. lodash@4.17.21, react@next)."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print the full JSON of the selected version instead of the summary.",
+            "Mutually exclusive with field."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch <file> [args]..."
+      ],
+      "tip": [
+        "Run a file in watch mode (restarts on change)."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Color mode for Nub's output."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always emit color."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use color only when output is a TTY.",
+                "Default."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never emit color."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "Run as if started in <DIR>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress Nub's non-error output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Increase Nub's log verbosity.",
+            "Repeatable."
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "whoami",
+      "tip": [
+        "Print the currently authenticated registry user."
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "Retry attempts for failed registry fetches."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "Exponential backoff factor between retries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "Upper bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "Lower bound (ms) on the computed retry backoff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "Per-request HTTP timeout in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Registry URL for this invocation."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "why",
+      "alias": [
+        "w"
+      ],
+      "usage": [
+        "w|why <package>"
+      ],
+      "tip": [
+        "Explain why a package is installed (exact match against package names)."
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only follow chains that start at a devDependency."
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "Change to directory before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Error when a workspace selector matches no packages.",
+            "Default: warn and exit 0."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Scope to workspace packages matching PATTERN.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "Production-only variant of --filter.",
+            "Graph walks skip devDependencies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "Include the workspace root alongside the selected packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output as JSON - an array of chain objects."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Append each node's .nub/<dep_path> store path to the tree output."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "Tab-separated output: one line per chain."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "Only follow chains that start at a production (or optional) dependency."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Run across every workspace package (same as --filter=*)."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --check"
+      ],
+      "tip": [
+        "Syntax-check the script without executing it."
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<when>]"
+      ],
+      "tip": [
+        "Color mode: auto (default), always, never."
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always emit color."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Use color only when output is a TTY.",
+            "Default."
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never emit color."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "Write a V8 CPU profile on exit."
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <dir>"
+      ],
+      "tip": [
+        "Run as if started in <dir>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-warning",
+      "usage": [
+        "--disable-warning <code|type>"
+      ],
+      "tip": [
+        "Silence a specific warning."
+      ],
+      "next": []
+    },
+    {
+      "name": "--enable-source-maps",
+      "tip": [
+        "Enable source-map support for stack traces."
+      ]
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <file>"
+      ],
+      "tip": [
+        "Load environment variables from <file>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eval <code>"
+      ],
+      "tip": [
+        "Evaluate <code>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--heap-prof",
+      "tip": [
+        "Write a V8 heap profile on exit."
+      ]
+    },
+    {
+      "name": "--import",
+      "usage": [
+        "--import <module>"
+      ],
+      "tip": [
+        "Preload an ES module."
+      ],
+      "next": []
+    },
+    {
+      "name": "--input-type",
+      "usage": [
+        "--input-type <type>"
+      ],
+      "tip": [
+        "Set input type for --eval / stdin input.",
+        "'module' or 'commonjs'."
+      ],
+      "next": [
+        {
+          "name": "commonjs",
+          "tip": [
+            "Interpret input as CommonJS."
+          ]
+        },
+        {
+          "name": "module",
+          "tip": [
+            "Interpret input as ES module."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--inspect",
+      "usage": [
+        "--inspect[=[host:]port]"
+      ],
+      "tip": [
+        "Activate the inspector."
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-brk",
+      "usage": [
+        "--inspect-brk[=[host:]port]"
+      ],
+      "tip": [
+        "Activate the inspector and break at start."
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-wait",
+      "usage": [
+        "--inspect-wait[=[host:]port]"
+      ],
+      "tip": [
+        "Activate the inspector and wait until attached."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-old-space-size",
+      "usage": [
+        "--max-old-space-size <mb>"
+      ],
+      "tip": [
+        "Set V8's old-space size limit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-deprecation",
+      "tip": [
+        "Silence deprecation warnings."
+      ]
+    },
+    {
+      "name": "--no-warnings",
+      "tip": [
+        "Silence all process warnings."
+      ]
+    },
+    {
+      "name": "--node",
+      "tip": [
+        "Run on plain Node, no augmentation (the compat escape hatch)."
+      ]
+    },
+    {
+      "name": "--pending-deprecation",
+      "tip": [
+        "Emit pending deprecation warnings."
+      ]
+    },
+    {
+      "name": "--preserve-symlinks",
+      "tip": [
+        "Preserve symlinks when resolving modules."
+      ]
+    },
+    {
+      "name": "--preserve-symlinks-main",
+      "tip": [
+        "Preserve symlinks for the main module."
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print <code>"
+      ],
+      "tip": [
+        "Evaluate <code> and print the result."
+      ],
+      "next": []
+    },
+    {
+      "name": "--prof",
+      "tip": [
+        "Generate V8 profiler tick data."
+      ]
+    },
+    {
+      "name": "--redirect-warnings",
+      "usage": [
+        "--redirect-warnings <file>"
+      ],
+      "tip": [
+        "Write warnings to a file instead of stderr."
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-dir",
+      "usage": [
+        "--report-dir <dir>"
+      ],
+      "tip": [
+        "Directory for the diagnostic report."
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-filename",
+      "usage": [
+        "--report-filename <file>"
+      ],
+      "tip": [
+        "Filename for the diagnostic report."
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-on-fatalerror",
+      "tip": [
+        "Write a report on fatal errors."
+      ]
+    },
+    {
+      "name": "--report-on-signal",
+      "tip": [
+        "Write a report when the process receives a signal."
+      ]
+    },
+    {
+      "name": "--report-uncaught-exception",
+      "tip": [
+        "Write a report on uncaught exceptions."
+      ]
+    },
+    {
+      "name": "--require",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --require <module>"
+      ],
+      "tip": [
+        "Preload a CommonJS module."
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "Suppress nub's non-error output."
+      ]
+    },
+    {
+      "name": "--stack-trace-limit",
+      "usage": [
+        "--stack-trace-limit <n>"
+      ],
+      "tip": [
+        "Set Error.stackTraceLimit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--throw-deprecation",
+      "tip": [
+        "Throw on use of deprecated APIs."
+      ]
+    },
+    {
+      "name": "--title",
+      "usage": [
+        "--title <title>"
+      ],
+      "tip": [
+        "Set process.title on startup."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace-deprecation",
+      "tip": [
+        "Show stack traces for deprecations."
+      ]
+    },
+    {
+      "name": "--trace-exit",
+      "tip": [
+        "Show stack traces for process exit."
+      ]
+    },
+    {
+      "name": "--trace-sync-io",
+      "tip": [
+        "Show stack traces on synchronous I/O."
+      ]
+    },
+    {
+      "name": "--trace-uncaught",
+      "tip": [
+        "Show stack traces for uncaught exceptions."
+      ]
+    },
+    {
+      "name": "--trace-warnings",
+      "tip": [
+        "Show stack traces for process warnings."
+      ]
+    },
+    {
+      "name": "--use-largepages",
+      "usage": [
+        "--use-largepages <mode>"
+      ],
+      "tip": [
+        "Use large pages: off, on, or silent."
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "Disable large pages.",
+            "Default."
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "Enable large pages."
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Enable without warnings."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--v8-options",
+      "tip": [
+        "Print V8 command-line options."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Increase nub's log verbosity.",
+        "Repeatable."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print the nub version."
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "Run in watch mode."
+      ]
+    },
+    {
+      "name": "--watch-path",
+      "usage": [
+        "--watch-path <path>"
+      ],
+      "tip": [
+        "Path to watch.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--watch-preserve-output",
+      "tip": [
+        "Preserve output across watch restarts."
+      ]
+    },
+    {
+      "name": "--zero-fill-buffers",
+      "tip": [
+        "Zero-fill all newly allocated Buffer instances."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}

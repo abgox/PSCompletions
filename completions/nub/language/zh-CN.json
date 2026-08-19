@@ -1,0 +1,7456 @@
+{
+  "meta": {
+    "url": "https://nubjs.com/",
+    "description": [
+      "一体化 Node.js 工具包: 包管理器、脚本运行器和注册表客户端。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|add <package>..."
+      ],
+      "tip": [
+        "将依赖添加到 package.json 并安装它们。"
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build=<PKG>"
+          ],
+          "tip": [
+            "预先批准依赖的生命周期脚本。",
+            "可重复。与 --no-save 和 --deny-build 冲突。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--allow-low-downloads",
+          "tip": [
+            "绕过 lowDownloadThreshold 确认提示 / 拒绝。",
+            "不影响 OSV 恶意包检查。"
+          ]
+        },
+        {
+          "name": "--deny-build",
+          "usage": [
+            "--deny-build=<PKG>"
+          ],
+          "tip": [
+            "将依赖的生命周期脚本标记为已审核并拒绝。",
+            "可重复。与 --no-save 和 --allow-build 冲突。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装该包。",
+            "安装到 pnpm 全局目录并链接其二进制。"
+          ]
+        },
+        {
+          "name": "--ignore-workspace-root-check",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --ignore-workspace-root-check"
+          ],
+          "tip": [
+            "允许 add 在工作区根运行。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "安装依赖但不持久化到 package.json。",
+            "与 -g/--global 冲突。"
+          ]
+        },
+        {
+          "name": "--no-save-workspace-protocol",
+          "tip": [
+            "强制将清单说明符转换为注册表风格说明符。",
+            "--save-workspace-protocol 的逆操作。"
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "将新依赖保存到工作区的默认目录。",
+            "与 --no-save 冲突。"
+          ]
+        },
+        {
+          "name": "--save-catalog-name",
+          "usage": [
+            "--save-catalog-name <NAME>"
+          ],
+          "tip": [
+            "将新依赖保存到命名目录中。",
+            "与 --no-save 冲突。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "添加为开发依赖。"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "固定解析出的确切版本（无 ^ 前缀）。"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "添加为可选依赖。"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "添加为对等依赖（写入 peerDependencies）。",
+            "通常与 --save-dev 搭配使用。"
+          ]
+        },
+        {
+          "name": "--save-workspace-protocol",
+          "tip": [
+            "强制将清单说明符转换为 workspace: 形式。",
+            "仅当 linkWorkspacePackages 匹配时才有意义。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "将依赖添加到工作区根的 package.json。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "approve-builds",
+      "usage": [
+        "approve-builds [<pkg>...]"
+      ],
+      "tip": [
+        "批准依赖运行构建脚本。",
+        "给定名称时直接批准并跳过选择器。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "不提示即可批准所有待处理的忽略构建。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "操作全局安装的包, 而不是当前项目。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "audit",
+      "tip": [
+        "检查已安装包是否存在已知漏洞。"
+      ],
+      "option": [
+        {
+          "name": "--audit-level",
+          "usage": [
+            "--audit-level <LEVEL>"
+          ],
+          "tip": [
+            "仅打印达到或超过此严重级别的公告。",
+            "默认: low。"
+          ],
+          "next": [
+            {
+              "name": "critical",
+              "tip": [
+                "严重级别。"
+              ]
+            },
+            {
+              "name": "high",
+              "tip": [
+                "高严重级别。"
+              ]
+            },
+            {
+              "name": "low",
+              "tip": [
+                "低严重级别。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "moderate",
+              "tip": [
+                "中等严重级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅审计 devDependencies。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "usage": [
+            "--fix[=<fix>]"
+          ],
+          "tip": [
+            "修复公告。",
+            "裸 --fix 写入 overrides; --fix=update 刷新锁文件。"
+          ],
+          "next": [
+            {
+              "name": "override",
+              "tip": [
+                "写入 package.json overrides 以强制使用补丁版本。"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "将锁文件刷新为现有范围允许的补丁版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <ID>"
+          ],
+          "tip": [
+            "丢弃 ID 匹配的公告。",
+            "可重复; 接受逗号分隔的值。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-registry-errors",
+          "tip": [
+            "注册表返回错误时使用退出码 0。",
+            "在 CI 中运行审计时很有用。"
+          ]
+        },
+        {
+          "name": "--ignore-unfixable",
+          "tip": [
+            "丢弃没有无漏洞升级版本的公告。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "交互式选择要修复的公告。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出报告, 而不是表格。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "跳过 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅审计 dependencies 和 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "bin",
+      "tip": [
+        "打印项目的 bin 目录。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "打印全局 bin 目录, 而不是项目的。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <command>"
+      ],
+      "tip": [
+        "管理元数据缓存。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <pattern>..."
+          ],
+          "tip": [
+            "删除指定包的元数据缓存。",
+            "支持通配符模式。"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [<pattern>...]"
+          ],
+          "tip": [
+            "列出元数据缓存中可用的包。"
+          ]
+        },
+        {
+          "name": "list-registries",
+          "tip": [
+            "列出项目 + 用户 .npmrc 中配置的注册表。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "从元数据缓存中移除过期的已提取 primer 文件。"
+          ],
+          "option": [
+            {
+              "name": "--age-days",
+              "usage": [
+                "--age-days <AGE_DAYS>"
+              ],
+              "tip": [
+                "旧的 primer 文件被移除前的最小存在天数。",
+                "默认: 30。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "不实际删除任何内容。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "usage": [
+            "view <name>"
+          ],
+          "tip": [
+            "查看单个包的缓存元数据。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "转储磁盘上的原始缓存 JSON, 而不是摘要。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat-file",
+      "usage": [
+        "cat-file <hash>"
+      ],
+      "tip": [
+        "打印内容寻址哈希对应的文件。",
+        "接受 sha512-<base64>（pnpm 完整性）或原始十六进制 CAS 摘要。"
+      ]
+    },
+    {
+      "name": "cat-index",
+      "usage": [
+        "cat-index <package>"
+      ],
+      "tip": [
+        "检查 name@version 形式的包索引。",
+        "必须指定确切版本。"
+      ]
+    },
+    {
+      "name": "check",
+      "tip": [
+        "检查项目的安装状态。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 报告, 而不是人类可读列表。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ci",
+      "tip": [
+        "CI 干净安装: 删除 node_modules, 严格按锁文件安装。",
+        "锁文件不一致或缺失是硬性错误。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "如同在 <DIR> 中启动一样运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过所有生命周期脚本（根包和依赖）。"
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在递归操作中包含工作区根包。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "跳过 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "alias": [
+        "c"
+      ],
+      "usage": [
+        "c|config <command>"
+      ],
+      "tip": [
+        "管理配置。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "同时列出未设置值的配置项。",
+            "仅在与 --location merged 一起使用时有效。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以配置项名为键, 将所有条目输出为 JSON 对象。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "--location project 的快捷方式。",
+            "与 --all 冲突。"
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "要列出哪些配置位置: merged、user、project 或 global。"
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "user 的别名。"
+              ]
+            },
+            {
+              "name": "merged",
+              "tip": [
+                "合并所有运行时配置来源, 后写覆盖。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "项目配置来源。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户 / 全局配置来源。"
+              ]
+            }
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "alias": [
+            "remove",
+            "unset",
+            "rm"
+          ],
+          "usage": [
+            "rm|unset|remove|delete <key>"
+          ],
+          "tip": [
+            "从 nub 配置或选定的 .npmrc 文件中删除一个键。"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "--location project 的快捷方式。"
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "要作用于哪个配置位置。",
+                "默认: user。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "user 的别名。"
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "项目 .npmrc。"
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "用户配置。",
+                    "默认。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "explain",
+          "usage": [
+            "explain <key>"
+          ],
+          "tip": [
+            "解释已知配置项, 包括默认值和支持的配置来源。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>"
+          ],
+          "tip": [
+            "打印键的有效值。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "将值输出为 JSON。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "--location project 的快捷方式。"
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "要读取哪些配置位置。",
+                "默认: merged。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "user 的别名。"
+                  ]
+                },
+                {
+                  "name": "merged",
+                  "tip": [
+                    "后写覆盖视图。",
+                    "默认。"
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "项目配置。"
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "用户配置。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "打印 nub 配置和选定的 .npmrc 文件中的所有键值对。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "同时列出未设置值的配置项。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以配置项名为键, 将所有条目输出为 JSON 对象。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "--location project 的快捷方式。",
+                "与 --all 冲突。"
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "要列出哪些配置位置。",
+                "默认: merged。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "user 的别名。"
+                  ]
+                },
+                {
+                  "name": "merged",
+                  "tip": [
+                    "合并所有运行时配置来源。",
+                    "默认。"
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "项目配置。"
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "用户配置。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "search",
+          "alias": [
+            "find"
+          ],
+          "usage": [
+            "find|search <query>..."
+          ],
+          "tip": [
+            "按名称、源键或描述搜索已知配置项。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key> <value>"
+          ],
+          "tip": [
+            "将键值对写入 nub 配置或选定的 .npmrc 文件。"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "tip": [
+                "--location project 的快捷方式。"
+              ]
+            },
+            {
+              "name": "--location",
+              "usage": [
+                "--location <LOCATION>"
+              ],
+              "tip": [
+                "要写入哪个配置位置。",
+                "默认: user。"
+              ],
+              "next": [
+                {
+                  "name": "global",
+                  "tip": [
+                    "user 的别名。"
+                  ]
+                },
+                {
+                  "name": "project",
+                  "tip": [
+                    "项目 .npmrc。"
+                  ]
+                },
+                {
+                  "name": "user",
+                  "tip": [
+                    "用户配置。",
+                    "默认。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tui",
+          "tip": [
+            "在交互式终端界面中浏览已知配置项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create <template> [args]..."
+      ],
+      "tip": [
+        "获取模板包并运行其脚手架二进制。",
+        "第一个位置参数是模板; 其余参数转发给 create-<template>。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dedupe",
+      "tip": [
+        "从锁文件中移除重复的包。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查 dedupe 是否会改变锁文件; 不写入任何内容。",
+            "将发生更改时以非零退出（在 CI 中很有用）。"
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "deprecate",
+      "usage": [
+        "deprecate <package> <message>"
+      ],
+      "tip": [
+        "弃用某个包版本（或所有版本）。",
+        "空消息将清除现有的弃用说明。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不实际 PUT, 只打印将受影响哪些版本并退出。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "来自 2FA 验证器的一次性密码; 作为 npm-otp 发送。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "deprecations",
+      "tip": [
+        "检查已安装包的注册表弃用说明。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "tip": [
+            "发现任何弃用时以非零状态退出。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 而不是默认文本布局。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--transitive",
+          "tip": [
+            "包括直接依赖及其传递依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dist-tag",
+      "usage": [
+        "dist-tag <add|ls|rm> ..."
+      ],
+      "tip": [
+        "管理包上的发布 dist-tag。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <spec> [tag]"
+          ],
+          "tip": [
+            "在包上添加或更新 dist-tag。",
+            "说明符必须包含具体版本; 标签默认为 latest。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "来自 2FA 验证器的一次性密码; 作为 npm-otp 发送。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "usage": [
+            "ls [package]"
+          ],
+          "tip": [
+            "列出包的每个 dist-tag。",
+            "默认为当前项目的 package.json 名称。"
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove <package> <tag>"
+          ],
+          "tip": [
+            "从包中移除 dist-tag。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "来自 2FA 验证器的一次性密码; 作为 npm-otp 发送。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dlx",
+      "usage": [
+        "dlx <bin> [args]..."
+      ],
+      "tip": [
+        "运行一个工具, 本地未命中时将其获取到临时项目中 (npx / pnpm dlx)。"
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build=<PKG>"
+          ],
+          "tip": [
+            "允许指定的包在临时安装期间运行生命周期脚本。",
+            "可重复; 必须使用等号形式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <PACKAGE>"
+          ],
+          "tip": [
+            "安装特定包。",
+            "覆盖从命令推断的默认值。可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "通过 sh -c 运行组装好的命令行。",
+            "用于管道、重定向或环境变量展开。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec <bin> [args]..."
+      ],
+      "tip": [
+        "运行 node_modules/.bin 中的二进制（与 nubx 相同）。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "如同在 <DIR> 中启动一样运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当筛选结果为零个包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTER>"
+          ],
+          "tip": [
+            "按名称或通配符筛选工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "将工作区根包添加到递归集合中。"
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "本次调用禁用 Nub 的运行时增强。"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "在所有包中并发运行 bin, 无拓扑顺序。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--workspace",
+          "usage": [
+            "--workspace <NAME>"
+          ],
+          "tip": [
+            "npm 风格成员选择: --filter <name> 的别名。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace-concurrency",
+          "usage": [
+            "--workspace-concurrency <N>"
+          ],
+          "tip": [
+            "每个拓扑分块的最大并发包数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "无论当前目录如何都从工作区根运行。"
+          ]
+        },
+        {
+          "name": "--workspaces",
+          "alias": [
+            "--recursive",
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive, --workspaces"
+          ],
+          "tip": [
+            "在每个工作区包中运行 bin。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "tip": [
+        "将包获取到内容寻址存储中。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅获取 devDependencies。"
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "仅获取生产 + 可选依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "find-hash",
+      "usage": [
+        "find-hash <hash>"
+      ],
+      "tip": [
+        "定位哪些包引用了内容寻址哈希。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON, 而不是纯文本列表。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "usage": [
+        "get <key>"
+      ],
+      "tip": [
+        "打印配置键的有效值。",
+        "接受 pnpm 规范名称或 .npmrc 别名。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "将值输出为 JSON。",
+            "缺失的键渲染为 undefined。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "--location project 的快捷方式。"
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "要读取哪些配置位置。",
+            "默认: merged。"
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "user 的别名。"
+              ]
+            },
+            {
+              "name": "merged",
+              "tip": [
+                "后写覆盖视图。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "项目配置。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户配置。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help <command>"
+      ],
+      "tip": [
+        "显示命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "ignored-builds",
+      "tip": [
+        "列出当前被忽略的依赖构建脚本。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "操作全局安装的包, 而不是当前项目。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "tip": [
+        "从其他包管理器的锁文件生成锁文件。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "覆盖现有的 pnpm-lock.yaml。"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅写入转换后的锁文件。",
+            "为兼容性保留为无操作。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install"
+      ],
+      "tip": [
+        "通过内置引擎从 package.json 安装依赖。",
+        "尊重项目现有的锁文件。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使安装状态显示为最新也重新解析并重新链接。"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "如果锁文件过期则硬性失败。",
+            "在 CI 中时默认。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过所有生命周期脚本（根包和依赖）。"
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在递归操作中包含工作区根包。"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "解析并写入锁文件, 但跳过链接 node_modules。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件过期也重新解析并重写。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "跳过 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--node-linker",
+          "usage": [
+            "--node-linker <MODE>"
+          ],
+          "tip": [
+            "node_modules 布局: isolated（pnpm 风格）或 hoisted（npm 风格）。",
+            "覆盖从锁文件推导出的默认值。"
+          ],
+          "next": [
+            {
+              "name": "hoisted",
+              "tip": [
+                "npm 风格的 node_modules 布局。"
+              ]
+            },
+            {
+              "name": "isolated",
+              "tip": [
+                "pnpm 风格的 node_modules 布局。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "绝不访问网络; 包未缓存时失败。"
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。",
+            "在 CI 之外时默认。"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "可用时使用缓存包, 否则使用网络。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "跳过 devDependencies; 仅安装生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。",
+            "覆盖 .npmrc 中的 `registry`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "licenses",
+      "tip": [
+        "列出依赖许可证。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅显示 devDependencies。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以包为键输出 JSON 数组, 而不是默认表格。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "包含每个包在磁盘上解析出的路径。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅显示生产依赖。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "alias": [
+        "ln"
+      ],
+      "usage": [
+        "ln|link [<package>]"
+      ],
+      "tip": [
+        "链接本地包（名称或本地目录路径）。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "注册到（或从）全局链接注册表解析。",
+            "裸 nub link 的默认行为。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls",
+        "la",
+        "ll"
+      ],
+      "usage": [
+        "ls|la|ll|list [<pattern>]"
+      ],
+      "tip": [
+        "列出已安装的依赖。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "传递依赖树的渲染深度。",
+            "0 仅显示直接依赖; 9999 显示完整依赖图。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅显示 devDependencies。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。",
+            "默认: 警告并以 0 退出。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "支持精确名称、通配符、路径、依赖图和 git 引用选择器。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。",
+            "依赖图遍历跳过 devDependencies。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式: default、json 或 parseable。"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "人类可读的树形结构。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "包条目的 JSON 数组。"
+              ]
+            },
+            {
+              "name": "parseable",
+              "tip": [
+                "每个包一行, 以制表符分隔。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "列出全局安装的包, 而不是项目的依赖树。"
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在所选包之外还包括工作区根包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "--format json 的快捷方式。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示每个条目的版本和路径。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "--format parseable 的快捷方式。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅显示生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "tip": [
+        "向注册表进行身份验证。"
+      ],
+      "option": [
+        {
+          "name": "--auth-type",
+          "usage": [
+            "--auth-type <TYPE>"
+          ],
+          "tip": [
+            "认证流程: legacy（令牌粘贴）或 web（OAuth）。",
+            "默认: legacy。"
+          ],
+          "next": [
+            {
+              "name": "legacy",
+              "tip": [
+                "令牌粘贴流程。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "面向注册表的 OAuth 流程。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <SCOPE>"
+          ],
+          "tip": [
+            "要绑定此注册表的范围 (如 @myorg)。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "logout",
+      "tip": [
+        "清除注册表凭据。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--scope",
+          "usage": [
+            "--scope <SCOPE>"
+          ],
+          "tip": [
+            "其注册表映射也应被移除的范围 (如 @myorg)。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "usage": [
+        "node <command>"
+      ],
+      "tip": [
+        "管理 Node 版本 (install / ls / uninstall / pin)。"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [<version>...]"
+          ],
+          "tip": [
+            "将版本装载到 nub 的缓存中。",
+            "无参数: 使用项目固定的版本。"
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出 nub 缓存中的版本。"
+          ]
+        },
+        {
+          "name": "pin",
+          "usage": [
+            "pin <version>"
+          ],
+          "tip": [
+            "写入项目的 Node 固定版本。"
+          ]
+        },
+        {
+          "name": "uninstall",
+          "usage": [
+            "uninstall <version>"
+          ],
+          "tip": [
+            "从 nub 的缓存中移除一个版本。"
+          ]
+        },
+        {
+          "name": "which",
+          "tip": [
+            "打印解析出的 Node 二进制路径。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<pattern>]"
+      ],
+      "tip": [
+        "列出有更新版本可用的依赖。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅显示 devDependencies。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。",
+            "默认: 警告并以 0 退出。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。",
+            "依赖图遍历跳过 devDependencies。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在所选包之外还包括工作区根包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以包名为键输出 JSON 对象, 而不是默认表格。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "同时显示期望版本与已安装版本匹配的依赖。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅显示生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "--workspace",
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace, --workspace-root"
+          ],
+          "tip": [
+            "无论当前目录如何都操作工作区根。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "owner",
+      "usage": [
+        "owner <add|ls|rm> ..."
+      ],
+      "tip": [
+        "管理包维护者。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "来自 2FA 验证器的一次性密码（用于 add/rm）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package> <user>"
+          ],
+          "tip": [
+            "向包添加维护者。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "来自 2FA 验证器的一次性密码。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list <package>"
+          ],
+          "tip": [
+            "列出包的维护者。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "来自 2FA 验证器的一次性密码。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove <package> <user>"
+          ],
+          "tip": [
+            "从包中移除维护者。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <CODE>"
+              ],
+              "tip": [
+                "来自 2FA 验证器的一次性密码。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pack",
+      "tip": [
+        "从当前包创建 tarball。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不写入 tarball, 只打印将要打包的内容。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过 prepack / prepare / postpack 生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 对象打印结果。"
+          ]
+        },
+        {
+          "name": "--pack-destination",
+          "usage": [
+            "--pack-destination <DIR>"
+          ],
+          "tip": [
+            "写入 tarball 的目录。",
+            "默认: 当前目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "patch",
+      "usage": [
+        "patch <name>@<version>"
+      ],
+      "tip": [
+        "将包提取为可写副本以编写补丁。",
+        "该包必须已安装在 node_modules 中。"
+      ],
+      "option": [
+        {
+          "name": "--edit-dir",
+          "usage": [
+            "--edit-dir <DIR>"
+          ],
+          "tip": [
+            "提取可写副本的目录。",
+            "默认为系统临时目录下的全新临时目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-existing",
+          "tip": [
+            "忽略该包任何现有的补丁条目。",
+            "从 node_modules 提取原始副本。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch-commit",
+      "usage": [
+        "patch-commit <dir>"
+      ],
+      "tip": [
+        "从 nub patch 打印的编辑目录生成 .patch 文件。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--patches-dir",
+          "usage": [
+            "--patches-dir <DIR>"
+          ],
+          "tip": [
+            "生成的 .patch 文件的写入位置, 相对于项目根目录。",
+            "默认: patches。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "patch-remove",
+      "usage": [
+        "patch-remove [<name>@<version>...]"
+      ],
+      "tip": [
+        "移除已声明的补丁。",
+        "不带参数时, 移除所有声明的补丁。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "peers",
+      "usage": [
+        "peers <command>"
+      ],
+      "tip": [
+        "检查未满足和缺失的对等依赖问题。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "check",
+          "tip": [
+            "通过读取锁文件检查未满足和缺失的对等依赖问题。",
+            "报告任何问题时以状态 1 退出。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "输出 JSON 报告, 而不是人类可读树。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pkg",
+      "usage": [
+        "pkg <get|set|delete|fix> [args]..."
+      ],
+      "tip": [
+        "直接操作 package.json。",
+        "get/delete 接收键; set 接收键值对; fix 不接收参数。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "操作此目录中的 package.json。",
+            "默认: 最近的项目根目录, 或当前目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "对于 set, 将每个值解析为 JSON。",
+            "对于单个键的 get, 返回其 JSON 编码形式。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete <key>..."
+          ],
+          "tip": [
+            "从 package.json 中删除键。"
+          ]
+        },
+        {
+          "name": "fix",
+          "tip": [
+            "修复常见的 package.json 问题。"
+          ]
+        },
+        {
+          "name": "get",
+          "usage": [
+            "get <key>..."
+          ],
+          "tip": [
+            "打印 package.json 中的一个或多个键。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <key=value>..."
+          ],
+          "tip": [
+            "在 package.json 中设置键值对。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "usage": [
+        "pm <command>"
+      ],
+      "tip": [
+        "管理项目的包管理器。"
+      ],
+      "next": [
+        {
+          "name": "cache",
+          "tip": [
+            "列出缓存的包管理器（或清除缓存）。"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "清除缓存的包管理器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "shim",
+          "tip": [
+            "将 npm/pnpm/yarn shims 链接到 ~/.nub/shims。",
+            "nub 升级后重新运行。"
+          ]
+        },
+        {
+          "name": "unshim",
+          "tip": [
+            "移除 shims 及其 PATH 块。"
+          ]
+        },
+        {
+          "name": "update",
+          "alias": [
+            "up"
+          ],
+          "usage": [
+            "up|update"
+          ],
+          "tip": [
+            "在固定范围内重新解析并提升固定版本。"
+          ]
+        },
+        {
+          "name": "use",
+          "usage": [
+            "use <pm>[@<spec>]"
+          ],
+          "tip": [
+            "声明项目的包管理器 (npm|pnpm|yarn|bun|nub)。",
+            "写入 packageManager 并对齐锁文件。"
+          ]
+        },
+        {
+          "name": "which",
+          "tip": [
+            "打印解析出的包管理器路径。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "tip": [
+        "从 node_modules 中移除多余的包。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "同时移除 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "从 node_modules 中移除 devDependencies。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "publish",
+      "tip": [
+        "将包发布到注册表。"
+      ],
+      "option": [
+        {
+          "name": "--access",
+          "usage": [
+            "--access <LEVEL>"
+          ],
+          "tip": [
+            "以 public 或 restricted 发布。",
+            "带范围的包默认为 restricted。"
+          ],
+          "next": [
+            {
+              "name": "public",
+              "tip": [
+                "全局可读。"
+              ]
+            },
+            {
+              "name": "restricted",
+              "tip": [
+                "访问受限。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不实际上传, 只打印将要发布的内容。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "将命令限制为与模式匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使版本已存在于注册表也重新发布。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过发布生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出发布结果。"
+          ]
+        },
+        {
+          "name": "--no-git-checks",
+          "tip": [
+            "跳过工作树必须干净检查。"
+          ]
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "面向要求 2FA 的注册表的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--provenance",
+          "tip": [
+            "生成 SLSA 来源证明。",
+            "需要支持 OIDC 的 CI 环境。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "发布时使用的默认 dist-tag。",
+            "默认: latest。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "query",
+      "usage": [
+        "query <selector>"
+      ],
+      "tip": [
+        "查询包依赖图。",
+        "支持 *, 名称, [name=value] 属性和 :prod/:dev/:transitive/:scripts 选择器。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅匹配 devDependency 根及其传递依赖。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。",
+            "默认: 警告并以 0 退出。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。",
+            "依赖图遍历跳过 devDependencies。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在所选包之外还包括工作区根包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出 JSON 数组, 而不是默认文本布局。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "输出制表符分隔的行: dep_path, name, version, source, flags。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅匹配生产/可选依赖根及其传递依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "alias": [
+        "rb"
+      ],
+      "usage": [
+        "rb|rebuild [<pkg>...]"
+      ],
+      "tip": [
+        "重建原生模块: 重新运行根包的生命周期钩子。",
+        "指定包名时, 仅为指定的依赖运行生命周期脚本。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "usage": [
+        "rm|remove <package>..."
+      ],
+      "tip": [
+        "从 package.json 和 node_modules 中移除依赖。"
+      ],
+      "option": [
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "从全局安装目录移除, 而不是项目。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "在链式重装期间跳过根包生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "仅从 devDependencies 中移除。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "从工作区根的 package.json 中移除该依赖。",
+            "优先级高于 --filter。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "root",
+      "tip": [
+        "打印项目的包目录。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "打印全局包目录, 而不是项目的。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run <script> [args]..."
+      ],
+      "tip": [
+        "运行 package.json 脚本（感知工作区）。",
+        "省略脚本名时列出可用脚本。"
+      ],
+      "option": [
+        {
+          "name": "--aggregate-output",
+          "tip": [
+            "缓冲每个包的输出并在完成时刷新。",
+            "在 CI / 非终端时默认。"
+          ]
+        },
+        {
+          "name": "--bail",
+          "tip": [
+            "在首次失败时停止运行。",
+            "默认; 为明确性而接受。"
+          ]
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "如同在 <DIR> 中启动一样运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当筛选结果为零个包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTER>"
+          ],
+          "tip": [
+            "按名称或通配符筛选工作区包。",
+            "可重复: 多个筛选取并集; `!` 前缀的筛选做差集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--if-present",
+          "tip": [
+            "跳过没有指定脚本的包。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "每次运行脚本时跳过 pre<x> / post<x> 生命周期钩子。"
+          ]
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "将工作区根包添加到递归集合中。"
+          ]
+        },
+        {
+          "name": "--no-bail",
+          "tip": [
+            "不在首次失败时停止; 收集所有结果。"
+          ]
+        },
+        {
+          "name": "--no-sort",
+          "tip": [
+            "跳过拓扑排序; 将所有包视为一个扁平集合。"
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "本次调用禁用 Nub 的运行时增强。"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "并发运行所有包, 无拓扑顺序。"
+          ]
+        },
+        {
+          "name": "--reporter",
+          "usage": [
+            "--reporter <MODE>"
+          ],
+          "tip": [
+            "输出报告器: default（带前缀/聚合）, silent（= -s）或 ndjson。"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "带前缀 / 聚合输出。"
+              ]
+            },
+            {
+              "name": "ndjson",
+              "tip": [
+                "每行一个 JSON 对象, 便于 CI 解析。"
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "与 -s 相同。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--reporter-hide-prefix",
+          "tip": [
+            "从每行流式输出中去掉 <dir> <script>: 前缀。",
+            "与 --stream 搭配使用。"
+          ]
+        },
+        {
+          "name": "--resume-from",
+          "usage": [
+            "--resume-from <PKG>"
+          ],
+          "tip": [
+            "跳过 <pkg> 的拓扑前驱（CI 失败后重启）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "反转拓扑顺序（依赖者在前）。"
+          ]
+        },
+        {
+          "name": "--script-shell",
+          "usage": [
+            "--script-shell <PATH>"
+          ],
+          "tip": [
+            "覆盖用于调用脚本命令的 shell。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sequential",
+          "tip": [
+            "严格逐个运行包, 忽略拓扑顺序。"
+          ]
+        },
+        {
+          "name": "--shell-emulator",
+          "tip": [
+            "通过 POSIX sh 运行脚本体, 而不是平台默认。",
+            "在 Windows 上它替换 cmd, 以便 POSIX 风格命令生效。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--stream",
+          "tip": [
+            "带包名前缀的流式输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--workspace",
+          "usage": [
+            "--workspace <NAME>"
+          ],
+          "tip": [
+            "npm 风格成员选择: --filter <name> 的别名。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--workspace-concurrency",
+          "usage": [
+            "--workspace-concurrency <N>"
+          ],
+          "tip": [
+            "每个拓扑分块的最大并发包数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "无论当前目录如何都从工作区根运行。"
+          ]
+        },
+        {
+          "name": "--workspaces",
+          "alias": [
+            "--recursive",
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive, --workspaces"
+          ],
+          "tip": [
+            "在所有工作区包中运行。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sbom",
+      "tip": [
+        "生成软件物料清单 (SBOM)。",
+        "尚未支持 - 请使用 npm sbom。"
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <query>..."
+      ],
+      "tip": [
+        "在注册表中搜索包。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 打印原始包对象。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-limit",
+          "usage": [
+            "--search-limit <N>"
+          ],
+          "tip": [
+            "显示结果的最大数量。",
+            "默认: 20。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "set",
+      "usage": [
+        "set <key> <value>"
+      ],
+      "tip": [
+        "将键值对写入 nub 配置或选定的 .npmrc 文件。"
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "tip": [
+            "--location project 的快捷方式。"
+          ]
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "要写入哪个配置位置。",
+            "默认: user。"
+          ],
+          "next": [
+            {
+              "name": "global",
+              "tip": [
+                "user 的别名。"
+              ]
+            },
+            {
+              "name": "project",
+              "tip": [
+                "项目 .npmrc。"
+              ]
+            },
+            {
+              "name": "user",
+              "tip": [
+                "用户配置。",
+                "默认。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-script",
+      "usage": [
+        "set-script <name> <command>..."
+      ],
+      "tip": [
+        "向 package.json 添加脚本。",
+        "其余参数以空格连接作为脚本内容。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "操作此目录中的 package.json。",
+            "默认: 最近的项目根目录, 或当前目录。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "store",
+      "usage": [
+        "store <add|path|prune|status>"
+      ],
+      "tip": [
+        "管理内容寻址存储。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <package>..."
+          ],
+          "tip": [
+            "将包添加到全局存储, 而不链接到任何项目。",
+            "每个参数都是一个包说明符。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "显示存储路径。"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "从全局存储中移除无引用的包。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "对照缓存的包索引校验存储。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "token",
+      "usage": [
+        "token <create|list|revoke> ..."
+      ],
+      "tip": [
+        "管理账户认证令牌。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建新的认证令牌。"
+          ],
+          "option": [
+            {
+              "name": "--cidr",
+              "usage": [
+                "--cidr <CIDR>"
+              ],
+              "tip": [
+                "将令牌限制在这些 CIDR 范围内。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--password",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --password <PASSWORD>"
+              ],
+              "tip": [
+                "账户密码。",
+                "如果省略, 则从标准输入读取。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--read-only",
+              "tip": [
+                "创建只读令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出账户的认证令牌。"
+          ]
+        },
+        {
+          "name": "revoke",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|revoke <key>"
+          ],
+          "tip": [
+            "按其键（或令牌值前缀）吊销令牌。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "undeprecate",
+      "usage": [
+        "undeprecate <package>"
+      ],
+      "tip": [
+        "清除包版本（或所有版本）上的弃用说明。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不实际 PUT, 只打印将受影响哪些版本并退出。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "来自 2FA 验证器的一次性密码; 作为 npm-otp 发送。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink [<package>]"
+      ],
+      "tip": [
+        "取消链接本地包（省略则取消链接所有已链接依赖）。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "操作全局链接注册表, 而不是当前项目。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpublish",
+      "usage": [
+        "unpublish [<spec>]"
+      ],
+      "tip": [
+        "取消发布某个包版本, 或整个包。",
+        "省略说明符时使用当前项目的 package.json。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不访问注册表, 只打印命令将要执行的操作。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "整包 unpublish（说明符中没有 @version）时需要。"
+          ]
+        },
+        {
+          "name": "--otp",
+          "usage": [
+            "--otp <CODE>"
+          ],
+          "tip": [
+            "面向要求 2FA 的注册表的一次性密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [<package>...]"
+      ],
+      "tip": [
+        "在范围内更新依赖。",
+        "未指定名称时针对所有包。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "依赖遍历深度。",
+            "为 pnpm 兼容性而解析但忽略: nub 只刷新直接依赖。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅更新 devDependencies。"
+          ]
+        },
+        {
+          "name": "--disable-global-virtual-store",
+          "alias": [
+            "--disable-gvs"
+          ],
+          "usage": [
+            "--disable-gvs, --disable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制关闭共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--enable-global-virtual-store",
+          "alias": [
+            "--enable-gvs"
+          ],
+          "usage": [
+            "--enable-gvs, --enable-global-virtual-store"
+          ],
+          "tip": [
+            "本次调用强制启用共享全局虚拟存储。"
+          ]
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。"
+          ]
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当锁文件与 package.json 不一致时报错。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "更新全局安装的包。",
+            "为 pnpm 兼容性而解析。"
+          ]
+        },
+        {
+          "name": "--global-pnpmfile",
+          "usage": [
+            "--global-pnpmfile <PATH>"
+          ],
+          "tip": [
+            "添加在本地 pnpmfile 之前运行的全局 pnpmfile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pnpmfile",
+          "tip": [
+            "本次更新跳过运行 .pnpmfile.mjs / .pnpmfile.cjs 钩子。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "交互式更新选择器。",
+            "为 pnpm 兼容性而解析。"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "更新超出清单范围。",
+            "将 package.json 说明符重写为解析出的版本。"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "刷新锁文件而不填充 node_modules。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "即使锁文件是最新的也始终重新解析。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "跳过 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "刷新锁文件而不重写 package.json 范围。"
+          ]
+        },
+        {
+          "name": "--pnpmfile",
+          "usage": [
+            "--pnpmfile <PATH>"
+          ],
+          "tip": [
+            "覆盖本地 pnpmfile 位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefer-frozen-lockfile",
+          "tip": [
+            "锁文件较新时使用锁文件, 过期时重新解析。"
+          ]
+        },
+        {
+          "name": "--prefix",
+          "alias": [
+            "--dir",
+            "--cd",
+            "-C"
+          ],
+          "usage": [
+            "-C, --cd, --dir, --prefix <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录（类似 make -C）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅更新生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "--exact",
+            "-E"
+          ],
+          "usage": [
+            "-E, --exact, --save-exact"
+          ],
+          "tip": [
+            "将清单说明符固定为解析出的版本且无范围前缀。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace"
+          ],
+          "tip": [
+            "更新当前工作区包中的依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "tip": [
+        "将 nub 自身升级到最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "如同在 <DIR> 中启动一样运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "显示将要发生什么, 而不实际升级。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "目标版本。",
+            "默认: latest。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "跳过确认提示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "usage": [
+        "version [<new-version>]"
+      ],
+      "tip": [
+        "打印或提升包版本。",
+        "接受 major/minor/patch/premajor/preminor/prepatch/prerelease 或明确的版本号。"
+      ],
+      "option": [
+        {
+          "name": "--allow-same-version",
+          "tip": [
+            "允许将版本设置为其当前值而不报错。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过 preversion / version / postversion 生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出结果, 而不是 v<version> 文本。"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <MSG>"
+          ],
+          "tip": [
+            "提交消息模板。",
+            "%s 会被替换为新版本。默认为 v%s。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-commit-hooks",
+          "tip": [
+            "跳过 git pre-commit / commit-msg 钩子 (传入 --no-verify)。"
+          ]
+        },
+        {
+          "name": "--no-git-tag-version",
+          "tip": [
+            "不创建 git 提交或标签。"
+          ]
+        },
+        {
+          "name": "--preid",
+          "usage": [
+            "--preid <ID>"
+          ],
+          "tip": [
+            "与 pre* 关键字一起使用的预发布标识符 (如 rc)。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sign-git-tag",
+          "tip": [
+            "对创建的标签进行 GPG 签名 (git tag -s)。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "view",
+      "alias": [
+        "info",
+        "show",
+        "v"
+      ],
+      "usage": [
+        "v|info|show|view <package> [field]"
+      ],
+      "tip": [
+        "显示包的注册表元数据。",
+        "支持版本或 dist-tag (如 lodash@4.17.21, react@next)。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "打印所选版本的完整 JSON, 而不是摘要。",
+            "与字段互斥。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch <file> [args]..."
+      ],
+      "tip": [
+        "以 watch 模式运行文件（更改时重启）。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color[=<when>]"
+          ],
+          "tip": [
+            "Nub 输出的颜色模式。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终输出颜色。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "仅当输出为终端时才使用颜色。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "始终不输出颜色。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <DIR>"
+          ],
+          "tip": [
+            "如同在 <DIR> 中启动一样运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制 Nub 的非错误输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "提高 Nub 的日志详细程度。",
+            "可重复。"
+          ],
+          "repeat": 99
+        }
+      ]
+    },
+    {
+      "name": "whoami",
+      "tip": [
+        "打印当前已认证的注册表用户。"
+      ],
+      "option": [
+        {
+          "name": "--fetch-retries",
+          "usage": [
+            "--fetch-retries <N>"
+          ],
+          "tip": [
+            "注册表请求失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-factor",
+          "usage": [
+            "--fetch-retry-factor <N>"
+          ],
+          "tip": [
+            "重试之间的指数退避因子。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-maxtimeout",
+          "usage": [
+            "--fetch-retry-maxtimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的上限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-retry-mintimeout",
+          "usage": [
+            "--fetch-retry-mintimeout <MS>"
+          ],
+          "tip": [
+            "计算重试退避的下限（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fetch-timeout",
+          "usage": [
+            "--fetch-timeout <MS>"
+          ],
+          "tip": [
+            "每次请求的 HTTP 超时时间（毫秒）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "本次调用使用的注册表 URL。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "why",
+      "alias": [
+        "w"
+      ],
+      "usage": [
+        "w|why <package>"
+      ],
+      "tip": [
+        "解释包为何被安装（与包名精确匹配）。"
+      ],
+      "option": [
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅跟踪以 devDependency 为起点的依赖链。"
+          ]
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --dir <DIR>"
+          ],
+          "tip": [
+            "运行前切换到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "当工作区选择器未匹配到任何包时报错。",
+            "默认: 警告并以 0 退出。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "仅针对与 PATTERN 匹配的工作区包。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--filter-prod",
+          "usage": [
+            "--filter-prod <PATTERN>"
+          ],
+          "tip": [
+            "--filter 的生产环境专用变体。",
+            "依赖图遍历跳过 devDependencies。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-workspace-root",
+          "tip": [
+            "在所选包之外还包括工作区根包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出 - 依赖链对象数组。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "将每个节点的 .nub/<dep_path> 存储路径附加到树输出。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "制表符分隔输出: 每个依赖链一行。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "--prod",
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod, --production"
+          ],
+          "tip": [
+            "仅跟踪以生产（或可选）依赖为起点的依赖链。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在所有工作区包中运行（等同于 --filter=*）。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --check"
+      ],
+      "tip": [
+        "语法检查脚本而不执行它。"
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<when>]"
+      ],
+      "tip": [
+        "颜色模式: auto（默认）、always、never。"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终输出颜色。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "仅当输出为终端时才使用颜色。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "始终不输出颜色。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cpu-prof",
+      "tip": [
+        "退出时写入 V8 CPU 分析文件。"
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <dir>"
+      ],
+      "tip": [
+        "如同在 <DIR> 中启动一样运行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-warning",
+      "usage": [
+        "--disable-warning <code|type>"
+      ],
+      "tip": [
+        "抑制特定的警告。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--enable-source-maps",
+      "tip": [
+        "为堆栈跟踪启用 source-map 支持。"
+      ]
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <file>"
+      ],
+      "tip": [
+        "从 <file> 加载环境变量。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--eval",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eval <code>"
+      ],
+      "tip": [
+        "求值 <code>。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--heap-prof",
+      "tip": [
+        "退出时写入 V8 堆分析文件。"
+      ]
+    },
+    {
+      "name": "--import",
+      "usage": [
+        "--import <module>"
+      ],
+      "tip": [
+        "预加载 ES 模块。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--input-type",
+      "usage": [
+        "--input-type <type>"
+      ],
+      "tip": [
+        "为 --eval / 标准输入设置输入类型。",
+        "'module' 或 'commonjs'。"
+      ],
+      "next": [
+        {
+          "name": "commonjs",
+          "tip": [
+            "将输入解释为 CommonJS。"
+          ]
+        },
+        {
+          "name": "module",
+          "tip": [
+            "将输入解释为 ES 模块。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--inspect",
+      "usage": [
+        "--inspect[=[host:]port]"
+      ],
+      "tip": [
+        "激活检查器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-brk",
+      "usage": [
+        "--inspect-brk[=[host:]port]"
+      ],
+      "tip": [
+        "激活检查器并在启动时中断。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-wait",
+      "usage": [
+        "--inspect-wait[=[host:]port]"
+      ],
+      "tip": [
+        "激活检查器并等待附加。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-old-space-size",
+      "usage": [
+        "--max-old-space-size <mb>"
+      ],
+      "tip": [
+        "设置 V8 的旧空间大小上限。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-deprecation",
+      "tip": [
+        "抑制弃用警告。"
+      ]
+    },
+    {
+      "name": "--no-warnings",
+      "tip": [
+        "抑制所有进程警告。"
+      ]
+    },
+    {
+      "name": "--node",
+      "tip": [
+        "在普通 Node 上运行, 不做增强（兼容逃生舱）。"
+      ]
+    },
+    {
+      "name": "--pending-deprecation",
+      "tip": [
+        "发出待处理的弃用警告。"
+      ]
+    },
+    {
+      "name": "--preserve-symlinks",
+      "tip": [
+        "解析模块时保留符号链接。"
+      ]
+    },
+    {
+      "name": "--preserve-symlinks-main",
+      "tip": [
+        "为主模块保留符号链接。"
+      ]
+    },
+    {
+      "name": "--print",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --print <code>"
+      ],
+      "tip": [
+        "求值 <code> 并打印结果。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--prof",
+      "tip": [
+        "生成 V8 分析器采样数据。"
+      ]
+    },
+    {
+      "name": "--redirect-warnings",
+      "usage": [
+        "--redirect-warnings <file>"
+      ],
+      "tip": [
+        "将警告写入文件, 而不是标准错误。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-dir",
+      "usage": [
+        "--report-dir <dir>"
+      ],
+      "tip": [
+        "诊断报告的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-filename",
+      "usage": [
+        "--report-filename <file>"
+      ],
+      "tip": [
+        "诊断报告的文件名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--report-on-fatalerror",
+      "tip": [
+        "在致命错误时写入报告。"
+      ]
+    },
+    {
+      "name": "--report-on-signal",
+      "tip": [
+        "进程收到信号时写入报告。"
+      ]
+    },
+    {
+      "name": "--report-uncaught-exception",
+      "tip": [
+        "在未捕获异常时写入报告。"
+      ]
+    },
+    {
+      "name": "--require",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --require <module>"
+      ],
+      "tip": [
+        "预加载 CommonJS 模块。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "抑制 Nub 的非错误输出。"
+      ]
+    },
+    {
+      "name": "--stack-trace-limit",
+      "usage": [
+        "--stack-trace-limit <n>"
+      ],
+      "tip": [
+        "设置 Error.stackTraceLimit。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--throw-deprecation",
+      "tip": [
+        "在使用已弃用 API 时抛出异常。"
+      ]
+    },
+    {
+      "name": "--title",
+      "usage": [
+        "--title <title>"
+      ],
+      "tip": [
+        "启动时设置 process.title。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace-deprecation",
+      "tip": [
+        "为弃用警告显示堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--trace-exit",
+      "tip": [
+        "在进程退出时显示堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--trace-sync-io",
+      "tip": [
+        "在同步 I/O 时显示堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--trace-uncaught",
+      "tip": [
+        "在未捕获异常时显示堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--trace-warnings",
+      "tip": [
+        "在进程警告时显示堆栈跟踪。"
+      ]
+    },
+    {
+      "name": "--use-largepages",
+      "usage": [
+        "--use-largepages <mode>"
+      ],
+      "tip": [
+        "使用大页面: off、on 或 silent。"
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "禁用大页面。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "启用大页面。"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "启用但不显示警告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--v8-options",
+      "tip": [
+        "打印 V8 命令行选项。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "提高 Nub 的日志详细程度。",
+        "可重复。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "打印 nub 版本。"
+      ]
+    },
+    {
+      "name": "--watch",
+      "tip": [
+        "以 watch 模式运行。"
+      ]
+    },
+    {
+      "name": "--watch-path",
+      "usage": [
+        "--watch-path <path>"
+      ],
+      "tip": [
+        "要监视的路径。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--watch-preserve-output",
+      "tip": [
+        "在 watch 重启之间保留输出。"
+      ]
+    },
+    {
+      "name": "--zero-fill-buffers",
+      "tip": [
+        "对所有新分配的 Buffer 实例零填充。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3709 @@
+{
+  "meta": {
+    "url": "https://lore.org",
+    "description": [
+      "下一代开源版本控制系统。",
+      "专为大文件、大团队和可扩展工作流而设计。"
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "身份验证相关命令。"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "清除所有存储的身份验证数据。"
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [user-id]..."
+          ],
+          "tip": [
+            "显示当前用户或指定用户 ID 的身份信息。"
+          ],
+          "option": [
+            {
+              "name": "--with-token",
+              "tip": [
+                "在输出中包含缓存的令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有存储的身份验证身份。"
+          ],
+          "option": [
+            {
+              "name": "--with-token",
+              "tip": [
+                "在输出中包含缓存的令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login [remote-url]"
+          ],
+          "tip": [
+            "对 CLI 进行身份验证。"
+          ],
+          "option": [
+            {
+              "name": "--auth-url",
+              "usage": [
+                "--auth-url <AUTH_URL>"
+              ],
+              "tip": [
+                "带协议方案的身份验证服务 URL。在仓库外使用 --token 登录且没有远程 URL 时必需。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-browser",
+              "tip": [
+                "避免打开浏览器进行登录。"
+              ]
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "非交互式登录的令牌值（需要 --token-type）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--token-type",
+              "usage": [
+                "--token-type <TOKEN_TYPE>"
+              ],
+              "tip": [
+                "非交互式登录的令牌类型（例如 \"api-key\"、\"eg1\"、\"lore\"）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "移除存储的身份验证和授权令牌。"
+          ],
+          "option": [
+            {
+              "name": "--auth-url",
+              "usage": [
+                "--auth-url <auth-url>"
+              ],
+              "tip": [
+                "身份验证服务 URL（省略则使用当前仓库的身份验证 URL）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <resource>"
+              ],
+              "tip": [
+                "要移除特定授权的资源 ID（例如 \"urc-{id}\"）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--user-id",
+              "usage": [
+                "--user-id <user-id>"
+              ],
+              "tip": [
+                "要移除的用户 ID（省略则移除所有身份）。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "tip": [
+        "分支相关命令。"
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "usage": [
+            "archive <branch>"
+          ],
+          "tip": [
+            "归档现有分支。"
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <branch>"
+          ],
+          "tip": [
+            "创建新分支。"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <id>"
+              ],
+              "tip": [
+                "可选的显式分支 ID（十六进制编码的 16 字节标识符）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [OPTIONS] <target>"
+          ],
+          "tip": [
+            "使用共同祖先基础修订比较两个分支。"
+          ],
+          "option": [
+            {
+              "name": "--auto-resolve",
+              "tip": [
+                "如果为 true，则尝试自动解决冲突。"
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <source>"
+              ],
+              "tip": [
+                "源分支的名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [branch]"
+          ],
+          "tip": [
+            "获取指定分支的信息。"
+          ]
+        },
+        {
+          "name": "latest",
+          "tip": [
+            "分支最新相关命令。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [LIMIT]"
+              ],
+              "tip": [
+                "列出最新分支历史记录条目。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "要查询的分支。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出可用分支。"
+          ],
+          "option": [
+            {
+              "name": "--archived",
+              "tip": [
+                "包含已归档的本地分支。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "merge",
+          "usage": [
+            "merge [OPTIONS] <branch|--id <branch-id>>"
+          ],
+          "tip": [
+            "合并两个分支。"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <branch-id>"
+              ],
+              "tip": [
+                "要合并到当前分支的源分支 ID。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "合并无冲突时更改提交消息。"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "中止合并过程。"
+              ],
+              "option": [
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "仅中止主仓库合并，保留链接 pin 更新。"
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "仅中止给定挂载路径下特定链接仓库的合并。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "into",
+              "usage": [
+                "into [OPTIONS] <branch> <MESSAGE>"
+              ],
+              "tip": [
+                "合并到分支。"
+              ],
+              "option": [
+                {
+                  "name": "--id",
+                  "usage": [
+                    "--id <branch-id>"
+                  ],
+                  "tip": [
+                    "要将当前分支合并到的目标分支 ID。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "仅合并主仓库，跳过所有链接仓库。"
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "仅合并给定挂载路径下的特定链接仓库。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "解决合并冲突。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "使用我的更改来解决。"
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "使用对方的更改来解决。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "重新启动合并，重置当前合并状态。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start [OPTIONS] <branch|--id <branch-id>>"
+              ],
+              "tip": [
+                "启动合并过程。"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "执行合并开始的演练，仅报告将要进行的更改，不更改文件系统中的任何内容。"
+                  ]
+                },
+                {
+                  "name": "--id",
+                  "usage": [
+                    "--id <branch-id>"
+                  ],
+                  "tip": [
+                    "要合并到当前分支的源分支 ID。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "仅合并主仓库，跳过所有链接仓库。"
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "仅合并给定挂载路径下的特定链接仓库。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--message",
+                  "usage": [
+                    "--message <MESSAGE>"
+                  ],
+                  "tip": [
+                    "合并无冲突时更改提交消息。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--no-commit",
+                  "tip": [
+                    "即使合并无冲突也禁用自动提交。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "将合并标记为未解决。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "分支元数据操作。"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear [keys]..."
+              ],
+              "tip": [
+                "清除分支上的元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "分支名称（未指定时使用当前分支）。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "从分支获取元数据（省略 key 则列出全部）。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "分支名称（未指定时使用当前分支）。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "在分支上设置元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "指示值为二进制文件的路径。"
+                  ]
+                },
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "分支名称（未指定时使用当前分支）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--numeric",
+                  "tip": [
+                    "指示值为数值（u64）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "protect",
+          "usage": [
+            "protect <branch>"
+          ],
+          "tip": [
+            "保护分支免受直接推送。"
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [branch]"
+          ],
+          "tip": [
+            "将提交推送到远程。"
+          ],
+          "option": [
+            {
+              "name": "--fast-forward-merge",
+              "tip": [
+                "如果目标分支头已移动，允许服务器进行快进合并。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "usage": [
+            "reset [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "重置分支的本地最新指针。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "要重置的分支，未设置时为当前分支。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "switch",
+          "usage": [
+            "switch [OPTIONS] <branch> [revision]"
+          ],
+          "tip": [
+            "切换到其他分支。"
+          ],
+          "option": [
+            {
+              "name": "--bare",
+              "tip": [
+                "仅更新锚点跟踪而不修改或验证文件，适用于裸仓库。"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "执行同步演练，仅报告将要进行的更改，不更改文件系统中的任何内容。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "保留最后一个本地最新修订，不从远程同步最新修订（离线模式隐含）。"
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "重置所有本地已修改文件以匹配传入的修订。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unprotect",
+          "usage": [
+            "unprotect <branch>"
+          ],
+          "tip": [
+            "移除分支的推送保护。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "usage": [
+        "clone [OPTIONS] <url> [path]"
+      ],
+      "tip": [
+        "将远程仓库克隆到给定路径。"
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "不带文件克隆，仅获取最新修订树。"
+          ]
+        },
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <branch>"
+          ],
+          "tip": [
+            "要同步的可选分支（完整修订说明符的简写）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-depth-limit",
+          "usage": [
+            "--dependency-depth-limit <depth>"
+          ],
+          "tip": [
+            "最大依赖遍历深度（0 表示无限制）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-recursive",
+          "tip": [
+            "在基于依赖的克隆过程中递归跟踪传递依赖。"
+          ]
+        },
+        {
+          "name": "--dependency-tag",
+          "usage": [
+            "--dependency-tag <tag>"
+          ],
+          "tip": [
+            "在基于依赖的克隆过程中用于过滤依赖的标签。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--direct-file-io",
+          "tip": [
+            "使用直接文件 I/O 而不是内存映射文件。"
+          ]
+        },
+        {
+          "name": "--direct-file-write",
+          "tip": [
+            "直接写入目标文件，而不是先写入临时文件再移动到目标位置。"
+          ]
+        },
+        {
+          "name": "--layer",
+          "usage": [
+            "--layer <repository>"
+          ],
+          "tip": [
+            "要添加的层。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--layer-metadata",
+          "usage": [
+            "--layer-metadata <key>"
+          ],
+          "tip": [
+            "用于链接层修订的元数据键。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-tracking",
+          "tip": [
+            "不进行本地仓库跟踪的克隆（仅内存存储）。"
+          ]
+        },
+        {
+          "name": "--prefetch",
+          "usage": [
+            "--prefetch <file>"
+          ],
+          "tip": [
+            "包含要预取文件列表的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "要同步的可选修订。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-file",
+          "usage": [
+            "--root-file <path>"
+          ],
+          "tip": [
+            "基于依赖的选择性克隆的根文件（仅克隆这些文件及其依赖）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-store-path",
+          "usage": [
+            "--shared-store-path <SHARED_STORE_PATH>"
+          ],
+          "tip": [
+            "使用此路径而非系统默认路径作为共享存储位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-shared-store",
+          "tip": [
+            "使用共享存储而不是创建本地不可变存储。"
+          ]
+        },
+        {
+          "name": "--view",
+          "usage": [
+            "--view <view>"
+          ],
+          "tip": [
+            "可选的客户端视图过滤文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--virtual",
+          "tip": [
+            "使用 split-write 文件系统进行虚拟克隆。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "usage": [
+        "commit [OPTIONS] <MESSAGE>"
+      ],
+      "tip": [
+        "提交已暂存的修订。"
+      ],
+      "option": [
+        {
+          "name": "--layer",
+          "usage": [
+            "--layer <LAYER>"
+          ],
+          "tip": [
+            "仅提交此层中的更改（挂载路径相对于仓库根目录）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--layer-message",
+          "usage": [
+            "--layer-message <PATH> <MESSAGE>"
+          ],
+          "tip": [
+            "按层提交消息。接受两个值：<path> <message>。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--link",
+          "usage": [
+            "--link <LINK>"
+          ],
+          "tip": [
+            "仅提交此链接仓库中的更改（挂载路径相对于仓库根目录）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--link-message",
+          "usage": [
+            "--link-message <PATH> <MESSAGE>"
+          ],
+          "tip": [
+            "按链接提交消息。接受两个值：<path> <message>。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stats",
+          "tip": [
+            "打印统计信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions <shell> [path]"
+      ],
+      "tip": [
+        "生成终端自动补全。",
+        "支持的 Shell：bash、elvish、fish、powershell、zsh。"
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff [paths]..."
+      ],
+      "tip": [
+        "显示文件两个修订之间的差异。"
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --context <n>"
+          ],
+          "tip": [
+            "每个 hunk 周围显示的未更改上下文行数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff3",
+          "tip": [
+            "如果给出，生成带冲突标记的三方合并输出，而不是双向统一差异。"
+          ]
+        },
+        {
+          "name": "--ignore-space-at-eol",
+          "tip": [
+            "将仅在行尾空白处不同的行视为未更改。"
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "tip": [
+            "在比较之前将内部空白序列折叠为单个空格。"
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <revision_source>"
+          ],
+          "tip": [
+            "要从中进行差异比较的源修订的可选签名，默认为当前修订。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <revision_target>"
+          ],
+          "tip": [
+            "要比较的目标修订的可选签名，默认为当前文件系统状态。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "包含所有文件路径的目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dirty",
+      "usage": [
+        "dirty [paths]..."
+      ],
+      "tip": [
+        "将文件标记为已修改，以便它们出现在 lore status 中并被 lore stage 拾取（不读取或暂存任何内容）。"
+      ],
+      "option": [
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "包含所有文件路径的目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "copy",
+          "usage": [
+            "copy <from> <to>"
+          ],
+          "tip": [
+            "将文件标记为已复制（dirty）。"
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move <from> <to>"
+          ],
+          "tip": [
+            "将文件标记为已移动（dirty）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "file",
+      "tip": [
+        "文件相关命令。"
+      ],
+      "next": [
+        {
+          "name": "dependency",
+          "tip": [
+            "管理文件依赖。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [OPTIONS] <SOURCE> [dependencies]..."
+              ],
+              "tip": [
+                "从源文件向一个或多个依赖文件添加依赖边。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "跳过循环检测。"
+                  ]
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "应用于所有已添加依赖边的标签。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [paths]..."
+              ],
+              "tip": [
+                "列出文件的依赖或依赖项。"
+              ],
+              "option": [
+                {
+                  "name": "--depth",
+                  "usage": [
+                    "--depth <limit>"
+                  ],
+                  "tip": [
+                    "最大递归深度（0 表示无限制）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--recursive",
+                  "tip": [
+                    "递归解析传递依赖。"
+                  ]
+                },
+                {
+                  "name": "--reverse",
+                  "tip": [
+                    "列出依赖项而不是依赖。"
+                  ]
+                },
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "要查询的修订（默认为已暂存/当前）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "按标签过滤。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove [OPTIONS] <SOURCE> [dependencies]..."
+              ],
+              "tip": [
+                "从源文件移除到一个或多个依赖文件的依赖边。"
+              ],
+              "option": [
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "仅移除特定标签而不是整条边。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [paths]..."
+          ],
+          "tip": [
+            "显示文件两个修订之间的差异。"
+          ],
+          "option": [
+            {
+              "name": "--context",
+              "alias": [
+                "-U"
+              ],
+              "usage": [
+                "-U, --context <n>"
+              ],
+              "tip": [
+                "每个 hunk 周围显示的未更改上下文行数。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--diff3",
+              "tip": [
+                "如果给出，生成带冲突标记的三方合并输出，而不是双向统一差异。"
+              ]
+            },
+            {
+              "name": "--ignore-space-at-eol",
+              "tip": [
+                "将仅在行尾空白处不同的行视为未更改。"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "在比较之前将内部空白序列折叠为单个空格。"
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <revision_source>"
+              ],
+              "tip": [
+                "要从中进行差异比较的源修订的可选签名，默认为当前修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <revision_target>"
+              ],
+              "tip": [
+                "要比较的目标修订的可选签名，默认为当前文件系统状态。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "dirty",
+          "usage": [
+            "dirty [paths]..."
+          ],
+          "tip": [
+            "将文件标记为已修改，以便它们出现在 lore status 中并被目录范围的 lore stage 拾取（不读取或暂存任何内容）。"
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "copy",
+              "usage": [
+                "copy <from> <to>"
+              ],
+              "tip": [
+                "将文件标记为已复制（dirty）。"
+              ]
+            },
+            {
+              "name": "move",
+              "usage": [
+                "move <from> <to>"
+              ],
+              "tip": [
+                "将文件标记为已移动（dirty）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "hash",
+          "usage": [
+            "hash [paths]..."
+          ],
+          "tip": [
+            "对本地文件进行哈希。"
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "history",
+          "usage": [
+            "history <PATH> [LENGTH]"
+          ],
+          "tip": [
+            "列出文件的修订。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "显示分支修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--depth",
+              "usage": [
+                "--depth <depth>"
+              ],
+              "tip": [
+                "初始搜索的修订数量。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--oneline",
+              "tip": [
+                "每行仅输出一个修订。"
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "开始的修订。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [paths]..."
+          ],
+          "tip": [
+            "获取指定文件或目录的信息。"
+          ],
+          "option": [
+            {
+              "name": "--filtered",
+              "tip": [
+                "如果给出，则基于当前本地过滤器计算仓库大小。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "如果给出，则基于当前本地过滤器计算本地文件系统大小和哈希。"
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "获取信息的修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "管理指定文件或目录的元数据。"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear <PATH>"
+              ],
+              "tip": [
+                "清除已暂存文件的元数据。"
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get <PATH> [key]"
+              ],
+              "tip": [
+                "从文件获取元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "获取元数据的修订。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set <PATH> [pairs]..."
+              ],
+              "tip": [
+                "为已暂存文件设置元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "指示值为文件路径。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "obliterate",
+          "tip": [
+            "销毁文件或片段。"
+          ],
+          "option": [
+            {
+              "name": "--address",
+              "usage": [
+                "--address <ADDRESS>"
+              ],
+              "tip": [
+                "blob 的地址。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "文件的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "usage": [
+            "reset [OPTIONS] <paths|--targets <file>>"
+          ],
+          "tip": [
+            "将路径或文件的更改重置为当前修订，丢弃您的本地更改。"
+          ],
+          "option": [
+            {
+              "name": "--last-merged-from",
+              "usage": [
+                "--last-merged-from <branch>"
+              ],
+              "tip": [
+                "如果给出，文件将重置为从此分支最后合并的点，如果未执行合并，则重置为从此分支的分支点。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--purge",
+              "tip": [
+                "删除未跟踪的文件。"
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "将文件重置到的修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stage",
+          "usage": [
+            "stage [OPTIONS] <paths|--targets <file>>"
+          ],
+          "tip": [
+            "暂存更改以进行提交。"
+          ],
+          "option": [
+            {
+              "name": "--case",
+              "usage": [
+                "--case <case>"
+              ],
+              "tip": [
+                "大小写更改处理。"
+              ],
+              "next": [
+                {
+                  "name": "error",
+                  "tip": [
+                    "在大小写不匹配时生成错误。"
+                  ]
+                },
+                {
+                  "name": "keep",
+                  "tip": [
+                    "在仓库中保留当前大小写（更新文件系统）。"
+                  ]
+                },
+                {
+                  "name": "rename",
+                  "tip": [
+                    "在仓库中重命名大小写（保留文件系统）。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--scan",
+              "tip": [
+                "遍历给定路径下的文件系统以检测已修改、已添加和已删除的文件。"
+              ]
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "merge",
+              "usage": [
+                "merge [paths]..."
+              ],
+              "tip": [
+                "作为合并暂存。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "包含所有文件路径的目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "move",
+              "usage": [
+                "move <from> <to>"
+              ],
+              "tip": [
+                "移动或重命名文件或目录。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unstage",
+          "usage": [
+            "unstage [paths]..."
+          ],
+          "tip": [
+            "取消暂存对文件或目录的更改。"
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "write",
+          "tip": [
+            "将数据写入特定位置。"
+          ],
+          "option": [
+            {
+              "name": "--address",
+              "usage": [
+                "--address <ADDRESS>"
+              ],
+              "tip": [
+                "blob 的地址。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "usage": [
+                "--output <OUTPUT>"
+              ],
+              "tip": [
+                "目标路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "文件的路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "修订说明符。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "history",
+      "usage": [
+        "history [LENGTH]"
+      ],
+      "tip": [
+        "列出仓库的修订。"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <branch>"
+          ],
+          "tip": [
+            "显示分支修订。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--oneline",
+          "tip": [
+            "每行仅输出一个修订。"
+          ]
+        },
+        {
+          "name": "--only-branch",
+          "tip": [
+            "到达不同分支上的修订时停止（包括分支点修订）。"
+          ]
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "从指定修订开始列出。如果未指定，则从当前分支最新修订开始列出。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "layer",
+      "tip": [
+        "层相关命令。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [OPTIONS] <path> <repository> <path>"
+          ],
+          "tip": [
+            "添加仓库层。"
+          ],
+          "option": [
+            {
+              "name": "--metadata",
+              "usage": [
+                "--metadata <metadata>"
+              ],
+              "tip": [
+                "用于匹配修订的元数据键。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出仓库层。"
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [OPTIONS] <path> [repository]"
+          ],
+          "tip": [
+            "移除仓库层。"
+          ],
+          "option": [
+            {
+              "name": "--purge",
+              "tip": [
+                "同时删除层挂载内的未跟踪文件和所有目录。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "链接相关命令。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [OPTIONS] <link_path> <link_url> <source_path>"
+          ],
+          "tip": [
+            "链接到仓库中给定点以及来自给定仓库的子路径。"
+          ],
+          "option": [
+            {
+              "name": "--disable-branching",
+              "tip": [
+                "禁用链接仓库中的自动分支创建。"
+              ]
+            },
+            {
+              "name": "--pin",
+              "usage": [
+                "--pin <pin>"
+              ],
+              "tip": [
+                "要固定链接的分支或特定修订，默认为主分支上的最新版本。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出仓库中的所有链接。"
+          ],
+          "option": [
+            {
+              "name": "--staged",
+              "tip": [
+                "仅显示具有暂存更改的链接。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <link_path>"
+          ],
+          "tip": [
+            "移除仓库中给定点的链接。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [OPTIONS] <link_path>"
+          ],
+          "tip": [
+            "将链接更新到新的 pin。"
+          ],
+          "option": [
+            {
+              "name": "--pin",
+              "usage": [
+                "--pin <pin>"
+              ],
+              "tip": [
+                "要固定链接的分支或特定修订，默认为当前分支上的最新版本。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "文件锁。"
+      ],
+      "next": [
+        {
+          "name": "acquire",
+          "usage": [
+            "acquire [OPTIONS] <paths|--branch <branch>>"
+          ],
+          "tip": [
+            "获取文件的锁。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "要在其上获取锁的分支。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "query",
+          "tip": [
+            "查询给定分支、所有者或路径的锁状态。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch-name>"
+              ],
+              "tip": [
+                "要查询锁的分支。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <owner-id>"
+              ],
+              "tip": [
+                "要查询其所属锁的所有者。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "要查询锁信息的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "usage": [
+            "release [paths]..."
+          ],
+          "tip": [
+            "释放文件的锁。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "获取锁的分支。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <owner>"
+              ],
+              "tip": [
+                "锁的所有者。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [paths]..."
+          ],
+          "tip": [
+            "获取文件的锁状态。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "获取锁的分支。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logfile",
+      "tip": [
+        "日志文件相关命令。"
+      ],
+      "next": [
+        {
+          "name": "info",
+          "tip": [
+            "获取日志文件信息。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [OPTIONS] [remote-url]"
+      ],
+      "tip": [
+        "对 CLI 进行身份验证。"
+      ],
+      "option": [
+        {
+          "name": "--auth-url",
+          "usage": [
+            "--auth-url <AUTH_URL>"
+          ],
+          "tip": [
+            "带协议方案的身份验证服务 URL。在仓库外使用 --token 登录且没有远程 URL 时必需。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-browser",
+          "tip": [
+            "避免打开浏览器进行登录。"
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "非交互式登录的令牌值（需要 --token-type）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-type",
+          "usage": [
+            "--token-type <TOKEN_TYPE>"
+          ],
+          "tip": [
+            "非交互式登录的令牌类型（例如 \"api-key\"、\"eg1\"、\"lore\"）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "notification",
+      "tip": [
+        "通知。"
+      ],
+      "next": [
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [seconds]"
+          ],
+          "tip": [
+            "订阅给定仓库上的事件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [branch]"
+      ],
+      "tip": [
+        "将提交推送到远程。"
+      ],
+      "option": [
+        {
+          "name": "--fast-forward-merge",
+          "tip": [
+            "如果目标分支头已移动，允许服务器进行快进合并。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repository",
+      "tip": [
+        "仓库相关命令。"
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "usage": [
+            "clone [OPTIONS] <url> [path]"
+          ],
+          "tip": [
+            "将远程仓库克隆到给定路径。"
+          ],
+          "option": [
+            {
+              "name": "--bare",
+              "tip": [
+                "不带文件克隆，仅获取最新修订树。"
+              ]
+            },
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "要同步的可选分支（完整修订说明符的简写）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-depth-limit",
+              "usage": [
+                "--dependency-depth-limit <depth>"
+              ],
+              "tip": [
+                "最大依赖遍历深度（0 表示无限制）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-recursive",
+              "tip": [
+                "在基于依赖的克隆过程中递归跟踪传递依赖。"
+              ]
+            },
+            {
+              "name": "--dependency-tag",
+              "usage": [
+                "--dependency-tag <tag>"
+              ],
+              "tip": [
+                "在基于依赖的克隆过程中用于过滤依赖的标签。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--direct-file-io",
+              "tip": [
+                "使用直接文件 I/O 而不是内存映射文件。"
+              ]
+            },
+            {
+              "name": "--direct-file-write",
+              "tip": [
+                "直接写入目标文件，而不是先写入临时文件再移动到目标位置。"
+              ]
+            },
+            {
+              "name": "--layer",
+              "usage": [
+                "--layer <repository>"
+              ],
+              "tip": [
+                "要添加的层。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-metadata",
+              "usage": [
+                "--layer-metadata <key>"
+              ],
+              "tip": [
+                "用于链接层修订的元数据键。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-tracking",
+              "tip": [
+                "不进行本地仓库跟踪的克隆（仅内存存储）。"
+              ]
+            },
+            {
+              "name": "--prefetch",
+              "usage": [
+                "--prefetch <file>"
+              ],
+              "tip": [
+                "包含要预取文件列表的文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "要同步的可选修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--root-file",
+              "usage": [
+                "--root-file <path>"
+              ],
+              "tip": [
+                "基于依赖的选择性克隆的根文件（仅克隆这些文件及其依赖）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-store-path",
+              "usage": [
+                "--shared-store-path <SHARED_STORE_PATH>"
+              ],
+              "tip": [
+                "使用此路径而非系统默认路径作为共享存储位置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--use-shared-store",
+              "tip": [
+                "使用共享存储而不是创建本地不可变存储。"
+              ]
+            },
+            {
+              "name": "--view",
+              "usage": [
+                "--view <view>"
+              ],
+              "tip": [
+                "可选的客户端视图过滤文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--virtual",
+              "tip": [
+                "使用 split-write 文件系统进行虚拟克隆。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "读取配置值。"
+          ],
+          "next": [
+            {
+              "name": "get",
+              "usage": [
+                "get <KEY>"
+              ],
+              "tip": [
+                "获取配置值。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <url>"
+          ],
+          "tip": [
+            "在给定目录中创建仓库。"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <description>"
+              ],
+              "tip": [
+                "仓库的可选描述。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--id",
+              "usage": [
+                "--id <id>"
+              ],
+              "tip": [
+                "仓库的可选 ID。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-store-path",
+              "usage": [
+                "--shared-store-path <SHARED_STORE_PATH>"
+              ],
+              "tip": [
+                "使用此路径而非系统默认路径作为共享存储位置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--use-shared-store",
+              "tip": [
+                "使用共享存储而不是创建本地不可变存储。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <url>"
+          ],
+          "tip": [
+            "删除仓库。"
+          ]
+        },
+        {
+          "name": "dump",
+          "tip": [
+            "转储仓库状态信息。"
+          ],
+          "option": [
+            {
+              "name": "--max-depth",
+              "usage": [
+                "--max-depth <max-depth>"
+              ],
+              "tip": [
+                "树转储的可选最大深度。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "仓库中开始转储的可选路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "要转储的可选修订。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "对本地仓库存储运行完整垃圾回收。"
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [url]"
+          ],
+          "tip": [
+            "获取仓库的信息。"
+          ]
+        },
+        {
+          "name": "instance",
+          "tip": [
+            "实例管理。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出此仓库的所有已注册实例。"
+              ]
+            },
+            {
+              "name": "prune",
+              "tip": [
+                "移除过期的实例条目。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list <url>"
+          ],
+          "tip": [
+            "列出仓库。"
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "仓库元数据操作。"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear [keys]..."
+              ],
+              "tip": [
+                "清除仓库中的元数据。"
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "从仓库获取元数据（省略 key 则列出全部）。"
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "在仓库上设置元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "指示值为二进制文件的路径。"
+                  ]
+                },
+                {
+                  "name": "--numeric",
+                  "tip": [
+                    "指示值为数值（u64）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [OPTIONS] [PATH]..."
+          ],
+          "tip": [
+            "显示当前仓库状态。"
+          ],
+          "option": [
+            {
+              "name": "--check-dirty",
+              "tip": [
+                "在不进行完整扫描的情况下，对照文件系统验证已标记为已修改的文件。"
+              ]
+            },
+            {
+              "name": "--count",
+              "tip": [
+                "统计目录和文件数量（有暂存状态时使用暂存状态，否则使用当前修订；视图过滤）。"
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "在计算状态之前丢弃现有的暂存锚点。结合 --scan 可从干净状态开始扫描。"
+              ]
+            },
+            {
+              "name": "--revision-only",
+              "tip": [
+                "仅显示修订信息，跳过所有差异。"
+              ]
+            },
+            {
+              "name": "--scan",
+              "tip": [
+                "遍历给定路径下的文件系统，并将每个文件与当前修订进行核对。",
+                "检测到的修改、添加和删除标记为已修改；过期的 dirty 标志将被清除。"
+              ]
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "store",
+          "tip": [
+            "访问仓库数据存储。"
+          ],
+          "next": [
+            {
+              "name": "immutable",
+              "tip": [
+                "不可变存储上的操作。"
+              ],
+              "next": [
+                {
+                  "name": "query",
+                  "usage": [
+                    "query <ADDRESS>"
+                  ],
+                  "tip": [
+                    "查询存储。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--recurse",
+                      "tip": [
+                        "递归进入子片段。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update-path",
+          "tip": [
+            "更新此实例的存储路径。"
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "验证仓库状态一致性。"
+          ],
+          "option": [
+            {
+              "name": "--heal",
+              "tip": [
+                "尝试修复新暂存状态中发现的不一致。"
+              ]
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "仓库中开始验证的可选路径（用于状态验证）。"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "fragment",
+              "usage": [
+                "fragment <HASH>"
+              ],
+              "tip": [
+                "验证本地存储中的特定片段。"
+              ],
+              "option": [
+                {
+                  "name": "--context",
+                  "usage": [
+                    "--context <CONTEXT>"
+                  ],
+                  "tip": [
+                    "要验证的地址的上下文部分。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--heal",
+                  "tip": [
+                    "如果验证失败则尝试修复（仅限远程）。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "state",
+              "tip": [
+                "验证仓库状态一致性（默认）。"
+              ],
+              "option": [
+                {
+                  "name": "--heal",
+                  "tip": [
+                    "尝试修复新暂存状态中发现的不一致。"
+                  ]
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "仓库中开始验证的可选路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "usage": [
+        "reset [OPTIONS] <paths|--targets <file>>"
+      ],
+      "tip": [
+        "重置对文件或目录的更改。"
+      ],
+      "option": [
+        {
+          "name": "--last-merged-from",
+          "usage": [
+            "--last-merged-from <branch>"
+          ],
+          "tip": [
+            "如果给出，文件将重置为从此分支最后合并的点，如果未执行合并，则重置为从此分支的分支点。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "删除未跟踪的文件。"
+          ]
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "将文件重置到的修订。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "包含所有文件路径的目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "revision",
+      "tip": [
+        "修订相关命令。"
+      ],
+      "next": [
+        {
+          "name": "amend",
+          "usage": [
+            "amend [OPTIONS] <MESSAGE>"
+          ],
+          "tip": [
+            "修改最新提交的消息。"
+          ],
+          "option": [
+            {
+              "name": "--stats",
+              "tip": [
+                "打印统计信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bisect",
+          "tip": [
+            "在 start（不含）和 end（含）之间对引入的更改进行二分搜索。"
+          ],
+          "option": [
+            {
+              "name": "--end",
+              "usage": [
+                "--end <end_revision>"
+              ],
+              "tip": [
+                "已知具有该更改的最早修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--start",
+              "usage": [
+                "--start <start_revision>"
+              ],
+              "tip": [
+                "已知不具有该更改的最新修订。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "cherry-pick",
+          "usage": [
+            "cherry-pick [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "将修订拣选到当前已同步的修订上。"
+          ],
+          "option": [
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "拣选无冲突时更改提交消息。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-commit",
+              "tip": [
+                "即使拣选无冲突也禁用自动提交。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "中止拣选。"
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "解决冲突。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "使用我的更改来解决。"
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "使用传入的更改来解决。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "重新启动拣选，重置当前拣选状态。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "将拣选标记为未解决。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commit",
+          "usage": [
+            "commit [OPTIONS] <MESSAGE>"
+          ],
+          "tip": [
+            "提交已暂存的状态。"
+          ],
+          "option": [
+            {
+              "name": "--layer",
+              "usage": [
+                "--layer <LAYER>"
+              ],
+              "tip": [
+                "仅提交此层中的更改（挂载路径相对于仓库根目录）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-message",
+              "usage": [
+                "--layer-message <PATH> <MESSAGE>"
+              ],
+              "tip": [
+                "按层提交消息。接受两个值：<path> <message>。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--link",
+              "usage": [
+                "--link <LINK>"
+              ],
+              "tip": [
+                "仅提交此链接仓库中的更改（挂载路径相对于仓库根目录）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--link-message",
+              "usage": [
+                "--link-message <PATH> <MESSAGE>"
+              ],
+              "tip": [
+                "按链接提交消息。接受两个值：<path> <message>。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--stats",
+              "tip": [
+                "打印统计信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [OPTIONS] <revision_source>"
+          ],
+          "tip": [
+            "比较两个修订。"
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "仓库中的可选路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <revision_target>"
+              ],
+              "tip": [
+                "要比较的目标修订，默认为当前修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "find",
+          "tip": [
+            "查找修订。"
+          ],
+          "next": [
+            {
+              "name": "metadata",
+              "usage": [
+                "metadata <key> [value]"
+              ],
+              "tip": [
+                "按元数据查找修订。"
+              ]
+            },
+            {
+              "name": "number",
+              "usage": [
+                "number <NUMBER>"
+              ],
+              "tip": [
+                "按编号查找修订。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "history",
+          "usage": [
+            "history [LENGTH]"
+          ],
+          "tip": [
+            "列出仓库的修订。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "显示分支修订。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--oneline",
+              "tip": [
+                "每行仅输出一个修订。"
+              ]
+            },
+            {
+              "name": "--only-branch",
+              "tip": [
+                "到达不同分支上的修订时停止（包括分支点修订）。"
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "从指定修订开始列出。如果未指定，则从当前分支最新修订开始列出。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [revision]"
+          ],
+          "tip": [
+            "获取修订的信息。"
+          ],
+          "option": [
+            {
+              "name": "--delta",
+              "tip": [
+                "显示增量信息。"
+              ]
+            },
+            {
+              "name": "--metadata",
+              "tip": [
+                "显示文件元数据信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "管理指定修订的元数据。"
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "清除已暂存修订的元数据。"
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "从修订获取元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "获取元数据的修订。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "为已暂存修订设置元数据。"
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "指示值为文件路径。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "restore",
+          "usage": [
+            "restore [MESSAGE]"
+          ],
+          "tip": [
+            "将当前修订恢复为最新修订。"
+          ]
+        },
+        {
+          "name": "revert",
+          "usage": [
+            "revert [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "从当前已同步的修订还原一个修订。"
+          ],
+          "option": [
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "还原无冲突时更改提交消息。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-commit",
+              "tip": [
+                "即使还原无冲突也禁用自动提交。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "中止还原。"
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "解决冲突。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "使用我的更改来解决。"
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "使用传入的更改来解决。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "重新启动还原，重置当前还原状态。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "将还原标记为未解决。"
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "目标文件（targets file）的路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "synchronize",
+          "alias": [
+            "sync"
+          ],
+          "usage": [
+            "sync|synchronize [OPTIONS] [revision]"
+          ],
+          "tip": [
+            "同步到仓库的给定状态。"
+          ],
+          "option": [
+            {
+              "name": "--dependency-depth-limit",
+              "usage": [
+                "--dependency-depth-limit <depth>"
+              ],
+              "tip": [
+                "最大依赖遍历深度（0 表示无限制）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-recursive",
+              "tip": [
+                "在基于依赖的同步过程中递归跟踪传递依赖。"
+              ]
+            },
+            {
+              "name": "--dependency-tag",
+              "usage": [
+                "--dependency-tag <tag>"
+              ],
+              "tip": [
+                "在基于依赖的同步过程中用于过滤依赖的标签。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--forward-changes",
+              "tip": [
+                "如果同步到本地修订，则快进任何本地更改。"
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "重置所有本地已修改文件以匹配传入的修订。"
+              ]
+            },
+            {
+              "name": "--root-file",
+              "usage": [
+                "--root-file <path>"
+              ],
+              "tip": [
+                "基于依赖的选择性同步的根文件（仅同步这些文件及其依赖的更改）。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "tip": [
+        "在服务进程中管理仓库。"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "将此进程作为服务运行。"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "为仓库启动服务。"
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [all]"
+          ],
+          "tip": [
+            "停止仓库的服务。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shared-store",
+      "tip": [
+        "管理共享存储。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <remote-url>"
+          ],
+          "tip": [
+            "创建由给定远程 URL 支持的共享存储。"
+          ],
+          "option": [
+            {
+              "name": "--make-default",
+              "usage": [
+                "--make-default <MAKE_DEFAULT>"
+              ],
+              "tip": [
+                "在全局配置文件中将其设置为默认共享存储，默认为 true。"
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "不设置为默认共享存储。"
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "设置为默认共享存储。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "创建共享存储的位置。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "显示共享存储信息。"
+          ]
+        },
+        {
+          "name": "set-use-automatically",
+          "usage": [
+            "set-use-automatically <enabled>"
+          ],
+          "tip": [
+            "是否自动使用共享存储。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stage",
+      "usage": [
+        "stage [OPTIONS] <paths|--targets <file>>"
+      ],
+      "tip": [
+        "暂存更改以进行提交。"
+      ],
+      "option": [
+        {
+          "name": "--case",
+          "usage": [
+            "--case <case>"
+          ],
+          "tip": [
+            "大小写更改处理。"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "在大小写不匹配时生成错误。"
+              ]
+            },
+            {
+              "name": "keep",
+              "tip": [
+                "在仓库中保留当前大小写（更新文件系统）。"
+              ]
+            },
+            {
+              "name": "rename",
+              "tip": [
+                "在仓库中重命名大小写（保留文件系统）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scan",
+          "tip": [
+            "遍历给定路径下的文件系统以检测已修改、已添加和已删除的文件。"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "包含所有文件路径的目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "merge",
+          "usage": [
+            "merge [paths]..."
+          ],
+          "tip": [
+            "作为合并暂存。"
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "包含所有文件路径的目标文件（targets file）的路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move <from> <to>"
+          ],
+          "tip": [
+            "移动或重命名文件或目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [OPTIONS] [PATH]..."
+      ],
+      "tip": [
+        "显示当前仓库状态。"
+      ],
+      "option": [
+        {
+          "name": "--check-dirty",
+          "tip": [
+            "在不进行完整扫描的情况下，对照文件系统验证已标记为已修改的文件。"
+          ]
+        },
+        {
+          "name": "--count",
+          "tip": [
+            "统计目录和文件数量（有暂存状态时使用暂存状态，否则使用当前修订；视图过滤）。"
+          ]
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "在计算状态之前丢弃现有的暂存锚点。结合 --scan 可从干净状态开始扫描。"
+          ]
+        },
+        {
+          "name": "--revision-only",
+          "tip": [
+            "仅显示修订信息，跳过所有差异。"
+          ]
+        },
+        {
+          "name": "--scan",
+          "tip": [
+            "遍历给定路径下的文件系统，并将每个文件与当前修订进行核对。",
+            "检测到的修改、添加和删除标记为已修改；过期的 dirty 标志将被清除。"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "synchronize",
+      "alias": [
+        "sync"
+      ],
+      "usage": [
+        "sync|synchronize [OPTIONS] [revision]"
+      ],
+      "tip": [
+        "同步到仓库状态。"
+      ],
+      "option": [
+        {
+          "name": "--dependency-depth-limit",
+          "usage": [
+            "--dependency-depth-limit <depth>"
+          ],
+          "tip": [
+            "最大依赖遍历深度（0 表示无限制）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-recursive",
+          "tip": [
+            "在基于依赖的同步过程中递归跟踪传递依赖。"
+          ]
+        },
+        {
+          "name": "--dependency-tag",
+          "usage": [
+            "--dependency-tag <tag>"
+          ],
+          "tip": [
+            "在基于依赖的同步过程中用于过滤依赖的标签。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--forward-changes",
+          "tip": [
+            "如果同步到本地修订，则快进任何本地更改。"
+          ]
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "重置所有本地已修改文件以匹配传入的修订。"
+          ]
+        },
+        {
+          "name": "--root-file",
+          "usage": [
+            "--root-file <path>"
+          ],
+          "tip": [
+            "基于依赖的选择性同步的根文件（仅同步这些文件及其依赖的更改）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unstage",
+      "usage": [
+        "unstage [paths]..."
+      ],
+      "tip": [
+        "取消暂存对文件或目录的更改。"
+      ],
+      "option": [
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "目标文件（targets file）的路径。"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--cache",
+      "tip": [
+        "将从远程获取的片段有效负载缓存到本地存储中。"
+      ]
+    },
+    {
+      "name": "--compress-limit",
+      "usage": [
+        "--compress-limit <count>"
+      ],
+      "tip": [
+        "设置最大并行压缩操作数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "启用调试输出。"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "演练模式，仅报告将要更改的内容，不对本地文件系统进行任何更改。"
+      ]
+    },
+    {
+      "name": "--file-count-limit",
+      "usage": [
+        "--file-count-limit <count>"
+      ],
+      "tip": [
+        "设置最大并行打开文件数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file-size-limit",
+      "usage": [
+        "--file-size-limit <size>"
+      ],
+      "tip": [
+        "设置并行打开文件的最大总大小（字节）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "尽可能强制执行操作。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--identity",
+      "usage": [
+        "--identity <IDENTITY>"
+      ],
+      "tip": [
+        "使用给定的身份。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--local",
+      "tip": [
+        "使用本地数据。"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <level>"
+      ],
+      "tip": [
+        "设置日志级别。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-connections",
+      "usage": [
+        "--max-connections <MAX_CONNECTIONS>"
+      ],
+      "tip": [
+        "设置最大并行连接数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-gc",
+      "tip": [
+        "阻止此命令的自动增量垃圾回收；否则它会在写入时在后台运行。lore repository gc 始终会运行完整回收。"
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-pager"
+      ],
+      "tip": [
+        "禁用分页。"
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "禁用交互式提示（例如，按链接的提交消息）。"
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "强制离线模式。"
+      ]
+    },
+    {
+      "name": "--remote",
+      "tip": [
+        "使用远程数据。"
+      ]
+    },
+    {
+      "name": "--repository",
+      "usage": [
+        "--repository <path>"
+      ],
+      "tip": [
+        "使用给定路径作为仓库路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-limit",
+      "usage": [
+        "--search-limit <SEARCH_LIMIT>"
+      ],
+      "tip": [
+        "在匹配或查找修订时设置最大搜索修订数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-nearest",
+      "tip": [
+        "匹配修订时设置为搜索最近的匹配项。"
+      ]
+    },
+    {
+      "name": "--sync-data",
+      "tip": [
+        "在刷新期间强制将数据同步到存储介质。"
+      ]
+    }
+  ]
+}

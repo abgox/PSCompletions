@@ -1,0 +1,3709 @@
+{
+  "meta": {
+    "url": "https://lore.org",
+    "description": [
+      "Next-generation, open-source version control system.",
+      "Designed for large files, large teams, and scalable workflows."
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "Authentication commands."
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "tip": [
+            "Clear all stored authentication data."
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [user-id]..."
+          ],
+          "tip": [
+            "Display identity information for the current user or specified user IDs."
+          ],
+          "option": [
+            {
+              "name": "--with-token",
+              "tip": [
+                "Include cached tokens in the output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all stored authentication identities."
+          ],
+          "option": [
+            {
+              "name": "--with-token",
+              "tip": [
+                "Include cached tokens in the output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login [remote-url]"
+          ],
+          "tip": [
+            "Authenticate the CLI."
+          ],
+          "option": [
+            {
+              "name": "--auth-url",
+              "usage": [
+                "--auth-url <AUTH_URL>"
+              ],
+              "tip": [
+                "Auth service URL with scheme. Required when logging in with --token outside a repository without a remote-url."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-browser",
+              "tip": [
+                "Avoid opening a browser to login."
+              ]
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "Token value for non-interactive login (requires --token-type)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--token-type",
+              "usage": [
+                "--token-type <TOKEN_TYPE>"
+              ],
+              "tip": [
+                "Token type for non-interactive login (e.g. \"api-key\", \"eg1\", \"lore\")."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Remove stored authentication and authorization tokens."
+          ],
+          "option": [
+            {
+              "name": "--auth-url",
+              "usage": [
+                "--auth-url <auth-url>"
+              ],
+              "tip": [
+                "Auth service URL (omit to use current repository's auth URL)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <resource>"
+              ],
+              "tip": [
+                "Resource ID to remove a specific authorization (e.g. \"urc-{id}\")."
+              ],
+              "next": []
+            },
+            {
+              "name": "--user-id",
+              "usage": [
+                "--user-id <user-id>"
+              ],
+              "tip": [
+                "User ID to remove (omit to remove all identities)."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "tip": [
+        "Branch commands."
+      ],
+      "next": [
+        {
+          "name": "archive",
+          "usage": [
+            "archive <branch>"
+          ],
+          "tip": [
+            "Archive an existing branch."
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <branch>"
+          ],
+          "tip": [
+            "Create a new branch."
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <id>"
+              ],
+              "tip": [
+                "Optional explicit branch ID (hex-encoded 16-byte identifier)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [OPTIONS] <target>"
+          ],
+          "tip": [
+            "Diff two branches using the common ancestor base revision."
+          ],
+          "option": [
+            {
+              "name": "--auto-resolve",
+              "tip": [
+                "Attempt to auto resolve conflicts if true."
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <source>"
+              ],
+              "tip": [
+                "Name of the source branch."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [branch]"
+          ],
+          "tip": [
+            "Get info about the given branch."
+          ]
+        },
+        {
+          "name": "latest",
+          "tip": [
+            "Branch latest related commands."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [LIMIT]"
+              ],
+              "tip": [
+                "List latest branch history entries."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "Branch to query."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List available branches."
+          ],
+          "option": [
+            {
+              "name": "--archived",
+              "tip": [
+                "Include archived local branches."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "merge",
+          "usage": [
+            "merge [OPTIONS] <branch|--id <branch-id>>"
+          ],
+          "tip": [
+            "Merge two branches."
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <branch-id>"
+              ],
+              "tip": [
+                "ID of the source branch to merge into the current branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "Change the message for committing when no conflicts arise from the merge."
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "Abort a merge process."
+              ],
+              "option": [
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "Abort only the main repository merge, keeping link pin updates."
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "Abort only a specific linked repository merge at the given mount path."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "into",
+              "usage": [
+                "into [OPTIONS] <branch> <MESSAGE>"
+              ],
+              "tip": [
+                "Merge into branch."
+              ],
+              "option": [
+                {
+                  "name": "--id",
+                  "usage": [
+                    "--id <branch-id>"
+                  ],
+                  "tip": [
+                    "ID of the target branch to merge the current branch into."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "Merge only the main repository, skipping all linked repositories."
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "Merge only a specific linked repository at the given mount path."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "Resolves the merge."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "Resolve using my changes."
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "Resolve using their changes."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "Restart the merge, resetting the current merge state."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start [OPTIONS] <branch|--id <branch-id>>"
+              ],
+              "tip": [
+                "Start a merge process."
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "Do a dry run merge start and only report what changes would be done, do not change anything in the file system."
+                  ]
+                },
+                {
+                  "name": "--id",
+                  "usage": [
+                    "--id <branch-id>"
+                  ],
+                  "tip": [
+                    "ID of the source branch to merge into the current branch."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--ignore-links",
+                  "tip": [
+                    "Merge only the main repository, skipping all linked repositories."
+                  ]
+                },
+                {
+                  "name": "--link",
+                  "usage": [
+                    "--link <LINK>"
+                  ],
+                  "tip": [
+                    "Merge only a specific linked repository at the given mount path."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--message",
+                  "usage": [
+                    "--message <MESSAGE>"
+                  ],
+                  "tip": [
+                    "Change the message for committing when no conflicts arise from the merge."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--no-commit",
+                  "tip": [
+                    "Disable auto commits even if no conflicts arise from the merge."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "Marks the merge unresolved."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Branch metadata operations."
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear [keys]..."
+              ],
+              "tip": [
+                "Clear metadata from the branch."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "Branch name (uses current branch if not specified)."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "Get metadata from the branch (omit key to list all)."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "Branch name (uses current branch if not specified)."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "Set metadata on the branch."
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "Indicator that values are paths to binary files."
+                  ]
+                },
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <branch>"
+                  ],
+                  "tip": [
+                    "Branch name (uses current branch if not specified)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--numeric",
+                  "tip": [
+                    "Indicator that values are numeric (u64)."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "protect",
+          "usage": [
+            "protect <branch>"
+          ],
+          "tip": [
+            "Protect a branch from direct pushes."
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push [branch]"
+          ],
+          "tip": [
+            "Push commits to remote."
+          ],
+          "option": [
+            {
+              "name": "--fast-forward-merge",
+              "tip": [
+                "Allow the server to fast-forward merge if the target branch head has moved."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "usage": [
+            "reset [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "Reset local latest pointer for a branch."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Branch to reset, or the current branch if not set."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "switch",
+          "usage": [
+            "switch [OPTIONS] <branch> [revision]"
+          ],
+          "tip": [
+            "Switch to a different branch."
+          ],
+          "option": [
+            {
+              "name": "--bare",
+              "tip": [
+                "Only update anchor tracking without modifying or verifying files, useful for bare repositories."
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Do a dry run sync and only report what changes would be done, do not change anything in the file system."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Keep last local latest revision, do not sync latest revision from remote (implied by offline mode)."
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "Reset any local modified files to match the incoming revision."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unprotect",
+          "usage": [
+            "unprotect <branch>"
+          ],
+          "tip": [
+            "Remove push protection from a branch."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clone",
+      "usage": [
+        "clone [OPTIONS] <url> [path]"
+      ],
+      "tip": [
+        "Clone a remote repository into the given path."
+      ],
+      "option": [
+        {
+          "name": "--bare",
+          "tip": [
+            "Clone without files, only fetch latest revision tree."
+          ]
+        },
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <branch>"
+          ],
+          "tip": [
+            "Optional branch to sync (shorthand for a full revision specifier)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-depth-limit",
+          "usage": [
+            "--dependency-depth-limit <depth>"
+          ],
+          "tip": [
+            "Maximum dependency traversal depth (0 means unlimited)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-recursive",
+          "tip": [
+            "Follow transitive dependencies recursively during dependency-based clone."
+          ]
+        },
+        {
+          "name": "--dependency-tag",
+          "usage": [
+            "--dependency-tag <tag>"
+          ],
+          "tip": [
+            "Tags to filter dependencies by during dependency-based clone."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--direct-file-io",
+          "tip": [
+            "Use direct file I/O instead of memory mapping files."
+          ]
+        },
+        {
+          "name": "--direct-file-write",
+          "tip": [
+            "Write directly to the destination file instead of write to a temporary file and move into place."
+          ]
+        },
+        {
+          "name": "--layer",
+          "usage": [
+            "--layer <repository>"
+          ],
+          "tip": [
+            "Layer to add."
+          ],
+          "next": []
+        },
+        {
+          "name": "--layer-metadata",
+          "usage": [
+            "--layer-metadata <key>"
+          ],
+          "tip": [
+            "Metadata key to link layer revisions with."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-tracking",
+          "tip": [
+            "Clone without local repository tracking (memory-only stores)."
+          ]
+        },
+        {
+          "name": "--prefetch",
+          "usage": [
+            "--prefetch <file>"
+          ],
+          "tip": [
+            "File containing list of files to prefetch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "Optional revision to sync."
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-file",
+          "usage": [
+            "--root-file <path>"
+          ],
+          "tip": [
+            "Root files for dependency-based selective clone (only clone these files and their dependencies)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shared-store-path",
+          "usage": [
+            "--shared-store-path <SHARED_STORE_PATH>"
+          ],
+          "tip": [
+            "Use this path rather than the system default as the shared store location."
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-shared-store",
+          "tip": [
+            "Use the shared store rather than create a local immutable store."
+          ]
+        },
+        {
+          "name": "--view",
+          "usage": [
+            "--view <view>"
+          ],
+          "tip": [
+            "Optional client side view filter file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--virtual",
+          "tip": [
+            "Clone virtually using split-write filesystem."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "commit",
+      "usage": [
+        "commit [OPTIONS] <MESSAGE>"
+      ],
+      "tip": [
+        "Commit the staged revision."
+      ],
+      "option": [
+        {
+          "name": "--layer",
+          "usage": [
+            "--layer <LAYER>"
+          ],
+          "tip": [
+            "Commit only changes in this layer (mount path relative to repo root)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--layer-message",
+          "usage": [
+            "--layer-message <PATH> <MESSAGE>"
+          ],
+          "tip": [
+            "Per-layer commit message. Takes two values: <path> <message>."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--link",
+          "usage": [
+            "--link <LINK>"
+          ],
+          "tip": [
+            "Commit only changes in this linked repository (mount path relative to repo root)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--link-message",
+          "usage": [
+            "--link-message <PATH> <MESSAGE>"
+          ],
+          "tip": [
+            "Per-link commit message. Takes two values: <path> <message>."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--stats",
+          "tip": [
+            "Print stats."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions <shell> [path]"
+      ],
+      "tip": [
+        "Generate terminal autocompletions.",
+        "Shells: bash, elvish, fish, powershell, zsh."
+      ]
+    },
+    {
+      "name": "diff",
+      "usage": [
+        "diff [paths]..."
+      ],
+      "tip": [
+        "Show differences between two revisions of a file."
+      ],
+      "option": [
+        {
+          "name": "--context",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --context <n>"
+          ],
+          "tip": [
+            "Number of unchanged context lines to show around each hunk."
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff3",
+          "tip": [
+            "If given, produce three-way merge output with conflict markers instead of a two-way unified diff."
+          ]
+        },
+        {
+          "name": "--ignore-space-at-eol",
+          "tip": [
+            "Treat lines that differ only in trailing whitespace as unchanged."
+          ]
+        },
+        {
+          "name": "--ignore-space-change",
+          "tip": [
+            "Collapse runs of internal whitespace to a single space before comparing."
+          ]
+        },
+        {
+          "name": "--source",
+          "usage": [
+            "--source <revision_source>"
+          ],
+          "tip": [
+            "Optional signature of the source revision to diff from, by default the current revision."
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <revision_target>"
+          ],
+          "tip": [
+            "Optional signature of the target revision to diff to, by default the current file system state."
+          ],
+          "next": []
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file containing all the paths to all files."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dirty",
+      "usage": [
+        "dirty [paths]..."
+      ],
+      "tip": [
+        "Mark files as dirty so they show up in lore status and get picked up by lore stage (no content is read or staged)."
+      ],
+      "option": [
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file containing all the paths to all files."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "copy",
+          "usage": [
+            "copy <from> <to>"
+          ],
+          "tip": [
+            "Mark a file as copied (dirty)."
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move <from> <to>"
+          ],
+          "tip": [
+            "Mark a file as moved (dirty)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "file",
+      "tip": [
+        "File commands."
+      ],
+      "next": [
+        {
+          "name": "dependency",
+          "tip": [
+            "Manage file dependencies."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [OPTIONS] <SOURCE> [dependencies]..."
+              ],
+              "tip": [
+                "Add dependency edges from a source file to one or more dependency files."
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "Skip cycle detection."
+                  ]
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "Tags to apply to all added dependency edges."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [paths]..."
+              ],
+              "tip": [
+                "List dependencies or dependents for files."
+              ],
+              "option": [
+                {
+                  "name": "--depth",
+                  "usage": [
+                    "--depth <limit>"
+                  ],
+                  "tip": [
+                    "Maximum recursion depth (0 = unlimited)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--recursive",
+                  "tip": [
+                    "Recursively resolve transitive dependencies."
+                  ]
+                },
+                {
+                  "name": "--reverse",
+                  "tip": [
+                    "List dependents instead of dependencies."
+                  ]
+                },
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "Revision to query (defaults to staged/current)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "Filter by tag."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove [OPTIONS] <SOURCE> [dependencies]..."
+              ],
+              "tip": [
+                "Remove dependency edges from a source file to one or more dependency files."
+              ],
+              "option": [
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <tag>"
+                  ],
+                  "tip": [
+                    "Remove only specific tags instead of entire edges."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [paths]..."
+          ],
+          "tip": [
+            "Show differences between two revisions of a file."
+          ],
+          "option": [
+            {
+              "name": "--context",
+              "alias": [
+                "-U"
+              ],
+              "usage": [
+                "-U, --context <n>"
+              ],
+              "tip": [
+                "Number of unchanged context lines to show around each hunk."
+              ],
+              "next": []
+            },
+            {
+              "name": "--diff3",
+              "tip": [
+                "If given, produce three-way merge output with conflict markers instead of a two-way unified diff."
+              ]
+            },
+            {
+              "name": "--ignore-space-at-eol",
+              "tip": [
+                "Treat lines that differ only in trailing whitespace as unchanged."
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "Collapse runs of internal whitespace to a single space before comparing."
+              ]
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <revision_source>"
+              ],
+              "tip": [
+                "Optional signature of the source revision to diff from, by default the current revision."
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <revision_target>"
+              ],
+              "tip": [
+                "Optional signature of the target revision to diff to, by default the current file system state."
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "dirty",
+          "usage": [
+            "dirty [paths]..."
+          ],
+          "tip": [
+            "Mark files as dirty so they show up in lore status and get picked up by directory-scoped lore stage (no content is read or staged)."
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "copy",
+              "usage": [
+                "copy <from> <to>"
+              ],
+              "tip": [
+                "Mark a file as copied (dirty)."
+              ]
+            },
+            {
+              "name": "move",
+              "usage": [
+                "move <from> <to>"
+              ],
+              "tip": [
+                "Mark a file as moved (dirty)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "hash",
+          "usage": [
+            "hash [paths]..."
+          ],
+          "tip": [
+            "Hash a local file."
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "history",
+          "usage": [
+            "history <PATH> [LENGTH]"
+          ],
+          "tip": [
+            "List revisions of a file."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Show branch revisions."
+              ],
+              "next": []
+            },
+            {
+              "name": "--depth",
+              "usage": [
+                "--depth <depth>"
+              ],
+              "tip": [
+                "Number of revisions to search initially."
+              ],
+              "next": []
+            },
+            {
+              "name": "--oneline",
+              "tip": [
+                "Output each revision on one line only."
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Revision to start from."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [paths]..."
+          ],
+          "tip": [
+            "Get info about the given file or directory."
+          ],
+          "option": [
+            {
+              "name": "--filtered",
+              "tip": [
+                "If given, calculate the repository size based on the current local filter."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If given, calculate the local file system size and hash based on the current local filter."
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Revision to get info from."
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Manage metadata of a given file or directory."
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear <PATH>"
+              ],
+              "tip": [
+                "Clear metadata for a staged file."
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get <PATH> [key]"
+              ],
+              "tip": [
+                "Get metadata from a file."
+              ],
+              "option": [
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "Revision to get metadata for."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set <PATH> [pairs]..."
+              ],
+              "tip": [
+                "Set metadata on for a staged file."
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "Indicator that values are paths to files."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "obliterate",
+          "tip": [
+            "Obliterate a file or fragment."
+          ],
+          "option": [
+            {
+              "name": "--address",
+              "usage": [
+                "--address <ADDRESS>"
+              ],
+              "tip": [
+                "Address of a blob."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "Path to a file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "usage": [
+            "reset [OPTIONS] <paths|--targets <file>>"
+          ],
+          "tip": [
+            "Reset changes to a path or file to the current revision, discarding your local changes."
+          ],
+          "option": [
+            {
+              "name": "--last-merged-from",
+              "usage": [
+                "--last-merged-from <branch>"
+              ],
+              "tip": [
+                "If given, the files will be reset to the last point of merge from this branch, or the branch point from this branch if no merge has been performed."
+              ],
+              "next": []
+            },
+            {
+              "name": "--purge",
+              "tip": [
+                "Delete untracked files."
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Revision to reset files to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stage",
+          "usage": [
+            "stage [OPTIONS] <paths|--targets <file>>"
+          ],
+          "tip": [
+            "Stage changes for commit."
+          ],
+          "option": [
+            {
+              "name": "--case",
+              "usage": [
+                "--case <case>"
+              ],
+              "tip": [
+                "Case change handling."
+              ],
+              "next": [
+                {
+                  "name": "error",
+                  "tip": [
+                    "Generate error on case mismatch."
+                  ]
+                },
+                {
+                  "name": "keep",
+                  "tip": [
+                    "Keep current case in repository (update file system)."
+                  ]
+                },
+                {
+                  "name": "rename",
+                  "tip": [
+                    "Rename case in repository (keep file system)."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--scan",
+              "tip": [
+                "Walk the filesystem under the given paths to detect modified, added, and deleted files."
+              ]
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "merge",
+              "usage": [
+                "merge [paths]..."
+              ],
+              "tip": [
+                "Stage as a merge."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file containing all the paths to all files."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "move",
+              "usage": [
+                "move <from> <to>"
+              ],
+              "tip": [
+                "Move or rename a file or directory."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unstage",
+          "usage": [
+            "unstage [paths]..."
+          ],
+          "tip": [
+            "Unstage changes to a file or directory."
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "write",
+          "tip": [
+            "Write data to a specific location."
+          ],
+          "option": [
+            {
+              "name": "--address",
+              "usage": [
+                "--address <ADDRESS>"
+              ],
+              "tip": [
+                "Address of a blob."
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "usage": [
+                "--output <OUTPUT>"
+              ],
+              "tip": [
+                "Path to a destination."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "Path to a file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "Revision specifier."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "history",
+      "usage": [
+        "history [LENGTH]"
+      ],
+      "tip": [
+        "List revisions of a repository."
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <branch>"
+          ],
+          "tip": [
+            "Show branch revisions."
+          ],
+          "next": []
+        },
+        {
+          "name": "--oneline",
+          "tip": [
+            "Output each revision on one line only."
+          ]
+        },
+        {
+          "name": "--only-branch",
+          "tip": [
+            "Stop when reaching a revision on a different branch (includes the branch point revision)."
+          ]
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "Start listing from the specified revision. If not specified, start listing from the current branch latest revision."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "layer",
+      "tip": [
+        "Layer commands."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [OPTIONS] <path> <repository> <path>"
+          ],
+          "tip": [
+            "Add a repository layer."
+          ],
+          "option": [
+            {
+              "name": "--metadata",
+              "usage": [
+                "--metadata <metadata>"
+              ],
+              "tip": [
+                "Metadata key to use for matching revisions."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List repository layers."
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [OPTIONS] <path> [repository]"
+          ],
+          "tip": [
+            "Remove a repository layer."
+          ],
+          "option": [
+            {
+              "name": "--purge",
+              "tip": [
+                "Also delete untracked files and all directories inside the layer mount."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "tip": [
+        "Link commands."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [OPTIONS] <link_path> <link_url> <source_path>"
+          ],
+          "tip": [
+            "Link to the given point in the repository and subpath from the given repository."
+          ],
+          "option": [
+            {
+              "name": "--disable-branching",
+              "tip": [
+                "Disable automatic branch creation in the linked repository."
+              ]
+            },
+            {
+              "name": "--pin",
+              "usage": [
+                "--pin <pin>"
+              ],
+              "tip": [
+                "Branch or specific revision to pin the link to, defaulting to latest on the main branch."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all links in the repository."
+          ],
+          "option": [
+            {
+              "name": "--staged",
+              "tip": [
+                "Only show links with staged changes."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <link_path>"
+          ],
+          "tip": [
+            "Remove the link at the given point in the repository."
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [OPTIONS] <link_path>"
+          ],
+          "tip": [
+            "Update the link to a new pin."
+          ],
+          "option": [
+            {
+              "name": "--pin",
+              "usage": [
+                "--pin <pin>"
+              ],
+              "tip": [
+                "Branch or specific revision to pin the link to, defaulting to latest on the current branch."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lock",
+      "tip": [
+        "Lock file."
+      ],
+      "next": [
+        {
+          "name": "acquire",
+          "usage": [
+            "acquire [OPTIONS] <paths|--branch <branch>>"
+          ],
+          "tip": [
+            "Acquire lock on file(s)."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Branch where lock is to be acquired."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "query",
+          "tip": [
+            "Query the lock status given a branch, owner or path."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch-name>"
+              ],
+              "tip": [
+                "Branch to query locks on."
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <owner-id>"
+              ],
+              "tip": [
+                "Owner to query locks belonging to them."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "Path to query lock information on."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "release",
+          "usage": [
+            "release [paths]..."
+          ],
+          "tip": [
+            "Release lock on file(s)."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Branch where lock was acquired."
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <owner>"
+              ],
+              "tip": [
+                "Owner of the lock."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [paths]..."
+          ],
+          "tip": [
+            "Get lock status on file(s)."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Branch where lock was acquired."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logfile",
+      "tip": [
+        "Logfile commands."
+      ],
+      "next": [
+        {
+          "name": "info",
+          "tip": [
+            "Get logfile info."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [OPTIONS] [remote-url]"
+      ],
+      "tip": [
+        "Authenticate the CLI."
+      ],
+      "option": [
+        {
+          "name": "--auth-url",
+          "usage": [
+            "--auth-url <AUTH_URL>"
+          ],
+          "tip": [
+            "Auth service URL with scheme. Required when logging in with --token outside a repository without a remote-url."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-browser",
+          "tip": [
+            "Avoid opening a browser to login."
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "Token value for non-interactive login (requires --token-type)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-type",
+          "usage": [
+            "--token-type <TOKEN_TYPE>"
+          ],
+          "tip": [
+            "Token type for non-interactive login (e.g. \"api-key\", \"eg1\", \"lore\")."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "notification",
+      "tip": [
+        "Notifications."
+      ],
+      "next": [
+        {
+          "name": "subscribe",
+          "usage": [
+            "subscribe [seconds]"
+          ],
+          "tip": [
+            "Subscribe to events on the given repository."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push [branch]"
+      ],
+      "tip": [
+        "Push commits to remote."
+      ],
+      "option": [
+        {
+          "name": "--fast-forward-merge",
+          "tip": [
+            "Allow the server to fast-forward merge if the target branch head has moved."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "repository",
+      "tip": [
+        "Repository commands."
+      ],
+      "next": [
+        {
+          "name": "clone",
+          "usage": [
+            "clone [OPTIONS] <url> [path]"
+          ],
+          "tip": [
+            "Clone a remote repository into the given path."
+          ],
+          "option": [
+            {
+              "name": "--bare",
+              "tip": [
+                "Clone without files, only fetch latest revision tree."
+              ]
+            },
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Optional branch to sync (shorthand for a full revision specifier)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-depth-limit",
+              "usage": [
+                "--dependency-depth-limit <depth>"
+              ],
+              "tip": [
+                "Maximum dependency traversal depth (0 means unlimited)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-recursive",
+              "tip": [
+                "Follow transitive dependencies recursively during dependency-based clone."
+              ]
+            },
+            {
+              "name": "--dependency-tag",
+              "usage": [
+                "--dependency-tag <tag>"
+              ],
+              "tip": [
+                "Tags to filter dependencies by during dependency-based clone."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--direct-file-io",
+              "tip": [
+                "Use direct file I/O instead of memory mapping files."
+              ]
+            },
+            {
+              "name": "--direct-file-write",
+              "tip": [
+                "Write directly to the destination file instead of write to a temporary file and move into place."
+              ]
+            },
+            {
+              "name": "--layer",
+              "usage": [
+                "--layer <repository>"
+              ],
+              "tip": [
+                "Layer to add."
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-metadata",
+              "usage": [
+                "--layer-metadata <key>"
+              ],
+              "tip": [
+                "Metadata key to link layer revisions with."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-tracking",
+              "tip": [
+                "Clone without local repository tracking (memory-only stores)."
+              ]
+            },
+            {
+              "name": "--prefetch",
+              "usage": [
+                "--prefetch <file>"
+              ],
+              "tip": [
+                "File containing list of files to prefetch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Optional revision to sync."
+              ],
+              "next": []
+            },
+            {
+              "name": "--root-file",
+              "usage": [
+                "--root-file <path>"
+              ],
+              "tip": [
+                "Root files for dependency-based selective clone (only clone these files and their dependencies)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-store-path",
+              "usage": [
+                "--shared-store-path <SHARED_STORE_PATH>"
+              ],
+              "tip": [
+                "Use this path rather than the system default as the shared store location."
+              ],
+              "next": []
+            },
+            {
+              "name": "--use-shared-store",
+              "tip": [
+                "Use the shared store rather than create a local immutable store."
+              ]
+            },
+            {
+              "name": "--view",
+              "usage": [
+                "--view <view>"
+              ],
+              "tip": [
+                "Optional client side view filter file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--virtual",
+              "tip": [
+                "Clone virtually using split-write filesystem."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Read a configuration value."
+          ],
+          "next": [
+            {
+              "name": "get",
+              "usage": [
+                "get <KEY>"
+              ],
+              "tip": [
+                "Get a configuration value."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <url>"
+          ],
+          "tip": [
+            "Create a repository in the given directory."
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <description>"
+              ],
+              "tip": [
+                "Optional description of repository."
+              ],
+              "next": []
+            },
+            {
+              "name": "--id",
+              "usage": [
+                "--id <id>"
+              ],
+              "tip": [
+                "Optional ID of repository."
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-store-path",
+              "usage": [
+                "--shared-store-path <SHARED_STORE_PATH>"
+              ],
+              "tip": [
+                "Use this path rather than the system default as the shared store location."
+              ],
+              "next": []
+            },
+            {
+              "name": "--use-shared-store",
+              "tip": [
+                "Use the shared store rather than create a local immutable store."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <url>"
+          ],
+          "tip": [
+            "Delete a repository."
+          ]
+        },
+        {
+          "name": "dump",
+          "tip": [
+            "Dump repository state information."
+          ],
+          "option": [
+            {
+              "name": "--max-depth",
+              "usage": [
+                "--max-depth <max-depth>"
+              ],
+              "tip": [
+                "Optional max depth of tree dump."
+              ],
+              "next": []
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "Optional path in the repository to start dumping from."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Optional revision to dump."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "gc",
+          "tip": [
+            "Run a full garbage collection pass on the local repository store."
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [url]"
+          ],
+          "tip": [
+            "Get info about a repository."
+          ]
+        },
+        {
+          "name": "instance",
+          "tip": [
+            "Instance management."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List all registered instances for this repository."
+              ]
+            },
+            {
+              "name": "prune",
+              "tip": [
+                "Remove stale instance entries."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list <url>"
+          ],
+          "tip": [
+            "List repositories."
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Repository metadata operations."
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "usage": [
+                "clear [keys]..."
+              ],
+              "tip": [
+                "Clear metadata from the repository."
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "Get metadata from the repository (omit key to list all)."
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "Set metadata on the repository."
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "Indicator that values are paths to binary files."
+                  ]
+                },
+                {
+                  "name": "--numeric",
+                  "tip": [
+                    "Indicator that values are numeric (u64)."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [OPTIONS] [PATH]..."
+          ],
+          "tip": [
+            "Show current repository status."
+          ],
+          "option": [
+            {
+              "name": "--check-dirty",
+              "tip": [
+                "Verify already-dirty files against the filesystem without a full scan."
+              ]
+            },
+            {
+              "name": "--count",
+              "tip": [
+                "Count directories and files (staged state if present, else current revision; view-filtered)."
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "Drop the existing staged anchor before computing status. Combine with --scan to scan from a clean slate."
+              ]
+            },
+            {
+              "name": "--revision-only",
+              "tip": [
+                "Only show revision info, skip all diffs."
+              ]
+            },
+            {
+              "name": "--scan",
+              "tip": [
+                "Walk the filesystem under the given paths and reconcile every file against the current revision.",
+                "Detected modifications, adds, and deletes are marked dirty; stale dirty flags are cleared."
+              ]
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "store",
+          "tip": [
+            "Access the repository data store."
+          ],
+          "next": [
+            {
+              "name": "immutable",
+              "tip": [
+                "Operations on the immutable store."
+              ],
+              "next": [
+                {
+                  "name": "query",
+                  "usage": [
+                    "query <ADDRESS>"
+                  ],
+                  "tip": [
+                    "Query the store."
+                  ],
+                  "option": [
+                    {
+                      "name": "--recurse",
+                      "tip": [
+                        "Recurse into subfragments."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update-path",
+          "tip": [
+            "Update the stored path for this instance."
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Verify repository state consistency."
+          ],
+          "option": [
+            {
+              "name": "--heal",
+              "tip": [
+                "Attempt to heal discrepancies found in a new staged state."
+              ]
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "Optional path in the repository to start verification from (for state verification)."
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "fragment",
+              "usage": [
+                "fragment <HASH>"
+              ],
+              "tip": [
+                "Verify a specific fragment in the local store."
+              ],
+              "option": [
+                {
+                  "name": "--context",
+                  "usage": [
+                    "--context <CONTEXT>"
+                  ],
+                  "tip": [
+                    "Context part of the address to verify."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--heal",
+                  "tip": [
+                    "Attempt to heal if verification fails (remote only)."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "state",
+              "tip": [
+                "Verify repository state consistency (default)."
+              ],
+              "option": [
+                {
+                  "name": "--heal",
+                  "tip": [
+                    "Attempt to heal discrepancies found in a new staged state."
+                  ]
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <path>"
+                  ],
+                  "tip": [
+                    "Optional path in the repository to start verification from."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "usage": [
+        "reset [OPTIONS] <paths|--targets <file>>"
+      ],
+      "tip": [
+        "Reset changes to a file or directory."
+      ],
+      "option": [
+        {
+          "name": "--last-merged-from",
+          "usage": [
+            "--last-merged-from <branch>"
+          ],
+          "tip": [
+            "If given, the files will be reset to the last point of merge from this branch, or the branch point from this branch if no merge has been performed."
+          ],
+          "next": []
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "Delete untracked files."
+          ]
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <revision>"
+          ],
+          "tip": [
+            "Revision to reset files to."
+          ],
+          "next": []
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file containing all the paths to all files."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "revision",
+      "tip": [
+        "Revision commands."
+      ],
+      "next": [
+        {
+          "name": "amend",
+          "usage": [
+            "amend [OPTIONS] <MESSAGE>"
+          ],
+          "tip": [
+            "Amend the latest commit's message."
+          ],
+          "option": [
+            {
+              "name": "--stats",
+              "tip": [
+                "Print stats."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bisect",
+          "tip": [
+            "Binary search for a change introduced between start (exclusive) and end (inclusive)."
+          ],
+          "option": [
+            {
+              "name": "--end",
+              "usage": [
+                "--end <end_revision>"
+              ],
+              "tip": [
+                "The earliest revision known to have the change."
+              ],
+              "next": []
+            },
+            {
+              "name": "--start",
+              "usage": [
+                "--start <start_revision>"
+              ],
+              "tip": [
+                "The latest revision known to not have the change."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "cherry-pick",
+          "usage": [
+            "cherry-pick [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "Cherry-pick a revision onto the currently synced revision."
+          ],
+          "option": [
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "Change the message for committing when no conflicts arise from the cherry-pick."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-commit",
+              "tip": [
+                "Disable auto commits even if no conflicts arise from the cherry-pick."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "Abort a cherry-pick."
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "Resolve conflicts."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "Resolve using my changes."
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "Resolve using the incoming changes."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "Restart the cherry-pick, resetting the current cherry-pick state."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "Marks the cherry-pick unresolved."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "commit",
+          "usage": [
+            "commit [OPTIONS] <MESSAGE>"
+          ],
+          "tip": [
+            "Commit the staged state."
+          ],
+          "option": [
+            {
+              "name": "--layer",
+              "usage": [
+                "--layer <LAYER>"
+              ],
+              "tip": [
+                "Commit only changes in this layer (mount path relative to repo root)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-message",
+              "usage": [
+                "--layer-message <PATH> <MESSAGE>"
+              ],
+              "tip": [
+                "Per-layer commit message. Takes two values: <path> <message>."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--link",
+              "usage": [
+                "--link <LINK>"
+              ],
+              "tip": [
+                "Commit only changes in this linked repository (mount path relative to repo root)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--link-message",
+              "usage": [
+                "--link-message <PATH> <MESSAGE>"
+              ],
+              "tip": [
+                "Per-link commit message. Takes two values: <path> <message>."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--stats",
+              "tip": [
+                "Print stats."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "diff",
+          "usage": [
+            "diff [OPTIONS] <revision_source>"
+          ],
+          "tip": [
+            "Diff two revisions."
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "usage": [
+                "--path <PATH>"
+              ],
+              "tip": [
+                "Optional path in repository."
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <revision_target>"
+              ],
+              "tip": [
+                "Target revision to compare, by default the current revision."
+              ],
+              "next": []
+            },
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "find",
+          "tip": [
+            "Find revision."
+          ],
+          "next": [
+            {
+              "name": "metadata",
+              "usage": [
+                "metadata <key> [value]"
+              ],
+              "tip": [
+                "Find revision by metadata."
+              ]
+            },
+            {
+              "name": "number",
+              "usage": [
+                "number <NUMBER>"
+              ],
+              "tip": [
+                "Find revision by number."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "history",
+          "usage": [
+            "history [LENGTH]"
+          ],
+          "tip": [
+            "List revisions of a repository."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <branch>"
+              ],
+              "tip": [
+                "Show branch revisions."
+              ],
+              "next": []
+            },
+            {
+              "name": "--oneline",
+              "tip": [
+                "Output each revision on one line only."
+              ]
+            },
+            {
+              "name": "--only-branch",
+              "tip": [
+                "Stop when reaching a revision on a different branch (includes the branch point revision)."
+              ]
+            },
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <revision>"
+              ],
+              "tip": [
+                "Start listing from the specified revision. If not specified, start listing from the current branch latest revision."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "usage": [
+            "info [revision]"
+          ],
+          "tip": [
+            "Get info about a revision."
+          ],
+          "option": [
+            {
+              "name": "--delta",
+              "tip": [
+                "Show delta information."
+              ]
+            },
+            {
+              "name": "--metadata",
+              "tip": [
+                "Show file metadata information."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "metadata",
+          "tip": [
+            "Manage metadata of a given revision."
+          ],
+          "next": [
+            {
+              "name": "clear",
+              "tip": [
+                "Clear metadata for a staged revision."
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [key]"
+              ],
+              "tip": [
+                "Get metadata from a revision."
+              ],
+              "option": [
+                {
+                  "name": "--revision",
+                  "usage": [
+                    "--revision <revision>"
+                  ],
+                  "tip": [
+                    "Revision to get metadata for."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [pairs]..."
+              ],
+              "tip": [
+                "Set metadata on for a staged revision."
+              ],
+              "option": [
+                {
+                  "name": "--binary",
+                  "tip": [
+                    "Indicator that values are paths to files."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "restore",
+          "usage": [
+            "restore [MESSAGE]"
+          ],
+          "tip": [
+            "Restore current revision as latest revision."
+          ]
+        },
+        {
+          "name": "revert",
+          "usage": [
+            "revert [OPTIONS] <revision>"
+          ],
+          "tip": [
+            "Revert a revision from the currently synced revision."
+          ],
+          "option": [
+            {
+              "name": "--message",
+              "usage": [
+                "--message <MESSAGE>"
+              ],
+              "tip": [
+                "Change the message for committing when no conflicts arise from the revert."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-commit",
+              "tip": [
+                "Disable auto commits even if no conflicts arise from the revert."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "abort",
+              "tip": [
+                "Abort a revert."
+              ]
+            },
+            {
+              "name": "resolve",
+              "usage": [
+                "resolve [paths]..."
+              ],
+              "tip": [
+                "Resolve conflicts."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ],
+              "next": [
+                {
+                  "name": "mine",
+                  "tip": [
+                    "Resolve using my changes."
+                  ]
+                },
+                {
+                  "name": "theirs",
+                  "tip": [
+                    "Resolve using the incoming changes."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "restart",
+              "usage": [
+                "restart [paths]..."
+              ],
+              "tip": [
+                "Restart the revert, resetting the current revert state."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "unresolve",
+              "usage": [
+                "unresolve [paths]..."
+              ],
+              "tip": [
+                "Marks the revert unresolved."
+              ],
+              "option": [
+                {
+                  "name": "--targets",
+                  "usage": [
+                    "--targets <file>"
+                  ],
+                  "tip": [
+                    "Path to a targets file."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "synchronize",
+          "alias": [
+            "sync"
+          ],
+          "usage": [
+            "sync|synchronize [OPTIONS] [revision]"
+          ],
+          "tip": [
+            "Synchronize to a given state of a repository."
+          ],
+          "option": [
+            {
+              "name": "--dependency-depth-limit",
+              "usage": [
+                "--dependency-depth-limit <depth>"
+              ],
+              "tip": [
+                "Maximum dependency traversal depth (0 means unlimited)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dependency-recursive",
+              "tip": [
+                "Follow transitive dependencies recursively during dependency-based sync."
+              ]
+            },
+            {
+              "name": "--dependency-tag",
+              "usage": [
+                "--dependency-tag <tag>"
+              ],
+              "tip": [
+                "Tags to filter dependencies by during dependency-based sync."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--forward-changes",
+              "tip": [
+                "Fast forward any local changes if syncing to a local revision."
+              ]
+            },
+            {
+              "name": "--reset",
+              "tip": [
+                "Reset any local modified files to match the incoming revision."
+              ]
+            },
+            {
+              "name": "--root-file",
+              "usage": [
+                "--root-file <path>"
+              ],
+              "tip": [
+                "Root files for dependency-based selective sync (only sync changes for these files and their dependencies)."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "tip": [
+        "Manage the repository in a service process."
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "Run this process as the service."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Start service for a repository."
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [all]"
+          ],
+          "tip": [
+            "Stop service for a repository."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shared-store",
+      "tip": [
+        "Manage the shared store."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [OPTIONS] <remote-url>"
+          ],
+          "tip": [
+            "Create a shared store backed by the given remote URL."
+          ],
+          "option": [
+            {
+              "name": "--make-default",
+              "usage": [
+                "--make-default <MAKE_DEFAULT>"
+              ],
+              "tip": [
+                "Set this as the default shared store in the global config file, defaults to true."
+              ],
+              "next": [
+                {
+                  "name": "false",
+                  "tip": [
+                    "Do not set as default shared store."
+                  ]
+                },
+                {
+                  "name": "true",
+                  "tip": [
+                    "Set as default shared store."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--path",
+              "usage": [
+                "--path <path>"
+              ],
+              "tip": [
+                "Where to create the shared store."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Show shared store info."
+          ]
+        },
+        {
+          "name": "set-use-automatically",
+          "usage": [
+            "set-use-automatically <enabled>"
+          ],
+          "tip": [
+            "Whether to automatically use the shared store."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stage",
+      "usage": [
+        "stage [OPTIONS] <paths|--targets <file>>"
+      ],
+      "tip": [
+        "Stage changes for commit."
+      ],
+      "option": [
+        {
+          "name": "--case",
+          "usage": [
+            "--case <case>"
+          ],
+          "tip": [
+            "Case change handling."
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Generate error on case mismatch."
+              ]
+            },
+            {
+              "name": "keep",
+              "tip": [
+                "Keep current case in repository (update file system)."
+              ]
+            },
+            {
+              "name": "rename",
+              "tip": [
+                "Rename case in repository (keep file system)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scan",
+          "tip": [
+            "Walk the filesystem under the given paths to detect modified, added, and deleted files."
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file containing all the paths to all files."
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "merge",
+          "usage": [
+            "merge [paths]..."
+          ],
+          "tip": [
+            "Stage as a merge."
+          ],
+          "option": [
+            {
+              "name": "--targets",
+              "usage": [
+                "--targets <file>"
+              ],
+              "tip": [
+                "Path to a targets file containing all the paths to all files."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "usage": [
+            "move <from> <to>"
+          ],
+          "tip": [
+            "Move or rename a file or directory."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "usage": [
+        "status [OPTIONS] [PATH]..."
+      ],
+      "tip": [
+        "Show current repository status."
+      ],
+      "option": [
+        {
+          "name": "--check-dirty",
+          "tip": [
+            "Verify already-dirty files against the filesystem without a full scan."
+          ]
+        },
+        {
+          "name": "--count",
+          "tip": [
+            "Count directories and files (staged state if present, else current revision; view-filtered)."
+          ]
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "Drop the existing staged anchor before computing status. Combine with --scan to scan from a clean slate."
+          ]
+        },
+        {
+          "name": "--revision-only",
+          "tip": [
+            "Only show revision info, skip all diffs."
+          ]
+        },
+        {
+          "name": "--scan",
+          "tip": [
+            "Walk the filesystem under the given paths and reconcile every file against the current revision.",
+            "Detected modifications, adds, and deletes are marked dirty; stale dirty flags are cleared."
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "synchronize",
+      "alias": [
+        "sync"
+      ],
+      "usage": [
+        "sync|synchronize [OPTIONS] [revision]"
+      ],
+      "tip": [
+        "Synchronize to a repository state."
+      ],
+      "option": [
+        {
+          "name": "--dependency-depth-limit",
+          "usage": [
+            "--dependency-depth-limit <depth>"
+          ],
+          "tip": [
+            "Maximum dependency traversal depth (0 means unlimited)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-recursive",
+          "tip": [
+            "Follow transitive dependencies recursively during dependency-based sync."
+          ]
+        },
+        {
+          "name": "--dependency-tag",
+          "usage": [
+            "--dependency-tag <tag>"
+          ],
+          "tip": [
+            "Tags to filter dependencies by during dependency-based sync."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--forward-changes",
+          "tip": [
+            "Fast forward any local changes if syncing to a local revision."
+          ]
+        },
+        {
+          "name": "--reset",
+          "tip": [
+            "Reset any local modified files to match the incoming revision."
+          ]
+        },
+        {
+          "name": "--root-file",
+          "usage": [
+            "--root-file <path>"
+          ],
+          "tip": [
+            "Root files for dependency-based selective sync (only sync changes for these files and their dependencies)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "unstage",
+      "usage": [
+        "unstage [paths]..."
+      ],
+      "tip": [
+        "Unstage changes to a file or directory."
+      ],
+      "option": [
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <file>"
+          ],
+          "tip": [
+            "Path to a targets file."
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--cache",
+      "tip": [
+        "Cache fragment payloads fetched from remote in the local store."
+      ]
+    },
+    {
+      "name": "--compress-limit",
+      "usage": [
+        "--compress-limit <count>"
+      ],
+      "tip": [
+        "Set maximum number of parallel compress operations."
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "Enable debug output."
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "tip": [
+        "Dry run mode, only report what would have been changed and perform no changes to local file system."
+      ]
+    },
+    {
+      "name": "--file-count-limit",
+      "usage": [
+        "--file-count-limit <count>"
+      ],
+      "tip": [
+        "Set maximum number of parallel files opened."
+      ],
+      "next": []
+    },
+    {
+      "name": "--file-size-limit",
+      "usage": [
+        "--file-size-limit <size>"
+      ],
+      "tip": [
+        "Set maximum total size in bytes of parallel files opened."
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "Force the operation if possible."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    },
+    {
+      "name": "--identity",
+      "usage": [
+        "--identity <IDENTITY>"
+      ],
+      "tip": [
+        "Use given identity."
+      ],
+      "next": []
+    },
+    {
+      "name": "--local",
+      "tip": [
+        "Use local data."
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <level>"
+      ],
+      "tip": [
+        "Set the logging level."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-connections",
+      "usage": [
+        "--max-connections <MAX_CONNECTIONS>"
+      ],
+      "tip": [
+        "Set maximum number of parallel connections."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-gc",
+      "tip": [
+        "Prevent automatic incremental garbage collection for this command; it otherwise runs in the background on writes. lore repository gc always runs a full pass regardless."
+      ]
+    },
+    {
+      "name": "--no-pager",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-pager"
+      ],
+      "tip": [
+        "Disable pagination."
+      ]
+    },
+    {
+      "name": "--non-interactive",
+      "tip": [
+        "Disable interactive prompts (e.g., per-link commit messages)."
+      ]
+    },
+    {
+      "name": "--offline",
+      "tip": [
+        "Force offline mode."
+      ]
+    },
+    {
+      "name": "--remote",
+      "tip": [
+        "Use remote data."
+      ]
+    },
+    {
+      "name": "--repository",
+      "usage": [
+        "--repository <path>"
+      ],
+      "tip": [
+        "Use given path as repository path."
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-limit",
+      "usage": [
+        "--search-limit <SEARCH_LIMIT>"
+      ],
+      "tip": [
+        "Set maximum number of revisions to search when matching or finding revisions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--search-nearest",
+      "tip": [
+        "Set to search for nearest match when matching revisions."
+      ]
+    },
+    {
+      "name": "--sync-data",
+      "tip": [
+        "Force sync data to storage media during flush."
+      ]
+    }
+  ]
+}
