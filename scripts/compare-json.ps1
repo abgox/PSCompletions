@@ -78,6 +78,7 @@ function Compare-Lang {
         usageTooSimple   = @()
         usageSeparator   = @()
         optionMissingNext = @()
+        forbiddenEmptyNext = @()
         usageRootPrefix  = @()
     }
 
@@ -577,17 +578,26 @@ function Compare-Lang {
     }
 
     function Validate-AllTips {
-        param([hashtable]$Content, [string]$BasePath, [bool]$IsOption = $false)
+        param([hashtable]$Content, [string]$BasePath, [bool]$IsOption = $false, [bool]$IsCommand = $false)
 
         if ($Content.name) {
             Validate-ItemUsage -Item $Content -Path $BasePath -IsOption $IsOption
+        }
+
+        # Check: command must not have an empty next array
+        if ($IsCommand -and $Content.ContainsKey('next') -and $null -ne $Content['next']) {
+            $nextVal = $Content['next']
+            if ($nextVal -is [array] -and $nextVal.Count -eq 0) {
+                $stats.forbiddenEmptyNext += @{ path = $BasePath; name = $Content.name }
+            }
         }
 
         if ($Content.next) {
             foreach ($sub in @($Content.next)) {
                 if ($sub -is [hashtable] -and $sub.name) {
                     $subPath = if ($BasePath) { "$BasePath > $($sub.name)" } else { $sub.name }
-                    Validate-AllTips -Content $sub -BasePath $subPath
+                    # Items in 'next' array are commands (not options)
+                    Validate-AllTips -Content $sub -BasePath $subPath -IsCommand $true
                 }
             }
         }
@@ -664,7 +674,7 @@ foreach ($CompletionName in $CompletionList) {
 
         if ($total -eq 0) { continue }
 
-        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0 -or $stats.meaninglessUsage.Count -gt 0 -or $stats.missingUsage.Count -gt 0 -or $stats.duplicateOptions.Count -gt 0 -or $stats.usageOrder.Count -gt 0 -or $stats.usageTooSimple.Count -gt 0 -or $stats.usageSeparator.Count -gt 0 -or $stats.optionMissingNext.Count -gt 0 -or $stats.usageRootPrefix.Count -gt 0
+        $hasIssues = $missing -gt 0 -or $extra -gt 0 -or $rate -ne 100 -or $stats.typeMismatch.Count -gt 0 -or $stats.semanticMismatch.Count -gt 0 -or $stats.valueDiff.Count -gt 0 -or $stats.duplicateItems.Count -gt 0 -or $stats.meaninglessUsage.Count -gt 0 -or $stats.missingUsage.Count -gt 0 -or $stats.duplicateOptions.Count -gt 0 -or $stats.usageOrder.Count -gt 0 -or $stats.usageTooSimple.Count -gt 0 -or $stats.usageSeparator.Count -gt 0 -or $stats.optionMissingNext.Count -gt 0 -or $stats.forbiddenEmptyNext.Count -gt 0 -or $stats.usageRootPrefix.Count -gt 0
 
         $allResults += @{
             completion = $CompletionName
@@ -703,6 +713,7 @@ if ($Json) {
                     usageTooSimple   = @($s.usageTooSimple | ForEach-Object { $_.path })
                     usageSeparator   = @($s.usageSeparator | ForEach-Object { $_.path })
                     optionMissingNext = @($s.optionMissingNext | ForEach-Object { $_.path })
+                    forbiddenEmptyNext = @($s.forbiddenEmptyNext | ForEach-Object { $_.path })
                     usageRootPrefix  = @($s.usageRootPrefix | ForEach-Object { $_.path })
                 }
             }
@@ -800,6 +811,10 @@ if ($issueFiles -gt 0) {
         if ($r.stats.optionMissingNext.Count -gt 0) {
             outText $text.optionMissingNext
             foreach ($item in $r.stats.optionMissingNext) { outText "<@Cyan>  $($item.path)" }
+        }
+        if ($r.stats.forbiddenEmptyNext.Count -gt 0) {
+            outText $text.forbiddenEmptyNext
+            foreach ($item in $r.stats.forbiddenEmptyNext) { outText "<@Cyan>  $($item.path)" }
         }
         if ($r.stats.usageRootPrefix.Count -gt 0) {
             outText $text.usageRootPrefix
