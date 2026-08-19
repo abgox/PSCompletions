@@ -21,13 +21,19 @@
 ---@field name string
 --- 提示文本：字符串或本地化表（键为语言代码，值对应该语言文本）。
 ---
---- Tip text: a plain string or a localized table (keys are language codes).
+--- Tip (Description) text: a plain string or a localized table (keys are language codes).
 ---@field tip? string|psc_localized
 --- 预测符号（config key）。
 ---
 --- Predict symbol (config key).
 ---@field symbol? "switch"|"stay"
+--- 用法文本。
+---
+--- Usage text.
 ---@field usage? string
+--- 示例文本。
+---
+--- Example text.
 ---@field example? string
 --- 可重复使用次数；默认 0 = 首次使用后隐藏（字段名用 repeat_count，因 repeat 是 Lua 关键字）。
 ---
@@ -55,6 +61,9 @@
 
 
 
+--- 已完成的输入 token。
+---
+--- A completed input token.
 ---@class psc_token
 --- 规范名（命令/选项主名，别名已展开）。
 ---
@@ -71,6 +80,9 @@
 
 
 
+--- 当前正在输入的词（未完成）；与 `tokens` 对立。
+---
+--- The word currently being typed (unfinished); opposite of `tokens`.
 ---@class psc_current
 --- 规范名（尽力匹配；未完成的词可能为空）。
 ---
@@ -113,6 +125,27 @@
 ---@field is_link boolean
 
 
+--- 解析后的补全 manifest（原始 JSON，可能含额外顶层字段）。
+---
+--- The parsed completion manifest (raw JSON; extra top-level keys allowed).
+---@class psc_manifest
+--- 元信息（url、description 等）。
+---
+--- Metadata (url, description, etc.).
+---@field meta? table<string, any>
+--- 根级子命令；数组项为原始 manifest 项（除 `psc_item` 字段外还含 `alias`/`option`/`next`）。
+---
+--- Root-level subcommands; each is a raw manifest item (also carries `alias`/`option`/`next` beyond `psc_item`).
+---@field next? psc_item[]
+--- 根级选项。
+---
+--- Root-level options.
+---@field option? psc_item[]
+--- 全局选项（所有层级可用）。
+---
+--- Global options (available at every level).
+---@field global_option? psc_item[]
+
 
 --- 来自 manifest 的静态项，由引擎提供。
 ---
@@ -126,7 +159,7 @@ completions = {}
 ---@class psc
 psc = {}
 
--- ===================== 上下文值（hooks 的输入侧） =====================
+-- ===================== 上下文值（hooks 的输入侧）/ Context values (hook inputs) =====================
 
 --- 已完成的子命令链，不包含根命令。
 ---
@@ -170,10 +203,10 @@ psc.current = { option_like = false }
 ---@type table<string, any>
 psc.config = {}
 
---- 解析后的补全 manifest（数据文件）
+--- 解析后的补全 manifest（原始 JSON，可能含额外顶层字段）。
 ---
---- The parsed completion manifest (data file)
----@type table<string, any>?
+--- The parsed completion manifest (raw JSON; extra top-level keys allowed).
+---@type psc_manifest
 psc.manifest = {}
 
 --- 模块当前语言（en-US / zh-CN）；用于选择多语言 tip 表的条目。
@@ -194,7 +227,7 @@ psc.cwd = ""
 ---@type "windows"|"macos"|"linux"
 psc.platform = "windows"
 
--- ===================== 补全项专属 =====================
+-- ===================== 补全项专属 / Completion-item APIs =====================
 
 --- 把数组每个元素转成补全项。
 ---
@@ -314,7 +347,7 @@ function psc.typed(name) end
 ---@return boolean
 function psc.typed_unknown(name) end
 
--- ===================== 数据获取 =====================
+-- ===================== 数据获取 / Data fetching =====================
 
 ---@alias psc_run_format "json"|"toml"|"yaml" 命令输出解析格式（format to parse command output as）
 
@@ -552,7 +585,7 @@ function psc.env(name) end
 ---@return string|nil
 function psc.which(name) end
 
--- ===================== 数据操作 =====================
+-- ===================== 数据操作 / Data manipulation =====================
 
 --- 数组映射：对每个元素应用 fn，返回等长新数组；fn 必填。
 ---
@@ -582,8 +615,9 @@ function psc.filter(list, fn) end
 --- 数组合并（可变参数，接受任意多个数组）。
 ---
 --- Merges arrays (variadic, accepts any number).
----@vararg any[]
----@return any[]
+---@generic T
+---@vararg T[]
+---@return T[]
 function psc.concat(...) end
 
 --- 将字符串分割成数组
@@ -672,7 +706,7 @@ function psc.eq(a, b, opts) end
 ---@return string
 function psc.trim(text, opts) end
 
--- ===================== 调试工具 =====================
+-- ===================== 调试工具 / Debugging =====================
 
 --- 调试输出
 ---
@@ -687,6 +721,6 @@ function psc.trim(text, opts) end
 --- - **Note**:
 ---   - Hooks have a default 10-second result cache and will run only once within 10 seconds.
 ---   - For live debugging, temporarily disable the cache: `psc config menu enable_cache 0`
----@deprecated 仅调试阶段使用（debugging only）
+---@deprecated 仅调试阶段使用 | Debugging only
 ---@vararg any
 function psc.log(...) end
