@@ -70,6 +70,10 @@
 
 ## 使用
 
+> [!TIP]
+>
+> 运行 `psc update` 以检查远程状态
+
 - [内置补全库](./completions.zh-CN.md): 使用 `psc add git` 添加补全
 - [原生补全集成](https://pscompletions.abgox.com/docs/native-completion): 使用 PowerShell 的原生补全
   - 如果命令存在官方补全，可以使用类似的命令:

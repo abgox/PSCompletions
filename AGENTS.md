@@ -121,6 +121,35 @@ Step-by-step process:
 3. Continue recursively until you have all subcommands and their options
 4. For each subcommand, record: full name, aliases, description, every option (including aliases, whether it takes a value), and whether any option/parameter has a fixed set of allowed values (see `next` field rules below — this affects how you encode it).
 
+**Recursive checking (MANDATORY):**
+
+You MUST recursively check every level of the command hierarchy. Do NOT assume a command has no subcommands without checking its `--help` output. Many commands have sub-subcommands that are not obvious from the top-level help.
+
+> When you run `<command> <subcommand> --help`, the first line is typically the description. Use it as the `tip` value.
+
+The process works like this:
+
+```
+1. Run: <command> --help
+   → Lists all top-level subcommands
+
+2. For EACH subcommand found:
+   Run: <command> <subcommand> --help
+   → Check if it has its own subcommands (look for "Commands:" section)
+
+3. If it has subcommands, for EACH of those:
+   Run: <command> <subcommand> <sub-subcommand> --help
+   → Continue until no more subcommands are found
+
+4. Record ALL options at every level
+```
+
+**Checking for description updates:**
+
+When collecting help, also check if descriptions have changed:
+- Commands previously marked `[experimental]` may no longer be experimental — update the description
+- Descriptions may have been rewritten — update to match current help output
+
 **Spotting preset values in help output**: help text often lists an option's allowed/example values — recognize them and map them to `next: [...]`:
 
 - "Possible values: a, b, c" / "Valid values: ..." / "Values: ..."

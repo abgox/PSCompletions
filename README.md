@@ -70,6 +70,10 @@ A completion manager for a better and simpler tab-completion experience in [Powe
 
 ## How to use
 
+> [!TIP]
+>
+> Run `psc update` to check the remote status.
+
 - [Built-in completion library](./completions.md): add a completion with `psc add git`.
 - [Native completion integration](https://pscompletions.abgox.com/docs/native-completion): use PowerShell's native completions.
   - If a command has an official completion, a similar command may be run:
