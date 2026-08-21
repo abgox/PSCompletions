@@ -30,6 +30,20 @@
       "name": "backends",
       "tip": [
         "管理后端"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出内置后端"
+          ]
+        }
       ]
     },
     {
@@ -41,7 +55,7 @@
     {
       "name": "bootstrap",
       "tip": [
-        "[experimental] 使用当前配置一键设置机器"
+        "使用当前配置一键设置机器"
       ],
       "option": [
         {
@@ -63,9 +77,680 @@
           ]
         },
         {
+          "name": "--only",
+          "usage": [
+            "--only <ONLY>"
+          ],
+          "tip": [
+            "仅运行指定的引导步骤"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prompt-secrets",
+          "tip": [
+            "提示输入密钥值而不是跳过"
+          ]
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <SKIP>"
+          ],
+          "tip": [
+            "跳过指定的引导步骤"
+          ],
+          "next": []
+        },
+        {
           "name": "--update",
           "tip": [
             "首先刷新系统包管理器元数据"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "accounts",
+          "tip": [
+            "管理 Linux 用户和组"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的 Linux 用户和组"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的 Linux 用户和组状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "compose",
+          "tip": [
+            "管理 Docker Compose 项目"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的 Docker Compose 项目状态"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的 Docker Compose 项目状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dotfiles",
+          "tip": [
+            "管理 dotfiles"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "添加或更新 `[dotfiles]` 中的 dotfiles"
+              ]
+            },
+            {
+              "name": "apply",
+              "tip": [
+                "应用 `[dotfiles]` 中的 dotfiles"
+              ]
+            },
+            {
+              "name": "edit",
+              "tip": [
+                "编辑托管的 dotfile 源"
+              ]
+            },
+            {
+              "name": "status",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|status"
+              ],
+              "tip": [
+                "显示 `[dotfiles]` 中 dotfiles 的状态"
+              ]
+            },
+            {
+              "name": "unapply",
+              "tip": [
+                "移除已应用的 dotfiles"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "files",
+          "tip": [
+            "管理特权文件和目录"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的特权文件和目录"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的特权文件和目录状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "firewall",
+          "tip": [
+            "管理 Linux 主机防火墙"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的 Linux 主机防火墙"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的 Linux 主机防火墙状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "管理 Linux 引导配置"
+          ],
+          "next": [
+            {
+              "name": "systemd-units",
+              "tip": [
+                "管理 systemd 用户服务"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "应用配置的 systemd 用户服务"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "显示配置的 systemd 用户服务状态"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "macos",
+          "tip": [
+            "管理 macOS 引导配置"
+          ],
+          "next": [
+            {
+              "name": "defaults",
+              "tip": [
+                "管理 macOS 默认设置"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "应用配置的 macOS 默认设置"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "显示配置的 macOS 默认设置状态"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "launchd-agents",
+              "tip": [
+                "管理 macOS LaunchAgents"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "应用配置的 macOS LaunchAgents"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "显示配置的 macOS LaunchAgents 状态"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mise-shell-activate",
+          "tip": [
+            "管理 mise shell 激活"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用 mise shell 激活配置"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示 mise shell 激活配置状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "packages",
+          "tip": [
+            "管理引导系统包"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "alias": [
+                "i"
+              ],
+              "usage": [
+                "i|apply"
+              ],
+              "tip": [
+                "应用系统包"
+              ]
+            },
+            {
+              "name": "import",
+              "tip": [
+                "导入已安装的系统包"
+              ]
+            },
+            {
+              "name": "prune",
+              "tip": [
+                "清理不再声明的已安装系统包"
+              ]
+            },
+            {
+              "name": "status",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|status"
+              ],
+              "tip": [
+                "显示系统包的状态"
+              ]
+            },
+            {
+              "name": "upgrade",
+              "alias": [
+                "up"
+              ],
+              "usage": [
+                "up|upgrade"
+              ],
+              "tip": [
+                "升级已安装的引导系统包"
+              ]
+            },
+            {
+              "name": "use",
+              "alias": [
+                "u"
+              ],
+              "usage": [
+                "u|use"
+              ],
+              "tip": [
+                "添加引导系统包并安装"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "plan",
+          "option": [
+            {
+              "name": "--detailed-exitcode",
+              "tip": [
+                "以详细退出码退出"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出计划"
+              ]
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "提示输入密钥值而不是跳过"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "plugins",
+          "tip": [
+            "管理包管理器插件"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的包管理器插件"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的包管理器插件状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remote",
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "应用到所有远程主机"
+              ]
+            },
+            {
+              "name": "--bootstrap-command",
+              "usage": [
+                "--bootstrap-command <COMMAND>"
+              ],
+              "tip": [
+                "在远程主机上运行的命令"
+              ],
+              "next": []
+            },
+            {
+              "name": "--connect-timeout",
+              "usage": [
+                "--connect-timeout <TIMEOUT>"
+              ],
+              "tip": [
+                "连接超时时间（秒）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--copy-link",
+              "tip": [
+                "将符号链接复制为常规文件"
+              ]
+            },
+            {
+              "name": "--copy-links",
+              "tip": [
+                "复制时跟随符号链接"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "打印将要发生的内容而不执行任何操作"
+              ]
+            },
+            {
+              "name": "--exclude",
+              "usage": [
+                "--exclude <PATTERN>"
+              ],
+              "tip": [
+                "排除匹配模式的文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "首次失败时停止"
+              ]
+            },
+            {
+              "name": "--force-dotfiles",
+              "tip": [
+                "覆盖与整个文件 dotfile 条目冲突的现有文件"
+              ]
+            },
+            {
+              "name": "--host",
+              "usage": [
+                "--host <HOST>"
+              ],
+              "tip": [
+                "要引导的远程主机"
+              ],
+              "next": []
+            },
+            {
+              "name": "--identity-file",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --identity-file <FILE>"
+              ],
+              "tip": [
+                "SSH 身份文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--keep-staging",
+              "tip": [
+                "引导后保留暂存目录"
+              ]
+            },
+            {
+              "name": "--mise-bin",
+              "usage": [
+                "--mise-bin <PATH>"
+              ],
+              "tip": [
+                "远程主机上 mise 二进制文件的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "仅运行指定的引导步骤"
+              ],
+              "next": []
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "SSH 端口"
+              ],
+              "next": []
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "提示输入密钥值而不是跳过"
+              ]
+            },
+            {
+              "name": "--remote-mise",
+              "tip": [
+                "在远程主机上安装 mise"
+              ]
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "跳过指定的引导步骤"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <SOURCE>"
+              ],
+              "tip": [
+                "引导的源目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ssh-option",
+              "usage": [
+                "--ssh-option <OPTION>"
+              ],
+              "tip": [
+                "额外的 SSH 选项"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "要安装的 mise 版本标签"
+              ],
+              "next": []
+            },
+            {
+              "name": "--update",
+              "tip": [
+                "首先刷新系统包管理器元数据"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repos",
+          "tip": [
+            "管理 git 仓库检出"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的 git 仓库检出"
+              ]
+            },
+            {
+              "name": "exec",
+              "tip": [
+                "在仓库检出中执行命令"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的 git 仓库检出状态"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "更新配置的 git 仓库检出"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "secrets",
+          "tip": [
+            "检查引导密钥输入而不显示其值"
+          ],
+          "next": [
+            {
+              "name": "status",
+              "tip": [
+                "显示声明的引导密钥输入是否可用"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "services",
+          "tip": [
+            "管理 Linux 系统服务"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用配置的 Linux 系统服务"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示配置的 Linux 系统服务状态"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|status"
+          ],
+          "tip": [
+            "显示聚合引导状态"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出状态"
+              ]
+            },
+            {
+              "name": "--missing",
+              "tip": [
+                "只显示缺失的项目"
+              ]
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "提示输入密钥值而不是跳过"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "user",
+          "tip": [
+            "管理当前用户引导设置"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "应用当前用户引导设置"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "显示当前用户引导设置状态"
+              ]
+            }
           ]
         }
       ]
@@ -74,6 +759,70 @@
       "name": "cache",
       "tip": [
         "管理 mise 缓存"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "alias": [
+            "c"
+          ],
+          "usage": [
+            "c|clear"
+          ],
+          "tip": [
+            "删除 mise 中的所有缓存文件"
+          ],
+          "option": [
+            {
+              "name": "--task",
+              "usage": [
+                "--task <TASK>"
+              ],
+              "tip": [
+                "清除任务名称或模式的输出缓存条目"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "path",
+          "alias": [
+            "dir"
+          ],
+          "usage": [
+            "dir|path"
+          ],
+          "tip": [
+            "显示缓存目录路径"
+          ]
+        },
+        {
+          "name": "prune",
+          "alias": [
+            "p"
+          ],
+          "usage": [
+            "p|prune"
+          ],
+          "tip": [
+            "删除过期的 mise 缓存文件"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "只显示将要清理的内容"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task",
+          "tip": [
+            "检查任务的输出缓存条目"
+          ]
+        }
       ]
     },
     {
@@ -112,6 +861,111 @@
           "name": "--tracked-configs",
           "tip": [
             "列出所有已跟踪的配置文件"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "显示 mise.toml 文件中设置的值"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "要读取的 mise.toml 文件路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出当前使用的配置文件"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "不打印表头"
+              ]
+            },
+            {
+              "name": "--tracked-configs",
+              "tip": [
+                "列出所有已跟踪的配置文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置 mise.toml 文件中设置的值"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "要编辑的 mise.toml 文件路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --type <TYPE>"
+              ],
+              "tip": [
+                "要设置的值的类型"
+              ],
+              "next": [
+                {
+                  "name": "bool"
+                },
+                {
+                  "name": "float"
+                },
+                {
+                  "name": "infer"
+                },
+                {
+                  "name": "integer"
+                },
+                {
+                  "name": "list"
+                },
+                {
+                  "name": "set"
+                },
+                {
+                  "name": "string"
+                }
+              ]
+            }
           ]
         }
       ]
@@ -171,6 +1025,12 @@
           ]
         },
         {
+          "name": "--monorepo",
+          "tip": [
+            "从每个 [monorepo].config_roots 配置根目录安装依赖"
+          ]
+        },
+        {
           "name": "--only",
           "usage": [
             "--only <ONLY>"
@@ -190,6 +1050,104 @@
           ],
           "next": []
         }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加依赖"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "添加为开发依赖"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装所有项目依赖"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "只检查是否需要安装依赖，不运行命令"
+              ]
+            },
+            {
+              "name": "--explain",
+              "tip": [
+                "显示提供者为何是新鲜或过时的"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使输出是最新的也强制运行所有依赖步骤"
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "显示可用的依赖提供者"
+              ]
+            },
+            {
+              "name": "--monorepo",
+              "tip": [
+                "从每个 [monorepo].config_roots 配置根目录安装依赖"
+              ]
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "只运行指定的依赖规则"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "跳过指定的依赖规则"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除依赖"
+          ]
+        }
       ]
     },
     {
@@ -203,9 +1161,9 @@
       "tip": [
         "检查 mise 安装是否存在潜在问题"
       ],
-      "option": [
+      "next": [
         {
-          "name": "--path",
+          "name": "path",
           "tip": [
             "打印 mise 提供的当前 PATH 条目"
           ]
@@ -215,7 +1173,7 @@
     {
       "name": "dotfiles",
       "tip": [
-        "[experimental] 管理 `[dotfiles]` 中的 dotfiles"
+        "(deprecated) 管理 `[dotfiles]` 中的 dotfiles"
       ]
     },
     {
@@ -434,6 +1392,514 @@
       ],
       "tip": [
         "为各种工具/服务生成文件"
+      ],
+      "next": [
+        {
+          "name": "bootstrap",
+          "tip": [
+            "生成下载+执行 mise 的脚本"
+          ],
+          "option": [
+            {
+              "name": "--localize",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --localize"
+              ],
+              "tip": [
+                "将 mise 内部目录沙箱化到项目中的 .mise 目录"
+              ]
+            },
+            {
+              "name": "--localized-dir",
+              "usage": [
+                "--localized-dir <LOCALIZED_DIR>"
+              ],
+              "tip": [
+                "放置本地化数据的目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-V"
+              ],
+              "usage": [
+                "-V, --version <VERSION>"
+              ],
+              "tip": [
+                "指定要获取的 mise 版本"
+              ],
+              "next": []
+            },
+            {
+              "name": "--windows",
+              "tip": [
+                "同时写入 Windows 启动器 <WRITE>.cmd"
+              ]
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write [<WRITE>]"
+              ],
+              "tip": [
+                "写入文件并使其可执行，而不是输出到标准输出"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "生成 mise.toml 文件"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "显示将要生成的内容而不写入文件"
+              ]
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "生成全局配置文件 (~/.config/mise/config.toml)"
+              ]
+            },
+            {
+              "name": "--tool-versions",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tool-versions <TOOL_VERSIONS>"
+              ],
+              "tip": [
+                "要从中导入工具的 .tool-versions 文件路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "devcontainer",
+          "tip": [
+            "生成执行 mise 的 devcontainer"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "用于 devcontainer 的镜像"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mount-mise-data",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mount-mise-data"
+              ],
+              "tip": [
+                "将 mise-data-volume 绑定到 devcontainer"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <NAME>"
+              ],
+              "tip": [
+                "devcontainer 的名称"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "写入 .devcontainer/devcontainer.json"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "git-pre-commit",
+          "alias": [
+            "pre-commit"
+          ],
+          "usage": [
+            "pre-commit|git-pre-commit"
+          ],
+          "tip": [
+            "生成 git pre-commit 钩子"
+          ],
+          "option": [
+            {
+              "name": "--hook",
+              "usage": [
+                "--hook <HOOK>"
+              ],
+              "tip": [
+                "生成哪个钩子 (保存到 .git/hooks/$hook)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--task",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --task <TASK>"
+              ],
+              "tip": [
+                "pre-commit 钩子触发时运行的任务"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "写入 .git/hooks/pre-commit 并使其可执行"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github-action",
+          "tip": [
+            "生成 GitHub Action 工作流文件"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "要生成的工作流名称"
+              ],
+              "next": []
+            },
+            {
+              "name": "--task",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --task <TASK>"
+              ],
+              "tip": [
+                "工作流触发时运行的任务"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "写入 .github/workflows/$name.yml"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task-docs",
+          "tip": [
+            "生成项目中任务的文档"
+          ],
+          "option": [
+            {
+              "name": "--index",
+              "alias": [
+                "-I"
+              ],
+              "usage": [
+                "-I, --index"
+              ],
+              "tip": [
+                "只写入任务索引"
+              ]
+            },
+            {
+              "name": "--inject",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --inject"
+              ],
+              "tip": [
+                "将文档插入现有文件"
+              ]
+            },
+            {
+              "name": "--multi",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --multi"
+              ],
+              "tip": [
+                "将每个任务渲染为单独的文档"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "将生成的文档写入文件/目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--root",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --root <ROOT>"
+              ],
+              "tip": [
+                "搜索任务的根目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--style",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --style <STYLE>"
+              ],
+              "tip": [
+                "文档样式"
+              ],
+              "next": [
+                {
+                  "name": "detailed"
+                },
+                {
+                  "name": "simple"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task-stubs",
+          "tip": [
+            "生成运行 mise 任务的 shim"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --dir <DIR>"
+              ],
+              "tip": [
+                "创建任务存根的目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mise-bin",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mise-bin <MISE_BIN>"
+              ],
+              "tip": [
+                "运行任务存根时使用的 mise 二进制文件路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "tool-stub",
+          "tip": [
+            "生成基于 HTTP 的工具的工具存根"
+          ],
+          "option": [
+            {
+              "name": "--bin",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --bin <BIN>"
+              ],
+              "tip": [
+                "归档中的二进制文件路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--bootstrap",
+              "tip": [
+                "将存根包装在引导脚本中，如果 mise 尚未安装则安装"
+              ]
+            },
+            {
+              "name": "--bootstrap-version",
+              "usage": [
+                "--bootstrap-version <BOOTSTRAP_VERSION>"
+              ],
+              "tip": [
+                "指定引导脚本的 mise 版本"
+              ],
+              "next": []
+            },
+            {
+              "name": "--checksum-algorithm",
+              "usage": [
+                "--checksum-algorithm <CHECKSUM_ALGORITHM>"
+              ],
+              "tip": [
+                "下载工件时使用的校验和算法"
+              ],
+              "next": [
+                {
+                  "name": "blake3"
+                },
+                {
+                  "name": "sha256"
+                }
+              ]
+            },
+            {
+              "name": "--fetch",
+              "tip": [
+                "获取现有工具存根文件的校验和和大小"
+              ]
+            },
+            {
+              "name": "--http",
+              "usage": [
+                "--http <HTTP>"
+              ],
+              "tip": [
+                "要使用的 HTTP 后端类型"
+              ],
+              "next": []
+            },
+            {
+              "name": "--lock",
+              "tip": [
+                "解析并嵌入锁文件数据到现有存根文件中"
+              ]
+            },
+            {
+              "name": "--platform-bin",
+              "usage": [
+                "--platform-bin <PLATFORM_BIN>"
+              ],
+              "tip": [
+                "平台特定的二进制文件路径，格式为 platform:path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--platform-url",
+              "usage": [
+                "--platform-url <PLATFORM_URL>"
+              ],
+              "tip": [
+                "平台特定的 URL，格式为 platform:url"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-download",
+              "tip": [
+                "跳过下载以进行校验和和二进制文件路径检测"
+              ]
+            },
+            {
+              "name": "--url",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --url <URL>"
+              ],
+              "tip": [
+                "下载工具的 URL"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "工具的版本"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -821,6 +2287,308 @@
       "name": "oci",
       "tip": [
         "[experimental] 从 mise.toml 构建 OCI 容器镜像"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "[experimental] 从当前 mise.toml 构建 OCI 镜像"
+          ],
+          "option": [
+            {
+              "name": "--copy",
+              "tip": [
+                "将主机文件、目录或符号链接复制到镜像中"
+              ]
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "基础镜像引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "同时包含全局/系统配置中的工具"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "工具安装在镜像中的位置"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "不嵌入当前运行的 mise 二进制文件"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "OCI 镜像布局的输出目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "分配给每个 tar 条目的 UID[:GID]"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "记录在镜像索引中的标签"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "[experimental] 构建 OCI 镜像并推送到注册表"
+          ],
+          "option": [
+            {
+              "name": "--cache-from",
+              "usage": [
+                "--cache-from <CACHE_FROM>"
+              ],
+              "tip": [
+                "从此镜像重用未更改的工具层"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "构建的基础镜像"
+              ],
+              "next": []
+            },
+            {
+              "name": "--image-dir",
+              "usage": [
+                "--image-dir <IMAGE_DIR>"
+              ],
+              "tip": [
+                "推送已构建的 OCI 镜像布局"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "同时包含全局/系统配置中的工具"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "覆盖镜像内挂载点"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "不重用之前推送镜像的工具层"
+              ]
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "不嵌入 mise 二进制文件"
+              ]
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "分配给每个 tar 条目的 UID[:GID]"
+              ],
+              "next": []
+            },
+            {
+              "name": "--update-index",
+              "tip": [
+                "将标签维护为多架构镜像索引"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "[experimental] 从当前 mise.toml 构建 OCI 镜像并在其中运行命令"
+          ],
+          "option": [
+            {
+              "name": "--engine",
+              "usage": [
+                "--engine <ENGINE>"
+              ],
+              "tip": [
+                "要使用的容器引擎 (auto、podman 或 docker)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <ENV>"
+              ],
+              "tip": [
+                "在容器中设置环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "构建的基础镜像引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--image-dir",
+              "usage": [
+                "--image-dir <IMAGE_DIR>"
+              ],
+              "tip": [
+                "使用已构建的 OCI 镜像布局"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "同时包含全局/系统配置中的工具"
+              ]
+            },
+            {
+              "name": "--interactive",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --interactive"
+              ],
+              "tip": [
+                "交互式运行"
+              ]
+            },
+            {
+              "name": "--keep",
+              "tip": [
+                "运行后将加载的镜像保留在引擎存储中"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "覆盖镜像内挂载点"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "不嵌入 mise 二进制文件"
+              ]
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "分配给每个 tar 条目的 UID[:GID]"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tty",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tty"
+              ],
+              "tip": [
+                "分配 TTY"
+              ]
+            },
+            {
+              "name": "--volume",
+              "usage": [
+                "--volume <VOLUME>"
+              ],
+              "tip": [
+                "绑定挂载主机路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--workdir",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --workdir <WORKDIR>"
+              ],
+              "tip": [
+                "容器内的工作目录"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -907,6 +2675,237 @@
           "name": "--user",
           "tip": [
             "列出已安装的插件"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "alias": [
+            "add",
+            "i",
+            "a"
+          ],
+          "usage": [
+            "i|a|add|install"
+          ],
+          "tip": [
+            "安装插件"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "安装所有缺失的插件"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使插件已存在也重新安装"
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "并行运行的作业数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "显示安装输出"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "alias": [
+            "ln"
+          ],
+          "usage": [
+            "ln|link"
+          ],
+          "tip": [
+            "将插件符号链接到 mise"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "覆盖现有插件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出已安装的插件"
+          ],
+          "option": [
+            {
+              "name": "--outdated",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --outdated"
+              ],
+              "tip": [
+                "显示有可用更新的插件"
+              ]
+            },
+            {
+              "name": "--urls",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --urls"
+              ],
+              "tip": [
+                "显示每个插件的 git url"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-remote",
+          "alias": [
+            "ls-remote",
+            "list-all"
+          ],
+          "usage": [
+            "list-all|ls-remote|list-remote"
+          ],
+          "tip": [
+            "列出所有可用的远程插件"
+          ],
+          "option": [
+            {
+              "name": "--only-names",
+              "tip": [
+                "只显示每个插件的名称"
+              ]
+            },
+            {
+              "name": "--urls",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --urls"
+              ],
+              "tip": [
+                "显示每个插件的 git url"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "remove",
+            "rm"
+          ],
+          "usage": [
+            "rm|remove|uninstall"
+          ],
+          "tip": [
+            "移除插件"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "移除所有插件"
+              ]
+            },
+            {
+              "name": "--purge",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --purge"
+              ],
+              "tip": [
+                "同时移除插件的安装、下载和缓存"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "alias": [
+            "update",
+            "up"
+          ],
+          "usage": [
+            "up|update|upgrade"
+          ],
+          "tip": [
+            "将插件更新到最新版本"
+          ],
+          "option": [
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "并行运行的作业数"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -1466,6 +3465,20 @@
           "name": "add",
           "tip": [
             "向配置文件添加设置"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "使用本地配置文件而不是全局配置文件"
+              ]
+            }
           ]
         },
         {
@@ -1478,12 +3491,40 @@
           ],
           "tip": [
             "添加/更新设置"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "使用本地配置文件而不是全局配置文件"
+              ]
+            }
           ]
         },
         {
           "name": "get",
           "tip": [
             "显示当前设置"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "使用本地配置文件而不是全局配置文件"
+              ]
+            }
           ]
         },
         {
@@ -1496,6 +3537,50 @@
           ],
           "tip": [
             "显示当前设置"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "列出所有设置"
+              ]
+            },
+            {
+              "name": "--json-extended",
+              "tip": [
+                "以 JSON 格式输出，包含来源信息"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "使用本地配置文件而不是全局配置文件"
+              ]
+            },
+            {
+              "name": "--toml",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --toml"
+              ],
+              "tip": [
+                "以 TOML 格式输出"
+              ]
+            }
           ]
         },
         {
@@ -1507,10 +3592,24 @@
             "rm"
           ],
           "usage": [
-            "rm|del|unset|delete|remove"
+            "rm|del|unset|remove|delete"
           ],
           "tip": [
             "清除设置"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "使用本地配置文件而不是全局配置文件"
+              ]
+            }
           ]
         }
       ]
@@ -1545,6 +3644,70 @@
       "name": "shell-alias",
       "tip": [
         "管理 shell 别名"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "不显示表头"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "add",
+            "set"
+          ],
+          "usage": [
+            "add|set|create"
+          ],
+          "tip": [
+            "添加/更新 shell 别名"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "显示 shell 别名的命令"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出 shell 别名"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "不显示表头"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|unset|remove|delete"
+          ],
+          "tip": [
+            "移除 shell 别名"
+          ]
+        }
       ]
     },
     {
@@ -1557,6 +3720,68 @@
       "name": "sync",
       "tip": [
         "将其他版本管理器的工具与 mise 同步"
+      ],
+      "next": [
+        {
+          "name": "node",
+          "tip": [
+            "将外部工具的所有工具版本符号链接到 mise"
+          ],
+          "option": [
+            {
+              "name": "--brew",
+              "tip": [
+                "从 Homebrew 获取工具版本"
+              ]
+            },
+            {
+              "name": "--nodenv",
+              "tip": [
+                "从 nodenv 获取工具版本"
+              ]
+            },
+            {
+              "name": "--nvm",
+              "tip": [
+                "从 nvm 获取工具版本"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "python",
+          "tip": [
+            "将外部工具的所有工具版本符号链接到 mise"
+          ],
+          "option": [
+            {
+              "name": "--pyenv",
+              "tip": [
+                "从 pyenv 获取工具版本"
+              ]
+            },
+            {
+              "name": "--uv",
+              "tip": [
+                "与 uv 同步工具版本 (双向同步)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ruby",
+          "tip": [
+            "将外部工具的所有 ruby 工具版本符号链接到 mise"
+          ],
+          "option": [
+            {
+              "name": "--brew",
+              "tip": [
+                "从 Homebrew 获取工具版本"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1651,6 +3876,698 @@
           ],
           "next": []
         }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "创建新任务"
+          ],
+          "option": [
+            {
+              "name": "--alias",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --alias <ALIAS>"
+              ],
+              "tip": [
+                "任务别名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--depends",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --depends <DEPENDS>"
+              ],
+              "tip": [
+                "任务依赖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--depends-post",
+              "tip": [
+                "添加后置依赖"
+              ]
+            },
+            {
+              "name": "--description",
+              "usage": [
+                "--description <DESCRIPTION>"
+              ],
+              "tip": [
+                "任务描述"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dir",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dir <DIR>"
+              ],
+              "tip": [
+                "任务的工作目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "写入任务的文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--hide",
+              "alias": [
+                "-H"
+              ],
+              "usage": [
+                "-H, --hide"
+              ],
+              "tip": [
+                "隐藏任务"
+              ]
+            },
+            {
+              "name": "--outputs",
+              "usage": [
+                "--outputs <OUTPUTS>"
+              ],
+              "tip": [
+                "任务输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出"
+              ]
+            },
+            {
+              "name": "--raw",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --raw"
+              ],
+              "tip": [
+                "原始任务用法，不使用 mise 的开销"
+              ]
+            },
+            {
+              "name": "--run-windows",
+              "tip": [
+                "在 Windows 上运行"
+              ]
+            },
+            {
+              "name": "--shell",
+              "usage": [
+                "--shell <SHELL>"
+              ],
+              "tip": [
+                "要使用的 shell"
+              ],
+              "next": []
+            },
+            {
+              "name": "--silent",
+              "tip": [
+                "静默模式"
+              ]
+            },
+            {
+              "name": "--sources",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --sources <SOURCES>"
+              ],
+              "tip": [
+                "任务的源文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wait-for",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait-for <WAIT_FOR>"
+              ],
+              "tip": [
+                "等待文件或任务"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "tip": [
+            "显示依赖图的树形可视化"
+          ],
+          "option": [
+            {
+              "name": "--compact",
+              "tip": [
+                "紧凑输出"
+              ]
+            },
+            {
+              "name": "--dot",
+              "tip": [
+                "以 dot 格式输出"
+              ]
+            },
+            {
+              "name": "--hidden",
+              "tip": [
+                "包含隐藏任务"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "使用 $EDITOR 编辑任务"
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --path"
+              ],
+              "tip": [
+                "打印任务文件路径而不是编辑"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "[experimental] 检查工作区项目图"
+          ],
+          "option": [
+            {
+              "name": "--explain",
+              "tip": [
+                "解释任务为何在图中"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "不打印表头"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "获取任务信息"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出可执行的任务"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "显示所有任务，包括隐藏的"
+              ]
+            },
+            {
+              "name": "--extended",
+              "alias": [
+                "-x"
+              ],
+              "usage": [
+                "-x, --extended"
+              ],
+              "tip": [
+                "显示所有列"
+              ]
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "只显示全局任务"
+              ]
+            },
+            {
+              "name": "--hidden",
+              "tip": [
+                "包含隐藏任务"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "只显示非全局任务"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "只显示任务名称，每行一个"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "不打印表头"
+              ]
+            },
+            {
+              "name": "--sort",
+              "usage": [
+                "--sort <COLUMN>"
+              ],
+              "tip": [
+                "按列排序，默认为 name"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sort-order",
+              "usage": [
+                "--sort-order <SORT_ORDER>"
+              ],
+              "tip": [
+                "排序顺序，默认为 asc"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "运行任务"
+          ],
+          "option": [
+            {
+              "name": "--affected",
+              "tip": [
+                "运行受更改影响的任务"
+              ]
+            },
+            {
+              "name": "--affected-base",
+              "usage": [
+                "--affected-base <BASE>"
+              ],
+              "tip": [
+                "受影响检查的基准引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--affected-explain",
+              "tip": [
+                "解释任务为何受影响"
+              ]
+            },
+            {
+              "name": "--affected-head",
+              "usage": [
+                "--affected-head <HEAD>"
+              ],
+              "tip": [
+                "受影响检查的头部引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--affected-json",
+              "tip": [
+                "以 JSON 格式输出受影响信息"
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "运行所有任务"
+              ]
+            },
+            {
+              "name": "--allow-env",
+              "usage": [
+                "--allow-env <ENV>"
+              ],
+              "tip": [
+                "允许环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-net",
+              "usage": [
+                "--allow-net <NET>"
+              ],
+              "tip": [
+                "允许网络访问"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-read",
+              "usage": [
+                "--allow-read <PATH>"
+              ],
+              "tip": [
+                "允许读取路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-write",
+              "usage": [
+                "--allow-write <PATH>"
+              ],
+              "tip": [
+                "允许写入路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--continue-on-error",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --continue-on-error"
+              ],
+              "tip": [
+                "即使某个任务失败也继续运行"
+              ]
+            },
+            {
+              "name": "--deny-all",
+              "tip": [
+                "拒绝所有权限"
+              ]
+            },
+            {
+              "name": "--deny-env",
+              "usage": [
+                "--deny-env <ENV>"
+              ],
+              "tip": [
+                "拒绝环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-net",
+              "usage": [
+                "--deny-net <NET>"
+              ],
+              "tip": [
+                "拒绝网络访问"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-read",
+              "usage": [
+                "--deny-read <PATH>"
+              ],
+              "tip": [
+                "拒绝读取路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-write",
+              "usage": [
+                "--deny-write <PATH>"
+              ],
+              "tip": [
+                "拒绝写入路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "不实际运行任务，只打印"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使输出是最新的也强制运行任务"
+              ]
+            },
+            {
+              "name": "--fresh-env",
+              "tip": [
+                "绕过环境缓存并重新计算环境"
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "并行运行的任务数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "不使用远程任务的缓存"
+              ]
+            },
+            {
+              "name": "--no-deps",
+              "tip": [
+                "跳过自动依赖准备"
+              ]
+            },
+            {
+              "name": "--no-timings",
+              "tip": [
+                "隐藏每个任务完成后的经过时间"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "更改任务信息的输出方式"
+              ],
+              "next": []
+            },
+            {
+              "name": "--raw",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --raw"
+              ],
+              "tip": [
+                "直接运行命令，不使用 mise 的开销"
+              ]
+            },
+            {
+              "name": "--shell",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --shell <SHELL>"
+              ],
+              "tip": [
+                "用于运行 toml 任务的 shell"
+              ],
+              "next": []
+            },
+            {
+              "name": "--silent",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --silent"
+              ],
+              "tip": [
+                "抑制所有任务输出和 mise 非错误消息"
+              ]
+            },
+            {
+              "name": "--skip-deps",
+              "tip": [
+                "只运行指定的任务，跳过所有依赖"
+              ]
+            },
+            {
+              "name": "--skip-tools",
+              "tip": [
+                "运行任务前跳过工具安装"
+              ]
+            },
+            {
+              "name": "--task-cache",
+              "tip": [
+                "使用任务输出缓存"
+              ]
+            },
+            {
+              "name": "--task-cache-explain",
+              "tip": [
+                "解释任务缓存命中"
+              ]
+            },
+            {
+              "name": "--task-cache-explain-json",
+              "tip": [
+                "以 JSON 格式解释任务缓存命中"
+              ]
+            },
+            {
+              "name": "--task-cache-stats",
+              "tip": [
+                "显示任务缓存统计"
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <TIMEOUT>"
+              ],
+              "tip": [
+                "任务完成的超时时间"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tool",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tool <TOOL@VERSION>"
+              ],
+              "tip": [
+                "在 mise.toml 中的工具之外额外使用的工具"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "验证任务的常见错误和问题"
+          ],
+          "option": [
+            {
+              "name": "--errors-only",
+              "tip": [
+                "只显示错误"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1677,6 +4594,62 @@
       "name": "token",
       "tip": [
         "显示 mise 将使用的 git 提供商令牌"
+      ],
+      "next": [
+        {
+          "name": "forgejo",
+          "tip": [
+            "Forgejo 令牌"
+          ],
+          "option": [
+            {
+              "name": "--unmask",
+              "tip": [
+                "显示完整的未掩码令牌"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github",
+          "tip": [
+            "GitHub 令牌"
+          ],
+          "option": [
+            {
+              "name": "--oauth",
+              "tip": [
+                "仅通过原生 GitHub OAuth 源解析"
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "仅打印令牌值"
+              ]
+            },
+            {
+              "name": "--refresh",
+              "tip": [
+                "即使缓存的令牌未过期也生成新的 OAuth 令牌"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "gitlab",
+          "tip": [
+            "GitLab 令牌"
+          ],
+          "option": [
+            {
+              "name": "--unmask",
+              "tip": [
+                "显示完整的未掩码令牌"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1753,6 +4726,62 @@
             "按工具过滤别名"
           ],
           "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "add",
+            "set"
+          ],
+          "usage": [
+            "add|set|create"
+          ],
+          "tip": [
+            "添加/更新工具/后端的别名"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "显示工具的别名"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出工具版本别名"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "不显示表头"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|unset|remove|delete"
+          ],
+          "tip": [
+            "清除工具/后端的别名"
+          ]
         }
       ]
     },

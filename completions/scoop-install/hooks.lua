@@ -1,3 +1,7 @@
+if psc.current.option_like or #psc.cmds < 1 then
+    return completions
+end
+
 local function scoop_config()
     local root = psc.env("SCOOP")
     local home = psc.env("USERPROFILE") or psc.env("HOME")
@@ -10,7 +14,7 @@ local function scoop_config()
     end
     local cfg = {}
     for _, line in ipairs(psc.run({ "scoop", "config" }, { shell = true }) or {}) do
-        local k, v = line:match("^(%S+)%s*:%s*(.+)$")
+        local k, v = line:gsub("\27%[[%d;]*m", ""):match("^(%S+)%s*:%s*(.+)$")
         if k then
             cfg[k] = v
         end
@@ -90,10 +94,6 @@ local function add_bucket_apps(cs, entries, manifests, enable_tip, installed)
 end
 
 local cs = {}
-
-if psc.current.option_like then
-    return completions
-end
 
 local last_token = psc.tokens[#psc.tokens]
 if last_token and psc.eq(last_token.name, "--arch") then

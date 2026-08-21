@@ -82,6 +82,16 @@
             "要吸收变更的目标修订版本 [默认: mutable()]"
           ],
           "next": []
+        },
+        {
+          "name": "--tool",
+          "usage": [
+            "--tool <NAME>"
+          ],
+          "tip": [
+            "指定要使用的差异编辑器 (隐含 --interactive)"
+          ],
+          "next": []
         }
       ]
     },
@@ -170,6 +180,21 @@
           ],
           "tip": [
             "将最接近的书签推进到目标修订版本"
+          ],
+          "option": [
+            {
+              "name": "--to",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --to <REVSET>"
+              ],
+              "tip": [
+                "将书签推进到此修订 [默认: @]"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -382,6 +407,46 @@
           ],
           "tip": [
             "将已存在的书签移动到目标修订"
+          ],
+          "option": [
+            {
+              "name": "--allow-backwards",
+              "alias": [
+                "-B"
+              ],
+              "usage": [
+                "-B, --allow-backwards"
+              ],
+              "tip": [
+                "允许将书签向后或向侧面移动"
+              ]
+            },
+            {
+              "name": "--from",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --from <REVSETS>"
+              ],
+              "tip": [
+                "从给定修订移动书签"
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --to <REVSET>"
+              ],
+              "tip": [
+                "将书签移动到此修订 [默认: @]"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -394,6 +459,14 @@
           ],
           "tip": [
             "将书签 `old` 重命名为 `new`"
+          ],
+          "option": [
+            {
+              "name": "--overwrite-existing",
+              "tip": [
+                "即使新书签名称已存在也允许重命名"
+              ]
+            }
           ]
         },
         {
@@ -446,12 +519,36 @@
           ],
           "tip": [
             "开始跟踪给定远程书签"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "要跟踪的远程名称"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "untrack",
           "tip": [
             "停止跟踪给定远程书签"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "要取消跟踪的远程名称"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -868,7 +965,7 @@
             "-r"
           ],
           "usage": [
-            "-r, --revisions"
+            "-r, --revisions <REVSETS>"
           ],
           "tip": [
             "显示这些修订中的更改"
@@ -1272,30 +1369,163 @@
           "name": "annotate",
           "tip": [
             "显示目标文件每一行的源文件更改"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "要开始注解的可选修订版本"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染每一行"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "chmod",
           "tip": [
             "设置或移除仓库中路径的可执行位"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "要更新的修订版本 [默认: @]"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "列出指定修订中的文件"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "列出文件的修订版本 [默认: @]"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染每个文件条目"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "search",
           "tip": [
             "搜索文件中的内容"
+          ],
+          "option": [
+            {
+              "name": "--name-only",
+              "tip": [
+                "只打印文件路径"
+              ]
+            },
+            {
+              "name": "--pattern",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --pattern <PATTERN>"
+              ],
+              "tip": [
+                "要在单行中搜索的模式"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "搜索文件的修订版本 [默认: @]"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "show",
           "tip": [
             "打印指定修订中的文件内容"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "获取文件内容的修订版本 [默认: @]"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染每个文件元数据"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -1366,6 +1596,92 @@
           "name": "upload",
           "tip": [
             "将变更上传到 Gerrit 进行代码审查，或更新现有变更"
+          ],
+          "option": [
+            {
+              "name": "--cc",
+              "usage": [
+                "--cc <CC>"
+              ],
+              "tip": [
+                "将这些电子邮件抄送到变更上（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "不实际将变更推送到 Gerrit"
+              ]
+            },
+            {
+              "name": "--label",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --label <LABEL>"
+              ],
+              "tip": [
+                "向变更添加这些标签（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "要推送到的 Gerrit 远程"
+              ],
+              "next": []
+            },
+            {
+              "name": "--remote-branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --remote-branch <REMOTE_BRANCH>"
+              ],
+              "tip": [
+                "变更预期落地的位置"
+              ],
+              "next": []
+            },
+            {
+              "name": "--reviewer",
+              "usage": [
+                "--reviewer <REVIEWER>"
+              ],
+              "tip": [
+                "将这些电子邮件添加为审阅者（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSETS>"
+              ],
+              "tip": [
+                "修订集，选择哪些修订发送到 Gerrit"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -1720,6 +2036,16 @@
                       "name": "none"
                     }
                   ]
+                },
+                {
+                  "name": "--push-url",
+                  "usage": [
+                    "--push-url <PUSH_URL>"
+                  ],
+                  "tip": [
+                    "用于推送的 URL"
+                  ],
+                  "next": []
                 }
               ]
             },
@@ -1750,10 +2076,32 @@
             {
               "name": "set-url",
               "usage": [
-                "set-url [OPTIONS] <REMOTE> <URL>"
+                "set-url [OPTIONS] <REMOTE> [URL]"
               ],
               "tip": [
                 "设置 Git 远程仓库的 URL"
+              ],
+              "option": [
+                {
+                  "name": "--fetch",
+                  "usage": [
+                    "--fetch <FETCH>"
+                  ],
+                  "tip": [
+                    "要从中获取的 URL 或路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--push",
+                  "usage": [
+                    "--push <PUSH>"
+                  ],
+                  "tip": [
+                    "要推送到的 URL 或路径"
+                  ],
+                  "next": []
+                }
               ]
             }
           ]
@@ -2284,6 +2632,71 @@
           "name": "diff",
           "tip": [
             "比较两个操作之间的变更"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --from <FROM>"
+              ],
+              "tip": [
+                "显示从此操作开始的仓库变更"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-graph",
+              "alias": [
+                "-G"
+              ],
+              "usage": [
+                "-G, --no-graph"
+              ],
+              "tip": [
+                "不显示图形，显示修改的变更的平面列表"
+              ]
+            },
+            {
+              "name": "--operation",
+              "alias": [
+                "--op"
+              ],
+              "usage": [
+                "--op, --operation <OPERATION>"
+              ],
+              "tip": [
+                "显示此操作中的仓库变更，与其父操作进行比较"
+              ],
+              "next": []
+            },
+            {
+              "name": "--patch",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --patch"
+              ],
+              "tip": [
+                "显示变更修改的补丁"
+              ]
+            },
+            {
+              "name": "--to",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --to <TO>"
+              ],
+              "tip": [
+                "显示到此操作的仓库变更"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -2296,12 +2709,101 @@
           "name": "log",
           "tip": [
             "显示操作日志"
+          ],
+          "option": [
+            {
+              "name": "--limit",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --limit <LIMIT>"
+              ],
+              "tip": [
+                "限制显示的操作数量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-graph",
+              "alias": [
+                "-G"
+              ],
+              "usage": [
+                "-G, --no-graph"
+              ],
+              "tip": [
+                "不显示图形，显示操作的平面列表"
+              ]
+            },
+            {
+              "name": "--op-diff",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --op-diff"
+              ],
+              "tip": [
+                "在每个操作中显示仓库的变更"
+              ]
+            },
+            {
+              "name": "--patch",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --patch"
+              ],
+              "tip": [
+                "显示变更修改的补丁（隐含 --op-diff）"
+              ]
+            },
+            {
+              "name": "--reversed",
+              "tip": [
+                "以相反顺序显示操作（较旧的操作在前）"
+              ]
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染每个操作"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "restore",
           "tip": [
             "创建一个新操作，将仓库恢复到之前的状态"
+          ],
+          "option": [
+            {
+              "name": "--what",
+              "usage": [
+                "--what <WHAT>"
+              ],
+              "tip": [
+                "要恢复的本地状态的部分（可以重复）"
+              ],
+              "next": [
+                {
+                  "name": "remote-tracking"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            }
           ]
         },
         {
@@ -2314,6 +2816,45 @@
           "name": "show",
           "tip": [
             "显示操作中的变更"
+          ],
+          "option": [
+            {
+              "name": "--no-graph",
+              "alias": [
+                "-G"
+              ],
+              "usage": [
+                "-G, --no-graph"
+              ],
+              "tip": [
+                "不显示图形，显示修改的变更的平面列表"
+              ]
+            },
+            {
+              "name": "--patch",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --patch"
+              ],
+              "tip": [
+                "显示变更修改的补丁"
+              ]
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染操作"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -2705,6 +3246,20 @@
           ]
         },
         {
+          "name": "--ignore-changes",
+          "tip": [
+            "运行命令而不重写任何提交",
+            "每个修订版本都会被检出并执行命令，但对工作副本所做的更改将被丢弃。适用于只读检查（测试、linters）。"
+          ]
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "当命令的退出码指示失败时继续处理剩余的修订版本",
+            "失败命令所做的任何更改都不会被保存，但成功命令的更改仍会在最后原子性地应用。"
+          ]
+        },
+        {
           "name": "--jobs",
           "alias": [
             "-j"
@@ -2726,6 +3281,13 @@
             {
               "name": "8"
             }
+          ]
+        },
+        {
+          "name": "--passthrough",
+          "tip": [
+            "将 stdout 和 stderr 直接传递到终端",
+            "命令的 stdout 和 stderr 直接连接到终端（而不是被捕获），因此在 TTY 上行为不同的程序（例如彩色输出、进度条）可以按预期工作。不继承 stdin。只允许一个作业，因为并行作业会交错输出。"
           ]
         },
         {
@@ -2970,6 +3532,34 @@
           "name": "set",
           "tip": [
             "更新出现在工作副本中的模式"
+          ],
+          "option": [
+            {
+              "name": "--add",
+              "usage": [
+                "--add <ADD>"
+              ],
+              "tip": [
+                "要添加到工作区的模式"
+              ],
+              "next": []
+            },
+            {
+              "name": "--clear",
+              "tip": [
+                "在工作区中不包含任何文件 (与 --add 结合使用)"
+              ]
+            },
+            {
+              "name": "--remove",
+              "usage": [
+                "--remove <REMOVE>"
+              ],
+              "tip": [
+                "要从工作区移除的模式"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -3314,9 +3904,56 @@
             "l|list"
           ],
           "tip": [
-            "列出标签"
+            "列出标签及其目标"
           ],
           "option": [
+            {
+              "name": "--all-remotes",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all-remotes"
+              ],
+              "tip": [
+                "显示所有已跟踪和未跟踪的远程标签，包括其目标与本地标签同步的标签"
+              ]
+            },
+            {
+              "name": "--conflicted",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --conflicted"
+              ],
+              "tip": [
+                "仅显示冲突标签"
+              ]
+            },
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "显示所有属于此远程的已跟踪和未跟踪的远程标签"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSETS>"
+              ],
+              "tip": [
+                "显示其本地目标在给定修订中的标签"
+              ],
+              "next": []
+            },
             {
               "name": "--template",
               "alias": [
@@ -3326,9 +3963,21 @@
                 "-T, --template <TEMPLATE>"
               ],
               "tip": [
-                "使用给定的模板渲染每个标签"
+                "使用给定模板渲染每个标签"
               ],
               "next": []
+            },
+            {
+              "name": "--tracked",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tracked"
+              ],
+              "tip": [
+                "仅显示已跟踪的远程标签"
+              ]
             }
           ]
         },
@@ -3342,6 +3991,64 @@
           ],
           "tip": [
             "创建或更新标签"
+          ],
+          "option": [
+            {
+              "name": "--allow-move",
+              "tip": [
+                "允许移动现有标签"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "--to",
+                "-r"
+              ],
+              "usage": [
+                "-r, --to, --revision <REVSET>"
+              ],
+              "tip": [
+                "要指向的目标修订 [默认: @]"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "track",
+          "tip": [
+            "开始跟踪给定的远程标签"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "要跟踪的远程名称"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "untrack",
+          "tip": [
+            "停止跟踪给定的远程标签"
+          ],
+          "option": [
+            {
+              "name": "--remote",
+              "usage": [
+                "--remote <REMOTE>"
+              ],
+              "tip": [
+                "要取消跟踪的远程名称"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -3379,6 +4086,20 @@
         "不经常使用的命令，例如生成 shell 补全"
       ],
       "next": [
+        {
+          "name": "backend",
+          "tip": [
+            "与当前仓库使用的后端相关的命令"
+          ],
+          "next": [
+            {
+              "name": "name",
+              "tip": [
+                "打印当前仓库使用的后端名称"
+              ]
+            }
+          ]
+        },
         {
           "name": "completion",
           "tip": [
@@ -3439,6 +4160,64 @@
           "name": "add",
           "tip": [
             "添加一个工作区"
+          ],
+          "option": [
+            {
+              "name": "--message",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --message <MESSAGE>"
+              ],
+              "tip": [
+                "要使用的变化描述"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "工作区的名称"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSETS>"
+              ],
+              "tip": [
+                "新创建工作区的工作副本提交的父修订版本列表"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sparse-patterns",
+              "usage": [
+                "--sparse-patterns <SPARSE_PATTERNS>"
+              ],
+              "tip": [
+                "创建新工作区时如何处理稀疏模式"
+              ],
+              "next": [
+                {
+                  "name": "copy"
+                },
+                {
+                  "name": "empty"
+                },
+                {
+                  "name": "full"
+                }
+              ]
+            }
           ]
         },
         {
@@ -3451,6 +4230,21 @@
           "name": "list",
           "tip": [
             "列出工作区"
+          ],
+          "option": [
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "使用给定模板渲染每个工作区"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -3463,6 +4257,18 @@
           "name": "root",
           "tip": [
             "显示当前工作区的根目录"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "工作区的名称 (默认为当前工作区)"
+              ],
+              "next": []
+            }
           ]
         },
         {

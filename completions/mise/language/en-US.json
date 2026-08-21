@@ -30,6 +30,20 @@
       "name": "backends",
       "tip": [
         "Manage backends"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List built-in backends"
+          ]
+        }
       ]
     },
     {
@@ -41,7 +55,7 @@
     {
       "name": "bootstrap",
       "tip": [
-        "[experimental] Set up a machine for the current config in one command"
+        "Set up a machine for the current config in one command"
       ],
       "option": [
         {
@@ -63,9 +77,680 @@
           ]
         },
         {
+          "name": "--only",
+          "usage": [
+            "--only <ONLY>"
+          ],
+          "tip": [
+            "Run specific bootstrap step(s) only"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prompt-secrets",
+          "tip": [
+            "Prompt for secret values instead of skipping"
+          ]
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <SKIP>"
+          ],
+          "tip": [
+            "Skip specific bootstrap step(s)"
+          ],
+          "next": []
+        },
+        {
           "name": "--update",
           "tip": [
             "Refresh system package manager metadata first"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "accounts",
+          "tip": [
+            "Manage Linux users and groups from `[bootstrap.users]` and `[bootstrap.groups]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured Linux users and groups"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured Linux user and group state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "compose",
+          "tip": [
+            "Manage Docker Compose projects from `[bootstrap.compose]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured Docker Compose project state"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured Docker Compose project state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dotfiles",
+          "tip": [
+            "Manage dotfiles from `[dotfiles]`"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "Add or update dotfiles in `[dotfiles]`"
+              ]
+            },
+            {
+              "name": "apply",
+              "tip": [
+                "Apply dotfiles from `[dotfiles]`"
+              ]
+            },
+            {
+              "name": "edit",
+              "tip": [
+                "Edit a managed dotfile source"
+              ]
+            },
+            {
+              "name": "status",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|status"
+              ],
+              "tip": [
+                "Show the status of dotfiles from `[dotfiles]`"
+              ]
+            },
+            {
+              "name": "unapply",
+              "tip": [
+                "Remove dotfiles applied from `[dotfiles]`"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "files",
+          "tip": [
+            "Manage privileged files and directories from `[bootstrap.files]` and `[bootstrap.directories]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured privileged files and directories"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured privileged file and directory state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "firewall",
+          "tip": [
+            "Manage the Linux host firewall from `[bootstrap.linux.firewall]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply the configured Linux host firewall"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured Linux host firewall state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "Manage Linux bootstrap config from `[bootstrap.linux]`"
+          ],
+          "next": [
+            {
+              "name": "systemd-units",
+              "tip": [
+                "Manage systemd user services from `[bootstrap.linux.systemd.units]`"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "Apply configured systemd user services"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "Show configured systemd user service state"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "macos",
+          "tip": [
+            "Manage macOS bootstrap config from `[bootstrap.macos]`"
+          ],
+          "next": [
+            {
+              "name": "defaults",
+              "tip": [
+                "Manage macOS defaults from `[bootstrap.macos.defaults]`"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "Apply configured macOS defaults"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "Show configured macOS defaults state"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "launchd-agents",
+              "tip": [
+                "Manage macOS LaunchAgents from `[bootstrap.macos.launchd.agents]`"
+              ],
+              "next": [
+                {
+                  "name": "apply",
+                  "tip": [
+                    "Apply configured macOS LaunchAgents"
+                  ]
+                },
+                {
+                  "name": "status",
+                  "tip": [
+                    "Show configured macOS LaunchAgents state"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mise-shell-activate",
+          "tip": [
+            "Manage mise shell activation from `[bootstrap.mise_shell_activate]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply mise shell activation configuration"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show mise shell activation configuration state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "packages",
+          "tip": [
+            "Manage bootstrap system packages from `[bootstrap.packages]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "alias": [
+                "i"
+              ],
+              "usage": [
+                "i|apply"
+              ],
+              "tip": [
+                "Apply system packages from `[bootstrap.packages]`"
+              ]
+            },
+            {
+              "name": "import",
+              "tip": [
+                "Import installed system packages into `[bootstrap.packages]`"
+              ]
+            },
+            {
+              "name": "prune",
+              "tip": [
+                "Prune installed system packages no longer declared in `[bootstrap.packages]`"
+              ]
+            },
+            {
+              "name": "status",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|status"
+              ],
+              "tip": [
+                "Show the status of system packages from `[bootstrap.packages]`"
+              ]
+            },
+            {
+              "name": "upgrade",
+              "alias": [
+                "up"
+              ],
+              "usage": [
+                "up|upgrade"
+              ],
+              "tip": [
+                "Upgrade installed bootstrap packages from `[bootstrap.packages]`"
+              ]
+            },
+            {
+              "name": "use",
+              "alias": [
+                "u"
+              ],
+              "usage": [
+                "u|use"
+              ],
+              "tip": [
+                "Add bootstrap packages to [bootstrap.packages] and install them"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "plan",
+          "option": [
+            {
+              "name": "--detailed-exitcode",
+              "tip": [
+                "Exit with detailed exit code"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output plan in JSON format"
+              ]
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "Prompt for secret values instead of skipping"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "plugins",
+          "tip": [
+            "Manage package manager plugins declared in `[bootstrap.plugins]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured package manager plugins"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured package manager plugin state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remote",
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Apply to all remote hosts"
+              ]
+            },
+            {
+              "name": "--bootstrap-command",
+              "usage": [
+                "--bootstrap-command <COMMAND>"
+              ],
+              "tip": [
+                "Command to run on remote host"
+              ],
+              "next": []
+            },
+            {
+              "name": "--connect-timeout",
+              "usage": [
+                "--connect-timeout <TIMEOUT>"
+              ],
+              "tip": [
+                "Connection timeout in seconds"
+              ],
+              "next": []
+            },
+            {
+              "name": "--copy-link",
+              "tip": [
+                "Copy symlinks as regular files"
+              ]
+            },
+            {
+              "name": "--copy-links",
+              "tip": [
+                "Follow symlinks when copying"
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Print what would happen without doing anything"
+              ]
+            },
+            {
+              "name": "--exclude",
+              "usage": [
+                "--exclude <PATTERN>"
+              ],
+              "tip": [
+                "Exclude files matching pattern"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fail-fast",
+              "tip": [
+                "Stop on first failure"
+              ]
+            },
+            {
+              "name": "--force-dotfiles",
+              "tip": [
+                "Overwrite existing files that conflict with whole-file dotfile entries"
+              ]
+            },
+            {
+              "name": "--host",
+              "usage": [
+                "--host <HOST>"
+              ],
+              "tip": [
+                "Remote host to bootstrap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--identity-file",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --identity-file <FILE>"
+              ],
+              "tip": [
+                "SSH identity file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--keep-staging",
+              "tip": [
+                "Keep staging directory after bootstrap"
+              ]
+            },
+            {
+              "name": "--mise-bin",
+              "usage": [
+                "--mise-bin <PATH>"
+              ],
+              "tip": [
+                "Path to mise binary on remote host"
+              ],
+              "next": []
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "Run specific bootstrap step(s) only"
+              ],
+              "next": []
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "SSH port"
+              ],
+              "next": []
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "Prompt for secret values instead of skipping"
+              ]
+            },
+            {
+              "name": "--remote-mise",
+              "tip": [
+                "Install mise on the remote host"
+              ]
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "Skip specific bootstrap step(s)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source",
+              "usage": [
+                "--source <SOURCE>"
+              ],
+              "tip": [
+                "Source directory for bootstrap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ssh-option",
+              "usage": [
+                "--ssh-option <OPTION>"
+              ],
+              "tip": [
+                "Additional SSH option"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "mise version tag to install"
+              ],
+              "next": []
+            },
+            {
+              "name": "--update",
+              "tip": [
+                "Refresh system package manager metadata first"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "repos",
+          "tip": [
+            "Manage git repo checkouts from `[bootstrap.repos]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured git repo checkouts"
+              ]
+            },
+            {
+              "name": "exec",
+              "tip": [
+                "Execute a command in a repo checkout"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured git repo checkout state"
+              ]
+            },
+            {
+              "name": "update",
+              "tip": [
+                "Update configured git repo checkouts"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "secrets",
+          "tip": [
+            "Inspect bootstrap secret inputs without revealing their values"
+          ],
+          "next": [
+            {
+              "name": "status",
+              "tip": [
+                "Show whether declared bootstrap secret inputs are available"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "services",
+          "tip": [
+            "Manage Linux system services from `[bootstrap.services]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply configured Linux system services"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show configured Linux system service state"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|status"
+          ],
+          "tip": [
+            "Show bootstrap status"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output status in JSON format"
+              ]
+            },
+            {
+              "name": "--missing",
+              "tip": [
+                "Show only missing items"
+              ]
+            },
+            {
+              "name": "--prompt-secrets",
+              "tip": [
+                "Prompt for secret values instead of skipping"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "user",
+          "tip": [
+            "Manage current-user bootstrap settings from `[bootstrap.user]`"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply current-user bootstrap settings"
+              ]
+            },
+            {
+              "name": "status",
+              "tip": [
+                "Show current-user bootstrap settings state"
+              ]
+            }
           ]
         }
       ]
@@ -74,6 +759,70 @@
       "name": "cache",
       "tip": [
         "Manage the mise cache"
+      ],
+      "next": [
+        {
+          "name": "clear",
+          "alias": [
+            "c"
+          ],
+          "usage": [
+            "c|clear"
+          ],
+          "tip": [
+            "Deletes all cache files in mise"
+          ],
+          "option": [
+            {
+              "name": "--task",
+              "usage": [
+                "--task <TASK>"
+              ],
+              "tip": [
+                "Clear output cache entries for a task name or pattern"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "path",
+          "alias": [
+            "dir"
+          ],
+          "usage": [
+            "dir|path"
+          ],
+          "tip": [
+            "Show the cache directory path"
+          ]
+        },
+        {
+          "name": "prune",
+          "alias": [
+            "p"
+          ],
+          "usage": [
+            "p|prune"
+          ],
+          "tip": [
+            "Removes stale mise cache files"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Just show what would be pruned"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task",
+          "tip": [
+            "Inspect output cache entries for a task"
+          ]
+        }
       ]
     },
     {
@@ -112,6 +861,111 @@
           "name": "--tracked-configs",
           "tip": [
             "List all tracked config files"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "get",
+          "tip": [
+            "Display the value of a setting in a mise.toml file"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "The path to the mise.toml file to read"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List config files currently in use"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "Do not print table header"
+              ]
+            },
+            {
+              "name": "--tracked-configs",
+              "tip": [
+                "List all tracked config files"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set the value of a setting in a mise.toml file"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "The path to the mise.toml file to edit"
+              ],
+              "next": []
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --type <TYPE>"
+              ],
+              "tip": [
+                "The type of the value to set"
+              ],
+              "next": [
+                {
+                  "name": "bool"
+                },
+                {
+                  "name": "float"
+                },
+                {
+                  "name": "infer"
+                },
+                {
+                  "name": "integer"
+                },
+                {
+                  "name": "list"
+                },
+                {
+                  "name": "set"
+                },
+                {
+                  "name": "string"
+                }
+              ]
+            }
           ]
         }
       ]
@@ -171,6 +1025,12 @@
           ]
         },
         {
+          "name": "--monorepo",
+          "tip": [
+            "Install dependencies from every [monorepo].config_roots config root"
+          ]
+        },
+        {
           "name": "--only",
           "usage": [
             "--only <ONLY>"
@@ -190,6 +1050,104 @@
           ],
           "next": []
         }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a dependency"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "Add as a development dependency"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install all project dependencies"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Only check if deps install is needed, don't run commands"
+              ]
+            },
+            {
+              "name": "--explain",
+              "tip": [
+                "Show why a provider is fresh or stale"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force run all deps steps even if outputs are fresh"
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "Show what deps providers are available"
+              ]
+            },
+            {
+              "name": "--monorepo",
+              "tip": [
+                "Install dependencies from every [monorepo].config_roots config root"
+              ]
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "Run specific deps rule(s) only"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "Skip specific deps rule(s)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a dependency"
+          ]
+        }
       ]
     },
     {
@@ -203,9 +1161,9 @@
       "tip": [
         "Check mise installation for possible problems"
       ],
-      "option": [
+      "next": [
         {
-          "name": "--path",
+          "name": "path",
           "tip": [
             "Print the current PATH entries mise is providing"
           ]
@@ -215,7 +1173,7 @@
     {
       "name": "dotfiles",
       "tip": [
-        "[experimental] Manage dotfiles from `[dotfiles]`"
+        "(deprecated) Manage dotfiles from `[dotfiles]`"
       ]
     },
     {
@@ -434,6 +1392,514 @@
       ],
       "tip": [
         "Generate files for various tools/services"
+      ],
+      "next": [
+        {
+          "name": "bootstrap",
+          "tip": [
+            "Generate a script to download+execute mise"
+          ],
+          "option": [
+            {
+              "name": "--localize",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --localize"
+              ],
+              "tip": [
+                "Sandbox mise internal directories into a .mise directory in the project"
+              ]
+            },
+            {
+              "name": "--localized-dir",
+              "usage": [
+                "--localized-dir <LOCALIZED_DIR>"
+              ],
+              "tip": [
+                "Directory to put localized data into"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "alias": [
+                "-V"
+              ],
+              "usage": [
+                "-V, --version <VERSION>"
+              ],
+              "tip": [
+                "Specify mise version to fetch"
+              ],
+              "next": []
+            },
+            {
+              "name": "--windows",
+              "tip": [
+                "Also write a Windows launcher, <WRITE>.cmd"
+              ]
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write [<WRITE>]"
+              ],
+              "tip": [
+                "Write to a file and make it executable instead of outputting to stdout"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Generate a mise.toml file"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Show what would be generated without writing to file"
+              ]
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "Generate the global config file (~/.config/mise/config.toml)"
+              ]
+            },
+            {
+              "name": "--tool-versions",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tool-versions <TOOL_VERSIONS>"
+              ],
+              "tip": [
+                "Path to a .tool-versions file to import tools from"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "devcontainer",
+          "tip": [
+            "Generate a devcontainer to execute mise"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --image <IMAGE>"
+              ],
+              "tip": [
+                "The image to use for the devcontainer"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mount-mise-data",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mount-mise-data"
+              ],
+              "tip": [
+                "Bind the mise-data-volume to the devcontainer"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <NAME>"
+              ],
+              "tip": [
+                "The name of the devcontainer"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "Write to .devcontainer/devcontainer.json"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "git-pre-commit",
+          "alias": [
+            "pre-commit"
+          ],
+          "usage": [
+            "pre-commit|git-pre-commit"
+          ],
+          "tip": [
+            "Generate a git pre-commit hook"
+          ],
+          "option": [
+            {
+              "name": "--hook",
+              "usage": [
+                "--hook <HOOK>"
+              ],
+              "tip": [
+                "Which hook to generate (saves to .git/hooks/$hook)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--task",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --task <TASK>"
+              ],
+              "tip": [
+                "The task to run when the pre-commit hook is triggered"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "Write to .git/hooks/pre-commit and make it executable"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github-action",
+          "tip": [
+            "Generate a GitHub Action workflow file"
+          ],
+          "option": [
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "The name of the workflow to generate"
+              ],
+              "next": []
+            },
+            {
+              "name": "--task",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --task <TASK>"
+              ],
+              "tip": [
+                "The task to run when the workflow is triggered"
+              ],
+              "next": []
+            },
+            {
+              "name": "--write",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --write"
+              ],
+              "tip": [
+                "Write to .github/workflows/$name.yml"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task-docs",
+          "tip": [
+            "Generate documentation for tasks in a project"
+          ],
+          "option": [
+            {
+              "name": "--index",
+              "alias": [
+                "-I"
+              ],
+              "usage": [
+                "-I, --index"
+              ],
+              "tip": [
+                "Write only an index of tasks"
+              ]
+            },
+            {
+              "name": "--inject",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --inject"
+              ],
+              "tip": [
+                "Inserts the documentation into an existing file"
+              ]
+            },
+            {
+              "name": "--multi",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --multi"
+              ],
+              "tip": [
+                "Render each task as a separate document"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "Writes the generated docs to a file/directory"
+              ],
+              "next": []
+            },
+            {
+              "name": "--root",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --root <ROOT>"
+              ],
+              "tip": [
+                "Root directory to search for tasks"
+              ],
+              "next": []
+            },
+            {
+              "name": "--style",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --style <STYLE>"
+              ],
+              "tip": [
+                "Style of documentation"
+              ],
+              "next": [
+                {
+                  "name": "detailed"
+                },
+                {
+                  "name": "simple"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "task-stubs",
+          "tip": [
+            "Generates shims to run mise tasks"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --dir <DIR>"
+              ],
+              "tip": [
+                "Directory to create task stubs inside of"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mise-bin",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --mise-bin <MISE_BIN>"
+              ],
+              "tip": [
+                "Path to a mise bin to use when running the task stub"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "tool-stub",
+          "tip": [
+            "Generate a tool stub for HTTP-based tools"
+          ],
+          "option": [
+            {
+              "name": "--bin",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --bin <BIN>"
+              ],
+              "tip": [
+                "Binary path within the extracted archive"
+              ],
+              "next": []
+            },
+            {
+              "name": "--bootstrap",
+              "tip": [
+                "Wrap stub in a bootstrap script that installs mise if not already present"
+              ]
+            },
+            {
+              "name": "--bootstrap-version",
+              "usage": [
+                "--bootstrap-version <BOOTSTRAP_VERSION>"
+              ],
+              "tip": [
+                "Specify mise version for the bootstrap script"
+              ],
+              "next": []
+            },
+            {
+              "name": "--checksum-algorithm",
+              "usage": [
+                "--checksum-algorithm <CHECKSUM_ALGORITHM>"
+              ],
+              "tip": [
+                "Checksum algorithm to use when downloading artifacts"
+              ],
+              "next": [
+                {
+                  "name": "blake3"
+                },
+                {
+                  "name": "sha256"
+                }
+              ]
+            },
+            {
+              "name": "--fetch",
+              "tip": [
+                "Fetch checksums and sizes for an existing tool stub file"
+              ]
+            },
+            {
+              "name": "--http",
+              "usage": [
+                "--http <HTTP>"
+              ],
+              "tip": [
+                "HTTP backend type to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--lock",
+              "tip": [
+                "Resolve and embed lockfile data into an existing stub file"
+              ]
+            },
+            {
+              "name": "--platform-bin",
+              "usage": [
+                "--platform-bin <PLATFORM_BIN>"
+              ],
+              "tip": [
+                "Platform-specific binary paths in the format platform:path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--platform-url",
+              "usage": [
+                "--platform-url <PLATFORM_URL>"
+              ],
+              "tip": [
+                "Platform-specific URLs in the format platform:url"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-download",
+              "tip": [
+                "Skip downloading for checksum and binary path detection"
+              ]
+            },
+            {
+              "name": "--url",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --url <URL>"
+              ],
+              "tip": [
+                "URL for downloading the tool"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "Version of the tool"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -821,6 +2287,308 @@
       "name": "oci",
       "tip": [
         "[experimental] Build OCI container images from a mise.toml"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "[experimental] Build an OCI image from the current mise.toml"
+          ],
+          "option": [
+            {
+              "name": "--copy",
+              "tip": [
+                "Copy a host file, directory, or symlink into the image"
+              ]
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "Base image reference"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "Also include tools from the global / system config"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "Where to place tool installs inside the image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "Do not embed the currently-running mise binary"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "Output directory for the OCI image layout"
+              ],
+              "next": []
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "UID[:GID] to assign to every tar entry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "Tag to record in the image index"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "[experimental] Build an OCI image and push it to a registry"
+          ],
+          "option": [
+            {
+              "name": "--cache-from",
+              "usage": [
+                "--cache-from <CACHE_FROM>"
+              ],
+              "tip": [
+                "Reuse unchanged tool layers from this image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "Base image for the build"
+              ],
+              "next": []
+            },
+            {
+              "name": "--image-dir",
+              "usage": [
+                "--image-dir <IMAGE_DIR>"
+              ],
+              "tip": [
+                "Push an already-built OCI image layout"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "Also include tools from the global / system config"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "Override in-image mount point"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "Don't reuse tool layers from the previously pushed image"
+              ]
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "Don't embed the mise binary"
+              ]
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "UID[:GID] to assign to every tar entry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--update-index",
+              "tip": [
+                "Maintain the tag as a multi-arch image index"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "[experimental] Build an OCI image from the current mise.toml and run a command in it"
+          ],
+          "option": [
+            {
+              "name": "--engine",
+              "usage": [
+                "--engine <ENGINE>"
+              ],
+              "tip": [
+                "Container engine to use (auto, podman, or docker)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <ENV>"
+              ],
+              "tip": [
+                "Set environment variable in the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <FROM>"
+              ],
+              "tip": [
+                "Base image reference for the build"
+              ],
+              "next": []
+            },
+            {
+              "name": "--image-dir",
+              "usage": [
+                "--image-dir <IMAGE_DIR>"
+              ],
+              "tip": [
+                "Use an already-built OCI image layout"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include-global",
+              "tip": [
+                "Also include tools from the global / system config"
+              ]
+            },
+            {
+              "name": "--interactive",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --interactive"
+              ],
+              "tip": [
+                "Run interactively"
+              ]
+            },
+            {
+              "name": "--keep",
+              "tip": [
+                "Keep the loaded image in the engine's storage after the run"
+              ]
+            },
+            {
+              "name": "--mount-point",
+              "usage": [
+                "--mount-point <MOUNT_POINT>"
+              ],
+              "tip": [
+                "Override in-image mount point"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-mise",
+              "tip": [
+                "Don't embed the mise binary"
+              ]
+            },
+            {
+              "name": "--owner",
+              "usage": [
+                "--owner <OWNER>"
+              ],
+              "tip": [
+                "UID[:GID] to assign to every tar entry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tty",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tty"
+              ],
+              "tip": [
+                "Allocate a TTY"
+              ]
+            },
+            {
+              "name": "--volume",
+              "usage": [
+                "--volume <VOLUME>"
+              ],
+              "tip": [
+                "Bind-mount a host path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--workdir",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --workdir <WORKDIR>"
+              ],
+              "tip": [
+                "Working directory inside the container"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -907,6 +2675,237 @@
           "name": "--user",
           "tip": [
             "List installed plugins"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "alias": [
+            "add",
+            "i",
+            "a"
+          ],
+          "usage": [
+            "i|a|add|install"
+          ],
+          "tip": [
+            "Install a plugin"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Install all missing plugins"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Reinstall even if plugin exists"
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "Number of jobs to run in parallel"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Show installation output"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "alias": [
+            "ln"
+          ],
+          "usage": [
+            "ln|link"
+          ],
+          "tip": [
+            "Symlinks a plugin into mise"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Overwrite existing plugin"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List installed plugins"
+          ],
+          "option": [
+            {
+              "name": "--outdated",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --outdated"
+              ],
+              "tip": [
+                "Show plugins with available updates"
+              ]
+            },
+            {
+              "name": "--urls",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --urls"
+              ],
+              "tip": [
+                "Show the git url for each plugin"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-remote",
+          "alias": [
+            "ls-remote",
+            "list-all"
+          ],
+          "usage": [
+            "list-all|ls-remote|list-remote"
+          ],
+          "tip": [
+            "List all available remote plugins"
+          ],
+          "option": [
+            {
+              "name": "--only-names",
+              "tip": [
+                "Only show the name of each plugin"
+              ]
+            },
+            {
+              "name": "--urls",
+              "alias": [
+                "-u"
+              ],
+              "usage": [
+                "-u, --urls"
+              ],
+              "tip": [
+                "Show the git url for each plugin"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "remove",
+            "rm"
+          ],
+          "usage": [
+            "rm|remove|uninstall"
+          ],
+          "tip": [
+            "Removes a plugin"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Remove all plugins"
+              ]
+            },
+            {
+              "name": "--purge",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --purge"
+              ],
+              "tip": [
+                "Also remove the plugin's installs, downloads, and cache"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "alias": [
+            "update",
+            "up"
+          ],
+          "usage": [
+            "up|update|upgrade"
+          ],
+          "tip": [
+            "Updates a plugin to the latest version"
+          ],
+          "option": [
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "Number of jobs to run in parallel"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -1466,6 +3465,20 @@
           "name": "add",
           "tip": [
             "Adds a setting to the configuration file"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Use the local config file instead of the global one"
+              ]
+            }
           ]
         },
         {
@@ -1478,12 +3491,40 @@
           ],
           "tip": [
             "Add/update a setting"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Use the local config file instead of the global one"
+              ]
+            }
           ]
         },
         {
           "name": "get",
           "tip": [
             "Show a current setting"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Use the local config file instead of the global one"
+              ]
+            }
           ]
         },
         {
@@ -1496,6 +3537,50 @@
           ],
           "tip": [
             "Show current settings"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "List all settings"
+              ]
+            },
+            {
+              "name": "--json-extended",
+              "tip": [
+                "Output in JSON format with sources"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Use the local config file instead of the global one"
+              ]
+            },
+            {
+              "name": "--toml",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --toml"
+              ],
+              "tip": [
+                "Output in TOML format"
+              ]
+            }
           ]
         },
         {
@@ -1507,10 +3592,24 @@
             "rm"
           ],
           "usage": [
-            "rm|del|unset|delete|remove"
+            "rm|del|unset|remove|delete"
           ],
           "tip": [
             "Clears a setting"
+          ],
+          "option": [
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Use the local config file instead of the global one"
+              ]
+            }
           ]
         }
       ]
@@ -1545,6 +3644,70 @@
       "name": "shell-alias",
       "tip": [
         "Manage shell aliases"
+      ],
+      "option": [
+        {
+          "name": "--no-header",
+          "tip": [
+            "Don't show table header"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "add",
+            "set"
+          ],
+          "usage": [
+            "add|set|create"
+          ],
+          "tip": [
+            "Add/update a shell alias"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Show the command for a shell alias"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List shell aliases"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "Don't show table header"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|unset|remove|delete"
+          ],
+          "tip": [
+            "Removes a shell alias"
+          ]
+        }
       ]
     },
     {
@@ -1557,6 +3720,68 @@
       "name": "sync",
       "tip": [
         "Synchronize tools from other version managers with mise"
+      ],
+      "next": [
+        {
+          "name": "node",
+          "tip": [
+            "Symlinks all tool versions from an external tool into mise"
+          ],
+          "option": [
+            {
+              "name": "--brew",
+              "tip": [
+                "Get tool versions from Homebrew"
+              ]
+            },
+            {
+              "name": "--nodenv",
+              "tip": [
+                "Get tool versions from nodenv"
+              ]
+            },
+            {
+              "name": "--nvm",
+              "tip": [
+                "Get tool versions from nvm"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "python",
+          "tip": [
+            "Symlinks all tool versions from an external tool into mise"
+          ],
+          "option": [
+            {
+              "name": "--pyenv",
+              "tip": [
+                "Get tool versions from pyenv"
+              ]
+            },
+            {
+              "name": "--uv",
+              "tip": [
+                "Sync tool versions with uv (2-way sync)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ruby",
+          "tip": [
+            "Symlinks all ruby tool versions from an external tool into mise"
+          ],
+          "option": [
+            {
+              "name": "--brew",
+              "tip": [
+                "Get tool versions from Homebrew"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1651,6 +3876,698 @@
           ],
           "next": []
         }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Create a new task"
+          ],
+          "option": [
+            {
+              "name": "--alias",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --alias <ALIAS>"
+              ],
+              "tip": [
+                "Task alias"
+              ],
+              "next": []
+            },
+            {
+              "name": "--depends",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --depends <DEPENDS>"
+              ],
+              "tip": [
+                "Task dependencies"
+              ],
+              "next": []
+            },
+            {
+              "name": "--depends-post",
+              "tip": [
+                "Add post-dependencies"
+              ]
+            },
+            {
+              "name": "--description",
+              "usage": [
+                "--description <DESCRIPTION>"
+              ],
+              "tip": [
+                "Task description"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dir",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dir <DIR>"
+              ],
+              "tip": [
+                "Working directory for the task"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <FILE>"
+              ],
+              "tip": [
+                "File to write task to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--hide",
+              "alias": [
+                "-H"
+              ],
+              "usage": [
+                "-H, --hide"
+              ],
+              "tip": [
+                "Hide the task"
+              ]
+            },
+            {
+              "name": "--outputs",
+              "usage": [
+                "--outputs <OUTPUTS>"
+              ],
+              "tip": [
+                "Task outputs"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress output"
+              ]
+            },
+            {
+              "name": "--raw",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --raw"
+              ],
+              "tip": [
+                "Raw task usage without mise overhead"
+              ]
+            },
+            {
+              "name": "--run-windows",
+              "tip": [
+                "Run on Windows"
+              ]
+            },
+            {
+              "name": "--shell",
+              "usage": [
+                "--shell <SHELL>"
+              ],
+              "tip": [
+                "Shell to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--silent",
+              "tip": [
+                "Silent mode"
+              ]
+            },
+            {
+              "name": "--sources",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --sources <SOURCES>"
+              ],
+              "tip": [
+                "Source files for the task"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wait-for",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --wait-for <WAIT_FOR>"
+              ],
+              "tip": [
+                "Wait for a file or task"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "tip": [
+            "Display a tree visualization of a dependency graph"
+          ],
+          "option": [
+            {
+              "name": "--compact",
+              "tip": [
+                "Compact output"
+              ]
+            },
+            {
+              "name": "--dot",
+              "tip": [
+                "Output in dot format"
+              ]
+            },
+            {
+              "name": "--hidden",
+              "tip": [
+                "Include hidden tasks"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "Edit a task with $EDITOR"
+          ],
+          "option": [
+            {
+              "name": "--path",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --path"
+              ],
+              "tip": [
+                "Print the task file path instead of editing"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "[experimental] Inspect the workspace project graph"
+          ],
+          "option": [
+            {
+              "name": "--explain",
+              "tip": [
+                "Explain why a task is in the graph"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "Do not print table header"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Get information about a task"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List available tasks to execute"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Show all tasks including hidden"
+              ]
+            },
+            {
+              "name": "--extended",
+              "alias": [
+                "-x"
+              ],
+              "usage": [
+                "-x, --extended"
+              ],
+              "tip": [
+                "Show all columns"
+              ]
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "Only show global tasks"
+              ]
+            },
+            {
+              "name": "--hidden",
+              "tip": [
+                "Include hidden tasks"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Only show non-global tasks"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "Only show task names, one per line"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "Do not print table header"
+              ]
+            },
+            {
+              "name": "--sort",
+              "usage": [
+                "--sort <COLUMN>"
+              ],
+              "tip": [
+                "Sort by column. Default is name"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sort-order",
+              "usage": [
+                "--sort-order <SORT_ORDER>"
+              ],
+              "tip": [
+                "Sort order. Default is asc"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run task(s)"
+          ],
+          "option": [
+            {
+              "name": "--affected",
+              "tip": [
+                "Run tasks affected by changes"
+              ]
+            },
+            {
+              "name": "--affected-base",
+              "usage": [
+                "--affected-base <BASE>"
+              ],
+              "tip": [
+                "Base ref for affected check"
+              ],
+              "next": []
+            },
+            {
+              "name": "--affected-explain",
+              "tip": [
+                "Explain why a task is affected"
+              ]
+            },
+            {
+              "name": "--affected-head",
+              "usage": [
+                "--affected-head <HEAD>"
+              ],
+              "tip": [
+                "Head ref for affected check"
+              ],
+              "next": []
+            },
+            {
+              "name": "--affected-json",
+              "tip": [
+                "Output affected info in JSON"
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "Run all tasks"
+              ]
+            },
+            {
+              "name": "--allow-env",
+              "usage": [
+                "--allow-env <ENV>"
+              ],
+              "tip": [
+                "Allow an environment variable"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-net",
+              "usage": [
+                "--allow-net <NET>"
+              ],
+              "tip": [
+                "Allow network access"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-read",
+              "usage": [
+                "--allow-read <PATH>"
+              ],
+              "tip": [
+                "Allow reading a path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--allow-write",
+              "usage": [
+                "--allow-write <PATH>"
+              ],
+              "tip": [
+                "Allow writing a path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--continue-on-error",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --continue-on-error"
+              ],
+              "tip": [
+                "Continue running tasks even if one fails"
+              ]
+            },
+            {
+              "name": "--deny-all",
+              "tip": [
+                "Deny all permissions"
+              ]
+            },
+            {
+              "name": "--deny-env",
+              "usage": [
+                "--deny-env <ENV>"
+              ],
+              "tip": [
+                "Deny an environment variable"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-net",
+              "usage": [
+                "--deny-net <NET>"
+              ],
+              "tip": [
+                "Deny network access"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-read",
+              "usage": [
+                "--deny-read <PATH>"
+              ],
+              "tip": [
+                "Deny reading a path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--deny-write",
+              "usage": [
+                "--deny-write <PATH>"
+              ],
+              "tip": [
+                "Deny writing a path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Don't actually run the task(s), just print them"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force the tasks to run even if outputs are up to date"
+              ]
+            },
+            {
+              "name": "--fresh-env",
+              "tip": [
+                "Bypass the environment cache and recompute the environment"
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "Number of jobs to run in parallel"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "Do not use cache on remote tasks"
+              ]
+            },
+            {
+              "name": "--no-deps",
+              "tip": [
+                "Skip automatic dependency preparation"
+              ]
+            },
+            {
+              "name": "--no-timings",
+              "tip": [
+                "Hides elapsed time after each task completes"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "Change how tasks information is output"
+              ],
+              "next": []
+            },
+            {
+              "name": "--raw",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --raw"
+              ],
+              "tip": [
+                "Run the command directly without mise overhead"
+              ]
+            },
+            {
+              "name": "--shell",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --shell <SHELL>"
+              ],
+              "tip": [
+                "Shell to use to run toml tasks"
+              ],
+              "next": []
+            },
+            {
+              "name": "--silent",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --silent"
+              ],
+              "tip": [
+                "Suppress all task output and mise non-error messages"
+              ]
+            },
+            {
+              "name": "--skip-deps",
+              "tip": [
+                "Run only the specified tasks skipping all dependencies"
+              ]
+            },
+            {
+              "name": "--skip-tools",
+              "tip": [
+                "Skip installing tools before running tasks"
+              ]
+            },
+            {
+              "name": "--task-cache",
+              "tip": [
+                "Use task output cache"
+              ]
+            },
+            {
+              "name": "--task-cache-explain",
+              "tip": [
+                "Explain task cache hits"
+              ]
+            },
+            {
+              "name": "--task-cache-explain-json",
+              "tip": [
+                "Explain task cache hits in JSON"
+              ]
+            },
+            {
+              "name": "--task-cache-stats",
+              "tip": [
+                "Show task cache statistics"
+              ]
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <TIMEOUT>"
+              ],
+              "tip": [
+                "Timeout for the task to complete"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tool",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tool <TOOL@VERSION>"
+              ],
+              "tip": [
+                "Tool(s) to run in addition to what is in mise.toml files"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "validate",
+          "tip": [
+            "Validate tasks for common errors and issues"
+          ],
+          "option": [
+            {
+              "name": "--errors-only",
+              "tip": [
+                "Only show errors"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1677,6 +4594,62 @@
       "name": "token",
       "tip": [
         "Display git provider tokens mise will use"
+      ],
+      "next": [
+        {
+          "name": "forgejo",
+          "tip": [
+            "Forgejo token"
+          ],
+          "option": [
+            {
+              "name": "--unmask",
+              "tip": [
+                "Show the full unmasked token"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "github",
+          "tip": [
+            "GitHub token"
+          ],
+          "option": [
+            {
+              "name": "--oauth",
+              "tip": [
+                "Resolve only via the native GitHub OAuth source"
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "Print only the token value"
+              ]
+            },
+            {
+              "name": "--refresh",
+              "tip": [
+                "Mint a fresh OAuth token even if the cached one has not expired"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "gitlab",
+          "tip": [
+            "GitLab token"
+          ],
+          "option": [
+            {
+              "name": "--unmask",
+              "tip": [
+                "Show the full unmasked token"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -1753,6 +4726,62 @@
             "Filter aliases by tool"
           ],
           "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "create",
+          "alias": [
+            "add",
+            "set"
+          ],
+          "usage": [
+            "add|set|create"
+          ],
+          "tip": [
+            "Add/update an alias for a tool/backend"
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Show an alias for a tool"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List tool version aliases"
+          ],
+          "option": [
+            {
+              "name": "--no-header",
+              "tip": [
+                "Don't show table header"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "delete",
+            "unset",
+            "del",
+            "rm"
+          ],
+          "usage": [
+            "rm|del|unset|remove|delete"
+          ],
+          "tip": [
+            "Clears an alias for a tool/backend"
+          ]
         }
       ]
     },
