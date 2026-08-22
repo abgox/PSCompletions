@@ -266,15 +266,20 @@
         }
         'info' {
             _forward_psc -Json | ForEach-Object {
-                $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
-                [pscustomobject]@{
-                    Name        = $_.name
-                    Alias       = $_.alias
-                    Url         = $_.url
-                    Description = $_.description
-                    Path        = $resolvedPath
-                    Update      = $_.update
-                    Updated     = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime }
+                if ($_.ok -eq $false) {
+                    $PSCompletions.write_with_color((_replace "<@Red>$($_.name): $($_.error)"))
+                }
+                else {
+                    $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
+                    [pscustomobject]@{
+                        Name        = $_.name
+                        Alias       = $_.alias
+                        Url         = $_.url
+                        Description = $_.description
+                        Path        = $resolvedPath
+                        Update      = $_.update
+                        Updated     = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime }
+                    }
                 }
             }
             $need_init = $false
@@ -296,7 +301,10 @@
             }
             elseif ($arg.Count -eq 1) {
                 # No args = list all trigger aliases, wrapped as objects like list
-                _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Completion = $_.completion; Alias = $_.aliases } }
+                _forward_psc -Json | ForEach-Object {
+                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
+                    else { [pscustomobject]@{ Completion = $_.completion; Alias = $_.aliases } }
+                }
                 $need_init = $false
             }
             elseif (-not $alias_conflict) {
@@ -313,8 +321,20 @@
                     $need_init = $false
                 }
             }
-            elseif ($arg.Count -le 2) { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Key = $_.key; Value = $_.value } }; $need_init = $false }
-            elseif ($arg.Count -eq 3) { _forward_psc -Json | ForEach-Object { $_.value }; $need_init = $false }
+            elseif ($arg.Count -le 2) {
+                _forward_psc -Json | ForEach-Object {
+                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
+                    else { [pscustomobject]@{ Key = $_.key; Value = $_.value } }
+                }
+                $need_init = $false
+            }
+            elseif ($arg.Count -eq 3) {
+                _forward_psc -Json | ForEach-Object {
+                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
+                    else { $_.value }
+                }
+                $need_init = $false
+            }
             else {
                 # trigger_key host side-effect: rebind PSReadLine first, persist only on success
                 if ($arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
@@ -343,10 +363,19 @@
         }
         'completion' {
             if ($arg -contains '--reset') { _forward_psc }
-            elseif ($arg.Count -eq 3) { (_forward_psc -Json) | ForEach-Object { $_.value }; $need_init = $false }
+            elseif ($arg.Count -eq 3) {
+                (_forward_psc -Json) | ForEach-Object {
+                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
+                    else { $_.value }
+                }
+                $need_init = $false
+            }
             elseif ($arg.Count -le 2) {
                 # No args / <name>: list special config, wrapped as objects
-                _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Completion = $_.completion; Config = $_.config } }
+                _forward_psc -Json | ForEach-Object {
+                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
+                    else { [pscustomobject]@{ Completion = $_.completion; Config = $_.config } }
+                }
                 $need_init = $false
             }
             else { _forward_psc }

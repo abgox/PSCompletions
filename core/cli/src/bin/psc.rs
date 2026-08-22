@@ -274,17 +274,32 @@ fn name_status(settings: &Settings, index: &Index, completions_dir: &str, name: 
 
 /// Validate a completion name uniformly and report errors. `need_installed`: whether the command
 /// requires the completion to be installed (rm/update/completion/alias).
-/// Returns true when the name is valid.
-fn name_valid(out: &Out, lang: &str, name: &str, status: u8, need_installed: bool) -> bool {
+/// Returns the error message when the name is invalid.
+fn name_error(lang: &str, name: &str, status: u8, need_installed: bool) -> Option<String> {
     if status == 0 {
-        out.line(&format!("{name} {}", msg_cli(lang, "not_available")));
-        return false;
+        return Some(format!("{name} {}", msg_cli(lang, "not_available")));
     }
     if need_installed && status == 1 {
-        out.line(&format!("{name}: {}", msg_cli(lang, "no_completion")));
-        return false;
+        return Some(format!("{name}: {}", msg_cli(lang, "no_completion")));
     }
-    true
+    None
+}
+
+/// Emit a whole-command failure per the output contract and return the matching exit code:
+/// JSON mode → in-band `{"ok": false, "error": ...}` + exit 0; text mode → plain line +
+/// exit FAILURE. Every early-return validation/runtime error must go through this so a
+/// `--json` consumer always gets parseable output.
+fn fail(out: &Out, msg: String, json: bool) -> ExitCode {
+    if json {
+        println!(
+            "{}",
+            serde_json::to_string(&json!({ "ok": false, "error": msg })).unwrap_or_default()
+        );
+        ExitCode::SUCCESS
+    } else {
+        out.line(&msg);
+        ExitCode::FAILURE
+    }
 }
 
 /// Bare-binary fallback help (only shown when invoked directly with no subcommand).
@@ -402,8 +417,8 @@ fn main() -> ExitCode {
     }
 }
 
-fn param_err(out: &Out, lang: &str) {
-    out.line(&msg_cli(lang, "param_min"));
+fn param_err(out: &Out, lang: &str, json: bool) -> ExitCode {
+    fail(out, msg_cli(lang, "param_min"), json)
 }
 
 /// `<data>` dir from the settings path (`<data>/settings.json`).
@@ -779,8 +794,7 @@ fn cmd_add(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        param_err(out, lang);
-        return ExitCode::FAILURE;
+        return param_err(out, lang, json);
     }
     // Snapshot the pre-operation update keys so the post-check can diff added/removed/renamed.
     let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))
@@ -798,10 +812,7 @@ fn cmd_add(
             index.remote_names()
         }
         Err(e) => {
-            if !json {
-                out.line(&format!("error: {e}"));
-            }
-            return ExitCode::FAILURE;
+            return fail(out, format!("error: {e}"), json);
         }
     };
     let all = args.iter().any(|a| a == "--all");
@@ -856,15 +867,19 @@ fn cmd_add(
         results.lock().unwrap().push(entry);
     });
     if let Err(e) = settings.save(settings_path) {
-        if !json {
-            out.line(&format!("error: {e}"));
+        if json {
+            let arr = results.lock().unwrap().clone();
+            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
+            return ExitCode::SUCCESS;
         }
+        out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
     }
     record_post_check(data_dir, settings, &old_list, index, &[]);
     if json {
         let arr = results.lock().unwrap().clone();
         println!("{}", serde_json::to_string(&arr).unwrap_or_default());
+        return ExitCode::SUCCESS;
     }
     let had_error = results.lock().unwrap().iter().any(|v| v["ok"] != true);
     if had_error {
@@ -887,8 +902,7 @@ fn cmd_rm(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        param_err(out, lang);
-        return ExitCode::FAILURE;
+        return param_err(out, lang, json);
     }
     let all = args.iter().any(|a| a == "--all");
     let completions_dir = format!("{data_dir}/completions");
@@ -918,8 +932,7 @@ fn cmd_rm(
             }
             return ExitCode::SUCCESS;
         }
-        param_err(out, lang);
-        return ExitCode::FAILURE;
+        return param_err(out, lang, json);
     }
     let mut results: Vec<serde_json::Value> = Vec::new();
     let mut removed_any = false;
@@ -956,16 +969,19 @@ fn cmd_rm(
     changes.update.retain(|u| !names.iter().any(|n| n == u));
     changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
-        if !json {
-            out.line(&format!("error: {e}"));
+        if json {
+            println!("{}", serde_json::to_string(&results).unwrap_or_default());
+            return ExitCode::SUCCESS;
         }
+        out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
-    }
-    if removed_any && !json {
-        out.line(&msg_cli(lang, "rm_done"));
     }
     if json {
         println!("{}", serde_json::to_string(&results).unwrap_or_default());
+        return ExitCode::SUCCESS;
+    }
+    if removed_any {
+        out.line(&msg_cli(lang, "rm_done"));
     }
     if results.iter().any(|v| v["ok"] != true) {
         ExitCode::FAILURE
@@ -1000,8 +1016,7 @@ fn cmd_update(
             index.remote_names()
         }
         Err(e) => {
-            out.line(&format!("error: {e}"));
-            return ExitCode::FAILURE;
+            return fail(out, format!("error: {e}"), json);
         }
     };
     // Rename detection: a locally installed completion whose stable id now maps to a different remote name has been renamed upstream.
@@ -1086,33 +1101,41 @@ fn cmd_update(
             .collect();
         if !updatable_no_rename.is_empty() {
             any = true;
-            out.line(&msg_cli(lang, "updatable"));
-            for n in &updatable_no_rename {
-                out.line(&format!("  {n}"));
+            if !json {
+                out.line(&msg_cli(lang, "updatable"));
+                for n in &updatable_no_rename {
+                    out.line(&format!("  {n}"));
+                }
             }
         }
         if !added.is_empty() {
             any = true;
-            out.line(&msg_cli(lang, "lib_add"));
-            for n in &added {
-                out.line(&format!("  {n}"));
+            if !json {
+                out.line(&msg_cli(lang, "lib_add"));
+                for n in &added {
+                    out.line(&format!("  {n}"));
+                }
             }
         }
         if !removed.is_empty() {
             any = true;
-            out.line(&msg_cli(lang, "lib_rm"));
-            for n in &removed {
-                out.line(&format!("  {n}"));
+            if !json {
+                out.line(&msg_cli(lang, "lib_rm"));
+                for n in &removed {
+                    out.line(&format!("  {n}"));
+                }
             }
         }
         if !renamed.is_empty() {
             any = true;
-            out.line(&msg_cli(lang, "lib_rename"));
-            for (old_n, new_n) in &renamed {
-                out.line(&format!("  {old_n} -> {new_n}"));
+            if !json {
+                out.line(&msg_cli(lang, "lib_rename"));
+                for (old_n, new_n) in &renamed {
+                    out.line(&format!("  {old_n} -> {new_n}"));
+                }
             }
         }
-        if !any {
+        if !any && !json {
             out.line(&msg_cli(lang, "update_no"));
         }
         if json {
@@ -1200,15 +1223,6 @@ fn cmd_update(
             return;
         }
         if !list.contains(name) {
-            had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            let err = msg_cli(lang, "no_completion");
-            results
-                .lock()
-                .unwrap()
-                .push(json!({"completion": name, "ok": false, "error": err}));
-            if !json {
-                out.line(&format!("{name}: {err}"));
-            }
             return;
         }
         let version = index_ref.update.get(name).cloned().unwrap_or_default();
@@ -1283,8 +1297,14 @@ fn cmd_update(
     // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
     record_post_check(data_dir, settings, &old_list, index, &executed_renames);
     if let Err(e) = settings.save(settings_path) {
+        if json {
+            return ExitCode::SUCCESS;
+        }
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
+    }
+    if json {
+        return ExitCode::SUCCESS;
     }
     if had_error.load(std::sync::atomic::Ordering::SeqCst) {
         ExitCode::FAILURE
@@ -1313,11 +1333,10 @@ fn cmd_info(
     };
     if json {
         let mut arr = Vec::new();
-        let mut had_error = false;
         for name in args {
             let status = name_status(settings, index, completions_dir, name);
-            if !name_valid(out, &lang, name, status, false) {
-                had_error = true;
+            if let Some(e) = name_error(&lang, name, status, false) {
+                arr.push(json!({"name": name, "ok": false, "error": e}));
                 continue;
             }
             let mut o = serde_json::Map::new();
@@ -1372,16 +1391,13 @@ fn cmd_info(
         if !arr.is_empty() {
             println!("{}", serde_json::to_string(&arr).unwrap_or_default());
         }
-        return if had_error {
-            ExitCode::FAILURE
-        } else {
-            ExitCode::SUCCESS
-        };
+        return ExitCode::SUCCESS;
     }
     let mut had_error = false;
     for name in args {
         let status = name_status(settings, index, completions_dir, name);
-        if !name_valid(out, &lang, name, status, false) {
+        if let Some(e) = name_error(&lang, name, status, false) {
+            out.line(&e);
             had_error = true;
             continue;
         }
@@ -1495,6 +1511,16 @@ fn cmd_config(
             // `config <group> --reset`: reset every config item in that group
             let group = params[0].as_str();
             if !CONFIG_GROUPS.contains(&group) {
+                if json {
+                    println!(
+                        "{}",
+                        serde_json::to_string(
+                            &json!({"ok": false, "error": msg_cli(lang, "sub_cmd")})
+                        )
+                        .unwrap_or_default()
+                    );
+                    return ExitCode::SUCCESS;
+                }
                 out.line(&msg_cli(lang, "sub_cmd"));
                 return ExitCode::FAILURE;
             }
@@ -1518,10 +1544,30 @@ fn cmd_config(
                 .iter()
                 .find(|d| d.group == group && d.key == key)
             else {
+                if json {
+                    println!(
+                        "{}",
+                        serde_json::to_string(
+                            &json!({"ok": false, "error": msg_cli(lang, "sub_cmd")})
+                        )
+                        .unwrap_or_default()
+                    );
+                    return ExitCode::SUCCESS;
+                }
                 out.line(&msg_cli(lang, "sub_cmd"));
                 return ExitCode::FAILURE;
             };
             if def.key == "language" {
+                if json {
+                    println!(
+                        "{}",
+                        serde_json::to_string(
+                            &json!({"ok": false, "error": msg_cli(lang, "language_no_reset")})
+                        )
+                        .unwrap_or_default()
+                    );
+                    return ExitCode::SUCCESS;
+                }
                 out.line(&msg_cli(lang, "language_no_reset"));
                 return ExitCode::FAILURE;
             }
@@ -1538,12 +1584,35 @@ fn cmd_config(
                 .unwrap()
                 .insert(def.key.to_string(), value);
         } else {
+            if json {
+                println!(
+                    "{}",
+                    serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
+                        .unwrap_or_default()
+                );
+                return ExitCode::SUCCESS;
+            }
             out.line(&msg_cli(lang, "sub_cmd"));
             return ExitCode::FAILURE;
         }
         if let Err(e) = settings.save(settings_path) {
+            if json {
+                println!(
+                    "{}",
+                    serde_json::to_string(&json!({"ok": false, "error": e.to_string()}))
+                        .unwrap_or_default()
+                );
+                return ExitCode::SUCCESS;
+            }
             out.line(&format!("error: {e}"));
             return ExitCode::FAILURE;
+        }
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"ok": true})).unwrap_or_default()
+            );
+            return ExitCode::SUCCESS;
         }
         out.line(&msg_cli(lang, "config_done"));
         return ExitCode::SUCCESS;
@@ -1570,6 +1639,14 @@ fn cmd_config(
     }
     let group = args[0].as_str();
     if !CONFIG_GROUPS.contains(&group) {
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
+                    .unwrap_or_default()
+            );
+            return ExitCode::SUCCESS;
+        }
         out.line(&msg_cli(lang, "sub_cmd"));
         return ExitCode::FAILURE;
     }
@@ -1597,6 +1674,14 @@ fn cmd_config(
         .iter()
         .find(|d| d.group == group && d.key == key)
     else {
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
+                    .unwrap_or_default()
+            );
+            return ExitCode::SUCCESS;
+        }
         out.line(&msg_cli(lang, "sub_cmd"));
         return ExitCode::FAILURE;
     };
@@ -1613,6 +1698,14 @@ fn cmd_config(
         return ExitCode::SUCCESS;
     }
     let Some(value) = validate_value(def, &args[2]) else {
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "config_val")}))
+                    .unwrap_or_default()
+            );
+            return ExitCode::SUCCESS;
+        }
         out.line(&msg_cli(lang, "config_val"));
         return ExitCode::FAILURE;
     };
@@ -1633,8 +1726,23 @@ fn cmd_config(
             Some(())
         });
     if let Err(e) = settings.save(settings_path) {
+        if json {
+            println!(
+                "{}",
+                serde_json::to_string(&json!({"ok": false, "error": e.to_string()}))
+                    .unwrap_or_default()
+            );
+            return ExitCode::SUCCESS;
+        }
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
+    }
+    if json {
+        println!(
+            "{}",
+            serde_json::to_string(&json!({"ok": true})).unwrap_or_default()
+        );
+        return ExitCode::SUCCESS;
     }
     out.line(&msg_cli(lang, "config_done"));
     ExitCode::SUCCESS
@@ -1659,10 +1767,10 @@ fn cmd_completion(
     out: &Out,
     json: bool,
 ) -> ExitCode {
-    let check_installed = |name: &String| -> bool {
+    let check_installed = |name: &String| -> Option<String> {
         let data_dir = data_dir_of(settings_path);
         let status = name_status(settings, index, &format!("{data_dir}/completions"), name);
-        name_valid(out, lang, name, status, true)
+        name_error(lang, name, status, true)
     };
     if args.iter().any(|a| a == "--reset") {
         let data_dir = data_dir_of(settings_path);
@@ -1670,8 +1778,8 @@ fn cmd_completion(
         let names: Vec<String> = if params.is_empty() {
             settings.list()
         } else {
-            if !check_installed(params[0]) {
-                return ExitCode::FAILURE;
+            if let Some(e) = check_installed(params[0]) {
+                return fail(out, e, json);
             }
             vec![params[0].clone()]
         };
@@ -1715,8 +1823,7 @@ fn cmd_completion(
                     .and_then(|c| c.get(&key))
                     .is_some();
             if !valid {
-                out.line(&msg_cli(lang, "sub_cmd"));
-                return ExitCode::FAILURE;
+                return fail(out, msg_cli(lang, "sub_cmd"), json);
             }
             let defaults = completion_defaults(&data_dir, &name);
             if let Some(n) = settings
@@ -1756,8 +1863,7 @@ fn cmd_completion(
             }
         }
         if let Err(e) = settings.save(settings_path) {
-            out.line(&format!("error: {e}"));
-            return ExitCode::FAILURE;
+            return fail(out, format!("error: {e}"), json);
         }
         out.line(&msg_cli(lang, "completion_done"));
         return ExitCode::SUCCESS;
@@ -1795,8 +1901,8 @@ fn cmd_completion(
     // Single arg <name>: list all special config for that completion
     if args.len() == 1 {
         let name = &args[0];
-        if !check_installed(name) {
-            return ExitCode::FAILURE;
+        if let Some(e) = check_installed(name) {
+            return fail(out, e, json);
         }
         let cfg: serde_json::Map<String, Value> = settings
             .config
@@ -1818,8 +1924,8 @@ fn cmd_completion(
         return ExitCode::SUCCESS;
     }
     let name = args[0].clone();
-    if !check_installed(&name) {
-        return ExitCode::FAILURE;
+    if let Some(e) = check_installed(&name) {
+        return fail(out, e, json);
     }
     let key = args[1].clone();
     // enable_hooks is only valid when the completion's config.json declares hooks.
@@ -1833,8 +1939,7 @@ fn cmd_completion(
             .map(|c| c.get("hooks").is_some())
             .unwrap_or(false);
         if !has_hooks {
-            out.line(&msg_cli(lang, "no_hooks"));
-            return ExitCode::FAILURE;
+            return fail(out, msg_cli(lang, "no_hooks"), json);
         }
     }
     let valid = COMPLETION_KEYS.contains(&key.as_str())
@@ -1845,8 +1950,7 @@ fn cmd_completion(
             .and_then(|c| c.get(&key))
             .is_some();
     if !valid {
-        out.line(&msg_cli(lang, "sub_cmd"));
-        return ExitCode::FAILURE;
+        return fail(out, msg_cli(lang, "sub_cmd"), json);
     }
     let get = |key: &str| -> String {
         settings
@@ -1881,8 +1985,7 @@ fn cmd_completion(
         && key == "enable_hooks"
         && (value.as_i64() == Some(0) || value.as_str() == Some("0"))
     {
-        out.line(&msg_cli(lang, "psc_hooks_locked"));
-        return ExitCode::FAILURE;
+        return fail(out, msg_cli(lang, "psc_hooks_locked"), json);
     }
     if key.starts_with("enable_") || key.starts_with("disable_") {
         let v = match &value {
@@ -1890,8 +1993,7 @@ fn cmd_completion(
             _ => false,
         };
         if !v {
-            out.line(&msg_cli(lang, "one_or_zero"));
-            return ExitCode::FAILURE;
+            return fail(out, msg_cli(lang, "one_or_zero"), json);
         }
     }
     {
@@ -1907,8 +2009,7 @@ fn cmd_completion(
         n.as_object_mut().unwrap().insert(key.clone(), value);
     }
     if let Err(e) = settings.save(settings_path) {
-        out.line(&format!("error: {e}"));
-        return ExitCode::FAILURE;
+        return fail(out, format!("error: {e}"), json);
     }
     out.line(&msg_cli(lang, "completion_done"));
     ExitCode::SUCCESS
@@ -1928,16 +2029,14 @@ fn cmd_alias(
         // Only `alias --reset` is legal; any other arg is a subcommand error.
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
         if !params.is_empty() {
-            out.line(&msg_cli(lang, "sub_cmd"));
-            return ExitCode::FAILURE;
+            return fail(out, msg_cli(lang, "sub_cmd"), json);
         }
         let targets: Vec<String> = settings.list();
         for n in &targets {
             reset_alias(settings, &data_dir, n);
         }
         if let Err(e) = settings.save(settings_path) {
-            out.line(&format!("error: {e}"));
-            return ExitCode::FAILURE;
+            return fail(out, format!("error: {e}"), json);
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -1964,25 +2063,30 @@ fn cmd_alias(
         }
         Some("add") => {
             if args.len() < 3 {
-                param_err(out, lang);
-                return ExitCode::FAILURE;
+                return param_err(out, lang, json);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
-            if !name_valid(out, lang, &name, status, true) {
-                return ExitCode::FAILURE;
+            if let Some(e) = name_error(lang, &name, status, true) {
+                return fail(out, e, json);
             }
-            let mut changed = false;
-            let mut had_error = false;
+            let mut added: Vec<String> = Vec::new();
+            let mut rejected: Vec<serde_json::Value> = Vec::new();
+            let reject =
+                |rejected: &mut Vec<serde_json::Value>, a: &String, msg: String, json: bool| {
+                    if json {
+                        rejected.push(json!({"alias": a, "ok": false, "error": msg}));
+                    } else {
+                        out.line(&format!("{a}: {msg}"));
+                    }
+                };
             for a in &args[2..] {
                 if a.contains('*') || a.contains('?') {
-                    out.line(&format!("{a}: {}", msg_cli(lang, "has_wildcard")));
-                    had_error = true;
+                    reject(&mut rejected, a, msg_cli(lang, "has_wildcard"), json);
                     continue;
                 }
                 if a == "PSCompletions" {
-                    out.line(&format!("{a}: {}", msg_cli(lang, "cmd_exist")));
-                    had_error = true;
+                    reject(&mut rejected, a, msg_cli(lang, "cmd_exist"), json);
                     continue;
                 }
                 if settings
@@ -1991,8 +2095,7 @@ fn cmd_alias(
                     .map(|v| v.iter().any(|x| x == a))
                     .unwrap_or(false)
                 {
-                    out.line(&format!("{a}: {}", msg_cli(lang, "alias_exist")));
-                    had_error = true;
+                    reject(&mut rejected, a, msg_cli(lang, "alias_exist"), json);
                     continue;
                 }
                 let conflict = settings
@@ -2000,8 +2103,7 @@ fn cmd_alias(
                     .iter()
                     .any(|(k, v)| k != &name && v.iter().any(|x| x == a));
                 if conflict {
-                    out.line(&format!("{a}: {}", msg_cli(lang, "cmd_exist")));
-                    had_error = true;
+                    reject(&mut rejected, a, msg_cli(lang, "cmd_exist"), json);
                     continue;
                 }
                 settings
@@ -2009,59 +2111,77 @@ fn cmd_alias(
                     .entry(name.clone())
                     .or_default()
                     .push(a.clone());
-                changed = true;
+                added.push(a.clone());
             }
-            if changed {
+            if !added.is_empty() {
                 if let Err(e) = settings.save(settings_path) {
-                    out.line(&format!("error: {e}"));
-                    return ExitCode::FAILURE;
+                    return fail(out, format!("error: {e}"), json);
                 }
                 out.line(&msg_cli(lang, "alias_done"));
             }
-            if had_error {
-                ExitCode::FAILURE
-            } else {
+            if json {
+                if !added.is_empty() {
+                    rejected.push(json!({"name": name, "ok": true, "added": added}));
+                }
+                println!("{}", serde_json::to_string(&rejected).unwrap_or_default());
+                return ExitCode::SUCCESS;
+            }
+            if rejected.is_empty() {
                 ExitCode::SUCCESS
+            } else {
+                ExitCode::FAILURE
             }
         }
         Some("rm") => {
             if args.len() < 3 {
-                param_err(out, lang);
-                return ExitCode::FAILURE;
+                return param_err(out, lang, json);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
-            if !name_valid(out, lang, &name, status, true) {
-                return ExitCode::FAILURE;
+            if let Some(e) = name_error(lang, &name, status, true) {
+                return fail(out, e, json);
             }
             let Some(entry) = settings.alias.get_mut(&name) else {
-                out.line(&format!("{name}: {}", msg_cli(lang, "no_completion")));
-                return ExitCode::FAILURE;
+                return fail(
+                    out,
+                    format!("{name}: {}", msg_cli(lang, "no_completion")),
+                    json,
+                );
             };
             let remove_count = entry
                 .iter()
                 .filter(|a| args[2..].iter().any(|x| x == *a))
                 .count();
             if remove_count == 0 {
-                out.line(&format!("{name}: {}", msg_cli(lang, "alias_not_found")));
-                return ExitCode::FAILURE;
+                return fail(
+                    out,
+                    format!("{name}: {}", msg_cli(lang, "alias_not_found")),
+                    json,
+                );
             }
             if entry.len() <= remove_count {
-                out.line(&msg_cli(lang, "alias_unique"));
-                return ExitCode::FAILURE;
+                return fail(out, msg_cli(lang, "alias_unique"), json);
             }
+            let removed: Vec<String> = args[2..]
+                .iter()
+                .filter(|a| entry.iter().any(|x| x == *a))
+                .cloned()
+                .collect();
             entry.retain(|a| !args[2..].iter().any(|x| x == a));
             if let Err(e) = settings.save(settings_path) {
-                out.line(&format!("error: {e}"));
-                return ExitCode::FAILURE;
+                return fail(out, format!("error: {e}"), json);
             }
             out.line(&msg_cli(lang, "alias_done"));
+            if json {
+                println!(
+                    "{}",
+                    serde_json::to_string(&json!({"name": name, "ok": true, "removed": removed}))
+                        .unwrap_or_default()
+                );
+            }
             ExitCode::SUCCESS
         }
-        Some(_) => {
-            out.line(&msg_cli(lang, "sub_cmd"));
-            ExitCode::FAILURE
-        }
+        Some(_) => fail(out, msg_cli(lang, "sub_cmd"), json),
     }
 }
 
@@ -2187,7 +2307,7 @@ mod tests {
 
     #[test]
     fn compute_post_changes_merges_executed_renames() {
-        let base = std::env::temp_dir().join(format!("psc-changes-test-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("psc-changes-renames-{}", std::process::id()));
         let data_dir = base.to_str().unwrap();
         std::fs::create_dir_all(format!("{data_dir}/completions/bar")).unwrap();
         std::fs::write(
@@ -2235,7 +2355,7 @@ mod tests {
 
     #[test]
     fn compute_post_changes_reports_plain_add_and_remove() {
-        let base = std::env::temp_dir().join(format!("psc-changes-test-{}", std::process::id()));
+        let base = std::env::temp_dir().join(format!("psc-changes-plain-{}", std::process::id()));
         let data_dir = base.to_str().unwrap();
         std::fs::create_dir_all(format!("{data_dir}/completions/foo")).unwrap();
         std::fs::write(
