@@ -1289,11 +1289,16 @@ fn cmd_info(
     out: &Out,
     json: bool,
 ) -> ExitCode {
-    if args.is_empty() {
-        param_err(out, &settings.language());
-        return ExitCode::FAILURE;
-    }
     let lang = settings.language();
+    let owned;
+    let args: &[String] = if args.is_empty() {
+        let mut v: Vec<String> = settings.alias.keys().cloned().collect();
+        v.sort();
+        owned = v;
+        &owned
+    } else {
+        args
+    };
     if json {
         let mut arr = Vec::new();
         let mut had_error = false;
