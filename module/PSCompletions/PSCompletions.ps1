@@ -134,21 +134,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
     $PSCompletions.replace_pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     $PSCompletions.input_pattern = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
 
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod handle_completion -Force {
-        if ([System.IO.File]::Exists($PSCompletions.path.data)) {
-            $_ = Get-Content -Raw -LiteralPath $PSCompletions.path.data -Encoding utf8 | ConvertFrom-Json -ErrorAction SilentlyContinue
-            $PSCompletions.psc_alias = $_.alias.PSObject.Properties['psc'].value
-            $PSCompletions._key = $_.config.trigger_key
-        }
-        else {
-            $PSCompletions.psc_alias = @('psc')
-            $PSCompletions._key = 'Tab'
-        }
-        foreach ($_ in $PSCompletions.psc_alias) {
-            Microsoft.PowerShell.Utility\Set-Alias $_ PSCompletions -Force -ErrorAction Ignore -Scope Global
-        }
-        Set-PSReadLineKeyHandler -Key $PSCompletions._key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
-    }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable -Force {
         param([string]$json)
         # https://github.com/abgox/ConvertFrom-JsonAsHashtable
@@ -976,7 +961,6 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         if (-not $PSCompletions.binary_ok) {
             return
         }
-        $PSCompletions.handle_completion()
         if ($PSCompletions.config.enable_auto_alias_setup) {
             $Matches = $PSCompletions.data.aliasMap.Keys
             foreach ($_ in $Matches) {
@@ -993,19 +977,17 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         else {
             Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
         }
+        Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
         $PSCompletions.initialized = $true
     }
 }
 
 if ([System.IO.File]::Exists($PSCompletions.path.data)) {
     $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
-    $PSCompletions.psc_alias = $_.alias.PSObject.Properties['psc'].value
     $PSCompletions._key = $_.config.trigger_key
 }
 else {
-    $PSCompletions.psc_alias = @('psc')
     $PSCompletions._key = 'Tab'
-
     if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
             param([string]$path)
@@ -1046,12 +1028,23 @@ else {
         $PSCompletions.ensure_dir($PSCompletions.path.order)
         if ([System.IO.File]::Exists($PSCompletions.path.data)) {
             $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
-            $PSCompletions.psc_alias = $_.alias.PSObject.Properties['psc'].value
             $PSCompletions._key = $_.config.trigger_key
         }
     }
 }
-foreach ($_ in $PSCompletions.psc_alias) {
-    Microsoft.PowerShell.Utility\Set-Alias $_ PSCompletions -Force -ErrorAction Ignore -Scope Global
+if ($_.config.enable_auto_alias_setup) {
+    foreach ($Matches in $_.alias.PSObject.Properties) {
+        foreach ($args in @($Matches.Value)) {
+            if ($Matches.Name -eq 'psc') {
+                Microsoft.PowerShell.Utility\Set-Alias $args PSCompletions -Force -ErrorAction Ignore -Scope Global
+            }
+            elseif ($args -ne $Matches.Name -and $args -notmatch '[\\/]') {
+                Microsoft.PowerShell.Utility\Set-Alias $args $Matches.Name -Force -ErrorAction Ignore -Scope Global
+            }
+        }
+    }
+}
+else {
+    Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
 }
 Set-PSReadLineKeyHandler -Key $PSCompletions._key -ScriptBlock $PSCompletions.menu.module_completion_menu_script

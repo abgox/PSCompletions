@@ -317,7 +317,7 @@
                 _forward_psc
                 if ($LASTEXITCODE -eq 0 -and $arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
                     $PSCompletions.init_data()
-                    $PSCompletions.handle_completion()
+                    Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
                     $need_init = $false
                 }
             }
@@ -357,7 +357,7 @@
                 _forward_psc
                 if ($LASTEXITCODE -eq 0 -and $arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
                     $PSCompletions.config.trigger_key = $arg[3]
-                    $PSCompletions.handle_completion()
+                    Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.module_completion_menu_script
                 }
             }
         }
