@@ -758,6 +758,12 @@ fn record_post_check(
     if let Some(v) = fetch_module_version(settings) {
         changes.module = Some(v);
     }
+    changes.last_check = Some(
+        std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs(),
+    );
     changes.save(data_dir);
 }
 
@@ -1065,6 +1071,12 @@ fn cmd_update(
         if let Some(v) = fetch_module_version(settings) {
             changes.module = Some(v);
         }
+        changes.last_check = Some(
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap_or_default()
+                .as_secs(),
+        );
         changes.save(data_dir);
 
         let mut any = false;

@@ -755,6 +755,7 @@ mod tests {
     fn cfg(loop_enabled: bool) -> Config {
         Config {
             filter_hint: String::new(),
+            filter_hint_stale: String::new(),
             flags: Flags {
                 enable_list_loop: loop_enabled,
                 filter_mode: "wildcard".into(),

@@ -193,6 +193,8 @@ pub struct LibraryChanges {
     pub renamed: Vec<(String, String)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub module: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub last_check: Option<u64>,
 }
 
 impl LibraryChanges {
@@ -511,6 +513,7 @@ mod tests {
             removed: vec!["old-tool".into()],
             renamed: vec![("git".into(), "git1".into())],
             module: Some("7.2.0".into()),
+            last_check: None,
         };
         c.save(&d);
 

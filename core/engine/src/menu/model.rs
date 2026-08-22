@@ -69,6 +69,9 @@ pub struct Config {
     /// Hint text shown after `>` when the filter is empty (from the psc completion's info, localized).
     #[serde(default)]
     pub filter_hint: String,
+    /// Stale hint appended to filter_hint when last_check is stale (from the psc completion's info, localized).
+    #[serde(default)]
+    pub filter_hint_stale: String,
     #[serde(default)]
     pub flags: Flags,
     /// Predict-symbol characters for "switch" / "stay" items (from the module's context config).

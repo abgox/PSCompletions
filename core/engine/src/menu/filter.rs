@@ -241,6 +241,7 @@ mod tests {
     fn cfg(subseq: bool) -> Config {
         Config {
             filter_hint: String::new(),
+            filter_hint_stale: String::new(),
             flags: Flags {
                 enable_list_loop: true,
                 filter_mode: if subseq {

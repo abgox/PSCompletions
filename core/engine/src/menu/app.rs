@@ -13,6 +13,49 @@ use ratatui::{Terminal, TerminalOptions, Viewport};
 use std::io::Write;
 use std::time::{Duration, Instant};
 
+/// Check if change.json's last_check is stale (>7 days or missing).
+fn is_stale(order_dir: &str, menu_dir: &str) -> bool {
+    let Some(data_dir) = (if !order_dir.is_empty() {
+        std::path::Path::new(order_dir)
+            .parent()
+            .and_then(|p| p.parent())
+            .map(|p| p.to_string_lossy().to_string())
+    } else if !menu_dir.is_empty() {
+        std::path::Path::new(menu_dir)
+            .parent()
+            .and_then(|p| p.parent())
+            .map(|p| p.to_string_lossy().to_string())
+    } else {
+        None
+    }) else {
+        return true;
+    };
+    let path = std::path::Path::new(&data_dir)
+        .join("temp")
+        .join("change.json");
+    let text = match std::fs::read_to_string(&path) {
+        Ok(t) => t,
+        Err(_) => return true,
+    };
+    if text.trim().is_empty() {
+        return true;
+    }
+    let text = crate::strip_bom(&text);
+    let v: serde_json::Value = match serde_json::from_str(text) {
+        Ok(v) => v,
+        Err(_) => return true,
+    };
+    let last = v.get("last_check").and_then(|x| x.as_u64());
+    let now = match std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH) {
+        Ok(d) => d.as_secs(),
+        Err(_) => return true,
+    };
+    match last {
+        None => true,
+        Some(t) => now.saturating_sub(t) > 604800,
+    }
+}
+
 pub enum Action {
     Select,
     Cancel,
@@ -96,6 +139,16 @@ pub fn run(input_path: &str) -> Output {
 
     let mut cfg = input.config;
     cfg.resolve_tip_flags();
+    if is_stale(&input.order_dir, &input.menu_dir) {
+        let stale = cfg.filter_hint_stale.trim();
+        if !stale.is_empty() {
+            if cfg.filter_hint.is_empty() {
+                cfg.filter_hint = stale.to_string();
+            } else {
+                cfg.filter_hint = format!("{} {}", cfg.filter_hint, stale);
+            }
+        }
+    }
     let mut term = input.terminal;
     // Input-line cursor position, kept for restoring the system cursor on exit (before
     // `use_alt` rewrites `term.cursor.y` to 0).
@@ -485,6 +538,7 @@ mod tests {
     fn cfg() -> Config {
         Config {
             filter_hint: String::new(),
+            filter_hint_stale: String::new(),
             flags: Flags {
                 enable_list_loop: true,
                 filter_mode: "wildcard".into(),

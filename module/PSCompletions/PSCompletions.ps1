@@ -518,8 +518,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             )
         }
         $input.config = [ordered]@{
-            filter_hint    = [string]$PSCompletions.info.filter_hint
-            flags          = [ordered]@{
+            filter_hint       = [string]$PSCompletions.info.filter_hint
+            filter_hint_stale = [string]$PSCompletions.info.filter_hint_stale
+            flags             = [ordered]@{
                 enable_list_loop           = [bool]$config.enable_list_loop
                 filter_mode                = [string]$config.filter_mode
                 enable_apply_when_single   = [bool]$config.enable_apply_when_single
@@ -528,9 +529,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 color_focus                = [string]$config.color_focus
                 color_match                = [string]$config.color_match
             }
-            context_switch = [string]$config.switch
-            context_stay   = [string]$config.stay
-            raw_config     = [ordered]@{
+            context_switch    = [string]$config.switch
+            context_stay      = [string]$config.stay
+            raw_config        = [ordered]@{
                 completion = if ($PSCompletions.config.completion) { $PSCompletions.config.completion[$PSCompletions.cmd] } else { $null }
                 global     = $config
                 default    = $PSCompletions.default_config
