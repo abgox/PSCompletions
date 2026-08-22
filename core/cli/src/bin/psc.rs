@@ -301,6 +301,17 @@ fn print_help() {
     println!("  update [<name>... | --all | --old]");
 }
 
+/// Trim trailing separators, then restore a bare Windows drive (`C:` → `C:\`) so it stays
+/// an absolute root instead of a drive-relative path.
+fn normalize_data_dir(data_dir: &str) -> String {
+    let trimmed = data_dir.trim_end_matches(['/', '\\']);
+    if trimmed.len() == 2 && trimmed.ends_with(':') {
+        format!("{trimmed}\\")
+    } else {
+        trimmed.to_string()
+    }
+}
+
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let (data_arg, json, language_arg, result_arg, rest) = parse_args(&args);
@@ -308,13 +319,7 @@ fn main() -> ExitCode {
         eprintln!("psc: no data dir (pass --data <dir> or set PSC_DATA_DIR)");
         return ExitCode::FAILURE;
     };
-    let data_dir = data_dir.trim_end_matches(['/', '\\']).to_string();
-    // A bare Windows drive (e.g. `C:` after trimming `C:\`) becomes drive-relative; restore the separator.
-    let data_dir = if data_dir.len() == 2 && data_dir.ends_with(':') {
-        format!("{data_dir}\\")
-    } else {
-        data_dir
-    };
+    let data_dir = normalize_data_dir(&data_dir);
     let settings_path = format!("{data_dir}/settings.json");
     let completions_json = format!("{data_dir}/temp/completions.json");
     let completions_dir = format!("{data_dir}/completions");
@@ -623,19 +628,17 @@ fn fetch_module_version(settings: &Settings) -> Option<String> {
     None
 }
 
-/// After an add/update completes, refresh temp/change.json (update/added/removed/renamed/module)
-/// by diffing the pre-operation index snapshot against the fresh one, and record the remote module
-/// version. Runs synchronously AFTER the operation so a completion this command just touched is
-/// not reported as needing an update; `old_list` is captured before `download_list` overwrites the
-/// cache. On a fetch failure the existing `module` value is preserved (don't drop a pending notice
-/// just because one check hit the network and another didn't).
-fn record_post_check(
+/// Pure post-operation diff: compute `added`/`removed`/`renamed`/`update` from the fresh index
+/// and the installed settings, folding in the renames already executed during this command
+/// (they no longer appear in the post-state diff — the old name is gone from settings — so
+/// without them a rename would be misreported as added+removed).
+fn compute_post_changes(
     data_dir: &str,
     settings: &Settings,
     old_list: &[String],
     index: &Index,
     executed_renames: &[(String, String)],
-) {
+) -> LibraryChanges {
     let mut rename_map: std::collections::HashMap<String, String> =
         std::collections::HashMap::new();
     for installed in settings.list() {
@@ -648,9 +651,6 @@ fn record_post_check(
             }
         }
     }
-    // Renames already migrated during this command no longer appear in the post-state diff
-    // (the old name is gone from settings), so fold them back in: reported as renamed, not
-    // as added+removed.
     for (old, new) in executed_renames {
         rename_map.insert(old.clone(), new.clone());
     }
@@ -695,6 +695,23 @@ fn record_post_check(
         .collect();
     need_update.sort();
     changes.update = need_update;
+    changes
+}
+
+/// After an add/update completes, refresh temp/change.json (update/added/removed/renamed/module)
+/// by diffing the pre-operation index snapshot against the fresh one, and record the remote module
+/// version. Runs synchronously AFTER the operation so a completion this command just touched is
+/// not reported as needing an update; `old_list` is captured before `download_list` overwrites the
+/// cache. On a fetch failure the existing `module` value is preserved (don't drop a pending notice
+/// just because one check hit the network and another didn't).
+fn record_post_check(
+    data_dir: &str,
+    settings: &Settings,
+    old_list: &[String],
+    index: &Index,
+    executed_renames: &[(String, String)],
+) {
+    let mut changes = compute_post_changes(data_dir, settings, old_list, index, executed_renames);
     if let Some(v) = fetch_module_version(settings) {
         changes.module = Some(v);
     }
@@ -2037,6 +2054,136 @@ mod tests {
         assert!(!hooks_declared_disabled(base.to_str().unwrap(), "x"));
         std::fs::write(dir.join("config.json"), r#"{"language":["en-US"]}"#).unwrap();
         assert!(!hooks_declared_disabled(base.to_str().unwrap(), "x"));
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn parse_args_rejects_empty_space_form_values() {
+        // `--data ""` (space form) must not swallow the empty token as a value.
+        let (data, _, _, _, rest) = parse_args(&["--data".into(), "".into(), "list".into()]);
+        assert!(data.is_none(), "empty --data space value must be rejected");
+        assert_eq!(
+            rest,
+            vec!["--data".to_string(), "".to_string(), "list".to_string()],
+            "the rejected flag and its empty value flow to the command"
+        );
+        let (_, _, lang, _, _) = parse_args(&["--language".into(), "".into()]);
+        assert!(
+            lang.is_none(),
+            "empty --language space value must be rejected"
+        );
+        let (_, _, _, result, _) = parse_args(&["--result".into(), "".into()]);
+        assert!(
+            result.is_none(),
+            "empty --result space value must be rejected"
+        );
+        // The `=` forms reject empty values too.
+        let (data, _, lang, result, _) = parse_args(&["--data=".into(), "list".into()]);
+        assert!(data.is_none());
+        assert_eq!(lang, None);
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn parse_args_accepts_nonempty_space_form_values() {
+        let (data, _, lang, result, rest) = parse_args(&[
+            "--data".into(),
+            "C:\\temp".into(),
+            "--language".into(),
+            "zh-CN".into(),
+            "--result".into(),
+            "out.json".into(),
+            "list".into(),
+        ]);
+        assert_eq!(data.as_deref(), Some("C:\\temp"));
+        assert_eq!(lang.as_deref(), Some("zh-CN"));
+        assert_eq!(result.as_deref(), Some("out.json"));
+        assert_eq!(rest, vec!["list".to_string()]);
+    }
+
+    #[test]
+    fn normalize_data_dir_keeps_drive_roots_absolute() {
+        assert_eq!(normalize_data_dir("C:\\"), "C:\\");
+        assert_eq!(normalize_data_dir("C:/"), "C:\\");
+        assert_eq!(normalize_data_dir("C:"), "C:\\");
+        assert_eq!(normalize_data_dir("D:\\data"), "D:\\data");
+        assert_eq!(normalize_data_dir("/data"), "/data");
+        assert_eq!(normalize_data_dir("."), ".");
+    }
+
+    #[test]
+    fn compute_post_changes_merges_executed_renames() {
+        let base = std::env::temp_dir().join(format!("psc-changes-test-{}", std::process::id()));
+        let data_dir = base.to_str().unwrap();
+        std::fs::create_dir_all(format!("{data_dir}/completions/bar")).unwrap();
+        std::fs::write(
+            format!("{data_dir}/completions/bar/config.json"),
+            r#"{"id":"abc"}"#,
+        )
+        .unwrap();
+        std::fs::write(format!("{data_dir}/completions/bar/.update"), "v1").unwrap();
+        let settings = Settings {
+            alias: [("bar".to_string(), Vec::new())].into_iter().collect(),
+            config: serde_json::json!({}),
+        };
+        let mut index = Index::default();
+        index.ids.insert("bar".to_string(), "abc".to_string());
+        index.update.insert("bar".to_string(), "v1".to_string());
+        let old_list = vec!["foo".to_string()];
+
+        // Without the executed_renames parameter the post-state diff would report
+        // added=["bar"] + removed=["foo"]; the merge must turn it into a single rename.
+        let changes = compute_post_changes(
+            data_dir,
+            &settings,
+            &old_list,
+            &index,
+            &[("foo".into(), "bar".into())],
+        );
+        assert_eq!(
+            changes.renamed,
+            vec![("foo".to_string(), "bar".to_string())]
+        );
+        assert!(
+            changes.added.is_empty(),
+            "renamed completion must not be added"
+        );
+        assert!(
+            changes.removed.is_empty(),
+            "renamed completion must not be removed"
+        );
+        assert!(
+            changes.update.is_empty(),
+            "up-to-date completion must not need update"
+        );
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn compute_post_changes_reports_plain_add_and_remove() {
+        let base = std::env::temp_dir().join(format!("psc-changes-test-{}", std::process::id()));
+        let data_dir = base.to_str().unwrap();
+        std::fs::create_dir_all(format!("{data_dir}/completions/foo")).unwrap();
+        std::fs::write(
+            format!("{data_dir}/completions/foo/config.json"),
+            r#"{"id":"abc"}"#,
+        )
+        .unwrap();
+        std::fs::write(format!("{data_dir}/completions/foo/.update"), "v1").unwrap();
+        let settings = Settings {
+            alias: [("foo".to_string(), Vec::new())].into_iter().collect(),
+            config: serde_json::json!({}),
+        };
+        let mut index = Index::default();
+        index.ids.insert("foo".to_string(), "abc".to_string());
+        index.update.insert("foo".to_string(), "v1".to_string());
+        let old_list = Vec::<String>::new();
+
+        let changes = compute_post_changes(data_dir, &settings, &old_list, &index, &[]);
+        assert_eq!(changes.added, vec!["foo".to_string()]);
+        assert!(changes.removed.is_empty());
+        assert!(changes.renamed.is_empty());
+        assert!(changes.update.is_empty());
         std::fs::remove_dir_all(&base).ok();
     }
 }
