@@ -59,7 +59,10 @@ impl Settings {
             Err(_) => {
                 // Corrupt settings.json: back it up (never silently drop the damaged content)
                 // and fall back to defaults; the next save won't overwrite it without a trace.
-                let _ = std::fs::rename(path, format!("{path}.corrupt"));
+                // Remove existing .corrupt first (Windows rename fails if target exists).
+                let corrupt = format!("{path}.corrupt");
+                let _ = std::fs::remove_file(&corrupt);
+                let _ = std::fs::rename(path, &corrupt);
                 return None;
             }
         };
@@ -197,8 +200,10 @@ impl LibraryChanges {
     /// Atomically save to `<data>/temp/change.json`.
     pub fn save(&self, data_dir: &str) {
         if let Ok(text) = serde_json::to_string(self) {
-            let tmp = format!("{data_dir}/temp/change.json.{}.tmp", std::process::id());
-            let path = format!("{data_dir}/temp/change.json");
+            let tmp_dir = format!("{data_dir}/temp");
+            let _ = std::fs::create_dir_all(&tmp_dir);
+            let tmp = format!("{tmp_dir}/change.json.{}.tmp", std::process::id());
+            let path = format!("{tmp_dir}/change.json");
             if std::fs::write(&tmp, text).is_ok() {
                 let _ = std::fs::rename(&tmp, path);
             }
