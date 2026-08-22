@@ -338,7 +338,6 @@ fn main() -> ExitCode {
         "init" => cmd_init(
             &settings_path,
             &mut settings,
-            &index,
             &completions_dir,
             &data_dir,
             language_arg.as_deref(),
@@ -509,7 +508,6 @@ fn cmd_list(settings: &Settings, out: &Out, json: bool) -> ExitCode {
 fn cmd_init(
     settings_path: &str,
     settings: &mut Settings,
-    index: &Index,
     completions_dir: &str,
     data_dir: &str,
     language: Option<&str>,
@@ -554,6 +552,15 @@ fn cmd_init(
         }
     }
 
+    // The psc completion is the module's own: it carries the `info` templates and the
+    // management completions. Install always bundles it; if its files are gone (a wiped
+    // data dir or a partial deletion) re-fetch it so the init payload is not missing info.
+    // This is the only network path in `init` — it fires solely in that extreme case; an
+    // offline failure is tolerated because every later `psc init` retries it.
+    if !psc_completion_present(completions_dir) {
+        restore_psc_completion(settings_path, settings, data_dir);
+    }
+
     let mut alias_map = serde_json::Map::new();
     for (completion, aliases) in &settings.alias {
         for a in aliases {
@@ -562,12 +569,13 @@ fn cmd_init(
     }
 
     // `list` = known completions from the local completions.json index (stub `psc` when absent).
+    // Re-read the file: `init`'s psc restore may have just downloaded it (it was absent at
+    // startup), so the `index` loaded in main() would be stale here.
     let index_json = format!("{data_dir}/temp/completions.json");
-    let index_list: Vec<String> = if std::path::Path::new(&index_json).exists() {
-        index.remote_names()
-    } else {
-        vec!["psc".to_string()]
-    };
+    let index_list: Vec<String> = Index::load(&index_json)
+        .map(|i| i.remote_names())
+        .filter(|l| !l.is_empty())
+        .unwrap_or_else(|| vec!["psc".to_string()]);
 
     let urls = resolve_urls(settings);
     let lang = settings.language();
@@ -601,6 +609,41 @@ fn cmd_init(
         println!("{text}");
     }
     ExitCode::SUCCESS
+}
+
+/// Whether the psc completion's key files exist on disk (its own manifest + config).
+fn psc_completion_present(completions_dir: &str) -> bool {
+    std::path::Path::new(completions_dir)
+        .join("psc")
+        .join("config.json")
+        .exists()
+        && std::path::Path::new(completions_dir)
+            .join("psc")
+            .join("language")
+            .join("en-US.json")
+            .exists()
+}
+
+/// Re-fetch the psc completion (remote index + files) when its files are missing, restoring
+/// the module's `info` templates and management completions. Best-effort: an offline failure
+/// is tolerated because every later `psc init` (each session / menu start) retries it.
+fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data_dir: &str) {
+    let urls = resolve_urls(settings);
+    let Ok(v) = download_list(data_dir, &urls) else {
+        return;
+    };
+    let version = v
+        .get("update")
+        .and_then(|u| u.as_object())
+        .and_then(|o| o.get("psc"))
+        .and_then(|x| x.as_str())
+        .unwrap_or("")
+        .to_string();
+    if add_completion(data_dir, "psc", &urls, &version).unwrap_or(false) {
+        if let Ok(()) = refresh_settings_after_add(settings, data_dir, "psc") {
+            let _ = settings.save(settings_path);
+        }
+    }
 }
 
 /// Fetch the newest remote module version (first URL that returns a parseable `module/version.json`).
@@ -2033,6 +2076,20 @@ mod tests {
             assert!(map.is_empty());
         }
         assert!(s.config["completion"].is_object());
+    }
+
+    #[test]
+    fn psc_completion_present_checks_key_files() {
+        let base = std::env::temp_dir().join(format!("psc-present-test-{}", std::process::id()));
+        let completions = base.join("completions");
+        std::fs::create_dir_all(completions.join("psc/language")).unwrap();
+        let s = completions.to_str().unwrap();
+        assert!(!psc_completion_present(s));
+        std::fs::write(completions.join("psc/config.json"), "{}").unwrap();
+        assert!(!psc_completion_present(s));
+        std::fs::write(completions.join("psc/language/en-US.json"), "{}").unwrap();
+        assert!(psc_completion_present(s));
+        std::fs::remove_dir_all(&base).ok();
     }
 
     #[test]

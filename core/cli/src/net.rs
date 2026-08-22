@@ -120,6 +120,9 @@ pub fn add_completion(
             return Ok(false);
         }
     }
+    // The completions root may not exist (a wiped data dir): create it so the staged
+    // commit can rename into place — otherwise add/init's restore would fail here.
+    let _ = std::fs::create_dir_all(format!("{data_dir}/completions"));
     // Stage under `<data>/temp` (same volume as `completions/`, so rename is atomic);
     // a stale staging/backup dir from an interrupted run is dropped first.
     let tmp_dir = format!("{data_dir}/temp/{name}.tmp");
