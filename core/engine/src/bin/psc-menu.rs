@@ -329,10 +329,11 @@ struct SortInput {
 }
 
 /// Whether the completion targets the first token of the input line (root-command name or
-/// path): only then do the shared global order files (`_commands.json` / `_paths.json`) apply. Once
+/// path): only then does the shared global command-frequency file (`_commands.json`) apply. Once
 /// the command is complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), the candidates
 /// are the command's own subcommands/arguments and must rank against the per-command order file
-/// only.
+/// only. The shared path-leaf frequency (`_paths.json`) always applies: path completions
+/// (`cd <Tab>`, `cd .\src\<Tab>`) happen at any depth, not just the first token.
 fn sort_input_is_root(input: &SortInput) -> bool {
     input.tokens.len() == 1 && !input.treat_last_as_complete
 }
@@ -372,17 +373,16 @@ fn run_sort_mode(args: &[String]) -> ExitCode {
     ExitCode::SUCCESS
 }
 
-/// Rank the candidate items using the history-order files: path items by leaf-name frequency,
-/// otherwise the per-command order with a fallback to the global command frequency. Items
-/// without a score keep their original relative order (stable sort).
+/// Rank the candidate items using the history-order files: path-leaf frequency, the per-command
+/// order, and (root completions only) the global command frequency. Items without a score keep
+/// their original relative order (stable sort).
 fn apply_order_sort(items: &mut [hooks::LuaItem], order: &Option<CompleteOrder>, use_shared: bool) {
     let Some(o) = order else { return };
     let cmd_order = read_order_map(&o.cmd_order);
-    let paths_order = if use_shared {
-        read_order_map(&o.paths_order)
-    } else {
-        HashMap::new()
-    };
+    // `_paths.json` keys by path-leaf name and path completions happen at any depth
+    // (`cd <Tab>`, `cd .\src\<Tab>`), so the shared path frequency is not gated on `use_shared`.
+    // Only the root-command frequency (`_commands.json`) must not leak into subcommand ranking.
+    let paths_order = read_order_map(&o.paths_order);
     let commands_order = if use_shared {
         read_order_map(&o.commands_order)
     } else {
@@ -423,7 +423,10 @@ fn item_score(
     paths_order: &HashMap<String, i64>,
     commands_order: &HashMap<String, i64>,
 ) -> i64 {
-    let text = &it.text;
+    // Mirror the writer's key normalization (order.rs `normalize_key`): surrounding quotes
+    // are stripped so a quoted candidate (`"#FFA500"`) matches the quote-stripped key from
+    // a quoted history token (`'#ffa500'`); the path branch mirrors `path_segments`.
+    let text = it.text.trim_matches('"').trim_matches('\'');
     if text.contains('/') || text.contains('\\') {
         // A trailing separator (a directory candidate like `.\src\`) is ignored so the
         // directory's own name is the leaf — matching how `_paths.json` keys them.
@@ -437,6 +440,11 @@ fn item_score(
     }
     let lower = text.to_lowercase();
     if let Some(s) = cmd_order.get(&lower) {
+        return *s;
+    }
+    // A bare-word candidate (native `cd <Tab>` yields directory names like `core`) may have been
+    // used as a path leaf (`cd .\core`) — that weight lives in the shared `_paths.json`.
+    if let Some(s) = paths_order.get(&lower) {
         return *s;
     }
     if let Some(s) = commands_order.get(&lower) {
@@ -774,6 +782,58 @@ mod tests {
     }
 
     #[test]
+    fn item_score_strips_quotes_like_the_writer() {
+        let mut cmd_order: HashMap<String, i64> = HashMap::new();
+        cmd_order.insert("#ffa500".into(), 51);
+        cmd_order.insert("black".into(), 40);
+        let empty = HashMap::new();
+        // Quoted candidate (the manifest wraps color values in quotes) matches the
+        // quote-stripped key the writer stored from a quoted history token.
+        let quoted = hooks::LuaItem {
+            text: "\"#FFA500\"".into(),
+            ..Default::default()
+        };
+        assert_eq!(item_score(&quoted, &cmd_order, &empty, &empty), 51);
+        // A plain (unquoted) candidate matches too.
+        let plain = hooks::LuaItem {
+            text: "black".into(),
+            ..Default::default()
+        };
+        assert_eq!(item_score(&plain, &cmd_order, &empty, &empty), 40);
+    }
+
+    #[test]
+    fn item_score_strips_quotes_before_path_leaf() {
+        let mut paths: HashMap<String, i64> = HashMap::new();
+        paths.insert("foo".into(), 8);
+        let empty = HashMap::new();
+        let quoted = hooks::LuaItem {
+            text: "\"C:\\foo\"".into(),
+            ..Default::default()
+        };
+        // Without stripping, the leaf would be `foo"` and miss the key.
+        assert_eq!(item_score(&quoted, &empty, &paths, &empty), 8);
+    }
+
+    #[test]
+    fn item_score_bare_word_consults_paths_order() {
+        let mut paths: HashMap<String, i64> = HashMap::new();
+        paths.insert("core".into(), 20);
+        let empty = HashMap::new();
+        // `cd <Tab>` native completion yields bare directory names; the weight for
+        // `cd .\core` lives in `_paths.json` under the leaf `core`.
+        let leaf = hooks::LuaItem {
+            text: "core".into(),
+            ..Default::default()
+        };
+        assert_eq!(item_score(&leaf, &empty, &paths, &empty), 20);
+        // The per-command order still takes precedence over the shared path frequency.
+        let mut cmd: HashMap<String, i64> = HashMap::new();
+        cmd.insert("core".into(), 5);
+        assert_eq!(item_score(&leaf, &cmd, &paths, &empty), 5);
+    }
+
+    #[test]
     fn build_mode_ignores_shared_global_frequencies() {
         let mut cmd_order: HashMap<String, i64> = HashMap::new();
         cmd_order.insert("run".into(), 4);
@@ -1062,6 +1122,42 @@ mod tests {
             texts,
             vec!["ls", "list", "npm"],
             "root native mode: shared command frequency applies"
+        );
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn sort_mode_paths_frequency_applies_at_any_depth() {
+        let dir = std::env::temp_dir().join("psc-sort-cd-test");
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let shared = dir.join("_shared");
+        std::fs::create_dir_all(&shared).unwrap();
+        // `cd .\core` in history put `core` into the shared path-leaf frequency.
+        std::fs::write(
+            shared.join("_paths.json"),
+            serde_json::json!({ "core": 20 }).to_string(),
+        )
+        .unwrap();
+        let order = Some(CompleteOrder {
+            cmd_order: dir.join("cd.json").to_string_lossy().to_string(),
+            paths_order: shared.join("_paths.json").to_string_lossy().to_string(),
+            commands_order: shared.join("_commands.json").to_string_lossy().to_string(),
+        });
+        let item = |t: &str| hooks::LuaItem {
+            text: t.into(),
+            ..Default::default()
+        };
+
+        // `cd <Tab>` (non-root: one completed token): the bare dir-name candidate `core`
+        // must rank by the shared path-leaf frequency even though the command is complete.
+        let mut items = vec![item("docs"), item("core"), item("assets")];
+        apply_order_sort(&mut items, &order, false);
+        let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
+        assert_eq!(
+            texts,
+            vec!["core", "docs", "assets"],
+            "native path completion ranks by shared path-leaf frequency at any depth"
         );
         let _ = std::fs::remove_dir_all(&dir);
     }
