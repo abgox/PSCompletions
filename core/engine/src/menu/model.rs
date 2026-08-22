@@ -11,6 +11,9 @@ pub struct Input {
     /// Order-cache directory (module temp dir) — the engine prunes stale order files on menu open.
     #[serde(default)]
     pub order_dir: String,
+    /// Menu temp directory — the engine prunes stale input/output files (left by crashed sessions) on menu open.
+    #[serde(default)]
+    pub menu_dir: String,
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,

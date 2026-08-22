@@ -30,6 +30,45 @@ fn selected_output(state: &MenuState, idx: usize) -> Output {
     out
 }
 
+/// Delete stale menu temp files (`psc-menu-*-input.json`, `psc-menu-*-output.json`,
+/// `psc-menu-*-sort-in.json`, `psc-menu-*-sort-out.json`) older than 30 minutes. Normal menu
+/// invocations clean up immediately, but files left behind by a crashed or force-killed
+/// session accumulate forever without this sweep. Runs once per menu open in a background
+/// thread, using filesystem mtime (no JSON parsing needed).
+fn cleanup_stale_menu_files(menu_dir: &str) {
+    let dir = menu_dir.trim_end_matches(['/', '\\']);
+    if dir.is_empty() {
+        return;
+    }
+    let Ok(entries) = std::fs::read_dir(dir) else {
+        return;
+    };
+    let now_secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    let cutoff = now_secs.saturating_sub(30 * 60);
+    for entry in entries.flatten() {
+        let path = entry.path();
+        let is_menu_file = path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .is_some_and(|n| n.starts_with("psc-menu-") && n.ends_with(".json"));
+        if !is_menu_file {
+            continue;
+        }
+        let expired = std::fs::metadata(&path)
+            .ok()
+            .and_then(|m| m.modified().ok())
+            .and_then(|t| t.duration_since(std::time::UNIX_EPOCH).ok())
+            .map(|d| d.as_secs() < cutoff)
+            .unwrap_or(false);
+        if expired {
+            let _ = std::fs::remove_file(&path);
+        }
+    }
+}
+
 pub fn run(input_path: &str) -> Output {
     let input = match load_input(input_path) {
         Ok(i) => i,
@@ -42,6 +81,10 @@ pub fn run(input_path: &str) -> Output {
     if !input.order_dir.is_empty() {
         let dir = input.order_dir.clone();
         std::thread::spawn(move || crate::menu::order::cleanup_stale_order_files(&dir));
+    }
+    if !input.menu_dir.is_empty() {
+        let dir = input.menu_dir.clone();
+        std::thread::spawn(move || cleanup_stale_menu_files(&dir));
     }
 
     if input.items.is_empty() {

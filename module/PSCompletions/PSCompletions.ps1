@@ -554,6 +554,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             }
         }
         $input.order_dir = [string]$PSCompletions.path.order
+        $input.menu_dir = [string]$PSCompletions.path.menu
         $initialFilter = $PSCompletions.menu.initial_filter
         $PSCompletions.menu.initial_filter = $null
         if ($initialFilter) {
