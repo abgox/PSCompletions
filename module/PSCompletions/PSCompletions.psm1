@@ -57,16 +57,15 @@
         $text = ($raw | ForEach-Object {
                 if ($_ -is [System.Management.Automation.ErrorRecord]) { $_.Exception.Message } else { [string]$_ }
             }) -join "`n"
-        # Structured mode: when the CLI emits JSON, return it as-is (per-item results carry their own ok/error)
-        if ($Json -and $text.Trim()) {
-            try { return ($text | ConvertFrom-Json) } catch { }
-        }
-        # Render binary errors uniformly in red and stop
+        # Render binary errors uniformly in red and stop — check exit before Json
         if ($exit -ne 0) {
             if ($text.Trim()) {
                 $PSCompletions.write_with_color((_replace "<@Red>$($text.Trim())"))
             }
             return
+        }
+        if ($Json -and $text.Trim()) {
+            try { return ($text | ConvertFrom-Json) } catch { }
         }
         if (-not $Json) {
             if (-not $Quiet) {
@@ -278,12 +277,16 @@
                     }
                 }
             }
-            if (-not $alias_conflict) {
-                if ($arg.Count -eq 1) {
-                    # No args = list all trigger aliases, wrapped as objects like list
-                    _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Completion = $_.completion; Alias = $_.aliases } }
-                }
-                else { _forward_psc }
+            if ($alias_conflict) {
+                $need_init = $false
+            }
+            elseif ($arg.Count -eq 1) {
+                # No args = list all trigger aliases, wrapped as objects like list
+                _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Completion = $_.completion; Alias = $_.aliases } }
+                $need_init = $false
+            }
+            elseif (-not $alias_conflict) {
+                _forward_psc
             }
         }
         'config' {
@@ -296,8 +299,8 @@
                     $need_init = $false
                 }
             }
-            elseif ($arg.Count -le 2) { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Key = $_.key; Value = $_.value } } }
-            elseif ($arg.Count -eq 3) { _forward_psc -Json | ForEach-Object { $_.value } }
+            elseif ($arg.Count -le 2) { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Key = $_.key; Value = $_.value } }; $need_init = $false }
+            elseif ($arg.Count -eq 3) { _forward_psc -Json | ForEach-Object { $_.value }; $need_init = $false }
             else {
                 # trigger_key host side-effect: rebind PSReadLine first, persist only on success
                 if ($arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
@@ -326,10 +329,11 @@
         }
         'completion' {
             if ($arg -contains '--reset') { _forward_psc }
-            elseif ($arg.Count -eq 3) { (_forward_psc -Json) | ForEach-Object { $_.value } }
+            elseif ($arg.Count -eq 3) { (_forward_psc -Json) | ForEach-Object { $_.value }; $need_init = $false }
             elseif ($arg.Count -le 2) {
                 # No args / <name>: list special config, wrapped as objects
                 _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Completion = $_.completion; Config = $_.config } }
+                $need_init = $false
             }
             else { _forward_psc }
         }
