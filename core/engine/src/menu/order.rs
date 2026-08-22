@@ -56,6 +56,44 @@ fn read_tail(path: &str, max_lines: usize) -> Option<String> {
     Some(String::from_utf8_lossy(&collected).into_owned())
 }
 
+/// Prune stale order caches in `dir`: per-command order files are rebuilt on next use, so
+/// drop any older than the retention window (recursing into `_shared/`) to stop `temp/order`
+/// from accumulating. Runs in a background thread on menu open, so it never delays the TUI.
+pub fn cleanup_stale_order_files(dir: &str) {
+    const RETENTION_DAYS: u64 = 90;
+    let cutoff = std::time::SystemTime::now()
+        .checked_sub(std::time::Duration::from_secs(
+            RETENTION_DAYS * 24 * 60 * 60,
+        ))
+        .unwrap_or(std::time::SystemTime::UNIX_EPOCH);
+    let mut stack = vec![std::path::PathBuf::from(dir)];
+    while let Some(cur) = stack.pop() {
+        let Ok(entries) = std::fs::read_dir(&cur) else {
+            continue;
+        };
+        for entry in entries.flatten() {
+            let path = entry.path();
+            if path.is_dir() {
+                stack.push(path);
+                continue;
+            }
+            let is_json = path
+                .extension()
+                .and_then(|e| e.to_str())
+                .map(|e| e.eq_ignore_ascii_case("json"))
+                .unwrap_or(false);
+            if !is_json {
+                continue;
+            }
+            if let Ok(modified) = entry.metadata().and_then(|m| m.modified()) {
+                if modified < cutoff {
+                    let _ = std::fs::remove_file(&path);
+                }
+            }
+        }
+    }
+}
+
 /// Entry point for the background thread: read history, tally scores, rank, atomically
 /// write the file.
 pub fn compute_and_write_order(info: &OrderInfo) {
@@ -429,6 +467,46 @@ mod tests {
         assert!(s["git"].score > s["scoop"].score);
         assert!(!s.contains_key("commit"));
         assert!(!s.contains_key("status"));
+    }
+
+    #[test]
+    fn cleanup_stale_order_files_removes_old_json_only() {
+        use std::time::SystemTime;
+        let dir = std::env::temp_dir().join("psc-order-cleanup-test");
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(dir.join("_shared")).unwrap();
+        let stale = SystemTime::now() - std::time::Duration::from_secs(91 * 24 * 60 * 60);
+        let fresh = std::time::SystemTime::now();
+        let touch = |p: &std::path::Path, t: std::time::SystemTime| {
+            std::fs::write(p, "{}").unwrap();
+            let f = std::fs::OpenOptions::new()
+                .write(true)
+                .open(p)
+                .expect("open for mtime write");
+            f.set_modified(t).expect("set mtime");
+        };
+        let stale_cmd = dir.join("stale.json");
+        let fresh_cmd = dir.join("fresh.json");
+        let stale_shared = dir.join("_shared").join("_commands.json");
+        let fresh_shared = dir.join("_shared").join("_paths.json");
+        let stale_txt = dir.join("stale.txt"); // non-json must be left alone
+        touch(&stale_cmd, stale);
+        touch(&fresh_cmd, fresh);
+        touch(&stale_shared, stale);
+        touch(&fresh_shared, fresh);
+        touch(&stale_txt, stale);
+        cleanup_stale_order_files(&dir.to_string_lossy());
+        assert!(
+            !stale_cmd.exists(),
+            "stale per-command order must be removed"
+        );
+        assert!(fresh_cmd.exists(), "fresh order must survive");
+        assert!(!stale_shared.exists(), "stale shared order must be removed");
+        assert!(fresh_shared.exists(), "fresh shared order must survive");
+        assert!(stale_txt.exists(), "non-json files must be left alone");
+        // A missing directory is a no-op.
+        cleanup_stale_order_files(&dir.join("nope").to_string_lossy());
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]

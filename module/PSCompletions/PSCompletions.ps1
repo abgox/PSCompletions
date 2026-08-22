@@ -682,6 +682,7 @@ Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod show_module
             path    = [string]$menuOrder.path
         }
     }
+    $input.order_dir = [string]$PSCompletions.path.order
     $initialFilter = $PSCompletions.menu.initial_filter
     $PSCompletions.menu.initial_filter = $null
     if ($initialFilter) {

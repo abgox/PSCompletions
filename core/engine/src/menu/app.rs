@@ -39,6 +39,10 @@ pub fn run(input_path: &str) -> Output {
     if let Some(ord) = input.order.clone() {
         std::thread::spawn(move || crate::menu::order::compute_and_write_order(&ord));
     }
+    if !input.order_dir.is_empty() {
+        let dir = input.order_dir.clone();
+        std::thread::spawn(move || crate::menu::order::cleanup_stale_order_files(&dir));
+    }
 
     if input.items.is_empty() {
         return Output::cancel();

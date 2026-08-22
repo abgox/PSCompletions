@@ -8,6 +8,9 @@ pub struct Input {
     pub terminal: TerminalInfo,
     #[serde(default)]
     pub order: Option<OrderInfo>,
+    /// Order-cache directory (module temp dir) — the engine prunes stale order files on menu open.
+    #[serde(default)]
+    pub order_dir: String,
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,
