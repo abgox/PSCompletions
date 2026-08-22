@@ -924,8 +924,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $id = [System.Guid]::NewGuid().ToString('N')
         $initPath = [System.IO.Path]::Combine($tmp, "psc-init-$id.json")
         $utf8 = [System.Text.UTF8Encoding]::new($false)
-        # All init data (settings/aliases/index/URL/info) is provided by psc init — a single source of truth
-        & $pscBinary --data $dataDir --language $PSUICulture init --result $initPath 2>$null
+        # All init data (settings/aliases/index/URL/info) is provided by psc init — a single source of truth.
+        # Equals form keeps the value inside one argv token: an empty $PSUICulture arrives as "--language=" (ignored by the binary → en-US fallback).
+        & $pscBinary --data "$dataDir" "--language=$PSUICulture" init --result "$initPath" 2>$null
         if ($LASTEXITCODE -ne 0 -or ![System.IO.File]::Exists($initPath)) {
             Remove-Item $initPath -Force -ErrorAction SilentlyContinue
             $PSCompletions.write_binary_error()
