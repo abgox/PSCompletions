@@ -92,6 +92,10 @@ fn strip_colors(s: &str) -> String {
 }
 
 /// Strip the global flags (`--data`, `--json`, `--language`, `--result`) out of argv.
+///
+/// For `--data`/`--language`/`--result` with `=` form, rejects empty values (e.g. `--data=`).
+/// For space form, rejects if the next token starts with `-` (e.g. `--data --json`).
+/// Trailing slashes/backslashes on `data_dir` are trimmed (done in `main`).
 fn parse_args(
     args: &[String],
 ) -> (
@@ -110,18 +114,24 @@ fn parse_args(
     while i < args.len() {
         let a = &args[i];
         if let Some(v) = a.strip_prefix("--data=") {
-            data = Some(v.to_string());
-        } else if a == "--data" && i + 1 < args.len() {
+            if !v.trim().is_empty() {
+                data = Some(v.to_string());
+            }
+        } else if a == "--data" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
             data = Some(args[i + 1].clone());
             i += 1;
         } else if let Some(v) = a.strip_prefix("--language=") {
-            language = Some(v.to_string());
-        } else if a == "--language" && i + 1 < args.len() {
+            if !v.trim().is_empty() {
+                language = Some(v.to_string());
+            }
+        } else if a == "--language" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
             language = Some(args[i + 1].clone());
             i += 1;
         } else if let Some(v) = a.strip_prefix("--result=") {
-            result_file = Some(v.to_string());
-        } else if a == "--result" && i + 1 < args.len() {
+            if !v.trim().is_empty() {
+                result_file = Some(v.to_string());
+            }
+        } else if a == "--result" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
             result_file = Some(args[i + 1].clone());
             i += 1;
         } else if a == "--json" {
@@ -285,6 +295,13 @@ fn main() -> ExitCode {
     let Some(data_dir) = data_arg.or_else(|| std::env::var("PSC_DATA_DIR").ok()) else {
         eprintln!("psc: no data dir (pass --data <dir> or set PSC_DATA_DIR)");
         return ExitCode::FAILURE;
+    };
+    let data_dir = data_dir.trim_end_matches(['/', '\\']).to_string();
+    // A bare Windows drive (e.g. `C:` after trimming `C:\`) becomes drive-relative; restore the separator.
+    let data_dir = if data_dir.len() == 2 && data_dir.ends_with(':') {
+        format!("{data_dir}\\")
+    } else {
+        data_dir
     };
     let settings_path = format!("{data_dir}/settings.json");
     let completions_json = format!("{data_dir}/temp/completions.json");
