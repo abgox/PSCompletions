@@ -151,24 +151,24 @@
       ],
       "example": [
         {
-          "cmd": "psc config language",
-          "desc": "获取语言设置"
+          "cmd": "psc config menu",
+          "desc": "获取 menu 下的所有配置"
         },
         {
-          "cmd": "psc config language zh-CN",
-          "desc": "设置为中文"
+          "cmd": "psc config menu show_mode",
+          "desc": "获取 show_mode 的值"
         },
         {
-          "cmd": "psc config language en-US",
-          "desc": "设置为英文"
+          "cmd": "psc config menu show_mode \"altscreen-follow\"",
+          "desc": "设置 show_mode 的值"
+        },
+        {
+          "cmd": "psc config menu show_mode --reset",
+          "desc": "将 show_mode 重置为默认值"
         },
         {
           "cmd": "psc config --reset",
           "desc": "将所有配置项重置为默认值"
-        },
-        {
-          "cmd": "psc config menu show_mode --reset",
-          "desc": "将单个配置项（show_mode）重置为默认值"
         }
       ],
       "option": [
@@ -287,36 +287,6 @@
           ],
           "next": [
             {
-              "name": "enable_auto_alias_setup",
-              "tip": [
-                "默认值: 1",
-                "自动使用 Set-Alias 添加 psc alias 定义的触发别名"
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "将此配置项重置为默认值。"
-                  ]
-                }
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "禁止通过 Set-Alias 自动设置补全的触发别名。"
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "默认值",
-                    "通过 Set-Alias 自动设置补全的触发别名。"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "language",
               "tip": [
                 "读取/设置当前配置语言。",
@@ -347,11 +317,11 @@
               ],
               "example": [
                 {
-                  "cmd": "psc config url",
+                  "cmd": "psc config core url",
                   "desc": "获取当前使用的 url"
                 },
                 {
-                  "cmd": "psc config url <url>",
+                  "cmd": "psc config core url <url>",
                   "desc": "设置 url 地址"
                 }
               ],
@@ -708,7 +678,7 @@
               "name": "enable_apply_when_single",
               "tip": [
                 "默认值: 0",
-                "当候选补全项只有一个时直接选用, 而不是显示模块补全菜单。"
+                "当候选补全项只有一个时直接选用, 而不是显示补全菜单。"
               ],
               "option": [
                 {
@@ -768,7 +738,7 @@
               "name": "enable_list_loop",
               "tip": [
                 "默认值: 1",
-                "循环显示模块补全菜单的列表。"
+                "循环显示补全菜单的列表。"
               ],
               "option": [
                 {
@@ -981,7 +951,7 @@
             {
               "name": "filter_mode",
               "tip": [
-                "设置模块补全菜单过滤区域的匹配模式。"
+                "设置补全菜单过滤区域的匹配模式。"
               ],
               "example": [
                 {
@@ -1003,13 +973,13 @@
               ],
               "next": [
                 {
-                  "name": "subsequence",
+                  "name": "\"subsequence\"",
                   "tip": [
                     "字符按顺序非连续匹配; '^' 锚定首个字符。"
                   ]
                 },
                 {
-                  "name": "wildcard",
+                  "name": "\"wildcard\"",
                   "tip": [
                     "默认值",
                     "'*' 匹配任意字符; '**' 为字面星号; 开头 '*' 强制子序列; '^' 锚定整个模式。"
@@ -1025,23 +995,23 @@
               ],
               "example": [
                 {
-                  "cmd": "auto",
+                  "cmd": "\"auto\"",
                   "desc": "（默认值）跟随输入行，自动选择内联（主缓冲）或备用屏幕。"
                 },
                 {
-                  "cmd": "inline-follow",
+                  "cmd": "\"inline-follow\"",
                   "desc": "跟随输入行，始终内联（主缓冲）显示。"
                 },
                 {
-                  "cmd": "altscreen-follow",
+                  "cmd": "\"altscreen-follow\"",
                   "desc": "跟随输入行，始终在备用屏幕上显示。"
                 },
                 {
-                  "cmd": "altscreen-top",
+                  "cmd": "\"altscreen-top\"",
                   "desc": "固定在顶部，始终在备用屏幕上显示。"
                 },
                 {
-                  "cmd": "altscreen-bottom",
+                  "cmd": "\"altscreen-bottom\"",
                   "desc": "固定在底部，始终在备用屏幕上显示。"
                 }
               ],
@@ -2036,8 +2006,8 @@
       "输入 <@Magenta>psc<@Cyan> 并按下 <@Magenta>Space<@Cyan>（空格）和 <@Magenta>Tab<@Cyan> 键, 通过补全提示信息，你会快速了解所有命令用法\n",
       "运行 <@Magenta>psc<@Cyan> 会再次显示此页内容，并重载模块的按键绑定和数据\n",
       "\n",
-      "<@Cyan>[模块补全菜单]\n",
-      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的模块补全菜单，基于 Rust + Lua 构建\n",
+      "<@Cyan>[补全菜单]\n",
+      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的补全菜单，基于 Rust + Lua 构建\n",
       "\n",
       "可以输入字符过滤列表，默认使用通配匹配（不区分大小写）\n",
       "  - 普通文本匹配包含它的项: <@Magenta>co<@Cyan> 能匹配 <@Magenta>config<@Cyan>、<@Magenta>completion<@Cyan> 等\n",
@@ -2055,7 +2025,7 @@
       "      - 当只有一个补全项时，也可以使用 <@Magenta>Tab<@Cyan>\n",
       "  - 移动过滤区域光标: <@Magenta>Left<@Cyan> | <@Magenta>Right<@Cyan> | <@Magenta>Home<@Cyan> | <@Magenta>End<@Cyan>\n",
       "  - 删除过滤区域字符: <@Magenta>Backspace<@Cyan>（光标前）| <@Magenta>Delete<@Cyan>（光标后）\n",
-      "  - 退出模块补全菜单: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
+      "  - 退出补全菜单: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
       "      - 当过滤区域没有字符时，也可以使用 <@Magenta>Backspace<@Cyan>（退格）或 <@Magenta>Delete<@Cyan>（删除）\n",
       "\n",
       "鼠标绑定:\n",
@@ -2081,6 +2051,7 @@
       "\n"
     ],
     "filter_hint": "输入以过滤...",
+    "filter_hint_stale": "| 使用 psc update 检查更新...",
     "menu": {
       "config": {
         "err": {
@@ -2092,18 +2063,17 @@
     "module": {
       "update": [
         "\n",
-        "<@Cyan>[模块更新]\n",
-        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.new_version }}\n",
-        "\n",
-        "<@Cyan>[模块日志]\n",
+        "<@Cyan>PSCompletions 更新了版本:\n",
+        "<@Cyan>[版本]\n",
+        "<@Blue><@Magenta>{{ $PSCompletions.version }} <@Cyan>> <@Magenta>{{ $PSCompletions.new_version }}\n",
+        "<@Cyan>[日志]\n",
         "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
         "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
-        "\n",
-        "<@Cyan>[更新命令]\n",
+        "<@Cyan>[建议]\n",
         "<@Magenta>Update-Module PSCompletions\n",
         "Update-PSResource PSCompletions\n",
         "scoop update abgox.PSCompletions\n",
-        "scoop update pscompletions\n"
+        "scoop update pscompletions"
       ]
     },
     "param_err": "<@Red>传入的参数错误。",
@@ -2112,7 +2082,7 @@
     "reset": {
       "init_confirm": [
         "<@Yellow>是否完全重置 PSCompletions 模块？\n",
-        "<@Red>它会删除 PSCompletions 模块的所有内容, 包括已下载的补全, 配置等, 只会保留模块源代码文件\n",
+        "<@Red>它会删除 PSCompletions 模块的所有内容, 包括已下载的补全, 配置等\n",
         "<@Yellow>按下 <@Magenta>Enter<@Yellow> 键确认重置, <@Magenta>其他键<@Yellow> 取消重置!"
       ],
       "init_done": [
@@ -2161,6 +2131,7 @@
       "skip": "<@Yellow>{{ $completion }} 是本地链接的补全，跳过更新。"
     },
     "update_info": [
+      "\n",
       "<@Cyan>PSCompletions 更新了补全库:\n",
       "{{",
       "if($PSCompletions.added){",
@@ -2173,15 +2144,15 @@
       "};",
       "$updList = @($PSCompletions.update);",
       "$renameList = @();",
-      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) -> $($p[1])\" }) };",
+      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
       "if($updList -or $renameList){",
       "\"<@Cyan>[更新]<@Cyan>`n\";",
       "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
       "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
       "};",
       "$tips = @();",
-      "if($PSCompletions.added){ $tips += '使用 <@Magenta>psc add <completion><@Cyan> 添加' };",
-      "if($updList -or $renameList){ $tips += '使用 <@Magenta>psc update --old<@Cyan> 进行更新' };",
+      "if($PSCompletions.added){ $tips += '<@Magenta>psc add <completion><@Cyan>' };",
+      "if($updList -or $renameList){ $tips += '<@Magenta>psc update --old<@Cyan>' };",
       "if($tips){",
       "\"<@Cyan>[建议]<@Cyan>`n\";",
       "($tips | ForEach-Object { \"$_`n\" }) -join '';",

@@ -151,24 +151,24 @@
       ],
       "example": [
         {
-          "cmd": "psc config language",
-          "desc": "Get language"
+          "cmd": "psc config menu",
+          "desc": "Get all config keys under menu"
         },
         {
-          "cmd": "psc config language zh-CN",
-          "desc": "Set to zh-CN"
+          "cmd": "psc config menu show_mode",
+          "desc": "Get the value of show_mode"
         },
         {
-          "cmd": "psc config language en-US",
-          "desc": "Set to en-US"
+          "cmd": "psc config menu show_mode \"altscreen-follow\"",
+          "desc": "Set the value of show_mode"
+        },
+        {
+          "cmd": "psc config menu show_mode --reset",
+          "desc": "Reset show_mode to its default"
         },
         {
           "cmd": "psc config --reset",
           "desc": "Reset all config keys to their defaults"
-        },
-        {
-          "cmd": "psc config menu show_mode --reset",
-          "desc": "Reset one config key (show_mode) to its default"
         }
       ],
       "option": [
@@ -289,36 +289,6 @@
           ],
           "next": [
             {
-              "name": "enable_auto_alias_setup",
-              "tip": [
-                "Default: 1",
-                "Automatically set completion aliases via 'Set-Alias'."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
-              "next": [
-                {
-                  "name": "0",
-                  "tip": [
-                    "Disable automatic alias setup via 'Set-Alias'."
-                  ]
-                },
-                {
-                  "name": "1",
-                  "tip": [
-                    "Default value.",
-                    "Automatically set completion aliases via 'Set-Alias'."
-                  ]
-                }
-              ]
-            },
-            {
               "name": "language",
               "tip": [
                 "Get or set the language of completions.",
@@ -349,11 +319,11 @@
               ],
               "example": [
                 {
-                  "cmd": "psc config url",
+                  "cmd": "psc config core url",
                   "desc": "Get current url"
                 },
                 {
-                  "cmd": "psc config url <url>",
+                  "cmd": "psc config core url <url>",
                   "desc": "Set url"
                 }
               ],
@@ -710,7 +680,7 @@
               "name": "enable_apply_when_single",
               "tip": [
                 "Default: 0",
-                "When there is only one completion item, enter it directly instead of displaying the module completion menu."
+                "When there is only one completion item, enter it directly instead of displaying the completion menu."
               ],
               "option": [
                 {
@@ -770,7 +740,7 @@
               "name": "enable_list_loop",
               "tip": [
                 "Default: 1",
-                "The list of the module completion menu is displayed with a loop."
+                "The list of the completion menu is displayed with a loop."
               ],
               "option": [
                 {
@@ -983,7 +953,7 @@
             {
               "name": "filter_mode",
               "tip": [
-                "Set the matching mode of the filter in the module completion menu."
+                "Set the matching mode of the filter in the completion menu."
               ],
               "example": [
                 {
@@ -1005,13 +975,13 @@
               ],
               "next": [
                 {
-                  "name": "subsequence",
+                  "name": "\"subsequence\"",
                   "tip": [
                     "Characters match in order, non-contiguously; '^' anchors the first char."
                   ]
                 },
                 {
-                  "name": "wildcard",
+                  "name": "\"wildcard\"",
                   "tip": [
                     "Default value.",
                     "'*' matches any characters; '**' is a literal asterisk; leading '*' forces subsequence; '^' anchors the whole pattern."
@@ -1027,23 +997,23 @@
               ],
               "example": [
                 {
-                  "cmd": "auto",
+                  "cmd": "\"auto\"",
                   "desc": "(Default) follows the input line; picks inline (main buffer) or the alternate screen automatically."
                 },
                 {
-                  "cmd": "inline-follow",
+                  "cmd": "\"inline-follow\"",
                   "desc": "follows the input line, always rendered inline in the main buffer."
                 },
                 {
-                  "cmd": "altscreen-follow",
+                  "cmd": "\"altscreen-follow\"",
                   "desc": "follows the input line, always rendered on the alternate screen."
                 },
                 {
-                  "cmd": "altscreen-top",
+                  "cmd": "\"altscreen-top\"",
                   "desc": "pins to the top, always rendered on the alternate screen."
                 },
                 {
-                  "cmd": "altscreen-bottom",
+                  "cmd": "\"altscreen-bottom\"",
                   "desc": "pins to the bottom, always rendered on the alternate screen."
                 }
               ],
@@ -2038,8 +2008,8 @@
       "Enter <@Magenta>psc<@Cyan>, press <@Magenta>Space<@Cyan> and <@Magenta>Tab<@Cyan> key, you will quickly learn all usages by reading the completion tip.\n",
       "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's key bindings and data.\n",
       "\n",
-      "<@Cyan>[Module Completion Menu]\n",
-      "<@Blue>PSCompletions<@Cyan> provides a powerful module completion menu, built with Rust + Lua.\n",
+      "<@Cyan>[Completion Menu]\n",
+      "<@Blue>PSCompletions<@Cyan> provides a powerful completion menu, built with Rust + Lua.\n",
       "\n",
       "You can enter to filter the list. Matching is wildcard by default (case-insensitive)\n",
       "  - Plain text matches items containing it: <@Magenta>co<@Cyan> finds <@Magenta>config<@Cyan>, <@Magenta>completion<@Cyan>, ...\n",
@@ -2057,7 +2027,7 @@
       "      - You can also use <@Magenta>Tab<@Cyan> when there's only one completion.\n",
       "  - Move the cursor in the filter area: <@Magenta>Left<@Cyan> | <@Magenta>Right<@Cyan> | <@Magenta>Home<@Cyan> | <@Magenta>End<@Cyan>\n",
       "  - Delete a filter character: <@Magenta>Backspace<@Cyan> (before the cursor) | <@Magenta>Delete<@Cyan> (after the cursor)\n",
-      "  - Exit the module completion menu: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
+      "  - Exit the completion menu: <@Magenta>Esc<@Cyan> | <@Magenta>Ctrl + c<@Cyan>\n",
       "      - You can also use <@Magenta>Backspace<@Cyan> or <@Magenta>Delete<@Cyan> when there're no characters in the filter area.\n",
       "\n",
       "Mouse Bindings:\n",
@@ -2083,6 +2053,7 @@
       "\n"
     ],
     "filter_hint": "Type to filter...",
+    "filter_hint_stale": "| Use 'psc update' to check...",
     "menu": {
       "config": {
         "err": {
@@ -2094,18 +2065,17 @@
     "module": {
       "update": [
         "\n",
-        "<@Cyan>[Module Update]\n",
-        "<@Blue>PSCompletions: <@Magenta>{{ $PSCompletions.version }} <@Cyan>=> <@Magenta>{{ $PSCompletions.new_version }}\n",
-        "\n",
-        "<@Cyan>[Module Changelog]\n",
+        "<@Cyan>PSCompletions has updated the version:\n",
+        "<@Cyan>[Version]\n",
+        "<@Blue><@Magenta>{{ $PSCompletions.version }} <@Cyan>> <@Magenta>{{ $PSCompletions.new_version }}\n",
+        "<@Cyan>[Changelog]\n",
         "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
         "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
-        "\n",
-        "<@Cyan>[Update Command]\n",
+        "<@Cyan>[Suggestion]\n",
         "<@Magenta>Update-Module PSCompletions\n",
         "Update-PSResource PSCompletions\n",
         "scoop update abgox.PSCompletions\n",
-        "scoop update pscompletions\n"
+        "scoop update pscompletions"
       ]
     },
     "param_err": "<@Red>Parameter error.",
@@ -2163,6 +2133,7 @@
       "skip": "<@Yellow>{{ $completion }} is a locally linked completion, update skipped."
     },
     "update_info": [
+      "\n",
       "<@Cyan>PSCompletions has updated the completion library:\n",
       "{{",
       "if($PSCompletions.added){",
@@ -2175,15 +2146,15 @@
       "};",
       "$updList = @($PSCompletions.update);",
       "$renameList = @();",
-      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) -> $($p[1])\" }) };",
+      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
       "if($updList -or $renameList){",
       "\"<@Cyan>[Update]<@Cyan>`n\";",
       "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
       "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
       "};",
       "$tips = @();",
-      "if($PSCompletions.added){ $tips += 'Use <@Magenta>psc add <completion><@Cyan> to add them.' };",
-      "if($updList -or $renameList){ $tips += 'Use <@Magenta>psc update --old<@Cyan> to update them.' };",
+      "if($PSCompletions.added){ $tips += '<@Magenta>psc add <completion><@Cyan>' };",
+      "if($updList -or $renameList){ $tips += '<@Magenta>psc update --old<@Cyan>' };",
       "if($tips){",
       "\"<@Cyan>[Suggestion]<@Cyan>`n\";",
       "($tips | ForEach-Object { \"$_`n\" }) -join '';",
