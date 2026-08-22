@@ -2,6 +2,10 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.3.1
+
+- Fixed initialization failing when `$PSUICulture` is empty (e.g. Linux).
+
 ## 7.3.0
 
 - Deferred module initialization to first completion trigger, greatly reducing import time.
