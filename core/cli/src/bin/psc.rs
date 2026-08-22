@@ -117,21 +117,33 @@ fn parse_args(
             if !v.trim().is_empty() {
                 data = Some(v.to_string());
             }
-        } else if a == "--data" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
+        } else if a == "--data"
+            && i + 1 < args.len()
+            && !args[i + 1].starts_with('-')
+            && !args[i + 1].trim().is_empty()
+        {
             data = Some(args[i + 1].clone());
             i += 1;
         } else if let Some(v) = a.strip_prefix("--language=") {
             if !v.trim().is_empty() {
                 language = Some(v.to_string());
             }
-        } else if a == "--language" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
+        } else if a == "--language"
+            && i + 1 < args.len()
+            && !args[i + 1].starts_with('-')
+            && !args[i + 1].trim().is_empty()
+        {
             language = Some(args[i + 1].clone());
             i += 1;
         } else if let Some(v) = a.strip_prefix("--result=") {
             if !v.trim().is_empty() {
                 result_file = Some(v.to_string());
             }
-        } else if a == "--result" && i + 1 < args.len() && !args[i + 1].starts_with('-') && !args[i + 1].trim().is_empty() {
+        } else if a == "--result"
+            && i + 1 < args.len()
+            && !args[i + 1].starts_with('-')
+            && !args[i + 1].trim().is_empty()
+        {
             result_file = Some(args[i + 1].clone());
             i += 1;
         } else if a == "--json" {
@@ -617,7 +629,13 @@ fn fetch_module_version(settings: &Settings) -> Option<String> {
 /// not reported as needing an update; `old_list` is captured before `download_list` overwrites the
 /// cache. On a fetch failure the existing `module` value is preserved (don't drop a pending notice
 /// just because one check hit the network and another didn't).
-fn record_post_check(data_dir: &str, settings: &Settings, old_list: &[String], index: &Index) {
+fn record_post_check(
+    data_dir: &str,
+    settings: &Settings,
+    old_list: &[String],
+    index: &Index,
+    executed_renames: &[(String, String)],
+) {
     let mut rename_map: std::collections::HashMap<String, String> =
         std::collections::HashMap::new();
     for installed in settings.list() {
@@ -629,6 +647,12 @@ fn record_post_check(data_dir: &str, settings: &Settings, old_list: &[String], i
                 rename_map.insert(installed.clone(), new_name.clone());
             }
         }
+    }
+    // Renames already migrated during this command no longer appear in the post-state diff
+    // (the old name is gone from settings), so fold them back in: reported as renamed, not
+    // as added+removed.
+    for (old, new) in executed_renames {
+        rename_map.insert(old.clone(), new.clone());
     }
     let rename_keys: std::collections::HashSet<String> = rename_map.keys().cloned().collect();
     let rename_vals: std::collections::HashSet<String> = rename_map.values().cloned().collect();
@@ -771,7 +795,7 @@ fn cmd_add(
         }
         return ExitCode::FAILURE;
     }
-    record_post_check(data_dir, settings, &old_list, index);
+    record_post_check(data_dir, settings, &old_list, index, &[]);
     if json {
         let arr = results.lock().unwrap().clone();
         println!("{}", serde_json::to_string(&arr).unwrap_or_default());
@@ -1167,9 +1191,25 @@ fn cmd_update(
         let results = results.lock().unwrap();
         println!("{}", serde_json::to_string(&*results).unwrap_or_default());
     }
+    // Persist the renames actually executed during this update so the module's pending
+    // notifications can still show them even if the JSON results were not consumed.
+    let executed_renames: Vec<(String, String)> = {
+        let results = results.lock().unwrap();
+        results
+            .iter()
+            .filter_map(|v| {
+                let from = v.get("renamed_from").and_then(|x| x.as_str());
+                let to = v.get("completion").and_then(|x| x.as_str());
+                match (from, to) {
+                    (Some(f), Some(t)) => Some((f.to_string(), t.to_string())),
+                    _ => None,
+                }
+            })
+            .collect()
+    };
     // Refresh the persisted post-check state (added/removed/renamed/update/module) and check the module version.
     // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
-    record_post_check(data_dir, settings, &old_list, index);
+    record_post_check(data_dir, settings, &old_list, index, &executed_renames);
     if let Err(e) = settings.save(settings_path) {
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;

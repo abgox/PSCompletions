@@ -59,10 +59,13 @@ impl Settings {
             Err(_) => {
                 // Corrupt settings.json: back it up (never silently drop the damaged content)
                 // and fall back to defaults; the next save won't overwrite it without a trace.
-                // Remove existing .corrupt first (Windows rename fails if target exists).
+                // Write the backup from the already-read text first, then discard the original —
+                // if the backup write fails, the corrupt original stays put.
                 let corrupt = format!("{path}.corrupt");
                 let _ = std::fs::remove_file(&corrupt);
-                let _ = std::fs::rename(path, &corrupt);
+                if std::fs::write(&corrupt, &text).is_ok() {
+                    let _ = std::fs::remove_file(path);
+                }
                 return None;
             }
         };
@@ -99,7 +102,11 @@ impl Settings {
         // half-written settings.json (which the next load would treat as corrupt).
         let tmp = format!("{path}.{}.tmp", std::process::id());
         std::fs::write(&tmp, text).map_err(|e| e.to_string())?;
-        std::fs::rename(&tmp, path).map_err(|e| e.to_string())
+        if let Err(e) = std::fs::rename(&tmp, path) {
+            let _ = std::fs::remove_file(&tmp);
+            return Err(e.to_string());
+        }
+        Ok(())
     }
 
     /// Sorted completion names (alias map keys).
@@ -206,6 +213,7 @@ impl LibraryChanges {
             let path = format!("{tmp_dir}/change.json");
             if std::fs::write(&tmp, text).is_ok() {
                 let _ = std::fs::rename(&tmp, path);
+                let _ = std::fs::remove_file(&tmp);
             }
         }
     }
@@ -315,19 +323,6 @@ pub fn load_psc_info(completions_dir: &str, lang: &str) -> Value {
     v.get("info").cloned().unwrap_or_else(|| json!({}))
 }
 
-/// Join an info value (string or array of lines) into one line-joined string.
-pub fn info_text(value: &Value) -> String {
-    match value {
-        Value::String(s) => s.clone(),
-        Value::Array(arr) => arr
-            .iter()
-            .filter_map(|v| v.as_str())
-            .collect::<Vec<_>>()
-            .join("\n"),
-        _ => String::new(),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -398,13 +393,6 @@ mod tests {
         let idx = Index::load(&path).unwrap();
         assert!(idx.ids.is_empty());
         std::fs::remove_file(_p).ok();
-    }
-
-    #[test]
-    fn info_text_joins_arrays() {
-        let v = json!(["a", "b"]);
-        assert_eq!(info_text(&v), "a\nb");
-        assert_eq!(info_text(&json!("x")), "x");
     }
 
     #[test]

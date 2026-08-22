@@ -110,11 +110,7 @@ fn main() -> ExitCode {
         };
     }
 
-    let output = std::panic::catch_unwind(|| app::run(&input_path));
-    let out = match output {
-        Ok(out) => out,
-        Err(_) => model::Output::error("unexpected panic in menu"),
-    };
+    let out = app::run(&input_path);
 
     match std::fs::write(
         &result_path,

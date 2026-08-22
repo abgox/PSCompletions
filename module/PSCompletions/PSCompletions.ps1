@@ -897,14 +897,6 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 if ($isNewer) {
                     $PSCompletions.new_version = $newVersion
                     $template = $PSCompletions.info.module.update
-                    if (-not $template) {
-                        try {
-                            $pscLang = $PSCompletions.get_language('psc')
-                            $pscData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$pscLang.json"))
-                            if ($pscData.info.module.update) { $template = $pscData.info.module.update }
-                        }
-                        catch { }
-                    }
                     if ($template) {
                         $PSCompletions.write_with_color($PSCompletions.replace_content($template))
                     }

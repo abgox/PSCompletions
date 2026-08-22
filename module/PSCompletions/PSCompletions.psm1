@@ -264,7 +264,21 @@
             }
             $need_init = $false
         }
-        'info' { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Name = $_.name; Alias = $_.alias; Url = $_.url; Description = $_.description; Path = Convert-Path $_.path; Update = $_.update; Updated = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime } } }; $need_init = $false }
+        'info' {
+            _forward_psc -Json | ForEach-Object {
+                $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
+                [pscustomobject]@{
+                    Name        = $_.name
+                    Alias       = $_.alias
+                    Url         = $_.url
+                    Description = $_.description
+                    Path        = $resolvedPath
+                    Update      = $_.update
+                    Updated     = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime }
+                }
+            }
+            $need_init = $false
+        }
         'alias' {
             # `alias add` pre-check: an alias colliding with a real command is rejected before forwarding
             $alias_conflict = $false

@@ -5,7 +5,7 @@ use std::time::Duration;
 
 use serde_json::Value;
 
-use crate::data::Settings;
+use crate::data::{remove_completion_entry, Settings};
 
 /// Default completion source URLs (order follows the module's language preference).
 const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
@@ -96,7 +96,10 @@ pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
     let path = format!("{tmp}/completions.json");
     let tmp_path = format!("{path}.{}.tmp", std::process::id());
     std::fs::write(&tmp_path, text).map_err(|e| e.to_string())?;
-    std::fs::rename(&tmp_path, path).map_err(|e| e.to_string())?;
+    if let Err(e) = std::fs::rename(&tmp_path, path) {
+        let _ = std::fs::remove_file(&tmp_path);
+        return Err(e.to_string());
+    }
     Ok(v)
 }
 
@@ -211,8 +214,10 @@ fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> 
     }
     std::fs::rename(dir, old_dir).map_err(|e| e.to_string())?;
     if let Err(e) = std::fs::rename(tmp_dir, dir) {
-        // Restore the previous version; a failed restore leaves `old_dir` for manual recovery.
+        // Restore the previous version and drop the staged files. A failed restore leaves
+        // `old_dir` behind, but the next add cleans it up; a crash here strands `.old` until then.
         let _ = std::fs::rename(old_dir, dir);
+        let _ = std::fs::remove_dir_all(tmp_dir);
         return Err(format!("{e}"));
     }
     let _ = std::fs::remove_dir_all(old_dir);
@@ -382,9 +387,9 @@ pub fn rename_completion(
             comp.insert(new.to_string(), v);
         }
     }
-    // Remove the old directory.
-    let old_dir = format!("{data_dir}/completions/{old}");
-    let _ = std::fs::remove_dir_all(&old_dir);
+    // Remove the old entry — a linked (junction) old completion is removed as a link only,
+    // so the linked local source is never followed or deleted.
+    remove_completion_entry(data_dir, old);
     Ok(())
 }
 
