@@ -77,6 +77,7 @@ The menu's input handling is the **user-visible contract**:
   ],
   "config": {
     "filter_hint": "",
+    "filter_hint_stale": "",
     "flags": {
       "enable_list_loop": true,
       "filter_mode": "wildcard",
@@ -237,7 +238,9 @@ where "red = where I am / what I'm doing" without needing to learn separate cues
   and do not move with the cursor.
 - **Filter prompt line (own row)**: `>` in **red** ("red = input/selected" language), content in
   the default color; with an empty filter and a hint present, the hint is dimmed (from the psc
-  completion's `info.filter_hint`, localized). The row sits on the side nearest the input
+  completion's `info.filter_hint`, localized). When `last_check` in `change.json` is older than
+  7 days, a stale-update hint (from `info.filter_hint_stale`, localized) is appended, prompting
+  the user to run `psc update`. The row sits on the side nearest the input
   line (bottom for below-facing, top for above-facing).
 - **Match highlight**: matched filter characters are drawn segmented in the emphasis color (cyan):
   subsequence mode highlights char-by-char, plain mode takes the first matching substring;
@@ -361,6 +364,14 @@ Ordering lives in the TUI process:
 - The module packs `history`/`cmd`/`aliases`/`path` into input.json (`OrderInfo`); the Rust
   menu reads history, counts, and atomically writes the order file on a **background thread**
   while displayed.
+- **Cache pruning**: the menu prunes stale order files (older than 90 days, including `_shared/`)
+  in a background thread on each menu open (`cleanup_stale_order_files`) — the files are rebuilt
+  on next use, so the sweep keeps `temp/order` bounded without delaying the TUI.
+- **Menu temp files**: input/output.json live in `temp/menu/` and are deleted immediately by the
+  module after each menu. When the terminal is force-closed mid-menu the cleanup never runs; the
+  engine sweeps files older than 30 minutes from `temp/menu` in a background thread on each menu
+  open (`cleanup_stale_menu_files`) so they never accumulate. Files are GUID-named per invocation,
+  so concurrent menus never collide.
 - **Ranking runs in the engine**: build mode (manifest candidates) and `--sort` (native-fallback
   items) both apply the same order-file ranking before the menu opens — the module only hands
   the order paths over.
@@ -440,8 +451,8 @@ The workspace `core/Cargo.toml` sets the release profile: `opt-level = "z"`, `lt
 
 ## 9. Known constraints & decisions
 
-- `Viewport::Fixed` relies on the buffer size PowerShell passes; a resize mid-menu uses the passed
-  value.
+- Terminal resize events are handled: the menu re-reads terminal dimensions and re-renders on
+  resize, so the layout stays correct regardless of the initial buffer size passed by the host.
 - Config numeric fields are `i32`, stored as JSON numbers.
 - Layout is "optimistically has tip" while a tip is unresolved (list compressed); an item without
   a tip leaves right-side space, recomputed at the next filter.

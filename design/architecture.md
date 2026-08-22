@@ -42,6 +42,7 @@ PSCompletions/
 ├── types/                  # EmmyLua type stub for the psc.* API (editor LSP in hooks.lua)
 ├── module/PSCompletions/   # The PowerShell host (PSCompletions.psd1/.psm1/.ps1 + bin/)
 └── core/                   # Rust workspace
+    ├── common/             # psc-common: dependency-free shared helpers (strip_bom/read_text)
     ├── engine/             # psc-menu: completion engine + TUI menu (a single binary)
     └── cli/                # psc: management CLI (a separate binary)
 ```
@@ -59,7 +60,7 @@ PSCompletions/
   against the history-order files.
 
 **`core/cli` → `psc`** — the management CLI (installed as `psc`): `add`/`rm`/`update`/
-`info`/`list`/`alias`/`completion`/`config`/`init`/`check`. It owns the **config registry** and
+`info`/`list`/`alias`/`completion`/`config`/`init`. It owns the **config registry** and
 **key migration** (see `psc-cli.md`), reads/writes `settings.json`, and handles network
 operations (fetching completions). Resets are handled by the host's `--reset` flag.
 
@@ -67,8 +68,9 @@ operations (fetching completions). Resets are handled by the host's `--reset` fl
 
 `scripts/build-release.ps1` is the local release path: it runs `cargo fmt --all`, then
 `cargo build --release` (host) or `cargo zigbuild --release --target <triple>` (cross), and
-copies `psc-menu` + `psc` into `module/PSCompletions/bin/<platform>-<arch>/`. The module picks
-the right binary per platform/arch at import time. A host build is detected from
+copies `psc-menu` + `psc` into `module/PSCompletions/bin/<platform>-<arch>/`. The module resolves
+the right binary lazily on first use (`initialize()` → `menu_binary()`/`psc_binary()`), detecting
+platform/arch via `$IsWindows`/`$IsMacOS` + `[RuntimeInformation]::ProcessArchitecture` and caching thereafter. A host build is detected from
 `$IsWindows`/`$IsMacOS` plus the process architecture; cross builds need `rustup target add
 <triple>` (and zig for zigbuild).
 
@@ -83,6 +85,7 @@ user types `git <Tab>`
   │
   ▼
 PowerShell host (PSCompletions.ps1)
+  • lazy bootstrap (once): `initialize()` → `psc init --result <tmp>` → loads settings/aliasMap/info/default_config; rebinds the sanitized trigger_key and aliases; sets `initialized=true` (gated by `initialized`/`binary_ok`; abort if binary missing)
   • splits the buffer into tokens, resolves trigger alias
   • assembles a menu input carrying a `build` context (cmd, arg_tokens, manifest, hooks,
     config, psc data, order paths) — not items
@@ -106,15 +109,29 @@ PowerShell host applies the selection (PSConsoleReadLine::Replace); the
 
 ## 5. Module responsibilities
 
-The PowerShell host (`module/PSCompletions/PSCompletions.ps1`) is the **bridge**:
+The PowerShell host (`module/PSCompletions/PSCompletions.ps1` + `PSCompletions.psm1`) is the **bridge**.
+Import is cheap: it defines the `$PSCompletions` hashtable plus its ScriptMethods, then
+imports the pre-generated alias table `temp/alias.csv` (`psc`'s own aliases map to the
+`PSCompletions` function) so a fresh session can execute them immediately. The table is
+regenerated on every `psc` invocation (content-diff guarded; self-alias and path-like rows
+filtered). The PSReadLine trigger key is bound from `settings.json` directly. Heavy work
+(the full bootstrap via `psc init --result`) stays deferred to `$PSCompletions.initialize()` on
+first Tab or first `psc`, gated by `initialized`/`binary_ok`:
 
-- Registers the Tab key handler, captures the buffer and cursor.
+- `initialize()` adds deferred `ScriptMethod`s, runs `psc init --result` to bootstrap
+  `settings/aliasMap/info/default_config`, then re-imports `temp/alias.csv` and rebinds the
+  sanitized `trigger_key`, and sets `initialized=true`. `param([bool]$methodsOnly)`
+  skips the full bootstrap for standalone scripts that only need the helper methods (keeps
+  `initialized` false).
+- Tab handler: captures buffer/cursor, `initialize()` if needed, resolves alias, builds `build`
+  context, launches `psc-menu`, applies selection via `PSConsoleReadLine::Replace`.
+- `psc` entry (`PSCompletions.psm1`): `initialize()` first, then `_forward_psc` dispatches
+  `add`/`rm`/`update`/`config`/`alias`/`info`/`list`/`completion`/`init`; `render_pending`
+  appends library notifications.
 - Passes the `build` context into the menu process (the engine builds + ranks the candidates
-  itself; installed-command completion is a single process call).
-- Invokes the menu process, saves/restores the covered terminal region (input line is never
-  saved/restored to preserve true-color prompts), and applies the chosen completion.
-- Detects completion failure (stderr / exit code) and reports a clear error
-  (`[PSCompletions] menu unavailable: ...`).
+  itself; installed-command completion is a single process call), saves/restores the covered
+  terminal region (input line is never saved/restored to preserve true-color prompts), and
+  detects completion failure (`[PSCompletions] menu unavailable: ...`).
 - `psc-menu` and `psc` binaries ship inside `module/PSCompletions/bin/`.
 
 ## 6. Where each concern is documented

@@ -38,24 +38,34 @@ The CLI operates on a module data directory, passed by the host:
     the same file are last-write-wins — avoid racing two config edits.
   - `temp/completions.json` — remote index (`update` versions + `meta` per completion: stable `id`,
     url/description per language).
-  - `temp/library-changes.json` — single JSON recording library state changes for the module:
-    `{ update, added, removed, renamed: [[old, new], ...] }`.
-  - `temp/module-update.txt`, `temp/last-update.txt` — module update tracking.
+  - `temp/change.json` — single JSON recording pending notifications for the module:
+    `{ update, added, removed, renamed: [[old, new], ...], module: "x.y.z", last_check: <unix-timestamp> }`.
+    `module` is the newest remote module version whenever it was fetched (the module compares it
+    against its installed version at render time; on a fetch failure the previous value is kept).
+    `last_check` is set on each `psc check`/`psc update` and drives the menu's stale-update hint
+     (when older than 7 days).
+   - `temp/alias.csv` — alias import table for PowerShell `Import-Alias` (`"alias","target","","None"` rows, self-alias and path-like filtered). Regenerated on every `psc` invocation (content-diff guarded).
+   - `temp/order/` — per-command history-order caches (menu ranking). Rebuilt on use; the menu
+    engine prunes stale files (older than 90 days) in a background thread on each menu open
+    (`cleanup_stale_order_files`), so it never delays the TUI.
+  - `temp/menu/` — transient menu input/output.json files. Deleted immediately after each menu;
+    the menu engine prunes stale files (older than 30 minutes, e.g. left by a force-closed
+    terminal) in a background thread on each menu open (`cleanup_stale_menu_files`).
   - `completions/<name>/` — installed completion files (config.json, language/*.json, hooks.lua, `.update`).
   - `completions/psc/language/<lang>.json` — psc's own manifest (module-side `info` templates).
 
 ### Rename detection
 
 Each completion's `config.json` carries a stable `id` (random UUID, generated at creation, never
-changed). `temp/completions.json` records it under `meta.<name>.id`. Both `psc update` (real-time)
-and the background `check` compare each locally installed completion's `id` against the remote
+changed). `temp/completions.json` records it under `meta.<name>.id`. `psc update` (real-time)
+compares each locally installed completion's `id` against the remote
 index: if a local id now maps to a *different* remote name, the completion was **renamed
-upstream**. The old name is excluded from `added`/`removed` in `temp/library-changes.json` and
+upstream**. The old name is excluded from `added`/`removed` in `temp/change.json` and
 recorded under `renamed: [[old, new], ...]`; the module renders it in the `[Update]` block as
 `old -> new`. Running `psc update --old` (or naming the old completion) migrates it automatically —
 downloads the new files, moves the per-completion settings (`alias`, `config.completion.<old>`
 incl. `enable_hooks`) to the new name, and removes the old directory. Renamed entries persist in
-`library-changes.json` until actually migrated (only `added`/`removed` are consumed on display).
+`change.json` until actually migrated (only `added`/`removed` are consumed on display).
 
 ## 4. Dispatch
 
@@ -87,13 +97,12 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | `rm` | `<name>...` | `--all` | `--all`: no (keeps `psc`) | Rust + PS wrapper | `--all` confirms; `psc` itself is always kept |
 | `update` | `[<name>...]` | `--all`, `--old` | yes | Rust + PS wrapper | no-arg = real-time check |
 | `list` | — | — | no | Rust + PS wrapper | local aggregate; `--json` |
-| `info` | `<name>...` | — | no | Rust + PS wrapper | includes `Path` |
+| `info` | `[<name>...]` | — | no | Rust + PS wrapper | no-arg = list all installed; includes `Path` |
 | `config` | `[core\|menu\|context] <key> [<value>]` | `--reset` | no | Rust + PS wrapper | all config keys, grouped |
 | `completion` | `[<name> [<key> [<value>]]]` | `--reset` | no | Rust + PS wrapper | per-completion special config |
 | `alias` | `[add <name> <alias>...\|rm <name> <alias>...]` | `--reset` | no | Rust + PS wrapper | no-arg lists all |
 | `--reset` | — | — | no | **PS only** | nuclear reset, top-level flag |
 | `init` | — | — | no | Rust | internal, module bootstrap |
-| `check` | — | — | yes | Rust | internal, background update check |
 | *(no args)* | — | — | — | PS | re-init + interactive info page |
 
 ## 6. Per-command reference
@@ -114,7 +123,7 @@ psc add --all
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`.
 - **Output**: with `--json`, per-completion results `{completion, ok, error}`; plain text
-  `<name>: Added.` otherwise. Any error → exit code `FAILURE`.
+  `<name>: Added.` otherwise. Text mode: any error → exit code `FAILURE`.
 - **PS wrapper**: computes targets (if `--all`, all known completions; else the args), shows the
   `--all` confirm + a "please wait" notice, forwards with `--json`, then `init_data()` and renders
   the rich `info.add.done` / `info.update.done` template per added completion.
@@ -193,16 +202,18 @@ psc config <group> <key> --reset      # reset one key
 ### 6.5 `info` — completion metadata
 
 ```
-psc info <name>...
+psc info                # list all installed completions
+psc info <name>...      # per-name metadata
 ```
 
-- **Behavior**: per name, prints (when present): `Name`, `Alias`, `Url`, `Description` (from
+- **Behavior**: no-arg lists all installed completions (same as `list` but with full metadata
+  per entry). Per name, prints (when present): `Name`, `Alias`, `Url`, `Description` (from
   remote index meta, localized), `Path` (if installed), `Update` (remote version in `.update`),
   `Updated` (unix timestamp of `.update`).
-- **Errors**: no args → `Too few parameters.`; a name that is neither installed/linked nor in the
+- **Errors**: a name that is neither installed/linked nor in the
   remote library → `<name> is not an available completion.` (FAILURE).
-- **PS wrapper**: converts each entry to `{Name, Alias, Url, Description, Path, Update, Updated}`
-  with `Updated` as a local `DateTimeOffset`.
+- **PS wrapper**: no-arg → objects `{Name, Alias, Url, Description, Path, Update, Updated}`;
+  per-name → same format with `Updated` as a local `DateTimeOffset`.
 
 ### 6.6 `list` — installed completions
 
@@ -224,7 +235,7 @@ psc rm --all
 - **Behavior**: `--all` removes every installed completion except `psc` itself (interactive
   confirm; `psc` is kept — it is the module's own completion and init re-adds it anyway, so no
   network re-fetch happens here); otherwise the named ones. Each removal drops the entry from
-  `settings.alias` and `config.completion`, removes the name from `temp/library-changes.json`
+  `settings.alias` and `config.completion`, removes the name from `temp/change.json`
   (`update`), and removes the completion entry from disk. `rm --all` with nothing to remove
   (e.g. only `psc` installed) is a silent no-op.
 - **Data/directory sync**: `rm` treats a name as present if it is registered in `settings.alias`
@@ -239,8 +250,9 @@ psc rm --all
   library → `<name> is not an available completion.`; in the remote library but not installed →
   `<name>: Completion not added.`
 - **Output**: the Rust binary prints `Removed.` once — only if at least one completion was
-  actually removed (a fully-failed `rm` prints only the errors and exits `FAILURE`); the PS
-  wrapper renders `info.rm.done` per removed completion.
+  actually removed (a fully-failed `rm` prints only the errors); the PS
+  wrapper renders `info.rm.done` per removed completion. Text mode: any error → exit code
+  `FAILURE`.
 
 ### 6.8 `update` — update completions
 
@@ -258,17 +270,19 @@ psc update --all              # update every installed completion
     manually-removed file).
   - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
     current" path).
-  - **`--all`**: updates **every installed** completion (a full sweep).
-  - **No-arg = real-time check**: writes `temp/library-changes.json` and reports the library
+  - **`--all`**: updates every installed completion that exists in the remote `completions.json`
+    index. Completions not found in the remote index (e.g. locally-linked or manually-added
+    completions) are silently skipped.
+  - **No-arg = real-time check**: writes `temp/change.json` and reports the library
     status (out-of-date completions + newly added/removed/renamed completions), mirroring the
     startup notification.
   - After any successful update, the remaining out-of-date names are written back to
-    `temp/library-changes.json` (`update`) so the next startup does not re-report them.
+    `temp/change.json` (`update`) so the next startup does not re-report them.
 - **Errors**: name not installed and not in the remote list → `<name> is not an available completion.`;
   installed but not in the remote list → `<name>: Completion not added.`; download failure →
   `error: <err>`.
 - **Output**: with `--json`, per-completion results `{completion, ok, error}` (renames add
-  `renamed_from`); plain text otherwise. Any failure → exit `FAILURE`.
+  `renamed_from`); plain text otherwise. Text mode: any failure → exit `FAILURE`.
 - **PS wrapper**: forwards `--all` / `--old` / the named arguments with `--json`, then renders
   `info.update.done` per successful result (migrated renames show `old -> new` in the name line),
   red errors for failures — so a partial failure still shows the successful ones.
@@ -283,27 +297,21 @@ psc --reset
   deletes the module data directory contents (everything except module source) and re-initializes.
 
 
-### 6.10 `init` / `check` — internal commands (not user-facing)
+### 6.10 `init` — internal command (not user-facing)
 
 - `init`: bootstraps `settings.json` when missing/empty (default data from the installed
-  completions dir and a language hint), builds `aliasMap`, reads `temp/module-update.txt`, resolves
+  completions dir and a language hint), builds `aliasMap`, resolves
   URLs, loads the psc `info` templates, sanitizes the config, and emits one large JSON payload (or
-  writes it to `--result`). Called by the module on import. The payload includes `new_version` (the
-  newer module version found by a previous `check`, or `null`) so the module's update notification
-  reads it from the parsed data. Library state changes are read separately by the module from
-  `temp/library-changes.json` (`render_library_changes`), not via this payload.
-- `check`: background update check gated by `temp/last-update.txt` (runs at most every 6 hours).
-  Refreshes `temp/completions.json`, writes the added/removed diff, the out-of-date list, and the
-  renamed completions (same id-based detection as `psc update`) to `temp/library-changes.json`,
-  checks the module version against the **running** module version (passed as `check <version>`,
-  compared against `module/version.json` via `--data`'s urls, with the project site as an extra
-  fallback) into `temp/module-update.txt`.
+  writes it to `--result`). Called by the module on first completion trigger (lazy initialization,
+  not at import time). Library state
+  changes are read separately by the module from `temp/change.json`
+  (`render_library_changes`), not via this payload.
 
 ### 6.11 `psc` with no arguments
 
 - PowerShell default branch: prints the module info page (`_help`). Not a management command.
-  The full init sequence (`init_data()` → `start_job()` → `handle_completion()`) runs once at
-  module **import time**, not per no-arg call.
+  The full init sequence (`init_data()` → alias/trigger-key rebinding) runs once on first
+  Tab/psc (**lazy initialization**), not per no-arg call.
 - Rust binary run with no arguments prints a bare `print_help` fallback (usage lines only); it is
   not a subcommand — the module wrapper intercepts the no-arg case before reaching the binary.
 
@@ -317,7 +325,6 @@ All keys live in one object (`settings.json` → `config`), managed through `con
 | --- | --- | --- |
 | `url` | string, empty or `http(s)://…` | `""` (auto GitHub/Gitee by language) |
 | `language` | string | `en-US` (Rust fallback; the module bootstraps `$PSUICulture` via `--language` at init) |
-| `enable_auto_alias_setup` | bool | `true` |
 
 **`menu`** (completion menu):
 
@@ -388,15 +395,22 @@ on demand.
 
 - Embedded bilingual (en/zh) CLI messages (`msg_cli`) — the psc manifest `info` templates are
   bound to PowerShell expressions (`$PSCompletions.*`) and cannot be evaluated by a Rust CLI.
-- **All output (including error text) goes to stdout; success/failure is expressed by the exit
-  code.** Error messages are rendered by the PowerShell wrapper as readable colored hints —
-  deliberately **not** written to stderr: PowerShell (5.1, and 7.3+ with
+- **All output goes to stdout.** Error messages are rendered by the PowerShell wrapper as
+  readable colored hints — deliberately **not** written to stderr: PowerShell (5.1, and 7.3+ with
   `$PSNativeCommandUseErrorActionPreference`) treats native stderr as an error stream (red
   `ErrorRecord`s, possible exceptions), which would break the interactive UX this CLI hosts.
   (One exception: running the bare binary without `--data`/`PSC_DATA_DIR` prints a usage note to
   stderr — the module path always passes `--data`, so this never happens in normal use.)
-- Text by default; query commands (`list`/`info`/`config`/`completion`/`alias`) accept `--json`.
-  Action/status commands judge success by **exit code**.
+- Text by default; every command accepts `--json`.
+- **Output contract (two modes, no exceptions)**:
+  - **Text mode** (no `--json`): human-readable lines; success/failure is expressed by the
+    exit code.
+  - **`--json` mode**: stdout is **always valid JSON and the exit code is always 0**. Errors are
+    expressed inside the JSON payload — whole-command failures as a single
+    `{"ok": false, "error": "..."}` object (parameter errors, bad subcommands, download
+    failures), per-item failures as `ok: false` entries in the result array (`add`/`rm`/`update`
+    /`info`). This lets the PowerShell wrapper uniformly parse output and render errors without
+    branching on exit codes.
 - ANSI color when stdout is a TTY, stripped otherwise.
 
 ## 10. PowerShell module bridge
@@ -412,11 +426,26 @@ on demand.
 
 ```
 core/
-├── Cargo.toml            # [workspace] members = ["engine", "cli"]
+├── Cargo.toml            # [workspace] members = ["common", "engine", "cli"]
+├── common/               # psc-common: dependency-free shared helpers (strip_bom, read_text)
 ├── engine/               # psc-menu: engine + TUI (no network deps)
-│   └── src/{lib.rs, engine/, menu/, bin/psc-menu.rs}
+│   └── src/
+│       ├── lib.rs        # strip_bom re-export
+│       ├── engine/       # completion tree/resolve + hooks runtime (api/, runner.rs, bindings.rs)
+│       ├── menu/         # app/, state/(mod+tests), filter, model, order, protocol, ui
+│       └── bin/psc-menu.rs  # thin entry: mode dispatch (menu / sort / self-test)
 └── cli/                  # psc: data layer + commands + reqwest
-    └── src/{lib.rs, data/, net.rs, bin/psc.rs}
+    └── src/
+        ├── lib.rs        # module declarations (commands/data/input/messages/net/output/postcheck/run/validate)
+        ├── commands/     # one file per command (+ own tests); run_parallel in mod.rs
+        ├── data/         # settings/index/library-changes + config registry
+        ├── net.rs        # downloads, mirror fallback, staged commits
+        ├── input.rs      # argv parsing + data-dir normalization + help text
+        ├── output.rs     # Out sink, <@Tag> color markup, --json contract fail()
+        ├── messages.rs   # embedded bilingual CLI messages (msg_cli)
+        ├── validate.rs   # completion-name status/validation helpers
+        ├── postcheck.rs  # change.json diff + psc self-heal + module version fetch
+        └── bin/psc.rs    # thin entry: forwards argv to psc_cli::run::run
 
 design/                   # design docs (this directory)
 └── *.md

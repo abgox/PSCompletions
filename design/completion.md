@@ -50,10 +50,14 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
 - Values of options become `value` tokens (also canonicalized if they are known options).
 - Anything else is `unknown`.
 - `used` counts each command/option by its canonical name for **repeat** tracking.
-- The candidate `seen` filter (resolve phase) collects **command** tokens only — option
-  values and unknown tokens are not commands and never consume a static subcommand's
-  candidate slot (e.g. the value `add` in `git --exec-path add` does not hide the static
-  subcommand `add`).
+- The candidate `seen` filter (resolve phase) collects **command** tokens only — option-layer
+  candidate values and unknown words never consume a static subcommand's candidate slot.
+  One collision rule: a token following a free-form-value option (`next: []`) that matches a
+  subcommand name **is classified as a command** — the engine has no arity information to know
+  whether the option consumed its value, and "command wins" keeps `option … command` sequences
+  working. So `git --exec-path add <Tab>` switches into `add`'s context instead of offering the
+  root list; only non-matching values (e.g. `git -C foo <Tab>` when no `foo` subcommand exists)
+  stay `unknown` and leave the root candidates intact.
 
 The generation phase returns the **full candidate set of the current context** — it does
 **not** pre-filter by pending; filtering is left to the menu via `initial_filter`

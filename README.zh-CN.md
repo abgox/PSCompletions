@@ -31,13 +31,13 @@
 一个补全管理器，为 [PowerShell](https://microsoft.com/powershell) 带来更出色、更简便的 Tab 补全体验，基于 [Rust + Lua](https://pscompletions.abgox.com/docs/how-it-works) 构建。
 
 - [内置的补全库](./completions.zh-CN.md)
-- [强大的模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [更强大的补全菜单](https://pscompletions.abgox.com/docs/completion-menu)
 - [支持多种语言: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
 - [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/docs/sort-completion-items)
 
 ## 演示
 
-![demo](https://pscompletions.abgox.com/demo.gif)
+![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
 ## 安装
 
@@ -104,11 +104,8 @@
 
 ## 致谢
 
-- **使用**: [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 内置模块，增强命令行补全体验
-- **启发**: [模块补全菜单](https://pscompletions.abgox.com/docs/module-completion-menu) 受到了以下项目的启发:
-  - [fzf](https://github.com/junegunn/fzf): 通用命令行模糊查找器
-  - [PSFzf](https://github.com/kelleyma49/PSFzf): 将 fzf 集成到 PowerShell 的模糊查找
-  - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): PowerShell 的图形化补全菜单（早期 V6 版本的启发）
+- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 内置的行编辑与补全基础。
+- [补全菜单](https://pscompletions.abgox.com/docs/completion-menu) UI 参考了 [fzf](https://github.com/junegunn/fzf)、[PSFzf](https://github.com/kelleyma49/PSFzf) 与 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion)（v6）。
 
 ## License
 

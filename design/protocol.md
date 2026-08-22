@@ -50,7 +50,7 @@ menu reuses the same build path.
 
 ### `Config` (menu options)
 ```json
-{ "filter_hint": "", "flags": { "enable_list_loop": true, "filter_mode": "wildcard",
+{ "filter_hint": "", "filter_hint_stale": "", "flags": { "enable_list_loop": true, "filter_mode": "wildcard",
   "enable_apply_when_single": false, "enable_apply_when_no_match": false, "show_mode": "auto" },
   "context_switch": "~", "context_stay": "?",
   "raw_config": { "completion": { "enable_tip": 1 }, "global": {}, "default": { "enable_tip_usage": 1 } } }
@@ -88,11 +88,22 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
   "config": { "flags": {}, "context_switch": "~", "context_stay": "?" },
   "terminal": { "cursor": { "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
   "order": { "history": "...", "cmd": "git", "aliases": ["git"], "path": "..." },
+  "order_dir": "<order cache directory>",
+  "menu_dir": "<menu temp directory>",
   "initial_filter": "^to"
 }
 ```
 
-Fields: `items` | `build`, `config`, `terminal`, `order`?, `initial_filter`?.
+Fields: `items` | `build`, `config`, `terminal`, `order`?, `order_dir`, `menu_dir`,
+`initial_filter`?.
+
+`order_dir` (optional, always set by the module) is the order-cache directory; the engine prunes
+stale files (older than 90 days) from it in a background thread on each menu open.
+
+`menu_dir` (optional, always set by the module) is the menu temp directory (`temp/menu`); the engine
+prunes stale files (older than 30 minutes) from it in a background thread on each menu open — a
+fallback for input/output files orphaned by a crashed or force-killed menu session (normal
+invocations delete them immediately).
 
 ### Build mode
 
@@ -171,6 +182,9 @@ keep their relative order).
 
 - **No candidates → no render**: an empty candidate list makes `--menu` return `cancel`
   without touching the terminal (no alternate screen, no buffer writes, no output).
+- **Terminal resize**: the engine monitors for terminal resize events during the menu session
+  and re-renders accordingly. The host-provided `terminal` dimensions are used for the initial
+  layout; subsequent resizes are handled internally by the engine.
 - **Symbol keys vs characters**: built items carry `switch` / `stay` keys; the display
   character is resolved by the engine (build mode) or the host (native items).
 - **Restore is driven by `covered_*`**: the host restores exactly that row range; nothing to

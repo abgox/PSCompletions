@@ -31,7 +31,7 @@
 A completion manager for a better and simpler tab-completion experience in [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
 
 - [Built-in completion library.](./completions.md)
-- [Powerful module completion menu.](https://pscompletions.abgox.com/docs/module-completion-menu)
+- [More powerful completion menu.](https://pscompletions.abgox.com/docs/completion-menu)
 - [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
 - [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
 
@@ -104,11 +104,8 @@ If you like this project, feel free to give it a Star ⭐️ or [Donate 💰](ht
 
 ## Acknowledgements
 
-- **Used**: [PSReadLine](https://github.com/PowerShell/PSReadLine) — A built-in PowerShell module that enhances the command-line completion experience.
-- **Inspired by**: [The module completion menu](https://pscompletions.abgox.com/docs/module-completion-menu) is inspired by:
-  - [fzf](https://github.com/junegunn/fzf): A general-purpose command-line fuzzy finder.
-  - [PSFzf](https://github.com/kelleyma49/PSFzf): Fuzzy-finder integration for PowerShell.
-  - [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion): GUI-style tab-completion menu for PowerShell (an early V6 inspiration).
+- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell's editing and completion foundation.
+- The [completion menu](https://pscompletions.abgox.com/docs/completion-menu) UI is inspired by [fzf](https://github.com/junegunn/fzf), [PSFzf](https://github.com/kelleyma49/PSFzf), and [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) (v6).
 
 ## License
 
