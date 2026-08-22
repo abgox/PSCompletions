@@ -259,8 +259,7 @@ pub fn build_default_data(completions_dir: &str, language: &str) -> Value {
             if !config_path.exists() {
                 continue;
             }
-            let c: Value = std::fs::read_to_string(&config_path)
-                .ok()
+            let c: Value = read_text(&config_path.to_string_lossy())
                 .and_then(|t| serde_json::from_str(&t).ok())
                 .unwrap_or_else(|| json!({}));
             let aliases: Vec<Value> = c
@@ -273,7 +272,7 @@ pub fn build_default_data(completions_dir: &str, language: &str) -> Value {
 
             let manifest_path = dir.join("language").join(format!("{lang_file}.json"));
             let mut comp_defaults = serde_json::Map::new();
-            if let Ok(text) = std::fs::read_to_string(&manifest_path) {
+            if let Some(text) = read_text(&manifest_path.to_string_lossy()) {
                 if let Ok(manifest) = serde_json::from_str::<Value>(&text) {
                     if let Some(items) = manifest.get("config").and_then(|x| x.as_array()) {
                         for item in items {
@@ -309,15 +308,6 @@ pub fn load_psc_info(completions_dir: &str, lang: &str) -> Value {
     let text = read_text(&path.to_string_lossy()).unwrap_or_default();
     let v: Value = serde_json::from_str(&text).unwrap_or_else(|_| json!({}));
     v.get("info").cloned().unwrap_or_else(|| json!({}))
-}
-
-/// Resolve a dotted path (e.g. `add.err.no`) in the psc info object.
-pub fn info_path(info: &Value, path: &[&str]) -> Option<Value> {
-    let mut node = info;
-    for seg in path {
-        node = node.get(*seg)?;
-    }
-    Some(node.clone())
 }
 
 /// Join an info value (string or array of lines) into one line-joined string.

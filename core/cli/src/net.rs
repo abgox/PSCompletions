@@ -56,7 +56,10 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
             {
                 Ok(t) => return Ok(t),
                 Err(e) => {
-                    let transient = e.is_connect() || e.is_timeout();
+                    let transient = e.is_connect()
+                        || e.is_timeout()
+                        || e.status()
+                            .is_some_and(|s| s.as_u16() == 429 || s.is_server_error());
                     last_err = e.to_string();
                     if !transient || attempt == 1 {
                         break;
@@ -160,10 +163,18 @@ pub fn add_completion(
                 .map(|(i, (url_path, _, _))| s.spawn(move || (i, fetch_text(urls, url_path))))
                 .collect();
             for h in handles {
-                let (i, r) = h.join().unwrap();
-                out[i] = Some(r);
+                if let Ok((i, r)) = h.join() {
+                    out[i] = Some(r);
+                }
+                // Err: slot stays None → Err below
             }
-            out.into_iter().map(|o| o.unwrap()).collect()
+            out.into_iter()
+                .map(|o| {
+                    o.unwrap_or(Err(
+                        "thread panic while fetching completion file".to_string()
+                    ))
+                })
+                .collect()
         });
 
         for (i, r) in results.iter().enumerate() {
@@ -377,22 +388,6 @@ pub fn rename_completion(
     Ok(())
 }
 
-/// Simple `*` wildcard match (used for search).
-pub fn glob_match(pat: &str, text: &str) -> bool {
-    let p: Vec<char> = pat.chars().collect();
-    let t: Vec<char> = text.chars().collect();
-    fn m(p: &[char], t: &[char]) -> bool {
-        if p.is_empty() {
-            return t.is_empty();
-        }
-        match p[0] {
-            '*' => m(&p[1..], t) || (!t.is_empty() && m(p, &t[1..])),
-            c => !t.is_empty() && t[0] == c && m(&p[1..], &t[1..]),
-        }
-    }
-    m(&p, &t)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -414,15 +409,6 @@ mod tests {
         assert!(validate_index_shape(&serde_json::json!([])).is_err());
         assert!(validate_index_shape(&serde_json::json!({ "update": [], "meta": {} })).is_err());
         assert!(validate_index_shape(&serde_json::json!({ "update": {}, "meta": [] })).is_err());
-    }
-
-    #[test]
-    fn glob_match_basic() {
-        assert!(glob_match("*git*", "git"));
-        assert!(glob_match("*git*", "lazygit"));
-        assert!(glob_match("git", "git"));
-        assert!(!glob_match("*git*", "scoop"));
-        assert!(glob_match("*", "anything"));
     }
 
     #[test]
