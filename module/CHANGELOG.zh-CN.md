@@ -2,6 +2,17 @@
 
 [English](./CHANGELOG.md)
 
+## 7.3.0
+
+- 模块初始化延迟到首次补全触发时，大幅降低了模块导入时间
+- 更新检查改为命令执行后内联运行，不再依赖后台作业
+- 菜单过滤区域在上次 `psc update` 超过 7 天时显示更新提示
+- 模块和补全库状态通知改为命令执行后显示
+- 移除 `enable_auto_alias_setup`：触发别名始终通过 `temp/alias.csv` 设置
+- Hooks API：`psc.run`/`psc.run_batch` 新增 `env` 与 `capture_fd` 选项
+- CLI：`psc info` 无参时列出全部已安装补全
+- 其他的优化和修复
+
 ## 7.2.0
 
 - 新增了 `color_focus` 和 `color_match` 配置项，支持自定义 TUI 菜单颜色（命名色 + RGB）

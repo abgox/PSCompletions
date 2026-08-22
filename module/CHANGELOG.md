@@ -2,6 +2,17 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.3.0
+
+- Deferred module initialization to first completion trigger, greatly reducing import time.
+- Update checks now run inline after command execution instead of a background job.
+- Menu filter now shows a stale-update hint when the last `psc update` is older than 7 days.
+- Module and completion library status notifications now display after command execution.
+- Removed `enable_auto_alias_setup`: trigger aliases are now always set via `temp/alias.csv`.
+- Hooks API: `psc.run`/`psc.run_batch` now support `env` and `capture_fd` options.
+- CLI: `psc info` without arguments now lists all installed completions.
+- Other optimizations and fixes.
+
 ## 7.2.0
 
 - Added `color_focus` and `color_match` config keys to customize TUI menu colors (named colors + RGB).
