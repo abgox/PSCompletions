@@ -13,6 +13,7 @@ if (!(Test-Path -LiteralPath $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 }
+$PSCompletions.initialize($true)
 
 $text = $text.'create-completion'
 

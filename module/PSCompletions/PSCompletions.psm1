@@ -1,6 +1,9 @@
 ﻿function PSCompletions {
     try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
+    $PSCompletions.initialize()
+    if (-not $PSCompletions.binary_ok) { return }
+
     $arg = $args
 
     # Must live in the psm1 (module session state): Invoke-Expression can't reach module variables from the ScriptsToProcess scope

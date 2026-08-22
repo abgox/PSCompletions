@@ -20,6 +20,7 @@ if (!(Test-Path -LiteralPath $textPath)) {
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
 if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 }
+$PSCompletions.initialize($true)
 
 $text = $text.'compare-json'
 
@@ -62,24 +63,24 @@ function Compare-Lang {
     $targetContent = Get-Content -Path $targetJson -Raw | ConvertFrom-Json -AsHashtable
 
     $stats = @{
-        totalTips        = 0
-        translatedTips   = 0
-        missingInTarget  = @()
-        extraInTarget    = @()
-        typeMismatch     = @()
-        semanticMismatch = @()
-        valueDiff        = @()
-        untranslated     = @()
-        duplicateItems   = @()
-        meaninglessUsage = @()
-        missingUsage     = @()
-        duplicateOptions = @()
-        usageOrder       = @()
-        usageTooSimple   = @()
-        usageSeparator   = @()
-        optionMissingNext = @()
+        totalTips          = 0
+        translatedTips     = 0
+        missingInTarget    = @()
+        extraInTarget      = @()
+        typeMismatch       = @()
+        semanticMismatch   = @()
+        valueDiff          = @()
+        untranslated       = @()
+        duplicateItems     = @()
+        meaninglessUsage   = @()
+        missingUsage       = @()
+        duplicateOptions   = @()
+        usageOrder         = @()
+        usageTooSimple     = @()
+        usageSeparator     = @()
+        optionMissingNext  = @()
         forbiddenEmptyNext = @()
-        usageRootPrefix  = @()
+        usageRootPrefix    = @()
     }
 
     function Normalize-Value {
@@ -699,22 +700,22 @@ if ($Json) {
                 hasIssues  = $_.hasIssues
                 rate       = $_.rate
                 issues     = @{
-                    missingInTarget  = @($s.missingInTarget | ForEach-Object { $_.path })
-                    extraInTarget    = @($s.extraInTarget | ForEach-Object { $_.path })
-                    typeMismatch     = @($s.typeMismatch | ForEach-Object { $_.path })
-                    semanticMismatch = @($s.semanticMismatch | ForEach-Object { "$($_.path)  —  $($_.reason)" })
-                    valueDiff        = @($s.valueDiff | ForEach-Object { $_.path })
-                    duplicateItems   = @($s.duplicateItems | ForEach-Object { $_.path })
-                    untranslated     = @($s.untranslated | ForEach-Object { $_.path })
-                    meaninglessUsage = @($s.meaninglessUsage | ForEach-Object { $_.path })
-                    missingUsage     = @($s.missingUsage | ForEach-Object { $_.path })
-                    duplicateOptions = @($s.duplicateOptions | ForEach-Object { $_.path })
-                    usageOrder       = @($s.usageOrder | ForEach-Object { $_.path })
-                    usageTooSimple   = @($s.usageTooSimple | ForEach-Object { $_.path })
-                    usageSeparator   = @($s.usageSeparator | ForEach-Object { $_.path })
-                    optionMissingNext = @($s.optionMissingNext | ForEach-Object { $_.path })
+                    missingInTarget    = @($s.missingInTarget | ForEach-Object { $_.path })
+                    extraInTarget      = @($s.extraInTarget | ForEach-Object { $_.path })
+                    typeMismatch       = @($s.typeMismatch | ForEach-Object { $_.path })
+                    semanticMismatch   = @($s.semanticMismatch | ForEach-Object { "$($_.path)  —  $($_.reason)" })
+                    valueDiff          = @($s.valueDiff | ForEach-Object { $_.path })
+                    duplicateItems     = @($s.duplicateItems | ForEach-Object { $_.path })
+                    untranslated       = @($s.untranslated | ForEach-Object { $_.path })
+                    meaninglessUsage   = @($s.meaninglessUsage | ForEach-Object { $_.path })
+                    missingUsage       = @($s.missingUsage | ForEach-Object { $_.path })
+                    duplicateOptions   = @($s.duplicateOptions | ForEach-Object { $_.path })
+                    usageOrder         = @($s.usageOrder | ForEach-Object { $_.path })
+                    usageTooSimple     = @($s.usageTooSimple | ForEach-Object { $_.path })
+                    usageSeparator     = @($s.usageSeparator | ForEach-Object { $_.path })
+                    optionMissingNext  = @($s.optionMissingNext | ForEach-Object { $_.path })
                     forbiddenEmptyNext = @($s.forbiddenEmptyNext | ForEach-Object { $_.path })
-                    usageRootPrefix  = @($s.usageRootPrefix | ForEach-Object { $_.path })
+                    usageRootPrefix    = @($s.usageRootPrefix | ForEach-Object { $_.path })
                 }
             }
         })

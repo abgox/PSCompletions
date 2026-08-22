@@ -18,6 +18,8 @@ if (!$PSCompletions) {
     return
 }
 
+$PSCompletions.initialize()
+
 $text = $text.'link-completion'
 
 foreach ($CompletionName in $CompletionList) {
