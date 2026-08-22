@@ -16,6 +16,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         cache            = "$_/temp/cache"
         log              = "$_/temp/log"
         order            = "$_/temp/order"
+        alias_csv        = "$_/temp/alias.csv"
         completions_json = "$_/temp/completions.json"
         change           = "$_/temp/change.json"
     }
@@ -956,38 +957,25 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $PSCompletions.info = $all.info
         $PSCompletions.binary_ok = $true
     }
-    if (-not $methodsOnly) {
-        $PSCompletions.init_data()
-        if (-not $PSCompletions.binary_ok) {
-            return
-        }
-        if ($PSCompletions.config.enable_auto_alias_setup) {
-            $Matches = $PSCompletions.data.aliasMap.Keys
-            foreach ($_ in $Matches) {
-                $args = $PSCompletions.data.aliasMap[$_]
-                if ($args -eq 'psc') {
-                    Microsoft.PowerShell.Utility\Set-Alias $_ PSCompletions -Force -ErrorAction Ignore -Scope Global
-                }
-                elseif ($_ -ne $args -and $_ -notmatch '[\\/]') {
-                    Microsoft.PowerShell.Utility\Set-Alias $_ $args -Force -ErrorAction Ignore -Scope Global
-                }
-            }
-            $Matches = $null
-        }
-        else {
-            Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
-        }
-        Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
-        $PSCompletions.initialized = $true
+    if ($methodsOnly) { return }
+    $PSCompletions.init_data()
+    if (-not $PSCompletions.binary_ok) { return }
+    if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
+        Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
     }
+    else {
+        Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
+    }
+    Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
+    $PSCompletions.initialized = $true
 }
 
 if ([System.IO.File]::Exists($PSCompletions.path.data)) {
     $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
-    $PSCompletions._key = $_.config.trigger_key
+    $PSCompletions.trigger_key = $_.config.trigger_key
 }
 else {
-    $PSCompletions._key = 'Tab'
+    $PSCompletions.trigger_key = 'Tab'
     if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
             param([string]$path)
@@ -1028,23 +1016,14 @@ else {
         $PSCompletions.ensure_dir($PSCompletions.path.order)
         if ([System.IO.File]::Exists($PSCompletions.path.data)) {
             $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
-            $PSCompletions._key = $_.config.trigger_key
+            $PSCompletions.trigger_key = $_.config.trigger_key
         }
     }
 }
-if ($_.config.enable_auto_alias_setup) {
-    foreach ($Matches in $_.alias.PSObject.Properties) {
-        foreach ($args in @($Matches.Value)) {
-            if ($Matches.Name -eq 'psc') {
-                Microsoft.PowerShell.Utility\Set-Alias $args PSCompletions -Force -ErrorAction Ignore -Scope Global
-            }
-            elseif ($args -ne $Matches.Name -and $args -notmatch '[\\/]') {
-                Microsoft.PowerShell.Utility\Set-Alias $args $Matches.Name -Force -ErrorAction Ignore -Scope Global
-            }
-        }
-    }
+if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
+    Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
 }
 else {
-    Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
+    Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
 }
-Set-PSReadLineKeyHandler -Key $PSCompletions._key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
+Set-PSReadLineKeyHandler -Key $PSCompletions.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script

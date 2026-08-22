@@ -307,8 +307,21 @@
                 }
                 $need_init = $false
             }
-            elseif (-not $alias_conflict) {
+            else {
                 _forward_psc
+                if ($LASTEXITCODE -eq 0) {
+                    switch ($arg[1]) {
+                        'add' {
+                            if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
+                                Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
+                            }
+                        }
+                        'rm' {
+                            $toRemove = @($arg[3..($arg.Count - 1)])
+                            foreach ($a in $toRemove) { Remove-Item "Alias:\$a" -Force -ErrorAction SilentlyContinue }
+                        }
+                    }
+                }
             }
         }
         'config' {

@@ -36,11 +36,6 @@ pub const CONFIG_KEYS: &[CfgDef] = &[
         ty: CfgType::NonEmptyStr,
     },
     CfgDef {
-        group: "core",
-        key: "enable_auto_alias_setup",
-        ty: CfgType::Bool,
-    },
-    CfgDef {
         group: "menu",
         key: "show_mode",
         ty: CfgType::Enum(&[

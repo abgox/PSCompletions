@@ -101,6 +101,74 @@ impl Settings {
         Ok(())
     }
 
+    /// CSV row escaping: double quotes per RFC4180.
+    fn csv_escape(s: &str) -> String {
+        s.replace('"', "\"\"")
+    }
+
+    /// Generate the alias import table content.
+    /// Rows with self-alias (e.g. git->git) and path-like names are skipped.
+    pub fn alias_csv_content(&self) -> String {
+        let mut rows: Vec<String> = Vec::new();
+        for (completion, aliases) in &self.alias {
+            if completion == "psc" {
+                for a in aliases {
+                    if a.is_empty() || a.contains('/') || a.contains('\\') {
+                        continue;
+                    }
+                    rows.push(format!(
+                        "\"{}\",\"{}\",\"\",\"None\"",
+                        Self::csv_escape(a),
+                        "PSCompletions"
+                    ));
+                }
+            } else {
+                for a in aliases {
+                    if a.is_empty() || a == completion || a.contains('/') || a.contains('\\') {
+                        continue;
+                    }
+                    rows.push(format!(
+                        "\"{}\",\"{}\",\"\",\"None\"",
+                        Self::csv_escape(a),
+                        Self::csv_escape(completion)
+                    ));
+                }
+            }
+        }
+        rows.sort();
+        if rows.is_empty() {
+            String::new()
+        } else {
+            rows.join("\r\n") + "\r\n"
+        }
+    }
+
+    /// Ensure `<data>/temp/alias.csv` reflects current alias state.
+    /// Content-diff guarded: if the desired content equals the existing file, no IO occurs.
+    pub fn sync_alias_csv(&self, data_dir: &str) {
+        let content = self.alias_csv_content();
+        let path = format!("{data_dir}/temp/alias.csv");
+        // Ensure temp dir exists for the comparison/write.
+        let _ = std::fs::create_dir_all(format!("{data_dir}/temp"));
+        if let Ok(existing) = std::fs::read_to_string(&path) {
+            if existing == content {
+                return;
+            }
+        } else if content.is_empty() {
+            return;
+        }
+        // Atomic write with pid suffix.
+        let tmp = format!("{path}.{}.tmp", std::process::id());
+        if std::fs::write(&tmp, &content).is_ok() {
+            let _ = std::fs::rename(&tmp, &path);
+            let _ = std::fs::remove_file(&tmp);
+        }
+        // If the table is empty, remove any stale file so Import-Alias sees missing.
+        if content.is_empty() {
+            let _ = std::fs::remove_file(&path);
+        }
+    }
+
     /// Sorted completion names (alias map keys).
     pub fn list(&self) -> Vec<String> {
         let mut v: Vec<String> = self.alias.keys().cloned().collect();
@@ -219,7 +287,6 @@ pub fn default_config(language: &str) -> Value {
     json!({
         "url": "",
         "language": language,
-        "enable_auto_alias_setup": 1,
         "switch": "~",
         "stay": "?",
         "trigger_key": "Tab",

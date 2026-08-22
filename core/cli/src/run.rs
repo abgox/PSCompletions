@@ -27,11 +27,12 @@ pub fn run(args: Vec<String>) -> ExitCode {
 
     if rest.is_empty() {
         print_help();
+        settings.sync_alias_csv(&data_dir);
         return ExitCode::SUCCESS;
     }
     let cmd = rest[0].clone();
     let args = &rest[1..];
-    match cmd.as_str() {
+    let code = match cmd.as_str() {
         "init" => cmd_init(
             &settings_path,
             &mut settings,
@@ -96,5 +97,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
             out.line(&msg_cli(&lang, "sub_cmd"));
             ExitCode::FAILURE
         }
-    }
+    };
+    settings.sync_alias_csv(&data_dir);
+    code
 }
