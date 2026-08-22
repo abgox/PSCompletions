@@ -359,6 +359,8 @@ function psc.typed_unknown(name) end
 ---   - `timeout`：超时毫秒，默认 5000
 ---   - `cwd`：命令工作目录，默认用户当前工作目录
 ---   - `shell`：通过系统 shell 执行（Windows `cmd /c`、其他 `sh -c`），用于无法直接启动的 batch/PowerShell shim（如 `scoop`）
+---   - `env`：注入子进程环境变量的键值对表，与继承的环境合并
+---   - `capture_fd`：捕获额外文件描述符（如 `8` 用于 Python argcomplete，补全结果写到 fd 8），通过 `8>&1` 重定向到 stdout 捕获
 --- - 失败/超时返回 `nil`
 ---
 --- Runs a command; returns stdout lines.
@@ -369,9 +371,11 @@ function psc.typed_unknown(name) end
 ---   - `timeout`: timeout in ms, default 5000
 ---   - `cwd`: command working directory, default the user's current directory
 ---   - `shell`: runs through the system shell (`cmd /c` on Windows, `sh -c` elsewhere) — for batch/PowerShell shims that cannot be spawned directly (e.g. `scoop`)
+---   - `env`: key-value pairs injected into the child process environment, merged with the inherited env
+---   - `capture_fd`: captures an extra file descriptor (e.g. `8` for Python argcomplete which writes completions to fd 8), redirected to stdout via `8>&1`
 --- - `nil` on failure/timeout.
 ---@param argv string[]
----@param opts? { format?: psc_run_format, timeout?: integer, cwd?: string, shell?: boolean }
+---@param opts? { format?: psc_run_format, timeout?: integer|1000|3000|5000, cwd?: string, shell?: boolean, env?: table<string, string>, capture_fd?: integer|3|4|5|6|7|8|9 }
 ---@return string[]|table|nil
 function psc.run(argv, opts) end
 
@@ -383,6 +387,8 @@ function psc.run(argv, opts) end
 ---   - `timeout`：超时毫秒，默认 5000
 ---   - `cwd`：命令工作目录，默认用户当前工作目录
 ---   - `shell`：每条命令都通过系统 shell 执行
+---   - `env`：注入子进程环境变量的键值对表，与继承的环境合并
+---   - `capture_fd`：捕获额外文件描述符（如 `8` 用于 Python argcomplete），通过 `8>&1` 重定向到 stdout 捕获
 --- - 按输入顺序返回各自的 stdout 行
 --- - 某条命令失败/超时为 `nil`
 ---
@@ -394,10 +400,12 @@ function psc.run(argv, opts) end
 ---   - `timeout`: timeout in ms, default 5000
 ---   - `cwd`: command working directory, default the user's current directory
 ---   - `shell`: each command runs through the system shell
+---   - `env`: key-value pairs injected into the child process environment, merged with the inherited env
+---   - `capture_fd`: captures an extra file descriptor (e.g. `8` for Python argcomplete), redirected to stdout via `8>&1`
 --- - Returns their stdout lines in input order.
 --- - `nil` at an index when that command failed/timed out.
 ---@param cmds string[][]
----@param opts? { format?: psc_run_format, timeout?: integer, cwd?: string, shell?: boolean }
+---@param opts? { format?: psc_run_format, timeout?: integer|1000|3000|5000, cwd?: string, shell?: boolean, env?: table<string, string>, capture_fd?: integer|3|4|5|6|7|8|9 }
 ---@return table<number, string[]|table|nil>
 function psc.run_batch(cmds, opts) end
 

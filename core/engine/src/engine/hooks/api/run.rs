@@ -8,13 +8,17 @@ use super::parallel_map;
 use super::HOOK_DEADLINE;
 use super::{json_to_lua, table_to_strings};
 
-/// `psc.run({cmd, arg, ...}, {timeout?, cwd?, format?, shell?})`.
+/// `psc.run({cmd, arg, ...}, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
 /// Returns stdout lines; when `format` is `"json"`/`"toml"`/`"yaml"`, parses the output and
 /// returns a table. `nil` on failure (spawn error / timeout / unparseable output) — strict
 /// failure semantics, hooks guard with `or {}`.
 /// `default_cwd` is the hook's working directory (the user's location): used when `cwd` is not
 /// given, so commands run in the user's current directory rather than the engine process's
 /// inherited one (which can lag after `cd` on some hosts).
+/// `env` is a table of key-value pairs injected into the child process environment.
+/// `capture_fd` is an extra file descriptor to capture (e.g. `8` for Python argcomplete which
+/// writes completions to fd 8). When set, the command is run through the shell with `8>&1`
+/// redirection so the fd's output is merged into stdout and captured.
 pub(crate) fn api_run(
     lua: &Lua,
     args: Variadic<Value>,
@@ -45,12 +49,19 @@ pub(crate) fn api_run(
         Some(o) => o.get::<Option<bool>>("shell")?.unwrap_or(false),
         None => false,
     };
-    if shell {
-        argv = wrap_shell(&argv);
+    let capture_fd: Option<i32> = match &opts {
+        Some(o) => o.get("capture_fd")?,
+        None => None,
+    };
+    let env_map = parse_env(&opts)?;
+    // capture_fd needs shell to interpret `8>&1` redirection; force shell when requested.
+    let effective_shell = shell || capture_fd.is_some();
+    if effective_shell {
+        argv = wrap_shell_with_capture(&argv, capture_fd);
     }
     let cwd = cwd_opt.as_deref().unwrap_or(&default_cwd);
     let cwd_arg = if cwd.is_empty() { None } else { Some(cwd) };
-    let Some(lines) = run_cmd_raw(&argv, timeout_ms, cwd_arg) else {
+    let Some(lines) = run_cmd_raw(&argv, timeout_ms, cwd_arg, env_map.as_deref()) else {
         return Ok(Value::Nil);
     };
     match format.as_deref() {
@@ -77,7 +88,7 @@ pub(crate) fn api_run(
     }
 }
 
-/// `psc.run_batch({ {cmd,...}, ... }, {timeout?, cwd?, format?})`.
+/// `psc.run_batch({ {cmd,...}, ... }, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
 /// Runs commands in parallel; returns their outputs in input order. With `format`,
 /// each output is parsed with that format (parallel commands are of the same type).
 /// A failed/unparseable command yields `nil` at its index (strict failure semantics).
@@ -118,6 +129,12 @@ pub(crate) fn api_run_batch(
         Some(o) => o.get::<Option<bool>>("shell")?.unwrap_or(false),
         None => false,
     };
+    let capture_fd: Option<i32> = match &opts {
+        Some(o) => o.get("capture_fd")?,
+        None => None,
+    };
+    let env_map = parse_env(&opts)?;
+    let effective_shell = shell || capture_fd.is_some();
     let cwd = cwd_opt.clone().unwrap_or_else(|| default_cwd.clone());
     let cwd_arg = if cwd.is_empty() {
         None
@@ -125,8 +142,12 @@ pub(crate) fn api_run_batch(
         Some(cwd.as_str())
     };
     let outputs: Vec<Option<Vec<String>>> = parallel_map(&cmds, |cmd| {
-        let argv = if shell { wrap_shell(cmd) } else { cmd.clone() };
-        run_cmd_raw(&argv, timeout_ms, cwd_arg)
+        let argv = if effective_shell {
+            wrap_shell_with_capture(cmd, capture_fd)
+        } else {
+            cmd.clone()
+        };
+        run_cmd_raw(&argv, timeout_ms, cwd_arg, env_map.as_deref())
     });
     let t = lua.create_table()?;
     for (i, lines) in outputs.iter().enumerate() {
@@ -160,9 +181,21 @@ pub(crate) fn api_run_batch(
 /// executed: `psc.run({ "scoop", "config" }, { shell = true })` → `cmd /c "scoop config"` on
 /// Windows, `sh -c "scoop config"` elsewhere. Arguments containing whitespace or quotes are
 /// quoted so the shell sees them as single words.
+#[allow(dead_code)]
 fn wrap_shell(argv: &[String]) -> Vec<String> {
+    wrap_shell_with_capture(argv, None)
+}
+
+/// Like `wrap_shell` but optionally captures an extra file descriptor (e.g. `8` for Python
+/// argcomplete which writes completions to fd 8). The fd is redirected to stdout (`8>&1`) so
+/// `run_cmd_raw`'s piped stdout captures it. The redirection is appended after the quoted args,
+/// outside any per-arg quotes, so the shell parses it as redirection syntax, not as an argument.
+fn wrap_shell_with_capture(argv: &[String], capture_fd: Option<i32>) -> Vec<String> {
     let joined: Vec<String> = argv.iter().map(|a| shell_quote(a)).collect();
-    let line = joined.join(" ");
+    let mut line = joined.join(" ");
+    if let Some(fd) = capture_fd {
+        line = format!("{} {}>&1", line, fd);
+    }
     if cfg!(windows) {
         vec!["cmd".into(), "/c".into(), line]
     } else {
@@ -180,13 +213,34 @@ fn shell_quote(arg: &str) -> String {
     format!("\"{}\"", arg.replace('"', "\\\""))
 }
 
+/// Parse the optional `env` field from a Lua opts table.
+/// Accepts a Lua table of `{ [string] = string }` key-value pairs.
+/// Returns `None` when the field is absent or nil; `Some(Vec<(String, String)>)` otherwise.
+fn parse_env(opts: &Option<Table>) -> mlua::Result<Option<Vec<(String, String)>>> {
+    let Some(o) = opts else {
+        return Ok(None);
+    };
+    let Some(env_tbl) = o.get::<Option<Table>>("env")? else {
+        return Ok(None);
+    };
+    let mut pairs = Vec::new();
+    for pair in env_tbl.pairs::<String, String>() {
+        let (k, v) = pair?;
+        pairs.push((k, v));
+    }
+    Ok(Some(pairs))
+}
+
 /// Run a command, return its stdout lines. `None` on failure (empty argv / spawn error /
 /// timeout); `Some(lines)` on success (possibly empty stdout).
+/// `env` — optional key-value pairs injected into the child process environment (replacing
+/// the inherited env when present).
 /// Note: stdout is drained concurrently so a full pipe buffer (>64KB) cannot block the child.
 pub(crate) fn run_cmd_raw(
     argv: &[String],
     timeout_ms: u64,
     cwd: Option<&str>,
+    env: Option<&[(String, String)]>,
 ) -> Option<Vec<String>> {
     if argv.is_empty() {
         return None;
@@ -197,6 +251,9 @@ pub(crate) fn run_cmd_raw(
         .stderr(Stdio::null());
     if let Some(c) = cwd {
         cmd.current_dir(c);
+    }
+    if let Some(pairs) = env {
+        cmd.envs(pairs.iter().cloned());
     }
     let mut child = match cmd.spawn() {
         Ok(c) => c,

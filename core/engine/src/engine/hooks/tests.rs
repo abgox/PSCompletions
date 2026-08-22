@@ -1422,6 +1422,33 @@ fn run_batch_runs_commands_in_parallel() {
     assert_eq!(out[0].text, "ok");
 }
 
+#[cfg(windows)]
+#[test]
+fn run_capture_fd() {
+    // New API: capture_fd captures an extra fd (e.g. 8 for Python argcomplete) via 8>&1.
+    // Should work cross-platform without manual shell strings.
+    let script = r#"
+    local c = psc.which("aws_completer")
+    if not c then return { { name = "no-completer" } } end
+    local v = psc.run({ c }, {
+        shell = true,
+        capture_fd = 8,
+        timeout = 8000,
+        env = {
+            COMP_LINE = "aws s3",
+            COMP_POINT = "6",
+            _ARGCOMPLETE = "1",
+            _ARGCOMPLETE_SHELL = "fish",
+            _ARGCOMPLETE_SUPPRESS_SPACE = "1",
+        }
+    })
+    if not v or #v == 0 then return { { name = "empty" } } end
+    return { { name = "ok" } }
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out[0].text, "ok");
+}
+
 #[test]
 fn split_and_input_helpers() {
     // psc.split
