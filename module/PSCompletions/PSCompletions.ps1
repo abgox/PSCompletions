@@ -258,6 +258,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
                 $content_config | ConvertTo-Json -Compress | Out-File $path_config -Encoding utf8 -Force
             }
         }
+        if (-not $content_config -or -not $content_config.language) { return $PSCompletions.language }
         $config_language = $PSCompletions.config.completion[$completion].language
         if ($config_language) {
             $language = if ($config_language -in $content_config.language) { $config_language }else { $content_config.language[0] }
