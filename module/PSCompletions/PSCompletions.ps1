@@ -18,9 +18,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         log              = "$_/temp/log"
         order            = "$_/temp/order"
         completions_json = "$_/temp/completions.json"
-        library_changes  = "$_/temp/library-changes.json"
-        last_update      = "$_/temp/last-update.txt"
-        module_update    = "$_/temp/module-update.txt"
+        change           = "$_/temp/change.json"
     }
     cmd             = ''
     guid            = '00929632-527d-4dab-a5b3-21197faccd05'
@@ -333,7 +331,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content 
     if ($data -match $PSCompletions.replace_pattern) { $PSCompletions.replace_content($data) }else { return $data }
 }
 Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_library_changes {
-    $json = $PSCompletions.get_raw_content($PSCompletions.path.library_changes)
+    $json = $PSCompletions.get_raw_content($PSCompletions.path.change)
     if (-not $json) { return }
     $changes = $null
     try { $changes = $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
@@ -347,13 +345,23 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_library_c
         $PSCompletions.added = $add
         $PSCompletions.removed = $rm
         $PSCompletions.renamed = $renamed
-        $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.update_info))
-        # added/removed are one-shot (consumed on display); update/renamed persist until the user actually updates.
+        $template = $PSCompletions.info.update_info
+        if (-not $template) {
+            # Rendered after a psc command that did not init (list/info/alias/config): fall back to disk.
+            try {
+                $pscLang = $PSCompletions.get_language('psc')
+                $pscData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$pscLang.json"))
+                if ($pscData.info.update_info) { $template = $pscData.info.update_info }
+            }
+            catch { }
+        }
+        $PSCompletions.write_with_color($PSCompletions.replace_content($template))
+        # added/removed are one-shot (consumed on display); update/renamed/module persist.
         $changes.added = @()
         $changes.removed = @()
         try {
             [System.IO.File]::WriteAllText(
-                $PSCompletions.path.library_changes,
+                $PSCompletions.path.change,
                 ($changes | ConvertTo-Json -Depth 6 -Compress),
                 [System.Text.Encoding]::UTF8)
         }
@@ -463,7 +471,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod init_data {
     $PSCompletions.language = $PSCompletions.config.language
     $PSCompletions.urls = @($all.urls)
     $PSCompletions.list = @($all.list)
-    $PSCompletions.new_version = [string]$all.new_version
     $PSCompletions.info = $all.info
     $PSCompletions.binary_ok = $true
     if ('psc' -notin $PSCompletions.data.list -and $PSCompletions.init_reentry -lt 2) {
@@ -910,34 +917,51 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_Json
     }
     ConvertObj $parsed
 }
-Add-Member -InputObject $PSCompletions -MemberType ScriptMethod start_job {
-    $pscBinary = $PSCompletions.psc_binary()
-    $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.data)
-    $moduleVersion = $PSCompletions.version
-    $scriptBlock = {
-        param($dataDir, $pscBinary, $moduleVersion)
-        [System.IO.Directory]::CreateDirectory((Join-Path $dataDir 'temp')) | Out-Null
-        [System.IO.Directory]::CreateDirectory((Join-Path $dataDir 'temp\order')) | Out-Null
-        # Drop stale per-command order caches (rebuilt on next use);
-        $cutoff = (Get-Date).AddDays(-90)
-        Get-ChildItem (Join-Path $dataDir 'temp\order') -Filter '*.json' -File -ErrorAction SilentlyContinue |
-        Where-Object { $_.LastWriteTime -lt $cutoff } |
-        Remove-Item -Force -ErrorAction SilentlyContinue
-        [System.IO.Directory]::CreateDirectory((Join-Path $dataDir 'completions\psc')) | Out-Null
-        foreach ($p in 'temp\change.txt', 'temp\update.txt') {
-            $f = Join-Path $dataDir $p
-            if (![System.IO.File]::Exists($f)) { '' | Out-File $f -Force -Encoding utf8 }
-        }
-        # Update check is centralized to psc check (psc unifies the network/index/version logic)
-        if ($pscBinary) {
-            & $pscBinary --data $dataDir check $moduleVersion 2>$null | Out-Null
+Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_pending {
+    # Pending module/library notifications appended AFTER a psc command's output. Not one-shot:
+    # a newer module version and pending updates persist until the user acts on them.
+    $showLibrary = -not $PSCompletions.pending_skip_library
+    $PSCompletions.pending_skip_library = $false
+    # Module update: change.json's module field records the newest remote version the CLI fetched.
+    $changeJson = $PSCompletions.path.change
+    $json = $PSCompletions.get_raw_content($changeJson)
+    if ($json) {
+        $changes = $null
+        try { $changes = $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
+        if ($null -ne $changes -and $changes.module) {
+            $newVersion = [string]$changes.module
+            try { $isNewer = [version]$newVersion -gt [version]$PSCompletions.version } catch { $isNewer = $false }
+            if ($isNewer) {
+                $PSCompletions.new_version = $newVersion
+                $template = $PSCompletions.info.module.update
+                if (-not $template) {
+                    try {
+                        $pscLang = $PSCompletions.get_language('psc')
+                        $pscData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$pscLang.json"))
+                        if ($pscData.info.module.update) { $template = $pscData.info.module.update }
+                    }
+                    catch { }
+                }
+                if ($template) {
+                    $PSCompletions.write_with_color($PSCompletions.replace_content($template))
+                }
+            }
+            else {
+                # No longer newer (the user upgraded the module externally): drop the stale module field.
+                $changes.Remove('module')
+                try {
+                    [System.IO.File]::WriteAllText(
+                        $changeJson,
+                        ($changes | ConvertTo-Json -Depth 6 -Compress),
+                        [System.Text.Encoding]::UTF8)
+                }
+                catch { }
+            }
         }
     }
-    $params = @{
-        ScriptBlock  = $scriptBlock
-        ArgumentList = $dataDir, $pscBinary, $moduleVersion
+    if ($showLibrary) {
+        $PSCompletions.render_library_changes()
     }
-    $null = if ($PSEdition -eq 'Core') { Start-ThreadJob @params } else { Start-Job @params }
 }
 
 if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
@@ -988,7 +1012,6 @@ if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
 $PSCompletions.init_data()
 # init_data already printed an error when the binary is missing; the module can't work, so stop loading
 if (-not $PSCompletions.binary_ok) { return }
-$PSCompletions.start_job()
 $PSCompletions.handle_completion()
 
 if ($PSCompletions.is_init) {
@@ -1009,21 +1032,4 @@ if ($PSCompletions.config.enable_auto_alias_setup) {
 }
 else {
     Microsoft.PowerShell.Utility\Set-Alias psc PSCompletions -Force -ErrorAction Ignore
-}
-if ($PSCompletions.new_version) {
-    if ($PSCompletions.new_version -match '^[\d\.]+$') {
-        $PSCompletions.version_list = $PSCompletions.new_version, $PSCompletions.version | Sort-Object { [version] $_ } -ErrorAction Ignore
-        if ($PSCompletions.version_list[-1] -ne $PSCompletions.version) {
-            $PSCompletions.write_with_color($PSCompletions.replace_content($PSCompletions.info.module.update))
-        }
-        else {
-            Remove-Item $PSCompletions.path.module_update -Force -ErrorAction SilentlyContinue
-        }
-    }
-    else {
-        Remove-Item $PSCompletions.path.module_update -Force -ErrorAction SilentlyContinue
-    }
-}
-else {
-    $PSCompletions.render_library_changes()
 }

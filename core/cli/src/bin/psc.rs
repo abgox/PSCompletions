@@ -1,4 +1,4 @@
-﻿//! `psc` binary: platform-agnostic management CLI for PSCompletions.
+//! `psc` binary: platform-agnostic management CLI for PSCompletions.
 
 use std::io::IsTerminal;
 use std::process::ExitCode;
@@ -7,7 +7,7 @@ use serde_json::{json, Value};
 
 use psc_cli::data::config::{sanitize_config, validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use psc_cli::data::{
-    build_default_data, default_config, load_psc_info, Index, LibraryChanges, Settings,
+    build_default_data, default_config, load_psc_info, read_text, Index, LibraryChanges, Settings,
 };
 use psc_cli::net::{
     add_completion, completion_defaults, download_list, fetch_text, local_completion_id,
@@ -311,7 +311,6 @@ fn main() -> ExitCode {
             result_arg.as_deref(),
             &out,
         ),
-        "check" => cmd_check(&settings, &data_dir, args.first().map(|s| s.as_str()), &out),
         "list" => cmd_list(&settings, &out, json),
         "info" => cmd_info(args, &settings, &index, &completions_dir, &out, json),
         "config" => cmd_config(args, &settings_path, &mut settings, &lang, &out, json),
@@ -400,7 +399,7 @@ fn ensure_completion_map(settings: &mut Settings) -> &mut serde_json::Map<String
 /// Restore a completion's trigger aliases to its config.json alias (or the name itself).
 fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) {
     let config_path = format!("{data_dir}/completions/{name}/config.json");
-    let aliases: Vec<String> = psc_cli::data::read_text(&config_path)
+    let aliases: Vec<String> = read_text(&config_path)
         .and_then(|t| serde_json::from_str::<Value>(&t).ok())
         .map(|config| {
             config
@@ -536,13 +535,6 @@ fn cmd_init(
         vec!["psc".to_string()]
     };
 
-    // Module update version (written by the background `check` comparison)
-    let new_version: Option<String> =
-        std::fs::read_to_string(format!("{data_dir}/temp/module-update.txt"))
-            .ok()
-            .map(|t| t.trim().to_string())
-            .filter(|t| !t.is_empty());
-
     let urls = resolve_urls(settings);
     let lang = settings.language();
     let info = load_psc_info(completions_dir, &lang);
@@ -563,7 +555,6 @@ fn cmd_init(
         "list": index_list,
         "url": urls.first().cloned().unwrap_or_default(),
         "urls": urls,
-        "new_version": new_version,
         "info": info,
         "default_config": default_config(&lang),
     });
@@ -578,189 +569,95 @@ fn cmd_init(
     ExitCode::SUCCESS
 }
 
-/// Numeric dot-separated version comparison. A leading `v` is ignored; the first
-/// non-numeric segment stops the parse, so a `-beta.1` suffix is treated as absent
-/// (a pre-release never compares higher than its release) and trailing junk is dropped.
-fn version_cmp(a: &str, b: &str) -> std::cmp::Ordering {
-    let pa = parse_version(a);
-    let pb = parse_version(b);
-    for i in 0..pa.len().max(pb.len()) {
-        let x = pa.get(i).copied().unwrap_or(0);
-        let y = pb.get(i).copied().unwrap_or(0);
-        if x != y {
-            return x.cmp(&y);
-        }
-    }
-    std::cmp::Ordering::Equal
-}
-
-/// Parse `1.2.3` into numeric segments, ignoring a leading `v` and stopping at the
-/// first non-numeric part (`7.0.0-beta.1` -> `[7, 0, 0]`).
-fn parse_version(s: &str) -> Vec<u64> {
-    let mut out = Vec::new();
-    for seg in s.trim_start_matches('v').split('.') {
-        match seg.parse::<u64>() {
-            Ok(n) => out.push(n),
-            Err(_) => break,
-        }
-    }
-    out
-}
-
-/// Background update check
-const CHECK_INTERVAL: u64 = 6 * 3600;
-fn cmd_check(
-    settings: &Settings,
-    data_dir: &str,
-    module_version: Option<&str>,
-    _out: &Out,
-) -> ExitCode {
-    let tmp = format!("{data_dir}/temp");
-    let _ = std::fs::create_dir_all(&tmp);
-    let completions_json = format!("{tmp}/completions.json");
-    let module_update_path = format!("{tmp}/module-update.txt");
-    let last_update_path = format!("{tmp}/last-update.txt");
-
-    let now = std::time::SystemTime::now()
-        .duration_since(std::time::UNIX_EPOCH)
-        .map(|d| d.as_secs())
-        .unwrap_or(0);
-    if let Ok(t) = std::fs::read_to_string(&last_update_path) {
-        if let Ok(last) = t.trim().parse::<u64>() {
-            if now.saturating_sub(last) < CHECK_INTERVAL {
-                return ExitCode::SUCCESS;
-            }
-        }
-    }
-
-    if !std::path::Path::new(&completions_json).exists() {
-        let _ = std::fs::write(&completions_json, r#"{"update":{"psc":""},"meta":{}}"#);
-    }
-    let old_list: Vec<String> = std::fs::read_to_string(&completions_json)
-        .ok()
-        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
-        .and_then(|v| {
-            v.get("update")
-                .and_then(|u| u.as_object())
-                .map(|o| o.keys().cloned().collect())
-        })
-        .unwrap_or_default();
-
+/// Fetch the newest remote module version (first URL that returns a parseable `module/version.json`).
+/// The CLI does not compare versions — it records whatever it fetched; the module compares the
+/// value against its installed version at render time (replaces the background job / env var).
+fn fetch_module_version(settings: &Settings) -> Option<String> {
     let urls = resolve_urls(settings);
-    let mut new_index: Option<Value> = None;
-    if let Ok(v) = download_list(data_dir, &urls) {
-        let new_list: Vec<String> = v
-            .get("update")
-            .and_then(|u| u.as_object())
-            .map(|o| o.keys().cloned().collect())
-            .unwrap_or_default();
-        // Record added/removed/renamed in the shared library-changes.json.
-        let mut changes = LibraryChanges::load(data_dir);
-        changes.removed.clear();
-        // Rename detection: a locally installed completion whose stable id now maps to a
-        // different remote name has been renamed upstream (same logic as `psc update`).
-        let index = Index::from_value(v.clone());
-        let mut rename_map: std::collections::HashMap<String, String> =
-            std::collections::HashMap::new();
-        for installed in settings.list() {
-            let Some(id) = local_completion_id(data_dir, &installed) else {
-                continue;
-            };
-            if let Some((new_name, _)) = index.ids.iter().find(|(_, val)| **val == id) {
-                if new_name != &installed {
-                    rename_map.insert(installed.clone(), new_name.clone());
+    for u in urls {
+        if let Ok(text) = fetch_text(&[u], "module/version.json") {
+            if let Ok(v) = serde_json::from_str::<Value>(&text) {
+                let newv = v
+                    .get("version")
+                    .and_then(|x| x.as_str())
+                    .unwrap_or("")
+                    .trim_start_matches('v')
+                    .to_string();
+                if !newv.is_empty() && newv.chars().all(|c| c.is_ascii_digit() || c == '.') {
+                    return Some(newv);
                 }
             }
+            // Successful fetch but unparseable: try the next mirror.
+            continue;
         }
-        // Exclude renamed completions from added/removed; report them separately.
-        let rename_keys: std::collections::HashSet<String> = rename_map.keys().cloned().collect();
-        let rename_vals: std::collections::HashSet<String> = rename_map.values().cloned().collect();
-        changes.added = new_list
-            .iter()
-            .filter(|n| !old_list.contains(n))
-            .filter(|n| !rename_vals.contains(*n))
-            .cloned()
-            .collect();
-        changes.added.sort();
-        let mut removed: Vec<String> = old_list
-            .iter()
-            .filter(|n| !new_list.contains(n))
-            .filter(|n| !rename_keys.contains(*n))
-            .cloned()
-            .collect();
-        changes.removed = std::mem::take(&mut removed);
-        let mut renamed: Vec<(String, String)> = rename_map.into_iter().collect();
-        renamed.sort_by(|a, b| a.0.cmp(&b.0));
-        changes.renamed = renamed;
-        changes.save(data_dir);
-        new_index = Some(v);
     }
+    None
+}
 
-    if let Some(mv) = module_version {
-        let mut urls2 = urls.clone();
-        urls2.push("https://pscompletions.abgox.com".into());
-        for u in urls2 {
-            if let Ok(text) = fetch_text(&[u], "module/version.json") {
-                if let Ok(v) = serde_json::from_str::<Value>(&text) {
-                    let newv = v
-                        .get("version")
-                        .and_then(|x| x.as_str())
-                        .unwrap_or("")
-                        .trim_start_matches('v')
-                        .to_string();
-                    if !newv.is_empty()
-                        && newv.chars().all(|c| c.is_ascii_digit() || c == '.')
-                        && version_cmp(&newv, mv) == std::cmp::Ordering::Greater
-                    {
-                        let _ = std::fs::write(&module_update_path, &newv);
-                    }
-                }
-                break;
+/// After an add/update completes, refresh temp/change.json (update/added/removed/renamed/module)
+/// by diffing the pre-operation index snapshot against the fresh one, and record the remote module
+/// version. Runs synchronously AFTER the operation so a completion this command just touched is
+/// not reported as needing an update; `old_list` is captured before `download_list` overwrites the
+/// cache. On a fetch failure the existing `module` value is preserved (don't drop a pending notice
+/// just because one check hit the network and another didn't).
+fn record_post_check(data_dir: &str, settings: &Settings, old_list: &[String], index: &Index) {
+    let mut rename_map: std::collections::HashMap<String, String> =
+        std::collections::HashMap::new();
+    for installed in settings.list() {
+        let Some(id) = local_completion_id(data_dir, &installed) else {
+            continue;
+        };
+        if let Some((new_name, _)) = index.ids.iter().find(|(_, v)| **v == id) {
+            if new_name != &installed {
+                rename_map.insert(installed.clone(), new_name.clone());
             }
         }
     }
-
-    if let Some(idx) = &new_index {
-        let completions_dir = format!("{data_dir}/completions");
-        let mut need_update: Vec<String> = Vec::new();
-        if let Some(update_map) = idx.get("update").and_then(|u| u.as_object()) {
-            if let Ok(entries) = std::fs::read_dir(&completions_dir) {
-                for e in entries.flatten() {
-                    let name = e.file_name().to_string_lossy().to_string();
-                    let Some(remote) = update_map.get(&name).and_then(|v| v.as_str()) else {
-                        continue;
-                    };
-                    let dir = e.path();
-                    if let Ok(meta) = std::fs::symlink_metadata(&dir) {
-                        if meta.file_type().is_symlink() {
-                            continue;
-                        }
-                    }
-                    let local = std::fs::read_to_string(dir.join(".update"))
-                        .map(|s| s.trim().to_string())
-                        .unwrap_or_default();
-                    if local != remote {
-                        need_update.push(name);
-                    }
+    let rename_keys: std::collections::HashSet<String> = rename_map.keys().cloned().collect();
+    let rename_vals: std::collections::HashSet<String> = rename_map.values().cloned().collect();
+    let new_list: Vec<String> = index.update.keys().cloned().collect();
+    let mut changes = LibraryChanges::load(data_dir);
+    let mut added: Vec<String> = new_list
+        .iter()
+        .filter(|n| !old_list.contains(n))
+        .filter(|n| !rename_vals.contains(*n))
+        .cloned()
+        .collect();
+    added.sort();
+    changes.added = std::mem::take(&mut added);
+    let mut removed: Vec<String> = old_list
+        .iter()
+        .filter(|n| !new_list.contains(n))
+        .filter(|n| !rename_keys.contains(*n))
+        .cloned()
+        .collect();
+    changes.removed = std::mem::take(&mut removed);
+    let mut renamed: Vec<(String, String)> = rename_map.into_iter().collect();
+    renamed.sort_by(|a, b| a.0.cmp(&b.0));
+    changes.renamed = renamed;
+    let mut need_update: Vec<String> = settings
+        .list()
+        .into_iter()
+        .filter(|name| !rename_keys.contains(name))
+        .filter(|name| index.update.contains_key(name))
+        .filter(|name| {
+            let dir = format!("{data_dir}/completions/{name}");
+            if let Ok(meta) = std::fs::symlink_metadata(&dir) {
+                if meta.file_type().is_symlink() {
+                    return false;
                 }
             }
-        }
-        need_update.sort();
-        let mut changes = LibraryChanges::load(data_dir);
-        changes.update = need_update;
-        changes.save(data_dir);
+            let local = std::fs::read_to_string(format!("{dir}/.update")).unwrap_or_default();
+            let remote = index.update.get(name).cloned().unwrap_or_default();
+            local.trim() != remote
+        })
+        .collect();
+    need_update.sort();
+    changes.update = need_update;
+    if let Some(v) = fetch_module_version(settings) {
+        changes.module = Some(v);
     }
-
-    let _ = std::fs::write(
-        &last_update_path,
-        if new_index.is_some() {
-            now
-        } else {
-            now.saturating_sub(CHECK_INTERVAL / 2)
-        }
-        .to_string(),
-    );
-    ExitCode::SUCCESS
+    changes.save(data_dir);
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -778,6 +675,15 @@ fn cmd_add(
         param_err(out, lang);
         return ExitCode::FAILURE;
     }
+    // Snapshot the pre-operation update keys so the post-check can diff added/removed/renamed.
+    let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|v| {
+            v.get("update")
+                .and_then(|u| u.as_object())
+                .map(|o| o.keys().cloned().collect())
+        })
+        .unwrap_or_default();
     let urls = resolve_urls(settings);
     let list = match download_list(data_dir, &urls) {
         Ok(v) => {
@@ -848,6 +754,7 @@ fn cmd_add(
         }
         return ExitCode::FAILURE;
     }
+    record_post_check(data_dir, settings, &old_list, index);
     if json {
         let arr = results.lock().unwrap().clone();
         println!("{}", serde_json::to_string(&arr).unwrap_or_default());
@@ -971,17 +878,15 @@ fn cmd_update(
     out: &Out,
     json: bool,
 ) -> ExitCode {
+    let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .and_then(|v| {
+            v.get("update")
+                .and_then(|u| u.as_object())
+                .map(|o| o.keys().cloned().collect())
+        })
+        .unwrap_or_default();
     let urls = resolve_urls(settings);
-    let old_list: Vec<String> =
-        std::fs::read_to_string(format!("{data_dir}/temp/completions.json"))
-            .ok()
-            .and_then(|t| serde_json::from_str::<Value>(&t).ok())
-            .and_then(|v| {
-                v.get("update")
-                    .and_then(|u| u.as_object())
-                    .map(|o| o.keys().cloned().collect())
-            })
-            .unwrap_or_default();
     let list = match download_list(data_dir, &urls) {
         Ok(v) => {
             *index = Index::from_value(v);
@@ -1051,13 +956,15 @@ fn cmd_update(
             .map(|(k, v)| (k.clone(), v.clone()))
             .collect();
         renamed.sort_by(|a, b| a.0.cmp(&b.0));
-        LibraryChanges {
-            update: update_no_rename.clone(),
-            added: added.clone(),
-            removed: removed.clone(),
-            renamed: renamed.clone(),
+        let mut changes = LibraryChanges::load(data_dir);
+        changes.update = update_no_rename.clone();
+        changes.added = added.clone();
+        changes.removed = removed.clone();
+        changes.renamed = renamed.clone();
+        if let Some(v) = fetch_module_version(settings) {
+            changes.module = Some(v);
         }
-        .save(data_dir);
+        changes.save(data_dir);
 
         let mut any = false;
         let updatable_no_rename: Vec<&String> = need_update
@@ -1164,12 +1071,6 @@ fn cmd_update(
                             msg_cli(lang, "rename_done")
                         ));
                     }
-                    // Persist the migration so the module can render a rename notice (its -Quiet forwarding discards CLI stdout).
-                    let mut changes = LibraryChanges::load(data_dir);
-                    if !changes.renamed.iter().any(|(o, _)| o == name) {
-                        changes.renamed.push((name.to_string(), new_name.clone()));
-                        changes.save(data_dir);
-                    }
                 }
                 Err(e) => {
                     had_error.store(true, std::sync::atomic::Ordering::SeqCst);
@@ -1249,15 +1150,9 @@ fn cmd_update(
         let results = results.lock().unwrap();
         println!("{}", serde_json::to_string(&*results).unwrap_or_default());
     }
-    let remaining: Vec<String> = settings
-        .list()
-        .into_iter()
-        .filter(|name| list.contains(name) && needs_update(name))
-        .collect();
-    // Refresh the persisted update list so a later no-arg check reports what's left.
-    let mut changes = LibraryChanges::load(data_dir);
-    changes.update = remaining;
-    changes.save(data_dir);
+    // Refresh the persisted post-check state (added/removed/renamed/update/module) and check the module version.
+    // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
+    record_post_check(data_dir, settings, &old_list, index);
     if let Err(e) = settings.save(settings_path) {
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
@@ -1615,7 +1510,7 @@ fn cmd_config(
 /// exist but are disabled by default — the author's declared default).
 fn hooks_declared_disabled(data_dir: &str, name: &str) -> bool {
     let path = format!("{data_dir}/completions/{name}/config.json");
-    psc_cli::data::read_text(&path)
+    read_text(&path)
         .and_then(|t| serde_json::from_str::<Value>(&t).ok())
         .map(|v| v.get("hooks").and_then(|h| h.as_bool()) == Some(false))
         .unwrap_or(false)
@@ -1799,7 +1694,7 @@ fn cmd_completion(
             "{}/completions/{name}/config.json",
             data_dir_of(settings_path)
         );
-        let has_hooks = psc_cli::data::read_text(&config_path)
+        let has_hooks = read_text(&config_path)
             .and_then(|t| serde_json::from_str::<serde_json::Value>(&t).ok())
             .map(|c| c.get("hooks").is_some())
             .unwrap_or(false);
@@ -2064,33 +1959,6 @@ mod tests {
             assert!(map.is_empty());
         }
         assert!(s.config["completion"].is_object());
-    }
-
-    #[test]
-    fn version_cmp_plain_numeric() {
-        use std::cmp::Ordering;
-        assert_eq!(version_cmp("6.11.2", "6.11.1"), Ordering::Greater);
-        assert_eq!(version_cmp("6.11.2", "6.11.2"), Ordering::Equal);
-        assert_eq!(version_cmp("7.0.0", "6.11.2"), Ordering::Greater);
-        assert_eq!(version_cmp("6.9", "6.9.0"), Ordering::Equal);
-    }
-
-    #[test]
-    fn version_cmp_suffix_never_beats_release() {
-        use std::cmp::Ordering;
-        // A pre-release suffix must not compare higher than its release.
-        assert_eq!(version_cmp("7.0.0-beta.1", "7.0.0"), Ordering::Equal);
-        assert_eq!(version_cmp("7.0.0-beta.2", "7.0.0"), Ordering::Equal);
-        assert_eq!(version_cmp("7.0.0-beta.1", "7.0.1"), Ordering::Less);
-    }
-
-    #[test]
-    fn version_cmp_leading_v_and_junk() {
-        use std::cmp::Ordering;
-        assert_eq!(version_cmp("v7.0.0", "7.0.0"), Ordering::Equal);
-        assert_eq!(version_cmp("v1.2.3", "1.2.2"), Ordering::Greater);
-        // Trailing junk after the numeric core is dropped.
-        assert_eq!(version_cmp("7.0.0-rc1", "7.0.0"), Ordering::Equal);
     }
 
     #[test]

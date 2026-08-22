@@ -15,7 +15,7 @@
         if ($data -match $PSCompletions.replace_pattern) { _replace $data }else { return $data }
     }
     function _get_library_changes {
-        $json = $PSCompletions.get_raw_content($PSCompletions.path.library_changes)
+        $json = $PSCompletions.get_raw_content($PSCompletions.path.change)
         if ($json) {
             try { return $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
         }
@@ -176,11 +176,11 @@
             $need_init = $false
         }
         'update' {
-            # Plain `psc update` (no targets) = live check; the CLI refreshes library-changes.json.
+            # Plain `psc update` (no targets) = live check; the CLI refreshes change.json.
             # --all / --old / named update: the CLI returns per-completion JSON results.
             $isNoArg = $arg.Count -eq 1
             if ($isNoArg) {
-                # no-arg live check: render library-changes.json, else a one-line reply.
+                # no-arg live check: render change.json, else a one-line reply.
                 # update/renamed persist until `psc update --old`; added/removed are one-shot.
                 _forward_psc -Quiet | Out-Null
                 $changes = _get_library_changes
@@ -198,7 +198,7 @@
                     $changes.removed = @()
                     try {
                         [System.IO.File]::WriteAllText(
-                            $PSCompletions.path.library_changes,
+                            $PSCompletions.path.change,
                             ($changes | ConvertTo-Json -Depth 6 -Compress),
                             [System.Text.Encoding]::UTF8)
                     }
@@ -207,6 +207,8 @@
                 else {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
                 }
+                # This command already rendered the library changes; skip them in the pending tail.
+                $PSCompletions.pending_skip_library = $true
             }
             else {
                 # --all / --old / named update: the CLI returns per-completion JSON results.
@@ -249,7 +251,7 @@
                                 })
                             try {
                                 [System.IO.File]::WriteAllText(
-                                    $PSCompletions.path.library_changes,
+                                    $PSCompletions.path.change,
                                     ($changes | ConvertTo-Json -Depth 6 -Compress),
                                     [System.Text.Encoding]::UTF8)
                             }
@@ -260,7 +262,7 @@
             }
             $need_init = $false
         }
-        'info' { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Name = $_.name; Alias = $_.alias; Url = $_.url; Description = $_.description; Path = $_.path; Update = $_.update; Updated = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime } } }; $need_init = $false }
+        'info' { _forward_psc -Json | ForEach-Object { [pscustomobject]@{ Name = $_.name; Alias = $_.alias; Url = $_.url; Description = $_.description; Path = Convert-Path $_.path; Update = $_.update; Updated = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime } } }; $need_init = $false }
         'alias' {
             # `alias add` pre-check: an alias colliding with a real command is rejected before forwarding
             $alias_conflict = $false
@@ -355,6 +357,8 @@
         }
     }
     if ($need_init) { $PSCompletions.init_data() }
+    # Append pending module/library notifications after the command's own output.
+    $PSCompletions.render_pending()
 }
 
 Export-ModuleMember -Function PSCompletions

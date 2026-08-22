@@ -167,9 +167,10 @@ impl Index {
     }
 }
 
-/// `temp/library-changes.json` — a single JSON recording the completion-library state
-/// changes surfaced to the module: which completions need an update, which were added or
-/// removed in the library, and which were renamed (`[old, new]` pairs).
+/// `temp/change.json` — a single JSON recording the pending notifications surfaced to the module:
+/// which completions need an update, which were added or removed in the library, which were
+/// renamed (`[old, new]` pairs), and the newest remote module version (written whenever it was
+/// fetched; the module compares it against its own installed version).
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
 pub struct LibraryChanges {
     #[serde(default)]
@@ -180,25 +181,24 @@ pub struct LibraryChanges {
     pub removed: Vec<String>,
     #[serde(default)]
     pub renamed: Vec<(String, String)>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub module: Option<String>,
 }
 
 impl LibraryChanges {
-    /// Load from `<data>/temp/library-changes.json`; a missing or corrupt file yields empty defaults.
+    /// Load from `<data>/temp/change.json`; a missing or corrupt file yields empty defaults.
     pub fn load(data_dir: &str) -> LibraryChanges {
-        let path = format!("{data_dir}/temp/library-changes.json");
+        let path = format!("{data_dir}/temp/change.json");
         read_text(&path)
             .and_then(|t| serde_json::from_str(&t).ok())
             .unwrap_or_default()
     }
 
-    /// Atomically save to `<data>/temp/library-changes.json`.
+    /// Atomically save to `<data>/temp/change.json`.
     pub fn save(&self, data_dir: &str) {
         if let Ok(text) = serde_json::to_string(self) {
-            let tmp = format!(
-                "{data_dir}/temp/library-changes.json.{}.tmp",
-                std::process::id()
-            );
-            let path = format!("{data_dir}/temp/library-changes.json");
+            let tmp = format!("{data_dir}/temp/change.json.{}.tmp", std::process::id());
+            let path = format!("{data_dir}/temp/change.json");
             if std::fs::write(&tmp, text).is_ok() {
                 let _ = std::fs::rename(&tmp, path);
             }
@@ -527,6 +527,7 @@ mod tests {
             added: vec!["new-tool".into()],
             removed: vec!["old-tool".into()],
             renamed: vec![("git".into(), "git1".into())],
+            module: Some("7.2.0".into()),
         };
         c.save(&d);
 
@@ -535,11 +536,12 @@ mod tests {
         assert_eq!(loaded.added, vec!["new-tool"]);
         assert_eq!(loaded.removed, vec!["old-tool"]);
         assert_eq!(loaded.renamed, vec![("git".into(), "git1".into())]);
+        assert_eq!(loaded.module.as_deref(), Some("7.2.0"));
 
         // Missing file yields empty defaults.
-        std::fs::remove_file(data_dir.join("temp/library-changes.json")).ok();
+        std::fs::remove_file(data_dir.join("temp/change.json")).ok();
         let empty = LibraryChanges::load(&d);
-        assert!(empty.update.is_empty() && empty.renamed.is_empty());
+        assert!(empty.update.is_empty() && empty.renamed.is_empty() && empty.module.is_none());
         std::fs::remove_dir_all(&data_dir).ok();
     }
 }
