@@ -2,22 +2,31 @@
 //! See `design/hooks.md`.
 
 use mlua::{HookTriggers, Lua, LuaOptions, StdLib, Table, Value, VmState};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Duration, Instant};
 
 use super::api::{items_to_table, table_to_items};
 use super::bindings::build_psc_table;
 use super::{HookContext, LuaItem};
-thread_local! {
-    /// The running hook's total deadline, set while a hook executes. `run_cmd_raw` polls it
-    /// so an already-timed-out hook does not wait out a fresh subprocess deadline.
-    pub(crate) static HOOK_DEADLINE: std::cell::RefCell<Option<Instant>> =
-        const { std::cell::RefCell::new(None) };
+
+/// The running hook's total deadline as unix milliseconds (0 = none). A process global —
+/// not a thread-local — so `psc.run_batch`'s worker threads see it too and cut their
+/// subprocesses short once the hook's budget is spent. One hook runs at a time per
+/// process, so a single slot is enough.
+pub(crate) static HOOK_DEADLINE_MS: AtomicU64 = AtomicU64::new(0);
+
+/// Current unix time in milliseconds (0 fallback on clock error).
+pub(crate) fn now_ms() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_millis() as u64
 }
 
 struct HookDeadlineGuard;
 impl Drop for HookDeadlineGuard {
     fn drop(&mut self) {
-        HOOK_DEADLINE.with(|d| *d.borrow_mut() = None);
+        HOOK_DEADLINE_MS.store(0, Ordering::SeqCst);
     }
 }
 
@@ -69,7 +78,7 @@ pub(crate) fn run_hook_with_timeout(
 ) -> mlua::Result<Vec<LuaItem>> {
     let lua = new_sandbox_lua()?;
     let deadline = Instant::now() + timeout;
-    HOOK_DEADLINE.with(|d| *d.borrow_mut() = Some(deadline));
+    HOOK_DEADLINE_MS.store(now_ms() + timeout.as_millis() as u64, Ordering::SeqCst);
     let _deadline_guard = HookDeadlineGuard;
     lua.set_hook(
         HookTriggers::new().every_nth_instruction(HOOK_INSTRUCTION_INTERVAL),

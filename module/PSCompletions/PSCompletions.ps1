@@ -448,6 +448,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod menu_binary -Force {
         if ($null -ne $PSCompletions.menu.menu_binary_cache) { return $PSCompletions.menu.menu_binary_cache }
         $binRoot = [System.IO.Path]::Combine($PSCompletions.path.root, 'bin')
+        # 'darwin' names the binary bundle directory (bin/<platform>-<arch>/); the engine-facing
+        # platform field uses 'macos' instead — two intentional spellings, do not unify.
         $platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } elseif ($IsMacOS) { 'darwin' } else { 'linux' }
         try {
             $arch = [System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture.ToString()
@@ -540,10 +542,13 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $input.terminal = [ordered]@{
             cursor   = [ordered]@{ x = [int]$rawUI.CursorPosition.X; y = [int]$rawUI.CursorPosition.Y }
             buffer   = [ordered]@{ w = [int]$rawUI.BufferSize.Width; h = [int]$rawUI.BufferSize.Height }
+            # Visible window in absolute buffer coords (protocol contract).
+            # BufferSize alone spans the whole scrollback and would break the engine's space math.
             window   = [ordered]@{
-                top = 0
-                h   = [int]$rawUI.BufferSize.Height
+                top = [int]$rawUI.WindowPosition.Y
+                h   = [int]$rawUI.WindowSize.Height
             }
+            # Engine-facing platform value ('macos' here; 'darwin' is only the bin/ dir naming).
             platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } elseif ($IsMacOS) { 'macos' } else { 'linux' }
         }
         if ($menuOrder) {

@@ -104,9 +104,10 @@ pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
 }
 
 /// Download a completion's files (config.json first, then language/*.json + hooks.lua in
-/// parallel) and write `.update`. Files are staged in `<data>/temp/<name>.tmp` and moved
+/// parallel) and write `.update`. Files are staged in `<data>/temp/<name>.<pid>.tmp` and moved
 /// into place only on full success, so a failed download never removes an already-installed
-/// version (`.tmp`/`.old` residue from an interrupted run is cleaned on the next call).
+/// version. The pid suffix keeps two concurrent processes operating on the same completion
+/// from interleaving writes into one shared staging dir.
 pub fn add_completion(
     data_dir: &str,
     name: &str,
@@ -123,12 +124,15 @@ pub fn add_completion(
     // The completions root may not exist (a wiped data dir): create it so the staged
     // commit can rename into place — otherwise add/init's restore would fail here.
     let _ = std::fs::create_dir_all(format!("{data_dir}/completions"));
-    // Stage under `<data>/temp` (same volume as `completions/`, so rename is atomic);
-    // a stale staging/backup dir from an interrupted run is dropped first.
-    let tmp_dir = format!("{data_dir}/temp/{name}.tmp");
+    // Stage under `<data>/temp` (same volume as `completions/`, so rename is atomic).
+    let tmp_dir = format!("{data_dir}/temp/{name}.{}.tmp", std::process::id());
+    let old_dir = format!("{dir}.{}.old", std::process::id());
     let _ = std::fs::remove_dir_all(&tmp_dir);
-    let old_dir = format!("{dir}.old");
     let _ = std::fs::remove_dir_all(&old_dir);
+    // Legacy fixed-name residue from pre-pid-suffix versions is cleaned opportunistically;
+    // a crashed run's pid-suffixed dirs stay behind (same policy as settings.json's tmp).
+    let _ = std::fs::remove_dir_all(format!("{data_dir}/temp/{name}.tmp"));
+    let _ = std::fs::remove_dir_all(format!("{dir}.old"));
     let result = (|| -> Result<bool, String> {
         let language_dir = format!("{tmp_dir}/language");
         std::fs::create_dir_all(&language_dir).map_err(|e| e.to_string())?;
@@ -218,7 +222,7 @@ fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> 
     std::fs::rename(dir, old_dir).map_err(|e| e.to_string())?;
     if let Err(e) = std::fs::rename(tmp_dir, dir) {
         // Restore the previous version and drop the staged files. A failed restore leaves
-        // `old_dir` behind, but the next add cleans it up; a crash here strands `.old` until then.
+        // `old_dir` behind (pid-suffixed; cleaned by the same pid's next add, or manually).
         let _ = std::fs::rename(old_dir, dir);
         let _ = std::fs::remove_dir_all(tmp_dir);
         return Err(format!("{e}"));

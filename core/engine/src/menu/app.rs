@@ -14,7 +14,7 @@ use std::io::Write;
 use std::time::{Duration, Instant};
 
 /// Check if change.json's last_check is stale (>7 days or missing).
-fn is_stale(order_dir: &str, menu_dir: &str) -> bool {
+pub(crate) fn is_stale(order_dir: &str, menu_dir: &str) -> bool {
     let Some(data_dir) = (if !order_dir.is_empty() {
         std::path::Path::new(order_dir)
             .parent()
@@ -33,15 +33,14 @@ fn is_stale(order_dir: &str, menu_dir: &str) -> bool {
     let path = std::path::Path::new(&data_dir)
         .join("temp")
         .join("change.json");
-    let text = match std::fs::read_to_string(&path) {
-        Ok(t) => t,
-        Err(_) => return true,
+    // Read errors, an empty file, and parse failures all mean "no usable last_check" → stale.
+    let Some(text) = psc_common::read_text(&path.to_string_lossy()) else {
+        return true;
     };
     if text.trim().is_empty() {
         return true;
     }
-    let text = crate::strip_bom(&text);
-    let v: serde_json::Value = match serde_json::from_str(text) {
+    let v: serde_json::Value = match serde_json::from_str(&text) {
         Ok(v) => v,
         Err(_) => return true,
     };
@@ -534,6 +533,108 @@ impl Drop for TermGuard {
 mod tests {
     use super::*;
     use crate::menu::model::{Config, Flags, Item, Pos, Size, TerminalInfo};
+
+    // --- is_stale: six-branch fs matrix guarding the stale-hint feature ---
+
+    fn stale_dir(tag: &str) -> std::path::PathBuf {
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static COUNTER: AtomicU64 = AtomicU64::new(0);
+        let base = std::env::temp_dir().join(format!(
+            "psc-stale-{}-{}-{}",
+            tag,
+            std::process::id(),
+            COUNTER.fetch_add(1, Ordering::Relaxed)
+        ));
+        std::fs::create_dir_all(base.join("temp")).unwrap();
+        base
+    }
+
+    fn write_change(dir: &std::path::Path, content: &str) {
+        std::fs::write(dir.join("temp/change.json"), content).unwrap();
+    }
+
+    #[test]
+    fn stale_missing_file() {
+        let d = stale_dir("missing");
+        assert!(is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_fresh_timestamp_not_stale() {
+        let d = stale_dir("fresh");
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        write_change(&d, &format!(r#"{{"last_check":{now}}}"#));
+        assert!(!is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_older_than_seven_days() {
+        let d = stale_dir("old");
+        let old = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+            - 604_801;
+        write_change(&d, &format!(r#"{{"last_check":{old}}}"#));
+        assert!(is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_future_clock_skew_treated_as_fresh() {
+        let d = stale_dir("future");
+        let future = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs()
+            + 100_000;
+        write_change(&d, &format!(r#"{{"last_check":{future}}}"#));
+        assert!(!is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_corrupt_json_is_stale() {
+        let d = stale_dir("corrupt");
+        write_change(&d, "garbage{{{");
+        assert!(is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_bom_prefixed_json_still_parses() {
+        let d = stale_dir("bom");
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        write_change(&d, &format!("\u{feff}{{\"last_check\":{now}}}"));
+        assert!(!is_stale(
+            d.join("temp/order").to_str().unwrap(),
+            d.join("temp/menu").to_str().unwrap()
+        ));
+        std::fs::remove_dir_all(&d).ok();
+    }
 
     fn cfg() -> Config {
         Config {

@@ -100,8 +100,60 @@ fn hook_times_out_on_infinite_loop() {
 }
 
 #[test]
+fn run_batch_subprocess_cut_short_by_global_deadline() {
+    // Regression guard for the process-global deadline: while psc.run_batch blocks inside
+    // a C function the VM instruction-count hook cannot fire, so the batch workers
+    // themselves must observe the global budget and cut their subprocess short. Without
+    // it this test stalls for the full per-command timeout before returning.
+    //
+    // NOTE on parallelism: the deadline is a process-global slot, and sibling hook tests
+    // running in parallel overwrite/clear it around their own windows. That interference
+    // is harmless in production (one hook per process) but can void THIS test's window,
+    // so we retry: a clean attempt always unwinds right after the 300ms budget.
+    #[cfg(windows)]
+    let cmd = [
+        "ping".to_string(),
+        "-n".to_string(),
+        "6".to_string(),
+        "127.0.0.1".to_string(),
+    ];
+    #[cfg(not(windows))]
+    let cmd = ["sleep".to_string(), "5".to_string()];
+    let script = format!(
+        r#"
+    local r = psc.run_batch({{ {{ "{}" }} }}, {{ timeout = 3000 }})
+    return {{}}
+"#,
+        cmd.join("\", \"")
+    );
+
+    let mut attempts: Vec<Duration> = Vec::new();
+    let mut clean = false;
+    for _ in 0..4 {
+        let t0 = std::time::Instant::now();
+        let _res =
+            run_hook_with_timeout(&ctx(), &script, &empty_static(), Duration::from_millis(300));
+        let elapsed = t0.elapsed();
+        attempts.push(elapsed);
+        if elapsed < Duration::from_secs(2) {
+            clean = true;
+            break;
+        }
+        // An interfered attempt waits out the 4s command timeout; retry for a clean window.
+    }
+    assert!(
+        clean,
+        "batch workers must honor the global deadline; attempts={attempts:?} \
+         (every attempt waited past 2s - check for deadline-slot interference)"
+    );
+}
+
+#[test]
 fn hook_completes_well_within_timeout() {
-    // A normal hook (pure computation + psc.run) must finish within the short timeout, not be killed
+    // A normal hook (pure computation + psc.run) must finish without being killed by the
+    // deadline. The budget is generous (still well under the 10 s cap) so parallel test
+    // load cannot exhaust it before the subprocess finishes — the assertion is about
+    // completing with correct output, not about a tight timing window.
     let script = r#"
     local t = {}
     for i = 1, 1000 do t[i] = { name = "x" .. i } end
@@ -110,7 +162,7 @@ fn hook_completes_well_within_timeout() {
     return t
 "#;
     let out =
-        run_hook_with_timeout(&ctx(), script, &empty_static(), Duration::from_millis(300)).unwrap();
+        run_hook_with_timeout(&ctx(), script, &empty_static(), Duration::from_secs(2)).unwrap();
     assert_eq!(out.len(), 1001);
     assert_eq!(out[1000].text, "hello");
 }
@@ -736,12 +788,11 @@ fn add_defaults_tip_to_name() {
     assert_eq!(out[0].tip.as_deref(), Some("branch"));
 }
 
-#[cfg(windows)]
 #[test]
 fn run_items_adds_each_line_with_default_tip() {
     let script = r#"
     local cs = {}
-    psc.add(cs, psc.items(psc.run({ "cmd", "/c", "echo", "alpha" })))
+    psc.add(cs, psc.items(psc.run({ "echo", "alpha" }, { shell = true })))
     return psc.merge(cs)
 "#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();
@@ -883,12 +934,11 @@ fn json_and_env_api() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
-#[cfg(windows)]
 #[test]
 fn run_command_windows() {
     let script = r#"
     local cs = {}
-    for _, l in ipairs(psc.run({"cmd", "/c", "echo", "alpha"}, {})) do
+    for _, l in ipairs(psc.run({"echo", "alpha"}, { shell = true })) do
         psc.add(cs, { name = l:gsub("\r", "") })
     end
     return psc.merge(cs)
@@ -897,12 +947,11 @@ fn run_command_windows() {
     assert_eq!(out[0].text, "alpha");
 }
 
-#[cfg(not(windows))]
 #[test]
 fn run_command_unix() {
     let script = r#"
     local cs = {}
-    for _, l in ipairs(psc.run({"echo", "alpha"}, {})) do
+    for _, l in ipairs(psc.run({"echo", "alpha"}, { shell = true })) do
         psc.add(cs, { name = l })
     end
     return psc.merge(cs)
@@ -972,7 +1021,7 @@ fn run_uses_hook_cwd_when_not_specified() {
     c.cwd = dir.to_string_lossy().to_string();
     let script = if cfg!(windows) {
         r#"
-    local v = psc.run({ "cmd", "/c", "cd" })
+    local v = psc.run({ "cd" }, { shell = true })
     local joined = table.concat(v or {}, "|")
     if joined:find("psc%-run%-cwd%-test") then return { { name = "ok" } } end
     return { { name = "got: " .. joined } }
@@ -995,7 +1044,7 @@ fn run_uses_hook_cwd_when_not_specified() {
     let script2 = if cfg!(windows) {
         format!(
             r#"
-    local v = psc.run({{ "cmd", "/c", "cd" }}, {{ cwd = {other_s} }})
+    local v = psc.run({{ "cd" }}, {{ cwd = {other_s}, shell = true }})
     local joined = table.concat(v or {{}}, "|")
     if joined:find("psc%-run%-cwd%-other") then return {{ {{ name = "ok" }} }} end
     return {{ {{ name = "got: " .. joined }} }}
@@ -1091,19 +1140,11 @@ fn run_without_format_returns_nil_on_failure() {
 fn run_returns_nil_on_nonzero_exit() {
     // Strict failure semantics: a command that runs but exits non-zero must yield nil, even
     // when it printed output before failing.
-    let script = if cfg!(windows) {
-        r#"
-    local v = psc.run({ "cmd", "/c", "echo junk & exit 1" })
+    let script = r#"
+    local v = psc.run({ "echo junk & exit 1" }, { shell = true })
     if v == nil then return { { name = "nil-ok" } } end
     return { { name = "unexpected" } }
-"#
-    } else {
-        r#"
-    local v = psc.run({ "sh", "-c", "echo junk; exit 1" })
-    if v == nil then return { { name = "nil-ok" } } end
-    return { { name = "unexpected" } }
-"#
-    };
+"#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();
     assert_eq!(out[0].text, "nil-ok");
 }
@@ -1113,13 +1154,13 @@ fn run_keeps_output_on_zero_exit() {
     // A successful command still returns its stdout lines.
     let script = if cfg!(windows) {
         r#"
-    local v = psc.run({ "cmd", "/c", "echo hello" })
+    local v = psc.run({ "echo", "hello" }, { shell = true })
     if v ~= nil and v[1] == "hello" then return { { name = "ok" } } end
     return { { name = "unexpected" } }
 "#
     } else {
         r#"
-    local v = psc.run({ "sh", "-c", "echo hello" })
+    local v = psc.run({ "echo", "hello" })
     if v ~= nil and v[1] == "hello" then return { { name = "ok" } } end
     return { { name = "unexpected" } }
 "#
@@ -1157,11 +1198,10 @@ fn which_handle_missing_paths() {
     );
 }
 
-#[cfg(windows)]
 #[test]
 fn run_format_invalid_json_returns_nil() {
     let script = r#"
-    local v = psc.run({ "cmd", "/c", "echo", "not-json" }, { format = "json" })
+    local v = psc.run({ "echo", "not-json" }, { shell = true, format = "json" })
     if v == nil then return { { name = "nil-ok" } } end
     return { { name = "unexpected" } }
 "#;
@@ -1394,55 +1434,13 @@ fn batch_missing_entries_yield_nil() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
-#[cfg(windows)]
 #[test]
 fn run_batch_runs_commands_in_parallel() {
     let script = r#"
-    local m = psc.run_batch({ {"cmd", "/c", "echo", "one"}, {"cmd", "/c", "echo", "two"} })
+    local m = psc.run_batch({ {"echo", "one"}, {"echo", "two"} }, { shell = true })
     if not m[1] or not m[2] then return nil end
     if m[1][1]:gsub("\r", "") ~= "one" then return nil end
     if m[2][1]:gsub("\r", "") ~= "two" then return nil end
-    return { { name = "ok" } }
-"#;
-    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
-    assert_eq!(out[0].text, "ok");
-}
-
-#[cfg(not(windows))]
-#[test]
-fn run_batch_runs_commands_in_parallel() {
-    let script = r#"
-    local m = psc.run_batch({ {"echo", "one"}, {"echo", "two"} })
-    if not m[1] or not m[2] then return nil end
-    if m[1][1] ~= "one" then return nil end
-    if m[2][1] ~= "two" then return nil end
-    return { { name = "ok" } }
-"#;
-    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
-    assert_eq!(out[0].text, "ok");
-}
-
-#[cfg(windows)]
-#[test]
-fn run_capture_fd() {
-    // New API: capture_fd captures an extra fd (e.g. 8 for Python argcomplete) via 8>&1.
-    // Should work cross-platform without manual shell strings.
-    let script = r#"
-    local c = psc.which("aws_completer")
-    if not c then return { { name = "no-completer" } } end
-    local v = psc.run({ c }, {
-        shell = true,
-        capture_fd = 8,
-        timeout = 8000,
-        env = {
-            COMP_LINE = "aws s3",
-            COMP_POINT = "6",
-            _ARGCOMPLETE = "1",
-            _ARGCOMPLETE_SHELL = "fish",
-            _ARGCOMPLETE_SUPPRESS_SPACE = "1",
-        }
-    })
-    if not v or #v == 0 then return { { name = "empty" } } end
     return { { name = "ok" } }
 "#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();

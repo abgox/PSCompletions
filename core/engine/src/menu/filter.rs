@@ -390,6 +390,17 @@ mod tests {
     }
 
     #[test]
+    fn doubled_caret_anchors_literal_caret() {
+        // `^^abc`: exactly one leading `^` is stripped. Subsequence config: the first
+        // pattern char `^` is anchored (literal), then `abc` as a subsequence.
+        let its = items(&["^abc", "^aXbYc", "x^abc"]);
+        assert_eq!(filter_items(&its, "^^abc", true, &cfg(true)), vec![0, 1]);
+        // Wildcard config: starts with the literal text `^abc`.
+        let its2 = items(&["^abc", "^aXbc", "x^abc"]);
+        assert_eq!(filter_items(&its2, "^^abc", true, &cfg(false)), vec![0]);
+    }
+
+    #[test]
     fn caret_star_prefix_and_force_in_wildcard() {
         // Under wildcard, `^*abc` = prefix + forced subsequence → `a` anchored + bc subsequence.
         let its = items(&["abc", "axbc", "xabc"]);

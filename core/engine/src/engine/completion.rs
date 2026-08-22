@@ -302,7 +302,11 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         i += 1;
     }
 
-    // Command tokens typed so far (only commands consume a static subcommand's candidate slot)
+    // Command tokens typed so far (only commands consume a static subcommand's candidate slot).
+    // `seen` (raw typed texts, matched against name+alias below) and `used` (canonical
+    // lowercased) are two parallel bookkeepings of the same repeat concept: `seen` filters
+    // the context's own candidate list, `used` re-checks at assembly time — which also covers
+    // pending-pushed candidates that bypassed `add_next_if_not_seen`. Keep both in sync.
     let mut seen: Vec<String> = tokens
         .iter()
         .filter(|t| t.kind == "command")
@@ -756,6 +760,30 @@ mod tests {
             "custom",
             "value text should be the typed word"
         );
+    }
+
+    #[test]
+    fn option_free_value_matching_subcommand_switches_context() {
+        // Collision rule: after a free-form-value option (`next: []`), a token that matches
+        // a subcommand name is classified as a command — the engine has no arity info, and
+        // "command wins" keeps `option … command` sequences working. So `--a add` switches
+        // into add's context (path records it) instead of treating `add` as the option's value.
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "add", "next": [ { "name": "sub1" } ] }, { "name": "list" } ],
+            "option": [ { "name": "--a", "next": [] } ]
+        }));
+        let r = resolve(&tree, &["--a".into(), "add".into()], true);
+        assert_eq!(r.context.path, vec!["add"]);
+        assert_eq!(
+            r.context.tokens.last().unwrap().kind.as_str(),
+            "command",
+            "colliding token is a command, not a value: {:?}",
+            r.context.tokens
+        );
+        // The menu now offers add's own candidates, not the root list.
+        assert!(r.items.iter().any(|i| i.text == "sub1"));
+        assert!(!r.items.iter().any(|i| i.text == "list"));
     }
 
     #[test]

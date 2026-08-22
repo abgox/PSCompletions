@@ -7,17 +7,9 @@ use serde_json::{json, Value};
 
 pub mod config;
 
-/// Strip a leading UTF-8 BOM if present (legacy PowerShell 5.1 `Out-File -Encoding utf8`
-/// writes one, which breaks serde_json parsing).
-pub fn strip_bom(s: &str) -> &str {
-    s.strip_prefix('\u{feff}').unwrap_or(s)
-}
-
-/// Read a UTF-8 text file, stripping a leading BOM.
-pub fn read_text(path: &str) -> Option<String> {
-    let text = std::fs::read_to_string(path).ok()?;
-    Some(strip_bom(&text).to_string())
-}
+// Shared text helpers (BOM-tolerant reads) live in `psc-common`; re-exported so the
+// crate-internal `crate::data::read_text` paths keep working.
+pub use psc_common::{read_text, strip_bom};
 
 /// Whether a completion entry exists on disk (`<data>/completions/<name>`), as a real directory
 /// or as a link (symlink/junction from `scripts/link-completion.ps1`). Uses `symlink_metadata`,

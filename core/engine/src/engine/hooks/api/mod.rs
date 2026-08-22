@@ -15,7 +15,7 @@ pub(crate) fn coerce_string_opt(lua: &Lua, v: Value) -> mlua::Result<Option<Stri
     Ok(lua.coerce_string(v)?.map(|s| s.to_string_lossy()))
 }
 
-pub(crate) use super::runner::HOOK_DEADLINE;
+pub(crate) use super::runner::{now_ms, HOOK_DEADLINE_MS};
 pub(crate) use super::LuaItem;
 /// Resolve a tip value to text: a plain string is used as-is; a **localized table**
 /// `{ ["en-US"] = "...", ["zh-CN"] = "..." }` picks the entry matching `language`
