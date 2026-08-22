@@ -238,6 +238,11 @@ pub fn run(input_path: &str) -> Output {
         let action = match event {
             Event::Key(k) => handle_key(&mut state, &cfg, &term, k),
             Event::Mouse(m) => handle_mouse(&mut state, &cfg, m, &mut last_click),
+            Event::Resize(new_w, new_h) => {
+                state.resize(&cfg, &mut term, new_w, new_h);
+                let _ = terminal.resize(Rect::new(0, 0, new_w, new_h));
+                None
+            }
             _ => None,
         };
         match action {

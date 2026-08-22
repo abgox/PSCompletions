@@ -633,6 +633,7 @@ impl MenuState {
             self.min_area = true;
             return;
         }
+        self.min_area = false;
 
         let pos_y = if is_show_above {
             (cursor_y - ui_height).max(0)
@@ -650,6 +651,18 @@ impl MenuState {
         self.page_current = self.selected.min(self.page_max);
         self.offset = self.offset.min(self.filtered.len().saturating_sub(1));
         self.build_content_box();
+    }
+
+    /// Handle terminal resize: update dimensions and recompute layout.
+    pub fn resize(&mut self, cfg: &Config, term: &mut TerminalInfo, new_w: u16, new_h: u16) {
+        term.buffer.w = new_w;
+        term.buffer.h = new_h;
+        if let Some(ref mut w) = term.window {
+            w.h = (new_h as i32 - w.top).max(0);
+        }
+        self.covered_top = 0;
+        self.covered_bottom = 0;
+        self.recompute_layout(cfg, term);
     }
 
     fn build_content_box(&mut self) {
