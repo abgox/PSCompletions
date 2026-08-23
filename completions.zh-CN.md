@@ -58,6 +58,7 @@
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
 |[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
 |[du](https://uutils.org)|估算文件空间使用情况。|
+|[dua](https://github.com/Byron/dua-cli)|一个快速了解磁盘使用情况的工具！|
 |[duf](https://github.com/muesli/duf)|更好的 df 替代品，用于显示磁盘使用情况。|
 |[dufs](https://github.com/sigoden/dufs)|独特的实用文件服务器。|
 |[dust](https://github.com/bootandy/dust)|比 du 更直观。|

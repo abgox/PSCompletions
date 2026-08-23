@@ -58,6 +58,7 @@
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
 |[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
 |[du](https://uutils.org)|Estimate file space usage.|
+|[dua](https://github.com/Byron/dua-cli)|A tool to learn about disk usage, fast!|
 |[duf](https://github.com/muesli/duf)|Better df alternative for displaying disk usage.|
 |[dufs](https://github.com/sigoden/dufs)|Distinctive utility file server.|
 |[dust](https://github.com/bootandy/dust)|Like du but more intuitive.|
