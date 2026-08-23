@@ -1,0 +1,657 @@
+{
+  "meta": {
+    "url": "https://github.com/Byron/dua-cli",
+    "description": [
+      "A tool to learn about disk usage, fast!"
+    ]
+  },
+  "next": [
+    {
+      "name": "aggregate",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|aggregate [INPUT]..."
+      ],
+      "tip": [
+        "Aggregate the consumed space of one or more directories or files."
+      ],
+      "option": [
+        {
+          "name": "--apparent-size",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --apparent-size"
+          ],
+          "tip": [
+            "Display apparent size instead of disk usage."
+          ]
+        },
+        {
+          "name": "--count-hard-links",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --count-hard-links"
+          ],
+          "tip": [
+            "Count hard-linked files each time they are seen."
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "The format with which to print byte counts."
+          ],
+          "next": [
+            {
+              "name": "binary",
+              "tip": [
+                "Format sizes with binary units (KiB, MiB, ...)."
+              ]
+            },
+            {
+              "name": "bytes",
+              "tip": [
+                "Show raw byte counts."
+              ]
+            },
+            {
+              "name": "gb",
+              "tip": [
+                "Always format sizes in gigabytes."
+              ]
+            },
+            {
+              "name": "gib",
+              "tip": [
+                "Always format sizes in gibibytes."
+              ]
+            },
+            {
+              "name": "mb",
+              "tip": [
+                "Always format sizes in megabytes."
+              ]
+            },
+            {
+              "name": "metric",
+              "tip": [
+                "Format sizes with metric units (kB, MB, ...)."
+              ]
+            },
+            {
+              "name": "mib",
+              "tip": [
+                "Always format sizes in mebibytes."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-dirs",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore-dirs <IGNORE_DIRS>"
+          ],
+          "tip": [
+            "One or more absolute directories to ignore.",
+            "They are not ignored when passed directly as input path."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-from",
+          "usage": [
+            "--ignore-from <FILE>"
+          ],
+          "tip": [
+            "One or more files with gitignore-style patterns, whose matches are left out of the report.",
+            "Files given later take precedence over files given earlier."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-sort",
+          "tip": [
+            "Print paths in command-line order instead of sorting by size ascending."
+          ]
+        },
+        {
+          "name": "--no-total",
+          "tip": [
+            "Do not compute a total column for multiple inputs."
+          ]
+        },
+        {
+          "name": "--stats",
+          "tip": [
+            "Print additional statistics about the file traversal to stderr."
+          ]
+        },
+        {
+          "name": "--stay-on-filesystem",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --stay-on-filesystem"
+          ],
+          "tip": [
+            "Do not cross filesystems or traverse mount points."
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --threads <THREADS>"
+          ],
+          "tip": [
+            "The amount of threads to use.",
+            "Defaults to 0, meaning one thread per logical processor.",
+            "Set to 1 to use only a single thread."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions <SHELL>"
+      ],
+      "tip": [
+        "Generate shell completions."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Generate completions for Bash."
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Generate completions for Elvish."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Generate completions for Fish."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "Generate completions for PowerShell."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Generate completions for Zsh."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config <COMMAND>"
+      ],
+      "tip": [
+        "Configuration related commands."
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "Open the configuration file in $EDITOR.",
+            "If the file does not exist, it will be created with default values first."
+          ]
+        },
+        {
+          "name": "show-default",
+          "tip": [
+            "Print the default configuration file."
+          ],
+          "option": [
+            {
+              "name": "--reset-with-default",
+              "alias": [
+                "--reset"
+              ],
+              "usage": [
+                "--reset, --reset-with-default"
+              ],
+              "tip": [
+                "Destructively overwrite the active configuration file with the default configuration.",
+                "Local changes will be lost without option to recover."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "interactive",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|interactive [INPUT]..."
+      ],
+      "tip": [
+        "Launch the terminal user interface."
+      ],
+      "option": [
+        {
+          "name": "--apparent-size",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --apparent-size"
+          ],
+          "tip": [
+            "Display apparent size instead of disk usage."
+          ]
+        },
+        {
+          "name": "--count-hard-links",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --count-hard-links"
+          ],
+          "tip": [
+            "Count hard-linked files each time they are seen."
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "The format with which to print byte counts."
+          ],
+          "next": [
+            {
+              "name": "binary",
+              "tip": [
+                "Format sizes with binary units (KiB, MiB, ...)."
+              ]
+            },
+            {
+              "name": "bytes",
+              "tip": [
+                "Show raw byte counts."
+              ]
+            },
+            {
+              "name": "gb",
+              "tip": [
+                "Always format sizes in gigabytes."
+              ]
+            },
+            {
+              "name": "gib",
+              "tip": [
+                "Always format sizes in gibibytes."
+              ]
+            },
+            {
+              "name": "mb",
+              "tip": [
+                "Always format sizes in megabytes."
+              ]
+            },
+            {
+              "name": "metric",
+              "tip": [
+                "Format sizes with metric units (kB, MB, ...)."
+              ]
+            },
+            {
+              "name": "mib",
+              "tip": [
+                "Always format sizes in mebibytes."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-dirs",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore-dirs <IGNORE_DIRS>"
+          ],
+          "tip": [
+            "One or more absolute directories to ignore.",
+            "They are not ignored when passed directly as input path."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-from",
+          "usage": [
+            "--ignore-from <FILE>"
+          ],
+          "tip": [
+            "One or more files with gitignore-style patterns, whose matches are left out of the report.",
+            "Files given later take precedence over files given earlier."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-entry-check",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --no-entry-check"
+          ],
+          "tip": [
+            "Do not check entries for presence when listing a directory,",
+            "avoiding slowdowns on slow filesystems."
+          ]
+        },
+        {
+          "name": "--once",
+          "usage": [
+            "--once[=<ONCE>]"
+          ],
+          "tip": [
+            "Exit automatically after traversal.",
+            "Optionally replay the given single-character keys first."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stay-on-filesystem",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --stay-on-filesystem"
+          ],
+          "tip": [
+            "Do not cross filesystems or traverse mount points."
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --threads <THREADS>"
+          ],
+          "tip": [
+            "The amount of threads to use.",
+            "Defaults to 0, meaning one thread per logical processor.",
+            "Set to 1 to use only a single thread."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--apparent-size",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --apparent-size"
+      ],
+      "tip": [
+        "Display apparent size instead of disk usage."
+      ]
+    },
+    {
+      "name": "--count-hard-links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --count-hard-links"
+      ],
+      "tip": [
+        "Count hard-linked files each time they are seen."
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --format <FORMAT>"
+      ],
+      "tip": [
+        "The format with which to print byte counts."
+      ],
+      "next": [
+        {
+          "name": "binary",
+          "tip": [
+            "Format sizes with binary units (KiB, MiB, ...)."
+          ]
+        },
+        {
+          "name": "bytes",
+          "tip": [
+            "Show raw byte counts."
+          ]
+        },
+        {
+          "name": "gb",
+          "tip": [
+            "Always format sizes in gigabytes."
+          ]
+        },
+        {
+          "name": "gib",
+          "tip": [
+            "Always format sizes in gibibytes."
+          ]
+        },
+        {
+          "name": "mb",
+          "tip": [
+            "Always format sizes in megabytes."
+          ]
+        },
+        {
+          "name": "metric",
+          "tip": [
+            "Format sizes with metric units (kB, MB, ...)."
+          ]
+        },
+        {
+          "name": "mib",
+          "tip": [
+            "Always format sizes in mebibytes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-dirs",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-dirs <IGNORE_DIRS>"
+      ],
+      "tip": [
+        "One or more absolute directories to ignore.",
+        "They are not ignored when passed directly as input path."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-from",
+      "usage": [
+        "--ignore-from <FILE>"
+      ],
+      "tip": [
+        "One or more files with gitignore-style patterns, whose matches are left out of the report.",
+        "Files given later take precedence over files given earlier."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--stay-on-filesystem",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --stay-on-filesystem"
+      ],
+      "tip": [
+        "Do not cross filesystems or traverse mount points."
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --threads <THREADS>"
+      ],
+      "tip": [
+        "The amount of threads to use.",
+        "Defaults to 0, meaning one thread per logical processor.",
+        "Set to 1 to use only a single thread."
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <LOG_FILE>"
+      ],
+      "tip": [
+        "Write a log file with debug information, including panics."
+      ],
+      "next": []
+    }
+  ]
+}

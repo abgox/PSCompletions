@@ -1,0 +1,657 @@
+{
+  "meta": {
+    "url": "https://github.com/Byron/dua-cli",
+    "description": [
+      "一个快速了解磁盘使用情况的工具！"
+    ]
+  },
+  "next": [
+    {
+      "name": "aggregate",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|aggregate [INPUT]..."
+      ],
+      "tip": [
+        "聚合一个或多个目录或文件的占用空间。"
+      ],
+      "option": [
+        {
+          "name": "--apparent-size",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --apparent-size"
+          ],
+          "tip": [
+            "显示表观大小而非磁盘占用。"
+          ]
+        },
+        {
+          "name": "--count-hard-links",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --count-hard-links"
+          ],
+          "tip": [
+            "每次遇到硬链接文件都计入一次。"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "打印字节数所用的格式。"
+          ],
+          "next": [
+            {
+              "name": "binary",
+              "tip": [
+                "以二进制单位 (KiB、MiB 等) 格式化大小。"
+              ]
+            },
+            {
+              "name": "bytes",
+              "tip": [
+                "显示原始字节数。"
+              ]
+            },
+            {
+              "name": "gb",
+              "tip": [
+                "始终以 GB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "gib",
+              "tip": [
+                "始终以 GiB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "mb",
+              "tip": [
+                "始终以 MB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "metric",
+              "tip": [
+                "以公制单位 (kB、MB 等) 格式化大小。"
+              ]
+            },
+            {
+              "name": "mib",
+              "tip": [
+                "始终以 MiB 为单位格式化大小。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-dirs",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore-dirs <IGNORE_DIRS>"
+          ],
+          "tip": [
+            "忽略一个或多个绝对路径目录。",
+            "作为输入路径直接传入时不会被忽略。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-from",
+          "usage": [
+            "--ignore-from <FILE>"
+          ],
+          "tip": [
+            "一个或多个 gitignore 风格模式文件，其匹配项不计入报告。",
+            "后给出的文件优先于先给出的文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-sort",
+          "tip": [
+            "按命令行顺序打印路径，而不是按大小升序排序。"
+          ]
+        },
+        {
+          "name": "--no-total",
+          "tip": [
+            "不为多个输入计算总量列。"
+          ]
+        },
+        {
+          "name": "--stats",
+          "tip": [
+            "将有关文件遍历的附加统计信息输出到 stderr。"
+          ]
+        },
+        {
+          "name": "--stay-on-filesystem",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --stay-on-filesystem"
+          ],
+          "tip": [
+            "不跨文件系统或遍历挂载点。"
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --threads <THREADS>"
+          ],
+          "tip": [
+            "要使用的线程数量。",
+            "默认为 0，表示每个逻辑处理器使用一个线程。",
+            "设为 1 则仅使用单个线程。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "usage": [
+        "completions <SHELL>"
+      ],
+      "tip": [
+        "生成 shell 补全。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "为 Bash 生成补全。"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "为 Elvish 生成补全。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "为 Fish 生成补全。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "为 PowerShell 生成补全。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "为 Zsh 生成补全。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config <COMMAND>"
+      ],
+      "tip": [
+        "配置相关命令。"
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "在 $EDITOR 中打开配置文件。",
+            "如果文件不存在，会先以默认值创建。"
+          ]
+        },
+        {
+          "name": "show-default",
+          "tip": [
+            "打印默认配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--reset-with-default",
+              "alias": [
+                "--reset"
+              ],
+              "usage": [
+                "--reset, --reset-with-default"
+              ],
+              "tip": [
+                "用默认配置破坏性覆盖当前配置文件。",
+                "本地更改将丢失且无法恢复。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "interactive",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|interactive [INPUT]..."
+      ],
+      "tip": [
+        "启动交互式终端界面。"
+      ],
+      "option": [
+        {
+          "name": "--apparent-size",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --apparent-size"
+          ],
+          "tip": [
+            "显示表观大小而非磁盘占用。"
+          ]
+        },
+        {
+          "name": "--count-hard-links",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --count-hard-links"
+          ],
+          "tip": [
+            "每次遇到硬链接文件都计入一次。"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "打印字节数所用的格式。"
+          ],
+          "next": [
+            {
+              "name": "binary",
+              "tip": [
+                "以二进制单位 (KiB、MiB 等) 格式化大小。"
+              ]
+            },
+            {
+              "name": "bytes",
+              "tip": [
+                "显示原始字节数。"
+              ]
+            },
+            {
+              "name": "gb",
+              "tip": [
+                "始终以 GB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "gib",
+              "tip": [
+                "始终以 GiB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "mb",
+              "tip": [
+                "始终以 MB 为单位格式化大小。"
+              ]
+            },
+            {
+              "name": "metric",
+              "tip": [
+                "以公制单位 (kB、MB 等) 格式化大小。"
+              ]
+            },
+            {
+              "name": "mib",
+              "tip": [
+                "始终以 MiB 为单位格式化大小。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-dirs",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --ignore-dirs <IGNORE_DIRS>"
+          ],
+          "tip": [
+            "忽略一个或多个绝对路径目录。",
+            "作为输入路径直接传入时不会被忽略。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-from",
+          "usage": [
+            "--ignore-from <FILE>"
+          ],
+          "tip": [
+            "一个或多个 gitignore 风格模式文件，其匹配项不计入报告。",
+            "后给出的文件优先于先给出的文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-entry-check",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --no-entry-check"
+          ],
+          "tip": [
+            "列出目录内容时不检查条目是否存在。",
+            "避免在慢速文件系统上拖慢速度。"
+          ]
+        },
+        {
+          "name": "--once",
+          "usage": [
+            "--once[=<ONCE>]"
+          ],
+          "tip": [
+            "遍历完成后自动退出。",
+            "可选先重放给定的单字符按键。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stay-on-filesystem",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --stay-on-filesystem"
+          ],
+          "tip": [
+            "不跨文件系统或遍历挂载点。"
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --threads <THREADS>"
+          ],
+          "tip": [
+            "要使用的线程数量。",
+            "默认为 0，表示每个逻辑处理器使用一个线程。",
+            "设为 1 则仅使用单个线程。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--apparent-size",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --apparent-size"
+      ],
+      "tip": [
+        "显示表观大小而非磁盘占用。"
+      ]
+    },
+    {
+      "name": "--count-hard-links",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --count-hard-links"
+      ],
+      "tip": [
+        "每次遇到硬链接文件都计入一次。"
+      ]
+    },
+    {
+      "name": "--format",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --format <FORMAT>"
+      ],
+      "tip": [
+        "打印字节数所用的格式。"
+      ],
+      "next": [
+        {
+          "name": "binary",
+          "tip": [
+            "以二进制单位 (KiB、MiB 等) 格式化大小。"
+          ]
+        },
+        {
+          "name": "bytes",
+          "tip": [
+            "显示原始字节数。"
+          ]
+        },
+        {
+          "name": "gb",
+          "tip": [
+            "始终以 GB 为单位格式化大小。"
+          ]
+        },
+        {
+          "name": "gib",
+          "tip": [
+            "始终以 GiB 为单位格式化大小。"
+          ]
+        },
+        {
+          "name": "mb",
+          "tip": [
+            "始终以 MB 为单位格式化大小。"
+          ]
+        },
+        {
+          "name": "metric",
+          "tip": [
+            "以公制单位 (kB、MB 等) 格式化大小。"
+          ]
+        },
+        {
+          "name": "mib",
+          "tip": [
+            "始终以 MiB 为单位格式化大小。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ignore-dirs",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-dirs <IGNORE_DIRS>"
+      ],
+      "tip": [
+        "忽略一个或多个绝对路径目录。",
+        "作为输入路径直接传入时不会被忽略。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-from",
+      "usage": [
+        "--ignore-from <FILE>"
+      ],
+      "tip": [
+        "一个或多个 gitignore 风格模式文件，其匹配项不计入报告。",
+        "后给出的文件优先于先给出的文件。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--stay-on-filesystem",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --stay-on-filesystem"
+      ],
+      "tip": [
+        "不跨文件系统或遍历挂载点。"
+      ]
+    },
+    {
+      "name": "--threads",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --threads <THREADS>"
+      ],
+      "tip": [
+        "要使用的线程数量。",
+        "默认为 0，表示每个逻辑处理器使用一个线程。",
+        "设为 1 则仅使用单个线程。"
+      ],
+      "next": [
+        {
+          "name": "0"
+        },
+        {
+          "name": "1"
+        },
+        {
+          "name": "16"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本号。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <LOG_FILE>"
+      ],
+      "tip": [
+        "写入包含调试信息和 panic 的日志文件。"
+      ],
+      "next": []
+    }
+  ]
+}
