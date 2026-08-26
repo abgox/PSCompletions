@@ -460,7 +460,11 @@
             "properties": {
               "name": {
                 "description": "配置项的名称",
-                "$ref": "#/definitions/string"
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/string"
+                  }
+                ]
               },
               "value": {
                 "description": "配置项的默认值",
@@ -471,17 +475,27 @@
               },
               "values": {
                 "markdownDescription": "配置项的可选值\n- 这里填写的值会在触发命令补全时显示\n - 假设命令补全是 `xxx`，配置项名称是 `enable_xxx`\n - 则当你输入 `psc completion xxx enable_xxx` 后触发补全，会获取 `values` 数组中的值，并显示在补全列表中",
-                "$ref": "#/definitions/array",
-                "items": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
+                "allOf": [
+                  {
+                    "items": {
+                      "type": [
+                        "string",
+                        "number"
+                      ]
+                    }
+                  },
+                  {
+                    "$ref": "#/definitions/array"
+                  }
+                ]
               },
               "tip": {
                 "description": "配置项的提示信息",
-                "$ref": "#/definitions/array-items-string"
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/array-items-string"
+                  }
+                ]
               }
             }
           }

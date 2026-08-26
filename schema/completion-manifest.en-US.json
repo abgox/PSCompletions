@@ -460,7 +460,11 @@
             "properties": {
               "name": {
                 "description": "Name of the special configuration item",
-                "$ref": "#/definitions/string"
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/string"
+                  }
+                ]
               },
               "value": {
                 "description": "Default value of the special configuration item",
@@ -471,17 +475,27 @@
               },
               "values": {
                 "markdownDescription": "Optional values of the special configuration item\n- Here, you can fill in the values that will be displayed when the command completion is triggered\n - Suppose the command completion is `xxx` and the configuration item name is `enable_xxx`\n - Then, when you input `psc completion xxx enable_xxx` and trigger completion, the values in the `values` array will be displayed in the completion list",
-                "$ref": "#/definitions/array",
-                "items": {
-                  "type": [
-                    "string",
-                    "number"
-                  ]
-                }
+                "allOf": [
+                  {
+                    "items": {
+                      "type": [
+                        "string",
+                        "number"
+                      ]
+                    }
+                  },
+                  {
+                    "$ref": "#/definitions/array"
+                  }
+                ]
               },
               "tip": {
                 "description": "Tip information for the special configuration item",
-                "$ref": "#/definitions/array-items-string"
+                "allOf": [
+                  {
+                    "$ref": "#/definitions/array-items-string"
+                  }
+                ]
               }
             }
           }
