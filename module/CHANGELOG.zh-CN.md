@@ -2,6 +2,12 @@
 
 [English](./CHANGELOG.md)
 
+## 7.3.2
+
+- 改进了补全项的排序问题
+- 降低了 psc-menu 对 glibc 的依赖版本
+- 其他的优化和修复
+
 ## 7.3.1
 
 - 修复了 `$PSUICulture` 为空时（如 Linux）初始化失败的问题

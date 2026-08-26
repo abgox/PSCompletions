@@ -2,6 +2,12 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.3.2
+
+- Improved the sorting issue of completion items.
+- Reduced the glibc dependency version for psc‑menu.
+- Other optimizations and fixes.
+
 ## 7.3.1
 
 - Fixed initialization failing when `$PSUICulture` is empty (e.g. Linux).
