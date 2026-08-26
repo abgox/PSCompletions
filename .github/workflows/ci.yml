@@ -37,31 +37,39 @@ jobs:
             arch: x64
             target: x86_64-pc-windows-msvc
             cross: "false"
+            zigbuild: "false"
           - os: windows-11-arm
             platform: windows
             arch: arm64
             target: aarch64-pc-windows-msvc
             cross: "false"
+            zigbuild: "false"
           - os: ubuntu-latest
             platform: linux
             arch: x64
             target: x86_64-unknown-linux-gnu
             cross: "false"
+            zigbuild: "true"
+            min_glibc: "2.28"
           - os: ubuntu-24.04-arm
             platform: linux
             arch: arm64
             target: aarch64-unknown-linux-gnu
             cross: "false"
+            zigbuild: "true"
+            min_glibc: "2.28"
           - os: macos-15
             platform: darwin
             arch: arm64
             target: aarch64-apple-darwin
             cross: "false"
+            zigbuild: "false"
           - os: macos-15
             platform: darwin
             arch: x64
             target: x86_64-apple-darwin
             cross: "true"
+            zigbuild: "false"
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -74,26 +82,65 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
+      - name: Install zig toolchain
+        if: matrix.zigbuild == 'true'
+        shell: pwsh
+        run: |
+          python3 -m pip install --user ziglang
+          cargo install cargo-zigbuild --locked
+
       - name: Cache Rust build
         uses: Swatinem/rust-cache@v2
         with:
           workspaces: core
-          key: ${{ matrix.target }}
+          key: ${{ matrix.target }}-${{ matrix.min_glibc }}
 
       - name: Build
         shell: pwsh
+        env:
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.arch == 'arm64' && '11.0' || '10.13' }}
         run: |
-          if ('${{ matrix.cross }}' -eq 'true') {
+          if ('${{ matrix.zigbuild }}' -eq 'true') {
+            cargo zigbuild --release --manifest-path core/Cargo.toml --target '${{ matrix.target }}.${{ matrix.min_glibc }}'
+          } elseif ('${{ matrix.cross }}' -eq 'true') {
             cargo build --release --manifest-path core/Cargo.toml --target '${{ matrix.target }}'
           } else {
             cargo build --release --manifest-path core/Cargo.toml
+          }
+
+      - name: Verify glibc floor (Linux only)
+        if: matrix.platform == 'linux'
+        shell: pwsh
+        run: |
+          $dir = "core/target/${{ matrix.target }}/release"
+          $failed = $false
+          foreach ($name in 'psc', 'psc-menu') {
+            $sym = readelf -Ws "$dir/$name" 2>$null | Select-String 'GLIBC_2\.(29|3[0-9]|[4-9][0-9])'
+            if ($sym) {
+              Write-Host "::error::$name references a glibc symbol newer than ${{ matrix.min_glibc }}:"
+              $sym | ForEach-Object { Write-Host "  $_" }
+              $failed = $true
+            }
+          }
+          if ($failed) { throw "glibc floor check failed" }
+
+      - name: Verify macOS deployment target (Darwin only)
+        if: matrix.platform == 'darwin'
+        shell: pwsh
+        run: |
+          $dir = if ('${{ matrix.cross }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
+          $expected = '${{ matrix.arch == 'arm64' && '11.0' || '10.13' }}'
+          foreach ($name in 'psc', 'psc-menu') {
+            $info = otool -l "$dir/$name" | Select-String -Context 0,3 'LC_VERSION_MIN_MACOSX|LC_BUILD_VERSION'
+            Write-Host "--- $name ---"
+            Write-Host $info
           }
 
       - name: Verify binaries
         shell: pwsh
         run: |
           $ext = if ('${{ matrix.platform }}' -eq 'windows') { '.exe' } else { '' }
-          $dir = if ('${{ matrix.cross }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
+          $dir = if ('${{ matrix.cross }}' -eq 'true' -or '${{ matrix.zigbuild }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
           & "$dir/psc-menu$ext" --self-test
           if ($LASTEXITCODE -ne 0) { throw "psc-menu self-test failed (exit $LASTEXITCODE)" }
           & "$dir/psc$ext" --data "$env:RUNNER_TEMP/psc-smoke" | Out-Null
@@ -104,7 +151,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $ext = if ('${{ matrix.platform }}' -eq 'windows') { '.exe' } else { '' }
-          $dir = if ('${{ matrix.cross }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
+          $dir = if ('${{ matrix.cross }}' -eq 'true' -or '${{ matrix.zigbuild }}' -eq 'true') { "core/target/${{ matrix.target }}/release" } else { 'core/target/release' }
           $dest = "module/PSCompletions/bin/${{ matrix.platform }}-${{ matrix.arch }}"
           New-Item -ItemType Directory -Path $dest -Force | Out-Null
           foreach ($name in 'psc', 'psc-menu') {
