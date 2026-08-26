@@ -44,103 +44,13 @@ if (-not $CompletionList) {
     }
 }
 
-function Sort-JsonStructure {
-    param (
-        [Parameter(Mandatory = $true)]
-        [string]$InputFile,
-
-        [Parameter(Mandatory = $false)]
-        [string]$OutputFile
-    )
-
-    $json = Get-Content $InputFile -Raw | ConvertFrom-Json
-
-    $topLevelOrder = @('meta', 'next', 'option', 'global_option', 'config', 'info')
-    $metaOrder = @('url', 'description')
-    $configOrder = @('name', 'value', 'values', 'tip')
-    $itemPropertyOrder = @('name', 'alias', 'usage', 'tip', 'example', 'repeat', 'option', 'next')
-
-    function Sort-ObjectRecursively {
-        param (
-            $inputObject,
-            [string[]]$propertyOrder = @()
-        )
-
-        # Sort array elements by name when present
-        if ($inputObject -is [array]) {
-            $array = $inputObject
-
-            if ($array.Count -gt 0 -and $array[0] -is [pscustomobject] -and $array[0].PSObject.Properties.Name -contains 'name') {
-                $array = $array | Sort-Object { [System.Tuple]::Create($_.name.ToUpperInvariant(), $_.name) }
-            }
-
-            $sortedArray = [System.Collections.ArrayList]::new()
-            foreach ($item in $array) {
-                $sortedArray += Sort-ObjectRecursively -inputObject $item -propertyOrder $propertyOrder
-            }
-
-            return , $sortedArray
-        }
-        elseif ($inputObject -is [System.Management.Automation.PSCustomObject]) {
-            $sortedObject = [ordered]@{}
-            foreach ($prop in $propertyOrder) {
-                if ($inputObject.PSObject.Properties.Name -contains $prop) {
-                    $sortedObject[$prop] = Sort-ObjectRecursively -inputObject $inputObject.$prop -propertyOrder $propertyOrder
-                }
-            }
-
-            # Remaining properties are appended in alphabetical order
-            $remainingProps = $inputObject.PSObject.Properties.Name |
-            Where-Object { $propertyOrder -notcontains $_ } |
-            Sort-Object { [System.Tuple]::Create($_.ToUpperInvariant(), $_) }
-
-            foreach ($prop in $remainingProps) {
-                $sortedObject[$prop] = Sort-ObjectRecursively -inputObject $inputObject.$prop -propertyOrder $propertyOrder
-            }
-
-            return $sortedObject
-        }
-        else {
-            return $inputObject
-        }
-    }
-
-    $sortedJson = [ordered]@{}
-
-    foreach ($prop in $topLevelOrder) {
-        if ($json.PSObject.Properties.Name -contains $prop) {
-            if ($prop -in @('next', 'option', 'global_option')) {
-                $inputObject = $json.$prop | Sort-Object { [System.Tuple]::Create($_.name.ToUpperInvariant(), $_.name) }
-                $sortedJson[$prop] = Sort-ObjectRecursively -inputObject @($inputObject) -propertyOrder $itemPropertyOrder
-            }
-            elseif ($prop -eq 'meta') {
-                $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop -propertyOrder $metaOrder
-            }
-            elseif ($prop -eq 'config') {
-                $sortedJson[$prop] = Sort-ObjectRecursively -inputObject @($json.$prop) -propertyOrder $configOrder
-            }
-            else {
-                $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop
-            }
-        }
-    }
-
-    # Add any remaining properties not in the order list
-    foreach ($prop in $json.PSObject.Properties.Name) {
-        if (-not $sortedJson.Contains($prop) -and -not $topLevelOrder.Contains($prop)) {
-            $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop
-        }
-    }
-
-    $sortedJsonString = $sortedJson | ConvertTo-Json -Depth 100
-
-    if ($OutputFile) {
-        $sortedJsonString | Out-File -FilePath $OutputFile -Encoding utf8
-    }
-    else {
-        return $sortedJsonString
-    }
+# Compiled helpers (scripts/psc-tools.cs): read-only canonicality check so that
+# already-normalized files skip the expensive PS rebuild entirely.
+# When the type is unavailable, everything falls back to the rebuild path below.
+if (-not ('PscTools.SortCheck' -as [type])) {
+    try { Add-Type -Path "$PSScriptRoot\psc-tools.cs" } catch { Write-Verbose "SortCheck unavailable: $_" }
 }
+$script:sortCheckType = 'PscTools.SortCheck' -as [type]
 
 # Reorder a completion's config.json fields: id, hooks, alias, language (others appended at end).
 function Sort-ConfigJson {
@@ -163,53 +73,192 @@ function Sort-ConfigJson {
     $sorted | ConvertTo-Json | Out-File -FilePath $Path -Encoding utf8
 }
 
-function Optimize-CompletionJson {
-    param(
-        [string]$Path
-    )
-    $content = Get-Content -Path $Path -Raw | ConvertFrom-Json
-    function Optimize-Entry($entry) {
-        if ($null -eq $entry) { return }
-        foreach ($item in $entry) {
-            if ($item.alias.Count -gt 0) {
-                $sorted = @($item.name) + @($item.alias) | Sort-Object { $_.Length } -Descending
-                $item.name = $sorted[0]
-                $item.alias = $sorted[1..($sorted.Count - 1)]
-            }
-            if ($item.usage.Count -gt 0) {
-                $item.usage = @($item.usage | ForEach-Object {
-                        $u = $_
-                        if ($u -is [string]) {
-                            $m = [regex]::Match($u, '^([^\s,|<=\[|]+(?:\s*[,|]\s*[^\s,|<=\[|]+)*)')
-                            if ($m.Success) {
-                                $block = $m.Value
-                                $hasPipe = $block.Contains('|')
-                                $hasComma = $block.Contains(',')
-                                if ($hasPipe -and $hasComma) {
-                                    # mixed separators, skip
-                                }
-                                elseif ($hasPipe -or $hasComma) {
-                                    $sep = if ($hasPipe) { '|' } else { ',' }
-                                    $forms = @($block -split '[,|]' | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' })
-                                    $sortedForms = @($forms | Sort-Object { $_.Length })
-                                    $newBlock = if ($sep -eq '|') { $sortedForms -join '|' } else { $sortedForms -join ', ' }
-                                    $u = $u.Replace($block, $newBlock)
-                                }
-                            }
-                        }
-                        $u
-                    })
-            }
-            if ($item.next) { Optimize-Entry $item.next }
-            if ($item.option) { Optimize-Entry $item.option }
-        }
-    }
-    Optimize-Entry $content.next
-    Optimize-Entry $content.option
-    Optimize-Entry $content.global_option
+# Normalize alias (longest form becomes name) and usage forms (short -> long).
+# Mutates the parsed tree in place. Runs before sorting so sibling order uses final names.
+function Optimize-Entry {
+    param($entry)
 
-    $newJson = $content | ConvertTo-Json -Depth 100
-    $newJson | Out-File -FilePath $Path -Encoding utf8
+    if ($null -eq $entry) { return }
+    foreach ($item in $entry) {
+        if ($item.alias.Count -gt 0) {
+            # name + aliases, longest first (stable: equal lengths keep original order)
+            $combined = [System.Collections.Generic.List[object]]::new(@($item.alias).Count + 1)
+            $combined.Add([string]$item.name)
+            foreach ($a in @($item.alias)) { $combined.Add([string]$a) }
+            $sorted = [System.Linq.Enumerable]::ToArray(
+                [System.Linq.Enumerable]::OrderByDescending(
+                    [System.Linq.Enumerable]::Cast[object]($combined.ToArray()),
+                    [Func[object, int]] { param($x) $x.Length }))
+            $item.name = $sorted[0]
+            $item.alias = $sorted[1..($sorted.Count - 1)]
+        }
+        if ($item.usage.Count -gt 0) {
+            $newUsage = [System.Collections.Generic.List[object]]::new()
+            foreach ($uu in $item.usage) {
+                $u = $uu
+                if ($u -is [string]) {
+                    $m = [regex]::Match($u, '^([^\s,|<=\[|]+(?:\s*[,|]\s*[^\s,|<=\[|]+)*)')
+                    if ($m.Success) {
+                        $block = $m.Value
+                        $hasPipe = $block.Contains('|')
+                        $hasComma = $block.Contains(',')
+                        if ($hasPipe -and $hasComma) {
+                            # mixed separators, skip
+                        }
+                        elseif ($hasPipe -or $hasComma) {
+                            $sep = if ($hasPipe) { '|' } else { ',' }
+                            $parts = @($block -split '[,|]')
+                            $forms = [System.Collections.Generic.List[string]]::new()
+                            foreach ($p in $parts) {
+                                $t = $p.Trim()
+                                if ($t -ne '') { $forms.Add($t) }
+                            }
+                            $sortedForms = [System.Linq.Enumerable]::ToArray(
+                                [System.Linq.Enumerable]::OrderBy(
+                                    [System.Linq.Enumerable]::Cast[string]($forms.ToArray()),
+                                    [Func[string, int]] { param($x) $x.Length }))
+                            $newBlock = if ($sep -eq '|') { $sortedForms -join '|' } else { $sortedForms -join ', ' }
+                            $u = $u.Replace($block, $newBlock)
+                        }
+                    }
+                }
+                $newUsage.Add($u)
+            }
+            $item.usage = $newUsage.ToArray()
+        }
+        if ($item.next) { Optimize-Entry $item.next }
+        if ($item.option) { Optimize-Entry $item.option }
+    }
+}
+
+# Stable name-order sorts, without per-call cmdlet/pipeline overhead.
+$nameKeyFunc = [Func[object, object]] {
+    param($x)
+    $n = $x.name
+    [System.Tuple]::Create($n.ToUpperInvariant(), $n)
+}
+function Sort-NamedArray {
+    param([array]$Array)
+    # comma-wrap: without it a single-element result is unrolled to a bare object by the pipeline
+    , [System.Linq.Enumerable]::ToArray(
+        [System.Linq.Enumerable]::OrderBy(
+            [System.Linq.Enumerable]::Cast[object]($Array),
+            $nameKeyFunc))
+}
+
+function Sort-ObjectRecursively {
+    param (
+        $inputObject,
+        [string[]]$propertyOrder = @()
+    )
+
+    if ($inputObject -is [array]) {
+        $array = $inputObject
+
+        if ($array.Count -gt 0 -and $array[0] -is [pscustomobject] -and $array[0].PSObject.Properties.Name -contains 'name') {
+            $array = Sort-NamedArray $array
+        }
+
+        $sortedArray = [System.Collections.Generic.List[object]]::new($array.Count)
+        foreach ($item in $array) {
+            $sortedArray.Add((Sort-ObjectRecursively -inputObject $item -propertyOrder $propertyOrder))
+        }
+
+        return , $sortedArray
+    }
+    elseif ($inputObject -is [System.Management.Automation.PSCustomObject]) {
+        $names = @($inputObject.PSObject.Properties.Name)
+        $sortedObject = [ordered]@{}
+        foreach ($prop in $propertyOrder) {
+            if ($names -contains $prop) {
+                $sortedObject[$prop] = Sort-ObjectRecursively -inputObject $inputObject.$prop -propertyOrder $propertyOrder
+            }
+        }
+
+        # Remaining properties are appended in alphabetical order
+        $remainingProps = [System.Collections.Generic.List[string]]::new()
+        foreach ($n in $names) {
+            if ($propertyOrder -notcontains $n) { $remainingProps.Add($n) }
+        }
+        if ($remainingProps.Count -gt 1) {
+            $remainingProps = @($remainingProps | Sort-Object { [System.Tuple]::Create($_.ToUpperInvariant(), $_) })
+        }
+
+        foreach ($prop in $remainingProps) {
+            $sortedObject[$prop] = Sort-ObjectRecursively -inputObject $inputObject.$prop -propertyOrder $propertyOrder
+        }
+
+        return $sortedObject
+    }
+    else {
+        return $inputObject
+    }
+}
+
+# Parse once; when the tree is already canonical (common case), only re-serialize for
+# the byte comparison. Otherwise run the full optimize + sort rebuild.
+# Returns the JSON string to write, or $null when content is unchanged (skip write).
+function Get-SortedJsonString {
+    param(
+        [string]$JsonText,
+        [string]$CurrentRaw
+    )
+
+    $json = $JsonText | ConvertFrom-Json
+
+    $canonical = $false
+    if ($script:sortCheckType) {
+        $canonical = ($null -eq $script:sortCheckType::CheckCanonical($json))
+    }
+
+    if ($canonical) {
+        $sortedJsonString = $json | ConvertTo-Json -Depth 100
+    }
+    else {
+        Optimize-Entry $json.next
+        Optimize-Entry $json.option
+        Optimize-Entry $json.global_option
+
+        $topLevelOrder = @('meta', 'next', 'option', 'global_option', 'config', 'info')
+        $metaOrder = @('url', 'description')
+        $configOrder = @('name', 'value', 'values', 'tip')
+        $itemPropertyOrder = @('name', 'alias', 'usage', 'tip', 'example', 'repeat', 'option', 'next')
+
+        $sortedJson = [ordered]@{}
+
+        foreach ($prop in $topLevelOrder) {
+            if ($json.PSObject.Properties.Name -contains $prop) {
+                if ($prop -in @('next', 'option', 'global_option')) {
+                    $inputObject = Sort-NamedArray @($json.$prop)
+                    $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $inputObject -propertyOrder $itemPropertyOrder
+                }
+                elseif ($prop -eq 'meta') {
+                    $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop -propertyOrder $metaOrder
+                }
+                elseif ($prop -eq 'config') {
+                    $sortedJson[$prop] = Sort-ObjectRecursively -inputObject @($json.$prop) -propertyOrder $configOrder
+                }
+                else {
+                    $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop
+                }
+            }
+        }
+
+        # Add any remaining properties not in the order list
+        foreach ($prop in $json.PSObject.Properties.Name) {
+            if (-not $sortedJson.Contains($prop) -and -not $topLevelOrder.Contains($prop)) {
+                $sortedJson[$prop] = Sort-ObjectRecursively -inputObject $json.$prop
+            }
+        }
+
+        $sortedJsonString = $sortedJson | ConvertTo-Json -Depth 100
+    }
+
+    # Out-File appends a trailing newline; treat EOL-style-only differences as unchanged
+    $candidate = $sortedJsonString + "`r`n"
+    if ($CurrentRaw -eq $candidate) { return $null }
+    if (($CurrentRaw -replace "`r", '') -eq ($candidate -replace "`r", '')) { return $null }
+    return $sortedJsonString
 }
 
 $allResults = @()
@@ -230,8 +279,11 @@ foreach ($completion in $CompletionList) {
     }
     $sortedCount = 0
     foreach ($file in $langFiles) {
-        Optimize-CompletionJson $file.FullName
-        Sort-JsonStructure -InputFile $file.FullName -OutputFile $file.FullName
+        $raw = Get-Content -LiteralPath $file.FullName -Raw
+        $result = Get-SortedJsonString -JsonText $raw -CurrentRaw $raw
+        if ($null -ne $result) {
+            $result | Out-File -FilePath $file.FullName -Encoding utf8
+        }
         $sortedCount++
     }
     $allResults += @{
