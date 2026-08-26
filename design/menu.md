@@ -385,25 +385,24 @@ Ordering lives in the TUI process:
     The most recent use only breaks ties.
 - Only the last 1000 lines are scanned; keys lowercased and quotes stripped. The engine ranks
   items by the order-file value (descending, stable); items without a score keep their order.
-- **Three ranking sources**, consulted in order for a non-path item: the **per-command** order
-  file (that command's own history, e.g. `git.json`), then `_commands.json` — the shared
-  command-use frequency across all commands, used for root-command completion (`g<Tab>`) and as
-  the fallback when a command has no per-command entry. Path items bypass all three and rank by
-  leaf name against `_paths.json` instead.
-- **Shared files apply only while the first token is being completed** — root-command completion
-  (`g<Tab>`) and path completion (`.\src\<Tab>`), whose candidates are command names or real paths.
-  The engine derives this from the raw input tokens the module passes with each request (one
-  unfinished token = still completing the first one); in
-  **build mode** and in **native mode once the command is complete** (`npm <Tab>`, candidates are
-  the tool's own subcommands/options/values), only the per-command order file is consulted — a
-  subcommand such as `npm ls` must not pick up the root-command frequency of `ls` from
-  `_commands.json` (nor a path score from `_paths.json`). Unscored candidates keep their manifest
-  order (stable sort).
-- **Path items** (containing `/` or `\`) rank by segment name against `_paths.json` — the shared
-  path-use history scores **every segment** of a path token, not just the leaf: `.\scripts\build.ps1`
-  credits both `scripts` and `build.ps1`. A **directory** candidate (trailing separator, e.g.
-  `.\src\`) ranks under its own name (`src`), so frequently entered directories (and their files)
-  surface first at every level of completion.
+- **Ranking sources**: non-path candidates look up the **per-command** order file first (that
+  command's own history, e.g. `git.json`), then — root completions only — `_commands.json`, the
+  shared command-use frequency across all commands. Path-shaped candidates bypass both and rank
+  by leaf name against `_paths.json` instead.
+- **Shared files stay out of subcommand ranking**: `_commands.json` applies only while the first
+  token is being completed (`g<Tab>`; derived from the raw input tokens the module passes with
+  each request — one unfinished token = still completing the first one). Once the root command is
+  complete (`npm <Tab>`), candidates are the tool's own subcommands/options/values and rank
+  against the per-command file only: a subcommand must not pick up the root-command frequency of
+  `ls` from `_commands.json`, and bare words never consult `_paths.json` either — npm `test` must
+  not inherit the weight of an unrelated `test\` directory from path history. Unscored candidates
+  keep their manifest order (stable sort).
+- **Explicit path completions rank at any depth**: candidates whose text contains `/` or `\`
+  (e.g. `cd .\src\<Tab>`) rank by leaf name against `_paths.json` — the writer scores **every
+  segment** of a history path token, not just the leaf (`.\scripts\build.ps1` credits both
+  `scripts` and `build.ps1`), and a **directory** candidate (trailing separator, e.g. `.\src\`)
+  ranks under its own name (`src`). Bare-word candidates (e.g. `cd <Tab>` before any separator is
+  typed) are not treated as path completions and keep their native order.
 
 ## 7. Engineering structure (current)
 

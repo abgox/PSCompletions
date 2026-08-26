@@ -149,15 +149,17 @@ pub struct SortInput {
 /// path): only then does the shared global command-frequency file (`_commands.json`) apply. Once
 /// the command is complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), the candidates
 /// are the command's own subcommands/arguments and must rank against the per-command order file
-/// only. The shared path-leaf frequency (`_paths.json`) always applies: path completions
-/// (`cd <Tab>`, `cd .\src\<Tab>`) happen at any depth, not just the first token.
+/// only. The shared path-leaf frequency (`_paths.json`) is not depth-gated, but matches only
+/// explicit path candidates (text containing `/` or `\`, e.g. `cd .\src\<Tab>`) — bare words
+/// never consult it.
 pub fn sort_input_is_root(input: &SortInput) -> bool {
     input.tokens.len() == 1 && !input.treat_last_as_complete
 }
 
-/// Rank the candidate items using the history-order files: path-leaf frequency, the per-command
-/// order, and (root completions only) the global command frequency. Items without a score keep
-/// their original relative order (stable sort).
+/// Rank the candidate items using the history-order files: per-command order, (root completions
+/// only) the global command frequency, and — for path-shaped candidates at any depth — the
+/// global path-leaf frequency. Items without a score keep their original relative order
+/// (stable sort).
 pub fn apply_order_sort(
     items: &mut [hooks::LuaItem],
     order: &Option<CompleteOrder>,
@@ -165,8 +167,9 @@ pub fn apply_order_sort(
 ) {
     let Some(o) = order else { return };
     let cmd_order = read_order_map(&o.cmd_order);
-    // `_paths.json` keys by path-leaf name and path completions happen at any depth
-    // (`cd <Tab>`, `cd .\src\<Tab>`), so the shared path frequency is not gated on `use_shared`.
+    // `_paths.json` keys by path-leaf name and matches only path-shaped candidates (an explicit
+    // path completion such as `cd .\src\<Tab>`), so it is not gated on `use_shared`. Bare words
+    // never consult it — otherwise unrelated path history leaks into subcommand ranking.
     // Only the root-command frequency (`_commands.json`) must not leak into subcommand ranking.
     let paths_order = read_order_map(&o.paths_order);
     let commands_order = if use_shared {
@@ -224,13 +227,10 @@ pub fn item_score(
             .to_lowercase();
         return paths_order.get(&leaf).copied().unwrap_or(0);
     }
+    // Bare words never consult `_paths.json`: a subcommand sharing a name with a directory in
+    // path history (e.g. npm `test` vs a `test\` folder) must not inherit its weight.
     let lower = text.to_lowercase();
     if let Some(s) = cmd_order.get(&lower) {
-        return *s;
-    }
-    // A bare-word candidate (native `cd <Tab>` yields directory names like `core`) may have been
-    // used as a path leaf (`cd .\core`) — that weight lives in the shared `_paths.json`.
-    if let Some(s) = paths_order.get(&lower) {
         return *s;
     }
     if let Some(s) = commands_order.get(&lower) {
@@ -602,21 +602,21 @@ mod tests {
     }
 
     #[test]
-    fn item_score_bare_word_consults_paths_order() {
+    fn item_score_bare_words_ignore_paths_order() {
         let mut paths: HashMap<String, i64> = HashMap::new();
-        paths.insert("core".into(), 20);
+        paths.insert("test".into(), 45);
         let empty = HashMap::new();
-        // `cd <Tab>` native completion yields bare directory names; the weight for
-        // `cd .\core` lives in `_paths.json` under the leaf `core`.
-        let leaf = hooks::LuaItem {
-            text: "core".into(),
+        // A bare word (npm's `test` subcommand) must not inherit the shared path-leaf weight
+        // of a same-named directory in `_paths.json` — unscored → keeps manifest order.
+        let word = hooks::LuaItem {
+            text: "test".into(),
             ..Default::default()
         };
-        assert_eq!(item_score(&leaf, &empty, &paths, &empty), 20);
-        // The per-command order still takes precedence over the shared path frequency.
+        assert_eq!(item_score(&word, &empty, &paths, &empty), 0);
+        // The per-command order still ranks the bare word normally.
         let mut cmd: HashMap<String, i64> = HashMap::new();
-        cmd.insert("core".into(), 5);
-        assert_eq!(item_score(&leaf, &cmd, &paths, &empty), 5);
+        cmd.insert("test".into(), 9);
+        assert_eq!(item_score(&word, &cmd, &paths, &empty), 9);
     }
 
     #[test]
@@ -913,7 +913,7 @@ mod tests {
     }
 
     #[test]
-    fn sort_mode_paths_frequency_applies_at_any_depth() {
+    fn sort_mode_path_frequency_needs_explicit_path_candidates() {
         let dir = std::env::temp_dir().join("psc-sort-cd-test");
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
@@ -935,15 +935,27 @@ mod tests {
             ..Default::default()
         };
 
-        // `cd <Tab>` (non-root: one completed token): the bare dir-name candidate `core`
-        // must rank by the shared path-leaf frequency even though the command is complete.
+        // `cd <Tab>` (non-root: one completed token): bare dir-name candidates are not an
+        // explicit path completion — none picks up the shared `core` weight, so the native
+        // order is kept (stable).
         let mut items = vec![item("docs"), item("core"), item("assets")];
         apply_order_sort(&mut items, &order, false);
         let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
         assert_eq!(
             texts,
-            vec!["core", "docs", "assets"],
-            "native path completion ranks by shared path-leaf frequency at any depth"
+            vec!["docs", "core", "assets"],
+            "bare-word candidates never rank by shared path frequency"
+        );
+
+        // `cd .\src\<Tab>` style: path-shaped candidates rank by leaf even after the command
+        // is complete.
+        let mut items = vec![item(".\\assets\\"), item(".\\core\\")];
+        apply_order_sort(&mut items, &order, false);
+        let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
+        assert_eq!(
+            texts,
+            vec![".\\core\\", ".\\assets\\"],
+            "explicit path candidates rank by shared path-leaf frequency at any depth"
         );
         let _ = std::fs::remove_dir_all(&dir);
     }

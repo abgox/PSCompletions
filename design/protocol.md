@@ -169,11 +169,14 @@ Input:
 - `tokens` — the input line's tokens as the host tokenized them (including the first one).
 - `treat_last_as_complete` — whether the last token is complete (a space followed it).
 
-**Shared-file rule**: the shared global order files (`_commands.json` / `_paths.json`) apply
+**Shared-file rule**: the shared global order files are strictly scoped. `_commands.json` applies
 **only when the completion targets the first token** — i.e. `tokens.len() == 1` and
-`!treat_last_as_complete` (completing the root command or a path). Once the command is complete
-(`npm <Tab>`) or more tokens follow (`git st<Tab>`), candidates rank against the per-command
-order file only.
+`!treat_last_as_complete` (completing the root command, e.g. `g<Tab>`). Once the command is
+complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), bare-word candidates rank against
+the per-command order file only. `_paths.json` is not depth-gated but matches only **explicit
+path candidates** (item text containing `/` or `\`, e.g. `cd .\src\<Tab>`); bare words never
+consult it — a subcommand sharing a name with a directory in path history must not inherit its
+weight.
 
 Result: a `LuaItem` array in ranked order (descending score, stable — items without a score
 keep their relative order).
