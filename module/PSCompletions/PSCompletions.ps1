@@ -1019,6 +1019,7 @@ else {
             $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
             $PSCompletions.trigger_key = $_.config.trigger_key
         }
+        Remove-Item $PSCompletions.path.change -ErrorAction Ignore
     }
 }
 if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
