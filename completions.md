@@ -25,6 +25,7 @@
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
+|[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
 |[carapace](https://carapace.sh/)|A multi-shell completion binary|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust package manager.|
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
@@ -145,6 +146,7 @@
 |[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
 |[nu](https://github.com/nushell/nushell)|The nushell language and shell|
 |[nub](https://nubjs.com/)|The all-in-one Node.js toolkit: package manager, script runner and registry client.|
+|[nubx](https://nubjs.com)|Run a tool from node_modules/.bin, fetching it from the registry on a local miss (a faster npx / pnpm dlx).|
 |[numfmt](https://uutils.org)|Convert numbers from/to human-readable strings.|
 |[nvim](https://neovim.io/)|Vim-fork focused on extensibility and usability.|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js Version Manager.|

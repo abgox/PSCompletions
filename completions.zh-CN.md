@@ -25,6 +25,7 @@
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
+|[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
 |[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust 包管理器。|
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
@@ -145,6 +146,7 @@
 |[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
 |[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
 |[nub](https://nubjs.com/)|一体化 Node.js 工具包: 包管理器、脚本运行器和注册表客户端。|
+|[nubx](https://nubjs.com)|从 node_modules/.bin 运行工具，本地缺失时从 registry 拉取 (更快的 npx / pnpm dlx)。|
 |[numfmt](https://uutils.org)|在数字和人类可读字符串之间转换。|
 |[nvim](https://neovim.io/)|专注于可扩展性和易用性的 Vim 分支。|
 |[nvm](https://github.com/nvm-sh/nvm)|Node.js 版本管理器。|
