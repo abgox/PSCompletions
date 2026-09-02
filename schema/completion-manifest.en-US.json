@@ -298,7 +298,7 @@
       }
     },
     "next-for-option": {
-      "markdownDescription": "Next completion for an **option** (candidate values)\n- Must be an **array**.\n- A **non-empty** array lists static candidate values (selecting one records it as the option's `value`; an out-of-list word is `unknown`). The symbol is `switch`.\n- An **empty** array `[]` means \"no static candidates\" — hooks may supply dynamic items and set the symbol via `psc.set_symbol`; otherwise the value is typed manually and is `unknown`.",
+      "markdownDescription": "Next completion for an **option** (candidate values)\n- Must be an **array**.\n- A **non-empty** array lists static candidate values (selecting one records it as the option's `value`; an out-of-list word is `unknown`).\n- An **empty** array `[]` means \"no static candidates\".",
       "type": "array",
       "uniqueItems": true,
       "items": {
@@ -496,6 +496,29 @@
                     "$ref": "#/definitions/array-items-string"
                   }
                 ]
+              }
+            },
+            "if": {
+              "properties": {
+                "name": {
+                  "pattern": "^(enable|disable)"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "enum": [
+                    0,
+                    1
+                  ]
+                },
+                "values": {
+                  "const": [
+                    0,
+                    1
+                  ]
+                }
               }
             }
           }

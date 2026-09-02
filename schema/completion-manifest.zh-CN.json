@@ -298,7 +298,7 @@
       }
     },
     "next-for-option": {
-      "markdownDescription": "选项的下一级补全（候选值）\n- 必须是**数组**\n- **非空**数组列出静态候选值（选中后记为选项的 `value`；候选外的词为 `unknown`），符号为 `switch`\n- **空**数组 `[]` 表示\"无静态候选\"——hooks 可提供动态项并用 `psc.set_symbol` 设置符号；否则值手动输入且为 `unknown`",
+      "markdownDescription": "选项的下一级补全（候选值）\n- 必须是**数组**\n- **非空**数组列出静态候选值（选中后记为选项的 `value`；候选外的词为 `unknown`）\n- **空**数组 `[]` 表示\"无静态候选\"",
       "type": "array",
       "uniqueItems": true,
       "items": {
@@ -496,6 +496,29 @@
                     "$ref": "#/definitions/array-items-string"
                   }
                 ]
+              }
+            },
+            "if": {
+              "properties": {
+                "name": {
+                  "pattern": "^(enable|disable)"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "enum": [
+                    0,
+                    1
+                  ]
+                },
+                "values": {
+                  "const": [
+                    0,
+                    1
+                  ]
+                }
               }
             }
           }
