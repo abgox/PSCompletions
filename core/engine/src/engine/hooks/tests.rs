@@ -1845,6 +1845,53 @@ fn glob_pattern_normalizes_backslashes_on_windows() {
 }
 
 #[test]
+fn glob_respects_gitignore_and_brace() {
+    // .gitignore is respected (like ripgrep/ignore); brace via globset;
+    // absolute patterns work by joining cwd only when relative.
+    let base = std::env::temp_dir().join("psc-glob-ignore-test");
+    let _ = std::fs::remove_dir_all(&base);
+    let dir = base.join("proj");
+    std::fs::create_dir_all(dir.join("sub")).unwrap();
+    std::fs::create_dir_all(dir.join("node_modules")).unwrap();
+    std::fs::write(dir.join(".gitignore"), "ignored.log\nnode_modules/\n").unwrap();
+    std::fs::write(dir.join("a.md"), "").unwrap();
+    std::fs::write(dir.join("b.txt"), "").unwrap();
+    std::fs::write(dir.join("ignored.log"), "").unwrap();
+    std::fs::write(dir.join("sub").join("c.md"), "").unwrap();
+    std::fs::write(dir.join("node_modules").join("x.md"), "").unwrap();
+    let dir_s = dir.to_string_lossy().replace('\\', "/");
+    let dir_json = serde_json::to_string(&dir_s).unwrap();
+    // Use absolute patterns via psc.path(dir, ...) — absolute ignores cwd, relative would use hook cwd.
+    let script = format!(
+        r#"
+    local abs_star = psc.glob({dir_json} .. "/*.md") or {{}}
+    local abs_rec = psc.glob({dir_json} .. "/**/*.md") or {{}}
+    local abs_brace = psc.glob({dir_json} .. "/*.{{md,txt}}") or {{}}
+    local abs_ignored = psc.glob({dir_json} .. "/*.log") or {{}}
+    return {{
+        {{ name = "star-" .. #abs_star }},
+        {{ name = "rec-" .. #abs_rec }},
+        {{ name = "brace-" .. #abs_brace }},
+        {{ name = "ignored-" .. #abs_ignored }},
+    }}
+"#
+    );
+    // Run with cwd = dir so relative patterns would also work; we test absolute explicitly.
+    let mut ctx2 = ctx();
+    ctx2.cwd = dir_s.clone();
+    let out = run_hook(&ctx2, &script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    // star: only a.md (b.txt not .md); rec: a.md + sub/c.md (node_modules/x.md and ignored.log are gitignored);
+    // brace: a.md + b.txt; ignored: 0 (ignored.log is gitignored)
+    assert_eq!(
+        texts,
+        vec!["star-1", "rec-2", "brace-2", "ignored-0"],
+        "{texts:?}"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
 fn run_format_returns_nil_on_failed_command() {
     // A failing command produces no parseable stdout -> nil (strict failure semantics).
     let script = r#"

@@ -106,9 +106,13 @@ pub(crate) fn api_ls_batch(lua: &Lua, cwd: &str, dirs: Vec<String>) -> mlua::Res
     Ok(t)
 }
 
-/// `psc.glob(pattern)` → array of matching file paths (relative to `cwd`; pattern may contain
-/// `*`/`?`/`**`); nil for an invalid pattern (strict failure semantics; a valid pattern with no
-/// match yields an empty array).
+/// `psc.glob(pattern)` → array of matching file paths (relative to `cwd`; absolute
+/// patterns ignore `cwd`). The pattern may contain `*`/`?`/`**` and `{a,b}` alternation
+/// (via `globset`, like `ripgrep`); nil for an invalid pattern (strict failure
+/// semantics; a valid pattern with no match yields an empty array).
+/// The walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (via `ignore` crate,
+/// like `ripgrep`): ignored files are never returned. `hidden` is `false` so dotfiles
+/// like `.env.*` still match when the pattern asks for them.
 /// Windows: glob treats `\` as an escape, so native backslash paths from hook authors fail;
 /// normalize them to `/`. On non-Windows, `\` is a legal filename character (rare), so it stays literal.
 pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
@@ -121,13 +125,93 @@ pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
 
 pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Option<Vec<String>>> {
     let _ = lua;
-    let base = std::path::Path::new(cwd).join(normalize_glob_pattern(&pattern));
-    let Ok(entries) = glob::glob(&base.to_string_lossy()) else {
-        return Ok(None);
+    let normalized = normalize_glob_pattern(&pattern);
+    // Absolute patterns ignore `cwd` — `Path::join` discards the base when `normalized` is absolute.
+    let abs_path = std::path::Path::new(cwd).join(&normalized);
+    let abs_pat_str = abs_path.to_string_lossy().replace('\\', "/");
+
+    // Validate pattern via globset; invalid → nil (strict failure).
+    let glob = match globset::GlobBuilder::new(&abs_pat_str)
+        .literal_separator(true)
+        .case_insensitive(cfg!(windows))
+        .backslash_escape(false)
+        .build()
+    {
+        Ok(g) => g,
+        Err(_) => return Ok(None),
     };
+    let matcher = glob.compile_matcher();
+
+    let has_meta = abs_pat_str.contains('*')
+        || abs_pat_str.contains('?')
+        || abs_pat_str.contains('[')
+        || abs_pat_str.contains('{');
+    if !has_meta {
+        // No glob meta: direct existence check.
+        if abs_path.exists() {
+            return Ok(Some(vec![abs_path.to_string_lossy().replace('\\', "/")]));
+        } else {
+            return Ok(Some(Vec::new()));
+        }
+    }
+
+    // Walk root = directory before the first meta char, to limit traversal.
+    let meta_pos = abs_pat_str
+        .find(|c| ['*', '?', '[', '{'].contains(&c))
+        .unwrap();
+    let prefix = &abs_pat_str[..meta_pos];
+    let mut walk_root_str = match prefix.rfind('/') {
+        Some(0) => "/".to_string(),
+        Some(idx) => prefix[..idx].to_string(),
+        None => cwd.to_string(),
+    };
+    if walk_root_str.is_empty() {
+        walk_root_str = cwd.to_string();
+    }
+    let walk_root = std::path::Path::new(&walk_root_str);
+    if !walk_root.exists() || !walk_root.is_dir() {
+        return Ok(Some(Vec::new()));
+    }
+
+    // Depth hint: shallow patterns without `**` need not recurse deeply.
+    let max_depth = if abs_pat_str.contains("**") {
+        None
+    } else {
+        let remaining = abs_pat_str[walk_root_str.len()..].trim_start_matches('/');
+        let depth = if remaining.is_empty() {
+            0
+        } else {
+            remaining.matches('/').count() + 1
+        };
+        Some(depth)
+    };
+
+    let mut builder = ignore::WalkBuilder::new(walk_root);
+    builder
+        .hidden(false)
+        .git_ignore(true)
+        .parents(true)
+        .git_global(true)
+        .git_exclude(true)
+        .require_git(false)
+        .follow_links(false);
+    if let Some(d) = max_depth {
+        builder.max_depth(Some(d));
+    }
+    let walker = builder.build();
+
     let mut out = Vec::new();
-    for p in entries.flatten() {
-        out.push(p.to_string_lossy().to_string());
+    let mut seen = std::collections::HashSet::new();
+    for entry in walker {
+        let Ok(entry) = entry else { continue };
+        let path = entry.path();
+        let cand = path.to_string_lossy().replace('\\', "/");
+        if matcher.is_match(&cand) {
+            let s = path.to_string_lossy().replace('\\', "/");
+            if seen.insert(s.clone()) {
+                out.push(s);
+            }
+        }
     }
     Ok(Some(out))
 }

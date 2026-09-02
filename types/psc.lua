@@ -564,15 +564,17 @@ function psc.ls_batch(dirs) end
 
 --- glob 匹配。
 ---
---- - 支持 `*`、`?`、`**`
---- - 路径相对 `psc.cwd` 解析
+--- - 支持 `*`、`?`、`**`、`{a,b}` 交替（`globset`）
+--- - 路径相对 `psc.cwd` 解析（绝对路径 pattern 忽略 `psc.cwd`）
+--- - 遍历尊重 `.gitignore`/`.ignore`/`.git/info/exclude`（如 ripgrep），被忽略的文件不返回
 --- - 返回匹配的绝对路径
 --- - 无效 pattern 返回 `nil`
 ---
 --- Glob matching.
 ---
---- - supports `*`, `?`, `**`
---- - The pattern resolves against `psc.cwd`
+--- - supports `*`, `?`, `**`, and `{a,b}` alternation (`globset`)
+--- - The pattern resolves against `psc.cwd` (an absolute pattern ignores it)
+--- - The walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (like ripgrep) — ignored files are not returned
 --- - Returns matched absolute paths
 --- - `nil` for an invalid pattern
 ---@param pattern string
