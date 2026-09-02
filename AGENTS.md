@@ -13,7 +13,7 @@ Every file you produce **MUST** strictly conform to the rules defined in this do
 
 ## Dynamic Hooks (Lua)
 
-**When writing or migrating a `hooks.lua`, read `design/hooks.md` first** — it is the authoritative reference for the `psc.*` API, the prelude helper functions, and the PowerShell→Lua semantics rules (case-sensitivity, pending-token exclusion, array/`-match` gotchas).
+**When writing or migrating a `hooks.lua`, read `design/hooks.md` first** — it is the authoritative reference for the `psc.*` API, the prelude helper functions, and the PowerShell→Lua semantics rules (case-sensitivity, pending-token exclusion, array/`-match` gotchas). **Style is also defined there** — follow `design/hooks.md §9 Style Guide` (comments, `psc.on` array merging, target validation, `add_*` naming, `or {}` guards).
 
 **Language policy**: all documentation (this file, `design/hooks.md`) and all `hooks.lua` comments are written in **English**. Write new comments in English; do not introduce comments in other languages.
 
@@ -85,7 +85,7 @@ Every command has its own **completion context** — what appears in its menu. A
 **Summary** (see `design/completion.md` for the full symbol logic):
 
 - For commands, `next: []` (empty array) is **forbidden** — either use `next: [...]` (non-empty) or omit the field entirely.
-- For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). The engine auto-assigns `stay` (`?`) to such options. Hooks may override via `psc.set_symbol`.
+- For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). The engine auto-assigns `stay` (`?`) to such options.
 - These are opposite rules — don't mix them up.
 
 **Example — the `git` experience:**
@@ -105,10 +105,11 @@ git stash apply <Tab> → stash names supplied by hooks        (dynamic via psc.
 4. **Self-check** — before running any tool, verify the two `next` rules manually:
    - [ ] Every item inside a `next` array (commands) does **NOT** have `"next": []`
    - [ ] Every item inside an `option` / `global_option` array that has `usage <...>` **does** have a `"next"` field (either `[]` or `[...]`)
-5. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
-6. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 5 until clean
-7. **Translate to `zh-CN.json`**
-8. **Run again**: `.\scripts\compare-json.ps1 <command>`
+5. **Decide on `hooks.lua`** — does this tool have values that depend on **runtime local state** (branches, containers, pods, installed packages, files, env vars)? If yes, hand-write `hooks.lua` per `design/hooks.md` (declarative `psc.on`, validated targets, merged array specs, short why-only comments), set `"hooks": true` in `config.json`, and validate with `.\scripts\validate-completion.ps1 <command>`. If no, leave `hooks.lua` absent and `hooks` unset — do not add a placeholder. See `design/hooks.md §9 Style Guide`.
+6. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
+7. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 6 until clean
+8. **Translate to `zh-CN.json`**
+9. **Run again**: `.\scripts\compare-json.ps1 <command>` — must run clean for both languages
 
 ### Collecting Command Info
 
@@ -188,7 +189,7 @@ completions/<command>/
     └── zh-CN.json        # Template content, needs full rewrite
 ```
 
-The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` (see [Dynamic Hooks](#dynamic-hooks-lua) / `design/hooks.md`) and set `"hooks": true` in `config.json`; there is no automatic hooks generation — every hook is bespoke.
+The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` per `design/hooks.md §9 Style Guide` (declarative `psc.on`, validated targets, merged array specs, short why-only comments) and set `"hooks": true` in `config.json`; there is no automatic hooks generation — every hook is bespoke.
 
 Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (dynamic tips via hooks), or any simple tool like `completions/fd/`.
 
@@ -606,7 +607,7 @@ A new config key touches several places — follow the full chain:
 
 Use hooks when a static list can't know the real values at authoring time — they depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars). Dynamic items are **merged** with the static JSON items, not a replacement.
 
-> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules.
+> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules. **Style is also defined there** — follow `design/hooks.md §9 Style Guide`.
 
 If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
 

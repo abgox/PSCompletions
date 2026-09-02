@@ -120,10 +120,13 @@ candidates itself before rendering:
 ```
 - `manifest` — the language manifest file path.
 - `hooks` — whether to run `hooks.lua` (path derived from the manifest).
-- `config` — per-completion config (manifest `config` keys + special keys), exposed to hooks as
-  `psc.config`.
-- `global_config` — the full global config (`menu` group etc.), for build-stage switches such as
-  `enable_cache` (result caching) and `language` (hook `psc.language`).
+- `config` — per-completion config (keys from `psc completion <name>`).  The engine merges this with
+  `global_config` flat keys and manifest `config` array defaults before exposing to hooks as
+  `psc.config`, so every key always has a resolved value (no manual `or` fallback needed).
+- `global_config` — the full global config (parsed from `settings.json`).  Its flat keys (e.g.
+  `enable_tip`, `language`) are used as the base layer when building `psc.config`; sub-objects
+  like `completion` and `alias` are skipped.  Also used for build-stage switches such as
+  `enable_cache` (result caching).
 - `data` — module-level runtime data (`psc` completion only): settings/completions paths + live
   config; empty/absent elsewhere.
 - `cache_dir` — result-cache directory (`temp/cache`); empty disables caching (see

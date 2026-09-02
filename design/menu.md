@@ -191,7 +191,7 @@ root-level flag into deep contexts.
   `altscreen-follow` / `altscreen-top` / `altscreen-bottom` always use the alternate screen;
   `inline-follow` never does (always renders in the main buffer); `auto` (default) uses it only
   when the space below the cursor cannot fit the minimum menu footprint
-  (`core/engine/src/menu/state.rs::below_required`). An invalid value is normalized to `auto`
+  (`core/engine/src/menu/state/mod.rs::below_required`). An invalid value is normalized to `auto`
   by the CLI's `sanitize_config` before it reaches the engine. On Unix the rendering intent is
   moot (always alternate).
 - **Menu position** (both the alternate-screen start and the main-buffer offset):
@@ -286,7 +286,7 @@ where "red = where I am / what I'm doing" without needing to learn separate cues
   **completion items win** — at very tight space the description is dropped and all usable space
   goes to the list. The description box height descends through a few tiers as space shrinks and
   the list is capped (`list_limit`); the concrete row counts / tier thresholds live in
-  `core/engine/src/menu/state.rs` and `ui.rs`. Layout space is clipped to the **visible window**
+  `core/engine/src/menu/state/mod.rs` and `ui.rs`. Layout space is clipped to the **visible window**
   (module passes `window.top/h`;
   BufferSize spans the whole scrollback).
   - **Input line is never saved/restored**: whatever the orientation, only the covered region is
@@ -426,12 +426,16 @@ core/engine/                 # psc-menu crate: engine + TUI
     │       ├── helpers.rs   # helper functions (trim/typed/mount_items/...)
     │       └── tests.rs     # tests
     └── menu/
+        ├── mod.rs           # module declarations
         ├── app.rs           # key loop + state transitions
-        ├── state.rs         # selection/page/offset/filter state (+ match_segments)
+        ├── state/           # selection/page/offset/filter state (+ match_segments)
+        │   ├── mod.rs       # MenuState + helpers (below_required, match_segments)
+        │   └── tests.rs     # tests
         ├── ui.rs            # layout & drawing (platform branches: Fixed / Fullscreen)
         ├── model.rs         # Input/Output serde structs (+ OrderInfo)
         ├── order.rs         # history ordering (background thread)
-        └── filter.rs        # filter matching (see design/filter-matching.md)
+        ├── filter.rs        # filter matching (see design/filter-matching.md)
+        └── protocol.rs      # wire protocol: input/output JSON, build mode, hook/cache plumbing, candidate assembly
 
 module/PSCompletions/bin/<platform>-<arch>/psc-menu(.exe)
 ```

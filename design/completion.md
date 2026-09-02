@@ -40,6 +40,7 @@ tree's root `option` items apply. `global_option` is always appended. Place a fl
 | Field | Meaning |
 | --- | --- |
 | `path` | Subcommand path of **canonical names** (aliases expanded, case-normalized). |
+| `layers` | Typed context-switch chain: `(kind, canonical)` tuples — commands always; options when they have a `next` array (even empty) or a non-empty `option` array. Drives **declarative location matching** (`psc.on` spec matching). |
 | `pending` | The **unfinished last token** (the word being typed); `None` when the line ends with a space. |
 | `opts` | All completed options' **canonical names**, in order (aliases expanded; symmetrical to `path`). The most recent is `opts[#opts]`. |
 | `tokens` | Completed tokens: `{ text, type, canonical? }` — excludes pending. |
@@ -47,17 +48,16 @@ tree's root `option` items apply. `global_option` is always appended. Place a fl
 Each token is classified as `command` / `option` / `value` / `unknown`:
 - Known commands/options push a `command`/`option` token with a **`canonical`** = the main
   (longest) name — alias input normalizes to it.
-- Values of options become `value` tokens (also canonicalized if they are known options).
+- Values of options become `value` tokens (even when the value is not in the option's static
+  candidates). The engine implements **"command/option wins"**: an option with `next` (even
+  empty) consumes the next token as its value — unless that token matches a known command or
+  option, in which case the option acts as a flag and the token is classified as `command`/`option`.
 - Anything else is `unknown`.
 - `used` counts each command/option by its canonical name for **repeat** tracking.
 - The candidate `seen` filter (resolve phase) collects **command** tokens only — option-layer
   candidate values and unknown words never consume a static subcommand's candidate slot.
-  One collision rule: a token following a free-form-value option (`next: []`) that matches a
-  subcommand name **is classified as a command** — the engine has no arity information to know
-  whether the option consumed its value, and "command wins" keeps `option … command` sequences
-  working. So `git --exec-path add <Tab>` switches into `add`'s context instead of offering the
-  root list; only non-matching values (e.g. `git -C foo <Tab>` when no `foo` subcommand exists)
-  stay `unknown` and leave the root candidates intact.
+- After consuming a value, the context resets to the nearest command context, so subcommands
+  remain reachable.
 
 The generation phase returns the **full candidate set of the current context** — it does
 **not** pre-filter by pending; filtering is left to the menu via `initial_filter`
@@ -74,29 +74,23 @@ Each menu item may carry a **predict symbol** showing how applying it changes th
 
 | Symbol | Config item | Meaning |
 | --- | --- | --- |
-| `~` | `switch` | Apply → **switch a new context** (subcommand layer / candidate-value layer); the menu content changes |
-| `?` | `stay` | Apply → **stay in the current context** (options, global options, multi-select values, or value input that stays in place) |
-| — | — | Nothing more to pick (except the always-available `global_option`); a value that must be typed is conveyed by the `usage` placeholder |
+| `~` | `switch` | Apply → **switch to a new context** — `peek(input+[candidate])` has non-`global` candidates beyond `parent(input)` |
+| `?` | `stay` | Apply → **stay in current layer** — no new layer, but `peek(input+[candidate])` still has non-`global` candidates (e.g. `scoop install -u` keeps `apps`) |
+| — | — | No follow-up beyond `global_option` (leaf like `scoop checkup` whose `peek` is only `--help/--version`) |
 
-**Engine judgement** (`node_symbols`): the symbol depends on whether the item has static
-candidates (a non-empty `next` or `option` array) and whether it is a command or option:
+**Engine judgement**: static `has_static_candidates(next/option non-empty)` → immediate `~` (fast path, e.g. `git stash`); otherwise async `peek_predict_symbol` in `menu/protocol.rs`:
 
-- **Item with a non-empty `next` or `option`** → `switch` (`~`): selecting it switches into the subcommand layer or candidate-value layer.
-- **Option with no static candidates** (`next: []`, `option: []`, or neither field present) → `stay` (`?`): selecting it keeps the current context while the value is typed.
-- **Command with no static candidates** (no `next`/`option`, or both empty) → no symbol: nothing more to pick.
-- **`next: []` on a command** → **forbidden** — commands only have subcommand layers (`[...]`) or nothing.
+- `has_new = peek - parent - global ≠ ∅` → `switch(~)` (`install`→`7zip` new)
+- `!has_new && peek - global ≠ ∅ && candidate.is_option && !is_global` → `stay(?)` (`-u` stays in `install` layer)
+- else `None` (`checkup` only `global`)
 
-**Dynamic symbols**: an option with `next: []` automatically gets `stay` (`?`) from the
-engine. Hooks may override this via `psc.set_symbol(name, symbol)`, or add dynamic items via
-`psc.add(cs, { symbol = ... })`. Multi-select dynamic values should be marked `stay` only
-while more remain (the hook checks the remaining count).
+`global_option` and parent-inherited `option` are excluded first, avoiding `scoop --help` being misjudged as `~`.
 
 **Display**: the item's `symbol` is a **config key** (`switch`/`stay`). In build mode the
 engine maps it to a display character through `context_switch` / `context_stay`
 (user-configurable via `psc config context switch|stay`, defaults `~` / `?`). The menu no
 longer prints the symbol on every item — it shows **the current selected item's** symbol next
-to the counter (zero-padded to the total's width, e.g. `03/15 ~`), so the list stays clean
-and the symbol follows the selection.
+to the counter (e.g. `03/15 ~`), so the list stays clean and the symbol follows the selection.
 
 ## 4. Repeat filtering
 
@@ -144,7 +138,7 @@ Top-level manifest fields:
 | `next` value | Meaning | Predict symbol |
 | --- | --- | --- |
 | `[...]` (non-empty) | A fixed list of values to complete from | `~` |
-| `[]` (empty) | **Options only** — no static candidates; user types manually (path, string). Hooks may add dynamic items via `psc.add` + `psc.set_symbol`. | `stay` (`?`); hooks may override via `psc.set_symbol` |
+| `[]` (empty) | **Options only** — no static candidates; async `peek` may upgrade to `?` if staying layer still has non-`global` candidates | — initially, `?` if stay |
 | (omitted) | Command has no sub-subcommands; value is conveyed by `usage` placeholder | — |
 
 > **Rule**: `[]` (empty array) is **forbidden for commands** — commands only have a subcommand
@@ -162,12 +156,19 @@ Top-level manifest fields:
 Subcommand's own `option` inherits `global_option` — never repeat it.
 
 **Manifest is data, not code** — `tip`/`usage`/`example`/`description` are **plain text**.
+`usage`/`example` entries may also be a `{ "cmd", "desc" }` object (both keys required by
+convention — see `AGENTS.md` §`tip`/`usage`/`example` Format Rules), rendered as `cmd  # desc`
+(the engine joins with two spaces + ` # `; a missing `desc` renders just `cmd`).
 Dynamic tip content (live values, file reads) is produced by the completion's `hooks.lua`
 (`design/hooks.md`), which renders the final text when the menu is built.
 
 ## 6. Cross-references
 
-- `hooks.md` — Lua hooks: dynamic items, `psc.add`/`psc.set_symbol`, the authoritative `psc.*` API.
+- `hooks.md` — Lua hooks: dynamic items, `psc.add`, the authoritative `psc.*` API.
 - `menu.md` — how items are rendered, the counter + predict-symbol display, filtering.
 - `filter-matching.md` — how the menu filter matches items.
 - `AGENTS.md` — operative rules for writing completions (workflow, validation, format rules).
+- **JSON Schemas** (`schema/`) — strict machine-validated definitions:
+  - [`completion-manifest.en-US.json`](../schema/completion-manifest.en-US.json) — the manifest format (en-US annotations).
+  - [`completion-config.en-US.json`](../schema/completion-config.en-US.json) — the per-completion `config.json` format.
+  - Bilingual copies (`*.zh-CN.json`) carry Chinese annotations.
