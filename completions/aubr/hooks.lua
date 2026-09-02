@@ -1,20 +1,9 @@
-local cs = {}
-
-if psc.current.option_like then
-    return completions
+local function add_scripts()
+    local pkg = psc.json("package.json")
+    if not pkg then return end
+    for k, v in pairs(pkg.scripts or {}) do
+        psc.add({ name = k, tip = v })
+    end
 end
 
-local pkg = psc.json("package.json")
-if not pkg then
-    return completions
-end
-
-if psc.has_unknown() then
-    return completions
-end
-
-for k, v in pairs(pkg.scripts or {}) do
-    psc.add(cs, { name = k, tip = v })
-end
-
-return psc.merge(cs)
+psc.on({}, add_scripts)

@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "url": "https://nubjs.com",
+    "description": [
+      "Run a tool from node_modules/.bin, fetching it from the registry on a local miss (a faster npx / pnpm dlx)."
+    ]
+  },
+  "option": [
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "Color mode for Nub's output.",
+        "Default: auto."
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always emit color."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Use color only when output is a TTY.",
+            "Default."
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never emit color."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cpu",
+      "usage": [
+        "--cpu <CPU>"
+      ],
+      "tip": [
+        "CPU architecture(s) to install optional dependencies for.",
+        "Repeatable or comma-separated.",
+        "Replaces any configured supportedArchitectures.cpu."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Every architecture."
+          ]
+        },
+        {
+          "name": "arm64",
+          "tip": [
+            "ARM 64-bit."
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "This machine's own architecture."
+          ]
+        },
+        {
+          "name": "x64",
+          "tip": [
+            "AMD64 / Intel 64-bit."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <DIR>"
+      ],
+      "tip": [
+        "Run as if started in <DIR>."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "Error if the filter selects zero packages."
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --filter <FILTER>"
+      ],
+      "tip": [
+        "Filter workspace packages by name or glob.",
+        "Multiple --filters union; !-prefixed filters subtract."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-existing",
+      "tip": [
+        "Accepted for npx parity.",
+        "Removed from npm v9+; nubx warns and ignores it."
+      ]
+    },
+    {
+      "name": "--include-workspace-root",
+      "tip": [
+        "Add the workspace root package to the recursive set (npm-style).",
+        "Distinct from --workspace-root, which targets only the root."
+      ]
+    },
+    {
+      "name": "--libc",
+      "usage": [
+        "--libc <LIBC>"
+      ],
+      "tip": [
+        "C library/libraries to install optional dependencies for.",
+        "Only consulted on Linux.",
+        "Replaces any configured supportedArchitectures.libc."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "glibc",
+          "tip": [
+            "GNU C Library, used by most Linux distributions."
+          ]
+        },
+        {
+          "name": "musl",
+          "tip": [
+            "Used by Alpine Linux."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--minimum-release-age",
+      "usage": [
+        "--minimum-release-age <DURATION>"
+      ],
+      "tip": [
+        "How old a version must be before it can be installed: a duration with a unit (30s, 5m, 2h, 3d, 1w), or a bare number meaning minutes.",
+        "0 turns the age gate off for this run.",
+        "Overrides minimumReleaseAge from config."
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "Turn the age gate off for this run."
+          ]
+        },
+        {
+          "name": "1d",
+          "tip": [
+            "Only install versions at least one day old."
+          ]
+        },
+        {
+          "name": "1h",
+          "tip": [
+            "Only install versions at least one hour old."
+          ]
+        },
+        {
+          "name": "1w",
+          "tip": [
+            "Only install versions at least one week old."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--minimum-release-age-exclude",
+      "usage": [
+        "--minimum-release-age-exclude <PKG>"
+      ],
+      "tip": [
+        "Exempt packages from the age gate for this run.",
+        "A bare name, a * name glob, or a name with a version range.",
+        "Replaces any configured minimumReleaseAgeExclude rather than adding to it."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no",
+      "tip": [
+        "Alias of --no-install: refuse to fetch a missing tool (npx --no)."
+      ]
+    },
+    {
+      "name": "--no-check",
+      "tip": [
+        "Skip the pre-run dependency-freshness check for this invocation."
+      ]
+    },
+    {
+      "name": "--no-install",
+      "tip": [
+        "Never fetch: if the tool isn't installed locally, error instead of fetching it (npx --no-install)."
+      ]
+    },
+    {
+      "name": "--node",
+      "tip": [
+        "Disable Nub's runtime augmentation for this invocation."
+      ]
+    },
+    {
+      "name": "--os",
+      "usage": [
+        "--os <OS>"
+      ],
+      "tip": [
+        "Operating system(s) to install optional dependencies for.",
+        "Repeatable or comma-separated.",
+        "Replaces any configured supportedArchitectures.os."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Every OS."
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "This machine's own OS."
+          ]
+        },
+        {
+          "name": "darwin",
+          "tip": [
+            "macOS."
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "Linux."
+          ]
+        },
+        {
+          "name": "win32",
+          "tip": [
+            "Windows."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--package",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --package <SPEC>"
+      ],
+      "tip": [
+        "Fetch package SPEC and run a bin from it (the bin name may differ from the package).",
+        "Repeatable. Forces the fetch path (npx -p)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "Run the bin in all packages concurrently with no topological ordering."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Suppress the fetch progress output (npx -q / --quiet)."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "Suppress Nub's non-error output."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "Increase Nub's log verbosity.",
+        "Repeatable."
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--workspace",
+      "usage": [
+        "--workspace <NAME>"
+      ],
+      "tip": [
+        "npm-style member selection: alias for --filter <name>.",
+        "Long-only (the short -w is pnpm's --workspace-root). Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--workspace-concurrency",
+      "usage": [
+        "--workspace-concurrency <N>"
+      ],
+      "tip": [
+        "Max concurrent packages per topological chunk."
+      ],
+      "next": []
+    },
+    {
+      "name": "--workspace-root",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace-root"
+      ],
+      "tip": [
+        "Run from the workspace root regardless of cwd."
+      ]
+    },
+    {
+      "name": "--workspaces",
+      "alias": [
+        "--recursive",
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive, --workspaces"
+      ],
+      "tip": [
+        "Run the bin in every workspace package."
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "Consent up-front to the implicit registry fetch (npx -y): skips the first-fetch prompt.",
+        "The escape hatch out of the CI / non-TTY fail-closed default."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}

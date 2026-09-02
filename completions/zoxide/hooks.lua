@@ -1,19 +1,9 @@
-local cs = {}
-
-if psc.current.option_like then
-    return completions
+local function add_paths()
+    psc.add(psc.items(psc.run({ "zoxide", "query", "--list" }) or {}))
 end
 
-local cmd1 = psc.cmds[1]
-if not cmd1 then
-    local probe = psc.items(psc.run({ "zoxide", "query", "--list" }) or {})
-    if #probe > 0 then
-        psc.set_symbol("remove", "switch")
-    end
-elseif psc.eq(cmd1, "remove") then
-    psc.add(cs,
-        psc.items(psc.run({ "zoxide", "query", "--list" }) or {}, "stay")
-    )
-end
-
-return psc.merge(cs)
+psc.on({
+    { command = "query" },
+    { command = "add",    multiple = true },
+    { command = "remove", multiple = true }
+}, add_paths)

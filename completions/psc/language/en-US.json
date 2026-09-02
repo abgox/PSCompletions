@@ -55,14 +55,6 @@
           "desc": "Restore all trigger aliases from config.json"
         }
       ],
-      "option": [
-        {
-          "name": "--reset",
-          "tip": [
-            "Reset all trigger aliases from config.json."
-          ]
-        }
-      ],
       "next": [
         {
           "name": "add",
@@ -133,15 +125,6 @@
           "cmd": "psc completion git --reset",
           "desc": "Reset all of git's special config"
         }
-      ],
-      "option": [
-        {
-          "name": "--reset",
-          "tip": [
-            "Remove all completions' special config overrides so they follow the global settings again.",
-            "(Keys that declare a manifest default are restored to those defaults instead.)"
-          ]
-        }
       ]
     },
     {
@@ -171,27 +154,11 @@
           "desc": "Reset all config keys to their defaults"
         }
       ],
-      "option": [
-        {
-          "name": "--reset",
-          "tip": [
-            "Reset all module config keys to their defaults."
-          ]
-        }
-      ],
       "next": [
         {
           "name": "context",
           "tip": [
-            "Completion context indicator symbols."
-          ],
-          "option": [
-            {
-              "name": "--reset",
-              "tip": [
-                "Reset the completion context indicator symbols to their defaults."
-              ]
-            }
+            "Context-aware completion predict symbols."
           ],
           "next": [
             {
@@ -204,14 +171,6 @@
                 {
                   "cmd": "psc config context stay \"\"",
                   "desc": "Hide the symbol by setting it to an empty string."
-                }
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
                 }
               ],
               "next": [
@@ -245,14 +204,6 @@
                   "desc": "Hide the symbol by setting it to an empty string."
                 }
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "\"\"",
@@ -278,14 +229,6 @@
           "name": "core",
           "tip": [
             "Tool-level settings."
-          ],
-          "option": [
-            {
-              "name": "--reset",
-              "tip": [
-                "Reset the core (tool-level) config keys to their defaults."
-              ]
-            }
           ],
           "next": [
             {
@@ -325,14 +268,6 @@
                 {
                   "cmd": "psc config core url <url>",
                   "desc": "Set url"
-                }
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
                 }
               ],
               "next": [
@@ -391,28 +326,12 @@
           "tip": [
             "Completion menu settings."
           ],
-          "option": [
-            {
-              "name": "--reset",
-              "tip": [
-                "Reset the completion menu config keys to their defaults."
-              ]
-            }
-          ],
           "next": [
             {
               "name": "color_focus",
               "tip": [
                 "Default: \"red\"",
                 "Set the color of the focused item in the completion menu."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -514,14 +433,6 @@
                 "Default: \"cyan\"",
                 "Set the color of the match highlight in the completion menu."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "\"#00CED1\"",
@@ -621,14 +532,6 @@
               "tip": [
                 "Append a space after applying a completion."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -653,14 +556,6 @@
                 "Set to 0 to disable.",
                 "Caution: external events (e.g. VS Code clicking a file path in the menu tip) may auto-apply stray sequences."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -681,14 +576,6 @@
               "tip": [
                 "Default: 0",
                 "When there is only one completion item, enter it directly instead of displaying the completion menu."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -712,14 +599,6 @@
                 "Default: 1",
                 "Cache the completion result (10s) to speed up re-opening the same menu."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -742,14 +621,6 @@
                 "Default: 1",
                 "The list of the completion menu is displayed with a loop."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -770,29 +641,20 @@
               "name": "enable_native_completion",
               "tip": [
                 "Default: 1",
-                "Invoke and integrate the PowerShell native completion data (TabExpansion2) into the module menu.",
-                "When enabled, completions for non-module-managed commands and path completions are also handled by the module menu."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
+                "Whether the completion menu also takes over PowerShell native completion based on TabExpansion2."
               ],
               "next": [
                 {
                   "name": "0",
                   "tip": [
-                    "Only module-managed commands use the module menu; other commands keep PowerShell native completion."
+                    "Completion menu only takes over completions from the completion library (psc add)."
                   ]
                 },
                 {
                   "name": "1",
                   "tip": [
                     "Default value.",
-                    "All completion data (including PowerShell native) is displayed by the module menu."
+                    "Completion menu also takes over PowerShell native completion based on TabExpansion2."
                   ]
                 }
               ]
@@ -804,14 +666,6 @@
                 "Use path completion with a trailing separator.",
                 "C:\\Users\\abgox\\     (With)",
                 "C:\\Users\\abgox      (Without)"
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -836,14 +690,6 @@
                 "Sort the completion items dynamically based on command history.",
                 "It will read the history file provided by PSReadLine."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -865,14 +711,6 @@
               "tip": [
                 "Default: 1",
                 "Show the completion tip."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -896,14 +734,6 @@
                 "Default: 1",
                 "Show the example section in the completion tip (applies when enable_tip is on)."
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "0",
@@ -925,14 +755,6 @@
               "tip": [
                 "Default: 1",
                 "Show the usage section in the completion tip (applies when enable_tip is on)."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -963,14 +785,6 @@
                 {
                   "cmd": "\"wildcard\"",
                   "desc": "(Default) '*' matches any characters, '**' a literal asterisk; a leading '*' switches to subsequence; '^' anchors the whole pattern."
-                }
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
                 }
               ],
               "next": [
@@ -1017,14 +831,6 @@
                   "desc": "pins to the bottom, always rendered on the alternate screen."
                 }
               ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
-              ],
               "next": [
                 {
                   "name": "\"altscreen-bottom\"",
@@ -1066,14 +872,6 @@
                 "Default: \"Tab\"",
                 "Setting the key that triggers the completion menu.",
                 "It will use Set-PSReadLineKeyHandler to bind the key."
-              ],
-              "option": [
-                {
-                  "name": "--reset",
-                  "tip": [
-                    "Reset this config key to its default."
-                  ]
-                }
               ],
               "next": [
                 {
@@ -1894,8 +1692,26 @@
     {
       "name": "--reset",
       "tip": [
-        "Delete all module data (completions, configs) and reinitialize.",
-        "An interactive confirmation is required before anything is deleted."
+        "Reset to default.",
+        "The effect depends on where it is used."
+      ],
+      "example": [
+        {
+          "cmd": "psc --reset",
+          "desc": "Delete all data and reinitialize, confirmation required."
+        },
+        {
+          "cmd": "psc config --reset",
+          "desc": "Reset all configurations under config."
+        },
+        {
+          "cmd": "psc config context --reset",
+          "desc": "Reset all configurations under context."
+        },
+        {
+          "cmd": "psc config context stay --reset",
+          "desc": "Reset a single configuration under context."
+        }
       ]
     }
   ],
@@ -1942,11 +1758,7 @@
       "add": {
         "err": {
           "cmd_exist": "<@Red>Trigger alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias."
-        },
-        "tip": [
-          "{{ \"Current trigger aliases: $($PSCompletions.data.alias.$completion -join ' ')\" }}\n",
-          "Add one or more trigger aliases for {{ $completion }}."
-        ]
+        }
       },
       "rm": {
         "tip_v": [
@@ -1980,17 +1792,7 @@
           "Set the language of {{ $completion }}."
         ],
         "tip_v": "Set language to {{ $language }}."
-      },
-      "reset_manifest": [
-        "Restore this config key to the default defined in the completion's manifest."
-      ],
-      "reset_name": [
-        "Remove this completion's special config overrides so it follows the global settings again.",
-        "(Keys that declare a manifest default are restored to those defaults instead.)"
-      ],
-      "reset_special": [
-        "Remove this special config override so the completion follows the global setting again."
-      ]
+      }
     },
     "confirm_cancel": "<@Green>The operation has been canceled.",
     "description": [

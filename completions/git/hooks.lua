@@ -1,23 +1,31 @@
-local function add_branch(cs)
+local function add_branch()
     for _, b in ipairs(psc.run({ "git", "branch", "--format=%(refname:lstrip=2)" }) or {}) do
-        if not b:match("^%(%w+ detach") then
-            psc.add(cs, { name = b, tip = "branch --- " .. b })
+        -- Detached HEAD shows up as a "(HEAD detached ...)" pseudo-ref.
+        if not b:match("^%(.+ detach") then
+            psc.add({ name = b, tip = "branch --- " .. b })
         end
     end
 end
 
-local function add_head(cs)
-    for _, h in ipairs({ "HEAD", "FETCH_HEAD", "ORIG_HEAD", "MERGE_HEAD" }) do
-        local tip = psc.join(psc.run({ "git", "show", h, "--relative-date", "-q" }) or {}, "\n")
-        psc.add(cs, { name = h, tip = tip })
+local function add_head()
+    local heads = { "HEAD", "FETCH_HEAD", "ORIG_HEAD", "MERGE_HEAD" }
+    local cmds = {}
+    for _, h in ipairs(heads) do
+        table.insert(cmds, { "git", "show", h, "--relative-date", "-q" })
+    end
+    local results = psc.run_batch(cmds) or {}
+    for i, h in ipairs(heads) do
+        local lines = results[i]
+        if lines then
+            psc.add({ name = h, tip = psc.join(lines, "\n") })
+        end
     end
 end
 
-local function add_commit(cs)
-    local max = tonumber(psc.config.max_commit) or 30
+local function add_commit()
+    local max = psc.config.max_commit
     local sep = "PSCOMPLETIONS_COMMIT_SEP"
     local args = { "git", "log", "--pretty=format:%h%nDate: %cr%nAuthor: %an <%ae>%n%B%n" .. sep }
-    -- `max_commit` = -1 means "all commits"; git log -n only accepts a positive count
     if max ~= -1 then
         table.insert(args, "-n")
         table.insert(args, tostring(max))
@@ -26,6 +34,8 @@ local function add_commit(cs)
     local buf = {}
     for _, l in ipairs(lines) do
         if l == sep then
+            -- Empty-message commits (initial, --allow-empty-message) are still valid refs.
+            -- Only their tooltip loses the message part.
             if #buf >= 1 then
                 local tip_parts = {}
                 if buf[2] then table.insert(tip_parts, buf[2]) end
@@ -37,7 +47,7 @@ local function add_commit(cs)
                 if #msg > 0 then
                     table.insert(tip_parts, psc.join(msg, "\n"))
                 end
-                psc.add(cs, { name = buf[1], tip = psc.join(tip_parts, "\n") })
+                psc.add({ name = buf[1], tip = psc.join(tip_parts, "\n") })
             end
             buf = {}
         else
@@ -46,204 +56,203 @@ local function add_commit(cs)
     end
 end
 
-local function add_stash(cs)
-    for _, line in ipairs(psc.run({ "git", "stash", "list" }) or {}) do
-        local id = line:match("stash@{(%d+)}")
-        if id then
-            psc.add(cs, { name = id, tip = line })
-        end
-    end
-end
-
-local function add_remote(cs)
-    psc.add(cs, psc.items(psc.run({ "git", "remote" }) or {}, function(name)
-        return { name = name, tip = "remote --- " .. name }
-    end))
-end
-
-local function add_tag(cs)
-    psc.add(cs, psc.items(psc.run({ "git", "tag", "-l" }) or {}, function(name)
+local function add_tag()
+    psc.add(psc.items(psc.run({ "git", "tag", "-l" }) or {}, function(name)
         return { name = name, tip = "tag --- " .. name }
     end))
 end
 
-local cs = {}
-
-if psc.current.option_like then
-    return completions
+-- Stash entries are addressed by their numeric index (e.g. `git stash apply 0`).
+local function add_stash()
+    for _, line in ipairs(psc.run({ "git", "stash", "list" }) or {}) do
+        local id = line:match("stash@{(%d+)}")
+        if id then
+            psc.add({ name = id, tip = line })
+        end
+    end
 end
 
-local cmd1, cmd2 = psc.cmds[1], psc.cmds[2]
-local last_path = psc.cmds[#psc.cmds]
-local lo = psc.opts[#psc.opts]
-local clean = not psc.has_unknown()
-
-if not cmd1 then
-    local commits = {}
-    add_commit(commits)
-    if #commits > 0 then
-        psc.set_symbol("revert", "switch")
-        psc.set_symbol("show", "switch")
-    end
-elseif psc.eq(cmd1, "config") then
-    local keys = psc.mount_items({ "next", "config", "set", "next" })
-    if #keys > 0 then
-        psc.set_symbol("get", "switch")
-        psc.set_symbol("unset", "switch")
-    end
-elseif psc.eq(cmd1, "branch") then
-    local commits = {}
-    add_commit(commits)
-    if #commits > 0 then
-        psc.set_symbol("--contains", "switch")
-        psc.set_symbol("--merged", "switch")
-        psc.set_symbol("--no-merged", "switch")
-    end
-    local branches = {}
-    add_branch(branches)
-    if #branches > 0 then
-        psc.set_symbol("--copy", "switch")
-        psc.set_symbol("--move", "switch")
-        psc.set_symbol("-d", "switch")
-    end
-elseif psc.eq(cmd1, "commit") then
-    local commits = {}
-    add_commit(commits)
-    if #commits > 0 then
-        psc.set_symbol("--fixup", "switch")
-        psc.set_symbol("--squash", "switch")
-    end
-elseif psc.eq(cmd1, "stash") then
-    local stashes = {}
-    add_stash(stashes)
-    if #stashes > 0 then
-        psc.set_symbol("apply", "switch")
-        psc.set_symbol("drop", "switch")
-        psc.set_symbol("pop", "switch")
-    end
-elseif psc.eq(cmd1, "remote") then
-    local remotes = psc.items(psc.run({ "git", "remote" }) or {}, function(name)
+local function add_remote()
+    psc.add(psc.items(psc.run({ "git", "remote" }) or {}, function(name)
         return { name = name, tip = "remote --- " .. name }
-    end)
-    if #remotes > 0 then
-        psc.set_symbol("remove", "switch")
-    end
-elseif psc.eq(cmd1, "tag") then
-    local tags = {}
-    add_tag(tags)
-    if #tags > 0 then
-        psc.set_symbol("--delete", "switch")
-        psc.set_symbol("--verify", "switch")
-    end
-    local commits = {}
-    add_commit(commits)
-    if #commits > 0 then
-        psc.set_symbol("--contains", "switch")
-        psc.set_symbol("--merged", "switch")
-        psc.set_symbol("--no-contains", "switch")
-        psc.set_symbol("--no-merged", "switch")
-    end
+    end))
 end
 
-if psc.eq(cmd1, "add") then
+-- Porcelain status lines are "XY <path>" (X=index, Y=worktree). Cover modified /
+-- added / deleted / renamed / copied and conflict shapes (UU/AA/AU/UA/DU/UD/DD);
+-- renames and copies print "old -> new", so complete the new path.
+local function add_modified_files()
     for _, line in ipairs(psc.run({ "git", "status", "--porcelain" }) or {}) do
-        local f = line:match("^.[MD] (.+)$") or line:match("^%?%? (.+)$")
-        if f then
-            psc.add(cs, { name = f, tip = line })
+        local code, f = line:sub(1, 2), line:sub(4)
+        if #f > 0 and (code == "??" or code:match("[MDARCU]")) then
+            local new_path = f:match("^.+ %-> (.+)$")
+            if new_path then
+                f = new_path
+            end
+            psc.add({ name = f, tip = line })
         end
-    end
-elseif psc.contains({ "bisect", "checkout", "cherry", "cherry-pick", "describe", "format-patch", "log", "merge-base", "notes", "shortlog" }, cmd1) then
-    if clean then
-        add_branch(cs)
-        add_head(cs)
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "config") then
-    if psc.contains({ "unset", "get" }, last_path) then
-        -- Reuse config.set's keys: get/unset need the key names (their own level)
-        psc.add(cs, psc.mount_items({ "next", "config", "set", "next" }))
-    end
-elseif psc.eq(cmd1, "diff") then
-    add_commit(cs)
-elseif psc.eq(cmd1, "grep") then
-    if clean then
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "rebase") then
-    add_branch(cs)
-    add_head(cs)
-    add_commit(cs)
-    if psc.eq(lo, "--strategy") then
-        for _, s in ipairs({ "resolve", "recursive", "ours", "subtree", "octopus" }) do
-            psc.add(cs, { name = s, tip = "strategy --- " .. s })
-        end
-    end
-elseif psc.eq(cmd1, "reset") then
-    if clean then
-        add_head(cs)
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "revert") then
-    if clean then
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "show") then
-    if clean then
-        add_head(cs)
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "switch") then
-    if clean then
-        add_branch(cs)
-    end
-elseif psc.eq(cmd1, "branch") then
-    if psc.contains({ "--move", "--copy", "-d" }, lo) then
-        add_branch(cs)
-    elseif psc.contains({ "--contains", "--merged", "--no-merged" }, lo) then
-        add_commit(cs)
-    elseif psc.eq(lo, "--points-at") then
-        add_branch(cs)
-        add_head(cs)
-        add_commit(cs)
-        add_tag(cs)
-    elseif psc.eq(lo, "--set-upstream-to") then
-        add_branch(cs)
-    end
-elseif psc.eq(cmd1, "commit") then
-    if clean and psc.contains({ "--reedit-message", "--fixup", "--squash" }, lo) then
-        add_commit(cs)
-    end
-elseif psc.eq(cmd1, "merge") then
-    if clean then
-        add_branch(cs)
-    end
-elseif psc.eq(cmd1, "stash") then
-    if clean and psc.contains({ "show", "pop", "apply", "drop" }, cmd2) then
-        add_stash(cs)
-    end
-elseif psc.contains({ "push", "pull", "fetch" }, cmd1) then
-    if clean then
-        add_remote(cs)
-    end
-    if psc.eq(cmd1, "fetch") and psc.eq(lo, "--shallow-exclude") then
-        add_branch(cs)
-        add_tag(cs)
-    end
-elseif psc.eq(cmd1, "remote") then
-    if psc.contains({ "rename", "remove" }, cmd2) then
-        add_remote(cs)
-    end
-elseif psc.eq(cmd1, "tag") then
-    if psc.contains({ "--delete", "--verify" }, lo) then
-        add_tag(cs)
-    elseif psc.contains({ "--contains", "--merged", "--no-contains", "--no-merged" }, lo) then
-        add_commit(cs)
-    elseif psc.eq(lo, "--points-at") then
-        add_branch(cs)
-        add_head(cs)
-        add_commit(cs)
-        add_tag(cs)
     end
 end
 
-return psc.merge(cs)
+local function add_tracked_files()
+    psc.add(psc.items(psc.run({ "git", "ls-files" }) or {}, function(name)
+        return { name = name, tip = "tracked --- " .. name }
+    end))
+end
+
+local function add_conflicts()
+    for _, f in ipairs(psc.run({ "git", "diff", "--name-only", "--diff-filter=U" }) or {}) do
+        psc.add({ name = f, tip = "conflict --- " .. f })
+    end
+end
+
+psc.on({
+    { command = "merge" },
+    { command = "branch" },
+    { command = "switch" },
+    { command = "checkout" },
+    { command = "rebase" },
+    { command = "cherry-pick" },
+    { command = "cherry" },
+    { command = "log" },
+    { command = "describe" },
+    { command = "shortlog" },
+    { command = "show-branch" },
+    { command = "merge-base" },
+    { command = "format-patch" },
+    { command = "archive" },
+    { command = { "bisect", "start" }, multiple = true },
+    { command = "switch",              option = "--create" },
+    { command = "switch",              option = "--force-create" },
+    { command = "switch",              option = "--orphan" },
+    { command = "checkout",            option = "--orphan" },
+    { command = "checkout",            option = "-b" },
+    { command = "branch",              option = "--move" },
+    { command = "branch",              option = "-M" },
+    { command = "branch",              option = "--copy" },
+    { command = "branch",              option = "-C" },
+    { command = "branch",              option = "-d" },
+    { command = "branch",              option = "--set-upstream-to" },
+    { command = "branch",              option = "--points-at" },
+    { command = "tag",                 option = "--points-at" },
+    { command = "rebase",              option = "--onto" },
+    { command = "restore",             option = "--source" },
+    { command = "fetch",               option = "--shallow-exclude" }
+}, add_branch)
+
+psc.on({
+    { command = "merge" },
+    { command = "rebase" },
+    { command = "checkout" },
+    { command = "cherry-pick" },
+    { command = "cherry" },
+    { command = "log" },
+    { command = "describe" },
+    { command = "shortlog" },
+    { command = "show-branch" },
+    { command = "merge-base" },
+    { command = "format-patch" },
+    { command = "range-diff" },
+    { command = "reset" },
+    { command = "show" },
+    { command = { "bisect", "start" }, multiple = true },
+    { command = "rebase",              option = "--onto" },
+    { command = "branch",              option = "--points-at" },
+    { command = "tag",                 option = "--points-at" }
+}, add_head)
+
+psc.on({
+    { command = "commit" },
+    { command = "rebase" },
+    { command = "checkout" },
+    { command = "cherry-pick" },
+    { command = "cherry" },
+    { command = "log" },
+    { command = "describe" },
+    { command = "shortlog" },
+    { command = "show-branch" },
+    { command = "merge-base" },
+    { command = "format-patch" },
+    { command = "range-diff" },
+    { command = "reset" },
+    { command = "show" },
+    { command = "diff" },
+    { command = "archive" },
+    { command = "revert" },
+    { command = "verify-commit" },
+    { command = { "bisect", "start" }, multiple = true },
+    { command = "rebase",              option = "--onto" },
+    { command = "restore",             option = "--source" },
+    { command = "branch",              option = "--contains" },
+    { command = "branch",              option = "--merged" },
+    { command = "branch",              option = "--no-merged" },
+    { command = "branch",              option = "--points-at" },
+    { command = "tag",                 option = "--contains" },
+    { command = "tag",                 option = "--merged" },
+    { command = "tag",                 option = "--no-merged" },
+    { command = "tag",                 option = "--points-at" },
+    { command = "commit",              option = "--squash" },
+    { command = "commit",              option = "--reedit-message" }
+}, add_commit)
+
+psc.on({
+    { command = "tag" },
+    { command = "verify-tag" },
+    { command = "archive" },
+    { command = "tag",       option = "--delete" },
+    { command = "tag",       option = "--verify" },
+    { command = "tag",       option = "--points-at" },
+    { command = "branch",    option = "--points-at" },
+    { command = "fetch",     option = "--shallow-exclude" }
+}, add_tag)
+
+psc.on({
+    { command = { "stash", "show" } },
+    { command = { "stash", "pop" } },
+    { command = { "stash", "apply" } },
+    { command = { "stash", "drop" } },
+    { command = { "stash", "branch" } }
+}, add_stash)
+
+psc.on({
+    { command = "push" },
+    { command = "pull" },
+    { command = "fetch" },
+    { command = "ls-remote" },
+    { command = { "remote", "rename" } },
+    { command = { "remote", "remove" } },
+    { command = { "remote", "set-url" } },
+    { command = { "remote", "get-url" } },
+    { command = { "remote", "prune" } },
+    { command = { "remote", "set-head" } },
+    { command = { "remote", "set-branches" } },
+    { command = { "lfs", "fetch" } },
+    { command = { "lfs", "pull" } },
+    { command = { "lfs", "push" } }
+}, add_remote)
+
+psc.on({
+    { command = "add",              multiple = true },
+    { command = "clean" },
+    { command = "restore" },
+    { command = "difftool" },
+    { command = "diff" },
+    { command = { "stash", "push" } }
+}, add_modified_files)
+
+psc.on({
+    { command = "rm" },
+    { command = "mv" },
+    { command = "ls-files" },
+    { command = "blame" },
+    { command = "annotate" }
+}, add_tracked_files)
+
+psc.on({ command = "mergetool" }, add_conflicts)
+
+psc.on({
+    { command = { "config", "unset" } },
+    { command = { "config", "get" } }
+}, function()
+    psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+end)

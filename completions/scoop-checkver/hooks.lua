@@ -1,19 +1,18 @@
-local cs = {}
-
-if psc.current.option_like then
-    return completions
+if psc.typing.option_like then
+    return
 end
 
-local lo = psc.opts[#psc.opts] or ""
-if psc.contains({ "-Dir", "-Version", "-Segment", "-MaxConcurrency", "-TimeoutSec" }, lo) then
-    return completions
+if #psc.tokens ~= 0 and psc.contains({ "-Dir", "-Version", "-Segment", "-MaxConcurrency", "-TimeoutSec" }, psc.tokens[#psc.tokens].name) then
+    return
 end
 
-for _, m in ipairs(psc.glob("bucket/**/*.json") or {}) do
-    local name = m:match("([^/\\]+)%.json$")
-    if name then
-        psc.add(cs, { name = name, tip = m })
+local function add_manifests()
+    for _, m in ipairs(psc.glob("bucket/**/*.json") or {}) do
+        local name = m:match("([^/\\]+)%.json$")
+        if name then
+            psc.add({ name = name, tip = m })
+        end
     end
 end
 
-return psc.merge(cs)
+psc.on({}, add_manifests)

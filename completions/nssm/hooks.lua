@@ -1,14 +1,12 @@
-local cs = {}
-
-if psc.current.option_like then
-    return completions
+if psc.platform ~= "windows" then
+    return
 end
 
-if psc.cmds[1] and not psc.has_unknown() then
+local function add_services()
     for _, line in ipairs(psc.run({ "sc", "query", "state=", "all" }) or {}) do
         local name = line:match("^SERVICE_NAME:%s+(%S+)")
         if name then
-            psc.add(cs, {
+            psc.add({
                 name = name,
                 tip = {
                     ["en-US"] = "Windows service --- " .. name,
@@ -19,4 +17,4 @@ if psc.cmds[1] and not psc.has_unknown() then
     end
 end
 
-return psc.merge(cs)
+psc.on({ command = { "" } }, add_services)

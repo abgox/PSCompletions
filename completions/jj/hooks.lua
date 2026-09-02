@@ -1,41 +1,35 @@
-local BOOKMARK_TEMPLATE = [[if(remote,
-  if(tracked,
-separate(" ",
-  label("bookmark", name ++ "@" ++ remote),
-),
-label("bookmark", name ++ "@" ++ remote),
-  ),
-  label("bookmark", name)
-) ++ "\n"
-]]
-
-local function add_bookmark(cs)
-    psc.add(cs,
-        psc.items(psc.run({ "jj", "bookmark", "list", "--all-remotes", "--template", BOOKMARK_TEMPLATE }) or {},
+local function add_bookmark()
+    psc.add(
+        psc.items(
+            psc.run({
+                "jj", "bookmark", "list", "--all-remotes", "--template",
+                'if(remote, label("bookmark", name ++ "@" ++ remote), label("bookmark", name)) ++ "\n"' }) or {},
             function(name)
                 return { name = name, tip = "bookmark --- " .. name }
-            end))
+            end
+        )
+    )
 end
 
-local function add_tag(cs)
-    psc.add(cs, psc.items(psc.run({ "jj", "tag", "list", "--template", BOOKMARK_TEMPLATE }) or {}, function(name)
+local function add_tag()
+    psc.add(psc.items(psc.run({ "jj", "tag", "list", "--template", 'name ++ "\\n"' }) or {}, function(name)
         return { name = name, tip = "tag --- " .. name }
     end))
 end
 
-local function add_common_revsets(cs)
+local function add_common_revsets()
     local sets = { "'..'", "'::'", "'@'", "'@-'", "'@+'", "'all()'" }
     for _, s in ipairs(sets) do
-        psc.add(cs, { name = s, tip = "revsets --- " .. s })
+        psc.add({ name = s, tip = "revsets --- " .. s })
     end
 end
 
-local function add_revsets(cs)
+local function add_revsets()
     for _, line in ipairs(psc.run({
         "jj", "log",
         "-r", "present(@) | present(trunk()) | ancestors(immutable_heads().., 2)",
         "-T", 'change_id.short() ++ ": " ++ description.first_line() ++ "\\n"',
-        "--no-pager", "--no-graph", "--limit", "30",
+        "--no-pager", "--no-graph", "--limit", "30"
     }) or {}) do
         local part0, part1 = line:match("^([^:]+):%s*(.*)$")
         if part0 then
@@ -43,90 +37,102 @@ local function add_revsets(cs)
             if tip == nil or tip == "" then
                 tip = "(no description set)"
             end
-            psc.add(cs, { name = part0, tip = tip })
+            psc.add({ name = part0, tip = tip })
         end
     end
 end
 
-local function add_remote(cs)
+local function add_remote()
     for _, line in ipairs(psc.run({ "jj", "git", "remote", "list" }) or {}) do
         local name, url = line:match("^(%S+)%s+(.*)$")
         if name then
-            psc.add(cs, { name = name, tip = url })
+            psc.add({ name = name, tip = url })
         end
     end
 end
 
-local cs = {}
-
-if psc.current.option_like then
-    return completions
-end
-
-local cmd1, cmd2, cmd3 = psc.cmds[1], psc.cmds[2], psc.cmds[3]
-
-if not cmd1 then
-    psc.set_symbol("new", "switch")
-end
-if psc.eq(cmd1, "bookmark") then
-    local marks = {}
-    add_bookmark(marks)
-    if #marks > 0 then
-        psc.set_symbol("set", "switch")
-        psc.set_symbol("delete", "switch")
-        psc.set_symbol("forget", "switch")
-        psc.set_symbol("move", "switch")
-        psc.set_symbol("rename", "switch")
-        psc.set_symbol("track", "switch")
-    end
-elseif psc.eq(cmd1, "git") and psc.eq(cmd2, "remote") then
-    local remotes = {}
-    add_remote(remotes)
-    if #remotes > 0 then
-        psc.set_symbol("remove", "switch")
-        psc.set_symbol("rename", "switch")
-        psc.set_symbol("set-url", "switch")
-    end
-elseif psc.contains({ "git", "rebase" }, cmd1) then
-    local marks = {}
-    add_bookmark(marks)
-    if #marks > 0 then
-        psc.set_symbol("--branch", "switch")
-        psc.set_symbol("--bookmark", "switch")
+local function add_operation()
+    for _, line in ipairs(psc.run({
+        "jj", "operation", "log", "--no-graph", "--limit", "20",
+        "-T", 'id.short() ++ " " ++ description.first_line() ++ "\\n"'
+    }) or {}) do
+        local id = line:match("^(%S+)")
+        if id then
+            psc.add({ name = id, tip = line })
+        end
     end
 end
-for _, o in ipairs({ "--from", "--into", "--to", "--revisions", "-r", "--range", "--change", "--onto", "--destination", "--insert-after", "--insert-before", "--revision" }) do
-    psc.set_symbol(o, "switch")
+
+local function add_files()
+    psc.add(psc.items(psc.run({ "jj", "file", "list" }) or {}, function(name)
+        return { name = name, tip = "file --- " .. name }
+    end))
 end
 
-if psc.eq(cmd1, "new") then
-    add_common_revsets(cs)
-    add_revsets(cs)
-    add_bookmark(cs)
-elseif psc.eq(cmd1, "bookmark") and not psc.has_unknown()
-    and psc.contains({ "set", "rename", "move", "forget", "delete", "track" }, cmd2) then
-    add_bookmark(cs)
-elseif psc.eq(cmd1, "git") and not psc.has_unknown() and psc.eq(cmd2, "remote")
-    and psc.contains({ "remove", "rename", "set-url" }, cmd3) then
-    add_remote(cs)
-end
+psc.on({
+    { command = "abandon",       multiple = true },
+    { command = "describe",      multiple = true },
+    { command = "duplicate",     multiple = true },
+    { command = "edit",          multiple = true },
+    { command = "metaedit",      multiple = true },
+    { command = "new",           multiple = true },
+    { command = "arrange",       multiple = true },
+    { command = "parallelize",   multiple = true },
+    { option = "--revisions" },
+    { option = "--revision" },
+    { option = "-r" },
+    { option = "--range" },
+    { option = "--onto" },
+    { option = "--destination" },
+    { option = "--insert-after" },
+    { option = "--insert-before" },
+    { option = "--from" },
+    { option = "--to" },
+    { option = "--into" },
+    { option = "--change" },
+    { option = "--source" },
+    { option = "--changes-in" }
+}, function()
+    add_common_revsets()
+    add_revsets()
+    add_bookmark()
+end)
 
-local arg_list = {
-    "--revisions", "--revision", "-r",
-    "--range", "--onto", "--destination",
-    "--insert-after", "--insert-before",
-    "--from", "--to", "--into", "--change"
-}
-local lo = psc.opts[#psc.opts]
-for _, o in ipairs(arg_list) do
-    if psc.eq(lo, o) then
-        add_common_revsets(cs)
-        add_revsets(cs)
-        break
-    end
-end
-if psc.contains({ "--branch", "--bookmark" }, lo) then
-    add_bookmark(cs)
-end
+psc.on({
+    { command = { "tag", "delete" },  multiple = true },
+    { command = { "tag", "set" },     multiple = true },
+    { command = { "tag", "track" },   multiple = true },
+    { command = { "tag", "untrack" }, multiple = true }
+}, add_tag)
 
-return psc.merge(cs)
+psc.on({
+    { command = { "bookmark", "set" },     multiple = true },
+    { command = { "bookmark", "rename" },  multiple = true },
+    { command = { "bookmark", "move" },    multiple = true },
+    { command = { "bookmark", "forget" },  multiple = true },
+    { command = { "bookmark", "delete" },  multiple = true },
+    { command = { "bookmark", "track" },   multiple = true },
+    { command = { "bookmark", "untrack" }, multiple = true },
+    { option = "--bookmark" },
+    { option = "--branch" }
+}, add_bookmark)
+
+psc.on({
+    { command = { "git", "remote", "remove" } },
+    { command = { "git", "remote", "rename" } },
+    { command = { "git", "remote", "set-url" } },
+    { option = "--remote" }
+}, add_remote)
+
+psc.on({
+    { command = { "operation", "restore" }, multiple = true },
+    { command = { "operation", "revert" },  multiple = true },
+    { command = { "operation", "show" },    multiple = true },
+    { command = { "operation", "abandon" }, multiple = true }
+}, add_operation)
+
+psc.on({
+    { command = { "file", "annotate" } },
+    { command = { "file", "show" },    multiple = true },
+    { command = { "file", "chmod" },   multiple = true }
+}, add_files)

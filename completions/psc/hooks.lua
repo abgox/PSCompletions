@@ -1,54 +1,17 @@
-local function without_reset(items)
-    return psc.filter(items, function(it)
-        return not psc.eq(it.name, "--reset")
-    end)
-end
-
 ---@diagnostic disable-next-line: undefined-field
-local d = psc._data or {}
-local cs = {}
-local unknown = {}
-for _, t in ipairs(psc.tokens) do
-    if t.type == "unknown" then
-        table.insert(unknown, t.input)
-    end
-end
-local cmd1, cmd2 = psc.cmds[1], psc.cmds[2]
+local data = psc._data or {}
+---@diagnostic disable-next-line: undefined-field
+local info = psc.manifest.info or {}
 
-if not cmd1 then
-    if #(d.remote or {}) > 0 then
-        psc.set_symbol("add", "switch")
-    end
-    if #(d.list or {}) > 0 then
-        psc.set_symbol("rm", "switch")
-        psc.set_symbol("info", "switch")
-    end
-elseif psc.eq(cmd1, "alias") then
-    if not cmd2 and #(d.list or {}) > 0 then
-        psc.set_symbol("add", "switch")
-        psc.set_symbol("rm", "switch")
-    end
-end
-
--- Commands that never take --reset (add/rm/update/info/list): drop the bubbled-up root --reset
-local no_reset = psc.contains({ "add", "rm", "update", "info", "list" }, cmd1)
-local static_items = no_reset and without_reset(completions) or completions
-
--- completion/config build or hide options dynamically, so option completion can't early-return; others reuse static
-if psc.current.option_like and not psc.contains({ "completion", "config" }, cmd1) then
-    return static_items
-end
-
--- Completion-name tip: pull url/description from completions.json meta (localized)
-local function completion_tip(name)
-    local meta = d.meta and d.meta[name]
+local function get_completion_tip(name)
+    local meta = data.meta and data.meta[name]
     if not meta then
-        return nil
+        return
     end
-    local lang = d.config and d.config.language
-    local c = meta[lang] or meta["en-US"]
+    local lang = psc.config.language or "en-US"
+    local c = meta[lang]
     if not c then
-        return nil
+        return
     end
     local lines = {}
     if c.url then
@@ -61,220 +24,157 @@ local function completion_tip(name)
     return psc.join(lines, "\n")
 end
 
--- Render info tips: substitute {{ $completion }} / {{ $language }} / {{ $value }}; special-case the "Current trigger aliases" line
 local function render_tip(lines, vars)
+    -- lines may be string or array; normalize via psc.join
     if type(lines) == "string" then
         lines = { lines }
     end
     local out = {}
     for _, line in ipairs(lines or {}) do
-        local s = line
-        -- The {{ "prefix $($PSCompletions.data.alias.$completion -join ' ')" }} line: extract prefix + join aliases
-        local expr_prefix = s:match('^{{%s*"(.-)%$%(%$PSCompletions%.data%.alias%.%$completion')
-        if expr_prefix then
-            s = expr_prefix .. psc.join((d.alias and d.alias[vars.completion]) or {}, " ")
-        else
-            for k, v in pairs(vars) do
-                s = s:gsub("{{ %$" .. k .. " }}", tostring(v))
-            end
+        for k, v in pairs(vars) do
+            line = line:gsub("{{ %$" .. k .. " }}", tostring(v))
         end
-        table.insert(out, s)
+        table.insert(out, line)
     end
     return psc.join(out, "\n")
 end
 
--- Target completion language: user override > module language > first supported language
-local function target_language(name, cfg)
-    if not cfg or not cfg.language or #cfg.language == 0 then
-        return "en-US"
-    end
-    local pcc = (d.config and d.config.completion and d.config.completion[name]) or {}
-    local override = pcc.language
-    if override then
-        if psc.contains(cfg.language, override) then
-            return override
+local function rm_reset()
+    for i = #completions, 1, -1 do
+        if completions[i].name == "--reset" then
+            table.remove(completions, i)
+            break
         end
-        return cfg.language[1]
-    end
-    local modlang = d.config and d.config.language
-    if modlang and psc.contains(cfg.language, modlang) then
-        return modlang
-    end
-    return cfg.language[1]
-end
-
--- Settings-registered completions + real dirs on disk (orphans/dead links visible in rm/info/update)
-local function add_completions(include_dirs, symbol)
-    local rest = {}
-    local seen = {}
-    for _, name in ipairs(d.list or {}) do
-        if not psc.typed_unknown(name) then
-            table.insert(rest, name)
-            seen[name] = true
-        end
-    end
-    if include_dirs and d.completions then
-        for _, e in ipairs(psc.ls(d.completions) or {}) do
-            local name = e.name
-            if (e.is_dir or e.is_link) and not seen[name] and not psc.typed_unknown(name) then
-                table.insert(rest, name)
-                seen[name] = true
-            end
-        end
-    end
-    local sym = symbol or (#rest > 1 and "stay" or nil)
-    for _, name in ipairs(rest) do
-        psc.add(cs, { name = name, tip = completion_tip(name), symbol = sym })
     end
 end
 
-local info = psc.manifest and psc.manifest.info or {}
+local function add_installed_completions()
+    for _, e in ipairs(psc.ls(data.completions) or {}) do
+        if e.is_dir then
+            psc.add({ name = e.name, tip = get_completion_tip(e.name) })
+        end
+    end
+end
 
-if psc.eq(cmd1, "add") then
-    -- Installable remotely, not installed locally, and not typed yet
-    local rest = {}
-    for _, name in ipairs(d.remote or {}) do
-        if not psc.typed_unknown(name) and not psc.contains(d.list, name) then
-            table.insert(rest, name)
+local function add_uninstalled_completions()
+    for _, name in ipairs(data.remote or {}) do
+        if not psc.contains(data.list, name) then
+            psc.add({ name = name, tip = get_completion_tip(name) })
         end
     end
-    local symbol = #rest > 1 and "stay" or nil
-    for _, name in ipairs(rest) do
-        psc.add(cs, { name = name, tip = completion_tip(name), symbol = symbol })
+end
+
+psc.on({ command = "add", multiple = true }, add_uninstalled_completions)
+
+psc.on({ command = { "alias", "add" }, multiple = true }, function()
+    local tokens_length = #psc.tokens
+    if tokens_length > 3 then
+        rm_reset()
+        return
     end
-elseif psc.contains({ "rm", "update", "info" }, cmd1) then
-    add_completions(true)
-elseif psc.eq(cmd1, "alias") then
-    -- --reset is invalid inside add/rm; drop the bubbled-up alias-level --reset
-    if psc.eq(cmd2, "add") then
-        if #unknown > 0 then
-            return psc.concat(cs, without_reset(completions))
+    if tokens_length == 2 then
+        add_installed_completions()
+        return
+    end
+end)
+
+psc.on({ command = { "alias", "rm" }, multiple = true }, function()
+    local tokens_length = #psc.tokens
+    if tokens_length == 2 then
+        add_installed_completions()
+        return
+    end
+    if tokens_length >= 3 then
+        local target = psc.tokens[3].name
+        local tip = render_tip(info.alias.rm.tip_v, {})
+        for _, a in ipairs(data.alias[target] or {}) do
+            psc.add({ name = a, tip = tip, repeat_count = 2 })
         end
-        for _, name in ipairs(d.list or {}) do
-            psc.add(cs, { name = name, tip = render_tip(info.alias and info.alias.add.tip, { completion = name }) })
-        end
-        return psc.concat(cs, without_reset(completions))
-    elseif psc.eq(cmd2, "rm") then
-        if #unknown > 0 then
-            local target = unknown[1]
-            local typed = {}
-            for i = 2, #unknown do
-                typed[unknown[i]] = true
-            end
-            local rest = {}
-            for _, a in ipairs((d.alias and d.alias[target]) or {}) do
-                if not typed[a] then
-                    table.insert(rest, a)
-                end
-            end
-            local symbol = #rest > 2 and "stay" or nil
-            local tip = render_tip(info.alias and info.alias.rm.tip_v, {})
-            for _, a in ipairs(rest) do
-                -- Use repeat 99 to explicitly bypass the engine filter
-                psc.add(cs, { name = a, tip = tip, symbol = symbol, repeat_count = 99 })
-            end
-            return psc.concat(cs, without_reset(completions))
-        end
-        add_completions(false, "switch")
-        return psc.concat(cs, without_reset(completions))
+        return
     end
-elseif psc.eq(cmd1, "config") then
-    -- config language follows the system language and can't be reset; drop the bubbled-up --reset
-    if psc.eq(psc.cmds[3], "language") then
-        return psc.concat(cs, without_reset(completions))
+end)
+
+psc.on({ command = "completion", multiple = true }, function()
+    local tokens_length = #psc.tokens
+    if tokens_length >= 4 then
+        rm_reset()
+        return
     end
-elseif psc.eq(cmd1, "completion") then
-    -- completion's --reset is per-level: drop the static one, add a dynamic tip for the current level
-    local function completion_join(reset_tip)
-        if reset_tip then
-            psc.add(cs, { name = "--reset", tip = render_tip(reset_tip, {}), symbol = "stay" })
-        end
-        local static = {}
-        for _, item in ipairs(completions) do
-            if item.name ~= "--reset" then
-                table.insert(static, item)
-            end
-        end
-        return psc.concat(cs, static)
+    if tokens_length == 1 then
+        add_installed_completions()
+        return
     end
-    if #unknown >= 3 then
-        return completion_join(nil)
+    local target = psc.tokens[2].name
+    local cfg = psc.json(psc.path(data.completions, target, "config.json"))
+    if not cfg then
+        return
     end
-    if #unknown == 0 then
-        add_completions(false, "switch")
-        return psc.merge(cs)
+    local json = psc.json(psc.path(data.completions, target, "language", psc.config.language .. ".json"))
+    if not json then
+        json = psc.json(psc.path(data.completions, target, "language", cfg.language[1] .. ".json"))
     end
-    local target = unknown[1]
-    if not psc.contains(d.remote or {}, target) then
-        return completion_join(nil)
-    end
-    local cfg = psc.json(d.completions .. "/" .. target .. "/config.json")
-    local lang = target_language(target, cfg)
-    local json = psc.json(d.completions .. "/" .. target .. "/language/" .. lang .. ".json")
-    if #unknown == 1 then
-        psc.add(cs, {
+    if tokens_length == 2 then
+        psc.add({
             name = "language",
-            tip = render_tip(info.completion and info.completion.language.tip, { completion = target }),
-            symbol = "switch"
+            tip = render_tip(info.completion.language.tip, { completion = target })
         })
-        psc.add(cs, {
+        psc.add({
             name = "enable_tip",
-            tip = render_tip(info.completion and info.completion.enable_tip.tip, { completion = target }),
-            symbol = "switch"
+            tip = render_tip(info.completion.enable_tip.tip, { completion = target })
         })
-        psc.add(cs, {
+        psc.add({
             name = "enable_tip_usage",
-            tip = render_tip(info.completion and info.completion.enable_tip_usage.tip, { completion = target }),
-            symbol = "switch"
+            tip = render_tip(info.completion.enable_tip_usage.tip, { completion = target })
         })
-        psc.add(cs, {
+        psc.add({
             name = "enable_tip_example",
-            tip = render_tip(info.completion and info.completion.enable_tip_example.tip, { completion = target }),
-            symbol = "switch"
+            tip = render_tip(info.completion.enable_tip_example.tip, { completion = target })
         })
-        -- enable_hooks is always settable; offered only when config.json declares hooks
-        if cfg and cfg.hooks ~= nil then
-            local tip = render_tip(info.completion and info.completion.enable_hooks.tip, { completion = target })
-            psc.add(cs, { name = "enable_hooks", tip = (tip:gsub("<@%w+>", "")), symbol = "switch" })
+        if target ~= "psc" and psc.exist(psc.path(data.completions, target, "hooks.lua")) then
+            local tip = render_tip(info.completion.enable_hooks.tip, { completion = target })
+            psc.add({ name = "enable_hooks", tip = (tip:gsub("<@%w+>", "")) })
         end
         for _, c in ipairs((json and json.config) or {}) do
-            local sym = c.values and "switch" or nil
             local tip = (psc.join(c.tip, "\n") or ""):gsub("<@%w+>", "")
-            psc.add(cs, { name = c.name, tip = tip, symbol = sym })
+            psc.add({ name = c.name, tip = tip })
         end
-        return completion_join(info.completion and info.completion.reset_name)
+        return
     end
-    local item = unknown[2]
-    if psc.eq(item, "language") then
-        for _, la in ipairs((cfg and cfg.language) or {}) do
-            psc.add(cs,
-                { name = la, tip = render_tip(info.completion and info.completion.language.tip_v, { language = la }) })
-        end
-    elseif item:match("^enable_") then
-        psc.add(cs, { name = "0", tip = render_tip(info.set_value, { value = "0" }) })
-        psc.add(cs, { name = "1", tip = render_tip(info.set_value, { value = "1" }) })
-    else
-        local c = nil
-        for _, x in ipairs((json and json.config) or {}) do
-            if x.name == item then
-                c = x
-                break
+    if tokens_length == 3 then
+        local config_name = psc.tokens[3].name
+        if psc.eq(config_name, "language") then
+            for _, lang in ipairs(cfg.language or {}) do
+                psc.add(
+                    {
+                        name = lang,
+                        tip = render_tip(info.completion.language.tip_v,
+                            { language = lang })
+                    })
+            end
+        elseif config_name:find("^enable") or config_name:find("^disable") then
+            psc.add({ name = "0", tip = render_tip(info.set_value, { value = "0" }) })
+            psc.add({ name = "1", tip = render_tip(info.set_value, { value = "1" }) })
+        else
+            local c = nil
+            for _, x in ipairs((json and json.config) or {}) do
+                if psc.eq(config_name, x.name) then
+                    c = x
+                    break
+                end
+            end
+            if c and c.values then
+                for _, v in ipairs(c.values) do
+                    psc.add({ name = v, tip = render_tip(info.set_value, { value = v }) })
+                end
             end
         end
-        if c and c.values then
-            for _, v in ipairs(c.values) do
-                psc.add(cs, { name = v, tip = render_tip(info.set_value, { value = v }) })
-            end
-        end
     end
-    -- --reset tip differs by key kind (special key vs manifest config key); enumerated explicitly
-    local special_keys = { "language", "enable_tip", "enable_tip_usage", "enable_tip_example", "enable_hooks" }
-    local reset_tip
-    if psc.contains(special_keys, item) then
-        reset_tip = info.completion and info.completion.reset_special
-    else
-        reset_tip = info.completion and info.completion.reset_manifest
-    end
-    return completion_join(reset_tip)
-end
-return psc.concat(cs, static_items)
+end)
+
+psc.on({ command = { "config", "core", "language" } }, rm_reset)
+
+psc.on({
+    { command = "update", multiple = true },
+    { command = "info",   multiple = true },
+    { command = "rm",     multiple = true }
+}, add_installed_completions)

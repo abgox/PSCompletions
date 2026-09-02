@@ -1,15 +1,9 @@
-local cs = {}
-
-if psc.current.option_like then
-    return completions
-end
-
-if not psc.cmds[1] then
+local function add_recipes()
     for _, line in ipairs(psc.run({ "just", "--summary" }) or {}) do
         for word in line:gmatch("%S+") do
-            psc.add(cs, { name = word })
+            psc.add({ name = word })
         end
     end
 end
 
-return psc.merge(cs)
+psc.on({}, add_recipes)

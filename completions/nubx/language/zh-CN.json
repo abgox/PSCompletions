@@ -1,0 +1,395 @@
+{
+  "meta": {
+    "url": "https://nubjs.com",
+    "description": [
+      "从 node_modules/.bin 运行工具，本地缺失时从 registry 拉取 (更快的 npx / pnpm dlx)。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "Nub 输出的颜色模式。",
+        "默认: auto。"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终使用颜色。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "仅在输出为 TTY 时使用颜色。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不使用颜色。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cpu",
+      "usage": [
+        "--cpu <CPU>"
+      ],
+      "tip": [
+        "为可选依赖安装指定的 CPU 架构。",
+        "可重复或逗号分隔。",
+        "替换已配置的 supportedArchitectures.cpu。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "所有架构。"
+          ]
+        },
+        {
+          "name": "arm64",
+          "tip": [
+            "ARM 64 位。"
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "本机架构。"
+          ]
+        },
+        {
+          "name": "x64",
+          "tip": [
+            "AMD64 / Intel 64 位。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cwd",
+      "usage": [
+        "--cwd <DIR>"
+      ],
+      "tip": [
+        "如同在 <DIR> 中启动一样运行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "过滤器未选中任何包时报错。"
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --filter <FILTER>"
+      ],
+      "tip": [
+        "按名称或 glob 过滤工作区包。",
+        "多个 --filter 取并集; ! 前缀的过滤器做排除。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--ignore-existing",
+      "tip": [
+        "仅为兼容 npx 而接受。",
+        "npm v9+ 已移除; nubx 会警告并忽略它。"
+      ]
+    },
+    {
+      "name": "--include-workspace-root",
+      "tip": [
+        "将工作区根包加入递归集合 (npm 风格)。",
+        "与 --workspace-root 不同，后者仅针对根包。"
+      ]
+    },
+    {
+      "name": "--libc",
+      "usage": [
+        "--libc <LIBC>"
+      ],
+      "tip": [
+        "为可选依赖安装指定的 C 库。",
+        "仅在 Linux 上生效。",
+        "替换已配置的 supportedArchitectures.libc。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "glibc",
+          "tip": [
+            "GNU C 库，大多数 Linux 发行版使用。"
+          ]
+        },
+        {
+          "name": "musl",
+          "tip": [
+            "Alpine Linux 使用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--minimum-release-age",
+      "usage": [
+        "--minimum-release-age <DURATION>"
+      ],
+      "tip": [
+        "版本可安装所需的最小存在时长: 带单位的时长 (30s、5m、2h、3d、1w)，或裸数字表示分钟。",
+        "0 为本次运行关闭年龄门槛。",
+        "覆盖配置中的 minimumReleaseAge。"
+      ],
+      "next": [
+        {
+          "name": "0",
+          "tip": [
+            "为本次运行关闭年龄门槛。"
+          ]
+        },
+        {
+          "name": "1d",
+          "tip": [
+            "仅安装至少存在一天的版本。"
+          ]
+        },
+        {
+          "name": "1h",
+          "tip": [
+            "仅安装至少存在一小时的版本。"
+          ]
+        },
+        {
+          "name": "1w",
+          "tip": [
+            "仅安装至少存在一周的版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--minimum-release-age-exclude",
+      "usage": [
+        "--minimum-release-age-exclude <PKG>"
+      ],
+      "tip": [
+        "为本次运行豁免年龄门槛的包。",
+        "可以是裸名称、* 名称 glob 或带版本范围的名称。",
+        "替换 (而非追加) 已配置的 minimumReleaseAgeExclude。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no",
+      "tip": [
+        "--no-install 的别名: 拒绝拉取缺失的工具 (npx --no)。"
+      ]
+    },
+    {
+      "name": "--no-check",
+      "tip": [
+        "跳过本次运行前的依赖新鲜度检查。"
+      ]
+    },
+    {
+      "name": "--no-install",
+      "tip": [
+        "从不拉取: 工具未在本地安装时直接报错而不拉取 (npx --no-install)。"
+      ]
+    },
+    {
+      "name": "--node",
+      "tip": [
+        "禁用本次调用的 Nub 运行时增强。"
+      ]
+    },
+    {
+      "name": "--os",
+      "usage": [
+        "--os <OS>"
+      ],
+      "tip": [
+        "为可选依赖安装指定的操作系统。",
+        "可重复或逗号分隔。",
+        "替换已配置的 supportedArchitectures.os。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "所有操作系统。"
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "本机操作系统。"
+          ]
+        },
+        {
+          "name": "darwin",
+          "tip": [
+            "macOS "
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "Linux "
+          ]
+        },
+        {
+          "name": "win32",
+          "tip": [
+            "Windows "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--package",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --package <SPEC>"
+      ],
+      "tip": [
+        "拉取 SPEC 包并运行其中的 bin (bin 名可能与包名不同)。",
+        "可重复。强制走拉取路径 (npx -p)。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "在所有包中并发运行 bin，无拓扑排序。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "抑制拉取进度输出 (npx -q / --quiet)。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "抑制 Nub 的非错误输出。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "tip": [
+        "提高 Nub 的日志详细程度。",
+        "可重复。"
+      ],
+      "repeat": 99
+    },
+    {
+      "name": "--workspace",
+      "usage": [
+        "--workspace <NAME>"
+      ],
+      "tip": [
+        "npm 风格成员选择: --filter <name> 的别名。",
+        "仅有长形式 (短形式 -w 是 pnpm 的 --workspace-root)。可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--workspace-concurrency",
+      "usage": [
+        "--workspace-concurrency <N>"
+      ],
+      "tip": [
+        "每个拓扑分块的最大并发包数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--workspace-root",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace-root"
+      ],
+      "tip": [
+        "无论当前目录如何都从工作区根运行。"
+      ]
+    },
+    {
+      "name": "--workspaces",
+      "alias": [
+        "--recursive",
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive, --workspaces"
+      ],
+      "tip": [
+        "在每个工作区包中运行 bin。"
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "预先同意隐式 registry 拉取 (npx -y): 跳过首次拉取提示。",
+        "用于绕过 CI / 非 TTY 环境默认禁止拉取的限制。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助。"
+      ]
+    }
+  ]
+}

@@ -1,14 +1,21 @@
-if psc.current.option_like or #psc.cmds < 1 then
-    return completions
+if psc.platform ~= "windows" or psc.typing.option_like then
+    return
 end
 
-local function scoop_config()
+local scoop_config_cache = nil
+
+local function get_scoop_config()
+    if scoop_config_cache then
+        return scoop_config_cache
+    end
     local root = psc.env("SCOOP")
     local home = psc.env("USERPROFILE") or psc.env("HOME")
     if root then
-        for _, p in ipairs({ root .. "/config.json", home .. "/.config/scoop/config.json" }) do
-            if psc.exist(p) then
-                return psc.json(p)
+        for _, path in ipairs({ psc.path(root, "config.json"), psc.path(home, ".config", "scoop", "config.json") }) do
+            if psc.exist(path) then
+                local cfg = psc.json(path) or {}
+                scoop_config_cache = cfg
+                return cfg
             end
         end
     end
@@ -19,127 +26,141 @@ local function scoop_config()
             cfg[k] = v
         end
     end
+    scoop_config_cache = cfg
     return cfg
 end
 
-local function installed_apps(apps_dirs, root)
-    local candidates = {}
-    for _, d in ipairs(apps_dirs) do
-        for _, e in ipairs(psc.ls(d) or {}) do
-            if e.is_dir and e.name ~= "scoop" and not psc.typed_unknown(e.name) then
-                table.insert(candidates, { dir = d, name = e.name })
+local function get_root()
+    local config = get_scoop_config()
+    return psc.env("SCOOP") or config.root_path
+end
+
+local function get_apps_dir()
+    local config = get_scoop_config()
+    local root = psc.env("SCOOP") or config.root_path
+    if not root then
+        return {}
+    end
+    local global = psc.env("SCOOP_GLOBAL") or config.global_path
+    local apps_dirs = {}
+    if psc.exist(psc.path(root, "apps")) then
+        table.insert(apps_dirs, psc.path(root, "apps"))
+    end
+    if global and psc.exist(psc.path(global, "apps")) then
+        table.insert(apps_dirs, psc.path(global, "apps"))
+    end
+    return apps_dirs
+end
+
+local function get_manifest_paths(root, bucket, app_name)
+    local base = app_name:match("^([^%.]+)")
+    return {
+        psc.path(root, "buckets", bucket, "bucket", app_name:sub(1, 1), base, app_name .. ".json"),
+        psc.path(root, "buckets", bucket, "bucket", app_name .. ".json")
+    }
+end
+
+local function get_installed_apps(apps_dirs, root)
+    local found = {}
+    for _, apps_dir in ipairs(apps_dirs) do
+        for _, entry in ipairs(psc.ls(apps_dir) or {}) do
+            if entry.is_dir and entry.name ~= "scoop" then
+                table.insert(found, { apps_dir = apps_dir, name = entry.name })
             end
         end
     end
-    local paths = {}
-    for _, en in ipairs(candidates) do
-        table.insert(paths, en.dir .. "/" .. en.name .. "/current/manifest.json")
-        table.insert(paths, en.dir .. "/" .. en.name .. "/current/install.json")
+    local json_paths = {}
+    for _, app in ipairs(found) do
+        local current = psc.path(app.apps_dir, app.name, "current")
+        table.insert(json_paths, psc.path(current, "manifest.json"))
+        table.insert(json_paths, psc.path(current, "install.json"))
     end
-    local jsons = psc.json_batch(paths)
-    -- Only a dir with a manifest counts as installed; a leftover dir after a failed install has no manifest.
-    local entries = {}
-    for _, en in ipairs(candidates) do
-        if jsons[en.dir .. "/" .. en.name .. "/current/manifest.json"] then
-            table.insert(entries, en)
+    local json_by_path = psc.json_batch(json_paths)
+    local apps = {}
+    for _, app in ipairs(found) do
+        local current = psc.path(app.apps_dir, app.name, "current")
+        if json_by_path[psc.path(current, "manifest.json")] then
+            app.manifest = json_by_path[psc.path(current, "manifest.json")]
+            app.install = json_by_path[psc.path(current, "install.json")]
+            table.insert(apps, app)
         end
     end
-    local cand_paths = {}
-    for _, en in ipairs(entries) do
-        local i = jsons[en.dir .. "/" .. en.name .. "/current/install.json"]
-        if i and i.bucket and root then
-            local app1 = en.name:match("^([^%.]+)")
-            table.insert(cand_paths,
-                root ..
-                "/buckets/" .. i.bucket .. "/bucket/" .. en.name:sub(1, 1) .. "/" .. app1 .. "/" .. en.name .. ".json")
-            table.insert(cand_paths, root .. "/buckets/" .. i.bucket .. "/bucket/" .. en.name .. ".json")
+    local bucket_paths = {}
+    if root then
+        for _, app in ipairs(apps) do
+            if app.install and app.install.bucket then
+                for _, path in ipairs(get_manifest_paths(root, app.install.bucket, app.name)) do
+                    table.insert(bucket_paths, path)
+                end
+            end
         end
     end
-    local cand_map = psc.json_batch(cand_paths)
-    return entries, jsons, cand_map
+    return apps, psc.json_batch(bucket_paths)
 end
 
-local function installed_tip(name, c, i, root, cand_map)
-    if not c then
-        return name
+local function get_installed_tip(app, root, bucket_manifests)
+    local manifest = app.manifest
+    if not manifest then
+        return app.name
     end
+    local install = app.install
     local lines = {}
-    if i and i.bucket then
-        table.insert(lines, "bucket:   " .. i.bucket)
+    if install and install.bucket then
+        table.insert(lines, "bucket:   " .. install.bucket)
     end
-    local v = tostring(c.version or "")
-    if i and i.bucket and root then
-        local app1 = name:match("^([^%.]+)")
-        local cand1 = root ..
-            "/buckets/" .. i.bucket .. "/bucket/" .. name:sub(1, 1) .. "/" .. app1 .. "/" .. name .. ".json"
-        local cand2 = root .. "/buckets/" .. i.bucket .. "/bucket/" .. name .. ".json"
-        local bm = cand_map and (cand_map[cand1] or cand_map[cand2]) or nil
-        if bm and bm.version and tostring(bm.version) ~= tostring(c.version) then
-            v = v .. " (" .. tostring(bm.version) .. ")"
+    local v = tostring(manifest.version or "")
+    if install and install.bucket and root then
+        local bm = nil
+        for _, path in ipairs(get_manifest_paths(root, install.bucket, app.name)) do
+            bm = bucket_manifests[path]
+            if bm and bm.version and tostring(bm.version) ~= tostring(manifest.version) then
+                v = v .. " (" .. tostring(bm.version) .. ")"
+                break
+            end
         end
     end
     table.insert(lines, "version:  " .. v)
     local category = nil
-    if c.psmodule then
+    if manifest.psmodule then
         category = "psmodule"
-    elseif c.font then
+    elseif manifest.font then
         category = "font"
     end
     if category then
         table.insert(lines, "category: " .. category)
     end
-    if c.homepage then
-        table.insert(lines, "homepage: " .. c.homepage)
+    if manifest.homepage then
+        table.insert(lines, "homepage: " .. manifest.homepage)
     end
     local persistence = {}
-    if c.link or psc.contains(c.pre_install, "A%-New%-Link", { pattern = true }) then
+    if manifest.link or psc.contains(manifest.pre_install, "A%-New%-Link", { pattern = true }) then
         table.insert(persistence, "link")
     end
-    -- `persist` may be a single path (string) or a list (array); next() only works on tables.
-    if type(c.persist) == "table" and next(c.persist) ~= nil then
+    if manifest.persist then
         table.insert(persistence, "persist")
     end
     if #persistence > 0 then
         table.insert(lines, "persistence: " .. psc.join(persistence, ", "))
     end
-    if c.admin then
+    if manifest.admin then
         table.insert(lines, "permissions: admin")
     end
-    if c.description then
+    if manifest.description then
         table.insert(lines, "-----")
-        table.insert(lines, (psc.join(c.description, "\n"):gsub(" | ", "\n")))
+        table.insert(lines, (psc.join(manifest.description, "\n"):gsub(" | ", "\n")))
     end
     return psc.join(lines, "\n")
 end
 
-local cs = {}
-
-local config = scoop_config()
-local root = psc.env("SCOOP") or config.root_path
-if not root then
-    return completions
-end
-local global = psc.env("SCOOP_GLOBAL") or config.global_path
-
-local apps_dirs = {}
-if psc.exist(root .. "/apps") then
-    table.insert(apps_dirs, root .. "/apps")
-end
-if global and psc.exist(global .. "/apps") then
-    table.insert(apps_dirs, global .. "/apps")
+local function add_installed_apps()
+    local root = get_root()
+    local apps, bucket_manifests = get_installed_apps(get_apps_dir(), root)
+    for _, app in ipairs(apps) do
+        psc.add({
+            name = app.name,
+            tip = get_installed_tip(app, root, bucket_manifests)
+        })
+    end
 end
 
-local entries, jsons, cand_map = installed_apps(apps_dirs, root)
-for _, en in ipairs(entries) do
-    local base = en.dir .. "/" .. en.name .. "/current"
-    local i = jsons[base .. "/install.json"]
-    psc.add(cs,
-        {
-            name = en.name,
-            tip = installed_tip(en.name, jsons[base .. "/manifest.json"], i, root, cand_map),
-            symbol = "stay"
-        }
-    )
-end
-
-return psc.merge(cs)
+psc.on({ multiple = true }, add_installed_apps)
