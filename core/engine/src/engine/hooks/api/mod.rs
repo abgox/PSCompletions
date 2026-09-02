@@ -1,5 +1,5 @@
 //! Shared helpers, the independent `psc.env`, and module-level re-exports of the `psc.*`
-//! capability groups (run / fs / formats / items). Contract: `design/hooks.md` §6.
+//! capability groups (run / fs / formats / items). Contract: `design/hooks.md` §5.
 
 mod formats;
 mod fs;
@@ -15,7 +15,6 @@ pub(crate) fn coerce_string_opt(lua: &Lua, v: Value) -> mlua::Result<Option<Stri
     Ok(lua.coerce_string(v)?.map(|s| s.to_string_lossy()))
 }
 
-pub(crate) use super::runner::{now_ms, HOOK_DEADLINE_MS};
 pub(crate) use super::LuaItem;
 /// Resolve a tip value to text: a plain string is used as-is; a **localized table**
 /// `{ ["en-US"] = "...", ["zh-CN"] = "..." }` picks the entry matching `language`
@@ -182,11 +181,8 @@ pub(crate) use formats::{
 #[cfg(test)]
 pub(crate) use fs::normalize_glob_pattern;
 pub(crate) use fs::{
-    api_exist, api_glob, api_ls, api_ls_batch, api_read, api_read_batch, api_which, resolve,
-    table_to_strings,
+    api_exist, api_glob, api_ls, api_ls_batch, api_path, api_read, api_read_batch, api_which,
+    resolve, table_to_strings,
 };
-pub(crate) use items::{
-    api_add, api_concat, api_contains, api_filter, api_items, api_join, api_map, api_merge,
-    api_split,
-};
+pub(crate) use items::{api_add, api_concat, api_contains, api_items, api_join, api_split};
 pub(crate) use run::{api_run, api_run_batch};

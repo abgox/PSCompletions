@@ -132,6 +132,77 @@ pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Op
     Ok(Some(out))
 }
 
+/// `psc.path(...)` → normalize/join path segments into one path using the **native platform
+/// separator** (`\` on Windows, `/` elsewhere): a single argument normalizes its separators
+/// (on Windows `/` → `\`), multiple arguments are joined with that separator. Duplicate
+/// separators collapse (`"a/" + "/b"` → `"a\b"` on Windows, `"a/b"` elsewhere). A leading
+/// separator (absolute segment) and a drive root like `C:\` are preserved. The result is
+/// valid as an input to every `psc.*` file API on its platform.
+pub(crate) fn api_path(_lua: &Lua, parts: mlua::MultiValue) -> mlua::Result<String> {
+    // Collect positional arguments; non-string values (nil, numbers, tables) are skipped,
+    // mirroring the tolerant nil-handling of the other string-collecting APIs.
+    let parts: Vec<String> = parts
+        .into_iter()
+        .filter_map(|v| match v {
+            mlua::Value::String(s) => Some(s.to_string_lossy()),
+            _ => None,
+        })
+        .collect();
+    /// The platform's native path separator.
+    fn sep() -> char {
+        if cfg!(windows) {
+            '\\'
+        } else {
+            '/'
+        }
+    }
+    /// Collapse runs of the separator to a single one (keeping a leading/trailing one, so
+    /// `/usr`, `C:\` etc. are preserved).
+    fn collapse_seps(s: &str, sep: char) -> String {
+        let mut out = String::new();
+        let mut prev_sep = false;
+        for ch in s.chars() {
+            let is_sep = ch == sep;
+            if is_sep {
+                if !prev_sep {
+                    out.push(ch);
+                }
+                prev_sep = true;
+            } else {
+                out.push(ch);
+                prev_sep = false;
+            }
+        }
+        out
+    }
+
+    let sep = sep();
+    let mut out = String::new();
+    for part in parts {
+        // On Windows both `/` and `\` are path separators: unify to the native `\`.
+        let part = if cfg!(windows) {
+            part.replace('/', "\\")
+        } else {
+            part
+        };
+        let part = collapse_seps(&part, sep);
+        if part.is_empty() {
+            continue;
+        }
+        if !out.is_empty() {
+            let out_ends_sep = out.ends_with(sep);
+            let part_starts_sep = part.starts_with(sep);
+            if out_ends_sep && part_starts_sep {
+                out.pop();
+            } else if !out_ends_sep && !part_starts_sep {
+                out.push(sep);
+            }
+        }
+        out.push_str(&part);
+    }
+    Ok(out)
+}
+
 /// `psc.read_batch({path,...})` → read files in parallel; returns `{ [original path] = content | nil }`
 /// (nil for a missing/unreadable file — strict failure semantics).
 pub(crate) fn api_read_batch(lua: &Lua, cwd: &str, paths: Vec<String>) -> mlua::Result<Table> {

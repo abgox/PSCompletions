@@ -1,4 +1,6 @@
+use crate::engine::completion;
 use crate::menu::model::{Config, Output, TerminalInfo};
+use crate::menu::protocol::CompleteInput;
 use crate::menu::state::{FilterOutcome, MenuState};
 use crate::menu::ui;
 use crossterm::event::{
@@ -11,25 +13,31 @@ use crossterm::terminal::{
 use ratatui::layout::Rect;
 use ratatui::{Terminal, TerminalOptions, Viewport};
 use std::io::Write;
+use std::sync::mpsc;
 use std::time::{Duration, Instant};
 
 /// Check if change.json's last_check is stale (>7 days or missing).
-pub(crate) fn is_stale(order_dir: &str, menu_dir: &str) -> bool {
-    let Some(data_dir) = (if !order_dir.is_empty() {
-        std::path::Path::new(order_dir)
-            .parent()
-            .and_then(|p| p.parent())
-            .map(|p| p.to_string_lossy().to_string())
-    } else if !menu_dir.is_empty() {
-        std::path::Path::new(menu_dir)
-            .parent()
-            .and_then(|p| p.parent())
-            .map(|p| p.to_string_lossy().to_string())
+pub(crate) fn is_stale(data_dir: &str, order_dir: &str, menu_dir: &str) -> bool {
+    let data_dir = if !data_dir.is_empty() {
+        data_dir.to_string()
     } else {
-        None
-    }) else {
-        return true;
+        // Legacy fallback: derive data_dir from order_dir/menu_dir parent chain.
+        match () {
+            _ if !order_dir.is_empty() => std::path::Path::new(order_dir)
+                .parent()
+                .and_then(|p| p.parent())
+                .map(|p| p.to_string_lossy().to_string()),
+            _ if !menu_dir.is_empty() => std::path::Path::new(menu_dir)
+                .parent()
+                .and_then(|p| p.parent())
+                .map(|p| p.to_string_lossy().to_string()),
+            _ => None,
+        }
+        .unwrap_or_default()
     };
+    if data_dir.is_empty() {
+        return true;
+    }
     let path = std::path::Path::new(&data_dir)
         .join("temp")
         .join("change.json");
@@ -138,7 +146,7 @@ pub fn run(input_path: &str) -> Output {
 
     let mut cfg = input.config;
     cfg.resolve_tip_flags();
-    if is_stale(&input.order_dir, &input.menu_dir) {
+    if is_stale(&input.data_dir, &input.order_dir, &input.menu_dir) {
         let stale = cfg.filter_hint_stale.trim();
         if !stale.is_empty() {
             if cfg.filter_hint.is_empty() {
@@ -222,6 +230,108 @@ pub fn run(input_path: &str) -> Output {
     if state.filtered.is_empty() {
         return Output::cancel();
     }
+    // Async switch symbol: menu draws immediately with static symbols.
+    // A background peek computes whether the selected row has a next context beyond globals.
+    let peek_input: Option<CompleteInput> = input
+        .build
+        .as_ref()
+        .and_then(|v| serde_json::from_value::<CompleteInput>(v.clone()).ok());
+    let switch_sym = cfg.context_switch.clone();
+    let stay_sym = cfg.context_stay.clone();
+    let (peek_req_tx, peek_req_rx) = mpsc::channel::<(u64, usize, String)>();
+    let (peek_resp_tx, peek_resp_rx) = mpsc::channel::<(u64, usize, String)>();
+    if let Some(pi) = peek_input.clone() {
+        // Skip the entire peek computation when both symbols are empty —
+        // there's nothing to display regardless of the result.
+        if switch_sym.is_empty() && stay_sym.is_empty() {
+            // fall through: channels stay alive, schedule_peek sends to
+            // an unbounded mpsc whose consumer was never started, which is
+            // harmless (a few tiny allocations per menu frame).
+        } else {
+            let sw = switch_sym.clone();
+            let stay = stay_sym.clone();
+            std::thread::spawn(move || {
+                // Pre-parse the manifest tree once: every peek call reuses the same tree
+                // for the fast-path static-candidate check and global-option extraction,
+                // avoiding O(N) redundant manifest I/O across multiple peek requests.
+                let static_tree = std::fs::read_to_string(&pi.manifest)
+                    .ok()
+                    .and_then(|text| {
+                        serde_json::from_str::<serde_json::Value>(crate::strip_bom(&text)).ok()
+                    })
+                    .map(|json| completion::build_tree(&json));
+
+                // Pre-compute parent items once (silent: no psc.log).
+                let mut parent_input = pi.clone();
+                parent_input.order = None;
+                parent_input.log_dir = String::new();
+                let parent_items: Vec<crate::engine::hooks::LuaItem> =
+                    match crate::menu::protocol::build_candidate_items(&parent_input) {
+                        Ok((items, _)) => items,
+                        Err(_) => Vec::new(),
+                    };
+
+                while let Ok((gen, idx, cand)) = peek_req_rx.recv() {
+                    // Drain all pending requests: when the user rapidly switches
+                    // through candidates, only the latest request matters — skip
+                    // the stale ones instead of processing them sequentially.
+                    let mut latest = (gen, idx, cand);
+                    while let Ok(next) = peek_req_rx.try_recv() {
+                        latest = next;
+                    }
+                    let (gen, idx, cand) = latest;
+                    let raw = match static_tree.as_ref() {
+                        Some(tree) => crate::menu::protocol::peek_predict_symbol_with_tree_cached(
+                            &pi,
+                            &cand,
+                            tree,
+                            &parent_items,
+                        ),
+                        None => crate::menu::protocol::peek_predict_symbol(&pi, &cand),
+                    };
+                    let sym = match raw {
+                        Some(s) if s == "switch" => sw.clone(),
+                        Some(s) if s == "stay" => stay.clone(),
+                        _ => String::new(),
+                    };
+                    let _ = peek_resp_tx.send((gen, idx, sym));
+                }
+            });
+        }
+    }
+    let mut peek_gen: u64 = 0;
+    let mut prev_sel = state.selected;
+    let mut prev_len = state.filtered.len();
+    let schedule_peek =
+        |st: &mut MenuState, tx: &mpsc::Sender<(u64, usize, String)>, gen: &mut u64| {
+            // No peek when there is no build context or when both symbols are disabled
+            // (the peek thread is never spawned in that case, so nothing would clear the
+            // pending flag — the static symbol must be shown as-is).
+            if peek_input.is_none() || (switch_sym.is_empty() && stay_sym.is_empty()) {
+                st.peek_pending = false;
+                return;
+            }
+            let Some(idx) = st.selected_item_index() else {
+                return;
+            };
+            if let Some(it) = st.items.get(idx) {
+                if it.symbol == switch_sym {
+                    st.peek_pending = false;
+                    return;
+                }
+                // Already computed for this row in this menu session: its symbol is
+                // fixed (depends only on the manifest + row text), so re-selecting it
+                // while moving up/down must not recompute the peek.
+                if st.peeked.get(idx).copied().unwrap_or(false) {
+                    st.peek_pending = false;
+                    return;
+                }
+                *gen += 1;
+                st.peek_pending = true;
+                let _ = tx.send((*gen, idx, it.completion_text.clone()));
+            }
+        };
+    schedule_peek(&mut state, &peek_req_tx, &mut peek_gen);
     if state.min_area {
         if use_alt {
             // The alternate screen is fullscreen, so min_area should not happen; defensive fallback.
@@ -265,6 +375,22 @@ pub fn run(input_path: &str) -> Output {
     let mut last_blink = Instant::now();
     let mut last_heartbeat = Instant::now();
     let result = loop {
+        // Drain completed peeks: a row's symbol does not depend on the current
+        // selection, so every response is applied and remembered (avoiding a
+        // recompute when the row is selected again). Only the response matching the
+        // current request clears the pending flag — stale responses must not unhide
+        // the selected row's symbol while its own peek is still in flight.
+        while let Ok((gen, idx, sym)) = peek_resp_rx.try_recv() {
+            if let Some(it) = state.items.get_mut(idx) {
+                it.symbol = sym;
+            }
+            if let Some(p) = state.peeked.get_mut(idx) {
+                *p = true;
+            }
+            if gen == peek_gen {
+                state.peek_pending = false;
+            }
+        }
         if last_blink.elapsed() >= Duration::from_millis(500) {
             state.cursor_on = !state.cursor_on;
             last_blink = Instant::now();
@@ -306,6 +432,12 @@ pub fn run(input_path: &str) -> Output {
             Some(Action::Cancel) => break Ok(Output::cancel()),
             Some(Action::Input(text)) => break Ok(Output::input(text)),
             None => {}
+        }
+        // Schedule async switch peek when selection or filter changed.
+        if state.selected != prev_sel || state.filtered.len() != prev_len {
+            prev_sel = state.selected;
+            prev_len = state.filtered.len();
+            schedule_peek(&mut state, &peek_req_tx, &mut peek_gen);
         }
     };
 
@@ -556,10 +688,8 @@ mod tests {
     #[test]
     fn stale_missing_file() {
         let d = stale_dir("missing");
-        assert!(is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(is_stale(data, data, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 
@@ -571,10 +701,8 @@ mod tests {
             .unwrap()
             .as_secs();
         write_change(&d, &format!(r#"{{"last_check":{now}}}"#));
-        assert!(!is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(!is_stale(data, data, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 
@@ -587,10 +715,8 @@ mod tests {
             .as_secs()
             - 604_801;
         write_change(&d, &format!(r#"{{"last_check":{old}}}"#));
-        assert!(is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(is_stale(data, data, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 
@@ -603,10 +729,8 @@ mod tests {
             .as_secs()
             + 100_000;
         write_change(&d, &format!(r#"{{"last_check":{future}}}"#));
-        assert!(!is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(!is_stale(data, data, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 
@@ -614,10 +738,8 @@ mod tests {
     fn stale_corrupt_json_is_stale() {
         let d = stale_dir("corrupt");
         write_change(&d, "garbage{{{");
-        assert!(is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(is_stale(data, data, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 
@@ -629,10 +751,23 @@ mod tests {
             .unwrap()
             .as_secs();
         write_change(&d, &format!("\u{feff}{{\"last_check\":{now}}}"));
-        assert!(!is_stale(
-            d.join("temp/order").to_str().unwrap(),
-            d.join("temp/menu").to_str().unwrap()
-        ));
+        let data = d.to_str().unwrap();
+        assert!(!is_stale(data, data, ""));
+        std::fs::remove_dir_all(&d).ok();
+    }
+
+    #[test]
+    fn stale_legacy_derivation_fallback() {
+        // When data_dir is empty and order_dir is present, the legacy parent-chain
+        // derivation should still work.
+        let d = stale_dir("legacy");
+        let now = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+        write_change(&d, &format!(r#"{{"last_check":{now}}}"#));
+        let order = d.join("temp/order").to_str().unwrap().to_string();
+        assert!(!is_stale("", &order, ""));
         std::fs::remove_dir_all(&d).ok();
     }
 

@@ -174,6 +174,13 @@ pub struct MenuState {
     /// Whether the current filter is in a no-match state (the render layer shows the
     /// solid circle based on this; it is also the "previous state" the commit relies on).
     pub no_match: bool,
+    /// Whether the selected row's peek is still in flight.
+    pub peek_pending: bool,
+    /// Rows whose peek result has already been computed and written back into
+    /// `items[i].symbol`. Within one menu session a row's symbol is fixed (it depends
+    /// only on the manifest and the row's own text), so re-selecting a row after
+    /// moving up/down must not recompute it.
+    pub peeked: Vec<bool>,
     /// Whether the last filter operation was a character insertion (insert, at any
     /// position including append at the end): with the solid-circle warning (no match),
     /// any character insertion triggers a commit; deletions (Backspace/Delete) and the
@@ -243,6 +250,8 @@ impl MenuState {
             filter_hint: cfg.filter_hint.clone(),
             enable_apply_when_no_match: cfg.flags.enable_apply_when_no_match,
             no_match: false,
+            peek_pending: false,
+            peeked: vec![false; count],
             last_insert: false,
             prev_edit_cursor: 0,
             tip_cache: HashMap::new(),

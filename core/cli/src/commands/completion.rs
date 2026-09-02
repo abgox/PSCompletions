@@ -251,12 +251,6 @@ pub fn cmd_completion(
         Ok(n) => serde_json::Value::Number(n.into()),
         Err(_) => serde_json::Value::String(args[2].clone()),
     };
-    if name == "psc"
-        && key == "enable_hooks"
-        && (value.as_i64() == Some(0) || value.as_str() == Some("0"))
-    {
-        return fail(out, msg_cli(lang, "psc_hooks_locked"), json);
-    }
     if key.starts_with("enable_") || key.starts_with("disable_") {
         let v = match &value {
             serde_json::Value::Number(n) => n.as_i64() == Some(0) || n.as_i64() == Some(1),

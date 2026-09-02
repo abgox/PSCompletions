@@ -14,6 +14,9 @@ pub struct Input {
     /// Menu temp directory — the engine prunes stale input/output files (left by crashed sessions) on menu open.
     #[serde(default)]
     pub menu_dir: String,
+    /// Data directory. Used by `is_stale` to locate `change.json`.
+    #[serde(default)]
+    pub data_dir: String,
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,
@@ -202,17 +205,6 @@ pub struct Size {
     pub h: u16,
 }
 
-/// Response to a `REQ\t<index>` tip request: the resolved tip/usage/example text.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TipResponse {
-    #[serde(default)]
-    pub tip: String,
-    #[serde(default)]
-    pub usage: String,
-    #[serde(default)]
-    pub example: String,
-}
-
 #[derive(Debug, Serialize)]
 pub struct Output {
     pub status: &'static str,
@@ -374,19 +366,6 @@ mod tests {
         let input: Input = serde_json::from_str(json).expect("parse with unknown fields");
         // Missing fields (old protocol) → flags default off.
         assert!(!input.config.flags.enable_apply_when_no_match);
-    }
-
-    #[test]
-    fn tip_response_parses_usage_and_example() {
-        let json = r##"{"tip":"desc","usage":"-f, --force","example":"cmd -f  # do it"}"##;
-        let r: TipResponse = serde_json::from_str(json).unwrap();
-        assert_eq!(r.tip, "desc");
-        assert_eq!(r.usage, "-f, --force");
-        assert_eq!(r.example, "cmd -f  # do it");
-        // Missing fields (old protocol) also parse, defaulting to empty strings.
-        let old: TipResponse = serde_json::from_str(r##"{"tip":"only"}"##).unwrap();
-        assert_eq!(old.usage, "");
-        assert_eq!(old.example, "");
     }
 
     #[test]

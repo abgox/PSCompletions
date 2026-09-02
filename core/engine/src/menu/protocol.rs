@@ -36,7 +36,7 @@ pub fn get_flag(args: &[String], flag: &str) -> Option<String> {
 }
 
 /// Input for the menu's build mode (also the former `--complete` mode).
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, Clone)]
 pub struct CompleteInput {
     pub cmd: String,
     pub arg_tokens: Vec<String>,
@@ -69,7 +69,7 @@ pub struct CompleteInput {
 }
 
 /// Paths to the order files used to rank the candidate items.
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, Clone)]
 pub struct CompleteOrder {
     /// Per-command order file (already URL-encoded filename).
     #[serde(default)]
@@ -285,14 +285,47 @@ pub fn build_candidate_items(
     let final_items = if input.hooks {
         if let Some(hook_path) = hooks_path(&input.manifest) {
             if let Ok(script) = std::fs::read_to_string(&hook_path) {
+                // Merge config layers: global (with built-in defaults) → manifest
+                // defaults → per-completion overrides.  The host already merged
+                // built-in defaults into global_config, so we just extract its flat
+                // keys (skipping sub-objects like "completion"/"alias").
+                let mut merged_config = serde_json::Map::new();
+                if let Some(global) = input.global_config.as_object() {
+                    for (k, v) in global {
+                        if v.is_object() || v.is_array() {
+                            continue;
+                        }
+                        merged_config.insert(k.clone(), v.clone());
+                    }
+                }
+                if let Some(defaults) = json
+                    .as_object()
+                    .and_then(|m| m.get("config"))
+                    .and_then(|c| c.as_array())
+                {
+                    for item in defaults {
+                        if let (Some(name), Some(value)) =
+                            (item.get("name").and_then(|n| n.as_str()), item.get("value"))
+                        {
+                            merged_config.insert(name.to_string(), value.clone());
+                        }
+                    }
+                }
+                if let Some(user) = input.config.as_object() {
+                    for (k, v) in user {
+                        merged_config.insert(k.clone(), v.clone());
+                    }
+                }
+                let config = serde_json::Value::Object(merged_config);
                 let context = hooks::HookContext {
                     cmd: input.cmd.clone(),
                     path: resolved.context.path.clone(),
-                    pending: resolved
+                    layers: resolved.context.layers.clone(),
+                    typing: resolved
                         .context
                         .pending
                         .as_ref()
-                        .map(|p| hooks::Pending {
+                        .map(|p| hooks::Typing {
                             text: p.text.clone(),
                             kind: p.kind.clone(),
                             canonical: p.canonical.clone(),
@@ -314,7 +347,7 @@ pub fn build_candidate_items(
                             canonical: t.canonical.clone(),
                         })
                         .collect(),
-                    config: input.config.clone(),
+                    config,
                     manifest: json.clone(),
                     data: build_psc_data(input),
                     language: input
@@ -364,6 +397,221 @@ pub fn build_candidate_items(
     let mut final_items = final_items;
     apply_order_sort(&mut final_items, &input.order, false);
     Ok((final_items, resolved.context))
+}
+
+/// Peek whether selecting `candidate` at `input` leads to further candidates.
+/// Returns `Some("switch")` if a new layer is opened, `Some("stay")` if staying
+/// in the current layer with remaining candidates, `None` otherwise.
+///
+/// Parses the manifest from scratch on each call (backward-compatible entry point).
+/// Prefer `peek_predict_symbol_with_tree` when a pre-parsed tree is available
+/// (e.g. from the menu background peek thread) to avoid redundant manifest I/O.
+pub fn peek_has_next(input: &CompleteInput, candidate: &str) -> bool {
+    peek_predict_symbol(input, candidate).is_some()
+}
+
+pub fn peek_predict_symbol(input: &CompleteInput, candidate: &str) -> Option<String> {
+    let text = std::fs::read_to_string(&input.manifest).ok()?;
+    let json = serde_json::from_str::<serde_json::Value>(crate::strip_bom(&text)).ok()?;
+    let tree = completion::build_tree(&json);
+    peek_predict_symbol_with_tree(input, candidate, &tree)
+}
+
+/// Like `peek_predict_symbol`, but uses a pre-parsed `Tree` for the fast path
+/// and global-option extraction, avoiding redundant manifest reads.
+/// The `build_candidate_items` slow path still reads the manifest internally
+/// (mitigated by the result cache).
+pub fn peek_predict_symbol_with_tree(
+    input: &CompleteInput,
+    candidate: &str,
+    tree: &completion::Tree,
+) -> Option<String> {
+    peek_predict_symbol_inner(input, candidate, tree, None)
+}
+
+/// Like `peek_predict_symbol_with_tree`, but with pre-computed parent items
+/// to avoid redundant `build_candidate_items` calls for every candidate.
+/// The caller is responsible for ensuring `parent_items` matches `input`
+/// (same `arg_tokens`, same `treat_last_as_complete`).
+pub(crate) fn peek_predict_symbol_with_tree_cached(
+    input: &CompleteInput,
+    candidate: &str,
+    tree: &completion::Tree,
+    parent_items: &[hooks::LuaItem],
+) -> Option<String> {
+    peek_predict_symbol_inner(input, candidate, tree, Some(parent_items))
+}
+
+fn peek_predict_symbol_inner(
+    input: &CompleteInput,
+    candidate: &str,
+    tree: &completion::Tree,
+    cached_parent: Option<&[hooks::LuaItem]>,
+) -> Option<String> {
+    if candidate.trim().is_empty() {
+        return None;
+    }
+    // Navigate arg_tokens to find the current context node, then search within that subtree (not the whole tree).
+    let ctx = resolve_context_node(tree, &input.arg_tokens);
+    // Fast static path: if the candidate's own node within the current context has static candidates, it's a switch.
+    if let Some(node) = find_node_in_context(ctx, tree, candidate) {
+        if has_static_candidates(node) {
+            return Some("switch".into());
+        }
+    }
+    let mut peek = input.clone();
+    peek.arg_tokens.push(candidate.to_string());
+    peek.treat_last_as_complete = true;
+    peek.order = None;
+    peek.log_dir = String::new();
+    let peek_items = match build_candidate_items(&peek) {
+        Ok((items, _)) => items,
+        Err(_) => return None,
+    };
+    if peek_items.is_empty() {
+        return None;
+    }
+    let parent_set: std::collections::HashSet<String> = if let Some(cached) = cached_parent {
+        cached.iter().map(|it| it.text.to_lowercase()).collect()
+    } else {
+        let mut parent = input.clone();
+        parent.order = None;
+        parent.log_dir = String::new();
+        let items = match build_candidate_items(&parent) {
+            Ok((items, _)) => items,
+            Err(_) => return None,
+        };
+        items.iter().map(|it| it.text.to_lowercase()).collect()
+    };
+    let globals: std::collections::HashSet<String> = tree
+        .global_options
+        .iter()
+        .chain(&tree.options)
+        .flat_map(|n| n.all_names().map(|s| s.to_lowercase()))
+        .collect();
+    let has_new = peek_items.iter().any(|it| {
+        !parent_set.contains(&it.text.to_lowercase()) && !globals.contains(&it.text.to_lowercase())
+    });
+    if has_new {
+        return Some("switch".into());
+    }
+    // No new layer: check if staying in the same layer still has completions.
+    // A candidate gets "stay" when selecting it leaves the candidate list
+    // unchanged (i.e. the context doesn't shift).  This is true for option
+    // flags and dynamic values, but NOT for manifest commands — selecting
+    // a command removes its siblings from the list, so the context has moved.
+    // (The fast path above already returns "switch" for candidates with static
+    // candidates, so we don't re-check.)
+    let has_remaining = peek_items
+        .iter()
+        .any(|it| !globals.contains(&it.text.to_lowercase()));
+    if has_remaining {
+        let is_global = globals.contains(&candidate.to_lowercase());
+        if !is_global {
+            // Option flags stay in the same context; manifest commands do not.
+            if let Some(node) = find_node_in_context(ctx, tree, candidate) {
+                if !node.is_option {
+                    return None;
+                }
+            }
+            return Some("stay".into());
+        }
+    }
+    None
+}
+
+fn has_static_candidates(node: &completion::Node) -> bool {
+    (node.next_is_array && !node.next.is_empty())
+        || (node.option_is_array && !node.option.is_empty())
+}
+
+/// Walk `arg_tokens` (the typed command words after the command name) through the
+/// tree's command chain to find the deepest matching context node. Commands push
+/// their node as the new context; options (bubbled or global) are consumed without
+/// changing the context, matching the same context-maintenance behaviour that
+/// `completion::resolve` uses.
+fn resolve_context_node<'a>(
+    tree: &'a completion::Tree,
+    arg_tokens: &[String],
+) -> Option<&'a completion::Node> {
+    let mut ctx: Option<&'a completion::Node> = None;
+    let mut stack: Vec<&'a completion::Node> = Vec::new();
+    for token in arg_tokens {
+        // 1. Try the command chain (`next`).
+        let next = if let Some(c) = ctx {
+            c.next.iter().find(|n| n.matches(token))
+        } else {
+            tree.next.iter().find(|n| n.matches(token))
+        };
+        if let Some(n) = next {
+            ctx = Some(n);
+            stack.push(n);
+            continue;
+        }
+        // 2. Not a command — check if it's an option (bubbling → root → global).
+        //    Options don't switch context, so keep ctx and stack unchanged.
+        let is_option = stack
+            .iter()
+            .rev()
+            .any(|n| n.option.iter().any(|o| o.matches(token)))
+            || tree.options.iter().any(|o| o.matches(token))
+            || tree.global_options.iter().any(|o| o.matches(token));
+        if is_option {
+            continue;
+        }
+        // 3. Unknown token — stop.
+        break;
+    }
+    ctx
+}
+
+/// Search for a node by name within the current context subtree (or root tree
+/// when `ctx` is `None`), plus global options. Unlike the old `find_node`, this
+/// does NOT search the entire tree globally — it respects the current command
+/// path so that sibling subtrees don't leak their nodes.
+fn find_node_in_context<'a>(
+    ctx: Option<&'a completion::Node>,
+    tree: &'a completion::Tree,
+    name: &str,
+) -> Option<&'a completion::Node> {
+    let lower = name.to_lowercase();
+    let search_next: &[completion::Node] = ctx.map_or(&tree.next, |c| &c.next);
+    let search_option: &[completion::Node] = ctx.map_or(&tree.options, |c| &c.option);
+    for n in search_next {
+        if let Some(found) = find_node_rec(n, &lower) {
+            return Some(found);
+        }
+    }
+    for n in search_option {
+        if let Some(found) = find_node_rec(n, &lower) {
+            return Some(found);
+        }
+    }
+    if let Some(n) = tree
+        .global_options
+        .iter()
+        .find(|n| n.all_names().any(|a| a.eq_ignore_ascii_case(&lower)))
+    {
+        return Some(n);
+    }
+    None
+}
+
+fn find_node_rec<'a>(node: &'a completion::Node, lower: &str) -> Option<&'a completion::Node> {
+    if node.all_names().any(|a| a.eq_ignore_ascii_case(lower)) {
+        return Some(node);
+    }
+    for child in &node.next {
+        if let Some(found) = find_node_rec(child, lower) {
+            return Some(found);
+        }
+    }
+    for child in &node.option {
+        if let Some(found) = find_node_rec(child, lower) {
+            return Some(found);
+        }
+    }
+    None
 }
 
 /// Derive the hooks.lua path from the manifest path: `<cmd>/language/<lang>.json` → `<cmd>/hooks.lua`.
@@ -535,7 +783,7 @@ mod tests {
         assert_eq!(m.list_item_text, "commit");
         it.symbol = Some("stay".into());
         assert_eq!(lua_to_model_item(&it, "~", "?").symbol, "?");
-        // Absent symbol 鈫?empty; an unknown key passes through verbatim.
+        // Absent symbol → empty; an unknown key passes through verbatim.
         it.symbol = None;
         assert_eq!(lua_to_model_item(&it, "~", "?").symbol, "");
         it.symbol = Some("custom".into());
@@ -559,7 +807,7 @@ mod tests {
             ..Default::default()
         };
         assert_eq!(item_score(&file, &empty, &paths, &empty), 0);
-        // Unscored directory 鈫?0.
+        // Unscored directory → 0.
         let unknown = hooks::LuaItem {
             text: ".\\other\\".into(),
             ..Default::default()
@@ -628,7 +876,7 @@ mod tests {
         commands_order.insert("list".into(), 44);
         let empty: HashMap<String, i64> = HashMap::new();
 
-        // build mode (use_shared = false): `ls`/`list` fall back to 0 鈫?stable manifest order.
+        // build mode (use_shared = false): `ls`/`list` fall back to 0 → stable manifest order.
         let item = |t: &str| hooks::LuaItem {
             text: t.into(),
             ..Default::default()

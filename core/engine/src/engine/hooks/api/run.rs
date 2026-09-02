@@ -6,7 +6,6 @@ use std::time::{Duration, Instant};
 
 use super::parallel_map;
 use super::{json_to_lua, table_to_strings};
-use super::{now_ms, HOOK_DEADLINE_MS};
 
 /// `psc.run({cmd, arg, ...}, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
 /// Returns stdout lines; when `format` is `"json"`/`"toml"`/`"yaml"`, parses the output and
@@ -279,8 +278,7 @@ pub(crate) fn run_cmd_raw(
             Ok(None) => {
                 // Also stop when the hook's total budget is already spent, so a fresh
                 // subprocess never runs its full timeout after the hook has timed out.
-                let dl = HOOK_DEADLINE_MS.load(std::sync::atomic::Ordering::SeqCst);
-                let hook_expired = dl != 0 && now_ms() >= dl;
+                let hook_expired = crate::engine::hooks::runner::is_hook_expired();
                 if Instant::now() >= deadline || hook_expired {
                     break true;
                 }

@@ -4,6 +4,79 @@ use mlua::{Lua, Table, Value};
 
 use super::Token;
 
+/// Collect every form (canonical name + aliases) of the manifest nodes whose name or an
+/// alias matches `target` (ASCII case-insensitive). Walks the whole tree — `next`, `option`
+/// and root `global_option` arrays — so scoped option definitions are covered wherever they
+/// live. `None` (unknown target) lets callers fail loudly instead of silently dying.
+pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Option<Vec<String>> {
+    use std::collections::hash_map::DefaultHasher;
+    use std::hash::{Hash, Hasher};
+    use std::sync::{Mutex, OnceLock};
+    #[allow(clippy::type_complexity)]
+    static CACHE: OnceLock<
+        Mutex<std::collections::HashMap<u64, std::collections::HashMap<String, Vec<String>>>>,
+    > = OnceLock::new();
+    let cache = CACHE.get_or_init(|| Mutex::new(Default::default()));
+    // Hash manifest + target lowercased
+    let mut hasher = DefaultHasher::new();
+    json.to_string().hash(&mut hasher);
+    target.to_lowercase().hash(&mut hasher);
+    let hkey = hasher.finish();
+    let tkey = target.to_lowercase();
+    if let Ok(guard) = cache.lock() {
+        if let Some(inner) = guard.get(&hkey) {
+            if let Some(v) = inner.get(&tkey) {
+                return Some(v.clone());
+            }
+        }
+    }
+    fn walk(node: &serde_json::Value, target: &str, out: &mut Vec<String>) {
+        let Some(obj) = node.as_object() else { return };
+        let name = obj.get("name").and_then(serde_json::Value::as_str);
+        let aliases: Vec<&str> = obj
+            .get("alias")
+            .and_then(serde_json::Value::as_array)
+            .map(|a| a.iter().filter_map(serde_json::Value::as_str).collect())
+            .unwrap_or_default();
+        let matched = name.is_some_and(|n| n.eq_ignore_ascii_case(target))
+            || aliases.iter().any(|a| a.eq_ignore_ascii_case(target));
+        if matched {
+            if let Some(n) = name {
+                if !out.iter().any(|x| x.eq_ignore_ascii_case(n)) {
+                    out.push(n.to_string());
+                }
+            }
+            for a in aliases {
+                if !out.iter().any(|x| x.eq_ignore_ascii_case(a)) {
+                    out.push(a.to_string());
+                }
+            }
+        }
+        for key in ["next", "option"] {
+            if let Some(children) = obj.get(key).and_then(serde_json::Value::as_array) {
+                for child in children {
+                    walk(child, target, out);
+                }
+            }
+        }
+    }
+
+    let root = json.as_object()?;
+    let mut out = Vec::new();
+    for key in ["next", "option", "global_option"] {
+        if let Some(children) = root.get(key).and_then(serde_json::Value::as_array) {
+            for child in children {
+                walk(child, target, &mut out);
+            }
+        }
+    }
+    let result = out.clone();
+    if let Ok(mut guard) = cache.lock() {
+        guard.entry(hkey).or_default().insert(tkey, result.clone());
+    }
+    Some(result)
+}
+
 /// Lua `tostring` semantics to a Rust String (None when the value coerces to nothing).
 fn coerce_string(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     Ok(lua.coerce_string(v)?.map(|s| s.to_string_lossy()))
@@ -26,45 +99,66 @@ pub(crate) fn api_eq(lua: &Lua, (a, b, opts): (Value, Value, Option<Table>)) -> 
     }
 }
 
-/// `psc.trim(s, opts?)` — trim whitespace; `opts.mode` is "start"/"end"/"both" (default "both").
-/// A nil `s` yields an empty string.
+/// `psc.trim(s, opts?)` — trim characters; by default whitespace is trimmed, `opts.chars`
+/// (a string whose characters form the trim set) overrides it, and `opts.mode` selects
+/// "start"/"end"/"both" (default "both"). A nil `s` yields an empty string.
 pub(crate) fn api_trim(lua: &Lua, (s, opts): (Value, Option<Table>)) -> mlua::Result<String> {
     let s = coerce_string(lua, s)?.unwrap_or_default();
     let mode: String = opts
         .as_ref()
         .and_then(|o| o.get::<Option<String>>("mode").ok().flatten())
         .unwrap_or_else(|| "both".to_string());
+    let chars: Option<String> = opts
+        .as_ref()
+        .and_then(|o| o.get::<Option<String>>("chars").ok().flatten());
+    fn trim_start<'a>(s: &'a str, chars: Option<&str>) -> &'a str {
+        match chars {
+            // Empty set = trim nothing (literal semantics).
+            Some(set) => s.trim_start_matches(|c| set.contains(c)),
+            None => s.trim_start_matches(char::is_whitespace),
+        }
+    }
+    fn trim_end<'a>(s: &'a str, chars: Option<&str>) -> &'a str {
+        match chars {
+            Some(set) => s.trim_end_matches(|c| set.contains(c)),
+            None => s.trim_end_matches(char::is_whitespace),
+        }
+    }
+    let chars = chars.as_deref();
     Ok(match mode.as_str() {
-        "start" => s.trim_start_matches(char::is_whitespace).to_string(),
-        "end" => s.trim_end_matches(char::is_whitespace).to_string(),
-        _ => s.trim_matches(char::is_whitespace).to_string(),
+        "start" => trim_start(&s, chars).to_string(),
+        "end" => trim_end(&s, chars).to_string(),
+        _ => trim_end(trim_start(&s, chars), chars).to_string(),
     })
 }
 
-/// `psc.has_unknown()` — any completed unknown token exists (a value has been typed).
-pub(crate) fn api_has_unknown(tokens: &[Token]) -> bool {
-    tokens.iter().any(|t| t.kind == "unknown")
-}
-
-/// `psc.typed(name)` — the name appears among all completed tokens (case-insensitive).
-/// Compares the **canonical** name when available (aliases count as their main name, matching
-/// the engine's repeat-filter), falling back to the raw input for unknown/value tokens.
-pub(crate) fn api_typed(tokens: &[Token], name: &str) -> bool {
-    tokens.iter().any(|t| {
-        let key = t
-            .canonical
-            .as_deref()
-            .unwrap_or(&t.text)
-            .to_ascii_lowercase();
-        key == name.to_ascii_lowercase()
+/// `psc.token(spec?)` — index of the first completed token matching `spec`, `None` when
+/// absent. `spec` is `{name?, type?, case_sensitive?}`; `type` filters `command`/`option`/
+/// `value`/`unknown`; `case_sensitive` controls `name` matching (default insensitive).
+/// Compares the **canonical** name when available, falling back to raw input.
+pub(crate) fn api_token(
+    tokens: &[Token],
+    name: Option<String>,
+    type_filter: Option<String>,
+    case_sensitive: bool,
+) -> Option<usize> {
+    tokens.iter().position(|t| {
+        if let Some(ref tf) = type_filter {
+            if !t.kind.eq_ignore_ascii_case(tf) {
+                return false;
+            }
+        }
+        if let Some(ref n) = name {
+            let key = t.canonical.as_deref().unwrap_or(&t.text);
+            if case_sensitive {
+                key == n
+            } else {
+                key.eq_ignore_ascii_case(n)
+            }
+        } else {
+            true
+        }
     })
-}
-
-/// `psc.typed_unknown(name)` — the name appears among completed unknown tokens only.
-pub(crate) fn api_typed_unknown(tokens: &[Token], name: &str) -> bool {
-    tokens
-        .iter()
-        .any(|t| t.kind == "unknown" && t.text.eq_ignore_ascii_case(name))
 }
 
 /// Resolve a tip/usage/example field (string or array) to a single string.
@@ -85,14 +179,12 @@ fn text_of(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     }
 }
 
-/// `psc.mount_items(path, opts?)` → mount the **direct children** of a manifest `next`/`option`
-/// array as completion items (returns an array, does not add; no recursion — deeper levels are
-/// reached by the engine's own `next` navigation, or by calling `mount_items` again with a
-/// longer path from the hook). `opts` is accepted for signature stability but unused.
-pub(crate) fn api_mount_items(
-    lua: &Lua,
-    (path, _opts): (Vec<String>, Option<Table>),
-) -> mlua::Result<Table> {
+/// `psc.mount_items(path)` → convert the **direct children** of a manifest `next`/`option`
+/// array into completion items — a pure transform like `psc.items` (returns an array,
+/// does NOT add to `completions`; injection is the caller's job via `psc.add`). No
+/// recursion — deeper levels are reached by the engine's own `next` navigation, or by
+/// calling `mount_items` again with a longer path from the hook.
+pub(crate) fn api_mount_items(lua: &Lua, path: &[String]) -> mlua::Result<Table> {
     let out = lua.create_table()?;
     let last = path.last().map(|s| s.as_str()).unwrap_or("");
     if last != "next" && last != "option" {
@@ -161,9 +253,6 @@ fn find_named(container: &Table, name: &str) -> mlua::Result<Option<Table>> {
 }
 
 /// Mount one level: copy each child's name/tip/usage/example.
-/// No symbol is computed here — a mounted item's symbol depends on the *current* context (what
-/// happens when it is selected there), not on its original manifest position. Set symbols
-/// explicitly with `psc.set_symbol` when needed.
 fn mount_children(lua: &Lua, children: &Table, out: &Table) -> mlua::Result<()> {
     for i in 1..=children.raw_len() {
         let Value::Table(k) = children.raw_get::<Value>(i)? else {

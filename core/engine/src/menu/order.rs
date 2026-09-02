@@ -337,9 +337,15 @@ fn write_order(path: &str, scores: &HashMap<String, TokenStats>) {
     if let Some(dir) = std::path::Path::new(path).parent() {
         let _ = std::fs::create_dir_all(dir);
     }
-    let tmp = format!("{path}.tmp");
+    let tmp = format!("{path}.{}.tmp", std::process::id());
     if std::fs::write(&tmp, json.as_bytes()).is_ok() {
-        let _ = std::fs::rename(&tmp, path);
+        let _ = std::fs::File::open(&tmp).and_then(|f| f.sync_all());
+        #[cfg(windows)]
+        let _ = std::fs::remove_file(path);
+        let ok = std::fs::rename(&tmp, path).is_ok();
+        if !ok {
+            let _ = std::fs::remove_file(&tmp);
+        }
     }
 }
 
@@ -632,6 +638,35 @@ mod tests {
         // Unchanged content is not rewritten, and no .tmp is left behind.
         write_order(&path_str, &scores);
         assert_eq!(std::fs::read_to_string(&path_str).unwrap(), text);
+        assert!(!std::path::Path::new(&format!("{path_str}.tmp")).exists());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn write_order_overwrites_existing_and_cleans_pid_tmp() {
+        let dir = std::env::temp_dir().join("psc-order-pid-tmp-test");
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("cmd.json");
+        let path_str = path.to_str().unwrap().to_string();
+        // Seed existing file to exercise Windows AlreadyExists path.
+        std::fs::write(&path_str, b"{}").unwrap();
+        let mut scores = HashMap::new();
+        scores.insert(
+            "a".to_string(),
+            TokenStats {
+                score: 10.0,
+                last_line: 1,
+            },
+        );
+        write_order(&path_str, &scores);
+        // Overwritten and valid JSON.
+        let text = std::fs::read_to_string(&path_str).unwrap();
+        let v: serde_json::Value = serde_json::from_str(&text).unwrap();
+        assert_eq!(v["a"], 1);
+        // No pid-suffixed tmp left behind.
+        let pid_tmp = format!("{path_str}.{}.tmp", std::process::id());
+        assert!(!std::path::Path::new(&pid_tmp).exists());
         assert!(!std::path::Path::new(&format!("{path_str}.tmp")).exists());
         let _ = std::fs::remove_dir_all(&dir);
     }

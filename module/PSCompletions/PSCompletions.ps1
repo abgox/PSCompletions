@@ -9,8 +9,8 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     initialized = $false
     path        = @{
         root             = $PSScriptRoot
+        settings         = "$_/settings.json"
         completions      = "$_/completions"
-        data             = "$_/settings.json"
         temp             = "$_/temp"
         menu             = "$_/temp/menu"
         cache            = "$_/temp/cache"
@@ -202,16 +202,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
             $value = $null
             if ($expr -match '^\$info\.([\w.]+)$') {
                 $value = $info
-                foreach ($p in ($matches[1] -split '\.')) {
+                foreach ($p in ($Matches[1] -split '\.')) {
                     if ($null -eq $value) { break }
                     $value = $value.$p
                 }
             }
             elseif ($expr -match '^\$PSCompletions\.config\.(\w+)$') {
-                $value = $PSCompletions.config[$matches[1]]
+                $value = $PSCompletions.config[$Matches[1]]
             }
             elseif ($expr -match '^\$env:(\w+)$') {
-                $value = [Environment]::GetEnvironmentVariable($matches[1])
+                $value = [Environment]::GetEnvironmentVariable($Matches[1])
             }
             if ($null -ne $value) {
                 $valueStr = if ($value -is [string]) { $value } elseif ($null -eq $value) { '' } else { [string]::Join($separator, @($value)) }
@@ -545,8 +545,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 path    = [string]$menuOrder.path
             }
         }
-        $input.order_dir = [string]$PSCompletions.path.order
-        $input.menu_dir = [string]$PSCompletions.path.menu
+        $input.data_dir = [System.IO.Path]::Combine($PSCompletions.path.root, 'data')
+        $input.order_dir = $PSCompletions.path.order
+        $input.menu_dir = $PSCompletions.path.menu
         $initialFilter = $PSCompletions.menu.initial_filter
         $PSCompletions.menu.initial_filter = $null
         if ($initialFilter) {
@@ -795,7 +796,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $pscData = $null
         if ($cmd -eq 'psc') {
             $pscData = @{
-                settings         = $PSCompletions.path.data
+                settings         = $PSCompletions.path.settings
                 completions_json = $PSCompletions.path.completions_json
                 completions      = $PSCompletions.path.completions
                 config           = @{
@@ -918,7 +919,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $PSCompletions.binary_ok = $false
             return
         }
-        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.data)
+        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.settings)
         $tmp = $PSCompletions.path.menu
         $PSCompletions.ensure_dir($tmp)
         $id = [System.Guid]::NewGuid().ToString('N')
@@ -971,8 +972,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     $PSCompletions.initialized = $true
 }
 
-if ([System.IO.File]::Exists($PSCompletions.path.data)) {
-    $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
+if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
+    $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
     $PSCompletions.trigger_key = $_.config.trigger_key
 }
 else {
@@ -1011,12 +1012,12 @@ else {
             else {
                 $oldVerDir = $PSCompletions.path.root
             }
-            _moveData $oldVerDir $PSCompletions.path.data $PSCompletions.path.completions
+            _moveData $oldVerDir $PSCompletions.path.settings $PSCompletions.path.completions
         }
         $PSCompletions.move_old_version()
         $PSCompletions.ensure_dir($PSCompletions.path.order)
-        if ([System.IO.File]::Exists($PSCompletions.path.data)) {
-            $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.data)) -ErrorAction SilentlyContinue
+        if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
+            $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
             $PSCompletions.trigger_key = $_.config.trigger_key
         }
         Remove-Item $PSCompletions.path.change -ErrorAction Ignore

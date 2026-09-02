@@ -24,7 +24,7 @@ impl Node {
     pub fn all_names(&self) -> impl Iterator<Item = &str> {
         std::iter::once(self.name.as_str()).chain(self.aliases.iter().map(|s| s.as_str()))
     }
-    fn matches(&self, text: &str) -> bool {
+    pub(crate) fn matches(&self, text: &str) -> bool {
         self.all_names().any(|n| n.eq_ignore_ascii_case(text))
     }
 }
@@ -41,6 +41,10 @@ pub struct Tree {
 #[derive(Debug, Clone, Default, serde::Serialize)]
 pub struct ResolvedContext {
     pub path: Vec<String>,
+    /// Typed layer chain: every context switch as `(kind, canonical)` — commands always;
+    /// options when they have a `next` array (even empty) or a non-empty `option` array.
+    /// This is what declarative location matching (`psc.on`) compares against.
+    pub layers: Vec<(String, String)>,
     pub pending: Option<PendingInfo>,
     /// All completed options' **canonical** names, in order (symmetrical to `path`).
     pub opts: Vec<String>,
@@ -196,6 +200,21 @@ fn build_node(json: &Value, is_option: bool) -> Node {
 /// Whether the node carries static candidates (a non-empty `next`/`option` array).
 /// An empty array means "no static candidates" (hooks supply them), so there is nothing to
 /// switch into.
+/// Whether a node declares that it needs a value argument (has a `next` array,
+/// empty or not). An option with `next: [...]` or `next: []` consumes the next
+/// token as its value, unless that token is a known command or option
+/// ("command/option wins").
+fn needs_value_arg(n: &Node) -> bool {
+    n.next_is_array
+}
+
+/// Whether a node changes the context when selected. Options with a `next` array
+/// (needs a value) or a non-empty `option` array (has sub-options) push to the
+/// context stack so their candidates remain reachable.
+fn changes_context(n: &Node) -> bool {
+    n.next_is_array || (n.option_is_array && !n.option.is_empty())
+}
+
 fn has_static_candidates(n: &Node) -> bool {
     (n.next_is_array && !n.next.is_empty()) || (n.option_is_array && !n.option.is_empty())
 }
@@ -210,10 +229,6 @@ fn node_symbols(n: &Node) -> Vec<String> {
         s.push("stay".into());
     }
     s
-}
-
-fn node_has_candidates_after(n: &Node) -> bool {
-    has_static_candidates(n)
 }
 
 /// Nearest ancestor (or root) with a non-empty `option` array.
@@ -239,6 +254,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
     let mut used: HashMap<String, i32> = HashMap::new();
     let mut tokens: Vec<TokenInfo> = Vec::new();
     let mut path: Vec<String> = Vec::new();
+    let mut layers: Vec<(String, String)> = Vec::new();
     let mut opts: Vec<String> = Vec::new();
     let mut pending: Option<PendingInfo> = None;
     let mut ctx: Option<&Node> = None;
@@ -271,32 +287,78 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 kind: "option".into(),
                 canonical: Some(on.name.clone()),
             });
-            if node_has_candidates_after(on) {
+            if changes_context(on) {
                 ctx = Some(on);
                 stack.push(on);
+                layers.push(("option".into(), on.name.clone()));
             }
         } else {
-            // A command or unknown; in an option context (candidate-value array) the match is a value
-            let child = find_command(ctx, tree, &text);
+            // "Command/option wins": an option with `next` (empty or not) needs a
+            // value, but a known command or option takes priority — the option
+            // acts as a flag and does NOT consume the next token.
+            let in_option_context = ctx
+                .map(|c| c.is_option && needs_value_arg(c))
+                .unwrap_or(false);
+            // When in an option context, search the parent command context for
+            // commands, not the option's value candidates.
+            let search_ctx = if in_option_context {
+                layers
+                    .iter()
+                    .rposition(|(kind, _)| kind == "command")
+                    .and_then(|idx| stack.get(idx).copied())
+            } else {
+                ctx
+            };
+            let child = find_command(search_ctx, tree, &text);
             if let Some(cn) = child {
                 bump(&mut used, &cn.name);
-                let is_option_value = ctx.map(|c| c.is_option).unwrap_or(false);
-                if !is_option_value {
-                    path.push(cn.name.clone());
+                if in_option_context {
+                    // Command/option wins: pop the option (it acts as a flag)
+                    // and all intermediate option nodes from the stack/layers.
+                    let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
+                    if let Some(idx) = cmd_idx {
+                        stack.truncate(idx + 1);
+                        layers.truncate(idx + 1);
+                    } else {
+                        stack.clear();
+                        layers.clear();
+                    }
                 }
+                path.push(cn.name.clone());
+                layers.push(("command".into(), cn.name.clone()));
                 tokens.push(TokenInfo {
                     text: text.clone(),
-                    kind: if is_option_value { "value" } else { "command" }.into(),
+                    kind: "command".into(),
                     canonical: Some(cn.name.clone()),
                 });
                 ctx = Some(cn);
                 stack.push(cn);
             } else {
-                tokens.push(TokenInfo {
-                    text: text.clone(),
-                    kind: "unknown".into(),
-                    canonical: None,
-                });
+                if in_option_context {
+                    // Not a command/option → consumed as the option's value
+                    tokens.push(TokenInfo {
+                        text: text.clone(),
+                        kind: "value".into(),
+                        canonical: None,
+                    });
+                    // Reset ctx to the previous command context
+                    let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
+                    if let Some(idx) = cmd_idx {
+                        ctx = stack.get(idx).copied();
+                        stack.truncate(idx + 1);
+                        layers.truncate(idx + 1);
+                    } else {
+                        ctx = None;
+                        stack.clear();
+                        layers.clear();
+                    }
+                } else {
+                    tokens.push(TokenInfo {
+                        text: text.clone(),
+                        kind: "unknown".into(),
+                        canonical: None,
+                    });
+                }
             }
         }
         i += 1;
@@ -329,7 +391,31 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
             candidates.push(n);
         }
     } else if let Some(c) = ctx {
-        add_next_if_not_seen(&mut candidates, &c.next, &seen);
+        // After consuming an option value (e.g. `--depth 1`),
+        // the ctx is at the value node (or the option node, when the value is
+        // still pending). In both cases, show the next candidates from the
+        // nearest command context instead of the value/option node's next.
+        // Also truncate `layers` so that hooks fire at the correct position.
+        let ctx_is_option = ctx.map(|c| c.is_option).unwrap_or(false);
+        let is_value_context = tokens.last().is_some_and(|t| t.kind == "value")
+            || pending
+                .as_ref()
+                .and_then(|p| p.kind.as_deref())
+                .is_some_and(|k| k == "value" || (k == "command" && ctx_is_option));
+        if is_value_context {
+            let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
+            if let Some(idx) = cmd_idx {
+                if let Some(cmd_node) = stack.get(idx) {
+                    add_next_if_not_seen(&mut candidates, &cmd_node.next, &seen);
+                }
+                layers.truncate(idx + 1);
+            } else {
+                add_next_if_not_seen(&mut candidates, &tree.next, &seen);
+                layers.clear();
+            }
+        } else {
+            add_next_if_not_seen(&mut candidates, &c.next, &seen);
+        }
         for n in option_source(&stack, tree) {
             candidates.push(n);
         }
@@ -392,6 +478,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         items,
         context: ResolvedContext {
             path,
+            layers,
             pending,
             opts,
             tokens,
@@ -407,13 +494,21 @@ fn classify<'a>(
 ) -> &'static str {
     if find_option_node(stack, tree, text).is_some() {
         "option"
-    } else if find_command(ctx, tree, text).is_some() {
-        // Current context is an option node → the match is one of its candidate values (a value)
-        if ctx.map(|c| c.is_option).unwrap_or(false) {
-            "value"
-        } else {
+    } else if ctx
+        .map(|c| c.is_option && needs_value_arg(c))
+        .unwrap_or(false)
+    {
+        // "Command/option wins": the option does NOT consume a known command.
+        // Search the parent command context (the last non-option node in the
+        // stack) for a matching command before treating the text as a value.
+        let parent_ctx = stack.iter().rev().find(|n| !n.is_option).copied();
+        if find_command(parent_ctx, tree, text).is_some() {
             "command"
+        } else {
+            "value"
         }
+    } else if find_command(ctx, tree, text).is_some() {
+        "command"
     } else {
         "unknown"
     }
@@ -432,17 +527,23 @@ fn bump(used: &mut HashMap<String, i32>, name: &str) {
 }
 
 fn add_next_if_not_seen<'a>(out: &mut Vec<&'a Node>, items: &'a [Node], seen: &[String]) {
+    use std::collections::HashMap;
+    // Pre-build lower-cased seen counts for O(1) lookup.
+    let mut seen_counts: HashMap<String, i32> = HashMap::new();
+    for s in seen {
+        *seen_counts.entry(s.to_lowercase()).or_insert(0) += 1;
+    }
     for n in items {
         // Uses of this node: the canonical name plus every alias, all counting as the main
         // name. `repeat` (not just presence in `seen`) decides whether it is still offered:
         // a `repeat: 2` command survives its first use, matching the assembly-phase rule.
-        let used = seen
-            .iter()
-            .filter(|s| {
-                s.eq_ignore_ascii_case(&n.name)
-                    || n.aliases.iter().any(|a| a.eq_ignore_ascii_case(s))
-            })
-            .count() as i32;
+        let mut used = seen_counts
+            .get(&n.name.to_lowercase())
+            .copied()
+            .unwrap_or(0);
+        for a in &n.aliases {
+            used += seen_counts.get(&a.to_lowercase()).copied().unwrap_or(0);
+        }
         let exhausted = if n.repeat == 0 {
             used > 0
         } else {
@@ -574,8 +675,8 @@ mod tests {
 
     #[test]
     fn options_do_not_enter_the_command_path() {
-        // `psc.cmds` contains only commands; a leading/interspersed option never lands in it.
-        // `yarn --x remove` → cmds[1] is "remove" (not "--x"), and --x lands in opts.
+        // The command path contains only commands; a leading/interspersed option never lands in it.
+        // `yarn --x remove` → first command is "remove" (not "--x").
         use serde_json::json;
         let tree = build_tree(&json!({
             "next": [
@@ -689,7 +790,7 @@ mod tests {
     #[test]
     fn option_empty_next_keeps_followup_completion() {
         // An option with `next: []` (no static candidates) takes a free value: after
-        // `-x aaa`, the value is an unknown word and the subcommands stay reachable.
+        // `-x aaa`, the value is consumed and root-level subcommands remain reachable.
         use serde_json::json;
         let tree = build_tree(&json!({
             "next": [ { "name": "commit" }, { "name": "branch" } ],
@@ -697,8 +798,8 @@ mod tests {
         }));
         let r = resolve(&tree, &["-x".into(), "aaa".into()], true);
         assert_eq!(
-            r.context.tokens[1].kind, "unknown",
-            "free value of an empty-next option is an unknown word: {:?}",
+            r.context.tokens[1].kind, "value",
+            "free value of an empty-next option is consumed as 'value': {:?}",
             r.context.tokens
         );
         assert!(r.items.iter().any(|i| i.text == "commit"));
@@ -741,8 +842,8 @@ mod tests {
                 { "name": "--format", "next": [ { "name": "json" }, { "name": "yaml" } ] }
             ] } ]
         }));
-        // custom is not a candidate of --format → it is a static-unrecognized word (unknown).
-        // The context stays on commit (--format's owner), so subcommands/options remain reachable.
+        // custom is not a candidate of --format but is still consumed as the option's value.
+        // The context falls back to the nearest command (commit) so subcommands remain reachable.
         let r = resolve(
             &tree,
             &["commit".into(), "--format".into(), "custom".into()],
@@ -751,8 +852,8 @@ mod tests {
         assert_eq!(r.context.path, vec!["commit"]);
         assert_eq!(
             r.context.tokens.last().unwrap().kind.as_str(),
-            "unknown",
-            "out-of-list value is unknown (not static-recognized): {:?}",
+            "value",
+            "out-of-list value is consumed as 'value' (not 'unknown'): {:?}",
             r.context.tokens
         );
         assert_eq!(
@@ -788,8 +889,8 @@ mod tests {
 
     #[test]
     fn option_empty_next_value_keeps_subcommands_completable() {
-        // `psc --a bbb <Tab>`: bbb is --a's free value (an unknown word), so the
-        // subcommands (add/list) remain completable at the root level.
+        // `psc --a bbb <Tab>`: bbb is --a's free value, consumed as "value",
+        // and the subcommands (add/list) remain completable at the root level.
         use serde_json::json;
         let tree = build_tree(&json!({
             "next": [ { "name": "add" }, { "name": "list" } ],
@@ -804,8 +905,8 @@ mod tests {
         assert_eq!(r.context.opts, vec!["--a"]);
         assert_eq!(
             r.context.tokens.last().unwrap().kind.as_str(),
-            "unknown",
-            "bbb is --a's free value (unknown), not a command: {:?}",
+            "value",
+            "bbb is --a's free value (value), not unknown: {:?}",
             r.context.tokens
         );
         // The root candidates still include the subcommands — the value must not clear them.
@@ -819,11 +920,11 @@ mod tests {
         );
         assert!(r.items.iter().any(|i| i.text == "add"));
         assert!(r.items.iter().any(|i| i.text == "list"));
-        // Unfinished value: psc --a bb<TAB> → pending kind is unknown
+        // Unfinished value: psc --a bb<TAB> → pending kind is value
         let r2 = resolve(&tree, &["--a".into(), "bb".into()], false);
         assert_eq!(
             r2.context.pending.as_ref().unwrap().kind.as_deref(),
-            Some("unknown")
+            Some("value")
         );
     }
 
@@ -928,25 +1029,22 @@ mod tests {
 
     #[test]
     fn option_empty_next_array_behavior() {
-        // An option with `next: []` (empty) has NO static candidates. Selecting it does NOT
-        // switch context and carries no automatic switch symbol — hooks supply dynamic items
-        // and set the symbol via `psc.set_symbol`. A following value is a plain unknown word.
         use serde_json::json;
         let tree = build_tree(&json!({
             "next": [ { "name": "add" } ],
             "option": [ { "name": "--a", "next": [] } ]
         }));
-        // --a selected: no static candidates → no context switch, value is unknown
+        // --a selected: no static candidates but the next token is consumed as value
         let r = resolve(&tree, &["--a".into(), "bbb".into()], true);
         assert_eq!(r.context.path, Vec::<String>::new());
         assert_eq!(r.context.opts, vec!["--a"]);
         assert_eq!(
             r.context.tokens.last().unwrap().kind.as_str(),
-            "unknown",
-            "empty-next value is an unknown word: {:?}",
+            "value",
+            "empty-next value is consumed as 'value': {:?}",
             r.context.tokens
         );
-        // The root subcommands remain reachable (no context switch to an empty layer)
+        // The root subcommands remain reachable (ctx resets to root after value)
         assert!(r.items.iter().any(|i| i.text == "add"));
         // Symbol: empty array carries no automatic switch (hooks decide)
         let r2 = resolve(&tree, &[], true);

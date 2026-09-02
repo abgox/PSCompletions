@@ -321,6 +321,9 @@ pub fn cmd_update(
     record_post_check(data_dir, settings, &old_list, index, &executed_renames);
     if let Err(e) = settings.save(settings_path) {
         if json {
+            let mut results = results.lock().unwrap().clone();
+            results.push(serde_json::json!({"ok": false, "error": e}));
+            println!("{}", serde_json::to_string(&results).unwrap_or_default());
             return ExitCode::SUCCESS;
         }
         out.line(&format!("error: {e}"));

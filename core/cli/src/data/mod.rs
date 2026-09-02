@@ -11,16 +11,25 @@ pub mod config;
 // crate-internal `crate::data::read_text` paths keep working.
 pub use psc_common::{read_text, strip_bom};
 
+pub fn assert_valid_name(name: &str) {
+    debug_assert!(
+        crate::validate::is_valid_name(name),
+        "invalid completion name: {name:?}"
+    );
+}
+
 /// Whether a completion entry exists on disk (`<data>/completions/<name>`), as a real directory
 /// or as a link (symlink/junction from `scripts/link-completion.ps1`). Uses `symlink_metadata`,
 /// so a dangling link still counts as present.
 pub fn completion_dir_exists(data_dir: &str, name: &str) -> bool {
+    assert_valid_name(name);
     std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
 }
 
 /// Remove a completion entry: a symlink/junction is removed **as a link only** (the linked
 /// local source stays intact), a real directory recursively, a missing path is a no-op.
 pub fn remove_completion_entry(data_dir: &str, name: &str) {
+    assert_valid_name(name);
     let dir = format!("{data_dir}/completions/{name}");
     if let Ok(md) = std::fs::symlink_metadata(&dir) {
         if md.file_type().is_symlink() {
@@ -89,14 +98,25 @@ impl Settings {
     pub fn save(&self, path: &str) -> Result<(), String> {
         let data = json!({ "config": self.config, "alias": self.alias });
         let text = serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?;
-        // Atomic replace: write a sibling temp file (pid-suffixed so concurrent psc processes
-        // don't collide), then rename over the target. A crash mid-write can never leave a
-        // half-written settings.json (which the next load would treat as corrupt).
+        // Atomic + durable: pid-suffixed tmp, sync file, then rename over target.
+        // A crash mid-write can never leave a half-written settings.json, and a power loss
+        // after rename is durable. Concurrent psc processes use distinct tmp names.
         let tmp = format!("{path}.{}.tmp", std::process::id());
-        std::fs::write(&tmp, text).map_err(|e| e.to_string())?;
+        {
+            let mut f = std::fs::File::create(&tmp).map_err(|e| e.to_string())?;
+            use std::io::Write;
+            f.write_all(text.as_bytes()).map_err(|e| e.to_string())?;
+            f.sync_all().map_err(|e| e.to_string())?;
+        }
         if let Err(e) = std::fs::rename(&tmp, path) {
             let _ = std::fs::remove_file(&tmp);
             return Err(e.to_string());
+        }
+        // Best-effort fsync parent dir for durability on Unix.
+        if let Some(dir) = std::path::Path::new(path).parent() {
+            if let Ok(d) = std::fs::File::open(dir) {
+                let _ = d.sync_all();
+            }
         }
         Ok(())
     }
@@ -198,7 +218,17 @@ pub struct Index {
 impl Index {
     pub fn load(path: &str) -> Option<Index> {
         let text = read_text(path)?;
-        let v: Value = serde_json::from_str(&text).ok()?;
+        let v: Value = match serde_json::from_str(&text) {
+            Ok(v) => v,
+            Err(_) => {
+                let corrupt = format!("{path}.corrupt");
+                let _ = std::fs::remove_file(&corrupt);
+                if std::fs::write(&corrupt, &text).is_ok() {
+                    let _ = std::fs::remove_file(path);
+                }
+                return None;
+            }
+        };
         Some(Index::from_value(v))
     }
 

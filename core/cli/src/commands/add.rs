@@ -98,7 +98,8 @@ pub fn cmd_add(
     });
     if let Err(e) = settings.save(settings_path) {
         if json {
-            let arr = results.lock().unwrap().clone();
+            let mut arr = results.lock().unwrap().clone();
+            arr.push(serde_json::json!({"ok": false, "error": e}));
             println!("{}", serde_json::to_string(&arr).unwrap_or_default());
             return ExitCode::SUCCESS;
         }

@@ -11,7 +11,7 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "不是一个可用的补全。",
         "is not an available completion.",
     ),
-    ("config_done", "模块配置修改成功。", "Module config updated."),
+    ("config_done", "配置修改成功。", "Config updated."),
     (
         "completion_done",
         "补全配置修改成功。",
@@ -38,20 +38,23 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "该补全没有动态 hooks。",
         "This completion has no dynamic hooks.",
     ),
-    (
-        "psc_hooks_locked",
-        "psc 自身的 hooks 是模块管理补全的核心，不能关闭。",
-        "psc's own hooks are the core of the module's management completions and cannot be disabled.",
-    ),
     ("add_done", "已添加。", "Added."),
     ("update_done", "已更新。", "Updated."),
     ("rm_done", "已移除。", "Removed."),
     ("updatable", "可更新的补全：", "Updatable completions:"),
-    ("lib_add", "补全库中新增：", "Newly available in the library:"),
+    (
+        "lib_add",
+        "补全库中新增：",
+        "Newly available in the library:",
+    ),
     ("lib_rm", "从补全库中移除：", "Removed from the library:"),
     ("lib_rename", "补全库中重命名：", "Renamed in the library:"),
     ("rename_done", "已重命名为", "renamed to"),
-    ("update_no", "所有补全都是最新的。", "All completions are up to date."),
+    (
+        "update_no",
+        "所有补全都是最新的。",
+        "All completions are up to date.",
+    ),
     (
         "update_skip",
         "链接补全，已跳过更新。",
@@ -67,11 +70,7 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "与已有命令或别名冲突。",
         "Conflicts with an existing command or alias.",
     ),
-    (
-        "alias_exist",
-        "该别名已存在。",
-        "The alias already exists.",
-    ),
+    ("alias_exist", "该别名已存在。", "The alias already exists."),
     (
         "alias_unique",
         "不能移除最后一个触发器别名。",

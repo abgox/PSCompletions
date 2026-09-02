@@ -18,6 +18,20 @@ pub fn cmd_alias(
     json: bool,
 ) -> ExitCode {
     let data_dir = data_dir_of(settings_path);
+    // `alias add <name> --reset` / `alias rm <name> --reset` : reset aliases for that completion.
+    if args.len() == 3 && (args[0] == "add" || args[0] == "rm") && args[2] == "--reset" {
+        let name = args[1].clone();
+        let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
+        if let Some(e) = name_error(lang, &name, status, true) {
+            return fail(out, e, json);
+        }
+        reset_alias(settings, &data_dir, &name);
+        if let Err(e) = settings.save(settings_path) {
+            return fail(out, format!("error: {e}"), json);
+        }
+        out.line(&msg_cli(lang, "alias_done"));
+        return ExitCode::SUCCESS;
+    }
     if args.iter().any(|a| a == "--reset") {
         // Only `alias --reset` is legal; any other arg is a subcommand error.
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();

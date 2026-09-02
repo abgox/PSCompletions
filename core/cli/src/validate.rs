@@ -23,10 +23,27 @@ pub fn name_status(settings: &Settings, index: &Index, completions_dir: &str, na
     0
 }
 
+pub fn is_valid_name(name: &str) -> bool {
+    if name.is_empty() || name == "." || name == ".." {
+        return false;
+    }
+    if name.contains('/') || name.contains('\\') || name.contains(':') {
+        return false;
+    }
+    // Disallow control/space to avoid alias CSV injection.
+    if name.chars().any(|c| c.is_control() || c == ' ') {
+        return false;
+    }
+    true
+}
+
 /// Validate a completion name uniformly and report errors. `need_installed`: whether the command
 /// requires the completion to be installed (rm/update/completion/alias).
 /// Returns the error message when the name is invalid.
 pub fn name_error(lang: &str, name: &str, status: u8, need_installed: bool) -> Option<String> {
+    if !is_valid_name(name) {
+        return Some(format!("{name} {}", msg_cli(lang, "not_available")));
+    }
     if status == 0 {
         return Some(format!("{name} {}", msg_cli(lang, "not_available")));
     }

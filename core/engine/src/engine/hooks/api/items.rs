@@ -1,5 +1,4 @@
-//! `psc.*` item-building and manipulation: add / items / filter / remove / contains /
-//! map / concat / split / merge.
+//! `psc.*` item-building and manipulation: add / items / contains / concat / split / join.
 //!
 //! The external contract uses `name` on items everywhere hooks can see them (static
 //! `completions`, `cs` after `add`, `items` output). The internal `text` shape is only
@@ -19,9 +18,6 @@ fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Tab
     if let Some(tip) = resolve_localized(lua, item.get::<Option<Value>>("tip")?, language)? {
         t.set("tip", tip)?;
     }
-    if let Some(s) = item.get::<Option<String>>("symbol")? {
-        t.set("symbol", s)?;
-    }
     if let Some(u) = item.get::<Option<String>>("usage")? {
         t.set("usage", u)?;
     }
@@ -36,35 +32,47 @@ fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Tab
     Ok(t)
 }
 
-/// `psc.add(cs, x)` → append a completion item (single table) or a batch (array of tables).
-/// Empty names are skipped; tip defaults to the name. Returns the number actually added.
-pub(crate) fn api_add(lua: &Lua, (tbl, x): (Value, Value), language: &str) -> mlua::Result<i32> {
-    let Value::Table(tbl) = tbl else {
-        return Ok(0);
-    };
-    let mut added = 0;
-    if let Value::Table(t) = x {
+/// `psc.add(x)` — append a completion item (single table) or a batch (array of tables)
+/// to the **current accumulation target** (implicit; routed by the engine).
+///
+/// Returns the stored entry (single form) or the stored entries (array form), **by
+/// reference**: mutating them before the build finalizes applies to the menu.
+/// Empty names are skipped.
+pub(crate) fn api_add(lua: &Lua, tbl: &Table, x: Value, language: &str) -> mlua::Result<Value> {
+    let mut added: Vec<Table> = Vec::new();
+    if let Value::Table(t) = &x {
         // Discriminate single item vs array: an item has a `name` key at the top level.
         if t.raw_get::<Option<String>>("name")?.is_some() {
-            if let Some(n) = append_one(lua, &tbl, &t, language)? {
-                added += n;
+            if let Some(it) = append_one(lua, tbl, t, language)? {
+                added.push(it);
             }
         } else {
             for i in 1..=t.raw_len() {
                 let Value::Table(sub) = t.raw_get::<Value>(i)? else {
                     continue;
                 };
-                if let Some(n) = append_one(lua, &tbl, &sub, language)? {
-                    added += n;
+                if let Some(it) = append_one(lua, tbl, &sub, language)? {
+                    added.push(it);
                 }
             }
         }
     }
-    Ok(added)
+    match added.len() {
+        1 => Ok(Value::Table(added.remove(0))),
+        n if n > 1 => {
+            let arr = lua.create_table()?;
+            for (i, it) in added.into_iter().enumerate() {
+                arr.raw_set((i + 1) as u64, it)?;
+            }
+            Ok(Value::Table(arr))
+        }
+        _ => Ok(Value::Nil),
+    }
 }
 
-/// Append one item; returns Some(count) when added, None when skipped (empty name).
-fn append_one(lua: &Lua, tbl: &Table, item: &Table, language: &str) -> mlua::Result<Option<i32>> {
+/// Append one item; returns the stored normalized entry table (by reference),
+/// None when skipped (empty name).
+fn append_one(lua: &Lua, tbl: &Table, item: &Table, language: &str) -> mlua::Result<Option<Table>> {
     // Missing or blank `name` → skip (no hard error); a table without `name` (e.g. a stray
     // `{ text = "x" }`) is treated as not-a-completion and dropped.
     let Some(name) = item.get::<Option<String>>("name")? else {
@@ -73,20 +81,15 @@ fn append_one(lua: &Lua, tbl: &Table, item: &Table, language: &str) -> mlua::Res
     if name.trim().is_empty() {
         return Ok(None);
     }
-    // tip defaults to the name when absent (on the copy, not the caller's table).
     let it = item_to_internal(lua, item, language)?;
-    if it.get::<Option<Value>>("tip")?.is_none() {
-        it.set("tip", Value::String(lua.create_string(&name)?))?;
-    }
     let n = tbl.raw_len();
-    tbl.set(n + 1, it)?;
-    Ok(Some(1))
+    tbl.set(n + 1, it.clone())?;
+    Ok(Some(it))
 }
 
-/// `psc.items(list, symbol_or_fn?)` → convert each element into a completion item.
+/// `psc.items(list, fn?)` → convert each element into a completion item.
 ///
-/// - Without second arg: the element itself is the name (element must be a string).
-/// - With a **string** (`"stay"` or `"switch"`): each element becomes `{ name = elem, symbol = ... }`.
+/// - Without fn: the element itself is the name (element must be a string).
 /// - With a **function**: `fn(elem)` returns the item table; returning nil skips that element.
 pub(crate) fn api_items(
     lua: &Lua,
@@ -96,34 +99,11 @@ pub(crate) fn api_items(
     let t = lua.create_table()?;
     let mut n = 1;
 
-    // Determine the mode: string symbol, function converter, or plain.
-    let mode = match &fnv {
-        Some(Value::String(_)) => 0,   // symbol string
-        Some(Value::Function(_)) => 1, // converter function
-        _ => 2,                        // plain (element = name)
-    };
-
     for i in 1..=list.raw_len() {
         let elem = list.raw_get::<Value>(i)?;
-        let item: Option<Value> = match mode {
-            0 => {
-                // String symbol — set symbol on every item.
-                let symbol = fnv.as_ref().unwrap().as_string().unwrap().to_str()?;
-                let name: String = match &elem {
-                    Value::String(s) => s.to_str()?.to_string(),
-                    _ => continue,
-                };
-                if name.trim().is_empty() {
-                    continue;
-                }
-                let tb = lua.create_table()?;
-                tb.set("name", name)?;
-                tb.set("symbol", symbol)?;
-                Some(Value::Table(tb))
-            }
-            1 => {
-                // Function converter — original behavior.
-                let func = fnv.as_ref().unwrap().as_function().unwrap();
+        let item: Option<Value> = match &fnv {
+            Some(Value::Function(func)) => {
+                // Function converter — fn(elem) returns the item table; nil skips.
                 let res: Value = func.call(elem.clone())?;
                 match res {
                     Value::Nil => None,
@@ -150,24 +130,6 @@ pub(crate) fn api_items(
             t.raw_set(n, it)?;
             n += 1;
         }
-    }
-    Ok(t)
-}
-
-/// `psc.map(list, fn)` → standard array map (fn required): apply fn to each element and keep
-/// every result at its original index (the array keeps its length). A nil list yields an empty table.
-pub(crate) fn api_map(lua: &Lua, (list, fnv): (Value, Value)) -> mlua::Result<Table> {
-    let Value::Table(list) = list else {
-        return lua.create_table();
-    };
-    let func = fnv
-        .as_function()
-        .ok_or_else(|| mlua::Error::RuntimeError("psc.map: fn must be a function".into()))?;
-    let t = lua.create_table()?;
-    for i in 1..=list.raw_len() {
-        let elem = list.raw_get::<Value>(i)?;
-        let res: Value = func.call(elem)?;
-        t.set(i, res)?;
     }
     Ok(t)
 }
@@ -222,29 +184,6 @@ pub(crate) fn api_join(lua: &Lua, (v, sep): (Value, Option<String>)) -> mlua::Re
         }
     }
     Ok(parts.join(&sep))
-}
-
-/// `psc.filter(list, fn)` → keep the elements for which `fn` returns truthy (compacted;
-/// the complementary operation to `psc.map`). A nil list yields an empty table.
-pub(crate) fn api_filter(lua: &Lua, (list, fnv): (Value, Value)) -> mlua::Result<Table> {
-    let Value::Table(list) = list else {
-        return lua.create_table();
-    };
-    let func = fnv
-        .as_function()
-        .ok_or_else(|| mlua::Error::RuntimeError("psc.filter: fn must be a function".into()))?;
-    let t = lua.create_table()?;
-    let mut n = 1;
-    for i in 1..=list.raw_len() {
-        let elem = list.raw_get::<Value>(i)?;
-        let keep: Value = func.call(elem.clone())?;
-        // Lua truthy: everything except nil and false.
-        if !matches!(keep, Value::Nil | Value::Boolean(false)) {
-            t.set(n, elem)?;
-            n += 1;
-        }
-    }
-    Ok(t)
 }
 
 /// `psc.contains(v, target, opts?)` → membership / pattern check.
@@ -307,7 +246,17 @@ pub(crate) fn api_contains(
         return Ok(false);
     }
 
-    // Exact mode: array membership, case-insensitive by default.
+    // Exact mode: string equality or array membership, case-insensitive by default.
+    // String haystack is exact equality (not substring); use pattern=true for substring/pattern.
+    if let Value::String(s) = &v {
+        let hay = s.to_str()?.to_string();
+        let (hay_check, needle_check) = if case_sensitive {
+            (hay, target)
+        } else {
+            (hay.to_lowercase(), target.to_lowercase())
+        };
+        return Ok(hay_check == needle_check);
+    }
     let Value::Table(list) = &v else {
         return Ok(false);
     };
@@ -328,26 +277,4 @@ pub(crate) fn api_contains(
         }
     }
     Ok(false)
-}
-
-/// `psc.merge(cs)` → return `cs` merged with the static `completions` (end-of-hook convenience).
-/// A nil `cs` yields just the static completions.
-pub(crate) fn api_merge(lua: &Lua, dyn_tbl: Value) -> mlua::Result<Table> {
-    let globals = lua.globals();
-    let completions: Value = globals.get("completions")?;
-    let t = lua.create_table()?;
-    let mut n = 1;
-    if let Value::Table(dyn_tbl) = dyn_tbl {
-        for i in 1..=dyn_tbl.raw_len() {
-            t.set(n, dyn_tbl.raw_get::<Value>(i)?)?;
-            n += 1;
-        }
-    }
-    if let Value::Table(c) = completions {
-        for i in 1..=c.raw_len() {
-            t.set(n, c.raw_get::<Value>(i)?)?;
-            n += 1;
-        }
-    }
-    Ok(t)
 }

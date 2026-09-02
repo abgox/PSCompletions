@@ -171,12 +171,19 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg
         max_content,
     );
     let count_text = format!("{}{}", cur_text, tail_text);
-    let sel_symbol = state
-        .filtered
-        .get(state.selected)
-        .and_then(|&i| state.items.get(i))
-        .map(|it| it.symbol.as_str())
-        .unwrap_or("");
+    // While the selected row's peek is in flight, withhold the static symbol: the peek
+    // (which runs the hook) may correct it, and showing a value that is about to change
+    // would make the symbol visibly flip. Once the peek result lands, it is shown.
+    let sel_symbol = if state.peek_pending {
+        ""
+    } else {
+        state
+            .filtered
+            .get(state.selected)
+            .and_then(|&i| state.items.get(i))
+            .map(|it| it.symbol.as_str())
+            .unwrap_or("")
+    };
     let sym_w = sel_symbol.chars().count() as u16;
     let sym_x = content_x + count_text.chars().count() as u16 + 1;
     if sym_w > 0 {

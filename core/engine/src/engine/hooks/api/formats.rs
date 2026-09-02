@@ -212,8 +212,12 @@ pub(crate) fn now_local() -> String {
 /// Append a line to `<log_dir>/<file_name>.log`; silently ignored when logging is disabled or
 /// the write fails (debug output must never break a hook or the menu).
 ///
-/// The log rotates by modification time: if the file's mtime is older than `LOG_MAX_AGE`, it
-/// is truncated before appending, so long-unused logs don't grow unboundedly.
+/// Two rotation rules keep the file bounded:
+/// - **Age**: an mtime older than `LOG_MAX_AGE` is removed before appending, so long-unused
+///   logs are reset.
+/// - **Size**: when the file exceeds `LOG_MAX_SIZE`, the front half is dropped and the tail
+///   is kept (from the next complete line), prefixed with a `[truncated]` marker — so an
+///   actively-written log can never grow unbounded.
 pub(crate) fn append_log(log_dir: &str, file_name: &str, text: &str) {
     if log_dir.is_empty() {
         return;
@@ -226,6 +230,7 @@ pub(crate) fn append_log(log_dir: &str, file_name: &str, text: &str) {
     if log_is_stale(&file) {
         let _ = std::fs::remove_file(&file);
     }
+    truncate_log_to_tail(&file);
     use std::io::Write;
     if let Ok(mut f) = std::fs::OpenOptions::new()
         .create(true)
@@ -237,7 +242,39 @@ pub(crate) fn append_log(log_dir: &str, file_name: &str, text: &str) {
 }
 
 /// How long a log file can go untouched before the next append truncates it.
-const LOG_MAX_AGE: std::time::Duration = std::time::Duration::from_secs(3 * 24 * 60 * 60);
+const LOG_MAX_AGE: std::time::Duration = std::time::Duration::from_secs(7 * 24 * 60 * 60);
+
+/// Hard size cap for a single log file. On overflow the front half is dropped and the tail
+/// is kept, so a frequently-written log (mtime keeps refreshing) can never grow unbounded.
+const LOG_MAX_SIZE: u64 = 1024 * 1024;
+
+/// Marker written at the head of a size-truncated log.
+const LOG_TRUNCATED_MARKER: &[u8] = b"[truncated] older entries removed (1 MB cap)\n";
+
+/// If the log exceeds `LOG_MAX_SIZE`, keep only the tail: the second half of the file,
+/// starting at the first complete line after the midpoint, prepended with the truncation
+/// marker. Best-effort; any failure keeps the file as-is and the next write retries.
+fn truncate_log_to_tail(path: &std::path::Path) {
+    let Ok(meta) = path.metadata() else {
+        return;
+    };
+    if meta.len() <= LOG_MAX_SIZE {
+        return;
+    }
+    let Ok(data) = std::fs::read(path) else {
+        return;
+    };
+    let midpoint = (data.len() / 2).min(data.len());
+    // Cut at the first newline at/after the midpoint so the kept tail starts at a
+    // complete line (no half-line garbage at the head of the truncated log).
+    let Some(offset) = data[midpoint..].iter().position(|&b| b == b'\n') else {
+        return; // No newline in the second half; skip truncation (rare pathological file).
+    };
+    let keep_from = midpoint + offset + 1;
+    let mut new_data = LOG_TRUNCATED_MARKER.to_vec();
+    new_data.extend_from_slice(&data[keep_from..]);
+    let _ = std::fs::write(path, new_data);
+}
 
 /// Whether the log file's last write is older than `LOG_MAX_AGE` (missing files aren't stale).
 fn log_is_stale(path: &std::path::Path) -> bool {
@@ -268,4 +305,63 @@ pub(crate) fn api_log(lua: &Lua, values: mlua::Variadic<Value>, log_dir: &str) -
     }
     append_log(log_dir, "debug", &text);
     Ok(())
+}
+
+#[cfg(test)]
+mod tests_log_size {
+    use super::*;
+
+    #[test]
+    fn append_log_truncates_to_tail_when_over_cap() {
+        let dir = std::env::temp_dir().join(format!("psc-logsize-test-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let dir_s = dir.to_string_lossy().to_string();
+
+        // Build a file over the cap from complete lines.
+        let line = "x".repeat(64) + "\n";
+        let mut big = String::new();
+        while (big.len() as u64) < LOG_MAX_SIZE + 4096 {
+            big.push_str(&line);
+        }
+        std::fs::write(dir.join("debug.log"), &big).unwrap();
+
+        append_log(&dir_s, "debug", "[stamp] newest entry\n");
+
+        let after = std::fs::read_to_string(dir.join("debug.log")).unwrap();
+        assert!(
+            after.len() as u64 <= LOG_MAX_SIZE + 1024,
+            "still too big: {}",
+            after.len()
+        );
+        assert!(
+            after.starts_with("[truncated]"),
+            "missing marker: {}",
+            &after[..80.min(after.len())]
+        );
+        assert!(after.contains("[stamp] newest entry"), "newest entry lost");
+        // The kept tail must start at a complete line: no partial "xxxx" fragment before a newline.
+        for l in after.lines() {
+            assert!(
+                l.starts_with("[truncated]") || l.starts_with("[stamp]") || l.starts_with("xxx"),
+                "unexpected line: {l}"
+            );
+        }
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn append_log_no_truncation_under_cap() {
+        let dir = std::env::temp_dir().join(format!("psc-logsmall-test-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let dir_s = dir.to_string_lossy().to_string();
+
+        append_log(&dir_s, "debug", "[stamp] entry one\n");
+        append_log(&dir_s, "debug", "[stamp] entry two\n");
+
+        let after = std::fs::read_to_string(dir.join("debug.log")).unwrap();
+        assert_eq!(after, "[stamp] entry one\n[stamp] entry two\n");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
 }

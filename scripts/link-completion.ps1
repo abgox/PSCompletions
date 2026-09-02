@@ -86,7 +86,7 @@ foreach ($CompletionName in $CompletionList) {
     foreach ($key in $PSCompletions.data.Keys) {
         if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
     }
-    $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.data -Force -Encoding utf8
+    $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.settings -Force -Encoding utf8
 
     $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
 }

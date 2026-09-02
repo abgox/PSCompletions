@@ -60,7 +60,7 @@ pub struct Token {
 /// The token being typed (may be empty: after a space, a new argument starts).
 #[derive(Debug, Clone, Default, serde::Deserialize)]
 #[serde(default)]
-pub struct Pending {
+pub struct Typing {
     /// Raw input text (kept as typed, possibly an alias).
     pub text: Option<String>,
     /// command | option | value | unknown
@@ -79,12 +79,18 @@ pub struct HookContext {
     pub cmd: String,
     /// Subcommand path (without options/values): `git stash pop` → `["stash","pop"]`.
     pub path: Vec<String>,
-    pub pending: Pending,
+    /// Typed layer chain: `(kind, canonical)` per context switch — commands always, options
+    /// when they have a `next` array (even empty) or a non-empty `option` array. Drives
+    /// `psc.on` location matching.
+    pub layers: Vec<(String, String)>,
+    pub typing: Typing,
     /// All completed options' **canonical** names, in order.
     pub opts: Vec<String>,
     /// Raw token list (kept for unusual cases).
     pub tokens: Vec<Token>,
-    /// The current command's per-completion config (e.g. git.max_commit).
+    /// The current command's fully-resolved config: per-completion overrides, global config
+    /// values, built-in defaults, and manifest `config` array defaults, merged in
+    /// `build_candidate_items`.  Hooks receive the final value directly.
     pub config: serde_json::Value,
     /// Raw manifest text (parsed as JSON), so hooks can read static data (e.g. git config keys).
     #[serde(default)]
@@ -107,7 +113,8 @@ impl Default for HookContext {
         HookContext {
             cmd: String::new(),
             path: Vec::new(),
-            pending: Pending::default(),
+            layers: Vec::new(),
+            typing: Typing::default(),
             opts: Vec::new(),
             tokens: Vec::new(),
             config: serde_json::Value::Null,

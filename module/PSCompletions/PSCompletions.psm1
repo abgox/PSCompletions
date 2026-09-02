@@ -43,7 +43,7 @@
             $PSCompletions.write_with_color('[PSCompletions] psc binary missing.')
             return
         }
-        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.data)
+        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.settings)
         # psc emits UTF-8, but PowerShell decodes native output via [Console]::OutputEncoding (GBK on Chinese systems); switch temporarily
         $oldEncoding = [Console]::OutputEncoding
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
@@ -65,7 +65,12 @@
             return
         }
         if ($Json -and $text.Trim()) {
-            try { return ($text | ConvertFrom-Json) } catch { }
+            try {
+                return $text | ConvertFrom-Json
+            }
+            catch {
+                return @{ ok = $false; error = $_.Exception.Message }
+            }
         }
         if (-not $Json) {
             if (-not $Quiet) {
@@ -74,9 +79,12 @@
             return
         }
         try {
-            return ($text | ConvertFrom-Json)
+            return $text | ConvertFrom-Json
         }
         catch {
+            if ($Json) {
+                return @{ ok = $false; error = $_.Exception.Message }
+            }
             return $raw
         }
     }
@@ -99,9 +107,15 @@
             $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
             $language = $PSCompletions.get_language($completion)
             $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
-            foreach ($a in $PSCompletions.data.alias[$completion]) {
-                if ($PSCompletions.data.aliasMap[$a] -and $PSCompletions.data.aliasMap[$a] -ne $completion) {
-                    $conflict_alias += $a
+            $settings = [System.IO.File]::ReadAllText($PSCompletions.path.settings, [System.Text.Encoding]::UTF8)
+            $aliases = (ConvertFrom-Json $settings).alias
+            $completion_aliases = $aliases.$completion, $config.alias, $completion | Select-Object -First 1
+            foreach ($comp in $aliases.PSObject.Properties.Name) {
+                if ($comp -eq $completion) { continue }
+                foreach ($a in $aliases.$comp) {
+                    if ($a -in $completion_aliases) {
+                        $conflict_alias += $a
+                    }
                 }
             }
         }
@@ -215,7 +229,10 @@
             else {
                 # --all / --old / named update: the CLI returns per-completion JSON results.
                 $result = _forward_psc -Json
-                if ($null -ne $result) {
+                if ($null -eq $result) {
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
+                }
+                else {
                     $PSCompletions.init_data()
                     $anyOk = $false
                     $migratedRenamed = @()
