@@ -2,6 +2,12 @@
 
 [English](./CHANGELOG.md)
 
+## 7.4.0
+
+- Hooks API：添加 `psc.on`/`psc.path`、移除 `psc.set_symbol`/`psc.set_tip` 和其他变更
+- [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 迁移至菜单异步统一计算
+- 其他的优化和修复
+
 ## 7.3.2
 
 - 改进了补全项的排序问题

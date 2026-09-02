@@ -2,6 +2,12 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.4.0
+
+- Hooks API: added `psc.on`/`psc.path`, removed `psc.set_symbol`/`psc.set_tip` and other changes.
+- [Completion predict symbols](https://pscompletions.abgox.com/docs/completion-predict-symbol) moved to menu async unified computation.
+- Other optimizations and fixes.
+
 ## 7.3.2
 
 - Improved the sorting issue of completion items.
