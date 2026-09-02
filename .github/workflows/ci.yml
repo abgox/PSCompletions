@@ -217,6 +217,10 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
+      # design/*.md contains `{{ }}` (Lua table syntax) that breaks Jekyll's Liquid parser.
+      - name: Remove design docs
+        run: rm -rf ./design
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
