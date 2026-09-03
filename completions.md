@@ -16,6 +16,7 @@
 |[aube](https://aube.jdx.dev)|A fast Node.js package manager|
 |[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
 |[aubx](https://aube.jdx.dev)|Fetch a package into a throwaway environment and run its binary (aube dlx standalone)|
+|[aws](https://aws.amazon.com/cli/)|The AWS Command Line Interface is a unified tool to manage your AWS services.|
 |[b2sum](https://uutils.org)|Compute and check BLAKE2 message digests.|
 |[b3sum](https://github.com/BLAKE3-team/BLAKE3)|Compute and check BLAKE3 message digests.|
 |[base32](https://uutils.org)|Encode/decode data and print to standard output.|

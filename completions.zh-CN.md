@@ -16,6 +16,7 @@
 |[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
 |[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
 |[aubx](https://aube.jdx.dev)|将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)|
+|[aws](https://aws.amazon.com/cli/)|AWS 命令行界面是一个统一管理 AWS 服务的工具。|
 |[b2sum](https://uutils.org)|计算和校验 BLAKE2 消息摘要。|
 |[b3sum](https://github.com/BLAKE3-team/BLAKE3)|计算和校验 BLAKE3 消息摘要。|
 |[base32](https://uutils.org)|编码/解码数据并输出到标准输出。|
