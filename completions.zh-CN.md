@@ -222,6 +222,7 @@
 |[watchexec](https://github.com/watchexec/watchexec)|在监视的文件更改时执行命令<br>递归监视更改并运行命令|
 |[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
 |[winget](https://github.com/microsoft/winget-cli)|Windows 包管理器。|
+|[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - 一款可将任意进程、端口、容器或文件追溯至其确切启动链路的工具|
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI 工具<br>在 Cloudflare 的边缘平台上部署、管理和开发|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal 辅助工具。|
 |[wsl](https://github.com/microsoft/WSL)|适用于 Linux 的 Windows 子系统。|

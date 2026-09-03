@@ -222,6 +222,7 @@
 |[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
 |[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
 |[winget](https://github.com/microsoft/winget-cli)|Windows package manager.|
+|[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - A tool that traces any process, port, container, or file back to the exact chain that started it|
 |[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI tool<br>Deploy, manage, and develop on Cloudflare's edge platform|
 |[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal helper utility.|
 |[wsl](https://github.com/microsoft/WSL)|Windows Subsystem for Linux.|
