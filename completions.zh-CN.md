@@ -167,6 +167,7 @@
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|Go PDF 处理器<br>用于处理 PDF 文件的命令行工具|
 |[pdm](https://github.com/pdm-project/pdm)|现代 Python 包和依赖管理器。|
 |[pip](https://github.com/pypa/pip)|Python 包管理器。|
+|[pixi](https://github.com/prefix-dev/pixi)|面向多平台、语言无关工作区的开发者工作流与环境管理。|
 |[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
 |[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|
 |[pnpm](https://pnpm.io/zh/)|快速、节省磁盘空间的包管理器。|

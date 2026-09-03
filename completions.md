@@ -167,6 +167,7 @@
 |[pdfcpu](https://github.com/pdfcpu/pdfcpu)|A Go PDF processor<br>Command-line tools for working with PDF files|
 |[pdm](https://github.com/pdm-project/pdm)|Modern Python package and dependency manager.|
 |[pip](https://github.com/pypa/pip)|Python Package Manager.|
+|[pixi](https://github.com/prefix-dev/pixi)|Developer Workflow and Environment Management for Multi-Platform, Language-Agnostic Workspaces.|
 |[playwright](https://playwright.dev/)|Framework for web testing and automation.|
 |[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
 |[pnpm](https://pnpm.io/)|Fast, disk-space-efficient package manager.|
