@@ -238,24 +238,28 @@ psc.manifest = { meta = { url = "", description = {} } }
 ---@class psc_on_spec
 --- 命令链
 ---
+--- - 必须为清单中定义的规范名（`name`）
 --- - `""` 表示通配任意一段
 --- - 与 `option` 同时设置表示 AND（需同时匹配）
 --- - 默认：链后第一个位置参数位尚未被填（链后无 `unknown`）才触发
 ---
 --- Command chain
 ---
+--- - Must be the canonical name (`name` in manifest)
 --- - `""` is a wildcard matching any segment.
 --- - Coexisting with `option` as AND (both must match)
 --- - Default: fires only while the first positional slot after the chain is unfilled
 ---@field command? string|string[]
 --- 选项链（后缀匹配）
 ---
+--- - 必须为清单中定义的规范名（`name`）
 --- - `""` 表示通配任意一段
 --- - 与 `option` 同时设置表示 AND（需同时匹配）
 --- - 默认：链末选项的值位尚未被填（最后一个已完成 token 是该选项）才触发
 ---
 --- Option chain (suffix match)
 ---
+--- - Must be the canonical name (`name` in manifest)
 --- - `""` is a wildcard matching any segment.
 --- - Coexisting with `option` as AND (both must match)
 --- - Default: fires only while the last option's value slot is unfilled
