@@ -57,8 +57,8 @@ const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "update_skip",
-        "链接补全，已跳过更新。",
-        "Linked completion, update skipped.",
+        "补全正在使用本地链接，已跳过。",
+        "Completion is using a local link, skipped.",
     ),
     (
         "has_wildcard",

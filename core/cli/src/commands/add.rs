@@ -72,18 +72,26 @@ pub fn cmd_add(
         } else {
             let version = index_ref.update.get(name).cloned().unwrap_or_default();
             match add_completion(data_dir, name, &urls, &version) {
-                Ok(_updated) => {
-                    let mut sg = settings_lock.lock().unwrap();
-                    if let Err(e) = refresh_settings_after_add(&mut sg, data_dir, name) {
+                Ok(updated) => {
+                    if !updated {
+                        let err = msg_cli(lang, "update_skip");
                         if !json {
-                            out.line(&format!("error: {e}"));
+                            out.line(&format!("{name}: {err}"));
                         }
-                        serde_json::json!({"completion": name, "ok": false, "error": e})
+                        serde_json::json!({"completion": name, "ok": false, "error": err})
                     } else {
-                        if !json {
-                            out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
+                        let mut sg = settings_lock.lock().unwrap();
+                        if let Err(e) = refresh_settings_after_add(&mut sg, data_dir, name) {
+                            if !json {
+                                out.line(&format!("error: {e}"));
+                            }
+                            serde_json::json!({"completion": name, "ok": false, "error": e})
+                        } else {
+                            if !json {
+                                out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
+                            }
+                            serde_json::json!({"completion": name, "ok": true})
                         }
-                        serde_json::json!({"completion": name, "ok": true})
                     }
                 }
                 Err(e) => {
