@@ -85,6 +85,18 @@ else {
 
     $hasIssues = @($validationResults | Where-Object { $_.hasIssues }).Count -gt 0
 
+    # hooks audit: hooks.lua uses psc.run / run_batch
+    $hooksUsingRun = @()
+    foreach ($c in $changedCompletions) {
+        $hf = Join-Path $PSScriptRoot "..\completions\$c\hooks.lua"
+        if (Test-Path -LiteralPath $hf) {
+            $txt = Get-Content -LiteralPath $hf -Raw -ErrorAction SilentlyContinue
+            if ($txt -match 'psc\.run(_batch)?\s*\(') {
+                $hooksUsingRun += $c
+            }
+        }
+    }
+
     $jsonChanges = git diff --name-only -- 'completions/' | Where-Object { $_ -match '\.json$' }
 
     $results = @(
@@ -131,6 +143,16 @@ else {
             '> ```powershell',
             '> .\scripts\compare-json.ps1',
             '> ```',
+            ''
+        )
+    }
+
+    if ($hooksUsingRun.Count -gt 0) {
+        $results += @(
+            '',
+            '> [!WARNING]',
+            '>',
+            '> hooks.lua uses `psc.run` / `psc.run_batch`: ' + ($hooksUsingRun -join ', '),
             ''
         )
     }

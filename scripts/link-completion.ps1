@@ -38,7 +38,7 @@ foreach ($CompletionName in $CompletionList) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.noExist))
         continue
     }
-    $test_dir = "$($PSCompletions.path.completions)\$CompletionName"
+    $test_dir = Join-Path $PSCompletions.path.completions $CompletionName
     if ($CompletionName -eq 'psc') {
         Remove-Item $test_dir -Recurse -Force -ErrorAction Ignore
         $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
