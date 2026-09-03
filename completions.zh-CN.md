@@ -122,6 +122,7 @@
 |[lore](https://lore.org)|下一代开源版本控制系统。<br>专为大文件、大团队和可扩展工作流而设计。|
 |[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
 |[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
+|[magick](https://imagemagick.org)|创建、编辑、合成或转换数字图像。|
 |[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
 |[md5sum](https://uutils.org)|计算和校验 MD5 消息摘要。|
 |[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - AI 驱动的编码助手。|

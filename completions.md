@@ -122,6 +122,7 @@
 |[lore](https://lore.org)|Next-generation, open-source version control system.<br>Designed for large files, large teams, and scalable workflows.|
 |[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
 |[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
+|[magick](https://imagemagick.org)|Create, edit, compose, or convert digital images.|
 |[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
 |[md5sum](https://uutils.org)|Compute and check MD5 message digests.|
 |[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - an AI-powered coding assistant.|
