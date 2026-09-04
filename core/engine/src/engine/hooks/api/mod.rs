@@ -42,7 +42,8 @@ pub(crate) fn resolve_localized(
             let _ = lua;
             Ok(None)
         }
-        _ => Ok(None),
+        Value::Boolean(b) => Ok(Some(b.to_string())),
+        _ => Ok(coerce_string_opt(lua, v)?),
     }
 }
 
