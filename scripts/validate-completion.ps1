@@ -38,7 +38,7 @@ if ($All) {
 $L = @{
     'en-US' = @{
         title                  = 'Completion Validation'
-        checked                = 'Checked **{0}** completions | ✅ **{1}** passed | ❌ **{2}** have issues'
+        checked                = 'Checked **{0}** completions | ✅ **{1}** passed | ❌ **{2}** have issues | 📝 **{3}** need careful review'
         colCompletion          = 'Completion'
         colSchema              = 'Schema'
         colConfig              = 'Config'
@@ -72,11 +72,12 @@ $L = @{
         cfg_hooksFlagNoFile    = 'config.hooks=true/false but hooks.lua does not exist'
         cfg_hooksFileNoFlag    = 'hooks.lua exists but config.hooks is not declared (set true or false)'
         cfg_aliasExtension     = 'config.alias "{0}" should not have a .cmd/.exe/.bat suffix'
+        i18n_spacing           = 'Chinese and English must be separated by a space at {0}: "{1}"'
         noIssues               = 'No issues found'
     }
     'zh-CN' = @{
         title                  = '补全检查结果'
-        checked                = '检查 **{0}** 个补全 | ✅ **{1}** 通过 | ❌ **{2}** 有问题'
+        checked                = '检查 **{0}** 个补全 | ✅ **{1}** 通过 | ❌ **{2}** 有问题 | 📝 **{3}** 需要仔细审查'
         colCompletion          = '补全'
         colSchema              = 'Schema'
         colConfig              = '配置'
@@ -110,6 +111,7 @@ $L = @{
         cfg_hooksFlagNoFile    = 'config.hooks 为 true/false 但 hooks.lua 不存在'
         cfg_hooksFileNoFlag    = 'hooks.lua 存在但 config.hooks 未声明（请设为 true 或 false）'
         cfg_aliasExtension     = 'config.alias "{0}" 不应含 .cmd/.exe/.bat 后缀'
+        i18n_spacing           = '中英之间需空格于 {0}："{1}"'
         noIssues               = '未发现问题'
     }
 }
@@ -121,10 +123,11 @@ function Get-Report {
 
     $ok = @($Results | Where-Object { -not $_.hasIssues }).Count
     $bad = @($Results | Where-Object { $_.hasIssues }).Count
+    $hooks = @($Results | Where-Object { $_.hasHooks }).Count
 
     [void]$sb.AppendLine("## $($m.title)")
     [void]$sb.AppendLine('')
-    [void]$sb.AppendLine(($m.checked -f $Results.Count, $ok, $bad))
+    [void]$sb.AppendLine(($m.checked -f $Results.Count, $ok, $bad, $hooks))
     [void]$sb.AppendLine('')
 
     [void]$sb.AppendLine("| $($m.colCompletion) | $($m.colSchema) | $($m.colConfig) | $($m.colHooks) | $($m.colCompare) |")
@@ -147,7 +150,16 @@ function Get-Report {
 
         if ($r.issues.schema.Count) {
             [void]$sb.AppendLine("**$($m.secSchema)**")
-            foreach ($i in $r.issues.schema) { [void]$sb.AppendLine("- $($i.file): $($i.text)") }
+            foreach ($i in $r.issues.schema) {
+                if ($i.code) {
+                    $tpl = $m[$i.code]
+                    $txt = if ($i.args.Count) { $tpl -f $i.args } else { $tpl }
+                    [void]$sb.AppendLine("- $($i.file): $txt")
+                }
+                else {
+                    [void]$sb.AppendLine("- $($i.file): $($i.text)")
+                }
+            }
             [void]$sb.AppendLine('')
         }
         if ($r.issues.config.Count) {
@@ -184,11 +196,6 @@ function Get-Report {
             [void]$sb.AppendLine('')
         }
         [void]$sb.AppendLine('</details>')
-        [void]$sb.AppendLine('')
-    }
-
-    if ($bad -eq 0) {
-        [void]$sb.AppendLine("> ✅ $($m.noIssues)")
         [void]$sb.AppendLine('')
     }
 
@@ -264,6 +271,58 @@ function Get-HookSyntaxIssues {
     return @()
 }
 
+function Get-I18nSpacingIssues {
+    param([string]$JsonPath)
+    $issues = [System.Collections.Generic.List[object]]::new()
+    try {
+        $text = Get-Content -LiteralPath $JsonPath -Raw -ErrorAction Stop
+        $obj = $text | ConvertFrom-Json -ErrorAction Stop
+    }
+    catch { return $issues }
+    $pattern = '[\u4e00-\u9fff][A-Za-z]|[A-Za-z][\u4e00-\u9fff]'
+    function Walk($node, $path) {
+        if ($null -eq $node) { return }
+        if ($node -is [System.Collections.IDictionary] -or $node -is [psobject]) {
+            $props = if ($node -is [System.Collections.IDictionary]) { $node.Keys } else { $node.PSObject.Properties.Name }
+            foreach ($k in $props) {
+                $v = if ($node -is [System.Collections.IDictionary]) { $node[$k] } else { $node.PSObject.Properties[$k].Value }
+                $curPath = if ($path) { "$path/$k" } else { $k }
+                if ($k -in @('tip', 'usage', 'example', 'description')) {
+                    $arr = @()
+                    if ($v -is [System.Collections.IList] -and -not ($v -is [string])) { $arr = $v }
+                    elseif ($v -is [string]) { $arr = @($v) }
+                    if ($arr.Count -gt 0) {
+                        for ($i = 0; $i -lt $arr.Count; $i++) {
+                            $item = $arr[$i]
+                            $itemPath = "$curPath[$i]"
+                            if ($item -is [string] -and $item -match $pattern) {
+                                $issues.Add(@{ code = 'i18n_spacing'; args = @($itemPath, $item); file = [System.IO.Path]::GetFileName($JsonPath) })
+                            }
+                            elseif ($item -is [System.Collections.IDictionary] -or $item -is [psobject]) {
+                                $cmd = if ($item -is [System.Collections.IDictionary]) { $item['cmd'] } else { $item.cmd }
+                                $desc = if ($item -is [System.Collections.IDictionary]) { $item['desc'] } else { $item.desc }
+                                if ($cmd -is [string] -and $cmd -match $pattern) { $issues.Add(@{ code = 'i18n_spacing'; args = @("$itemPath/cmd", $cmd); file = [System.IO.Path]::GetFileName($JsonPath) }) }
+                                if ($desc -is [string] -and $desc -match $pattern) { $issues.Add(@{ code = 'i18n_spacing'; args = @("$itemPath/desc", $desc); file = [System.IO.Path]::GetFileName($JsonPath) }) }
+                            }
+                        }
+                        continue
+                    }
+                }
+                if ($v -is [System.Collections.IDictionary] -or $v -is [psobject] -or $v -is [System.Collections.IList]) {
+                    Walk $v $curPath
+                }
+            }
+        }
+        elseif ($node -is [System.Collections.IList] -and -not ($node -is [string])) {
+            for ($i = 0; $i -lt $node.Count; $i++) {
+                Walk $node[$i] "$path[$i]"
+            }
+        }
+    }
+    Walk $obj ''
+    return $issues
+}
+
 foreach ($name in $CompletionList) {
     if (-not $name.Trim()) { continue }
     if ($name.StartsWith('.')) { continue }
@@ -298,6 +357,8 @@ foreach ($name in $CompletionList) {
             $jsonText = Get-Content -LiteralPath $f.FullName -Raw
             $errs = Get-JsonErrors -JsonText $jsonText -SchemaFile $manifestSchema
             foreach ($e in $errs) { $entry.issues.schema.Add(@{ file = $f.Name; text = $e }) }
+            $i18n = Get-I18nSpacingIssues -JsonPath $f.FullName
+            foreach ($e in $i18n) { $entry.issues.schema.Add($e) }
         }
     }
     if (Test-Path -LiteralPath $configFile) {

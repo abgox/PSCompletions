@@ -152,7 +152,7 @@ else {
             '',
             '> [!WARNING]',
             '>',
-            '> hooks.lua uses `psc.run` / `psc.run_batch`: ' + ($hooksUsingRun -join ', '),
+            "> hooks.lua uses `psc.run` / `psc.run_batch`: $hooksUsingRun" ,
             ''
         )
     }
