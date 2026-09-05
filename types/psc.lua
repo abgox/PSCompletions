@@ -239,34 +239,36 @@ psc.manifest = { meta = { url = "", description = {} } }
 --- 命令链
 ---
 --- - 必须为清单中定义的规范名（`name`）
---- - `""` 表示通配任意一段
 --- - 与 `option` 同时设置表示 AND（需同时匹配）
---- - 默认：链后第一个位置参数位尚未被填（链后无 `unknown`）才触发
+--- - `""` 表示通配任意一段
 ---
 --- Command chain
 ---
 --- - Must be the canonical name (`name` in manifest)
---- - `""` is a wildcard matching any segment.
 --- - Coexisting with `option` as AND (both must match)
---- - Default: fires only while the first positional slot after the chain is unfilled
+--- - `""` is a wildcard matching any segment
 ---@field command? string|string[]
 --- 选项链（后缀匹配）
 ---
 --- - 必须为清单中定义的规范名（`name`）
---- - `""` 表示通配任意一段
 --- - 与 `option` 同时设置表示 AND（需同时匹配）
---- - 默认：链末选项的值位尚未被填（最后一个已完成 token 是该选项）才触发
+--- - `""` 表示通配任意一段
 ---
 --- Option chain (suffix match)
 ---
 --- - Must be the canonical name (`name` in manifest)
---- - `""` is a wildcard matching any segment.
 --- - Coexisting with `option` as AND (both must match)
---- - Default: fires only while the last option's value slot is unfilled
+--- - `""` is a wildcard matching any segment
 ---@field option? string|string[]
---- 是否允许多次匹配（位置槽被填过一次后仍继续匹配）
+--- 是否允许多次匹配
 ---
---- Whether the matched location keeps matching after its slot has been filled
+--- - 它表示在位置槽被填过一次后仍继续匹配
+--- - 主要用于可以多次使用同类动态补全的情况，例如 `psc add <xxx> <yyy>`
+---
+--- Whether multiple matches are allowed
+---
+--- - It means matching can continue even after a position slot has been filled once
+--- - Mainly used for scenarios where the same type of dynamic completion can be used multiple times, e.g. `psc add <xxx> <yyy>`
 ---@field multiple? true
 
 --- 声明式条件触发。
@@ -741,6 +743,10 @@ function psc.eq(s1, s2, opts) end
 --- 调试输出
 ---
 --- - 接受任意参数，写入 `data/temp/log/debug.log`
+---     ```powershell
+---     Join-Path $PSCompletions.path.log 'debug.log'
+---     Join-Path $PSCompletions.path.log 'error.log'
+---     ```
 --- - **注意**：
 ---   - hooks 默认有 10 秒的结果缓存，10 秒内仅运行一次
 ---   - 临时禁用缓存以实时调试: `psc config menu enable_cache 0`
@@ -748,6 +754,10 @@ function psc.eq(s1, s2, opts) end
 --- Debug output.
 ---
 --- - Accepts any number of arguments, and writes to `data/temp/log/debug.log`
+---     ```powershell
+---     Join-Path $PSCompletions.path.log 'debug.log'
+---     Join-Path $PSCompletions.path.log 'error.log'
+---     ```
 --- - **Note**:
 ---   - Hooks have a default 10-second result cache and will run only once within 10 seconds
 ---   - For live debugging, temporarily disable the cache: `psc config menu enable_cache 0`
