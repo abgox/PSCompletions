@@ -232,6 +232,19 @@ local function add_buckets()
     end
 end
 
+local function add_shims()
+    local root = get_root()
+    if not root then
+        return
+    end
+    local shims_dir = psc.path(root, "shims")
+    for _, e in ipairs(psc.ls(shims_dir) or {}) do
+        if not e.is_dir then
+            psc.add({ name = e.name, tip = e.path })
+        end
+    end
+end
+
 local function add_configs()
     local config = get_scoop_config()
     for key, value in pairs(config) do
@@ -362,5 +375,7 @@ psc.on({
 psc.on({ command = "hold", multiple = true }, add_unhold_apps)
 
 psc.on({ command = "unhold", multiple = true }, add_hold_apps)
+
+psc.on({ command = "which" }, add_shims)
 
 psc.on({ command = { "cache", "rm" }, multiple = true }, add_cache_pkgs)
