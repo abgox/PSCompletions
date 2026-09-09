@@ -1,0 +1,1163 @@
+{
+  "meta": {
+    "url": "https://github.com/skim-rs/skim",
+    "description": [
+      "一款用 Rust 语言编写的命令行快速模糊查找工具"
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--algo",
+      "usage": [
+        "--algo <ALGORITHM>"
+      ],
+      "tip": [
+        "模糊匹配算法。"
+      ],
+      "next": [
+        {
+          "name": "arinae",
+          "tip": [
+            "Arinae：抗拼写错误且自然的算法，默认值。"
+          ]
+        },
+        {
+          "name": "clangd",
+          "tip": [
+            "Clangd 模糊匹配算法。"
+          ]
+        },
+        {
+          "name": "frizbee",
+          "tip": [
+            "Frizbee 匹配算法，可容忍拼写错误。"
+          ]
+        },
+        {
+          "name": "fzy",
+          "tip": [
+            "Fzy 匹配算法。"
+          ]
+        },
+        {
+          "name": "skim_v2",
+          "tip": [
+            "上一代 skim 模糊匹配算法（v2）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ansi",
+      "tip": [
+        "解析输入中的 ANSI 颜色代码。"
+      ]
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bind [<BIND>...]"
+      ],
+      "tip": [
+        "逗号分隔的按键、事件与动作绑定。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--border",
+      "usage": [
+        "--border[=<STYLE>]"
+      ],
+      "tip": [
+        "在界面组件周围绘制边框。"
+      ],
+      "next": [
+        {
+          "name": "double"
+        },
+        {
+          "name": "force-off"
+        },
+        {
+          "name": "heavy-double-dashed"
+        },
+        {
+          "name": "heavy-quadruple-dashed"
+        },
+        {
+          "name": "heavy-triple-dashed"
+        },
+        {
+          "name": "light-double-dashed"
+        },
+        {
+          "name": "light-quadruple-dashed"
+        },
+        {
+          "name": "light-triple-dashed"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "plain"
+        },
+        {
+          "name": "quadrant-inside"
+        },
+        {
+          "name": "quadrant-outside"
+        },
+        {
+          "name": "rounded"
+        },
+        {
+          "name": "thick"
+        }
+      ]
+    },
+    {
+      "name": "--border-no-collapse",
+      "tip": [
+        "不将相邻边框合并为共享行或列。"
+      ]
+    },
+    {
+      "name": "--case",
+      "usage": [
+        "--case <CASE>"
+      ],
+      "tip": [
+        "大小写敏感度。"
+      ],
+      "next": [
+        {
+          "name": "ignore",
+          "tip": [
+            "不区分大小写。"
+          ]
+        },
+        {
+          "name": "respect",
+          "tip": [
+            "区分大小写。"
+          ]
+        },
+        {
+          "name": "smart",
+          "tip": [
+            "智能大小写：查询含大写时才区分。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cmd",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --cmd <CMD>"
+      ],
+      "tip": [
+        "交互模式下动态执行的命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-history",
+      "usage": [
+        "--cmd-history <FILE>"
+      ],
+      "tip": [
+        "交互模式命令查询的历史记录文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-history-size",
+      "usage": [
+        "--cmd-history-size <N>"
+      ],
+      "tip": [
+        "保留的最大命令历史条数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-prompt",
+      "usage": [
+        "--cmd-prompt <PROMPT>"
+      ],
+      "tip": [
+        "设置命令模式下的提示符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-query",
+      "usage": [
+        "--cmd-query <QUERY>"
+      ],
+      "tip": [
+        "交互模式下的初始查询。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <THEME>"
+      ],
+      "tip": [
+        "设置配色主题，可附加单项颜色覆盖。"
+      ],
+      "next": [
+        {
+          "name": "16"
+        },
+        {
+          "name": "bw"
+        },
+        {
+          "name": "catppuccin-frappe"
+        },
+        {
+          "name": "catppuccin-latte"
+        },
+        {
+          "name": "catppuccin-macchiato"
+        },
+        {
+          "name": "catppuccin-mocha"
+        },
+        {
+          "name": "dark"
+        },
+        {
+          "name": "light"
+        },
+        {
+          "name": "molokai"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--cycle",
+      "tip": [
+        "滚动到边界时循环跳转。"
+      ]
+    },
+    {
+      "name": "--delimiter",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delimiter <DELIMITER>"
+      ],
+      "tip": [
+        "字段之间的分隔符，使用正则表达式格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-pattern",
+      "usage": [
+        "--disable-pattern <PATTERN>"
+      ],
+      "tip": [
+        "按该正则表达式禁用条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--disabled",
+      "tip": [
+        "完全禁用匹配。"
+      ]
+    },
+    {
+      "name": "--exact",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exact"
+      ],
+      "tip": [
+        "以精确匹配模式运行。"
+      ]
+    },
+    {
+      "name": "--exit-0",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --exit-0"
+      ],
+      "tip": [
+        "查询无匹配时不进入界面，直接退出。"
+      ]
+    },
+    {
+      "name": "--expect",
+      "usage": [
+        "--expect <KEY>"
+      ],
+      "tip": [
+        "已弃用，仅为兼容保留。请改用 accept() 绑定。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --filter <QUERY>"
+      ],
+      "tip": [
+        "过滤模式的查询，打印匹配后退出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--header",
+      "usage": [
+        "--header <HEADER>"
+      ],
+      "tip": [
+        "设置固定表头，显示在信息行旁。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--header-lines",
+      "usage": [
+        "--header-lines <N>"
+      ],
+      "tip": [
+        "输入的前 N 行视为固定表头。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--height",
+      "usage": [
+        "--height <HEIGHT>"
+      ],
+      "tip": [
+        "skim 窗口高度，行数或百分比。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息（用 '--help' 查看更多）。"
+      ]
+    },
+    {
+      "name": "--hide-nth",
+      "usage": [
+        "--hide-nth <HIDE_NTH>"
+      ],
+      "tip": [
+        "隐藏显示但仍参与搜索的字段。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--highlight-line",
+      "tip": [
+        "高亮整行，而不仅是文本部分。"
+      ]
+    },
+    {
+      "name": "--history",
+      "usage": [
+        "--history <FILE>"
+      ],
+      "tip": [
+        "搜索查询的历史记录文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--history-size",
+      "usage": [
+        "--history-size <N>"
+      ],
+      "tip": [
+        "保留的最大查询历史条数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image[=<BACKEND>]"
+      ],
+      "tip": [
+        "启用图片预览。"
+      ],
+      "next": [
+        {
+          "name": "detect",
+          "tip": [
+            "启动时自动检测可用的后端。"
+          ]
+        },
+        {
+          "name": "halfblocks",
+          "tip": [
+            "强制半块渲染，启动更快。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--info",
+      "usage": [
+        "--info <STYLE>"
+      ],
+      "tip": [
+        "设置匹配计数信息的显示位置。"
+      ],
+      "next": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "hidden"
+        },
+        {
+          "name": "inline"
+        },
+        {
+          "name": "inline-right"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        }
+      ]
+    },
+    {
+      "name": "--inline-info",
+      "tip": [
+        "--info=inline 的别名。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "以交互模式启动 skim。"
+      ]
+    },
+    {
+      "name": "--keep-right",
+      "tip": [
+        "溢出时保持行尾可见。"
+      ]
+    },
+    {
+      "name": "--last-match",
+      "tip": [
+        "高亮最后一个匹配，而非第一个。"
+      ]
+    },
+    {
+      "name": "--layout",
+      "usage": [
+        "--layout <LAYOUT>"
+      ],
+      "tip": [
+        "设置布局。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "从屏幕底部显示。"
+          ]
+        },
+        {
+          "name": "reverse",
+          "tip": [
+            "从屏幕顶部显示。"
+          ]
+        },
+        {
+          "name": "reverse-list",
+          "tip": [
+            "从顶部显示，提示符在底部。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--listen",
+      "usage": [
+        "--listen[=<NAME>]"
+      ],
+      "tip": [
+        "运行 IPC 套接字，可指定名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <FILE>"
+      ],
+      "tip": [
+        "将日志输出到文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <LEVEL>"
+      ],
+      "tip": [
+        "设置日志级别。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--man",
+      "tip": [
+        "生成 man 手册并输出到标准输出。"
+      ]
+    },
+    {
+      "name": "--margin",
+      "usage": [
+        "--margin <MARGIN>"
+      ],
+      "tip": [
+        "屏幕边距，行数或终端尺寸百分比。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-height",
+      "usage": [
+        "--min-height <MIN_HEIGHT>"
+      ],
+      "tip": [
+        "skim 窗口最小高度，非负行数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-query-length",
+      "usage": [
+        "--min-query-length <MIN_QUERY_LENGTH>"
+      ],
+      "tip": [
+        "开始显示结果的最短查询长度。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--multi",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --multi"
+      ],
+      "tip": [
+        "启用多选。"
+      ]
+    },
+    {
+      "name": "--multi-selector",
+      "usage": [
+        "--multi-selector <ICON>"
+      ],
+      "tip": [
+        "设置多选选中项图标。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--multiline",
+      "usage": [
+        "--multiline[=<SEP>]"
+      ],
+      "tip": [
+        "按给定分隔符将条目文本拆为多行显示。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-border",
+      "tip": [
+        "禁用所有边框，包括 tmux/zellij 弹窗中的。"
+      ]
+    },
+    {
+      "name": "--no-clear",
+      "tip": [
+        "退出时不清屏。"
+      ]
+    },
+    {
+      "name": "--no-clear-if-empty",
+      "tip": [
+        "新命令返回空结果时不清空旧条目。"
+      ]
+    },
+    {
+      "name": "--no-clear-start",
+      "tip": [
+        "启动时不清空条目。"
+      ]
+    },
+    {
+      "name": "--no-height",
+      "tip": [
+        "禁用高度限制（强制全屏）。"
+      ]
+    },
+    {
+      "name": "--no-hscroll",
+      "tip": [
+        "禁用水平滚动。"
+      ]
+    },
+    {
+      "name": "--no-info",
+      "tip": [
+        "--info=hidden 的别名。"
+      ]
+    },
+    {
+      "name": "--no-mouse",
+      "tip": [
+        "禁用鼠标。"
+      ]
+    },
+    {
+      "name": "--no-multi",
+      "tip": [
+        "禁用多选。"
+      ]
+    },
+    {
+      "name": "--no-scrollbar",
+      "tip": [
+        "禁用列表滚动条。"
+      ]
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "不对结果排序。"
+      ]
+    },
+    {
+      "name": "--no-strip-ansi",
+      "tip": [
+        "保留 ANSI 代码，使输出与输入完全一致。"
+      ]
+    },
+    {
+      "name": "--no-typos",
+      "tip": [
+        "禁用拼写容错。"
+      ]
+    },
+    {
+      "name": "--normalize",
+      "tip": [
+        "归一化 Unicode 字符，如重音符号和变音符号。"
+      ]
+    },
+    {
+      "name": "--nth",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --nth <NTH>"
+      ],
+      "tip": [
+        "参与匹配的字段，以逗号分隔的字段索引表达式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-format",
+      "usage": [
+        "--output-format <FORMAT>"
+      ],
+      "tip": [
+        "设置输出格式，覆盖所有 print 选项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--popup",
+      "usage": [
+        "--popup [<SPEC>]"
+      ],
+      "tip": [
+        "在 tmux 或 zellij 弹窗中运行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-file",
+      "usage": [
+        "--pre-select-file <FILE>"
+      ],
+      "tip": [
+        "从该文件读取要预选的条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-items",
+      "usage": [
+        "--pre-select-items <ITEMS>"
+      ],
+      "tip": [
+        "预选以换行符分隔的这些条目。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-n",
+      "usage": [
+        "--pre-select-n <N>"
+      ],
+      "tip": [
+        "多选模式下预选前 n 项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-pat",
+      "usage": [
+        "--pre-select-pat <PATTERN>"
+      ],
+      "tip": [
+        "多选模式下预选匹配该模式的项。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--preview",
+      "usage": [
+        "--preview <CMD>"
+      ],
+      "tip": [
+        "当前行的预览命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--preview-window",
+      "usage": [
+        "--preview-window <SPEC>"
+      ],
+      "tip": [
+        "预览窗口布局。"
+      ],
+      "next": [
+        {
+          "name": "down:30%"
+        },
+        {
+          "name": "left:30%"
+        },
+        {
+          "name": "right:50%"
+        },
+        {
+          "name": "up:30%"
+        }
+      ]
+    },
+    {
+      "name": "--print-cmd",
+      "tip": [
+        "将命令作为首行打印（位于查询之后）。"
+      ]
+    },
+    {
+      "name": "--print-current",
+      "tip": [
+        "将当前高亮项作为首行打印。"
+      ]
+    },
+    {
+      "name": "--print-header",
+      "tip": [
+        "将表头作为首行打印。"
+      ]
+    },
+    {
+      "name": "--print-query",
+      "tip": [
+        "将查询作为首行打印。"
+      ]
+    },
+    {
+      "name": "--print-score",
+      "tip": [
+        "在每个条目后打印分数。"
+      ]
+    },
+    {
+      "name": "--print0",
+      "tip": [
+        "以 ASCII NUL 字符分隔打印输出。"
+      ]
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --prompt <PROMPT>"
+      ],
+      "tip": [
+        "设置提示符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--query",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --query <QUERY>"
+      ],
+      "tip": [
+        "初始查询。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--read0",
+      "tip": [
+        "以 ASCII NUL 字符分隔读取输入。"
+      ]
+    },
+    {
+      "name": "--regex",
+      "tip": [
+        "以正则表达式模式启动，而非模糊匹配。"
+      ]
+    },
+    {
+      "name": "--remote",
+      "usage": [
+        "--remote[=<NAME>]"
+      ],
+      "tip": [
+        "向指定名称的 IPC 套接字发送命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "反向布局的简写。"
+      ]
+    },
+    {
+      "name": "--scheme",
+      "usage": [
+        "--scheme <SCHEME>"
+      ],
+      "tip": [
+        "匹配方案预设。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认方案，不修改任何选项。"
+          ]
+        },
+        {
+          "name": "history",
+          "tip": [
+            "历史方案：强制以序号为首要排序条件。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "路径方案：定位最远匹配，优先按路径排序。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--scrollbar",
+      "usage": [
+        "--scrollbar <CHAR>"
+      ],
+      "tip": [
+        "设置列表滚动条样式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--select-1",
+      "alias": [
+        "-1"
+      ],
+      "usage": [
+        "-1, --select-1"
+      ],
+      "tip": [
+        "查询仅匹配一项时不进入界面，直接返回。"
+      ]
+    },
+    {
+      "name": "--selector",
+      "usage": [
+        "--selector <ICON>"
+      ],
+      "tip": [
+        "设置选中项图标。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--shell",
+      "usage": [
+        "--shell <SHELL>"
+      ],
+      "tip": [
+        "生成 shell 补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bourne Again SHell。"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish shell。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Friendly Interactive SHell。"
+          ]
+        },
+        {
+          "name": "nushell",
+          "tip": [
+            "Nushell（nu）。"
+          ]
+        },
+        {
+          "name": "power-shell",
+          "tip": [
+            "PowerShell。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--shell-bindings",
+      "tip": [
+        "生成 shell 按键绑定，仅支持 bash、zsh 和 fish。"
+      ]
+    },
+    {
+      "name": "--show-cmd-error",
+      "tip": [
+        "命令失败时显示错误信息。"
+      ]
+    },
+    {
+      "name": "--skip-to-pattern",
+      "usage": [
+        "--skip-to-pattern <PATTERN>"
+      ],
+      "tip": [
+        "行首从匹配到的 pattern 处开始显示。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-match",
+      "usage": [
+        "--split-match[=<DELIM>]"
+      ],
+      "tip": [
+        "启用分段匹配，可指定分隔符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sync",
+      "tip": [
+        "多阶段过滤的同步搜索。"
+      ]
+    },
+    {
+      "name": "--tabstop",
+      "usage": [
+        "--tabstop <N>"
+      ],
+      "tip": [
+        "一个制表符占用的空格数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tac",
+      "tip": [
+        "以相反顺序显示结果。"
+      ]
+    },
+    {
+      "name": "--tiebreak",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --tiebreak <TIEBREAK>"
+      ],
+      "tip": [
+        "分数相同时使用的逗号分隔排序条件。"
+      ],
+      "next": [
+        {
+          "name": "-begin"
+        },
+        {
+          "name": "-end"
+        },
+        {
+          "name": "-index"
+        },
+        {
+          "name": "-length"
+        },
+        {
+          "name": "-pathname"
+        },
+        {
+          "name": "-score"
+        },
+        {
+          "name": "begin"
+        },
+        {
+          "name": "end"
+        },
+        {
+          "name": "index"
+        },
+        {
+          "name": "length"
+        },
+        {
+          "name": "pathname"
+        },
+        {
+          "name": "score"
+        }
+      ]
+    },
+    {
+      "name": "--typos",
+      "usage": [
+        "--typos[=<N>]"
+      ],
+      "tip": [
+        "启用拼写容错，可指定最大允许的拼写错误数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--with-nth",
+      "usage": [
+        "--with-nth <WITH_NTH>"
+      ],
+      "tip": [
+        "要转换显示的字段，详见 nth 说明。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--wrap",
+      "tip": [
+        "列表项自动换行。"
+      ]
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <REPLSTR>"
+      ],
+      "tip": [
+        "在命令中用选中项替换该占位符。"
+      ],
+      "next": []
+    }
+  ]
+}
