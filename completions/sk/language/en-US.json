@@ -1,0 +1,1163 @@
+{
+  "meta": {
+    "url": "https://github.com/skim-rs/skim",
+    "description": [
+      "A fast fuzzy finder for the command line written in Rust"
+    ]
+  },
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--algo",
+      "usage": [
+        "--algo <ALGORITHM>"
+      ],
+      "tip": [
+        "Fuzzy matching algorithm."
+      ],
+      "next": [
+        {
+          "name": "arinae",
+          "tip": [
+            "Arinae: typo-resistant and natural algorithm, default."
+          ]
+        },
+        {
+          "name": "clangd",
+          "tip": [
+            "Clangd fuzzy matching algorithm."
+          ]
+        },
+        {
+          "name": "frizbee",
+          "tip": [
+            "Frizbee matching algorithm, typo resistant."
+          ]
+        },
+        {
+          "name": "fzy",
+          "tip": [
+            "Fzy matching algorithm."
+          ]
+        },
+        {
+          "name": "skim_v2",
+          "tip": [
+            "Previous skim fuzzy matching algorithm (v2)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--ansi",
+      "tip": [
+        "Parse ANSI color codes in input strings."
+      ]
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bind [<BIND>...]"
+      ],
+      "tip": [
+        "Comma-separated key, event, and action bindings."
+      ],
+      "next": []
+    },
+    {
+      "name": "--border",
+      "usage": [
+        "--border[=<STYLE>]"
+      ],
+      "tip": [
+        "Draw borders around the UI components."
+      ],
+      "next": [
+        {
+          "name": "double"
+        },
+        {
+          "name": "force-off"
+        },
+        {
+          "name": "heavy-double-dashed"
+        },
+        {
+          "name": "heavy-quadruple-dashed"
+        },
+        {
+          "name": "heavy-triple-dashed"
+        },
+        {
+          "name": "light-double-dashed"
+        },
+        {
+          "name": "light-quadruple-dashed"
+        },
+        {
+          "name": "light-triple-dashed"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "plain"
+        },
+        {
+          "name": "quadrant-inside"
+        },
+        {
+          "name": "quadrant-outside"
+        },
+        {
+          "name": "rounded"
+        },
+        {
+          "name": "thick"
+        }
+      ]
+    },
+    {
+      "name": "--border-no-collapse",
+      "tip": [
+        "Do not collapse adjacent borders into a shared row or column."
+      ]
+    },
+    {
+      "name": "--case",
+      "usage": [
+        "--case <CASE>"
+      ],
+      "tip": [
+        "Case sensitivity."
+      ],
+      "next": [
+        {
+          "name": "ignore",
+          "tip": [
+            "Case-insensitive matching."
+          ]
+        },
+        {
+          "name": "respect",
+          "tip": [
+            "Case-sensitive matching."
+          ]
+        },
+        {
+          "name": "smart",
+          "tip": [
+            "Smart case: case-insensitive unless query contains uppercase."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--cmd",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --cmd <CMD>"
+      ],
+      "tip": [
+        "Command to invoke dynamically in interactive mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-history",
+      "usage": [
+        "--cmd-history <FILE>"
+      ],
+      "tip": [
+        "Command history file for interactive mode queries."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-history-size",
+      "usage": [
+        "--cmd-history-size <N>"
+      ],
+      "tip": [
+        "Maximum number of command history entries to keep."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-prompt",
+      "usage": [
+        "--cmd-prompt <PROMPT>"
+      ],
+      "tip": [
+        "Set prompt in command mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd-query",
+      "usage": [
+        "--cmd-query <QUERY>"
+      ],
+      "tip": [
+        "Initial query in interactive mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <THEME>"
+      ],
+      "tip": [
+        "Set color theme, optionally with per-element overrides."
+      ],
+      "next": [
+        {
+          "name": "16"
+        },
+        {
+          "name": "bw"
+        },
+        {
+          "name": "catppuccin-frappe"
+        },
+        {
+          "name": "catppuccin-latte"
+        },
+        {
+          "name": "catppuccin-macchiato"
+        },
+        {
+          "name": "catppuccin-mocha"
+        },
+        {
+          "name": "dark"
+        },
+        {
+          "name": "light"
+        },
+        {
+          "name": "molokai"
+        },
+        {
+          "name": "none"
+        }
+      ]
+    },
+    {
+      "name": "--cycle",
+      "tip": [
+        "Cycle the results by wrapping around when scrolling."
+      ]
+    },
+    {
+      "name": "--delimiter",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --delimiter <DELIMITER>"
+      ],
+      "tip": [
+        "Delimiter between fields, in regex format."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-pattern",
+      "usage": [
+        "--disable-pattern <PATTERN>"
+      ],
+      "tip": [
+        "Disable items based on this regex pattern."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disabled",
+      "tip": [
+        "Disable matching entirely."
+      ]
+    },
+    {
+      "name": "--exact",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exact"
+      ],
+      "tip": [
+        "Run in exact mode."
+      ]
+    },
+    {
+      "name": "--exit-0",
+      "alias": [
+        "-0"
+      ],
+      "usage": [
+        "-0, --exit-0"
+      ],
+      "tip": [
+        "Do not enter TUI if the query matches no item."
+      ]
+    },
+    {
+      "name": "--expect",
+      "usage": [
+        "--expect <KEY>"
+      ],
+      "tip": [
+        "Deprecated, kept for compatibility. See accept() bind instead."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --filter <QUERY>"
+      ],
+      "tip": [
+        "Query for filter mode, print matches and exit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--header",
+      "usage": [
+        "--header <HEADER>"
+      ],
+      "tip": [
+        "Set header, displayed next to the info."
+      ],
+      "next": []
+    },
+    {
+      "name": "--header-lines",
+      "usage": [
+        "--header-lines <N>"
+      ],
+      "tip": [
+        "Number of lines of the input treated as header."
+      ],
+      "next": []
+    },
+    {
+      "name": "--height",
+      "usage": [
+        "--height <HEIGHT>"
+      ],
+      "tip": [
+        "Height of skim's window, as a row count or percentage."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help (see more with '--help')."
+      ]
+    },
+    {
+      "name": "--hide-nth",
+      "usage": [
+        "--hide-nth <HIDE_NTH>"
+      ],
+      "tip": [
+        "Fields to hide from display while keeping them searchable."
+      ],
+      "next": []
+    },
+    {
+      "name": "--highlight-line",
+      "tip": [
+        "Highlight the entire current line, not just the text."
+      ]
+    },
+    {
+      "name": "--history",
+      "usage": [
+        "--history <FILE>"
+      ],
+      "tip": [
+        "History file for search queries."
+      ],
+      "next": []
+    },
+    {
+      "name": "--history-size",
+      "usage": [
+        "--history-size <N>"
+      ],
+      "tip": [
+        "Maximum number of query history entries to keep."
+      ],
+      "next": []
+    },
+    {
+      "name": "--image",
+      "usage": [
+        "--image[=<BACKEND>]"
+      ],
+      "tip": [
+        "Enable image preview."
+      ],
+      "next": [
+        {
+          "name": "detect",
+          "tip": [
+            "Automatically detect the available backend at startup."
+          ]
+        },
+        {
+          "name": "halfblocks",
+          "tip": [
+            "Force halfblocks rendering for faster startup."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--info",
+      "usage": [
+        "--info <STYLE>"
+      ],
+      "tip": [
+        "Set matching result count display position."
+      ],
+      "next": [
+        {
+          "name": "default"
+        },
+        {
+          "name": "hidden"
+        },
+        {
+          "name": "inline"
+        },
+        {
+          "name": "inline-right"
+        },
+        {
+          "name": "left"
+        },
+        {
+          "name": "right"
+        }
+      ]
+    },
+    {
+      "name": "--inline-info",
+      "tip": [
+        "Alias for --info=inline."
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "Start skim in interactive mode."
+      ]
+    },
+    {
+      "name": "--keep-right",
+      "tip": [
+        "Keep the right end of the line visible on overflow."
+      ]
+    },
+    {
+      "name": "--last-match",
+      "tip": [
+        "Highlight the last match found, not the first one."
+      ]
+    },
+    {
+      "name": "--layout",
+      "usage": [
+        "--layout <LAYOUT>"
+      ],
+      "tip": [
+        "Set layout."
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Display from the bottom of the screen."
+          ]
+        },
+        {
+          "name": "reverse",
+          "tip": [
+            "Display from the top of the screen."
+          ]
+        },
+        {
+          "name": "reverse-list",
+          "tip": [
+            "Display from the top of the screen, prompt at the bottom."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--listen",
+      "usage": [
+        "--listen[=<NAME>]"
+      ],
+      "tip": [
+        "Run an IPC socket with optional name."
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <FILE>"
+      ],
+      "tip": [
+        "Pipe log output to a file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <LEVEL>"
+      ],
+      "tip": [
+        "Set the log level."
+      ],
+      "next": []
+    },
+    {
+      "name": "--man",
+      "tip": [
+        "Generate man page and output it to stdout."
+      ]
+    },
+    {
+      "name": "--margin",
+      "usage": [
+        "--margin <MARGIN>"
+      ],
+      "tip": [
+        "Screen margin, as row counts or percentages."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-height",
+      "usage": [
+        "--min-height <MIN_HEIGHT>"
+      ],
+      "tip": [
+        "Minimum height of skim's window as a non-negative row count."
+      ],
+      "next": []
+    },
+    {
+      "name": "--min-query-length",
+      "usage": [
+        "--min-query-length <MIN_QUERY_LENGTH>"
+      ],
+      "tip": [
+        "Minimum query length to start showing results."
+      ],
+      "next": []
+    },
+    {
+      "name": "--multi",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --multi"
+      ],
+      "tip": [
+        "Enable multiple selection."
+      ]
+    },
+    {
+      "name": "--multi-selector",
+      "usage": [
+        "--multi-selector <ICON>"
+      ],
+      "tip": [
+        "Set multi-selected item icon."
+      ],
+      "next": []
+    },
+    {
+      "name": "--multiline",
+      "usage": [
+        "--multiline[=<SEP>]"
+      ],
+      "tip": [
+        "Split item text into multiple display lines at the given separator."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-border",
+      "tip": [
+        "Disables all borders, including in tmux/zellij popups."
+      ]
+    },
+    {
+      "name": "--no-clear",
+      "tip": [
+        "Do not clear screen on exit."
+      ]
+    },
+    {
+      "name": "--no-clear-if-empty",
+      "tip": [
+        "Do not clear previous items if the new command returns empty result."
+      ]
+    },
+    {
+      "name": "--no-clear-start",
+      "tip": [
+        "Do not clear items on start."
+      ]
+    },
+    {
+      "name": "--no-height",
+      "tip": [
+        "Disable height (force full screen)."
+      ]
+    },
+    {
+      "name": "--no-hscroll",
+      "tip": [
+        "Disable horizontal scroll."
+      ]
+    },
+    {
+      "name": "--no-info",
+      "tip": [
+        "Alias for --info=hidden."
+      ]
+    },
+    {
+      "name": "--no-mouse",
+      "tip": [
+        "Disable mouse."
+      ]
+    },
+    {
+      "name": "--no-multi",
+      "tip": [
+        "Disable multiple selection."
+      ]
+    },
+    {
+      "name": "--no-scrollbar",
+      "tip": [
+        "Disable the scrollbar in the item list."
+      ]
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "Do not sort the results."
+      ]
+    },
+    {
+      "name": "--no-strip-ansi",
+      "tip": [
+        "Print ANSI codes so output exactly matches the input."
+      ]
+    },
+    {
+      "name": "--no-typos",
+      "tip": [
+        "Disable typo-tolerant matching."
+      ]
+    },
+    {
+      "name": "--normalize",
+      "tip": [
+        "Normalize unicode characters such as accents and diacritics."
+      ]
+    },
+    {
+      "name": "--nth",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --nth <NTH>"
+      ],
+      "tip": [
+        "Fields to be matched, as comma-separated field index expressions."
+      ],
+      "next": []
+    },
+    {
+      "name": "--output-format",
+      "usage": [
+        "--output-format <FORMAT>"
+      ],
+      "tip": [
+        "Set the output format, overriding all print options."
+      ],
+      "next": []
+    },
+    {
+      "name": "--popup",
+      "usage": [
+        "--popup [<SPEC>]"
+      ],
+      "tip": [
+        "Run in a tmux or zellij popup."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-file",
+      "usage": [
+        "--pre-select-file <FILE>"
+      ],
+      "tip": [
+        "Pre-select the items read from this file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-items",
+      "usage": [
+        "--pre-select-items <ITEMS>"
+      ],
+      "tip": [
+        "Pre-select the items separated by newline character."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-n",
+      "usage": [
+        "--pre-select-n <N>"
+      ],
+      "tip": [
+        "Pre-select the first n items in multi-selection mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pre-select-pat",
+      "usage": [
+        "--pre-select-pat <PATTERN>"
+      ],
+      "tip": [
+        "Pre-select the matched items in multi-selection mode."
+      ],
+      "next": []
+    },
+    {
+      "name": "--preview",
+      "usage": [
+        "--preview <CMD>"
+      ],
+      "tip": [
+        "Preview command for the current line."
+      ],
+      "next": []
+    },
+    {
+      "name": "--preview-window",
+      "usage": [
+        "--preview-window <SPEC>"
+      ],
+      "tip": [
+        "Preview window layout."
+      ],
+      "next": [
+        {
+          "name": "down:30%"
+        },
+        {
+          "name": "left:30%"
+        },
+        {
+          "name": "right:50%"
+        },
+        {
+          "name": "up:30%"
+        }
+      ]
+    },
+    {
+      "name": "--print-cmd",
+      "tip": [
+        "Print the command as the first line (after print-query)."
+      ]
+    },
+    {
+      "name": "--print-current",
+      "tip": [
+        "Print the current highlighted item as the first line."
+      ]
+    },
+    {
+      "name": "--print-header",
+      "tip": [
+        "Print the header as the first line (after print-score)."
+      ]
+    },
+    {
+      "name": "--print-query",
+      "tip": [
+        "Print the query as the first line."
+      ]
+    },
+    {
+      "name": "--print-score",
+      "tip": [
+        "Print the score after each item."
+      ]
+    },
+    {
+      "name": "--print0",
+      "tip": [
+        "Print output delimited by ASCII NUL characters."
+      ]
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --prompt <PROMPT>"
+      ],
+      "tip": [
+        "Set prompt."
+      ],
+      "next": []
+    },
+    {
+      "name": "--query",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --query <QUERY>"
+      ],
+      "tip": [
+        "Initial query."
+      ],
+      "next": []
+    },
+    {
+      "name": "--read0",
+      "tip": [
+        "Read input delimited by ASCII NUL characters."
+      ]
+    },
+    {
+      "name": "--regex",
+      "tip": [
+        "Start in regex mode instead of fuzzy-match."
+      ]
+    },
+    {
+      "name": "--remote",
+      "usage": [
+        "--remote[=<NAME>]"
+      ],
+      "tip": [
+        "Send commands to an IPC socket with optional name."
+      ],
+      "next": []
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "Shorthand for reverse layout."
+      ]
+    },
+    {
+      "name": "--scheme",
+      "usage": [
+        "--scheme <SCHEME>"
+      ],
+      "tip": [
+        "Matching scheme preset."
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Default scheme, no modifications to the options."
+          ]
+        },
+        {
+          "name": "history",
+          "tip": [
+            "History scheme: force index as the first tiebreak."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Path scheme: find the furthest match, prefer pathname tiebreak."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--scrollbar",
+      "usage": [
+        "--scrollbar <CHAR>"
+      ],
+      "tip": [
+        "Set scrollbar style for the item list."
+      ],
+      "next": []
+    },
+    {
+      "name": "--select-1",
+      "alias": [
+        "-1"
+      ],
+      "usage": [
+        "-1, --select-1"
+      ],
+      "tip": [
+        "Do not enter TUI if the query matches only one item."
+      ]
+    },
+    {
+      "name": "--selector",
+      "usage": [
+        "--selector <ICON>"
+      ],
+      "tip": [
+        "Set selected item icon."
+      ],
+      "next": []
+    },
+    {
+      "name": "--shell",
+      "usage": [
+        "--shell <SHELL>"
+      ],
+      "tip": [
+        "Generate shell completion script."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bourne Again SHell."
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish shell."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Friendly Interactive SHell."
+          ]
+        },
+        {
+          "name": "nushell",
+          "tip": [
+            "Nushell (nu)."
+          ]
+        },
+        {
+          "name": "power-shell",
+          "tip": [
+            "PowerShell."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--shell-bindings",
+      "tip": [
+        "Generate shell key bindings, only for bash, zsh and fish."
+      ]
+    },
+    {
+      "name": "--show-cmd-error",
+      "tip": [
+        "Show error message if command fails."
+      ]
+    },
+    {
+      "name": "--skip-to-pattern",
+      "usage": [
+        "--skip-to-pattern <PATTERN>"
+      ],
+      "tip": [
+        "Show the matched pattern at the line start."
+      ],
+      "next": []
+    },
+    {
+      "name": "--split-match",
+      "usage": [
+        "--split-match[=<DELIM>]"
+      ],
+      "tip": [
+        "Enable split matching with an optional delimiter."
+      ],
+      "next": []
+    },
+    {
+      "name": "--sync",
+      "tip": [
+        "Synchronous search for multi-staged filtering."
+      ]
+    },
+    {
+      "name": "--tabstop",
+      "usage": [
+        "--tabstop <N>"
+      ],
+      "tip": [
+        "Number of spaces that make up a tab."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tac",
+      "tip": [
+        "Show results in reverse order."
+      ]
+    },
+    {
+      "name": "--tiebreak",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --tiebreak <TIEBREAK>"
+      ],
+      "tip": [
+        "Comma-separated sort criteria applied when scores are tied."
+      ],
+      "next": [
+        {
+          "name": "-begin"
+        },
+        {
+          "name": "-end"
+        },
+        {
+          "name": "-index"
+        },
+        {
+          "name": "-length"
+        },
+        {
+          "name": "-pathname"
+        },
+        {
+          "name": "-score"
+        },
+        {
+          "name": "begin"
+        },
+        {
+          "name": "end"
+        },
+        {
+          "name": "index"
+        },
+        {
+          "name": "length"
+        },
+        {
+          "name": "pathname"
+        },
+        {
+          "name": "score"
+        }
+      ]
+    },
+    {
+      "name": "--typos",
+      "usage": [
+        "--typos[=<N>]"
+      ],
+      "tip": [
+        "Enable typo-tolerant matching, optionally with max allowed typos."
+      ],
+      "next": []
+    },
+    {
+      "name": "--with-nth",
+      "usage": [
+        "--with-nth <WITH_NTH>"
+      ],
+      "tip": [
+        "Fields to be transformed, see nth for the details."
+      ],
+      "next": []
+    },
+    {
+      "name": "--wrap",
+      "tip": [
+        "Wrap items in the item list."
+      ]
+    },
+    {
+      "name": "-I",
+      "usage": [
+        "-I <REPLSTR>"
+      ],
+      "tip": [
+        "Replace replstr with the selected item in commands."
+      ],
+      "next": []
+    }
+  ]
+}
