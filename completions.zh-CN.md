@@ -197,6 +197,7 @@
 |[scoop-update](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
 |[sd](https://github.com/chmln/sd)|直觉化的查找与替换 CLI<br>sed 替代工具|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop 工具，比原生 Scoop 快 30-100 倍。|
+|[sk](https://github.com/skim-rs/skim)|一款用 Rust 语言编写的命令行快速模糊查找工具|
 |[sqlite3](https://www.sqlite.org)|SQLite 命令行界面。|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH 密钥生成工具。|
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|

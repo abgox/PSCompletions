@@ -197,6 +197,7 @@
 |[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
 |[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
 |[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
+|[sk](https://github.com/skim-rs/skim)|A fast fuzzy finder for the command line written in Rust|
 |[sqlite3](https://www.sqlite.org)|SQLite command line interface.|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH key generation utility.|
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
