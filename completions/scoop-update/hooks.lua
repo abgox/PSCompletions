@@ -52,6 +52,25 @@ local function get_apps_dir()
     return apps_dirs
 end
 
+local function get_current_dir(apps_dir, name)
+    local app_dir = psc.path(apps_dir, name)
+    local current = psc.path(app_dir, "current")
+    if psc.exist(current) then
+        return current
+    end
+    local versions = {}
+    for _, e in ipairs(psc.ls(app_dir) or {}) do
+        if e.is_dir and not e.name:match("^_.*%.old") then
+            table.insert(versions, e.name)
+        end
+    end
+    table.sort(versions)
+    if #versions > 0 then
+        return psc.path(app_dir, versions[#versions])
+    end
+    return current
+end
+
 local function get_manifest_paths(root, bucket, app_name)
     local base = app_name:match("^([^%.]+)")
     return {
@@ -71,17 +90,21 @@ local function get_installed_apps(apps_dirs, root)
     end
     local json_paths = {}
     for _, app in ipairs(found) do
-        local current = psc.path(app.apps_dir, app.name, "current")
+        local current = get_current_dir(app.apps_dir, app.name)
+        table.insert(json_paths, psc.path(current, "scoop-manifest.json"))
         table.insert(json_paths, psc.path(current, "manifest.json"))
+        table.insert(json_paths, psc.path(current, "scoop-install.json"))
         table.insert(json_paths, psc.path(current, "install.json"))
     end
     local json_by_path = psc.json_batch(json_paths)
     local apps = {}
     for _, app in ipairs(found) do
-        local current = psc.path(app.apps_dir, app.name, "current")
-        if json_by_path[psc.path(current, "manifest.json")] then
-            app.manifest = json_by_path[psc.path(current, "manifest.json")]
-            app.install = json_by_path[psc.path(current, "install.json")]
+        local current = get_current_dir(app.apps_dir, app.name)
+        app.manifest = json_by_path[psc.path(current, "scoop-manifest.json")]
+            or json_by_path[psc.path(current, "manifest.json")]
+        app.install = json_by_path[psc.path(current, "scoop-install.json")]
+            or json_by_path[psc.path(current, "install.json")]
+        if app.manifest then
             table.insert(apps, app)
         end
     end

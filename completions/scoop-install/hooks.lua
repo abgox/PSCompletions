@@ -59,6 +59,25 @@ local function get_apps_dir()
     return apps_dirs
 end
 
+local function get_current_dir(apps_dir, name)
+    local app_dir = psc.path(apps_dir, name)
+    local current = psc.path(app_dir, "current")
+    if psc.exist(current) then
+        return current
+    end
+    local versions = {}
+    for _, e in ipairs(psc.ls(app_dir) or {}) do
+        if e.is_dir and not e.name:match("^_.*%.old") then
+            table.insert(versions, e.name)
+        end
+    end
+    table.sort(versions)
+    if #versions > 0 then
+        return psc.path(app_dir, versions[#versions])
+    end
+    return current
+end
+
 local function get_manifests()
     local exclude = {}
     for x in psc.config.exclude_buckets:gmatch("[^|]+") do
@@ -124,7 +143,10 @@ local function add_uninstalled_apps()
     local installed = {}
     for _, apps_dir in ipairs(get_apps_dir()) do
         for _, entry in ipairs(psc.ls(apps_dir) or {}) do
-            if entry.is_dir and entry.name ~= "scoop" and psc.exist(psc.path(apps_dir, entry.name, "current", "manifest.json")) then
+            local current = get_current_dir(apps_dir, entry.name)
+            local has_manifest = psc.exist(psc.path(current, "scoop-manifest.json"))
+                or psc.exist(psc.path(current, "manifest.json"))
+            if entry.is_dir and entry.name ~= "scoop" and has_manifest then
                 installed[entry.name] = true
             end
         end
