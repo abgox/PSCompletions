@@ -107,7 +107,7 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 }
 
 if ($IsWindows -or $PSEdition -eq 'Desktop') {
-    if ($PSCompletions.path.root -like "$env:ProgramFiles*" -or $PSCompletions.path.root -like "$env:SystemRoot*") {
+    if ($PSCompletions.path.root.StartsWith($env:ProgramFiles) -or $PSCompletions.path.root.StartsWith($env:SystemRoot)) {
         if (![Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
             Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
 
