@@ -188,6 +188,7 @@
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
 |[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
+|[rimraf](https://github.com/isaacs/rimraf)|跨平台的 Node.js `rm -rf` 工具。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|
 |[rustup](https://rustup.rs)|Rust 工具链安装器。|
@@ -203,6 +204,7 @@
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
 |[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
 |[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
+|[taze](https://github.com/antfu-collective/taze)|让你的依赖保持新鲜的现代化 CLI 工具。|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - 基础设施即代码工具|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
 |[tokei](https://github.com/XAMPPRocky/tokei)|快速统计你的代码量|

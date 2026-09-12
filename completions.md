@@ -188,6 +188,7 @@
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
 |[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
+|[rimraf](https://github.com/isaacs/rimraf)|A cross-platform `rm -rf` utility for Node.js.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
 |[rustup](https://rustup.rs)|The Rust toolchain installer.|
@@ -203,6 +204,7 @@
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
 |[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[taze](https://github.com/antfu-collective/taze)|A modern CLI tool that keeps your deps fresh.|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - Infrastructure as Code tool|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
 |[tokei](https://github.com/XAMPPRocky/tokei)|Count your code, quickly|
