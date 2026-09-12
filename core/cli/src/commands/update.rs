@@ -268,7 +268,8 @@ pub fn cmd_update(
                     return;
                 }
                 let mut sg = settings_lock.lock().unwrap();
-                match refresh_settings_after_add(&mut sg, data_dir, name) {
+                // `update` patches: alias entry is only filled when missing/empty.
+                match refresh_settings_after_add(&mut sg, data_dir, name, false) {
                     Err(e) => {
                         had_error.store(true, std::sync::atomic::Ordering::SeqCst);
                         if json {

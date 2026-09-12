@@ -128,8 +128,6 @@
             }
             else { $targets = @($arg[1..($arg.Count - 1)]) }
             if ($targets.Count) {
-                $is_exist_before = @{}
-                foreach ($t in $targets) { if ($t) { $is_exist_before[$t] = [System.IO.Directory]::Exists([System.IO.Path]::Combine($PSCompletions.path.completions, $t)) } }
                 if ($arg -contains '--all') {
                     $PSCompletions.write_with_color("`n" + (_replace $PSCompletions.info.add.waiting))
                 }
@@ -138,7 +136,7 @@
                     $PSCompletions.init_data()
                     foreach ($r in @($result)) {
                         if ($r.ok) {
-                            _render_completion_done $r.completion $(if ($is_exist_before[$r.completion]) { 'update' } else { 'add' })
+                            _render_completion_done $r.completion 'add'
                             foreach ($s in $r.skipped) {
                                 if (!$s) { continue }
                                 $alias = $s.alias

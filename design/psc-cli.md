@@ -118,7 +118,10 @@ psc add --all
 - **Behavior**: downloads the remote index, then installs each named completion. `--all` installs every available completion, with an interactive confirm.
   Each installed completion: files are copied into `completions/<name>/`, `.update` records the
   remote version, and settings are refreshed (`refresh_settings_after_add` builds the
-  trigger-alias map). An already-installed name follows the update path (no error).
+  trigger-alias map). `add` always reinstalls: the whole per-completion entry (trigger
+  aliases + `config.completion`) is dropped and rebuilt from remote defaults (like `rm` +
+  `add`; customizations are reset). An already-installed name is reinstalled without error
+  and still reports `Added.`.
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`.
 - **Output**: with `--json`, per-completion results `{completion, ok, error}` (trigger words
@@ -267,13 +270,16 @@ psc update --all              # update every installed completion
 
 - **Behavior**: always downloads the index first. A completion is "out of date" when its local
   `.update` differs from the remote version (symlinked completions are skipped).
-  - **Named update** (`update <name>...`): updates the named completions **unconditionally** —
-    naming a completion IS the intent to update it (also the way to repair a corrupted or
-    manually-removed file).
-  - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything current" path).
+  - **Named update** (`update <name>...`): re-downloads the named completions
+    **unconditionally** — naming a completion IS the intent to update it (also the way to
+    repair a corrupted or manually-removed file). Settings are patched, never overwritten:
+    a missing/empty trigger entry is filled from remote defaults, per-completion config
+    only fills missing keys, and trigger customizations survive.
+  - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
+    current" path). Settings are patched as above, never overwritten.
   - **`--all`**: updates every installed completion that exists in the remote `completions.json`
-    index. Completions not found in the remote index (e.g. locally-linked or manually-added
-    completions) are silently skipped.
+    index (settings patched as above). Completions not found in the remote index (e.g.
+    locally-linked or manually-added completions) are silently skipped.
   - **No-arg = real-time check**: writes `temp/change.json` and reports the library
     status (out-of-date completions + newly added/removed/renamed completions), mirroring the
     startup notification.

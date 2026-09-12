@@ -36,7 +36,7 @@ pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data
         .unwrap_or("")
         .to_string();
     if add_completion(data_dir, "psc", &urls, &version).unwrap_or(false)
-        && refresh_settings_after_add(settings, data_dir, "psc").is_ok()
+        && refresh_settings_after_add(settings, data_dir, "psc", true).is_ok()
     {
         let _ = settings.save(settings_path);
     }

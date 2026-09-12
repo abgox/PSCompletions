@@ -81,7 +81,8 @@ pub fn cmd_add(
                         serde_json::json!({"completion": name, "ok": false, "error": err})
                     } else {
                         let mut sg = settings_lock.lock().unwrap();
-                        match refresh_settings_after_add(&mut sg, data_dir, name) {
+                        // `add` reinstalls: remote alias defaults fully overwrite.
+                        match refresh_settings_after_add(&mut sg, data_dir, name, true) {
                             Err(e) => {
                                 if !json {
                                     out.line(&format!("error: {e}"));
