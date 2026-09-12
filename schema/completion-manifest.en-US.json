@@ -150,12 +150,21 @@
     "separator": {
       "type": "string",
       "markdownDescription": "List separator for an option's value.\n-  Complete by segment (selecting replaces the current segment; the user types the separator to continue).\n- Options only; requires `next`.\n- Whitespace and `=` are forbidden.",
-      "minLength": 1,
-      "pattern": "^[^\\s=]+$",
-      "errorMessage": "separator must not contain whitespace or `=`",
       "examples": [
         ",",
-        ";"
+        ";",
+        ":",
+        "/",
+        "|"
+      ],
+      "allOf": [
+        {
+          "minLength": 1
+        },
+        {
+          "pattern": "^[^\\s=]+$",
+          "errorMessage": "It must not contain whitespace or `=`"
+        }
       ]
     },
     "usage": {

@@ -150,12 +150,21 @@
     "separator": {
       "type": "string",
       "markdownDescription": "选项值的列表分隔符。\n- 按段补全（选中只替换当前段，用户手敲分隔符续接）。\n- 仅选项可用；必须带 `next`。\n- 禁止空白和 `=`。",
-      "minLength": 1,
-      "pattern": "^[^\\s=]+$",
-      "errorMessage": "separator 不能包含空白或 `=`",
       "examples": [
         ",",
-        ";"
+        ";",
+        ":",
+        "/",
+        "|"
+      ],
+      "allOf": [
+        {
+          "minLength": 1
+        },
+        {
+          "pattern": "^[^\\s=]+$",
+          "errorMessage": "它不能包含空白或 `=`"
+        }
       ]
     },
     "usage": {
