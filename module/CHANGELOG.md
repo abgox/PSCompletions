@@ -2,6 +2,16 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.5.0
+
+- Hooks API：added JSON5 support to `psc.json`.
+- Removed execution-alias auto-import and the real-command conflict check when adding aliases.
+  - `psc alias` now only decides which trigger aliases open the completion menu.
+  - Add your own `Set-Alias` if you need execution aliases.
+- Supported both `--opt=value` and `--opt value` for option values.
+- Supported separator-joined option values (`--exclude a,b,c`): defined by `separator`.
+- Other optimizations and fixes.
+
 ## 7.4.0
 
 - Hooks API: added `psc.on`/`psc.path`, removed `psc.set_symbol`/`psc.set_tip` and other changes.

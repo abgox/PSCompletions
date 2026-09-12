@@ -2,6 +2,16 @@
 
 [English](./CHANGELOG.md)
 
+## 7.5.0
+
+- Hooks API：为 `psc.json` 添加 JSON5 支持
+- 移除了执行别名的自动导入与新增别名时与真实命令的冲突检查
+  - `psc alias` 现在只决定哪些触发别名能打开补全菜单
+  - 如需执行别名请自行使用 `Set-Alias`
+- 同时支持 `--opt=value`/`--opt value` 两种选项值用法
+- 支持分隔符连接的选项值（`--exclude a,b,c`）：由 `separator` 定义
+- 其他的优化和修复
+
 ## 7.4.0
 
 - Hooks API：添加 `psc.on`/`psc.path`、移除 `psc.set_symbol`/`psc.set_tip` 和其他变更
