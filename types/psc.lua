@@ -437,12 +437,12 @@ function psc.read(path) end
 ---@return table<string, string|nil>
 function psc.read_batch(paths) end
 
---- 读取 + 解析 JSON 文件。
+--- 读取 + 解析 JSON 文件（支持 JSON5）。
 ---
 --- - 如果是相对路径，会拼接 `psc.cwd`
 --- - 失败返回 `nil`
 ---
---- Reads + parses a JSON file.
+--- Reads + parses a JSON file (JSON5 supported).
 ---
 --- - If it is a relative path, `psc.cwd` will be concatenated
 --- - `nil` on failure
@@ -450,12 +450,12 @@ function psc.read_batch(paths) end
 ---@return table<string, any>?
 function psc.json(path) end
 
---- 并行读取 + 解析多个 JSON 文件。
+--- 并行读取 + 解析多个 JSON 文件（支持 JSON5）。
 ---
 --- - 如果是相对路径，会拼接 `psc.cwd`
 --- - 失败返回 `nil`
 ---
---- Reads + parses multiple JSON files in parallel.
+--- Reads + parses multiple JSON files in parallel (JSON5 supported).
 ---
 --- - If it is a relative path, `psc.cwd` will be concatenated
 --- - `nil` on failure

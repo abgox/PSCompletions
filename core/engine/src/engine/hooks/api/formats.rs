@@ -12,8 +12,68 @@ fn parse_text_as(text: &str, format: &str) -> Option<serde_json::Value> {
     match format {
         "toml" => toml::from_str::<serde_json::Value>(text).ok(),
         "yaml" => yaml_serde::from_str::<serde_json::Value>(text).ok(),
-        _ => serde_json::from_str::<serde_json::Value>(text).ok(),
+        _ => {
+            if !json_depth_ok(text) {
+                return None;
+            }
+            json5::from_str::<serde_json::Value>(text).ok()
+        }
     }
+}
+
+/// Max JSON nesting depth accepted: deeper input degrades to `None`
+/// instead of risking a stack overflow, as the JSON5 parser imposes no depth limit of its own.
+const JSON_MAX_DEPTH: usize = 128;
+
+/// Shallow bracket scan skipping strings and comments.
+/// Byte-based: UTF-8 continuation bytes never collide with ASCII delimiters, so this is safe without full decoding.
+fn json_depth_ok(text: &str) -> bool {
+    let b = text.as_bytes();
+    let mut i = 0;
+    let mut depth = 0usize;
+    while i < b.len() {
+        match b[i] {
+            b'"' | b'\'' => {
+                let quote = b[i];
+                i += 1;
+                while i < b.len() {
+                    if b[i] == b'\\' {
+                        i += 2;
+                    } else if b[i] == quote {
+                        i += 1;
+                        break;
+                    } else {
+                        i += 1;
+                    }
+                }
+            }
+            b'/' if b.get(i + 1) == Some(&b'/') => {
+                while i < b.len() && b[i] != b'\n' {
+                    i += 1;
+                }
+            }
+            b'/' if b.get(i + 1) == Some(&b'*') => {
+                i += 2;
+                while i + 1 < b.len() && !(b[i] == b'*' && b[i + 1] == b'/') {
+                    i += 1;
+                }
+                i += 2;
+            }
+            b'[' | b'{' => {
+                depth += 1;
+                if depth > JSON_MAX_DEPTH {
+                    return false;
+                }
+                i += 1;
+            }
+            b']' | b'}' => {
+                depth = depth.saturating_sub(1);
+                i += 1;
+            }
+            _ => i += 1,
+        }
+    }
+    true
 }
 
 /// Read a file at `path` (resolved against cwd) and parse it as `format`.
@@ -305,6 +365,91 @@ pub(crate) fn api_log(lua: &Lua, values: mlua::Variadic<Value>, log_dir: &str) -
     }
     append_log(log_dir, "debug", &text);
     Ok(())
+}
+
+#[cfg(test)]
+mod tests_parse_leniency {
+    use super::*;
+
+    fn toml(s: &str) -> Option<serde_json::Value> {
+        parse_text_as(s, "toml")
+    }
+    fn yaml(s: &str) -> Option<serde_json::Value> {
+        parse_text_as(s, "yaml")
+    }
+    fn json(s: &str) -> Option<serde_json::Value> {
+        parse_text_as(s, "json")
+    }
+
+    #[test]
+    fn toml_contract() {
+        assert_eq!(toml("a = 1\n"), Some(serde_json::json!({"a": 1})));
+        // TOML 1.1: multiline inline tables + trailing commas.
+        assert!(toml("p = {\n  x = 1,\n  y = 2,\n}\n").is_some());
+        // Duplicate keys and table redefinition are spec errors (fail loudly).
+        assert!(toml("a = 1\na = 2\n").is_none());
+        assert!(toml("[t]\na = 1\n[t]\nb = 2\n").is_none());
+        assert!(toml("a = \n").is_none());
+        // Deep nesting degrades to None, never to a crash.
+        let deep = "a = ".to_string() + &"[".repeat(2000) + "1" + &"]".repeat(2000);
+        assert!(toml(&deep).is_none());
+    }
+
+    #[test]
+    fn yaml_scalar_contract() {
+        // YAML 1.2 booleans: only true/false count (the Norway problem stays fixed).
+        assert_eq!(yaml("a: yes\n"), Some(serde_json::json!({"a": "yes"})));
+        assert_eq!(yaml("a: NO\n"), Some(serde_json::json!({"a": "NO"})));
+        assert_eq!(yaml("a: True\n"), Some(serde_json::json!({"a": true})));
+        // Numbers: 1.2 core schema (leading-zero octal and underscores are strings).
+        assert_eq!(yaml("a: 0o777\n"), Some(serde_json::json!({"a": 511})));
+        assert_eq!(yaml("a: 0777\n"), Some(serde_json::json!({"a": "0777"})));
+        assert_eq!(yaml("a: 1_000\n"), Some(serde_json::json!({"a": "1_000"})));
+        // Null forms and timestamps (timestamps stay strings: predictable).
+        assert_eq!(yaml("a: ~\n"), Some(serde_json::json!({"a": null})));
+        assert_eq!(
+            yaml("a: 2024-01-01\n"),
+            Some(serde_json::json!({"a": "2024-01-01"}))
+        );
+        // Duplicate keys: last wins (lenient, unlike TOML).
+        assert_eq!(yaml("a: 1\na: 2\n"), Some(serde_json::json!({"a": 2})));
+        // Tabs and empty docs.
+        assert!(yaml("a:\n\tb: 1\n").is_none());
+        assert_eq!(yaml(""), Some(serde_json::Value::Null));
+    }
+
+    #[test]
+    fn yaml_multidoc_and_merge_keys_are_out_of_scope() {
+        // One file = one document: a multi-doc stream degrades to None.
+        assert!(yaml("a: 1\n---\nb: 2\n").is_none());
+        // Merge keys are not YAML 1.2: `<<` stays a literal key (alias still inlined).
+        let v = yaml("base: &b\n  x: 1\nfoo:\n  <<: *b\n  y: 2\n").unwrap();
+        assert_eq!(v["foo"], serde_json::json!({"<<": {"x": 1}, "y": 2}));
+    }
+
+    #[test]
+    fn yaml_deep_degrades_without_crash() {
+        let deep = "[".repeat(3000) + &"]".repeat(3000);
+        assert!(yaml(&deep).is_none());
+    }
+
+    #[test]
+    fn json_contract() {
+        assert!(json("{a: 1,}").is_some());
+        assert!(json("// c\n{'a': 1} /* x */").is_some());
+        assert_eq!(json(r#"{"a":1,"a":2}"#), Some(serde_json::json!({"a": 2})));
+        // One value per file: trailing garbage and NDJSON fail loudly.
+        assert!(json(r#"{"a":1} garbage"#).is_none());
+        assert!(json("{\"a\":1}\n{\"b\":2}\n").is_none());
+        assert!(json("").is_none());
+    }
+
+    #[test]
+    fn json_deep_nesting_returns_none_instead_of_crashing() {
+        // Regression: this used to overflow the thread stack and abort the process.
+        let deep = "[".repeat(10000) + &"]".repeat(10000);
+        assert!(json(&deep).is_none());
+    }
 }
 
 #[cfg(test)]

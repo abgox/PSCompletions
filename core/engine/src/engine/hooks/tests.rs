@@ -2142,6 +2142,33 @@ fn toml_yaml_and_env_return_nil_on_missing() {
 }
 
 #[test]
+fn json5_syntax_beyond_jsonc_parses() {
+    // Full JSON5: single-quoted strings, unquoted keys, hex numbers.
+    let dir = std::env::temp_dir().join("psc-json5-test");
+    let _ = std::fs::create_dir_all(&dir);
+    let f = dir.join("config.json5");
+    std::fs::write(
+        &f,
+        "{\n    // comment\n    unquoted: 'single',\n    hex: 0xFF,\n    trailing: [1,],\n}\n",
+    )
+    .unwrap();
+    let p = f.to_string_lossy().replace('\\', "/");
+    let script = format!(
+        r#"
+    local c = psc.json("{p}")
+    if c == nil then return nil end
+    if c.unquoted ~= "single" then return nil end
+    if c.hex ~= 255 then return nil end
+    if c.trailing[1] ~= 1 then return nil end
+    return {{ {{ name = "ok" }} }}
+"#
+    );
+    let out = run_hook(&ctx(), &script, &empty_static()).unwrap();
+    assert_eq!(out[0].text, "ok");
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
 fn ls_batch_lists_directories_in_parallel() {
     let dir = std::env::temp_dir().join("psc-lsbatch-test");
     let _ = std::fs::create_dir_all(dir.join("sub1"));
@@ -2211,6 +2238,35 @@ fn batch_missing_entries_yield_nil() {
     let out3 = run_hook(&ctx(), &script3, &empty_static()).unwrap();
     assert_eq!(out3[0].text, "ok");
 
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
+fn json_with_comments_and_trailing_commas_parses() {
+    // JSONC tolerance: comments + trailing commas parse; string content
+    // (URLs, comment-like text) survives the strip pipeline untouched.
+    let dir = std::env::temp_dir().join("psc-jsonc-test");
+    let _ = std::fs::create_dir_all(&dir);
+    let f = dir.join("settings.jsonc");
+    std::fs::write(
+        &f,
+        "{\n    // editor\n    \"fontSize\": 14, // trailing\n    \"url\": \"https://a//b\", /* block */\n    \"exclude\": {\n        \"**/.git\": true,\n    },\n    \"list\": [1, 2,],\n}\n",
+    )
+    .unwrap();
+    let p = f.to_string_lossy().replace('\\', "/");
+    let script = format!(
+        r#"
+    local c = psc.json("{p}")
+    if c == nil then return nil end
+    if c.fontSize ~= 14 then return nil end
+    if c.url ~= "https://a//b" then return nil end
+    if c.exclude["**/.git"] ~= true then return nil end
+    if c.list[2] ~= 2 then return nil end
+    return {{ {{ name = "ok" }} }}
+"#
+    );
+    let out = run_hook(&ctx(), &script, &empty_static()).unwrap();
+    assert_eq!(out[0].text, "ok");
     let _ = std::fs::remove_dir_all(&dir);
 }
 

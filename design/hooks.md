@@ -111,7 +111,7 @@ array/string tools).
 | `psc.run_batch(cmds, opts?)` | `table<number, string[]\|table\|nil>` | Run **multiple commands in parallel**; results in input order. Same `opts` as `run` (parallel commands are of the same format); a failed/unparseable command yields nil at its index. |
 | `psc.read(path)` | `string?` | Read a file as UTF-8 text; nil on failure. Resolved relative to `psc.cwd`. |
 | `psc.read_batch({path,...})` | `table<path, string?>` | Read **multiple files in parallel**; `{ [original-path] = content }`, nil for a missing/unreadable file. |
-| `psc.json(path)` / `psc.json_batch(paths)` | `table?` / `table<path, table?>` | Read + parse JSON. Single: nil on failure. Batch: nil at a path for a missing/unparseable file. |
+| `psc.json(path)` / `psc.json_batch(paths)` | `table?` / `table<path, table?>` | Read + parse JSON (JSON5 supported). Single: nil on failure. Batch: nil at a path for a missing/unparseable file. |
 | `psc.toml(path)` / `psc.toml_batch(paths)` | `table?` / `table<path, table?>` | Read + parse TOML. Single: nil on failure. Batch: nil at a path for a missing/unparseable file. |
 | `psc.yaml(path)` / `psc.yaml_batch(paths)` | `table?` / `table<path, table?>` | Read + parse YAML. Single: nil on failure. Batch: nil at a path for a missing/unparseable file. |
 | `psc.ls(path)` | `psc_path_entry[]?` | Directory entries `{name, path, is_dir, is_link}` (`path` is the entry's full resolved path); nil if the directory does not exist (an empty dir yields an empty array). `is_dir` follows symlinks (a symlink to a directory counts as a directory). |
