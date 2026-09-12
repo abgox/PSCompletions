@@ -143,6 +143,9 @@ pub(crate) fn items_to_table(lua: &Lua, items: &[LuaItem]) -> mlua::Result<Table
             // `repeat_count` is the external field (repeat is a Lua keyword).
             it.set("repeat_count", item.repeat)?;
         }
+        if item.nospace {
+            it.set("nospace", true)?;
+        }
         t.set(i + 1, it)?;
     }
     Ok(t)
@@ -163,6 +166,7 @@ pub(crate) fn table_to_items(t: &Table) -> mlua::Result<Vec<LuaItem>> {
             .get::<Option<i32>>("repeat_count")?
             .or(item.get::<Option<i32>>("repeat")?)
             .unwrap_or(0);
+        let nospace: bool = item.get::<Option<bool>>("nospace")?.unwrap_or(false);
         out.push(LuaItem {
             text,
             tip,
@@ -170,6 +174,7 @@ pub(crate) fn table_to_items(t: &Table) -> mlua::Result<Vec<LuaItem>> {
             example,
             symbol,
             repeat,
+            nospace,
         });
     }
     Ok(out)

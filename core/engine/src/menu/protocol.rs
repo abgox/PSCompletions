@@ -20,17 +20,30 @@ pub fn lua_to_model_item(it: &hooks::LuaItem, switch_sym: &str, stay_sym: &str) 
         usage: it.usage.clone(),
         example: it.example.clone(),
         result_type: None,
+        nospace: it.nospace,
     }
 }
 
-/// `=`-attached value (`--format=j<TAB>`): the menu lists bare values, but the
-/// host replaces the whole word — prefix the option head back onto the inserted
-/// text only (display text stays bare).
+/// `=`-attached value (`--format=j<TAB>`) or separator-list value
+/// (`--exclude a,b<TAB>`): the menu lists bare values, but the host replaces
+/// the whole word — prefix the rebuild head back onto the inserted text only
+/// (display text stays bare). The head is the `=` head plus any completed
+/// list segments (`--format=`, `a,`, `--format=a,`); empty for plain values.
 pub fn apply_value_prefix(items: &mut [model::Item], ctx: &completion::ResolvedContext) {
-    if let Some(prefix) = ctx.pending.as_ref().and_then(|p| p.value_prefix.as_deref()) {
-        for it in items.iter_mut() {
-            it.completion_text = format!("{prefix}{}", it.completion_text);
-        }
+    let Some(p) = ctx.pending.as_ref() else {
+        return;
+    };
+    if p.value_prefix.is_none() && p.list_sep.is_none() {
+        return;
+    }
+    let mut head = p.value_prefix.clone().unwrap_or_default();
+    if !p.list_used.is_empty() {
+        let sep = p.list_sep.as_deref().unwrap_or(",");
+        head.push_str(&p.list_used.join(sep));
+        head.push_str(sep);
+    }
+    for it in items.iter_mut() {
+        it.completion_text = format!("{head}{}", it.completion_text);
     }
 }
 
@@ -401,11 +414,24 @@ pub fn build_candidate_items(
         static_items
     };
 
+    // Separator-list continuation (`--exclude a,<TAB>`): every item here is a
+    // value of the same slot — drop already-used segments (hooks-added ones
+    // included) and take no auto space. Static items already carry both from
+    // resolve; this covers what hooks added or rebuilt.
+    let mut final_items = final_items;
+    if let Some(p) = resolved.context.pending.as_ref() {
+        if p.list_sep.is_some() {
+            final_items.retain(|it| !p.list_used.iter().any(|u| u.eq_ignore_ascii_case(&it.text)));
+            for it in &mut final_items {
+                it.nospace = true;
+            }
+        }
+    }
+
     if let Some(sig) = cache_sig {
         cache_store(input, sig, &final_items);
     }
 
-    let mut final_items = final_items;
     apply_order_sort(&mut final_items, &input.order, false);
     Ok((final_items, resolved.context))
 }
@@ -1242,6 +1268,8 @@ mod tests {
                 kind: Some("value".into()),
                 canonical: None,
                 value_prefix: Some("--format=".into()),
+                list_sep: None,
+                list_used: Vec::new(),
             }),
             ..Default::default()
         };
@@ -1256,5 +1284,52 @@ mod tests {
         };
         apply_value_prefix(&mut plain, &plain_ctx);
         assert_eq!(plain[0].completion_text, "json");
+    }
+
+    #[test]
+    fn apply_value_prefix_rebuilds_list_head() {
+        let items: Vec<model::Item> = ["bb"]
+            .iter()
+            .map(|t| {
+                lua_to_model_item(
+                    &hooks::LuaItem {
+                        text: t.to_string(),
+                        ..Default::default()
+                    },
+                    "~",
+                    "?",
+                )
+            })
+            .collect();
+        // Space-form list: used segments rejoin the head.
+        let mut spaced = items.clone();
+        let ctx = completion::ResolvedContext {
+            pending: Some(completion::PendingInfo {
+                text: Some("b".into()),
+                kind: Some("value".into()),
+                canonical: None,
+                value_prefix: None,
+                list_sep: Some(",".into()),
+                list_used: vec!["aa".into()],
+            }),
+            ..Default::default()
+        };
+        apply_value_prefix(&mut spaced, &ctx);
+        assert_eq!(spaced[0].completion_text, "aa,bb");
+        // `=`-form list: head plus used segments.
+        let mut eqd = items.clone();
+        let eq_ctx = completion::ResolvedContext {
+            pending: Some(completion::PendingInfo {
+                text: Some("b".into()),
+                kind: Some("value".into()),
+                canonical: None,
+                value_prefix: Some("--exclude=".into()),
+                list_sep: Some(",".into()),
+                list_used: vec!["aa".into()],
+            }),
+            ..Default::default()
+        };
+        apply_value_prefix(&mut eqd, &eq_ctx);
+        assert_eq!(eqd[0].completion_text, "--exclude=aa,bb");
     }
 }

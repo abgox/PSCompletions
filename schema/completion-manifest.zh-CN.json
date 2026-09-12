@@ -147,6 +147,17 @@
         99
       ]
     },
+    "separator": {
+      "type": "string",
+      "markdownDescription": "选项值的列表分隔符。\n- 按段补全（选中只替换当前段，用户手敲分隔符续接）。\n- 仅选项可用；必须带 `next`。\n- 禁止空白和 `=`。",
+      "minLength": 1,
+      "pattern": "^[^\\s=]+$",
+      "errorMessage": "separator 不能包含空白或 `=`",
+      "examples": [
+        ",",
+        ";"
+      ]
+    },
     "usage": {
       "markdownDescription": "补全项的用法行（显示为 `[Usage]` 部分）。\n- 可选; 不填则不显示用法部分。\n- 每项可以是纯字符串，或对象 `{ \"cmd\": ..., \"desc\": ... }`——对象形式下 **`cmd` 和 `desc` 都必须提供**（没有解释时直接用纯字符串）。\n- 示例:\n```json\n  \"usage\": [\"-r, --revisions <REVSETS>\", { \"cmd\": \"add|install <APP>\", \"desc\": \"安装一个包\" }]\n```",
       "examples": [
@@ -172,12 +183,14 @@
                   "cmd": {
                     "not": {
                       "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
-                    }
+                    },
+                    "errorMessage": "usage.cmd: 中英之间需空格"
                   },
                   "desc": {
                     "not": {
                       "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
-                    }
+                    },
+                    "errorMessage": "usage.desc: 中英之间需空格"
                   }
                 }
               }
@@ -211,12 +224,14 @@
                   "cmd": {
                     "not": {
                       "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
-                    }
+                    },
+                    "errorMessage": "example.cmd: 中英之间需空格"
                   },
                   "desc": {
                     "not": {
                       "pattern": "[\\u4e00-\\u9fff][A-Za-z]|[A-Za-z][\\u4e00-\\u9fff]"
-                    }
+                    },
+                    "errorMessage": "example.desc: 中英之间需空格"
                   }
                 }
               }
@@ -230,6 +245,11 @@
       "required": [
         "name"
       ],
+      "dependencies": {
+        "separator": [
+          "next"
+        ]
+      },
       "properties": {
         "name": {
           "$ref": "#/definitions/name"
@@ -248,6 +268,9 @@
         },
         "repeat": {
           "$ref": "#/definitions/repeat"
+        },
+        "separator": {
+          "$ref": "#/definitions/separator"
         },
         "next": {
           "$ref": "#/definitions/next-for-option"

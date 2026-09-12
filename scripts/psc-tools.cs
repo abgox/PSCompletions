@@ -19,7 +19,7 @@ namespace PscTools {
         static readonly string[] TopLevel = { "meta", "next", "option", "global_option", "config", "info" };
         static readonly string[] MetaOrder = { "url", "description" };
         static readonly string[] ConfigOrder = { "name", "value", "values", "tip" };
-        static readonly string[] ItemOrder = { "name", "alias", "usage", "tip", "example", "repeat", "option", "next" };
+        static readonly string[] ItemOrder = { "name", "alias", "usage", "tip", "example", "repeat", "separator", "option", "next" };
 
         sealed class Ctx
         {

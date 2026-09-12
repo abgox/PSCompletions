@@ -33,6 +33,7 @@ fn items(n: usize) -> Vec<Item> {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect()
@@ -397,6 +398,7 @@ fn single_match_does_not_inflate_menu() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -588,6 +590,7 @@ fn with_initial_filter_prefills_and_prefix_matches() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         },
         Item {
@@ -597,6 +600,7 @@ fn with_initial_filter_prefills_and_prefix_matches() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         },
         Item {
@@ -606,6 +610,7 @@ fn with_initial_filter_prefills_and_prefix_matches() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         },
         Item {
@@ -615,6 +620,7 @@ fn with_initial_filter_prefills_and_prefix_matches() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         },
     ];
@@ -927,6 +933,7 @@ fn scroll_highlights_all_items_not_just_first_page() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -978,6 +985,7 @@ fn psc_real_items_revert_consistently() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1035,6 +1043,7 @@ fn no_match_auto_apply_on_next_append() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1081,6 +1090,7 @@ fn no_match_warning_circle_renders_only_when_no_match() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1144,6 +1154,7 @@ fn edit_recovers_from_no_match() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1186,6 +1197,7 @@ fn disabled_reverts_no_match_filter() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1217,6 +1229,7 @@ fn insert_anywhere_commits_when_no_match_warning_shown() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1254,6 +1267,7 @@ fn prefix_toggle_does_not_commit_but_insert_after_does() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();
@@ -1302,6 +1316,7 @@ fn commit_strips_only_one_prefix_caret() {
             usage: None,
             example: None,
             result_type: None,
+            nospace: false,
             symbol: String::new(),
         })
         .collect();

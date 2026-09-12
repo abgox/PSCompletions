@@ -76,6 +76,7 @@ fn selected_output(state: &MenuState, idx: usize) -> Output {
     if let Some(it) = state.items.get(idx) {
         out.completion_text = Some(it.completion_text.clone());
         out.result_type = it.result_type;
+        out.nospace = if it.nospace { Some(true) } else { None };
     }
     out
 }
@@ -812,6 +813,7 @@ mod tests {
                 usage: None,
                 example: None,
                 result_type: None,
+                nospace: false,
                 symbol: String::new(),
             })
             .collect()

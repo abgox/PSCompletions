@@ -351,7 +351,9 @@ For the full field definitions (`meta`, `next`, `option`, `global_option`, `conf
 
 **`next` for options** — prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values. If `hooks: true` is enabled, `hooks.lua` dynamically generated completions are **appended** to the static array, not replaced. See `design/completion.md` for the full `next` semantics.
 
-**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
+**`separator` for list values** — an option whose value is a separator-joined list (`--exclude a,b,c`) declares `"separator": ","` (any non-empty string except whitespace/`=`; typically `,`/`;`). Requires `next` (boolean flags must not carry it). Selecting a candidate replaces only the current segment and adds **no** trailing space — the user types the separator to continue, Space to finish. `usage` should show the shape (`--exclude <A,B,...>`). See `design/completion.md` for the full semantics.
+
+**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `separator`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module shows `global_option` at every level, so the copy is redundant.
 
 ### Duplicate Prevention
 
@@ -375,7 +377,7 @@ Every item may carry three text arrays. `tip` is the description (shown under `[
   - **Always order from short to long** — shorter form comes first: `rm|remove`, `-g, --global`. Never reverse the order.
   - **Usage starts from the current command level, never include root command name.** Each level only describes its own invocation syntax. For `git worktree add <PATH>`, the path is `root → worktree → add`, so `add`'s usage should be `add <PATH>`, not `worktree add <path>`.
 - `example` — optional, add when examples clarify usage. Each item is a plain string, or an object `{ "cmd": ..., "desc": ... }` when an explanation is wanted — **both** `cmd` and `desc` are required in object form (use a plain string when there is no explanation). Multiple examples are separate array elements. Skip when usage is sufficient.
-- Order of fields in the JSON: `name`, `alias`, `usage`, `tip`, `example`, then `repeat` / `option` / `next`.
+- Order of fields in the JSON: `name`, `alias`, `usage`, `tip`, `example`, then `repeat` / `separator` / `option` / `next`.
 
 **`usage` examples — correct vs wrong:**
 

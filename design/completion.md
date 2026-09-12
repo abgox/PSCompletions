@@ -66,6 +66,14 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
   `--format=` head on apply). Declared spellings normalize one trailing `=` for identity
   (`--format=` ≡ `--format` in matching, `opts`, `used`, `layers`). A valueless flag with `=`
   or an unknown left side is `unknown` and completes nothing.
+- **Separator-joined list values**: an option declaring `"separator"` completes its value
+  segment by segment (`--exclude a,b<TAB>` — `a` is used, `b` is the pending tail segment).
+  Only the tail is `pending` (text = tail only); completed segments are engine-internal
+  (candidate filtering + word rebuild) and never surface as tokens — a finished list is a
+  single `value` token, mirroring the space form. Selecting replaces the tail segment and
+  adds no trailing space; the user types the separator to continue, Space to finish. Used
+  segments are filtered from candidates (case-insensitive, static and dynamic alike).
+  Composes with `=` (`--exclude=a,b<TAB>` splits the head first).
 
 The generation phase returns the **full candidate set of the current context** — it does
 **not** pre-filter by pending; filtering is left to the menu via `initial_filter`
@@ -158,6 +166,12 @@ Top-level manifest fields:
 > with no trailing space (cursor stays behind the `=`); typing `--format=<TAB>` completes the
 > option's `next` values. `usage` should show the value shape (`--format=<FMT>`); a valueless
 > flag must not carry `=`.
+
+> **Separator-joined list values**: an option whose value is a separator-joined list
+> (`--exclude a,b,c`) declares `"separator"` (any non-empty string except whitespace/`=`,
+> typically `,`/`;`) and requires `next`. Selecting a candidate replaces only the current
+> segment and adds no trailing space — the user types the separator to continue, Space to
+> finish. `usage` should show the shape (`--exclude <A,B,...>`).
 
 **`option` vs `global_option`**:
 

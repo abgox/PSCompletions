@@ -16,6 +16,9 @@ pub struct Node {
     pub is_option: bool,
     pub next_is_array: bool,
     pub option_is_array: bool,
+    /// List separator (`","` / `";"`) declared on a value-taking option: its
+    /// value is a separator-joined list completed segment by segment.
+    pub separator: Option<String>,
     pub next: Vec<Node>,
     pub option: Vec<Node>,
 }
@@ -84,6 +87,14 @@ pub struct PendingInfo {
     /// the `=` (`--format=`). The menu pre-filters on `text` (the value segment
     /// only) and prefixes this back onto the inserted word on apply.
     pub value_prefix: Option<String>,
+    /// For a separator-list value (`--exclude a,b<TAB>`): the declared
+    /// separator. Set even for the first segment (no separator typed yet) —
+    /// the slot is a list either way.
+    pub list_sep: Option<String>,
+    /// The list's completed segments (empties skipped), for candidate
+    /// filtering and word rebuild. Hooks never see these (one value = one
+    /// token there); they live here only.
+    pub list_used: Vec<String>,
 }
 
 /// A generated candidate completion item.
@@ -95,6 +106,9 @@ pub struct CompletionItem {
     pub example: Option<String>,
     pub symbol: Option<String>,
     pub repeat: i32,
+    /// Offered as a separator-list value: the host must not append its auto
+    /// space (the user types the separator to continue, Space to finish).
+    pub nospace: bool,
 }
 
 /// Resolve result: candidates + context.
@@ -183,6 +197,10 @@ fn build_node(json: &Value, is_option: bool) -> Node {
         .map(|t| t.iter().filter_map(text_or_object).collect())
         .unwrap_or_default();
     let repeat = json.get("repeat").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+    let separator = json
+        .get("separator")
+        .and_then(|v| v.as_str())
+        .map(|s| s.to_string());
     let next_is_array = json.get("next").and_then(|v| v.as_array()).is_some();
     let option_is_array = json.get("option").and_then(|v| v.as_array()).is_some();
 
@@ -208,6 +226,7 @@ fn build_node(json: &Value, is_option: bool) -> Node {
         is_option,
         next_is_array,
         option_is_array,
+        separator,
         next,
         option,
     }
@@ -234,6 +253,23 @@ fn split_eq_token(text: &str) -> Option<(&str, &str)> {
     }
     let idx = text.find('=')?;
     Some((&text[..idx], &text[idx + 1..]))
+}
+
+/// Split a separator-list value (`a,b`) into its completed segments plus the
+/// unfinished tail segment. Empty segments are skipped (a dangling or doubled
+/// separator contributes no used value).
+fn split_list_value<'a>(sep: &str, text: &'a str) -> (Vec<String>, &'a str) {
+    if sep.is_empty() {
+        return (Vec::new(), text);
+    }
+    let mut parts: Vec<&str> = text.split(sep).collect();
+    let tail = parts.pop().unwrap_or("");
+    let used = parts
+        .into_iter()
+        .filter(|s| !s.is_empty())
+        .map(|s| s.to_string())
+        .collect();
+    (used, tail)
 }
 
 /// Whether a node changes the context when selected. Options with a `next` array
@@ -315,16 +351,53 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                             stack.push(on);
                             layers.push(("option".into(), canon));
                         }
+                        // A separator-declared option splits the value further
+                        // (`--exclude=a,b<TAB>`); otherwise the whole tail is
+                        // the pending segment.
+                        let (list_sep, list_used, tail) = match &on.separator {
+                            Some(sep) => {
+                                let (used, tail) = split_list_value(sep, right);
+                                (Some(sep.clone()), used, tail)
+                            }
+                            None => (None, Vec::new(), right),
+                        };
                         pending = Some(PendingInfo {
-                            text: Some(right.to_string()),
+                            text: Some(tail.to_string()),
                             kind: Some("value".into()),
                             // An unfinished word usually has no canonical name (it does not fully match
                             // a command/option yet); `current.name` is best-effort and often nil.
                             canonical: None,
                             value_prefix: Some(format!("{left}=")),
+                            list_sep,
+                            list_used,
                         });
                         break;
                     }
+                }
+            }
+            // Separator-list value in space form (`--exclude a,b<TAB>`): the
+            // option is already a completed token; only the tail segment is
+            // pending. Plain options (no separator) keep the old path below.
+            // "Command/option wins" still holds: a word matching a known
+            // option/command is never treated as a list segment.
+            let list_ctx_sep = ctx
+                .filter(|c| c.is_option)
+                .and_then(|c| c.separator.clone());
+            if let Some(sep) = list_ctx_sep {
+                let parent_ctx = stack.iter().rev().find(|n| !n.is_option).copied();
+                if find_option_node(&stack, tree, &text).is_none()
+                    && find_command(parent_ctx, tree, &text).is_none()
+                {
+                    let (list_used, tail) = split_list_value(&sep, &text);
+                    pending = Some(PendingInfo {
+                        text: Some(tail.to_string()),
+                        kind: Some("value".into()),
+                        canonical: None,
+                        value_prefix: None,
+                        list_sep: Some(sep),
+                        list_used,
+                    });
+                    break;
                 }
             }
             let kind = classify(ctx, &stack, tree, &text);
@@ -335,6 +408,8 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 // a command/option yet); `current.name` is best-effort and often nil.
                 canonical: None,
                 value_prefix: None,
+                list_sep: None,
+                list_used: Vec::new(),
             });
             break;
         }
@@ -482,17 +557,40 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         }
     }
     let mut candidates: Vec<&Node> = Vec::new();
-    // `=`-attached value pending (`--format=j<TAB>`): only the owning option's
-    // value candidates can follow inside the token — never sibling commands,
-    // options, or globals. `layers` keeps the option so hooks fire at it.
-    let eq_value_pending = pending
-        .as_ref()
-        .and_then(|p| p.value_prefix.as_ref())
-        .is_some()
-        && ctx.map(|c| c.is_option).unwrap_or(false);
-    if eq_value_pending {
+    // An option's value pending (`--format=j<TAB>`, `--exclude a,b<TAB>`,
+    // `--exclude b<TAB>` first segment): only the owning option's value
+    // candidates can fill the slot — never sibling commands, options, or
+    // globals. `layers` keeps the option so hooks fire at it. Plain
+    // space-separated partials (`--format j<TAB>`, neither `=` nor separator)
+    // keep the historical command-context path below.
+    let pending_value_of_option = matches!(
+        pending.as_ref().and_then(|p| p.kind.as_deref()),
+        Some("value")
+    ) && ctx.map(|c| c.is_option).unwrap_or(false)
+        && pending
+            .as_ref()
+            .is_some_and(|p| p.value_prefix.is_some() || p.list_sep.is_some());
+    // Items offered as separator-list values never take the auto space (the
+    // user types the separator to continue, Space to finish).
+    let mut values_nospace = false;
+    // Range of `candidates` holding empty-pending separator values (mixed with
+    // sibling options/globals below); same no-space rule.
+    let mut values_nospace_range: Option<(usize, usize)> = None;
+    if pending_value_of_option {
         if let Some(c) = ctx {
-            add_next_if_not_seen(&mut candidates, &c.next, &seen);
+            let used: &[String] = pending
+                .as_ref()
+                .map(|p| p.list_used.as_slice())
+                .unwrap_or(&[]);
+            for n in &c.next {
+                let taken = n
+                    .all_names()
+                    .any(|nm| used.iter().any(|u| u.eq_ignore_ascii_case(nm)));
+                if !taken {
+                    candidates.push(n);
+                }
+            }
+            values_nospace = pending.as_ref().and_then(|p| p.list_sep.as_ref()).is_some();
         }
     } else {
         let ctx_is_root = ctx.is_none();
@@ -525,7 +623,13 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                     layers.clear();
                 }
             } else {
+                let range_start = candidates.len();
                 add_next_if_not_seen(&mut candidates, &c.next, &seen);
+                // Empty-pending separator values (`--exclude <TAB>`): static items
+                // from this range take no auto space (siblings below are unaffected).
+                if c.is_option && c.separator.is_some() {
+                    values_nospace_range = Some((range_start, candidates.len()));
+                }
             }
             for n in option_source(&stack, tree) {
                 candidates.push(n);
@@ -536,11 +640,10 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         }
 
         // A pending word that matches a known subcommand is itself offered as a candidate
-        // (skipped for `=`-attached values: the segment can only be the option's value).
+        // (skipped for `=`/list values: the segment can only be the option's value).
         if pending
             .as_ref()
-            .and_then(|p| p.value_prefix.as_ref())
-            .is_none()
+            .is_some_and(|p| p.value_prefix.is_none() && p.list_sep.is_none())
         {
             if let Some(p) = &pending {
                 if let Some(t) = &p.text {
@@ -561,7 +664,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
 
     // Assemble items (repeat limits + name/alias expansion)
     let mut items: Vec<CompletionItem> = Vec::new();
-    for n in &candidates {
+    for (idx, n) in candidates.iter().enumerate() {
         // Repeat counts are keyed by canonical identity (trailing-`=` stripped).
         let used_count = used
             .get(&Node::canonical_spelling(&n.name).to_lowercase())
@@ -573,6 +676,8 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         if n.repeat > 0 && used_count >= n.repeat {
             continue;
         }
+        let nospace =
+            values_nospace || values_nospace_range.is_some_and(|(s, e)| idx >= s && idx < e);
         for name in n.all_names() {
             items.push(CompletionItem {
                 text: name.to_string(),
@@ -593,6 +698,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 },
                 symbol: node_symbols(n).first().cloned(),
                 repeat: n.repeat,
+                nospace,
             });
         }
     }
@@ -1108,6 +1214,136 @@ mod tests {
             true,
         );
         assert!(!r.items.iter().any(|i| i.text == "--format"));
+    }
+
+    #[test]
+    fn list_value_pending_splits_segments() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "run" } ],
+            "option": [
+                { "name": "--exclude", "separator": ",", "next": [
+                    { "name": "aa" }, { "name": "bb" }, { "name": "cc" }
+                ] },
+                { "name": "--mode", "next": [ { "name": "fast" } ] },
+                { "name": "--verbose" }
+            ]
+        }));
+        // --exclude aa,b<TAB>: tail segment pending, used recorded, siblings gone.
+        let r = resolve(&tree, &["--exclude".into(), "aa,b".into()], false);
+        let p = r.context.pending.as_ref().unwrap();
+        assert_eq!(p.text.as_deref(), Some("b"));
+        assert_eq!(p.kind.as_deref(), Some("value"));
+        assert_eq!(p.list_sep.as_deref(), Some(","));
+        assert_eq!(p.list_used, vec!["aa"]);
+        assert_eq!(r.context.tokens.last().unwrap().kind, "option");
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(texts.contains(&"bb"));
+        assert!(texts.contains(&"cc"));
+        assert!(!texts.contains(&"aa"), "used segment filtered");
+        assert!(!texts.contains(&"--mode"));
+        assert!(!texts.contains(&"--verbose"));
+        assert!(
+            r.items.iter().all(|i| i.nospace),
+            "list values take no space"
+        );
+        // Used matching is case-insensitive exact (aa filtered by AA; a would not filter aa).
+        let r2 = resolve(&tree, &["--exclude".into(), "AA,b".into()], false);
+        assert!(!r2.items.iter().any(|i| i.text == "aa"));
+        // First segment: list context with no used values.
+        let r3 = resolve(&tree, &["--exclude".into(), "b".into()], false);
+        let p3 = r3.context.pending.as_ref().unwrap();
+        assert_eq!(p3.list_sep.as_deref(), Some(","));
+        assert!(p3.list_used.is_empty());
+        assert!(r3.items.iter().any(|i| i.text == "bb"));
+        // Dangling separator: empty tail offers everything minus used.
+        let r4 = resolve(&tree, &["--exclude".into(), "aa,".into()], false);
+        let p4 = r4.context.pending.as_ref().unwrap();
+        assert_eq!(p4.text.as_deref(), Some(""));
+        assert_eq!(p4.list_used, vec!["aa"]);
+        assert!(r4.items.iter().any(|i| i.text == "bb"));
+    }
+
+    #[test]
+    fn list_value_composes_with_eq_head() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "run" } ],
+            "option": [
+                { "name": "--exclude", "separator": ",", "next": [
+                    { "name": "aa" }, { "name": "bb" }
+                ] }
+            ]
+        }));
+        // --exclude=aa,b<TAB>: head split first, then list split.
+        let r = resolve(&tree, &["--exclude=aa,b".into()], false);
+        let p = r.context.pending.as_ref().unwrap();
+        assert_eq!(p.text.as_deref(), Some("b"));
+        assert_eq!(p.value_prefix.as_deref(), Some("--exclude="));
+        assert_eq!(p.list_sep.as_deref(), Some(","));
+        assert_eq!(p.list_used, vec!["aa"]);
+        assert!(!r.items.iter().any(|i| i.text == "aa"));
+        assert!(r.items.iter().any(|i| i.text == "bb"));
+    }
+
+    #[test]
+    fn list_value_completed_is_one_token_and_option_wins() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "run" } ],
+            "option": [
+                { "name": "--exclude", "separator": ",", "next": [
+                    { "name": "aa" }, { "name": "bb" }
+                ] },
+                { "name": "--mode", "next": [] }
+            ]
+        }));
+        // Completed multi-value is a single value token (existing consumption path).
+        let r = resolve(&tree, &["--exclude".into(), "aa,bb".into()], true);
+        let kinds: Vec<&str> = r.context.tokens.iter().map(|t| t.kind.as_str()).collect();
+        assert_eq!(kinds, vec!["option", "value"]);
+        assert_eq!(r.context.tokens[1].text, "aa,bb");
+        // Typing a new option is never hijacked as a list segment.
+        let r2 = resolve(&tree, &["--exclude".into(), "--mode".into()], false);
+        assert_eq!(
+            r2.context.pending.as_ref().and_then(|p| p.kind.as_deref()),
+            Some("option")
+        );
+        // Plain options keep the historical partial path (no list context).
+        let r3 = resolve(&tree, &["--mode".into(), "x".into()], false);
+        let p3 = r3.context.pending.as_ref().unwrap();
+        assert_eq!(p3.kind.as_deref(), Some("value"));
+        assert!(p3.list_sep.is_none());
+    }
+
+    #[test]
+    fn list_value_empty_pending_marks_static_values_nospace() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "run" } ],
+            "option": [
+                { "name": "--exclude", "separator": ",", "next": [
+                    { "name": "aa" }, { "name": "bb" }
+                ] },
+                { "name": "--mode" }
+            ]
+        }));
+        // --exclude <TAB>: values nospace, sibling options keep their space.
+        let r = resolve(&tree, &["--exclude".into()], true);
+        let nospace: Vec<&str> = r
+            .items
+            .iter()
+            .filter(|i| i.nospace)
+            .map(|i| i.text.as_str())
+            .collect();
+        assert!(nospace.contains(&"aa"));
+        assert!(nospace.contains(&"bb"));
+        assert!(!r
+            .items
+            .iter()
+            .find(|i| i.text == "--mode")
+            .map(|i| i.nospace)
+            .unwrap_or(true));
     }
 
     #[test]

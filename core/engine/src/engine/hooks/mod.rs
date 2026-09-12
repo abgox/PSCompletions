@@ -138,6 +138,9 @@ pub struct LuaItem {
     pub example: Option<String>,
     pub symbol: Option<String>,
     pub repeat: i32,
+    /// Engine-internal: offered as a separator-list value (no auto space).
+    /// Round-trips through Lua tables so hook-preserved static items keep it.
+    pub nospace: bool,
 }
 
 impl From<&crate::engine::completion::CompletionItem> for LuaItem {
@@ -149,6 +152,7 @@ impl From<&crate::engine::completion::CompletionItem> for LuaItem {
             example: it.example.clone(),
             symbol: it.symbol.clone(),
             repeat: it.repeat,
+            nospace: it.nospace,
         }
     }
 }

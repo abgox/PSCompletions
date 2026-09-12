@@ -373,9 +373,11 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output -Force {
         param($item)
         $out = $item.CompletionText.Trim()
-        # An attached-value option (`-x=` / `--format=`) takes its value in the
-        # same word: never append a space, the cursor stays behind the `=`.
-        $suffix = if ($PSCompletions.config.enable_append_space -and $out -notmatch '^-.*=$') { ' ' } else { '' }
+        # An attached-value option (`-x=` / `--format=`) takes its value in the same word:
+        # never append a space, the cursor stays behind the `=`.
+        # Separator-list values (`nospace` from the engine) behave the same:
+        # the user types the separator to continue, Space to finish.
+        $suffix = if ($PSCompletions.config.enable_append_space -and $out -notmatch '^-.*=$' -and -not $item.Nospace) { ' ' } else { '' }
         if ($null -eq $item.ResultType) {
             if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
                 return $out
@@ -716,7 +718,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 'selected' {
                     if ($isBuild) {
                         # Build mode: the engine returns the selected item's text/type (no host item list)
-                        return $menu.handle_menu_output(@{ CompletionText = $result.completion_text; ResultType = $result.result_type })
+                        return $menu.handle_menu_output(@{ CompletionText = $result.completion_text; ResultType = $result.result_type; Nospace = $result.nospace })
                     }
                     return $menu.handle_menu_output($filter_list[$result.index])
                 }

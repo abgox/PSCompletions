@@ -64,6 +64,10 @@ pub struct Item {
     #[serde(default)]
     #[allow(dead_code)]
     pub result_type: Option<i32>,
+    /// The host must not append its auto space after inserting this item
+    /// (separator-list values: the user types the separator to continue).
+    #[serde(default)]
+    pub nospace: bool,
 }
 
 /// Menu config. Width/palette are gone; most fields are kept only as contract.
@@ -215,6 +219,9 @@ pub struct Output {
     pub completion_text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub result_type: Option<i32>,
+    /// The host must not append its auto space after inserting the selected item.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nospace: Option<bool>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -244,6 +251,7 @@ impl Output {
             alternate: None,
             completion_text: None,
             result_type: None,
+            nospace: None,
         }
     }
 
@@ -259,6 +267,7 @@ impl Output {
             alternate: None,
             completion_text: None,
             result_type: None,
+            nospace: None,
         }
     }
 
@@ -274,6 +283,7 @@ impl Output {
             alternate: None,
             completion_text: None,
             result_type: None,
+            nospace: None,
         }
     }
 
@@ -289,6 +299,7 @@ impl Output {
             alternate: None,
             completion_text: None,
             result_type: None,
+            nospace: None,
         }
     }
 
@@ -304,6 +315,7 @@ impl Output {
             alternate: None,
             completion_text: None,
             result_type: None,
+            nospace: None,
         }
     }
 }

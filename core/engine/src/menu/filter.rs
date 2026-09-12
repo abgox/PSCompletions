@@ -274,6 +274,7 @@ mod tests {
                 usage: None,
                 example: None,
                 result_type: None,
+                nospace: false,
                 symbol: String::new(),
             })
             .collect()

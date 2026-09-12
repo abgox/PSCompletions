@@ -147,6 +147,17 @@
         99
       ]
     },
+    "separator": {
+      "type": "string",
+      "markdownDescription": "List separator for an option's value.\n-  Complete by segment (selecting replaces the current segment; the user types the separator to continue).\n- Options only; requires `next`.\n- Whitespace and `=` are forbidden.",
+      "minLength": 1,
+      "pattern": "^[^\\s=]+$",
+      "errorMessage": "separator must not contain whitespace or `=`",
+      "examples": [
+        ",",
+        ";"
+      ]
+    },
     "usage": {
       "markdownDescription": "Completion item usage lines (shown as the `[Usage]` section).\n- Optional; if absent, no usage section is shown.\n- Each item is a plain string, or an object `{ \"cmd\": ..., \"desc\": ... }` — in object form **both** `cmd` and `desc` are required (use a plain string when there is no explanation).\n- Example:\n```json\n  \"usage\": [\"-r, --revisions <REVSETS>\", { \"cmd\": \"add|install <APP>\", \"desc\": \"install a package\" }]\n```",
       "examples": [
@@ -234,6 +245,11 @@
       "required": [
         "name"
       ],
+      "dependencies": {
+        "separator": [
+          "next"
+        ]
+      },
       "properties": {
         "name": {
           "$ref": "#/definitions/name"
@@ -252,6 +268,9 @@
         },
         "repeat": {
           "$ref": "#/definitions/repeat"
+        },
+        "separator": {
+          "$ref": "#/definitions/separator"
         },
         "next": {
           "$ref": "#/definitions/next-for-option"
@@ -537,4 +556,3 @@
   },
   "additionalProperties": false
 }
-
