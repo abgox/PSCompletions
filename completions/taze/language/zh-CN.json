@@ -1,0 +1,586 @@
+{
+  "meta": {
+    "url": "https://github.com/antfu-collective/taze",
+    "description": [
+      "让你的依赖保持新鲜的现代化 CLI 工具。"
+    ]
+  },
+  "next": [
+    {
+      "name": "default",
+      "tip": [
+        "仅升级 package.json 中声明范围内的版本（安全，默认行为）。"
+      ]
+    },
+    {
+      "name": "latest",
+      "tip": [
+        "升级到 registry `latest` dist-tag 标记的版本。"
+      ]
+    },
+    {
+      "name": "major",
+      "tip": [
+        "检查所有更新并升级到最新的稳定版本，包括大版本（破坏性更新）。"
+      ]
+    },
+    {
+      "name": "minor",
+      "tip": [
+        "在同一大版本内升级到最新的次版本。"
+      ]
+    },
+    {
+      "name": "newest",
+      "tip": [
+        "升级到最新发布的版本，包括预发布版本。"
+      ]
+    },
+    {
+      "name": "next",
+      "tip": [
+        "升级到 registry `next` dist-tag 标记的版本（回退到最新发布）。"
+      ]
+    },
+    {
+      "name": "patch",
+      "tip": [
+        "在同一次版本内升级到最新的补丁版本。"
+      ]
+    },
+    {
+      "name": "stable",
+      "tip": [
+        "在当前范围内升级到最新的稳定版本，并遵守成熟期过滤。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "显示所有包的信息，包括未过时的包。"
+      ]
+    },
+    {
+      "name": "--concurrency",
+      "usage": [
+        "--concurrency <REQUESTS>"
+      ],
+      "tip": [
+        "解析依赖时的并发请求数（默认值：10）。"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--cwd",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cwd <CWD>"
+      ],
+      "tip": [
+        "指定当前工作目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exclude <DEPS>"
+      ],
+      "tip": [
+        "排除要检查的依赖，会覆盖 --include 选项。支持 `name@range`（如 typescript@7）以仅排除匹配的版本。"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--fail-on-outdated",
+      "tip": [
+        "发现过时依赖时以状态码 1 退出。"
+      ]
+    },
+    {
+      "name": "--fast-npm-meta-api-endpoint",
+      "usage": [
+        "--fast-npm-meta-api-endpoint <URL>"
+      ],
+      "tip": [
+        "通过 fast-npm-meta 获取 npm 包元数据的 API 端点。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "强制从服务器获取，绕过缓存。"
+      ]
+    },
+    {
+      "name": "--github-actions-style",
+      "usage": [
+        "--github-actions-style <STYLE>"
+      ],
+      "tip": [
+        "更新后的 GitHub Actions 引用的写入方式。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "保留每个 Action 原有的风格（默认值）。"
+          ]
+        },
+        {
+          "name": "sha",
+          "tip": [
+            "始终写入 commit SHA 引用并附带版本注释。"
+          ]
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "始终写入 tag 引用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--global",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --global"
+      ],
+      "tip": [
+        "更新全局安装的包。"
+      ]
+    },
+    {
+      "name": "--group",
+      "tip": [
+        "展示时按依赖来源分组。"
+      ]
+    },
+    {
+      "name": "--ignore-other-workspaces",
+      "tip": [
+        "忽略其他工作区中的 package.json（各自拥有 .git、pnpm-workspace.yaml 等）（默认值：true）。"
+      ]
+    },
+    {
+      "name": "--ignore-paths",
+      "usage": [
+        "--ignore-paths <PATHS>"
+      ],
+      "tip": [
+        "搜索 package.json 时忽略的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --include <DEPS>"
+      ],
+      "tip": [
+        "仅检查包含的依赖的更新。"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--include-locked",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --include-locked"
+      ],
+      "tip": [
+        "包含锁定版本的依赖与 devDependencies。"
+      ]
+    },
+    {
+      "name": "--install",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --install"
+      ],
+      "tip": [
+        "升级后直接安装。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --interactive"
+      ],
+      "tip": [
+        "交互模式。"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "以 JSON 格式输出更新信息（隐含非交互模式）。"
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "usage": [
+        "--loglevel <LEVEL>"
+      ],
+      "tip": [
+        "日志级别。"
+      ],
+      "next": [
+        {
+          "name": "debug"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "info"
+        },
+        {
+          "name": "silent"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--maturity-period",
+      "usage": [
+        "--maturity-period [<DAYS>]"
+      ],
+      "tip": [
+        "升级到新发布的包之前等待的天数（使用该标志时默认值：7，不使用时为 0）。"
+      ],
+      "next": [
+        {
+          "name": "14"
+        },
+        {
+          "name": "30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "--maturity-period-exclude",
+      "usage": [
+        "--maturity-period-exclude <DEPS>"
+      ],
+      "tip": [
+        "不受成熟期过滤的依赖。"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--no-github-actions",
+      "tip": [
+        "不检查 .github/workflows 与复合 action.yml 文件中的 GitHub Actions。"
+      ]
+    },
+    {
+      "name": "--no-node-version",
+      "tip": [
+        "不检查 .node-version 与 .nvmrc 文件。"
+      ]
+    },
+    {
+      "name": "--no-retry",
+      "tip": [
+        "获取包元数据失败时不重试。"
+      ]
+    },
+    {
+      "name": "--nodecompat",
+      "tip": [
+        "显示包与当前 Node.js 版本的兼容性。"
+      ]
+    },
+    {
+      "name": "--peer",
+      "tip": [
+        "在更新过程中包含 peerDependencies。"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "递归搜索子目录中的 package.json。"
+      ]
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <MS>"
+      ],
+      "tip": [
+        "获取包元数据时的请求超时时间（毫秒）（默认值：5000）。"
+      ],
+      "next": [
+        {
+          "name": "1000"
+        },
+        {
+          "name": "10000"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--retry",
+      "usage": [
+        "--retry [<TIMES>]"
+      ],
+      "tip": [
+        "获取包元数据失败时的重试次数，用 --no-retry 禁用（默认值：4）。"
+      ],
+      "next": [
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--retry-factor",
+      "usage": [
+        "--retry-factor <FACTOR>"
+      ],
+      "tip": [
+        "重试之间的指数退避系数（默认值：2）。"
+      ],
+      "next": [
+        {
+          "name": "1.5"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--retry-max-timeout",
+      "usage": [
+        "--retry-max-timeout <MS>"
+      ],
+      "tip": [
+        "两次重试之间的最大间隔毫秒数（默认值：Infinity）。"
+      ],
+      "next": [
+        {
+          "name": "10000"
+        },
+        {
+          "name": "30000"
+        },
+        {
+          "name": "60000"
+        }
+      ]
+    },
+    {
+      "name": "--retry-min-timeout",
+      "usage": [
+        "--retry-min-timeout <MS>"
+      ],
+      "tip": [
+        "首次重试前的等待毫秒数（默认值：1000）。"
+      ],
+      "next": [
+        {
+          "name": "1000"
+        },
+        {
+          "name": "500"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--retry-randomize",
+      "tip": [
+        "将重试超时随机化为 1 到 2 倍。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "完全静默。"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <TYPE>"
+      ],
+      "tip": [
+        "按过时程度的绝对值或相对值排序。"
+      ],
+      "next": [
+        {
+          "name": "diff-asc",
+          "tip": [
+            "按版本差异排序，差异小的在前。"
+          ]
+        },
+        {
+          "name": "diff-desc",
+          "tip": [
+            "按版本差异排序，差异大的在前。"
+          ]
+        },
+        {
+          "name": "name-asc",
+          "tip": [
+            "按包名排序，A 到 Z。"
+          ]
+        },
+        {
+          "name": "name-desc",
+          "tip": [
+            "按包名排序，Z 到 A。"
+          ]
+        },
+        {
+          "name": "time-asc",
+          "tip": [
+            "按发布时间排序，早发布的在前。"
+          ]
+        },
+        {
+          "name": "time-desc",
+          "tip": [
+            "按发布时间排序，晚发布的在前。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timediff",
+      "tip": [
+        "显示当前版本与更新版本之间的时间差。"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "升级后直接更新。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--write",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --write"
+      ],
+      "tip": [
+        "写入 package.json。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此帮助信息。"
+      ]
+    }
+  ]
+}

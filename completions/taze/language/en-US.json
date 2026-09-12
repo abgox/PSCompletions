@@ -1,0 +1,586 @@
+{
+  "meta": {
+    "url": "https://github.com/antfu-collective/taze",
+    "description": [
+      "A modern CLI tool that keeps your deps fresh."
+    ]
+  },
+  "next": [
+    {
+      "name": "default",
+      "tip": [
+        "Only bump versions in the ranges specified in package.json (safe, default behavior)."
+      ]
+    },
+    {
+      "name": "latest",
+      "tip": [
+        "Bump to the version marked by the registry `latest` dist-tag."
+      ]
+    },
+    {
+      "name": "major",
+      "tip": [
+        "Check all changes and bump to the latest stable changes, including majors (breaking changes)."
+      ]
+    },
+    {
+      "name": "minor",
+      "tip": [
+        "Bump to the latest minor changes within the same major version."
+      ]
+    },
+    {
+      "name": "newest",
+      "tip": [
+        "Bump to the newest published version, including prereleases."
+      ]
+    },
+    {
+      "name": "next",
+      "tip": [
+        "Bump to the version marked by the registry `next` dist-tag (falls back to newest)."
+      ]
+    },
+    {
+      "name": "patch",
+      "tip": [
+        "Bump to the latest patch changes within the same minor version."
+      ]
+    },
+    {
+      "name": "stable",
+      "tip": [
+        "Bump to the latest stable version within the current range, honoring the maturity period."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "Show info of all packages, including up-to-date ones."
+      ]
+    },
+    {
+      "name": "--concurrency",
+      "usage": [
+        "--concurrency <REQUESTS>"
+      ],
+      "tip": [
+        "Number of concurrent requests when resolving dependencies (default: 10)."
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "20"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--cwd",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --cwd <CWD>"
+      ],
+      "tip": [
+        "Specify the current working directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --exclude <DEPS>"
+      ],
+      "tip": [
+        "Exclude dependencies to be checked, will override --include options. Supports `name@range` (e.g. typescript@7) to exclude only matching versions."
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--fail-on-outdated",
+      "tip": [
+        "Exit with code 1 if outdated dependencies are found."
+      ]
+    },
+    {
+      "name": "--fast-npm-meta-api-endpoint",
+      "usage": [
+        "--fast-npm-meta-api-endpoint <URL>"
+      ],
+      "tip": [
+        "API endpoint for fetching npm package metadata via fast-npm-meta."
+      ],
+      "next": []
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "Force fetching from server, bypass cache."
+      ]
+    },
+    {
+      "name": "--github-actions-style",
+      "usage": [
+        "--github-actions-style <STYLE>"
+      ],
+      "tip": [
+        "How to write updated GitHub Actions references."
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Preserve each action's existing style (default)."
+          ]
+        },
+        {
+          "name": "sha",
+          "tip": [
+            "Always write a commit-SHA reference with a version comment."
+          ]
+        },
+        {
+          "name": "tag",
+          "tip": [
+            "Always write a tag reference."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--global",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --global"
+      ],
+      "tip": [
+        "Update global packages."
+      ]
+    },
+    {
+      "name": "--group",
+      "tip": [
+        "Group dependencies by source on display."
+      ]
+    },
+    {
+      "name": "--ignore-other-workspaces",
+      "tip": [
+        "Ignore package.json that in other workspaces (with their own .git, pnpm-workspace.yaml, etc.) (default: true)."
+      ]
+    },
+    {
+      "name": "--ignore-paths",
+      "usage": [
+        "--ignore-paths <PATHS>"
+      ],
+      "tip": [
+        "Ignore paths for search package.json."
+      ],
+      "next": []
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --include <DEPS>"
+      ],
+      "tip": [
+        "Only included dependencies will be checked for updates."
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--include-locked",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --include-locked"
+      ],
+      "tip": [
+        "Include locked dependencies & devDependencies."
+      ]
+    },
+    {
+      "name": "--install",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --install"
+      ],
+      "tip": [
+        "Install directly after bumping."
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --interactive"
+      ],
+      "tip": [
+        "Interactive mode."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Output update info as JSON (implies non-interactive)."
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "usage": [
+        "--loglevel <LEVEL>"
+      ],
+      "tip": [
+        "Log level."
+      ],
+      "next": [
+        {
+          "name": "debug"
+        },
+        {
+          "name": "error"
+        },
+        {
+          "name": "info"
+        },
+        {
+          "name": "silent"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--maturity-period",
+      "usage": [
+        "--maturity-period [<DAYS>]"
+      ],
+      "tip": [
+        "Wait period in days before upgrading to newly released packages (default: 7 when flag is used, 0 when not used)."
+      ],
+      "next": [
+        {
+          "name": "14"
+        },
+        {
+          "name": "30"
+        },
+        {
+          "name": "7"
+        }
+      ]
+    },
+    {
+      "name": "--maturity-period-exclude",
+      "usage": [
+        "--maturity-period-exclude <DEPS>"
+      ],
+      "tip": [
+        "Dependencies to exclude from the maturity period filter."
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--no-github-actions",
+      "tip": [
+        "Disable checking GitHub Actions in .github/workflows and composite action.yml files."
+      ]
+    },
+    {
+      "name": "--no-node-version",
+      "tip": [
+        "Disable checking .node-version and .nvmrc files."
+      ]
+    },
+    {
+      "name": "--no-retry",
+      "tip": [
+        "Disable retries when fetching package metadata."
+      ]
+    },
+    {
+      "name": "--nodecompat",
+      "tip": [
+        "Show package compatibility with current node version."
+      ]
+    },
+    {
+      "name": "--peer",
+      "tip": [
+        "Include peerDependencies in the update process."
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "Recursively search for package.json in subdirectories."
+      ]
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <MS>"
+      ],
+      "tip": [
+        "Request timeout in milliseconds when fetching package metadata (default: 5000)."
+      ],
+      "next": [
+        {
+          "name": "1000"
+        },
+        {
+          "name": "10000"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--retry",
+      "usage": [
+        "--retry [<TIMES>]"
+      ],
+      "tip": [
+        "Number of retries when fetching package metadata fails, use --no-retry to disable (default: 4)."
+      ],
+      "next": [
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--retry-factor",
+      "usage": [
+        "--retry-factor <FACTOR>"
+      ],
+      "tip": [
+        "Exponential backoff factor between retries (default: 2)."
+      ],
+      "next": [
+        {
+          "name": "1.5"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "3"
+        }
+      ]
+    },
+    {
+      "name": "--retry-max-timeout",
+      "usage": [
+        "--retry-max-timeout <MS>"
+      ],
+      "tip": [
+        "Maximum milliseconds between two retries (default: Infinity)."
+      ],
+      "next": [
+        {
+          "name": "10000"
+        },
+        {
+          "name": "30000"
+        },
+        {
+          "name": "60000"
+        }
+      ]
+    },
+    {
+      "name": "--retry-min-timeout",
+      "usage": [
+        "--retry-min-timeout <MS>"
+      ],
+      "tip": [
+        "Milliseconds before starting the first retry (default: 1000)."
+      ],
+      "next": [
+        {
+          "name": "1000"
+        },
+        {
+          "name": "500"
+        },
+        {
+          "name": "5000"
+        }
+      ]
+    },
+    {
+      "name": "--retry-randomize",
+      "tip": [
+        "Randomize retry timeouts by a factor between 1 and 2."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "Complete silent."
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <TYPE>"
+      ],
+      "tip": [
+        "Sort by most outdated absolute or relative to dependency."
+      ],
+      "next": [
+        {
+          "name": "diff-asc",
+          "tip": [
+            "Sort by version diff, smallest first."
+          ]
+        },
+        {
+          "name": "diff-desc",
+          "tip": [
+            "Sort by version diff, largest first."
+          ]
+        },
+        {
+          "name": "name-asc",
+          "tip": [
+            "Sort by package name, A to Z."
+          ]
+        },
+        {
+          "name": "name-desc",
+          "tip": [
+            "Sort by package name, Z to A."
+          ]
+        },
+        {
+          "name": "time-asc",
+          "tip": [
+            "Sort by publish time, oldest first."
+          ]
+        },
+        {
+          "name": "time-desc",
+          "tip": [
+            "Sort by publish time, newest first."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timediff",
+      "tip": [
+        "Show time difference between the current and the updated version."
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "Update directly after bumping."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Display version number."
+      ]
+    },
+    {
+      "name": "--write",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --write"
+      ],
+      "tip": [
+        "Write to package.json."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this message."
+      ]
+    }
+  ]
+}
