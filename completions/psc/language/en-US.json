@@ -1726,10 +1726,10 @@
         "<@Cyan>[Add Completion]\n",
         "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[Trigger Alias]\n",
+        "<@Magenta>",
         "{{",
         "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
-        "$out -join \"`n\";",
+        "$alias -join \"`n\";",
         "\"`n<@Cyan>[Special Configuration]\";",
         "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",
@@ -1755,16 +1755,14 @@
       ]
     },
     "alias": {
-      "add": {
-        "err": {
-          "cmd_exist": "<@Red>Trigger alias <@Magenta>{{ $alias }}<@Red> is invalid, <@Magenta>{{ $alias }}<@Magenta><@Red> already exists, please set other alias."
-        }
-      },
       "rm": {
         "tip_v": [
           "Remove this trigger alias."
         ]
-      }
+      },
+      "skipped": [
+        "<@Yellow>Trigger alias <@Magenta>{{ $alias }}<@Yellow> is already owned by <@Magenta>{{ $owner }}<@Yellow>, skipped."
+      ]
     },
     "completion": {
       "enable_hooks": {
@@ -1907,10 +1905,10 @@
         "<@Cyan>[Update Completion]\n",
         "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[Trigger Alias]\n",
+        "<@Magenta>",
         "{{",
         "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(It already exists. Please handle the conflict manually.)<@Magenta>' } else { '<@Magenta>' + $_ } };",
-        "$out -join \"`n\";",
+        "$alias -join \"`n\";",
         "\"`n<@Cyan>[Special Configuration]\";",
         "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",

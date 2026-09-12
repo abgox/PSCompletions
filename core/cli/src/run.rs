@@ -27,7 +27,6 @@ pub fn run(args: Vec<String>) -> ExitCode {
 
     if rest.is_empty() {
         print_help();
-        settings.sync_alias_csv(&data_dir);
         return ExitCode::SUCCESS;
     }
     let cmd = rest[0].clone();
@@ -98,6 +97,5 @@ pub fn run(args: Vec<String>) -> ExitCode {
             ExitCode::FAILURE
         }
     };
-    settings.sync_alias_csv(&data_dir);
     code
 }

@@ -102,22 +102,10 @@
         $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.completions, $completion)
         $config = $null
         $json = $null
-        $conflict_alias = @()
         if ($kind -ne 'rm') {
             $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
             $language = $PSCompletions.get_language($completion)
             $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
-            $settings = [System.IO.File]::ReadAllText($PSCompletions.path.settings, [System.Text.Encoding]::UTF8)
-            $aliases = (ConvertFrom-Json $settings).alias
-            $completion_aliases = $aliases.$completion, $config.alias, $completion | Select-Object -First 1
-            foreach ($comp in $aliases.PSObject.Properties.Name) {
-                if ($comp -eq $completion) { continue }
-                foreach ($a in $aliases.$comp) {
-                    if ($a -in $completion_aliases) {
-                        $conflict_alias += $a
-                    }
-                }
-            }
         }
         $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done))
     }
@@ -151,6 +139,12 @@
                     foreach ($r in @($result)) {
                         if ($r.ok) {
                             _render_completion_done $r.completion $(if ($is_exist_before[$r.completion]) { 'update' } else { 'add' })
+                            foreach ($s in $r.skipped) {
+                                if (!$s) { continue }
+                                $alias = $s.alias
+                                $owner = $s.owner
+                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped))
+                            }
                         }
                         else {
                             $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
@@ -247,6 +241,12 @@
                             else {
                                 _render_completion_done $r.completion 'update'
                             }
+                            foreach ($s in $r.skipped) {
+                                if (!$s) { continue }
+                                $alias = $s.alias
+                                $owner = $s.owner
+                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped))
+                            }
                         }
                         else {
                             $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
@@ -302,21 +302,7 @@
             $need_init = $false
         }
         'alias' {
-            # `alias add` pre-check: an alias colliding with a real command is rejected before forwarding
-            $alias_conflict = $false
-            if ($arg[1] -eq 'add' -and $arg.Count -ge 4) {
-                foreach ($a in $arg[3..($arg.Count - 1)]) {
-                    if (Get-Command $a -ErrorAction Ignore) {
-                        $alias = $a
-                        $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.add.err.cmd_exist))
-                        $alias_conflict = $true
-                    }
-                }
-            }
-            if ($alias_conflict) {
-                $need_init = $false
-            }
-            elseif ($arg.Count -eq 1) {
+            if ($arg.Count -eq 1) {
                 # No args = list all trigger aliases, wrapped as objects like list
                 _forward_psc -Json | ForEach-Object {
                     if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
@@ -326,19 +312,6 @@
             }
             else {
                 _forward_psc
-                if ($LASTEXITCODE -eq 0) {
-                    switch ($arg[1]) {
-                        'add' {
-                            if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
-                                Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
-                            }
-                        }
-                        'rm' {
-                            $toRemove = @($arg[3..($arg.Count - 1)])
-                            foreach ($a in $toRemove) { Remove-Item "Alias:\$a" -Force -ErrorAction SilentlyContinue }
-                        }
-                    }
-                }
             }
         }
         'config' {
@@ -441,4 +414,6 @@
     $PSCompletions.render_pending()
 }
 
-Export-ModuleMember -Function PSCompletions
+Set-Alias psc PSCompletions -Force
+
+Export-ModuleMember -Function PSCompletions -Alias psc

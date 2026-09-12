@@ -44,7 +44,6 @@ The CLI operates on a module data directory, passed by the host:
     against its installed version at render time; on a fetch failure the previous value is kept).
     `last_check` is set on each `psc check`/`psc update` and drives the menu's stale-update hint
      (when older than 7 days).
-   - `temp/alias.csv` — alias import table for PowerShell `Import-Alias` (`"alias","target","","None"` rows, self-alias and path-like filtered). Regenerated on every `psc` invocation (content-diff guarded).
    - `temp/order/` — per-command history-order caches (menu ranking). Rebuilt on use; the menu
     engine prunes stale files (older than 90 days) in a background thread on each menu open
     (`cleanup_stale_order_files`), so it never delays the TUI.
@@ -122,8 +121,9 @@ psc add --all
   trigger-alias map). An already-installed name follows the update path (no error).
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`.
-- **Output**: with `--json`, per-completion results `{completion, ok, error}`; plain text
-  `<name>: Added.` otherwise. Text mode: any error → exit code `FAILURE`.
+- **Output**: with `--json`, per-completion results `{completion, ok, error}` (trigger words
+  owned by another completion add `skipped: [{alias, owner}]`); plain text
+  `<name>: Added.` otherwise (ownership warnings print per word). Text mode: any error → exit code `FAILURE`.
 - **PS wrapper**: computes targets (if `--all`, all known completions; else the args), shows the
   `--all` confirm + a "please wait" notice, forwards with `--json`, then `init_data()` and renders
   the rich `info.add.done` / `info.update.done` template per added completion.
@@ -138,19 +138,21 @@ psc alias --reset                   # restore every completion's aliases
 ```
 
 - **Behavior**: no-arg lists `name: alias1 alias2` (JSON: `[{completion, aliases}]`).
+  Trigger aliases only open the completion menu — they never create execution
+  aliases (execution aliases are the user's own `Set-Alias` business).
   `add`/`rm` operate on a single installed completion (the name must be in `settings.alias`).
   `--reset` restores every completion's aliases from its `config.json` `alias` array (falling back
   to the bare name). Alias has only `add`/`rm` as subcommands — a bare completion name under
   `alias` is not a valid form (`alias <name>` / `alias <name> --reset` → `Invalid subcommand.`).
 - **Validation (add)**: no wildcards (`*`/`?`); the reserved name `PSCompletions` is rejected;
-  an alias already present for that completion is rejected; an alias colliding with another
-  completion's trigger alias is rejected (`cmd_exist`).
+  an alias already present for that completion is rejected; a word already owned by another
+  completion stays with its earlier owner — the newcomer skips it with an ownership warning
+  (`alias_owned`, naming the owner; move it with `alias rm <owner> <word>` first if intended).
 - **Validation (rm)**: refuses to remove the last remaining alias of a completion (`alias_unique`).
 - **Errors**: too few params → `Too few parameters.`; name not installed →
-  `<name>: Completion not added.`; per-alias errors: `has_wildcard`, `cmd_exist`, `alias_exist`.
-- **PS wrapper**: `alias add` pre-checks for collisions with real commands (`cmd_exist`, before
-  forwarding); no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects; other
-  invocations forward raw.
+  `<name>: Completion not added.`; per-alias errors: `has_wildcard`, `alias_owned`, `alias_exist`.
+- **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects;
+  `add`/`update` results render per-word `skipped: [{alias, owner}]` ownership warnings from the `info.alias.skipped` template.
 
 ### 6.3 `completion` — per-completion special configuration
 
@@ -268,8 +270,7 @@ psc update --all              # update every installed completion
   - **Named update** (`update <name>...`): updates the named completions **unconditionally** —
     naming a completion IS the intent to update it (also the way to repair a corrupted or
     manually-removed file).
-  - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
-    current" path).
+  - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything current" path).
   - **`--all`**: updates every installed completion that exists in the remote `completions.json`
     index. Completions not found in the remote index (e.g. locally-linked or manually-added
     completions) are silently skipped.

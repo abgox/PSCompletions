@@ -6,7 +6,7 @@ use serde_json::{json, Value};
 
 use crate::commands::run_parallel;
 use crate::data::{read_text, Index, LibraryChanges, Settings};
-use crate::messages::msg_cli;
+use crate::messages::{msg_cli, msg_fmt};
 use crate::net::{
     add_completion, download_list, local_completion_id, refresh_settings_after_add,
     rename_completion, resolve_urls,
@@ -69,7 +69,12 @@ pub fn cmd_update(
     let need_update: Vec<String> = settings
         .list()
         .into_iter()
-        .filter(|name| (list.contains(name) || rename_map.contains_key(name)) && needs_update(name))
+        .filter(|name| {
+            if rename_map.contains_key(name) {
+                return true;
+            }
+            list.contains(name) && needs_update(name)
+        })
         .collect();
 
     let is_check = args.is_empty();
@@ -263,24 +268,38 @@ pub fn cmd_update(
                     return;
                 }
                 let mut sg = settings_lock.lock().unwrap();
-                if let Err(e) = refresh_settings_after_add(&mut sg, data_dir, name) {
-                    had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                    if json {
-                        results
-                            .lock()
-                            .unwrap()
-                            .push(json!({"completion": name, "ok": false, "error": e}));
-                    } else {
-                        out.line(&format!("error: {e}"));
+                match refresh_settings_after_add(&mut sg, data_dir, name) {
+                    Err(e) => {
+                        had_error.store(true, std::sync::atomic::Ordering::SeqCst);
+                        if json {
+                            results
+                                .lock()
+                                .unwrap()
+                                .push(json!({"completion": name, "ok": false, "error": e}));
+                        } else {
+                            out.line(&format!("error: {e}"));
+                        }
                     }
-                }
-                if json {
-                    results
-                        .lock()
-                        .unwrap()
-                        .push(json!({"completion": name, "ok": true}));
-                } else {
-                    out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
+                    Ok(skipped) => {
+                        if json {
+                            let mut entry = json!({"completion": name, "ok": true});
+                            if !skipped.is_empty() {
+                                entry["skipped"] = skipped
+                                    .iter()
+                                    .map(|(a, o)| json!({"alias": a, "owner": o}))
+                                    .collect();
+                            }
+                            results.lock().unwrap().push(entry);
+                        } else {
+                            out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
+                            for (a, owner) in &skipped {
+                                out.line(&format!(
+                                    "{a}: {}",
+                                    msg_fmt(lang, "alias_owned", &[("owner", owner)])
+                                ));
+                            }
+                        }
+                    }
                 }
             }
             Err(e) => {

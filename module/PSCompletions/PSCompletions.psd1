@@ -33,6 +33,8 @@ It provides fast rendering, wildcard/subsequence filtering, history-aware orderi
 
     FunctionsToExport    = 'PSCompletions'
 
+    AliasesToExport      = 'psc'
+
     PrivateData          = @{
 
         PSData = @{

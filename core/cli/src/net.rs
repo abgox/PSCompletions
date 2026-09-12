@@ -263,11 +263,13 @@ pub fn completion_defaults(data_dir: &str, name: &str) -> Value {
 }
 
 /// After adding/updating a completion, refresh its alias + config defaults, preserving user overrides.
+/// Words already owned by another completion stay with their owner;
+/// skipped words are returned for the warning.
 pub fn refresh_settings_after_add(
     settings: &mut Settings,
     data_dir: &str,
     name: &str,
-) -> Result<(), String> {
+) -> Result<Vec<(String, String)>, String> {
     let config_path = format!("{data_dir}/completions/{name}/config.json");
     let text =
         crate::data::read_text(&config_path).ok_or_else(|| "missing config.json".to_string())?;
@@ -281,7 +283,7 @@ pub fn refresh_settings_after_add(
         .is_none();
     let hooks_disabled = config.get("hooks").and_then(|h| h.as_bool()) == Some(false);
 
-    let aliases: Vec<String> = config
+    let desired: Vec<String> = config
         .get("alias")
         .and_then(|a| a.as_array())
         .map(|a| {
@@ -291,7 +293,8 @@ pub fn refresh_settings_after_add(
         })
         .filter(|a: &Vec<String>| !a.is_empty())
         .unwrap_or_else(|| vec![name.to_string()]);
-    settings.alias.insert(name.to_string(), aliases);
+    let (kept, skipped) = crate::validate::filter_owned_triggers(settings, name, desired);
+    settings.alias.insert(name.to_string(), kept);
 
     // Per-completion config defaults from the first language manifest's `config` field.
     let lang = config
@@ -357,7 +360,7 @@ pub fn refresh_settings_after_add(
             .unwrap()
             .insert("enable_hooks".to_string(), serde_json::json!(false));
     }
-    Ok(())
+    Ok(skipped)
 }
 
 /// Read a locally installed completion's stable id from its config.json.
@@ -509,11 +512,13 @@ mod tests {
         .unwrap();
         let mut s = Settings::default();
         // First install: `hooks: false` seeds enable_hooks=false (disabled by default).
-        refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
+        let skipped = refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
+        assert!(skipped.is_empty());
         assert_eq!(s.config["completion"]["x"]["enable_hooks"], false);
         // Update: an existing entry is never rewritten (the user's opt-in survives).
         s.config["completion"]["x"]["enable_hooks"] = serde_json::json!(true);
-        refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
+        let skipped = refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
+        assert!(skipped.is_empty());
         assert_eq!(s.config["completion"]["x"]["enable_hooks"], true);
         std::fs::remove_dir_all(&base).ok();
     }
@@ -534,9 +539,36 @@ mod tests {
         )
         .unwrap();
         let mut s = Settings::default();
-        refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
+        let skipped = refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x").unwrap();
         // `hooks: true` writes no enable_hooks entry (absence means enabled).
+        assert!(skipped.is_empty());
         assert!(s.config["completion"]["x"].get("enable_hooks").is_none());
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn refresh_settings_after_add_keeps_earlier_owner() {
+        let base = test_base();
+        let dir = base.join("completions/new");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("config.json"),
+            r#"{"language":["en-US"],"alias":["hx","new"]}"#,
+        )
+        .unwrap();
+        let mut s = Settings::default();
+        s.alias.insert(
+            "helix".to_string(),
+            vec!["helix".to_string(), "hx".to_string()],
+        );
+        // `hx` stays with the earlier owner; only `new` is installed.
+        let skipped = refresh_settings_after_add(&mut s, base.to_str().unwrap(), "new").unwrap();
+        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
+        assert_eq!(s.alias.get("new").unwrap(), &vec!["new".to_string()]);
+        assert_eq!(
+            s.alias.get("helix").unwrap(),
+            &vec!["helix".to_string(), "hx".to_string()]
+        );
         std::fs::remove_dir_all(&base).ok();
     }
 

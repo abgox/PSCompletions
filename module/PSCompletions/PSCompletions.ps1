@@ -16,7 +16,6 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
         cache            = "$_/temp/cache"
         log              = "$_/temp/log"
         order            = "$_/temp/order"
-        alias_csv        = "$_/temp/alias.csv"
         completions_json = "$_/temp/completions.json"
         change           = "$_/temp/change.json"
     }
@@ -962,12 +961,6 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     if ($methodsOnly) { return }
     $PSCompletions.init_data()
     if (-not $PSCompletions.binary_ok) { return }
-    if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
-        Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
-    }
-    else {
-        Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
-    }
     Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
     $PSCompletions.initialized = $true
 }
@@ -1020,13 +1013,8 @@ else {
             $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
             $PSCompletions.trigger_key = $_.config.trigger_key
         }
+        Remove-Item "$($PSCompletions.path.temp)/alias.csv" -ErrorAction Ignore
         Remove-Item $PSCompletions.path.change -ErrorAction Ignore
     }
-}
-if ([System.IO.File]::Exists($PSCompletions.path.alias_csv)) {
-    Import-Alias $PSCompletions.path.alias_csv -Force -Scope Global -ErrorAction SilentlyContinue
-}
-else {
-    Set-Alias psc PSCompletions -Force -ErrorAction Ignore -Scope Global
 }
 Set-PSReadLineKeyHandler -Key $PSCompletions.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script

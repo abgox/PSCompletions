@@ -67,8 +67,13 @@ const MESSAGES: &[(&str, &str, &str)] = &[
     ),
     (
         "cmd_exist",
-        "与已有命令或别名冲突。",
-        "Conflicts with an existing command or alias.",
+        "为保留名称，不可用。",
+        "Reserved name, unavailable.",
+    ),
+    (
+        "alias_owned",
+        "触发别名已被 {owner} 占用，已跳过。",
+        "Trigger alias is already owned by {owner}, skipped.",
     ),
     ("alias_exist", "该别名已存在。", "The alias already exists."),
     (
@@ -85,12 +90,21 @@ const MESSAGES: &[(&str, &str, &str)] = &[
 
 /// Look up a bilingual CLI message (zh if the language starts with `zh`, else en).
 pub fn msg_cli(lang: &str, key: &str) -> String {
+    msg_fmt(lang, key, &[])
+}
+
+/// Look up a message and substitute `{name}` placeholders with the given values.
+pub fn msg_fmt(lang: &str, key: &str, vars: &[(&str, &str)]) -> String {
     let zh = lang.starts_with("zh");
-    MESSAGES
+    let mut text = MESSAGES
         .iter()
         .find(|(k, _, _)| *k == key)
         .map(|(_, z, e)| if zh { z.to_string() } else { e.to_string() })
-        .unwrap_or_default()
+        .unwrap_or_default();
+    for (k, v) in vars {
+        text = text.replace(&format!("{{{k}}}"), v);
+    }
+    text
 }
 
 #[cfg(test)]
@@ -110,5 +124,17 @@ mod tests {
     fn msg_cli_unknown_key_yields_empty_string() {
         assert_eq!(msg_cli("en-US", "no_such_key"), "");
         assert_eq!(msg_cli("zh-CN", "no_such_key"), "");
+    }
+
+    #[test]
+    fn msg_fmt_substitutes_placeholders_per_language() {
+        assert_eq!(
+            msg_fmt("zh-CN", "alias_owned", &[("owner", "helix")]),
+            "触发别名已被 helix 占用，已跳过。"
+        );
+        assert_eq!(
+            msg_fmt("en-US", "alias_owned", &[("owner", "helix")]),
+            "Trigger alias is already owned by helix, skipped."
+        );
     }
 }

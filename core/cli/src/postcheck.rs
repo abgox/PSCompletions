@@ -35,10 +35,10 @@ pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data
         .and_then(|x| x.as_str())
         .unwrap_or("")
         .to_string();
-    if add_completion(data_dir, "psc", &urls, &version).unwrap_or(false) {
-        if let Ok(()) = refresh_settings_after_add(settings, data_dir, "psc") {
-            let _ = settings.save(settings_path);
-        }
+    if add_completion(data_dir, "psc", &urls, &version).unwrap_or(false)
+        && refresh_settings_after_add(settings, data_dir, "psc").is_ok()
+    {
+        let _ = settings.save(settings_path);
     }
 }
 

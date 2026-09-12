@@ -111,15 +111,14 @@ PowerShell host applies the selection (PSConsoleReadLine::Replace); the
 
 The PowerShell host (`module/PSCompletions/PSCompletions.ps1` + `PSCompletions.psm1`) is the **bridge**.
 Import is cheap: it defines the `$PSCompletions` hashtable plus its ScriptMethods, then
-imports the pre-generated alias table `temp/alias.csv` (`psc`'s own aliases map to the
-`PSCompletions` function) so a fresh session can execute them immediately. The table is
-regenerated on every `psc` invocation (content-diff guarded; self-alias and path-like rows
-filtered). The PSReadLine trigger key is bound from `settings.json` directly. Heavy work
+ensures the module entry alias (`psc` → `PSCompletions`) so a fresh session can execute it
+immediately. Trigger aliases only open the completion menu — they never create execution
+aliases. The PSReadLine trigger key is bound from `settings.json` directly. Heavy work
 (the full bootstrap via `psc init --result`) stays deferred to `$PSCompletions.initialize()` on
 first Tab or first `psc`, gated by `initialized`/`binary_ok`:
 
 - `initialize()` adds deferred `ScriptMethod`s, runs `psc init --result` to bootstrap
-  `settings/aliasMap/info/default_config`, then re-imports `temp/alias.csv` and rebinds the
+  `settings/aliasMap/info/default_config`, then ensures the `psc` entry alias and rebinds the
   sanitized `trigger_key`, and sets `initialized=true`. `param([bool]$methodsOnly)`
   skips the full bootstrap for standalone scripts that only need the helper methods (keeps
   `initialized` false).

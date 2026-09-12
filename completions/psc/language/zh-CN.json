@@ -1724,10 +1724,10 @@
         "<@Cyan>[添加补全]\n",
         "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[触发别名]\n",
+        "<@Magenta>",
         "{{",
         "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
-        "$out -join \"`n\";",
+        "$alias -join \"`n\";",
         "\"`n<@Cyan>[特殊配置]\";",
         "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",
@@ -1753,16 +1753,14 @@
       ]
     },
     "alias": {
-      "add": {
-        "err": {
-          "cmd_exist": "<@Red>触发别名 <@Magenta>{{ $alias }}<@Red> 不可用, 因为 <@Magenta>{{ $alias }}<@Magenta><@Red> 是已存在的命令, 请设置其他触发别名"
-        }
-      },
       "rm": {
         "tip_v": [
           "移除此触发别名。"
         ]
-      }
+      },
+      "skipped": [
+        "<@Yellow>触发别名 <@Magenta>{{ $alias }}<@Yellow> 已被 <@Magenta>{{ $owner }}<@Yellow> 占用，已跳过。"
+      ]
     },
     "completion": {
       "enable_hooks": {
@@ -1905,10 +1903,10 @@
         "<@Cyan>[更新补全]\n",
         "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
         "<@Cyan>[触发别名]\n",
+        "<@Magenta>",
         "{{",
         "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$out = $alias | ForEach-Object { if($_ -in $conflict_alias){ '<@Magenta>' + $_+ ' <@Yellow>(命令已存在，请手动处理冲突)<@Magenta>' } else { '<@Magenta>' + $_ } };",
-        "$out -join \"`n\";",
+        "$alias -join \"`n\";",
         "\"`n<@Cyan>[特殊配置]\";",
         "if($json.config -or $config.hooks -ne $null){",
         "$configList = @();",

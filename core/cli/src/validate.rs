@@ -30,7 +30,7 @@ pub fn is_valid_name(name: &str) -> bool {
     if name.contains('/') || name.contains('\\') || name.contains(':') {
         return false;
     }
-    // Disallow control/space to avoid alias CSV injection.
+    // Disallow control/space to keep trigger words unambiguous.
     if name.chars().any(|c| c.is_control() || c == ' ') {
         return false;
     }
@@ -81,10 +81,36 @@ pub fn ensure_completion_map(settings: &mut Settings) -> &mut serde_json::Map<St
     comp.as_object_mut().unwrap()
 }
 
+/// Split `desired` trigger aliases for `name` into `(kept, skipped)`.
+/// A word already owned by another completion stays with its owner;
+/// each skipped word pairs with its owner's name for the warning.
+pub fn filter_owned_triggers(
+    settings: &Settings,
+    name: &str,
+    desired: Vec<String>,
+) -> (Vec<String>, Vec<(String, String)>) {
+    let mut kept = Vec::new();
+    let mut skipped = Vec::new();
+    for a in desired {
+        match settings
+            .alias
+            .iter()
+            .find(|(k, v)| k.as_str() != name && v.iter().any(|x| x == &a))
+            .map(|(k, _)| k.clone())
+        {
+            Some(owner) => skipped.push((a, owner)),
+            None => kept.push(a),
+        }
+    }
+    (kept, skipped)
+}
+
 /// Restore a completion's trigger aliases to its config.json alias (or the name itself).
-pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) {
+/// Words already owned by another completion stay with their owner;
+/// skipped words are returned for the warning.
+pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) -> Vec<(String, String)> {
     let config_path = format!("{data_dir}/completions/{name}/config.json");
-    let aliases: Vec<String> = read_text(&config_path)
+    let desired: Vec<String> = read_text(&config_path)
         .and_then(|t| serde_json::from_str::<Value>(&t).ok())
         .map(|config| {
             config
@@ -99,12 +125,56 @@ pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) {
                 .unwrap_or_else(|| vec![name.to_string()])
         })
         .unwrap_or_else(|| vec![name.to_string()]);
-    settings.alias.insert(name.to_string(), aliases);
+    let (kept, skipped) = filter_owned_triggers(settings, name, desired);
+    settings.alias.insert(name.to_string(), kept);
+    skipped
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn filter_owned_triggers_keeps_earlier_owner() {
+        let mut s = Settings::default();
+        s.alias.insert(
+            "helix".to_string(),
+            vec!["helix".to_string(), "hx".to_string()],
+        );
+        let (kept, skipped) = filter_owned_triggers(
+            &s,
+            "helix-xxx",
+            vec!["helix-xxx".to_string(), "hx".to_string()],
+        );
+        assert_eq!(kept, vec!["helix-xxx".to_string()]);
+        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
+        // A completion's own words are never filtered.
+        let (kept, skipped) =
+            filter_owned_triggers(&s, "helix", vec!["helix".to_string(), "hx".to_string()]);
+        assert_eq!(kept.len(), 2);
+        assert!(skipped.is_empty());
+    }
+
+    #[test]
+    fn reset_alias_skips_words_owned_by_earlier_completion() {
+        let base = std::env::temp_dir().join(format!("psc-validate-test-{}", std::process::id()));
+        let dir = base.join("completions/new");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("config.json"),
+            r#"{"language":["en-US"],"alias":["hx","new"]}"#,
+        )
+        .unwrap();
+        let mut s = Settings::default();
+        s.alias.insert(
+            "helix".to_string(),
+            vec!["helix".to_string(), "hx".to_string()],
+        );
+        let skipped = reset_alias(&mut s, base.to_str().unwrap(), "new");
+        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
+        assert_eq!(s.alias.get("new").unwrap(), &vec!["new".to_string()]);
+        std::fs::remove_dir_all(&base).ok();
+    }
 
     #[test]
     fn ensure_completion_map_handles_corrupt_config() {

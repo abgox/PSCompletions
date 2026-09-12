@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use serde_json::json;
 
 use crate::data::{Index, Settings};
-use crate::messages::msg_cli;
+use crate::messages::{msg_cli, msg_fmt};
 use crate::output::{fail, Out};
 use crate::validate::{data_dir_of, name_error, name_status, param_err, reset_alias};
 pub fn cmd_alias(
@@ -25,9 +25,15 @@ pub fn cmd_alias(
         if let Some(e) = name_error(lang, &name, status, true) {
             return fail(out, e, json);
         }
-        reset_alias(settings, &data_dir, &name);
+        let skipped = reset_alias(settings, &data_dir, &name);
         if let Err(e) = settings.save(settings_path) {
             return fail(out, format!("error: {e}"), json);
+        }
+        for (a, owner) in &skipped {
+            out.line(&format!(
+                "{a}: {}",
+                msg_fmt(lang, "alias_owned", &[("owner", owner)])
+            ));
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -39,11 +45,18 @@ pub fn cmd_alias(
             return fail(out, msg_cli(lang, "sub_cmd"), json);
         }
         let targets: Vec<String> = settings.list();
+        let mut skipped_all: Vec<(String, String)> = Vec::new();
         for n in &targets {
-            reset_alias(settings, &data_dir, n);
+            skipped_all.extend(reset_alias(settings, &data_dir, n));
         }
         if let Err(e) = settings.save(settings_path) {
             return fail(out, format!("error: {e}"), json);
+        }
+        for (a, owner) in &skipped_all {
+            out.line(&format!(
+                "{a}: {}",
+                msg_fmt(lang, "alias_owned", &[("owner", owner)])
+            ));
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -109,9 +122,16 @@ pub fn cmd_alias(
                 let conflict = settings
                     .alias
                     .iter()
-                    .any(|(k, v)| k != &name && v.iter().any(|x| x == a));
-                if conflict {
-                    reject(&mut rejected, a, msg_cli(lang, "cmd_exist"), json);
+                    .find(|(k, v)| k.as_str() != name && v.iter().any(|x| x == a))
+                    .map(|(k, _)| k.clone());
+                if let Some(owner) = conflict {
+                    // Already owned: the earlier owner keeps the word.
+                    reject(
+                        &mut rejected,
+                        a,
+                        msg_fmt(lang, "alias_owned", &[("owner", &owner)]),
+                        json,
+                    );
                     continue;
                 }
                 settings
