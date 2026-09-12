@@ -633,7 +633,12 @@ fn api_on_inner(
                                         "{PRE} option segments must be options, got {s:?}"
                                     )));
                                 }
-                                vec![if s.is_empty() { Seg::Any } else { Seg::Name(s) }]
+                                // A trailing `=` (attached-value marker) is not identity.
+                                vec![if s.is_empty() {
+                                    Seg::Any
+                                } else {
+                                    Seg::Name(s.strip_suffix('=').unwrap_or(&s).to_string())
+                                }]
                             }
                             Value::Table(t2) => {
                                 let len = t2.raw_len();
@@ -655,7 +660,12 @@ fn api_on_inner(
                                             "{PRE} option segments must be options, got {s:?}"
                                         )));
                                     }
-                                    segs.push(if s.is_empty() { Seg::Any } else { Seg::Name(s) });
+                                    // A trailing `=` (attached-value marker) is not identity.
+                                    segs.push(if s.is_empty() {
+                                        Seg::Any
+                                    } else {
+                                        Seg::Name(s.strip_suffix('=').unwrap_or(&s).to_string())
+                                    });
                                 }
                                 segs
                             }

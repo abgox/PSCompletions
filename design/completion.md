@@ -58,6 +58,14 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
   candidate values and unknown words never consume a static subcommand's candidate slot.
 - After consuming a value, the context resets to the nearest command context, so subcommands
   remain reachable.
+- **`=`-attached values**: a token starting with `-` and containing `=` (`--format=json`)
+  splits at the first `=` — the left side resolves as the option, the right side is its value,
+  identical to the space-separated form (completed: `option` + `value` tokens; unfinished:
+  `option` token + value `pending` whose text is the value segment only, so `initial_filter`
+  and the inserted word both operate on the segment while the menu re-attaches the
+  `--format=` head on apply). Declared spellings normalize one trailing `=` for identity
+  (`--format=` ≡ `--format` in matching, `opts`, `used`, `layers`). A valueless flag with `=`
+  or an unknown left side is `unknown` and completes nothing.
 
 The generation phase returns the **full candidate set of the current context** — it does
 **not** pre-filter by pending; filtering is left to the menu via `initial_filter`
@@ -144,6 +152,12 @@ Top-level manifest fields:
 > **Rule**: `[]` (empty array) is **forbidden for commands** — commands only have a subcommand
 > layer (`[...]`) or nothing. `[]` is **allowed for options** — it means "this option takes a
 > free-form value with no static candidates".
+
+> **Attached-value options**: an option whose value is joined with `=` is declared with a
+> trailing `=` in `name`/`alias` (`"name": "--format="`). Selecting it inserts `--format=`
+> with no trailing space (cursor stays behind the `=`); typing `--format=<TAB>` completes the
+> option's `next` values. `usage` should show the value shape (`--format=<FMT>`); a valueless
+> flag must not carry `=`.
 
 **`option` vs `global_option`**:
 

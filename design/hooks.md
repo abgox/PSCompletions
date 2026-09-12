@@ -79,8 +79,8 @@ end)
 
 | Field | Meaning |
 | --- | --- |
-| `psc.tokens` | **Completed** tokens, each `{ name, type, input }`. `name` is the **canonical** name of a known command/option (alias input still points at the main name); `type` ∈ `command`/`option`/`value`/`unknown`; `input` is the user's raw input (possibly an alias, lowercased). **Excludes the word being typed.** A token consumed as an option's value (even a non-matching one) has `type = "value"`; `"unknown"` only appears outside an option's value position. |
-| `psc.typing` | The token currently being typed (unfinished): `name`/`type`/`input` (same shape as a token element, `name` is best-effort and often empty) plus `option_like` — whether the input starts with `-` (heuristic, not definitive). Opposite of `tokens`: one is in progress, the other completed. When completing an option's value position, `type` is `"value"` (even for free-form values). |
+| `psc.tokens` | **Completed** tokens, each `{ name, type, input }`. `name` is the **canonical** name of a known command/option (alias input still points at the main name); `type` ∈ `command`/`option`/`value`/`unknown`; `input` is the user's raw input (possibly an alias, lowercased). **Excludes the word being typed.** A token consumed as an option's value (even a non-matching one) has `type = "value"`; `"unknown"` only appears outside an option's value position. An `=`-attached word (`--format=json`) appears as two tokens — `option` (input keeps the `=`, name is the `=`-stripped canonical) + `value` — mirroring the space-separated form, so existing "last token is the option" checks keep working. |
+| `psc.typing` | The token currently being typed (unfinished): `name`/`type`/`input` (same shape as a token element, `name` is best-effort and often empty) plus `option_like` — whether the input starts with `-` (heuristic, not definitive). Opposite of `tokens`: one is in progress, the other completed. When completing an option's value position, `type` is `"value"` (even for free-form values). For `--format=j<TAB>`, typing carries the value segment only (`j`). |
 | `psc.config` | The current command's **final** completion config, merged by the engine from three layers (later layers override earlier): **global config** (`psc config menu`, e.g. `enable_tip`) → **manifest `config` array defaults** (e.g. `max_commit: 30`) → **per-completion overrides** (`psc completion <name>`, e.g. `max_commit: 50`). Every key always has a value — no manual `or` fallback needed. Built-in keys: `enable_tip` / `enable_tip_usage` / `enable_tip_example` (bool, default `true`), `language` (same as the module's current language). Empty table when unconfigured (never nil). |
 | `psc.manifest` | The parsed manifest (JSON → table); hooks can read static data (e.g. git config keys). |
 | `psc._data` | **psc completion only** — aggregated module data (`settings.json`/`completions.json`) surfaced when manifest is `completions/psc`, else nil |
@@ -312,9 +312,11 @@ Contract:
 	  the engine does not recognize) suppresses injection, because the slot is already filled;
 	  `multiple = true` keeps matching through any number of positional arguments.
 - `spec.option` — an option chain matched as a **suffix** of the completed option sequence
-	  (string = a length-1 chain; array = a contiguous suffix, in order). Option values never
-	  enter the sequence, so `--move val --copy` still matches `{"--move","--copy"}`. `""`
-	  wildcards a segment; other segments must start with `-`. The suffix is deliberately
+  (string = a length-1 chain; array = a contiguous suffix, in order). Option values never
+  enter the sequence, so `--move val --copy` still matches `{"--move","--copy"}`. `""`
+  wildcards a segment; other segments must start with `-`. A trailing `=` in a segment is
+  not identity (`"--format="` matches `--format`, including its `=`-attached uses).
+  The suffix is deliberately
 	  NOT root-anchored: the option sequence has no root, and full anchoring would silently
 	  break every existing single-option spec. An option with `next` (empty or not) consumes
 	  the next token as its value (`type = "value"`), subject to "command/option wins" — a

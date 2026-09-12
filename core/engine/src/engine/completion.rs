@@ -24,8 +24,20 @@ impl Node {
     pub fn all_names(&self) -> impl Iterator<Item = &str> {
         std::iter::once(self.name.as_str()).chain(self.aliases.iter().map(|s| s.as_str()))
     }
+    /// Canonical identity of a declared spelling: one trailing `=` (the
+    /// attached-value marker, `--format=` / `-f=`) is not part of the identity.
+    pub(crate) fn canonical_spelling(s: &str) -> &str {
+        s.strip_suffix('=').unwrap_or(s)
+    }
+    pub(crate) fn canonical_name(&self) -> &str {
+        Self::canonical_spelling(&self.name)
+    }
     pub(crate) fn matches(&self, text: &str) -> bool {
-        self.all_names().any(|n| n.eq_ignore_ascii_case(text))
+        // Only the declared side is normalized: a typed word matches verbatim,
+        // so `--format=json` never matches here (it is split into option +
+        // value first) and a value like `abc=` never collides with a command.
+        self.all_names()
+            .any(|n| Self::canonical_spelling(n).eq_ignore_ascii_case(text))
     }
 }
 
@@ -68,6 +80,10 @@ pub struct PendingInfo {
     pub kind: Option<String>,
     /// Canonical name (best-effort; an unfinished word usually has none).
     pub canonical: Option<String>,
+    /// For an `=`-attached value (`--format=j<TAB>`): the option head including
+    /// the `=` (`--format=`). The menu pre-filters on `text` (the value segment
+    /// only) and prefixes this back onto the inserted word on apply.
+    pub value_prefix: Option<String>,
 }
 
 /// A generated candidate completion item.
@@ -202,10 +218,22 @@ fn build_node(json: &Value, is_option: bool) -> Node {
 /// switch into.
 /// Whether a node declares that it needs a value argument (has a `next` array,
 /// empty or not). An option with `next: [...]` or `next: []` consumes the next
-/// token as its value, unless that token is a known command or option
+/// token as its value, unless that token matches a known command or option
 /// ("command/option wins").
 fn needs_value_arg(n: &Node) -> bool {
     n.next_is_array
+}
+
+/// Split an `=`-attached option token (`--format=json`, `-f=x`) at the first
+/// `=`. Only option-shaped words (`-` prefix) qualify; anything else —
+/// including a value that merely contains `=` — is left alone. The command
+/// word itself never reaches `resolve` (arg tokens exclude it).
+fn split_eq_token(text: &str) -> Option<(&str, &str)> {
+    if !text.starts_with('-') {
+        return None;
+    }
+    let idx = text.find('=')?;
+    Some((&text[..idx], &text[idx + 1..]))
 }
 
 /// Whether a node changes the context when selected. Options with a `next` array
@@ -267,6 +295,38 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         let text = arg_tokens[i].clone();
         let is_last_unfinished = i == last_index && !treat_last_as_complete;
         if is_last_unfinished {
+            // `=`-attached value (`--format=j<TAB>`, `--format=<TAB>`): the
+            // option head is done, only the value segment is pending. The
+            // option counts as completed so hooks see the same shape as the
+            // space-separated form.
+            if let Some((left, right)) = split_eq_token(&text) {
+                if let Some(on) = find_option_node(&stack, tree, left) {
+                    if needs_value_arg(on) {
+                        let canon = on.canonical_name().to_string();
+                        opts.push(canon.clone());
+                        bump(&mut used, &canon);
+                        tokens.push(TokenInfo {
+                            text: format!("{left}="),
+                            kind: "option".into(),
+                            canonical: Some(canon.clone()),
+                        });
+                        if changes_context(on) {
+                            ctx = Some(on);
+                            stack.push(on);
+                            layers.push(("option".into(), canon));
+                        }
+                        pending = Some(PendingInfo {
+                            text: Some(right.to_string()),
+                            kind: Some("value".into()),
+                            // An unfinished word usually has no canonical name (it does not fully match
+                            // a command/option yet); `current.name` is best-effort and often nil.
+                            canonical: None,
+                            value_prefix: Some(format!("{left}=")),
+                        });
+                        break;
+                    }
+                }
+            }
             let kind = classify(ctx, &stack, tree, &text);
             pending = Some(PendingInfo {
                 text: Some(text.clone()),
@@ -274,23 +334,61 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 // An unfinished word usually has no canonical name (it does not fully match
                 // a command/option yet); `current.name` is best-effort and often nil.
                 canonical: None,
+                value_prefix: None,
             });
             break;
+        }
+        // `=`-attached value (`--format=json`): counts as the option plus its
+        // value, mirroring the space-separated form. Unknown left side, or a
+        // valueless flag with `=`, falls through to the normal path.
+        if let Some((left, right)) = split_eq_token(&text) {
+            if let Some(on) = find_option_node(&stack, tree, left) {
+                if needs_value_arg(on) {
+                    let canon = on.canonical_name().to_string();
+                    opts.push(canon.clone());
+                    bump(&mut used, &canon);
+                    tokens.push(TokenInfo {
+                        text: format!("{left}="),
+                        kind: "option".into(),
+                        canonical: Some(canon.clone()),
+                    });
+                    tokens.push(TokenInfo {
+                        text: right.to_string(),
+                        kind: "value".into(),
+                        canonical: None,
+                    });
+                    // Same reset as a consumed space-separated value: back to
+                    // the nearest command context.
+                    let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
+                    if let Some(idx) = cmd_idx {
+                        ctx = stack.get(idx).copied();
+                        stack.truncate(idx + 1);
+                        layers.truncate(idx + 1);
+                    } else {
+                        ctx = None;
+                        stack.clear();
+                        layers.clear();
+                    }
+                    i += 1;
+                    continue;
+                }
+            }
         }
         // Option
         let opt_node = find_option_node(&stack, tree, &text);
         if let Some(on) = opt_node {
-            opts.push(on.name.clone());
-            bump(&mut used, &on.name);
+            let canon = on.canonical_name().to_string();
+            opts.push(canon.clone());
+            bump(&mut used, &canon);
             tokens.push(TokenInfo {
                 text: text.clone(),
                 kind: "option".into(),
-                canonical: Some(on.name.clone()),
+                canonical: Some(canon.clone()),
             });
             if changes_context(on) {
                 ctx = Some(on);
                 stack.push(on);
-                layers.push(("option".into(), on.name.clone()));
+                layers.push(("option".into(), canon));
             }
         } else {
             // "Command/option wins": an option with `next` (empty or not) needs a
@@ -384,57 +482,78 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         }
     }
     let mut candidates: Vec<&Node> = Vec::new();
-    let ctx_is_root = ctx.is_none();
-    if ctx_is_root {
-        add_next_if_not_seen(&mut candidates, &tree.next, &seen);
-        for n in &tree.options {
-            candidates.push(n);
-        }
-    } else if let Some(c) = ctx {
-        // After consuming an option value (e.g. `--depth 1`),
-        // the ctx is at the value node (or the option node, when the value is
-        // still pending). In both cases, show the next candidates from the
-        // nearest command context instead of the value/option node's next.
-        // Also truncate `layers` so that hooks fire at the correct position.
-        let ctx_is_option = ctx.map(|c| c.is_option).unwrap_or(false);
-        let is_value_context = tokens.last().is_some_and(|t| t.kind == "value")
-            || pending
-                .as_ref()
-                .and_then(|p| p.kind.as_deref())
-                .is_some_and(|k| k == "value" || (k == "command" && ctx_is_option));
-        if is_value_context {
-            let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
-            if let Some(idx) = cmd_idx {
-                if let Some(cmd_node) = stack.get(idx) {
-                    add_next_if_not_seen(&mut candidates, &cmd_node.next, &seen);
-                }
-                layers.truncate(idx + 1);
-            } else {
-                add_next_if_not_seen(&mut candidates, &tree.next, &seen);
-                layers.clear();
-            }
-        } else {
+    // `=`-attached value pending (`--format=j<TAB>`): only the owning option's
+    // value candidates can follow inside the token — never sibling commands,
+    // options, or globals. `layers` keeps the option so hooks fire at it.
+    let eq_value_pending = pending
+        .as_ref()
+        .and_then(|p| p.value_prefix.as_ref())
+        .is_some()
+        && ctx.map(|c| c.is_option).unwrap_or(false);
+    if eq_value_pending {
+        if let Some(c) = ctx {
             add_next_if_not_seen(&mut candidates, &c.next, &seen);
         }
-        for n in option_source(&stack, tree) {
+    } else {
+        let ctx_is_root = ctx.is_none();
+        if ctx_is_root {
+            add_next_if_not_seen(&mut candidates, &tree.next, &seen);
+            for n in &tree.options {
+                candidates.push(n);
+            }
+        } else if let Some(c) = ctx {
+            // After consuming an option value (e.g. `--depth 1`),
+            // the ctx is at the value node (or the option node, when the value is
+            // still pending). In both cases, show the next candidates from the
+            // nearest command context instead of the value/option node's next.
+            // Also truncate `layers` so that hooks fire at the correct position.
+            let ctx_is_option = ctx.map(|c| c.is_option).unwrap_or(false);
+            let is_value_context = tokens.last().is_some_and(|t| t.kind == "value")
+                || pending
+                    .as_ref()
+                    .and_then(|p| p.kind.as_deref())
+                    .is_some_and(|k| k == "value" || (k == "command" && ctx_is_option));
+            if is_value_context {
+                let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
+                if let Some(idx) = cmd_idx {
+                    if let Some(cmd_node) = stack.get(idx) {
+                        add_next_if_not_seen(&mut candidates, &cmd_node.next, &seen);
+                    }
+                    layers.truncate(idx + 1);
+                } else {
+                    add_next_if_not_seen(&mut candidates, &tree.next, &seen);
+                    layers.clear();
+                }
+            } else {
+                add_next_if_not_seen(&mut candidates, &c.next, &seen);
+            }
+            for n in option_source(&stack, tree) {
+                candidates.push(n);
+            }
+        }
+        for n in &tree.global_options {
             candidates.push(n);
         }
-    }
-    for n in &tree.global_options {
-        candidates.push(n);
-    }
 
-    // A pending word that matches a known subcommand is itself offered as a candidate
-    if let Some(p) = &pending {
-        if let Some(t) = &p.text {
-            let matched = find_command(ctx, tree, t);
-            if let Some(mn) = matched {
-                // Skip when already offered from the context's own list (e.g. an option
-                // candidate-value layer), so the item never appears twice.
-                if used.get(&mn.name.to_lowercase()).copied().unwrap_or(0) == 0
-                    && !candidates.iter().any(|c| std::ptr::eq(*c, mn))
-                {
-                    candidates.push(mn);
+        // A pending word that matches a known subcommand is itself offered as a candidate
+        // (skipped for `=`-attached values: the segment can only be the option's value).
+        if pending
+            .as_ref()
+            .and_then(|p| p.value_prefix.as_ref())
+            .is_none()
+        {
+            if let Some(p) = &pending {
+                if let Some(t) = &p.text {
+                    let matched = find_command(ctx, tree, t);
+                    if let Some(mn) = matched {
+                        // Skip when already offered from the context's own list (e.g. an option
+                        // candidate-value layer), so the item never appears twice.
+                        if used.get(&mn.name.to_lowercase()).copied().unwrap_or(0) == 0
+                            && !candidates.iter().any(|c| std::ptr::eq(*c, mn))
+                        {
+                            candidates.push(mn);
+                        }
+                    }
                 }
             }
         }
@@ -443,7 +562,11 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
     // Assemble items (repeat limits + name/alias expansion)
     let mut items: Vec<CompletionItem> = Vec::new();
     for n in &candidates {
-        let used_count = used.get(&n.name.to_lowercase()).copied().unwrap_or(0);
+        // Repeat counts are keyed by canonical identity (trailing-`=` stripped).
+        let used_count = used
+            .get(&Node::canonical_spelling(&n.name).to_lowercase())
+            .copied()
+            .unwrap_or(0);
         if n.repeat == 0 && used_count > 0 {
             continue;
         }
@@ -861,6 +984,130 @@ mod tests {
             "custom",
             "value text should be the typed word"
         );
+    }
+
+    #[test]
+    fn eq_attached_value_splits_completed_token() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--format", "next": [ { "name": "json" }, { "name": "yaml" } ] },
+                { "name": "--amend" }
+            ] } ],
+            "option": [ { "name": "--verbose" } ]
+        }));
+        // commit --format=json (completed) ≡ commit --format json
+        let r = resolve(&tree, &["commit".into(), "--format=json".into()], true);
+        assert_eq!(r.context.path, vec!["commit"]);
+        assert_eq!(r.context.opts, vec!["--format"]);
+        let kinds: Vec<&str> = r.context.tokens.iter().map(|t| t.kind.as_str()).collect();
+        assert_eq!(kinds, vec!["command", "option", "value"]);
+        assert_eq!(r.context.tokens[1].text, "--format=");
+        assert_eq!(r.context.tokens[1].canonical.as_deref(), Some("--format"));
+        assert_eq!(r.context.tokens[2].text, "json");
+        // A value containing `=` splits at the first one only.
+        let r2 = resolve(&tree, &["commit".into(), "--format=a=b".into()], true);
+        assert_eq!(r2.context.tokens[2].text, "a=b");
+        assert_eq!(r2.context.tokens[2].kind, "value");
+    }
+
+    #[test]
+    fn eq_attached_value_pending_completes_value_segment() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--format", "next": [ { "name": "json" }, { "name": "yaml" } ] },
+                { "name": "--amend" }
+            ] } ],
+            "option": [ { "name": "--verbose" } ]
+        }));
+        // commit --format=j<TAB>: pending is the value segment only.
+        let r = resolve(&tree, &["commit".into(), "--format=j".into()], false);
+        let p = r.context.pending.as_ref().unwrap();
+        assert_eq!(p.text.as_deref(), Some("j"));
+        assert_eq!(p.kind.as_deref(), Some("value"));
+        assert_eq!(p.value_prefix.as_deref(), Some("--format="));
+        // The option counts as completed (hooks see the space-form shape).
+        assert_eq!(r.context.tokens.last().unwrap().kind, "option");
+        assert_eq!(r.context.tokens.last().unwrap().text, "--format=");
+        assert_eq!(r.context.opts, vec!["--format"]);
+        // Only the option's own values are offered — no sibling options/globals.
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(texts.contains(&"json"));
+        assert!(texts.contains(&"yaml"));
+        assert!(!texts.contains(&"--amend"));
+        assert!(!texts.contains(&"--verbose"));
+        // Dangling `=`: all values offered, nothing pre-filtered.
+        let r2 = resolve(&tree, &["commit".into(), "--format=".into()], false);
+        let p2 = r2.context.pending.as_ref().unwrap();
+        assert_eq!(p2.text.as_deref(), Some(""));
+        assert_eq!(p2.value_prefix.as_deref(), Some("--format="));
+        assert!(r2.items.iter().any(|i| i.text == "json"));
+    }
+
+    #[test]
+    fn eq_declared_name_matches_bare_and_keeps_eq_on_insert() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--format=", "next": [ { "name": "json" } ] }
+            ] } ]
+        }));
+        // Bare `--format` still matches the declared `--format=`.
+        let r = resolve(&tree, &["commit".into(), "--format".into()], true);
+        assert_eq!(r.context.opts, vec!["--format"]);
+        // The offered text keeps the `=` (the host suppresses the space).
+        let r0 = resolve(&tree, &["commit".into()], true);
+        assert!(r0.items.iter().any(|i| i.text == "--format="));
+        // `=`-form resolves against the declared `=` spelling too.
+        let r2 = resolve(&tree, &["commit".into(), "--format=j".into()], false);
+        assert_eq!(
+            r2.context
+                .pending
+                .as_ref()
+                .and_then(|p| p.value_prefix.as_deref()),
+            Some("--format=")
+        );
+        assert!(r2.items.iter().any(|i| i.text == "json"));
+    }
+
+    #[test]
+    fn eq_valueless_flag_and_unknown_left_stay_silent() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--format", "next": [ { "name": "json" } ] },
+                { "name": "--amend" }
+            ] } ]
+        }));
+        // Boolean flag with `=`: recognized shape, no value slot → unknown, silent.
+        let r = resolve(&tree, &["commit".into(), "--amend=x".into()], true);
+        assert_eq!(r.context.tokens.last().unwrap().kind, "unknown");
+        let r2 = resolve(&tree, &["commit".into(), "--amend=x".into()], false);
+        assert_eq!(
+            r2.context.pending.as_ref().and_then(|p| p.kind.as_deref()),
+            Some("unknown")
+        );
+        // Unknown left side: untouched by the split.
+        let r3 = resolve(&tree, &["commit".into(), "--nope=x".into()], true);
+        assert_eq!(r3.context.tokens.last().unwrap().kind, "unknown");
+    }
+
+    #[test]
+    fn eq_attached_use_counts_toward_repeat() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--format", "next": [ { "name": "json" } ] }
+            ] } ]
+        }));
+        // Second use of a repeat-0 option is filtered, attached or not.
+        let r = resolve(
+            &tree,
+            &["commit".into(), "--format=a".into(), "--format=b".into()],
+            true,
+        );
+        assert!(!r.items.iter().any(|i| i.text == "--format"));
     }
 
     #[test]

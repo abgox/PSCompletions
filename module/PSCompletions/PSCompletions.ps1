@@ -372,8 +372,10 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod handle_menu_output -Force {
         param($item)
-        $suffix = if ($PSCompletions.config.enable_append_space) { ' ' } else { '' }
         $out = $item.CompletionText.Trim()
+        # An attached-value option (`-x=` / `--format=`) takes its value in the
+        # same word: never append a space, the cursor stays behind the `=`.
+        $suffix = if ($PSCompletions.config.enable_append_space -and $out -notmatch '^-.*=$') { ' ' } else { '' }
         if ($null -eq $item.ResultType) {
             if ($PSCompletions.buffer_after_cursor -match '^\s+[^\s]') {
                 return $out

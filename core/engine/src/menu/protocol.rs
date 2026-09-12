@@ -23,6 +23,17 @@ pub fn lua_to_model_item(it: &hooks::LuaItem, switch_sym: &str, stay_sym: &str) 
     }
 }
 
+/// `=`-attached value (`--format=j<TAB>`): the menu lists bare values, but the
+/// host replaces the whole word — prefix the option head back onto the inserted
+/// text only (display text stays bare).
+pub fn apply_value_prefix(items: &mut [model::Item], ctx: &completion::ResolvedContext) {
+    if let Some(prefix) = ctx.pending.as_ref().and_then(|p| p.value_prefix.as_deref()) {
+        for it in items.iter_mut() {
+            it.completion_text = format!("{prefix}{}", it.completion_text);
+        }
+    }
+}
+
 pub fn get_flag(args: &[String], flag: &str) -> Option<String> {
     args.iter()
         .position(|a| a == flag)
@@ -1206,5 +1217,44 @@ mod tests {
             "explicit path candidates rank by shared path-leaf frequency at any depth"
         );
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn apply_value_prefix_prefixes_insert_text_only() {
+        let items: Vec<model::Item> = ["json", "yaml"]
+            .iter()
+            .map(|t| {
+                lua_to_model_item(
+                    &hooks::LuaItem {
+                        text: t.to_string(),
+                        ..Default::default()
+                    },
+                    "~",
+                    "?",
+                )
+            })
+            .collect();
+        // `=`-attached value: inserted text regains the option head, display stays bare.
+        let mut prefixed = items.clone();
+        let ctx = completion::ResolvedContext {
+            pending: Some(completion::PendingInfo {
+                text: Some("j".into()),
+                kind: Some("value".into()),
+                canonical: None,
+                value_prefix: Some("--format=".into()),
+            }),
+            ..Default::default()
+        };
+        apply_value_prefix(&mut prefixed, &ctx);
+        assert_eq!(prefixed[0].completion_text, "--format=json");
+        assert_eq!(prefixed[0].list_item_text, "json");
+        // No `=` pending: untouched.
+        let mut plain = items.clone();
+        let plain_ctx = completion::ResolvedContext {
+            pending: None,
+            ..Default::default()
+        };
+        apply_value_prefix(&mut plain, &plain_ctx);
+        assert_eq!(plain[0].completion_text, "json");
     }
 }

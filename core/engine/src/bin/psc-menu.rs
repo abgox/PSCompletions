@@ -111,6 +111,10 @@ fn main() -> ExitCode {
                                 .iter()
                                 .map(|it| lua_to_model_item(it, &switch_sym, &stay_sym))
                                 .collect();
+                            // `=`-attached value: the menu shows bare values, but the host
+                            // replaces the whole word, so prefix the option head back
+                            // (`--format=` + `json`) for the inserted text only.
+                            apply_value_prefix(&mut input.items, &ctx);
                             if input.initial_filter.is_none() {
                                 input.initial_filter = ctx
                                     .pending
