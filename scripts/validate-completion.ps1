@@ -72,6 +72,7 @@ $L = @{
         cfg_hooksFlagNoFile    = 'config.hooks=true/false but hooks.lua does not exist'
         cfg_hooksFileNoFlag    = 'hooks.lua exists but config.hooks is not declared (set true or false)'
         cfg_aliasExtension     = 'config.alias "{0}" should not have a .cmd/.exe/.bat suffix'
+        cfg_duplicateId        = 'config.id "{0}" is already used by "{1}" (id must be globally unique, generate a new UUID)'
         i18n_spacing           = 'Chinese and English must be separated by a space at {0}: "{1}"'
         noIssues               = 'No issues found'
     }
@@ -111,6 +112,7 @@ $L = @{
         cfg_hooksFlagNoFile    = 'config.hooks 为 true/false 但 hooks.lua 不存在'
         cfg_hooksFileNoFlag    = 'hooks.lua 存在但 config.hooks 未声明（请设为 true 或 false）'
         cfg_aliasExtension     = 'config.alias "{0}" 不应含 .cmd/.exe/.bat 后缀'
+        cfg_duplicateId        = 'config.id "{0}" 已被 "{1}" 使用（id 必须全局唯一，请生成新的 UUID）'
         i18n_spacing           = '中英之间需空格于 {0}："{1}"'
         noIssues               = '未发现问题'
     }
@@ -257,6 +259,85 @@ function Get-ConfigIssues {
     return $issues
 }
 
+function Get-IdIssues {
+    param([string[]]$Names, [string]$Root, [string]$CompletionsDir)
+    $issuesByName = @{}
+
+    # Baseline: completions.json
+    # In CI the workspace holds base/ and pr/ side by side (check-completion.yml),
+    # so prefer the trusted base index; locally fall back to the repo index.
+    $localIndex = Join-Path $Root 'completions.json'
+    $baseIndex = Join-Path (Split-Path -Parent $Root) 'base/completions.json'
+    $baselineFile = $localIndex
+    if ($env:GITHUB_ACTIONS -and (Test-Path -LiteralPath $baseIndex)) { $baselineFile = $baseIndex }
+
+    $baselineIdToNames = @{}
+    try {
+        if (Test-Path -LiteralPath $baselineFile) {
+            $idx = Get-Content -LiteralPath $baselineFile -Raw -ErrorAction Stop | ConvertFrom-Json -AsHashtable -ErrorAction Stop
+            $meta = $idx['meta']
+            if ($meta -is [System.Collections.IDictionary]) {
+                foreach ($k in $meta.Keys) {
+                    $entry = $meta[$k]
+                    $id = if ($entry -is [System.Collections.IDictionary]) { $entry['id'] } else { $null }
+                    if ($id -is [string]) {
+                        if (-not $baselineIdToNames.ContainsKey($id)) { $baselineIdToNames[$id] = [System.Collections.Generic.List[object]]::new() }
+                        $baselineIdToNames[$id].Add($k)
+                    }
+                }
+            }
+        }
+    }
+    catch { }
+
+    $currentIds = @{}
+    $currentOrigIds = @{}
+    foreach ($n in $Names) {
+        $cfgFile = Join-Path (Join-Path $CompletionsDir $n) 'config.json'
+        try {
+            $cfg = Get-Content -LiteralPath $cfgFile -Raw -ErrorAction Stop | ConvertFrom-Json -AsHashtable -ErrorAction Stop
+            $id = $cfg['id']
+            if ($id -is [string]) {
+                $currentIds[$n] = $currentOrigIds[$n] = $id
+            }
+        }
+        catch { }
+    }
+
+    # Duplicates within the current batch (e.g. two new completions sharing one id).
+    $byId = @{}
+    foreach ($n in $currentIds.Keys) {
+        $id = $currentIds[$n]
+        if (-not $byId.ContainsKey($id)) { $byId[$id] = [System.Collections.Generic.List[object]]::new() }
+        $byId[$id].Add($n)
+    }
+    foreach ($id in $byId.Keys) {
+        if (@($byId[$id]).Count -gt 1) {
+            $owners = (($byId[$id] | Sort-Object) -join ', ')
+            foreach ($n in @($byId[$id])) {
+                if (-not $issuesByName.ContainsKey($n)) { $issuesByName[$n] = [System.Collections.Generic.List[object]]::new() }
+                $issuesByName[$n].Add(@{ code = 'cfg_duplicateId'; args = @($currentOrigIds[$n], $owners) })
+            }
+        }
+    }
+
+    # Duplicates against the baseline index. Same name + same id is fine (update).
+    # A baseline owner whose directory no longer exists is a rename, allow it.
+    foreach ($n in @($currentIds.Keys)) {
+        $id = $currentIds[$n]
+        if (-not $baselineIdToNames.ContainsKey($id)) { continue }
+        foreach ($owner in @($baselineIdToNames[$id])) {
+            if ($owner -eq $n) { continue }
+            if (-not (Test-Path -LiteralPath (Join-Path $CompletionsDir $owner))) { continue }
+            if ($owner -in @($byId[$id])) { continue }
+            if (-not $issuesByName.ContainsKey($n)) { $issuesByName[$n] = [System.Collections.Generic.List[object]]::new() }
+            $issuesByName[$n].Add(@{ code = 'cfg_duplicateId'; args = @($currentOrigIds[$n], $owner) })
+        }
+    }
+
+    return $issuesByName
+}
+
 function Get-HookSyntaxIssues {
     param([string]$HooksFile)
     # Lua hooks can't be checked with the PowerShell parser; only verify the file exists and is non-empty
@@ -385,6 +466,17 @@ foreach ($name in $CompletionList) {
     $entry.hasIssues = $entry.issues.schema.Count -gt 0 -or $entry.issues.config.Count -gt 0 -or $entry.issues.hooks.Count -gt 0 -or $entry.issues.compare.Count -gt 0
 
     $results.Add([pscustomobject]$entry)
+}
+
+# id uniqueness across completions (baseline: base/completions.json in CI, else local completions.json)
+if ($results.Count -gt 0) {
+    $idIssues = Get-IdIssues -Names @($results | ForEach-Object { $_.name }) -Root $root -CompletionsDir $completionsDir
+    foreach ($entry in $results) {
+        if ($idIssues.ContainsKey($entry.name)) {
+            foreach ($i in $idIssues[$entry.name]) { $entry.issues.config.Add($i) }
+            $entry.hasIssues = $true
+        }
+    }
 }
 
 # compare-json processes all completions at once
