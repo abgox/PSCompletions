@@ -185,37 +185,121 @@ psc.cwd = ""
 ---@type "windows"|"macos"|"linux"
 psc.platform = "windows"
 
+--- 清单元信息。
+---
+--- Manifest metadata.
 ---@class psc_manifest_meta
+--- 主页或仓库地址。
+---
+--- Homepage or repository URL.
 ---@field url string
+--- 补全命令的描述。
+---
+--- Description of the completion command.
 ---@field description string[]
 
+--- 清单中 usage / example 的对象形式。
+---
+--- Object form of usage / example in the manifest.
 ---@class psc_manifest_usage_example
+--- 调用语法。
+---
+--- Invocation syntax.
 ---@field cmd string
+--- 解释说明。
+---
+--- Explanation.
 ---@field desc string
 
+--- 清单中的命令项（`next` 数组成员）。
+---
+--- A command entry in the manifest (a `next` array member).
 ---@class psc_manifest_next
+--- 完整名称（规范名）。
+---
+--- Full (canonical) name.
 ---@field name string
----@field alias string[]
----@field tip string[]
----@field usage (string|psc_manifest_usage_example)[]
----@field example (string|psc_manifest_usage_example)[]
----@field repeat number
----@field option psc_manifest_option
----@field next psc_manifest_next
+--- 别名。
+---
+--- aliases.
+---@field alias? string[]
+--- 描述文本。
+---
+--- Description text.
+---@field tip? string[]
+--- 用法行。
+---
+--- Usage lines.
+---@field usage? (string|psc_manifest_usage_example)[]
+--- 示例行。
+---
+--- Example lines.
+---@field example? (string|psc_manifest_usage_example)[]
+--- 该命令的选项。
+---
+--- Options of this command.
+---@field option? psc_manifest_option[]
+--- 子命令。
+---
+--- Subcommands.
+---@field next? psc_manifest_next[]
 
+--- 清单中的选项（`option` / `global_option` 数组成员）。
+---
+--- An option entry in the manifest (an `option` / `global_option` array member).
 ---@class psc_manifest_option
+--- 完整名称（规范名）。
+---
+--- Full (canonical) name.
 ---@field name string
----@field alias string[]
----@field tip string[]
----@field usage (string|psc_manifest_usage_example)[]
----@field example (string|psc_manifest_usage_example)[]
----@field repeat number
----@field next psc_manifest_next
+--- 别名。
+---
+--- aliases.
+---@field alias? string[]
+--- 描述文本。
+---
+--- Description text.
+---@field tip? string[]
+--- 用法行。
+---
+--- Usage lines.
+---@field usage? (string|psc_manifest_usage_example)[]
+--- 示例行。
+---
+--- Example lines.
+---@field example? (string|psc_manifest_usage_example)[]
+--- 最大重复次数。
+---
+--- Maximum repeat count.
+---@field repeat? number
+--- 列表值分隔符。
+---
+--- Separator for list values.
+---@field separator? string
+--- 候选值（空数组表示自由输入）。
+---
+--- Candidate values (empty array means free-form input).
+---@field next? psc_manifest_next[]
 
+--- 清单中的特殊配置项。
+---
+--- A special configuration entry in the manifest.
 ---@class psc_manifest_config
+--- 配置项名称。
+---
+--- Configuration entry name.
 ---@field name string
+--- 默认值。
+---
+--- Default value.
 ---@field value string|number
----@field values (string|number)[]
+--- 可选值（触发配置补全时展示）。
+---
+--- Optional values (shown when the config completion triggers).
+---@field values? (string|number)[]
+--- 提示信息。
+---
+--- Tip text.
 ---@field tip string[]
 
 --- 解析后的补全清单。
@@ -226,7 +310,7 @@ psc.platform = "windows"
 ---@field next? psc_manifest_next[]
 ---@field option? psc_manifest_option[]
 ---@field global_option? psc_manifest_option[]
----@field config? psc_manifest_config
+---@field config? psc_manifest_config[]
 ---@field info? table
 psc.manifest = { meta = { url = "", description = {} } }
 
@@ -251,13 +335,13 @@ psc.manifest = { meta = { url = "", description = {} } }
 --- 选项链（后缀匹配）
 ---
 --- - 必须为清单中定义的规范名（`name`）
---- - 与 `option` 同时设置表示 AND（需同时匹配）
+--- - 与 `command` 同时设置表示 AND（需同时匹配）
 --- - `""` 表示通配任意一段
 ---
 --- Option chain (suffix match)
 ---
 --- - Must be the canonical name (`name` in manifest)
---- - Coexisting with `option` as AND (both must match)
+--- - Coexisting with `command` as AND (both must match)
 --- - `""` is a wildcard matching any segment
 ---@field option? string|string[]
 --- 是否允许多次匹配
@@ -329,6 +413,33 @@ function psc.mount_items(manifest_path_chain) end
 ---@return psc_item|psc_item[]|nil
 function psc.add(item_or_items) end
 
+--- `psc.token` 的查找规格。
+---
+--- The lookup spec of `psc.token`.
+---@class psc_token_spec
+--- 按规范名匹配。
+---
+--- Matches by canonical name.
+---@field name? string
+--- 按 token 类型过滤。
+---
+--- - `"command"`: 在清单中被定义为 `next` 的命令
+--- - `"option"`: 在清单中被定义为 `option` 的选项
+--- - `"value"`: 被作为选项的值消费
+--- - `"unknown"`: 完全自由的值（清单中未定义的未知值，除非它被作为选项的值消费）
+---
+--- Filters by token type.
+---
+--- - `"command"`: the command defined as `next` in the manifest
+--- - `"option"`: the option defined as `option` in the manifest
+--- - `"value"`: consumed as an option's value
+--- - `"unknown"`: a truly free-form value (undefined values in the manifest, unless it is consumed as an option's value)
+---@field type? "command"|"option"|"value"|"unknown"
+--- 为 `true` 时大小写敏感，默认不敏感。
+---
+--- Case-sensitive when `true`, insensitive by default.
+---@field case_sensitive? true
+
 --- 在 `psc.tokens` 中按条件查找首个匹配的 token。
 ---
 --- - `spec` 省略或空表 → 首个 token（任意 `type`）
@@ -344,7 +455,7 @@ function psc.add(item_or_items) end
 --- - `spec.type` → filter by `type`
 --- - `spec.case_sensitive` true → case-sensitive, default insensitive
 --- - `nil` if not found
----@param spec? {name?: string, type?: "command"|"option"|"value"|"unknown", case_sensitive?: true}
+---@param spec? psc_token_spec
 ---@return psc_token?
 function psc.token(spec) end
 
