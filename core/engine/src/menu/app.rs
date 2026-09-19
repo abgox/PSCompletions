@@ -231,8 +231,10 @@ pub fn run(input_path: &str) -> Output {
     if state.filtered.is_empty() {
         return Output::cancel();
     }
-    // Async switch symbol: menu draws immediately with static symbols.
-    // A background peek computes whether the selected row has a next context beyond globals.
+    // Async symbol refinement: menu draws immediately with static symbols
+    // (`switch` fast path, `stay` default for options). A background peek
+    // upgrades rows whose apply opens a new layer, and drops rows whose
+    // next menu is empty; only `switch` rows skip the peek.
     let peek_input: Option<CompleteInput> = input
         .build
         .as_ref()

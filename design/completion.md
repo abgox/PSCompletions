@@ -91,17 +91,21 @@ Each menu item may carry a **predict symbol** showing how applying it changes th
 
 | Symbol | Config item | Meaning |
 | --- | --- | --- |
-| `~` | `switch` | Apply → **switch to a new context** — `peek(input+[candidate])` has non-`global` candidates beyond `parent(input)` |
-| `?` | `stay` | Apply → **stay in current layer** — no new layer, but `peek(input+[candidate])` still has non-`global` candidates (e.g. `scoop install -u` keeps `apps`) |
-| — | — | No follow-up beyond `global_option` (leaf like `scoop checkup` whose `peek` is only `--help/--version`) |
+| `~` | `switch` | Apply → **landing is richer than the parent layer** — `peek(input+[candidate])` has non-`global` candidates beyond `parent(input)` (static subcommands/options, dynamic values/follow-ups, or a reset to a richer command layer) |
+| `?` | `stay` | Apply → **landing is alive** — the next menu is non-empty: same layer (flags/values), a terminal-ambient layer (leaf commands like `leaf`, `npm run` with no scripts, `scoop checkup` whose `peek` is only `--help/--version`), or a reset command layer |
+| — | — | Apply → **landing is dead** — the next menu is empty (exhausted `=`-value slot with no candidates). Rare by design: every layer inherits ambient options, so a dead landing means truly nothing remains. |
 
-**Engine judgement**: static `has_static_candidates(next/option non-empty)` → immediate `~` (fast path, e.g. `git stash`); otherwise async `peek_predict_symbol` in `menu/protocol.rs`:
+Legend in one line: **`~` new fruit ahead, `?` lands alive, no symbol lands dead.** Repeat/slot gating decides what remains pickable (a consumed single value vanishes from the list); the symbol only reports the landing.
 
-- `has_new = peek - parent - global ≠ ∅` → `switch(~)` (`install`→`7zip` new)
-- `!has_new && peek - global ≠ ∅ && candidate.is_option && !is_global` → `stay(?)` (`-u` stays in `install` layer)
-- else `None` (`checkup` only `global`)
+User-facing, "context" means the visible candidate list rather than the engine's path/layers: `stay` = the same list minus consumed or mutually exclusive rows (a used option vanishes; sibling subcommands vanish once one is picked); `switch` = the list gains rows it never had.
 
-`global_option` and parent-inherited `option` are excluded first, avoiding `scoop --help` being misjudged as `~`.
+**Engine judgement**: static phase gives the optimistic default — `has_static_candidates(next/option non-empty)` → immediate `~` (fast path, e.g. `git stash`); anything else → `stay` (presumed alive). Then async `peek_predict_symbol` in `menu/protocol.rs` refines per selected row:
+
+- `peek` empty → `None` (dead landing)
+- `has_new = peek - parent - global ≠ ∅` → `switch(~)` (new fruit)
+- else → `stay(?)` (confirmed alive)
+
+`global_option`, bubbled ancestor `option`, and root `option` as fallback source are excluded from the `peek`/`parent` sets first — this guards **only** the `switch` judgement, avoiding `scoop --help` being misjudged as `~`. Stay looks at nothing but liveness: never remainder composition, never the item kind.
 
 **Display**: the item's `symbol` is a **config key** (`switch`/`stay`). In build mode the
 engine maps it to a display character through `context_switch` / `context_stay`

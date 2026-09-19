@@ -285,11 +285,14 @@ fn has_static_candidates(n: &Node) -> bool {
 
 fn node_symbols(n: &Node) -> Vec<String> {
     let mut s = Vec::new();
-    // A non-empty candidate array (next or option) switches context.
-    // An EMPTY array carries no static candidates → no automatic switch.
+    // Static optimistic default: a non-empty candidate array opens a new
+    // layer (`switch`); anything else is presumed alive (`stay`). The async
+    // `peek` refines this: upgrades to `switch` when the landing is richer,
+    // drops to no symbol when the landing is dead. (Legend: `~` new fruit
+    // ahead, `?` lands alive, no symbol lands dead — see design/completion.md.)
     if has_static_candidates(n) {
         s.push("switch".into());
-    } else if n.is_option {
+    } else {
         s.push("stay".into());
     }
     s
@@ -1440,10 +1443,20 @@ mod tests {
     #[test]
     fn symbols_and_aliases_expanded() {
         let tree = git_tree();
-        let r = resolve(&tree, &["stash".to_string(), "pop".to_string()], true);
-        // stash pop's candidates should include alias expansion and symbols
-        let some_symbol = r.items.iter().any(|i| i.symbol.is_some());
-        assert!(some_symbol);
+        // Root candidates include alias expansion (`annotate`/`blame`) and a
+        // `switch` symbol (`stash` has a non-empty `next`).
+        let r = resolve(&tree, &[], true);
+        assert!(r.items.iter().any(|i| i.text == "annotate"));
+        assert!(r.items.iter().any(|i| i.text == "blame"));
+        assert!(r
+            .items
+            .iter()
+            .any(|i| i.symbol.as_deref() == Some("switch")));
+        // Boolean flags default to `stay` statically (applying never leaves
+        // the layer); the async `peek` only upgrades to `switch` or drops
+        // empties.
+        let flag = r.items.iter().find(|i| i.text == "--help").unwrap();
+        assert_eq!(flag.symbol.as_deref(), Some("stay"));
     }
 
     #[test]

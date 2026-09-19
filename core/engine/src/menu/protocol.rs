@@ -436,9 +436,10 @@ pub fn build_candidate_items(
     Ok((final_items, resolved.context))
 }
 
-/// Peek whether selecting `candidate` at `input` leads to further candidates.
-/// Returns `Some("switch")` if a new layer is opened, `Some("stay")` if staying
-/// in the current layer with remaining candidates, `None` otherwise.
+/// Peek where applying `candidate` at `input` lands.
+/// Returns `Some("switch")` if the landing is richer than the parent layer,
+/// `Some("stay")` if the landing menu is alive, `None` if the landing is
+/// dead (empty next menu).
 ///
 /// Parses the manifest from scratch on each call (backward-compatible entry point).
 /// Prefer `peek_predict_symbol_with_tree` when a pre-parsed tree is available
@@ -489,7 +490,7 @@ fn peek_predict_symbol_inner(
         return None;
     }
     // Navigate arg_tokens to find the current context node, then search within that subtree (not the whole tree).
-    let ctx = resolve_context_node(tree, &input.arg_tokens);
+    let (ctx, stack) = resolve_context_stack(tree, &input.arg_tokens);
     // Fast static path: if the candidate's own node within the current context has static candidates, it's a switch.
     if let Some(node) = find_node_in_context(ctx, tree, candidate) {
         if has_static_candidates(node) {
@@ -520,12 +521,30 @@ fn peek_predict_symbol_inner(
         };
         items.iter().map(|it| it.text.to_lowercase()).collect()
     };
-    let globals: std::collections::HashSet<String> = tree
+    // Exclude ambient options: `global_option` plus whatever the peek layer
+    // merely inherits (ancestor options bubbling down, or root `option` as
+    // the fallback source). Such items appear in both lists without opening
+    // a new layer, so they must not count as new or remaining (see
+    // design/completion.md). Root `option` items are the current layer's own
+    // at the root (empty stack).
+    let mut globals: std::collections::HashSet<String> = tree
         .global_options
         .iter()
-        .chain(&tree.options)
         .flat_map(|n| n.all_names().map(|s| s.to_lowercase()))
         .collect();
+    if !stack.is_empty() {
+        globals.extend(
+            tree.options
+                .iter()
+                .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+        );
+    }
+    globals.extend(
+        stack
+            .iter()
+            .flat_map(|n| n.option.iter())
+            .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+    );
     let has_new = peek_items.iter().any(|it| {
         !parent_set.contains(&it.text.to_lowercase()) && !globals.contains(&it.text.to_lowercase())
     });
@@ -539,22 +558,13 @@ fn peek_predict_symbol_inner(
     // a command removes its siblings from the list, so the context has moved.
     // (The fast path above already returns "switch" for candidates with static
     // candidates, so we don't re-check.)
-    let has_remaining = peek_items
-        .iter()
-        .any(|it| !globals.contains(&it.text.to_lowercase()));
-    if has_remaining {
-        let is_global = globals.contains(&candidate.to_lowercase());
-        if !is_global {
-            // Option flags stay in the same context; manifest commands do not.
-            if let Some(node) = find_node_in_context(ctx, tree, candidate) {
-                if !node.is_option {
-                    return None;
-                }
-            }
-            return Some("stay".into());
-        }
-    }
-    None
+    // Landing is alive (non-empty, checked above) with nothing beyond the
+    // parent: flags, values and leaf commands alike keep the menu working.
+    // Only the landing matters here — never remainder composition, never
+    // the item kind. Ambient exclusion lives solely in the `has_new`
+    // computation above (it guards `switch` against ubiquitous items
+    // faking a new layer).
+    Some("stay".into())
 }
 
 fn has_static_candidates(node: &completion::Node) -> bool {
@@ -563,14 +573,14 @@ fn has_static_candidates(node: &completion::Node) -> bool {
 }
 
 /// Walk `arg_tokens` (the typed command words after the command name) through the
-/// tree's command chain to find the deepest matching context node. Commands push
-/// their node as the new context; options (bubbled or global) are consumed without
-/// changing the context, matching the same context-maintenance behaviour that
-/// `completion::resolve` uses.
-fn resolve_context_node<'a>(
+/// tree's command chain to find the deepest matching context node plus the full
+/// command stack. Commands push their node as the new context; options (bubbled
+/// or global) are consumed without changing the context, matching the same
+/// context-maintenance behaviour that `completion::resolve` uses.
+fn resolve_context_stack<'a>(
     tree: &'a completion::Tree,
     arg_tokens: &[String],
-) -> Option<&'a completion::Node> {
+) -> (Option<&'a completion::Node>, Vec<&'a completion::Node>) {
     let mut ctx: Option<&'a completion::Node> = None;
     let mut stack: Vec<&'a completion::Node> = Vec::new();
     for token in arg_tokens {
@@ -599,7 +609,7 @@ fn resolve_context_node<'a>(
         // 3. Unknown token — stop.
         break;
     }
-    ctx
+    (ctx, stack)
 }
 
 /// Search for a node by name within the current context subtree (or root tree
@@ -926,6 +936,127 @@ mod tests {
             item_score(&item("ls"), &cmd_order, &empty, &commands_order),
             57
         );
+    }
+
+    #[test]
+    fn peek_gives_stay_in_ambient_only_layer() {
+        // `menu` is a leaf: its candidates are the bubbled `--aaa`/`--bbb`
+        // (from `config`) plus `--help`. Applying `--aaa` lands in an
+        // alive menu, so the symbol is `stay` — `?` reports the landing
+        // only, never remainder composition, never the item kind
+        // (see design/completion.md).
+        let dir = std::env::temp_dir().join(format!("psc-peek-test-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},"next":[{"name":"config","option":[{"name":"--aaa"},{"name":"--bbb"}],"next":[{"name":"menu"}]}],"global_option":[{"name":"--help"}]}"#,
+        )
+        .unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec!["config".into(), "menu".into()],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_eq!(peek_predict_symbol(&input, "--aaa"), Some("stay".into()));
+        // Sanity: a subcommand with static candidates still predicts `switch`.
+        let root = CompleteInput {
+            arg_tokens: vec![],
+            ..input.clone()
+        };
+        assert_eq!(peek_predict_symbol(&root, "config"), Some("switch".into()));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn peek_gives_stay_to_flag_beside_subcommands() {
+        // npm-like root: `run`/`install` subcommands plus boolean flags.
+        // Applying `--aaa` stays in the root layer with `run`/`install`
+        // still reachable, so the async peek assigns `stay` — the static
+        // phase only fast-paths `switch` (see design/completion.md).
+        let dir = std::env::temp_dir().join(format!("psc-peek-stay-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},"next":[{"name":"run"},{"name":"install"}],"option":[{"name":"--aaa"},{"name":"--bbb"}]}"#,
+        )
+        .unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_eq!(peek_predict_symbol(&input, "--aaa"), Some("stay".into()));
+        assert_eq!(peek_predict_symbol(&input, "--bbb"), Some("stay".into()));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn peek_gives_stay_to_global_flag_with_followups() {
+        // `npm --allow-file`-like: a global boolean flag. Applying it lands
+        // in an alive menu, so it is `stay` — at the root and in an
+        // ambient-only leaf alike. A leaf command lands in an alive
+        // ambient-only layer → `stay` as well; no symbol means a dead
+        // (empty) landing.
+        let dir = std::env::temp_dir().join(format!("psc-peek-global-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},"next":[{"name":"run"},{"name":"install"},{"name":"cfg","next":[{"name":"leaf"}]}],"global_option":[{"name":"--allow-file"},{"name":"--allow-remote"}]}"#,
+        )
+        .unwrap();
+        let base = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_eq!(
+            peek_predict_symbol(&base, "--allow-file"),
+            Some("stay".into())
+        );
+        let leaf = CompleteInput {
+            arg_tokens: vec!["cfg".into(), "leaf".into()],
+            ..base.clone()
+        };
+        assert_eq!(
+            peek_predict_symbol(&leaf, "--allow-file"),
+            Some("stay".into())
+        );
+        let cfg = CompleteInput {
+            arg_tokens: vec!["cfg".into()],
+            ..base.clone()
+        };
+        assert_eq!(peek_predict_symbol(&cfg, "leaf"), Some("stay".into()));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     fn sample_input() -> CompleteInput {
