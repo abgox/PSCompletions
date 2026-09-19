@@ -7,6 +7,12 @@
 > **Editor experience**: `types/psc.lua` models the `psc` global and `completions`
 > with EmmyLua annotations — with the VSCode "Lua" extension you get autocomplete and argument
 > checks inside `completions/*/hooks.lua`.
+>
+> Scoping rule for `types/psc.lua`: it models only APIs usable by **every** hook.
+> Members that exist engine-wide but are meaningful to a single completion (e.g. `psc._data`,
+> which is psc-only) stay out, so they never compete for attention in other authors'
+> completion lists. Single-completion capabilities live in that completion's own `hooks.lua`
+> (suppressing the LSP diagnostic locally if needed).
 
 ## 1. Role of hooks
 
@@ -79,11 +85,11 @@ end)
 
 | Field | Meaning |
 | --- | --- |
-| `psc.tokens` | **Completed** tokens, each `{ name, type, input }`. `name` is the **canonical** name of a known command/option (alias input still points at the main name); `type` ∈ `command`/`option`/`value`/`unknown`; `input` is the user's raw input (possibly an alias, lowercased). **Excludes the word being typed.** A token consumed as an option's value (even a non-matching one) has `type = "value"`; `"unknown"` only appears outside an option's value position. An `=`-attached word (`--format=json`) appears as two tokens — `option` (input keeps the `=`, name is the `=`-stripped canonical) + `value` — mirroring the space-separated form, so existing "last token is the option" checks keep working. |
+| `psc.tokens` | **Completed** tokens, each `{ name, type, input }`. `name` is the **canonical** name of a known command/option (alias input still points at the main name); `type` ∈ `command`/`option`/`value`/`unknown`; `input` is the user's raw input (possibly an alias, original casing kept — compare with `psc.eq` / `psc.contains`). **Excludes the word being typed.** A token consumed as an option's value (even a non-matching one) has `type = "value"`; `"unknown"` only appears outside an option's value position. An `=`-attached word (`--format=json`) appears as two tokens — `option` (input keeps the `=`, name is the `=`-stripped canonical) + `value` — mirroring the space-separated form, so existing "last token is the option" checks keep working. |
 | `psc.typing` | The token currently being typed (unfinished): `name`/`type`/`input` (same shape as a token element, `name` is best-effort and often empty) plus `option_like` — whether the input starts with `-` (heuristic, not definitive). Opposite of `tokens`: one is in progress, the other completed. When completing an option's value position, `type` is `"value"` (even for free-form values). For `--format=j<TAB>`, typing carries the value segment only (`j`). For separator lists (`--exclude a,b<TAB>`), typing is likewise the tail segment (`b`); completed segments stay engine-internal and a finished list is a single `value` token. |
 | `psc.config` | The current command's **final** completion config, merged by the engine from three layers (later layers override earlier): **global config** (`psc config menu`, e.g. `enable_tip`) → **manifest `config` array defaults** (e.g. `max_commit: 30`) → **per-completion overrides** (`psc completion <name>`, e.g. `max_commit: 50`). Every key always has a value — no manual `or` fallback needed. Built-in keys: `enable_tip` / `enable_tip_usage` / `enable_tip_example` (bool, default `true`), `language` (same as the module's current language). Empty table when unconfigured (never nil). |
 | `psc.manifest` | The parsed manifest (JSON → table); hooks can read static data (e.g. git config keys). |
-| `psc._data` | **psc completion only** — aggregated module data (`settings.json`/`completions.json`) surfaced when manifest is `completions/psc`, else nil |
+| `psc._data` | **psc completion only** — aggregated module data (`settings.json`/`completions.json`) surfaced when manifest is `completions/psc`, else an empty object |
 | `psc.cwd` | The current working directory. |
 | `psc.platform` | The current system platform. (`"windows"` / `"macos"` / `"linux"`) |
 
@@ -441,7 +447,7 @@ Do **not** spawn threads from Lua.
 - **Read-only files**: file APIs are read-only.
 - **Windows shim executables**: `psc.run` spawns the command directly — on Windows, batch/powerShell
   **shims** (e.g. `scoop`'s extension-less wrapper) cannot be spawned that way. Run them through the
-  shell instead: `psc.run({ "scoop", "config" }, { shell = true })`. (Or wrap manually with
+  shell instead: `psc.run({ "scoop.ps1", "config" }, { shell = true })`. (Or wrap manually with
   `cmd /c` when you need precise control.) Prefer `psc.which` first when in doubt.
 - **Trust model**: a completion's `hooks.lua` runs with the full `psc.*` power — `psc.run` can
   execute arbitrary subprocesses in the user's cwd, and `psc.read`/`psc.glob` can read any file.

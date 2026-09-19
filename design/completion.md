@@ -13,8 +13,9 @@ available at every level.
 
 The engine builds a **`Tree`** from the manifest: `next` (root subcommands), `options`
 (root options), `global_options`. Each node is a **`Node`** — either a subcommand or an
-option — carrying `name`, `aliases`, `tip`/`usage`/`example`, `repeat`, and its own
-`next`/`option` children.
+option — carrying `name`, `aliases`, `tip`/`usage`/`example`, and its own
+`next`/`option` children. Only option nodes declare `repeat` (the manifest Schema
+forbids it on commands; omitting `repeat` means "once").
 
 Typing `git <Tab>` builds the menu from git's root context. Applying a subcommand switches
 **to that subcommand's context**; applying an option stays in the current context
@@ -110,7 +111,7 @@ to the counter (e.g. `03/15 ~`), so the list stays clean and the symbol follows 
 
 ## 4. Repeat filtering
 
-`repeat` on an option/command limits how many times it may appear:
+`repeat` on an option limits how many times it may appear:
 
 - **Static** (resolve phase): `used` counts by canonical name; an item with `repeat == 0`
   that was already used is dropped, and one with `repeat > 0` is dropped once

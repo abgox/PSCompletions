@@ -183,7 +183,7 @@ Running `.\scripts\create-completion.ps1 <command>` generates:
 
 ```
 completions/<command>/
-├── config.json           # { "language": ["en-US", "zh-CN"] }
+├── config.json           # { "id": "<uuid>", "language": ["en-US", "zh-CN"] }
 └── language/
     ├── en-US.json        # Template content, needs full rewrite
     └── zh-CN.json        # Template content, needs full rewrite
@@ -306,12 +306,14 @@ Before writing, skim a few existing completions to match the house style — e.g
 
 ```jsonc
 {
+  "id": "<uuid>",
   "language": ["en-US", "zh-CN"],
   // "alias": [...],
   // "hooks": true
 }
 ```
 
+- `id` (required): Random UUID generated at creation (`create-completion.ps1`), never changes — the engine uses it to detect upstream renames
 - `language` (required): Language array, corresponds to files in `language/` directory
 - `alias` (optional): Alternative command names that trigger this completion
   - **If not set**, the directory name is used as the trigger name
@@ -364,7 +366,7 @@ No duplicate `name` within the same array. `compare-json.ps1` matches by `name` 
 Every item may carry three text arrays. `tip` is the description (shown under `[Description]`); `usage` and `example` are optional and shown under `[Usage]` / `[Example]`.
 
 - Each array element is one line, no inline line breaks allowed.
-- Spaces required between Chinese/English/number characters.
+- Spaces required between Chinese and English characters.
 - `tip` — the description line. If `tip` exists, it should be a real description; do not put `U:`/`E:` prefixed lines in it — those belong in `usage` / `example`.
 - `usage` — invocation syntax. **Not mandatory; add it when it conveys something the name alone doesn't.**
   - **Must add `usage` when**: the item has an alias — the short form must be shown (`-f, --force`, `rm|remove`).
@@ -398,7 +400,7 @@ Every item may carry three text arrays. `tip` is the description (shown under `[
 
 ## Validation & Design Rules
 
-`compare-json.ps1` enforces the rules below. Fix every reported item until it runs clean.
+The validation scripts (`compare-json.ps1` for structure/usage, `validate-completion.ps1` for schema/config/hooks) enforce the rules below. Fix every reported item until both run clean.
 
 ### Usage Checks
 
@@ -409,6 +411,9 @@ Every item may carry three text arrays. `tip` is the description (shown under `[
 | usage too simple | the `usage` equals the name, but the item has an alias or `next` | make the `usage` show the alias and/or a value placeholder, or remove it |
 | usage order wrong | a long form comes before its short form | order short → long: `-s, --long` / `short | long` |
 | usage separator wrong | an option uses `\|`, or a subcommand uses `,` | options use `,`; subcommands use `\|` |
+| option value without `next` | an option has `usage <...>` but no `next` field | add `next: []` (free-form value) or `next: [...]` (known candidates) |
+| `next: []` on a command | an item inside a `next` array has an empty `next` | omit `next` for leaf commands, or fill in real subcommands |
+| `usage` repeats root command | a `usage` line starts with the root command name | start `usage` at the current level (e.g. `add <PATH>`, not `worktree add <PATH>`) |
 
 **Option vs subcommand**: an item is treated as an option (expects `,`) when its name starts with `-`, even if it lives inside a `next` array.
 
@@ -439,7 +444,7 @@ Leaf values inside a `next` array follow the same rules as commands: with an ali
 - [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip`/`usage`/`example` content is translated
 - [ ] `name`, `alias`, and other non-`tip` fields unchanged during translation
 - [ ] No file extensions (`.cmd`, `.exe`, `.bat`) in `config.json` `alias` field
-- [ ] `.\scripts\compare-json.ps1 <command>` runs clean
+- [ ] `.\scripts\compare-json.ps1 <command>` and `.\scripts\validate-completion.ps1 <command>` run clean
 
 All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run with `<command>` to check just one, or with `-All` to check every completion (slower). Without arguments it checks only recently changed / uncommitted completions.
 
@@ -626,6 +631,6 @@ If `config.json` has `hooks: true` but no dynamic behavior is actually needed, r
 
 1. Structure must be identical to `en-US.json` — same nesting, same array order, same entries
 2. Only translate `tip` / `usage` / `example` content — `name`, `alias`, `repeat`, `next` values stay as-is
-3. Spaces between Chinese/English/number characters
+3. Spaces between Chinese and English characters
 4. Don't translate proper nouns — command names, option names, tool names stay as-is
 5. When a `tip` value is a proper noun that cannot be translated, append a trailing space so `compare-json.ps1` does not flag it as untranslated. For example, `"Chromium"` → `"Chromium "`
