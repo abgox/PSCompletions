@@ -2,6 +2,11 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.5.1
+
+- Improved the semantics of [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol).
+- Other optimizations and fixes.
+
 ## 7.5.0
 
 - Hooks API：added JSON5 support to `psc.json`.

@@ -2,6 +2,11 @@
 
 [English](./CHANGELOG.md)
 
+## 7.5.1
+
+- 改进了 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 的语义
+- 其他的优化和修复
+
 ## 7.5.0
 
 - Hooks API：为 `psc.json` 添加 JSON5 支持
