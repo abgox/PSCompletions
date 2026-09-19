@@ -8,7 +8,7 @@
 
 ```
 Tab pressed
-  → module_completion_menu_script (PowerShell)
+  → $PSCompletions.menu.script (PowerShell)
       → get_completion (installed command) hands a **build context** (cmd/arg_tokens/manifest/
         hooks/order paths), not items — the engine builds and ranks the candidates itself
       → show_module_menu(build)                        ← Rust menu, single process

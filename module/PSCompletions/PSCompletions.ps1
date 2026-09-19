@@ -22,9 +22,10 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     cmd         = ''
     guid        = '00929632-527d-4dab-a5b3-21197faccd05'
     language    = $PSUICulture
+    config      = @{}
     menu        = @{
-        encoding                      = [System.Text.Encoding]::GetEncoding(0)
-        module_completion_menu_script = {
+        encoding = [System.Text.Encoding]::GetEncoding(0)
+        script   = {
             try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
 
             # Lazy init: the first Tab press performs the deferred initialization, then the menu proceeds
@@ -965,16 +966,15 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     if ($methodsOnly) { return }
     $PSCompletions.init_data()
     if (-not $PSCompletions.binary_ok) { return }
-    Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
     $PSCompletions.initialized = $true
 }
 
 if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
     $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
-    $PSCompletions.trigger_key = $_.config.trigger_key
+    $PSCompletions.config.trigger_key = $_.config.trigger_key
 }
 else {
-    $PSCompletions.trigger_key = 'Tab'
+    $PSCompletions.config.trigger_key = 'Tab'
     if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
             param([string]$path)
@@ -1015,10 +1015,10 @@ else {
         $PSCompletions.ensure_dir($PSCompletions.path.order)
         if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
             $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
-            $PSCompletions.trigger_key = $_.config.trigger_key
+            $PSCompletions.config.trigger_key = $_.config.trigger_key
         }
         Remove-Item "$($PSCompletions.path.temp)/alias.csv" -ErrorAction Ignore
         Remove-Item $PSCompletions.path.change -ErrorAction Ignore
     }
 }
-Set-PSReadLineKeyHandler -Key $PSCompletions.trigger_key -ScriptBlock $PSCompletions.menu.module_completion_menu_script
+Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script
