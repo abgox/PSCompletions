@@ -27,6 +27,7 @@
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
 |[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
+|[bx](https://github.com/brave/brave-search-cli)|零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。|
 |[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust 包管理器。|
 |[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
@@ -235,6 +236,7 @@
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
 |[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
+|[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|生成十六进制转储，或执行逆向操作|
 |[ya](https://yazi-rs.github.io/)|Yazi - 使用 Rust 编写的极速终端文件管理器。|
 |[yarn](https://classic.yarnpkg.com/)|快速、可靠、安全的依赖管理。|

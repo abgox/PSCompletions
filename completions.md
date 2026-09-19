@@ -27,6 +27,7 @@
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
 |[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
+|[bx](https://github.com/brave/brave-search-cli)|Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs.|
 |[carapace](https://carapace.sh/)|A multi-shell completion binary|
 |[cargo](https://doc.rust-lang.org/cargo/)|Rust package manager.|
 |[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
@@ -235,6 +236,7 @@
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
 |[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
+|[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|
 |[xxd](https://www.linux.org/docs/man1/xxd.html)|Make a hex dump or do the reverse|
 |[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
 |[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|
