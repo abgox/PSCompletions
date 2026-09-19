@@ -70,6 +70,11 @@ local function add_uninstalled_completions()
     end
 end
 
+if psc.token({ name = "--reset", type = "option" }) or psc.token({ name = "--all", type = "option" }) or psc.token({ name = "--old", type = "option" }) then
+    clear_completions()
+    return
+end
+
 psc.on({ command = "add", multiple = true }, add_uninstalled_completions)
 
 psc.on({ command = { "alias", "add" }, multiple = true }, function()
@@ -176,8 +181,6 @@ psc.on({ command = "completion", multiple = true }, function()
         end
     end
 end)
-
-psc.on({ option = "--reset" }, clear_completions)
 
 psc.on({
     { command = "list" },
