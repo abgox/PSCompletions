@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "url": "https://github.com/xpipe-io/xpipe",
+    "description": [
+      "Connection hub to access your entire server infrastructure from your local desktop."
+    ]
+  },
+  "next": [
+    {
+      "name": "daemon",
+      "tip": [
+        "Commands for controlling the XPipe daemon."
+      ],
+      "next": [
+        {
+          "name": "mode",
+          "usage": [
+            "mode <MODE>"
+          ],
+          "tip": [
+            "Switches the operation mode of the XPipe daemon.",
+            "Not all operation modes are supported on every platform."
+          ],
+          "option": [
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "The HTTP server port."
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "background"
+            },
+            {
+              "name": "gui"
+            },
+            {
+              "name": "tray"
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Reports the current status of the XPipe daemon."
+          ],
+          "option": [
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "The HTTP server port."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Stops the XPipe daemon if it is running."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Forcefully kill the running daemon process, skipping graceful shutdown."
+              ]
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "The HTTP server port."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "launch",
+      "usage": [
+        "launch <CONNECTION>"
+      ],
+      "tip": [
+        "Launch a shell connection from within a terminal.",
+        "Connection names support partial matches and globs (e.g. */wsl*/ubuntu-*). Use -- to run a command in the remote shell and return."
+      ],
+      "example": [
+        {
+          "cmd": "xpipe launch \"ubuntu-24.04\"",
+          "desc": "Open a shell session"
+        },
+        {
+          "cmd": "xpipe launch \"ubuntu-24.04\" -- htop",
+          "desc": "Run a command in the remote shell"
+        }
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "The HTTP server port."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "usage": [
+        "open [INPUT]..."
+      ],
+      "tip": [
+        "Opens the XPipe application."
+      ],
+      "option": [
+        {
+          "name": "--directory",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --directory <DIR>"
+          ],
+          "tip": [
+            "Overrides the data directory used by the daemon (default: <User Home>/.xpipe).",
+            "Only applied if the daemon is not running yet."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "The HTTP server port."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Reports version information of the XPipe installation."
+      ],
+      "option": [
+        {
+          "name": "--extended",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --extended"
+          ],
+          "tip": [
+            "Query extended version information of the XPipe daemon. Requires the daemon to run."
+          ]
+        }
+      ]
+    }
+  ]
+}

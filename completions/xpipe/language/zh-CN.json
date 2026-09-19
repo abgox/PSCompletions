@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "url": "https://github.com/xpipe-io/xpipe",
+    "description": [
+      "连接中心，从本地桌面访问整个服务器基础设施。"
+    ]
+  },
+  "next": [
+    {
+      "name": "daemon",
+      "tip": [
+        "控制 XPipe daemon 的命令。"
+      ],
+      "next": [
+        {
+          "name": "mode",
+          "usage": [
+            "mode <MODE>"
+          ],
+          "tip": [
+            "切换 XPipe daemon 的运行模式。",
+            "并非所有运行模式在当前平台都受支持。"
+          ],
+          "option": [
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "HTTP 服务端口。"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "background"
+            },
+            {
+              "name": "gui"
+            },
+            {
+              "name": "tray"
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "报告 XPipe daemon 的当前状态。"
+          ],
+          "option": [
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "HTTP 服务端口。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "停止正在运行的 XPipe daemon。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制杀死正在运行的 daemon 进程，跳过优雅关闭。"
+              ]
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "HTTP 服务端口。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "launch",
+      "usage": [
+        "launch <CONNECTION>"
+      ],
+      "tip": [
+        "在终端内启动一个 shell 连接。",
+        "连接名支持部分匹配和 glob（例如 */wsl*/ubuntu-*）。用 -- 在远端 shell 中运行命令并返回。"
+      ],
+      "example": [
+        {
+          "cmd": "xpipe launch \"ubuntu-24.04\"",
+          "desc": "打开一个 shell 会话"
+        },
+        {
+          "cmd": "xpipe launch \"ubuntu-24.04\" -- htop",
+          "desc": "在远端 shell 中运行命令"
+        }
+      ],
+      "option": [
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "HTTP 服务端口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "open",
+      "usage": [
+        "open [INPUT]..."
+      ],
+      "tip": [
+        "打开 XPipe 应用。"
+      ],
+      "option": [
+        {
+          "name": "--directory",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --directory <DIR>"
+          ],
+          "tip": [
+            "覆盖 daemon 使用的数据目录（默认：<User Home>/.xpipe）。",
+            "仅在 daemon 尚未运行时生效。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "HTTP 服务端口。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "报告 XPipe 安装的版本信息。"
+      ],
+      "option": [
+        {
+          "name": "--extended",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --extended"
+          ],
+          "tip": [
+            "查询 XPipe daemon 的扩展版本信息。需要 daemon 正在运行。"
+          ]
+        }
+      ]
+    }
+  ]
+}
