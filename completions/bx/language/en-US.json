@@ -1,0 +1,2246 @@
+{
+  "meta": {
+    "url": "https://github.com/brave/brave-search-cli",
+    "description": [
+      "Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs."
+    ]
+  },
+  "next": [
+    {
+      "name": "answers",
+      "usage": [
+        "answers <QUERY|->"
+      ],
+      "tip": [
+        "AI-grounded answers — OpenAI-compatible, streaming by default.",
+        "Pass a question directly, or - to read a full JSON request body from stdin."
+      ],
+      "example": [
+        {
+          "cmd": "bx answers \"explain Rust lifetimes with examples\"",
+          "desc": "Streaming AI answer"
+        },
+        {
+          "cmd": "bx answers \"compare SQLx and Diesel\" --no-stream",
+          "desc": "Single JSON response"
+        },
+        {
+          "cmd": "bx answers \"what changed in React 19 vs React 18?\" --enable-research",
+          "desc": "Iterative deep research"
+        }
+      ],
+      "option": [
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code for grounding (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--enable-citations",
+          "tip": [
+            "Inline citation tags. Streaming only, not in research mode."
+          ]
+        },
+        {
+          "name": "--enable-entities",
+          "tip": [
+            "Inline entity tags. Streaming only, not in research mode."
+          ]
+        },
+        {
+          "name": "--enable-research",
+          "tip": [
+            "Iterative deep research instead of a single search. Streaming only."
+          ]
+        },
+        {
+          "name": "--language",
+          "usage": [
+            "--language <LANG>"
+          ],
+          "tip": [
+            "Answer language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--max-completion-tokens",
+          "usage": [
+            "--max-completion-tokens <N>"
+          ],
+          "tip": [
+            "Maximum completion tokens for the answer."
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "4096"
+            }
+          ]
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <MODEL>"
+          ],
+          "tip": [
+            "Answer model: brave-pro (higher quality) or brave (faster)."
+          ],
+          "next": [
+            {
+              "name": "brave"
+            },
+            {
+              "name": "brave-pro"
+            }
+          ]
+        },
+        {
+          "name": "--no-stream",
+          "tip": [
+            "Disable streaming — return a single JSON response. Cannot be combined with --enable-citations, --enable-entities, or --enable-research."
+          ]
+        },
+        {
+          "name": "--research-allow-thinking",
+          "usage": [
+            "--research-allow-thinking <true|false>"
+          ],
+          "tip": [
+            "Allow thinking in research mode."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-iterations",
+          "usage": [
+            "--research-max-iterations <N>"
+          ],
+          "tip": [
+            "Max research iterations."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-queries",
+          "usage": [
+            "--research-max-queries <N>"
+          ],
+          "tip": [
+            "Max research queries."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-results-per-query",
+          "usage": [
+            "--research-max-results-per-query <N>"
+          ],
+          "tip": [
+            "Max results per research query."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-seconds",
+          "usage": [
+            "--research-max-seconds <N>"
+          ],
+          "tip": [
+            "Max research time in seconds."
+          ],
+          "next": [
+            {
+              "name": "300"
+            },
+            {
+              "name": "60"
+            },
+            {
+              "name": "600"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-tokens-per-query",
+          "usage": [
+            "--research-max-tokens-per-query <N>"
+          ],
+          "tip": [
+            "Max tokens per research query."
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "512"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-context-size",
+          "usage": [
+            "--search-context-size <SIZE>"
+          ],
+          "tip": [
+            "Search context size for the answer."
+          ],
+          "next": [
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "medium"
+            }
+          ]
+        },
+        {
+          "name": "--user-city",
+          "usage": [
+            "--user-city <CITY>"
+          ],
+          "tip": [
+            "Approximate user city for grounding."
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-country",
+          "usage": [
+            "--user-country <COUNTRY>"
+          ],
+          "tip": [
+            "Approximate user country for grounding."
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-region",
+          "usage": [
+            "--user-region <REGION>"
+          ],
+          "tip": [
+            "Approximate user region for grounding."
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-timezone",
+          "usage": [
+            "--user-timezone <TZ>"
+          ],
+          "tip": [
+            "Approximate user timezone for grounding."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Manage configuration — set-key, show-key, show, path."
+      ],
+      "example": [
+        {
+          "cmd": "bx config set-key",
+          "desc": "Save an API key interactively (avoids shell history)"
+        },
+        {
+          "cmd": "bx config show",
+          "desc": "Show the full configuration"
+        }
+      ],
+      "next": [
+        {
+          "name": "path",
+          "tip": [
+            "Print the config file path."
+          ]
+        },
+        {
+          "name": "set-key",
+          "usage": [
+            "set-key [KEY]"
+          ],
+          "tip": [
+            "Save an API key to the config file.",
+            "Omit the key to enter it interactively, avoiding shell history."
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show the full configuration (API key masked)."
+          ]
+        },
+        {
+          "name": "show-key",
+          "tip": [
+            "Show the configured API key (masked)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "context",
+      "usage": [
+        "context <QUERY>"
+      ],
+      "tip": [
+        "RAG/LLM grounding — pre-extracted web content, clean text, token-budgeted.",
+        "The recommended endpoint for AI agents. One call replaces search + scrape + extract."
+      ],
+      "example": [
+        {
+          "cmd": "bx \"tokio spawn async task example\"",
+          "desc": "Shorthand for bx context (default subcommand)"
+        },
+        {
+          "cmd": "bx context \"Python TypeError cannot unpack non-iterable NoneType\" --max-tokens 4096",
+          "desc": "RAG grounding with a token budget"
+        },
+        {
+          "cmd": "bx context \"axum middleware\" --include-site docs.rs --max-tokens 4096",
+          "desc": "Restrict results to specific domains"
+        }
+      ],
+      "option": [
+        {
+          "name": "--city",
+          "usage": [
+            "--city <CITY>"
+          ],
+          "tip": [
+            "City for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--context-threshold-mode",
+          "alias": [
+            "--threshold"
+          ],
+          "usage": [
+            "--threshold, --context-threshold-mode <MODE>"
+          ],
+          "tip": [
+            "Relevance threshold for extracted content."
+          ],
+          "next": [
+            {
+              "name": "balanced"
+            },
+            {
+              "name": "lenient"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code for the search (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--enable-local",
+          "usage": [
+            "--enable-local [<true|false>]"
+          ],
+          "tip": [
+            "Include local results."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "Exclude results from these domains. Mutually exclusive with --goggles / --include-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "Custom re-ranking rules — boost, downrank, or discard results.",
+            "Inline rules, @file, @- (stdin), or a hosted .goggle URL. Mutually exclusive with --include-site / --exclude-site."
+          ],
+          "example": [
+            {
+              "cmd": "bx context \"axum middleware\" --goggles '$boost=3,site=docs.rs' --max-tokens 4096",
+              "desc": "Boost official docs"
+            }
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "Only include results from these domains. Mutually exclusive with --goggles / --exclude-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "Latitude for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--loc-country",
+          "usage": [
+            "--loc-country <COUNTRY>"
+          ],
+          "tip": [
+            "Country for the location header."
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "Longitude for location-aware results. Requires --lat."
+          ],
+          "next": []
+        },
+        {
+          "name": "--maximum-number-of-snippets",
+          "alias": [
+            "--max-snippets"
+          ],
+          "usage": [
+            "--max-snippets, --maximum-number-of-snippets <N>"
+          ],
+          "tip": [
+            "Max snippets in the grounded content."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-snippets-per-url",
+          "alias": [
+            "--max-snippets-per-url"
+          ],
+          "usage": [
+            "--max-snippets-per-url, --maximum-number-of-snippets-per-url <N>"
+          ],
+          "tip": [
+            "Max snippets per source URL."
+          ],
+          "next": [
+            {
+              "name": "2"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-tokens",
+          "alias": [
+            "--max-tokens"
+          ],
+          "usage": [
+            "--max-tokens, --maximum-number-of-tokens <N>"
+          ],
+          "tip": [
+            "Max total tokens for the grounded content."
+          ],
+          "next": [
+            {
+              "name": "2048"
+            },
+            {
+              "name": "4096"
+            },
+            {
+              "name": "8192"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-tokens-per-url",
+          "alias": [
+            "--max-tokens-per-url"
+          ],
+          "usage": [
+            "--max-tokens-per-url, --maximum-number-of-tokens-per-url <N>"
+          ],
+          "tip": [
+            "Max tokens per source URL."
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "512"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-urls",
+          "alias": [
+            "--max-urls"
+          ],
+          "usage": [
+            "--max-urls, --maximum-number-of-urls <N>"
+          ],
+          "tip": [
+            "Max URLs to include in the grounded content."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--postal-code",
+          "usage": [
+            "--postal-code <CODE>"
+          ],
+          "tip": [
+            "Postal code for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--state",
+          "usage": [
+            "--state <CODE>"
+          ],
+          "tip": [
+            "State abbreviation for location-aware results (e.g. CA)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--state-name",
+          "usage": [
+            "--state-name <NAME>"
+          ],
+          "tip": [
+            "State name for location-aware results (e.g. California)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timezone",
+          "usage": [
+            "--timezone <TZ>"
+          ],
+          "tip": [
+            "Timezone for location-aware results (e.g. America/New_York)."
+          ],
+          "next": [
+            {
+              "name": "America/New_York"
+            },
+            {
+              "name": "UTC"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "descriptions",
+      "usage": [
+        "descriptions <ID>..."
+      ],
+      "tip": [
+        "AI-generated POI descriptions by ID.",
+        "Use IDs returned by the places command."
+      ],
+      "example": [
+        {
+          "cmd": "bx descriptions PLACE_ID_1 PLACE_ID_2",
+          "desc": "Get AI descriptions for specific places"
+        }
+      ]
+    },
+    {
+      "name": "images",
+      "usage": [
+        "images <QUERY>"
+      ],
+      "tip": [
+        "Image search — thumbnails, sources, dimensions (up to 200 results)."
+      ],
+      "example": [
+        {
+          "cmd": "bx images \"system architecture diagram microservices\"",
+          "desc": "Search for images"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "Spellcheck the query. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "news",
+      "usage": [
+        "news <QUERY>"
+      ],
+      "tip": [
+        "News search — articles with freshness filters."
+      ],
+      "example": [
+        {
+          "cmd": "bx news \"npm security advisory\" --freshness pd",
+          "desc": "News from the past day"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "Exclude results from these domains. Mutually exclusive with --goggles / --include-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-snippets",
+          "usage": [
+            "--extra-snippets [<true|false>]"
+          ],
+          "tip": [
+            "Extra snippets from different parts of the page. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "Freshness: pd (past day), pw (past week), pm (past month), py (past year), or YYYY-MM-DDtoYYYY-MM-DD."
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "Custom re-ranking rules — boost, downrank, or discard results.",
+            "Inline rules, @file, @- (stdin), or a hosted .goggle URL. Mutually exclusive with --include-site / --exclude-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "Only include results from these domains. Mutually exclusive with --goggles / --exclude-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "Result offset for pagination."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "Enable search operators in the query (site:, intitle:, etc.). Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "Spellcheck the query. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "UI language (e.g. en-US, fr-FR)."
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "places",
+      "usage": [
+        "places [QUERY]"
+      ],
+      "tip": [
+        "Local place/POI search across 200M+ POIs.",
+        "Query is optional — you can browse by location alone."
+      ],
+      "example": [
+        {
+          "cmd": "bx places \"coffee\" --location \"San Francisco CA US\"",
+          "desc": "Search places by query and location"
+        },
+        {
+          "cmd": "bx places --location \"NYC\" --count 5",
+          "desc": "Browse places by location alone"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--latitude",
+          "usage": [
+            "--latitude <LAT>"
+          ],
+          "tip": [
+            "Latitude for the search center."
+          ],
+          "next": []
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "Location string, alternative to lat/long (e.g. San Francisco CA US)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--longitude",
+          "usage": [
+            "--longitude <LONG>"
+          ],
+          "tip": [
+            "Longitude for the search center. Requires --latitude."
+          ],
+          "next": []
+        },
+        {
+          "name": "--radius",
+          "usage": [
+            "--radius <METERS>"
+          ],
+          "tip": [
+            "Search radius in meters."
+          ],
+          "next": [
+            {
+              "name": "1000"
+            },
+            {
+              "name": "10000"
+            },
+            {
+              "name": "5000"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "Spellcheck the query. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "UI language (e.g. en-US, fr-FR)."
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "Unit system for results."
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pois",
+      "usage": [
+        "pois <ID>..."
+      ],
+      "tip": [
+        "POI details by ID — hours, ratings, reviews, contact info.",
+        "Use IDs returned by the places command."
+      ],
+      "example": [
+        {
+          "cmd": "bx pois PLACE_ID_1 PLACE_ID_2",
+          "desc": "Get details for specific places"
+        }
+      ],
+      "option": [
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "Latitude for location context."
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "Longitude for location context. Requires --lat."
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "UI language (e.g. en-US, fr-FR)."
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "Unit system for results."
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "spellcheck",
+      "usage": [
+        "spellcheck <QUERY>"
+      ],
+      "tip": [
+        "Spell-check a query — returns the corrected text."
+      ],
+      "example": [
+        {
+          "cmd": "bx spellcheck \"kubernetse dployment\"",
+          "desc": "Get the corrected query"
+        }
+      ],
+      "option": [
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "usage": [
+            "--lang <LANG>"
+          ],
+          "tip": [
+            "Query language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "suggest",
+      "usage": [
+        "suggest <QUERY>"
+      ],
+      "tip": [
+        "Autocomplete/query suggestions."
+      ],
+      "example": [
+        {
+          "cmd": "bx suggest \"how to implement\" --count 10",
+          "desc": "Get query suggestions"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of suggestions."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "usage": [
+            "--lang <LANG>"
+          ],
+          "tip": [
+            "Suggestion language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--rich",
+          "usage": [
+            "--rich [<true|false>]"
+          ],
+          "tip": [
+            "Rich suggestions. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "videos",
+      "usage": [
+        "videos <QUERY>"
+      ],
+      "tip": [
+        "Video search — titles, URLs, thumbnails, durations."
+      ],
+      "example": [
+        {
+          "cmd": "bx videos \"Rust async await tutorial\" --count 5",
+          "desc": "Search for videos"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "Freshness: pd (past day), pw (past week), pm (past month), py (past year), or YYYY-MM-DDtoYYYY-MM-DD."
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "Result offset for pagination."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "Enable search operators in the query (site:, intitle:, etc.). Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "Spellcheck the query. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "UI language (e.g. en-US, fr-FR)."
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "usage": [
+        "web <QUERY>"
+      ],
+      "tip": [
+        "Full web search — pages, discussions, FAQ, infobox, news, videos.",
+        "Use when you need structured result types, site: scoping, pagination, or result filtering."
+      ],
+      "example": [
+        {
+          "cmd": "bx web \"site:docs.rs axum middleware\"",
+          "desc": "Site-scoped web search"
+        },
+        {
+          "cmd": "bx web \"rust error handling\" --result-filter web,discussions",
+          "desc": "Filter result types"
+        }
+      ],
+      "option": [
+        {
+          "name": "--city",
+          "usage": [
+            "--city <CITY>"
+          ],
+          "tip": [
+            "City for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "Number of results."
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "Country code (e.g. US, GB, DE)."
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "Exclude results from these domains. Mutually exclusive with --goggles / --include-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-snippets",
+          "usage": [
+            "--extra-snippets [<true|false>]"
+          ],
+          "tip": [
+            "Extra snippets from different parts of the page. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "Freshness: pd (past day), pw (past week), pm (past month), py (past year), or YYYY-MM-DDtoYYYY-MM-DD."
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "Custom re-ranking rules — boost, downrank, or discard results.",
+            "Inline rules, @file, @- (stdin), or a hosted .goggle URL. Mutually exclusive with --include-site / --exclude-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "Only include results from these domains. Mutually exclusive with --goggles / --exclude-site."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "Latitude for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--loc-country",
+          "usage": [
+            "--loc-country <COUNTRY>"
+          ],
+          "tip": [
+            "Country for the location header."
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "Longitude for location-aware results. Requires --lat."
+          ],
+          "next": []
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "Result offset for pagination."
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "Enable search operators in the query (site:, intitle:, etc.). Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--postal-code",
+          "usage": [
+            "--postal-code <CODE>"
+          ],
+          "tip": [
+            "Postal code for location-aware results."
+          ],
+          "next": []
+        },
+        {
+          "name": "--result-filter",
+          "usage": [
+            "--result-filter <TYPE,...>"
+          ],
+          "tip": [
+            "Comma-separated result types to include."
+          ],
+          "separator": ",",
+          "next": [
+            {
+              "name": "discussions"
+            },
+            {
+              "name": "faq"
+            },
+            {
+              "name": "infobox"
+            },
+            {
+              "name": "locations"
+            },
+            {
+              "name": "news"
+            },
+            {
+              "name": "query"
+            },
+            {
+              "name": "summarizer"
+            },
+            {
+              "name": "videos"
+            },
+            {
+              "name": "web"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "Safe search level."
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "Search language (e.g. en, fr, de)."
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "Spellcheck the query. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--state",
+          "usage": [
+            "--state <CODE>"
+          ],
+          "tip": [
+            "State abbreviation (e.g. CA)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--state-name",
+          "usage": [
+            "--state-name <NAME>"
+          ],
+          "tip": [
+            "State name (e.g. California)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--text-decorations",
+          "usage": [
+            "--text-decorations [<true|false>]"
+          ],
+          "tip": [
+            "Bold markers in snippets. Omit for the API default."
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--timezone",
+          "usage": [
+            "--timezone <TZ>"
+          ],
+          "tip": [
+            "Timezone (e.g. America/New_York)."
+          ],
+          "next": [
+            {
+              "name": "America/New_York"
+            },
+            {
+              "name": "UTC"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "UI language (e.g. en-US, fr-FR)."
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "Unit system for results."
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--api-key",
+      "usage": [
+        "--api-key <KEY>"
+      ],
+      "tip": [
+        "API key. Prefer the env var or config file — flags are visible in process listings."
+      ],
+      "next": []
+    },
+    {
+      "name": "--base-url",
+      "usage": [
+        "--base-url <URL>"
+      ],
+      "tip": [
+        "Base URL for the API (default: https://api.search.brave.com)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "Path to config file (e.g. one for dev, one for prod)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--endpoint",
+      "usage": [
+        "--endpoint <PATH>"
+      ],
+      "tip": [
+        "Override the API path (e.g. /res/v1/web/search). For internal or beta Brave endpoints."
+      ],
+      "next": []
+    },
+    {
+      "name": "--extra",
+      "usage": [
+        "--extra <KEY=VALUE>"
+      ],
+      "tip": [
+        "Extra API parameters not covered by named flags (repeatable).",
+        "Merged into the request body (POST) or query string (GET). POST values are auto-typed."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help information."
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <SECONDS>"
+      ],
+      "tip": [
+        "Request timeout in seconds (default: 30; 300 with --enable-research; max: 86400)."
+      ],
+      "next": [
+        {
+          "name": "30"
+        },
+        {
+          "name": "300"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    }
+  ]
+}

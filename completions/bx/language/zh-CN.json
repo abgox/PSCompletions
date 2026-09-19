@@ -1,0 +1,2246 @@
+{
+  "meta": {
+    "url": "https://github.com/brave/brave-search-cli",
+    "description": [
+      "零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。"
+    ]
+  },
+  "next": [
+    {
+      "name": "answers",
+      "usage": [
+        "answers <QUERY|->"
+      ],
+      "tip": [
+        "AI 地面答案 —— OpenAI 兼容格式，默认流式输出。",
+        "直接传问题，或传 - 从 stdin 读取完整 JSON 请求体。"
+      ],
+      "example": [
+        {
+          "cmd": "bx answers \"explain Rust lifetimes with examples\"",
+          "desc": "流式 AI 回答"
+        },
+        {
+          "cmd": "bx answers \"compare SQLx and Diesel\" --no-stream",
+          "desc": "单次 JSON 响应"
+        },
+        {
+          "cmd": "bx answers \"what changed in React 19 vs React 18?\" --enable-research",
+          "desc": "迭代式深度研究"
+        }
+      ],
+      "option": [
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "用于 grounding 的国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--enable-citations",
+          "tip": [
+            "内联引用标记。仅流式模式，研究模式下不可用。"
+          ]
+        },
+        {
+          "name": "--enable-entities",
+          "tip": [
+            "内联实体标记。仅流式模式，研究模式下不可用。"
+          ]
+        },
+        {
+          "name": "--enable-research",
+          "tip": [
+            "迭代式深度研究，替代单次搜索。仅流式模式。"
+          ]
+        },
+        {
+          "name": "--language",
+          "usage": [
+            "--language <LANG>"
+          ],
+          "tip": [
+            "回答语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--max-completion-tokens",
+          "usage": [
+            "--max-completion-tokens <N>"
+          ],
+          "tip": [
+            "回答的最大补全 Token 数。"
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "4096"
+            }
+          ]
+        },
+        {
+          "name": "--model",
+          "usage": [
+            "--model <MODEL>"
+          ],
+          "tip": [
+            "回答模型：brave-pro（质量更高）或 brave（更快）。"
+          ],
+          "next": [
+            {
+              "name": "brave"
+            },
+            {
+              "name": "brave-pro"
+            }
+          ]
+        },
+        {
+          "name": "--no-stream",
+          "tip": [
+            "关闭流式输出 —— 返回单次 JSON 响应。不能与 --enable-citations、--enable-entities 或 --enable-research 联用。"
+          ]
+        },
+        {
+          "name": "--research-allow-thinking",
+          "usage": [
+            "--research-allow-thinking <true|false>"
+          ],
+          "tip": [
+            "研究模式下允许思考过程。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-iterations",
+          "usage": [
+            "--research-max-iterations <N>"
+          ],
+          "tip": [
+            "最大研究迭代数。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-queries",
+          "usage": [
+            "--research-max-queries <N>"
+          ],
+          "tip": [
+            "最大研究查询数。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-results-per-query",
+          "usage": [
+            "--research-max-results-per-query <N>"
+          ],
+          "tip": [
+            "每个研究查询的最大结果数。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-seconds",
+          "usage": [
+            "--research-max-seconds <N>"
+          ],
+          "tip": [
+            "最大研究时间（秒）。"
+          ],
+          "next": [
+            {
+              "name": "300"
+            },
+            {
+              "name": "60"
+            },
+            {
+              "name": "600"
+            }
+          ]
+        },
+        {
+          "name": "--research-max-tokens-per-query",
+          "usage": [
+            "--research-max-tokens-per-query <N>"
+          ],
+          "tip": [
+            "每个研究查询的最大 Token 数。"
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "512"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-context-size",
+          "usage": [
+            "--search-context-size <SIZE>"
+          ],
+          "tip": [
+            "回答的搜索上下文大小。"
+          ],
+          "next": [
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "medium"
+            }
+          ]
+        },
+        {
+          "name": "--user-city",
+          "usage": [
+            "--user-city <CITY>"
+          ],
+          "tip": [
+            "用于 grounding 的大致用户城市。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-country",
+          "usage": [
+            "--user-country <COUNTRY>"
+          ],
+          "tip": [
+            "用于 grounding 的大致用户国家。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-region",
+          "usage": [
+            "--user-region <REGION>"
+          ],
+          "tip": [
+            "用于 grounding 的大致用户地区。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-timezone",
+          "usage": [
+            "--user-timezone <TZ>"
+          ],
+          "tip": [
+            "用于 grounding 的大致用户时区。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "管理配置 —— set-key、show-key、show、path。"
+      ],
+      "example": [
+        {
+          "cmd": "bx config set-key",
+          "desc": "交互式保存 API Key（避免进入 shell 历史）"
+        },
+        {
+          "cmd": "bx config show",
+          "desc": "显示完整配置"
+        }
+      ],
+      "next": [
+        {
+          "name": "path",
+          "tip": [
+            "打印配置文件路径。"
+          ]
+        },
+        {
+          "name": "set-key",
+          "usage": [
+            "set-key [KEY]"
+          ],
+          "tip": [
+            "保存 API Key 到配置文件。",
+            "省略 Key 则交互式输入，避免进入 shell 历史。"
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "显示完整配置（API Key 掩码）。"
+          ]
+        },
+        {
+          "name": "show-key",
+          "tip": [
+            "显示已配置的 API Key（掩码）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "context",
+      "usage": [
+        "context <QUERY>"
+      ],
+      "tip": [
+        "RAG / 大模型 grounding —— 预提取的网页内容，干净文本，按 Token 预算输出。",
+        "AI Agent 首选接口，一次调用替代搜索 + 抓取 + 提取。"
+      ],
+      "example": [
+        {
+          "cmd": "bx \"tokio spawn async task example\"",
+          "desc": "简写，等价于 bx context（默认子命令）"
+        },
+        {
+          "cmd": "bx context \"Python TypeError cannot unpack non-iterable NoneType\" --max-tokens 4096",
+          "desc": "带 Token 预算的 RAG grounding"
+        },
+        {
+          "cmd": "bx context \"axum middleware\" --include-site docs.rs --max-tokens 4096",
+          "desc": "限定结果域名"
+        }
+      ],
+      "option": [
+        {
+          "name": "--city",
+          "usage": [
+            "--city <CITY>"
+          ],
+          "tip": [
+            "用于位置感知结果的城市。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--context-threshold-mode",
+          "alias": [
+            "--threshold"
+          ],
+          "usage": [
+            "--threshold, --context-threshold-mode <MODE>"
+          ],
+          "tip": [
+            "提取内容的相关性阈值。"
+          ],
+          "next": [
+            {
+              "name": "balanced"
+            },
+            {
+              "name": "lenient"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "搜索的国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--enable-local",
+          "usage": [
+            "--enable-local [<true|false>]"
+          ],
+          "tip": [
+            "包含本地结果。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "排除这些域名的结果。与 --goggles / --include-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "自定义重排序规则 —— 提升、降权或丢弃结果。",
+            "支持内联规则、@文件、@-（stdin）或托管的 .goggle URL。与 --include-site / --exclude-site 互斥。"
+          ],
+          "example": [
+            {
+              "cmd": "bx context \"axum middleware\" --goggles '$boost=3,site=docs.rs' --max-tokens 4096",
+              "desc": "提升官方文档的权重"
+            }
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "仅包含这些域名的结果。与 --goggles / --exclude-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "用于位置感知结果的纬度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--loc-country",
+          "usage": [
+            "--loc-country <COUNTRY>"
+          ],
+          "tip": [
+            "位置请求头的国家。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "用于位置感知结果的经度。需要 --lat。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--maximum-number-of-snippets",
+          "alias": [
+            "--max-snippets"
+          ],
+          "usage": [
+            "--max-snippets, --maximum-number-of-snippets <N>"
+          ],
+          "tip": [
+            "grounded 内容的最大片段数。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-snippets-per-url",
+          "alias": [
+            "--max-snippets-per-url"
+          ],
+          "usage": [
+            "--max-snippets-per-url, --maximum-number-of-snippets-per-url <N>"
+          ],
+          "tip": [
+            "每个来源 URL 的最大片段数。"
+          ],
+          "next": [
+            {
+              "name": "2"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-tokens",
+          "alias": [
+            "--max-tokens"
+          ],
+          "usage": [
+            "--max-tokens, --maximum-number-of-tokens <N>"
+          ],
+          "tip": [
+            "grounded 内容的最大总 Token 数。"
+          ],
+          "next": [
+            {
+              "name": "2048"
+            },
+            {
+              "name": "4096"
+            },
+            {
+              "name": "8192"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-tokens-per-url",
+          "alias": [
+            "--max-tokens-per-url"
+          ],
+          "usage": [
+            "--max-tokens-per-url, --maximum-number-of-tokens-per-url <N>"
+          ],
+          "tip": [
+            "每个来源 URL 的最大 Token 数。"
+          ],
+          "next": [
+            {
+              "name": "1024"
+            },
+            {
+              "name": "2048"
+            },
+            {
+              "name": "512"
+            }
+          ]
+        },
+        {
+          "name": "--maximum-number-of-urls",
+          "alias": [
+            "--max-urls"
+          ],
+          "usage": [
+            "--max-urls, --maximum-number-of-urls <N>"
+          ],
+          "tip": [
+            "grounded 内容中包含的最大 URL 数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--postal-code",
+          "usage": [
+            "--postal-code <CODE>"
+          ],
+          "tip": [
+            "用于位置感知结果的邮编。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--state",
+          "usage": [
+            "--state <CODE>"
+          ],
+          "tip": [
+            "用于位置感知结果的州缩写（例如 CA）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--state-name",
+          "usage": [
+            "--state-name <NAME>"
+          ],
+          "tip": [
+            "用于位置感知结果的州名（例如 California）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timezone",
+          "usage": [
+            "--timezone <TZ>"
+          ],
+          "tip": [
+            "用于位置感知结果的时区（例如 America/New_York）。"
+          ],
+          "next": [
+            {
+              "name": "America/New_York"
+            },
+            {
+              "name": "UTC"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "descriptions",
+      "usage": [
+        "descriptions <ID>..."
+      ],
+      "tip": [
+        "按 ID 获取 AI 生成的 POI 描述。",
+        "使用 places 命令返回的 ID。"
+      ],
+      "example": [
+        {
+          "cmd": "bx descriptions PLACE_ID_1 PLACE_ID_2",
+          "desc": "获取指定地点的 AI 描述"
+        }
+      ]
+    },
+    {
+      "name": "images",
+      "usage": [
+        "images <QUERY>"
+      ],
+      "tip": [
+        "图片搜索 —— 缩略图、来源、尺寸（最多 200 个结果）。"
+      ],
+      "example": [
+        {
+          "cmd": "bx images \"system architecture diagram microservices\"",
+          "desc": "搜索图片"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "对查询进行拼写检查。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "news",
+      "usage": [
+        "news <QUERY>"
+      ],
+      "tip": [
+        "新闻搜索 —— 支持新鲜度过滤的文章。"
+      ],
+      "example": [
+        {
+          "cmd": "bx news \"npm security advisory\" --freshness pd",
+          "desc": "过去一天的新闻"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "排除这些域名的结果。与 --goggles / --include-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-snippets",
+          "usage": [
+            "--extra-snippets [<true|false>]"
+          ],
+          "tip": [
+            "来自页面不同部分的额外片段。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "新鲜度：pd（过去一天）、pw（过去一周）、pm（过去一月）、py（过去一年），或 YYYY-MM-DDtoYYYY-MM-DD。"
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "自定义重排序规则 —— 提升、降权或丢弃结果。",
+            "支持内联规则、@文件、@-（stdin）或托管的 .goggle URL。与 --include-site / --exclude-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "仅包含这些域名的结果。与 --goggles / --exclude-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "分页的结果偏移量。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "在查询中启用搜索运算符（site:、intitle: 等）。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "对查询进行拼写检查。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "界面语言（例如 en-US、fr-FR）。"
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "places",
+      "usage": [
+        "places [QUERY]"
+      ],
+      "tip": [
+        "本地地点 / POI 搜索，覆盖 2 亿 + POI。",
+        "查询可选 —— 可以仅按位置浏览。"
+      ],
+      "example": [
+        {
+          "cmd": "bx places \"coffee\" --location \"San Francisco CA US\"",
+          "desc": "按查询和位置搜索地点"
+        },
+        {
+          "cmd": "bx places --location \"NYC\" --count 5",
+          "desc": "仅按位置浏览地点"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--latitude",
+          "usage": [
+            "--latitude <LAT>"
+          ],
+          "tip": [
+            "搜索中心的纬度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--location",
+          "usage": [
+            "--location <LOCATION>"
+          ],
+          "tip": [
+            "位置字符串，可替代经纬度（例如 San Francisco CA US）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--longitude",
+          "usage": [
+            "--longitude <LONG>"
+          ],
+          "tip": [
+            "搜索中心的经度。需要 --latitude。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--radius",
+          "usage": [
+            "--radius <METERS>"
+          ],
+          "tip": [
+            "搜索半径（米）。"
+          ],
+          "next": [
+            {
+              "name": "1000"
+            },
+            {
+              "name": "10000"
+            },
+            {
+              "name": "5000"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "对查询进行拼写检查。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "界面语言（例如 en-US、fr-FR）。"
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "结果的单位制。"
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pois",
+      "usage": [
+        "pois <ID>..."
+      ],
+      "tip": [
+        "按 ID 获取 POI 详情 —— 营业时间、评分、评论、联系方式。",
+        "使用 places 命令返回的 ID。"
+      ],
+      "example": [
+        {
+          "cmd": "bx pois PLACE_ID_1 PLACE_ID_2",
+          "desc": "获取指定地点的详情"
+        }
+      ],
+      "option": [
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "用于位置上下文的纬度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "用于位置上下文的经度。需要 --lat。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "界面语言（例如 en-US、fr-FR）。"
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "结果的单位制。"
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "spellcheck",
+      "usage": [
+        "spellcheck <QUERY>"
+      ],
+      "tip": [
+        "检查查询的拼写 —— 返回纠正后的文本。"
+      ],
+      "example": [
+        {
+          "cmd": "bx spellcheck \"kubernetse dployment\"",
+          "desc": "获取纠正后的查询"
+        }
+      ],
+      "option": [
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "usage": [
+            "--lang <LANG>"
+          ],
+          "tip": [
+            "查询语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "suggest",
+      "usage": [
+        "suggest <QUERY>"
+      ],
+      "tip": [
+        "自动补全 / 查询建议。"
+      ],
+      "example": [
+        {
+          "cmd": "bx suggest \"how to implement\" --count 10",
+          "desc": "获取查询建议"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "建议数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "usage": [
+            "--lang <LANG>"
+          ],
+          "tip": [
+            "建议语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--rich",
+          "usage": [
+            "--rich [<true|false>]"
+          ],
+          "tip": [
+            "富建议。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "videos",
+      "usage": [
+        "videos <QUERY>"
+      ],
+      "tip": [
+        "视频搜索 —— 标题、URL、缩略图、时长。"
+      ],
+      "example": [
+        {
+          "cmd": "bx videos \"Rust async await tutorial\" --count 5",
+          "desc": "搜索视频"
+        }
+      ],
+      "option": [
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "新鲜度：pd（过去一天）、pw（过去一周）、pm（过去一月）、py（过去一年），或 YYYY-MM-DDtoYYYY-MM-DD。"
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "分页的结果偏移量。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "在查询中启用搜索运算符（site:、intitle: 等）。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "对查询进行拼写检查。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "界面语言（例如 en-US、fr-FR）。"
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "usage": [
+        "web <QUERY>"
+      ],
+      "tip": [
+        "完整网页搜索 —— 页面、讨论、FAQ、信息卡、新闻、视频。",
+        "需要结构化结果类型、site: 限定、分页或结果过滤时使用。"
+      ],
+      "example": [
+        {
+          "cmd": "bx web \"site:docs.rs axum middleware\"",
+          "desc": "限定站点的网页搜索"
+        },
+        {
+          "cmd": "bx web \"rust error handling\" --result-filter web,discussions",
+          "desc": "过滤结果类型"
+        }
+      ],
+      "option": [
+        {
+          "name": "--city",
+          "usage": [
+            "--city <CITY>"
+          ],
+          "tip": [
+            "用于位置感知结果的城市。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--count",
+          "usage": [
+            "--count <N>"
+          ],
+          "tip": [
+            "结果数量。"
+          ],
+          "next": [
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        },
+        {
+          "name": "--country",
+          "usage": [
+            "--country <CODE>"
+          ],
+          "tip": [
+            "国家代码（例如 US、GB、DE）。"
+          ],
+          "next": [
+            {
+              "name": "DE"
+            },
+            {
+              "name": "GB"
+            },
+            {
+              "name": "US"
+            }
+          ]
+        },
+        {
+          "name": "--exclude-site",
+          "usage": [
+            "--exclude-site <DOMAIN>"
+          ],
+          "tip": [
+            "排除这些域名的结果。与 --goggles / --include-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--extra-snippets",
+          "usage": [
+            "--extra-snippets [<true|false>]"
+          ],
+          "tip": [
+            "来自页面不同部分的额外片段。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--freshness",
+          "usage": [
+            "--freshness <RANGE>"
+          ],
+          "tip": [
+            "新鲜度：pd（过去一天）、pw（过去一周）、pm（过去一月）、py（过去一年），或 YYYY-MM-DDtoYYYY-MM-DD。"
+          ],
+          "next": [
+            {
+              "name": "pd"
+            },
+            {
+              "name": "pm"
+            },
+            {
+              "name": "pw"
+            },
+            {
+              "name": "py"
+            }
+          ]
+        },
+        {
+          "name": "--goggles",
+          "usage": [
+            "--goggles <RULES>"
+          ],
+          "tip": [
+            "自定义重排序规则 —— 提升、降权或丢弃结果。",
+            "支持内联规则、@文件、@-（stdin）或托管的 .goggle URL。与 --include-site / --exclude-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-site",
+          "usage": [
+            "--include-site <DOMAIN>"
+          ],
+          "tip": [
+            "仅包含这些域名的结果。与 --goggles / --exclude-site 互斥。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--lat",
+          "usage": [
+            "--lat <LAT>"
+          ],
+          "tip": [
+            "用于位置感知结果的纬度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--loc-country",
+          "usage": [
+            "--loc-country <COUNTRY>"
+          ],
+          "tip": [
+            "位置请求头的国家。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--long",
+          "usage": [
+            "--long <LONG>"
+          ],
+          "tip": [
+            "用于位置感知结果的经度。需要 --lat。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--offset",
+          "usage": [
+            "--offset <N>"
+          ],
+          "tip": [
+            "分页的结果偏移量。"
+          ],
+          "next": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "20"
+            }
+          ]
+        },
+        {
+          "name": "--operators",
+          "usage": [
+            "--operators [<true|false>]"
+          ],
+          "tip": [
+            "在查询中启用搜索运算符（site:、intitle: 等）。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--postal-code",
+          "usage": [
+            "--postal-code <CODE>"
+          ],
+          "tip": [
+            "用于位置感知结果的邮编。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--result-filter",
+          "usage": [
+            "--result-filter <TYPE,...>"
+          ],
+          "tip": [
+            "包含的逗号分隔结果类型。"
+          ],
+          "separator": ",",
+          "next": [
+            {
+              "name": "discussions"
+            },
+            {
+              "name": "faq"
+            },
+            {
+              "name": "infobox"
+            },
+            {
+              "name": "locations"
+            },
+            {
+              "name": "news"
+            },
+            {
+              "name": "query"
+            },
+            {
+              "name": "summarizer"
+            },
+            {
+              "name": "videos"
+            },
+            {
+              "name": "web"
+            }
+          ]
+        },
+        {
+          "name": "--safesearch",
+          "usage": [
+            "--safesearch <LEVEL>"
+          ],
+          "tip": [
+            "安全搜索级别。"
+          ],
+          "next": [
+            {
+              "name": "moderate"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--search-lang",
+          "usage": [
+            "--search-lang <LANG>"
+          ],
+          "tip": [
+            "搜索语言（例如 en、fr、de）。"
+          ],
+          "next": [
+            {
+              "name": "de"
+            },
+            {
+              "name": "en"
+            },
+            {
+              "name": "fr"
+            }
+          ]
+        },
+        {
+          "name": "--spellcheck",
+          "usage": [
+            "--spellcheck [<true|false>]"
+          ],
+          "tip": [
+            "对查询进行拼写检查。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--state",
+          "usage": [
+            "--state <CODE>"
+          ],
+          "tip": [
+            "州缩写（例如 CA）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--state-name",
+          "usage": [
+            "--state-name <NAME>"
+          ],
+          "tip": [
+            "州名（例如 California）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--text-decorations",
+          "usage": [
+            "--text-decorations [<true|false>]"
+          ],
+          "tip": [
+            "片段中的加粗标记。省略则使用 API 默认值。"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--timezone",
+          "usage": [
+            "--timezone <TZ>"
+          ],
+          "tip": [
+            "时区（例如 America/New_York）。"
+          ],
+          "next": [
+            {
+              "name": "America/New_York"
+            },
+            {
+              "name": "UTC"
+            }
+          ]
+        },
+        {
+          "name": "--ui-lang",
+          "usage": [
+            "--ui-lang <LANG>"
+          ],
+          "tip": [
+            "界面语言（例如 en-US、fr-FR）。"
+          ],
+          "next": [
+            {
+              "name": "en-US"
+            },
+            {
+              "name": "fr-FR"
+            }
+          ]
+        },
+        {
+          "name": "--units",
+          "usage": [
+            "--units <SYSTEM>"
+          ],
+          "tip": [
+            "结果的单位制。"
+          ],
+          "next": [
+            {
+              "name": "imperial"
+            },
+            {
+              "name": "metric"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--api-key",
+      "usage": [
+        "--api-key <KEY>"
+      ],
+      "tip": [
+        "API Key。推荐使用环境变量或配置文件 —— 命令行参数在进程列表中可见。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--base-url",
+      "usage": [
+        "--base-url <URL>"
+      ],
+      "tip": [
+        "API 基础 URL（默认：https://api.search.brave.com）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "配置文件路径（例如区分 dev 和 prod 各用一个）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--endpoint",
+      "usage": [
+        "--endpoint <PATH>"
+      ],
+      "tip": [
+        "覆盖 API 路径（例如 /res/v1/web/search）。用于 Brave 内部或 Beta 接口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--extra",
+      "usage": [
+        "--extra <KEY=VALUE>"
+      ],
+      "tip": [
+        "不在命名参数覆盖范围内的额外 API 参数（可重复）。",
+        "合并到请求体（POST）或查询字符串（GET）。POST 的值会自动推断类型。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <SECONDS>"
+      ],
+      "tip": [
+        "请求超时（秒）（默认：30；--enable-research 下为 300；最大：86400）。"
+      ],
+      "next": [
+        {
+          "name": "30"
+        },
+        {
+          "name": "300"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    }
+  ]
+}
