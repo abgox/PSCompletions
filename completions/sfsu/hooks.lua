@@ -3,7 +3,7 @@ local function get_scoop_root()
 end
 
 local function add_installed()
-    for _, line in ipairs(psc.run({ "sfsu", "list" }) or psc.run({ "scoop", "list" }, { shell = true }) or {}) do
+    for _, line in ipairs(psc.run({ "sfsu", "list" }) or psc.run({ "scoop.ps1", "list" }, { shell = true }) or {}) do
         local name = line:match("^(%S+)")
         if name and not name:match("^Installed") and not name:match("^Name") and not name:match("^%-") then
             psc.add({ name = name, tip = psc.trim(line) })

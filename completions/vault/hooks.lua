@@ -98,8 +98,6 @@ psc.on({
 }, add_policies)
 
 psc.on({
-    { command = { "kv", "get" } },
-    { command = { "kv", "put" } },
     { command = { "kv", "delete" } },
     { command = { "kv", "destroy" } },
     { command = { "kv", "list" } },

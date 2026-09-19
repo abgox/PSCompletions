@@ -20,7 +20,7 @@ local function get_scoop_config()
         end
     end
     local cfg = {}
-    for _, line in ipairs(psc.run({ "scoop", "config" }, { shell = true }) or {}) do
+    for _, line in ipairs(psc.run({ "scoop.ps1", "config" }, { shell = true }) or {}) do
         local k, v = line:gsub("\27%[[%d;]*m", ""):match("^(%S+)%s*:%s*(.+)$")
         if k then
             cfg[k] = v

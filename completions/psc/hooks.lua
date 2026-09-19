@@ -48,6 +48,12 @@ local function rm_reset()
     end
 end
 
+local function clear_completions()
+    for i = #completions, 1, -1 do
+        table.remove(completions, i)
+    end
+end
+
 local function add_installed_completions()
     for _, e in ipairs(psc.ls(data.completions) or {}) do
         if e.is_dir then
@@ -171,7 +177,13 @@ psc.on({ command = "completion", multiple = true }, function()
     end
 end)
 
-psc.on({ command = { "config", "core", "language" } }, rm_reset)
+psc.on({ option = "--reset" }, clear_completions)
+
+psc.on({
+    { command = "list" },
+    { command = { "config", "core", "language" } },
+    { command = { "config", "core", "language", "" } }
+}, rm_reset)
 
 psc.on({
     { command = "update", multiple = true },
