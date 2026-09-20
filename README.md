@@ -26,14 +26,14 @@
     </a>
 </p>
 
-## Introduce
+## Introduction
 
-A completion manager for a better and simpler tab-completion experience in [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
+A tab-completion manager for [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
 
 - [Built-in completion library.](./completions.md)
 - [More powerful completion menu.](https://pscompletions.abgox.com/docs/completion-menu)
-- [Support multiple languages: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
-- [Sort completion items dynamically based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
+- [Multilingual support: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
+- [Dynamic sorting of completion items based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
 
 ## Demo
 
@@ -42,6 +42,7 @@ A completion manager for a better and simpler tab-completion experience in [Powe
 ## How to install
 
 1. Install the module.
+
    - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
@@ -55,8 +56,14 @@ A completion manager for a better and simpler tab-completion experience in [Powe
      ```
 
    - [Scoop](https://scoop.sh)
-     - Add the [abyss](https://abyss.abgox.com) bucket via [GitHub](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss).
-     - Install it.
+
+     - Use [main](https://github.com/ScoopInstaller/Main) bucket
+
+       ```shell
+       scoop install pscompletions
+       ```
+
+     - Use [abyss](https://abyss.abgox.com) bucket ([GitHub](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss))
 
        ```shell
        scoop install abyss/abgox.PSCompletions
@@ -70,10 +77,6 @@ A completion manager for a better and simpler tab-completion experience in [Powe
 
 ## How to use
 
-> [!TIP]
->
-> Run `psc update` to check the remote status.
-
 - [Built-in completion library](./completions.md): add a completion with `psc add git`.
 - [Native completion integration](https://pscompletions.abgox.com/docs/native-completion): use PowerShell's native completions.
   - If a command has an official completion, a similar command may be run:
@@ -85,10 +88,10 @@ A completion manager for a better and simpler tab-completion experience in [Powe
   - Register completions with the PowerShell argument completer:
 
     ```powershell
-    Register-ArgumentCompleter -Native -CommandName <Name> -ScriptBlock { ... }
+    Register-ArgumentCompleter [-Native] -CommandName <Name> -ScriptBlock { }
     ```
 
-  - Use other completion libraries, e.g. [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
+  - Use other completion libraries such as [Carapace](https://pscompletions.abgox.com/docs/tools/carapace).
 
 ## What's new
 
@@ -105,7 +108,7 @@ If you like this project, feel free to give it a Star ⭐️ or [Donate 💰](ht
 ## Acknowledgements
 
 - [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell's editing and completion foundation.
-- The [completion menu](https://pscompletions.abgox.com/docs/completion-menu) UI is inspired by [fzf](https://github.com/junegunn/fzf), [PSFzf](https://github.com/kelleyma49/PSFzf), and [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion) (v6).
+- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) — UI inspiration for the [completion menu](https://pscompletions.abgox.com/docs/completion-menu).
 
 ## License
 

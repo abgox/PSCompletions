@@ -28,12 +28,12 @@
 
 ## 介绍
 
-一个补全管理器，为 [PowerShell](https://microsoft.com/powershell) 带来更出色、更简便的 Tab 补全体验，基于 [Rust + Lua](https://pscompletions.abgox.com/docs/how-it-works) 构建。
+适用于 [PowerShell](https://microsoft.com/powershell) 的 Tab 补全管理器，基于 [Rust 和 Lua](https://pscompletions.abgox.com/docs/how-it-works) 构建。
 
 - [内置的补全库](./completions.zh-CN.md)
 - [更强大的补全菜单](https://pscompletions.abgox.com/docs/completion-menu)
-- [支持多种语言: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
-- [根据命令历史记录动态排序补全项](https://pscompletions.abgox.com/docs/sort-completion-items)
+- [多语言支持: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
+- [基于命令历史的补全项动态排序](https://pscompletions.abgox.com/docs/sort-completion-items)
 
 ## 演示
 
@@ -42,6 +42,7 @@
 ## 安装
 
 1. 安装模块
+
    - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
@@ -55,8 +56,14 @@
      ```
 
    - [Scoop](https://scoop.sh)
-     - 添加 [abyss](https://abyss.abgox.com) bucket ([GitHub](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
-     - 安装它
+
+     - 使用 [main](https://github.com/ScoopInstaller/Main) bucket
+
+       ```shell
+       scoop install pscompletions
+       ```
+
+     - 使用 [abyss](https://abyss.abgox.com) bucket ([GitHub](https://github.com/abgox/abyss) 或 [Gitee](https://gitee.com/abgox/abyss))
 
        ```shell
        scoop install abyss/abgox.PSCompletions
@@ -70,10 +77,6 @@
 
 ## 使用
 
-> [!TIP]
->
-> 运行 `psc update` 以检查远程状态
-
 - [内置补全库](./completions.zh-CN.md): 使用 `psc add git` 添加补全
 - [原生补全集成](https://pscompletions.abgox.com/docs/native-completion): 使用 PowerShell 的原生补全
   - 如果命令存在官方补全，可以使用类似的命令:
@@ -85,7 +88,7 @@
   - 使用 PowerShell 参数补全器:
 
     ```powershell
-    Register-ArgumentCompleter -Native -CommandName <Name> -ScriptBlock { ... }
+    Register-ArgumentCompleter [-Native] -CommandName <Name> -ScriptBlock { }
     ```
 
   - 使用其他的补全库，例如 [Carapace](https://pscompletions.abgox.com/docs/tools/carapace)
@@ -104,8 +107,8 @@
 
 ## 致谢
 
-- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 内置的行编辑与补全基础。
-- [补全菜单](https://pscompletions.abgox.com/docs/completion-menu) UI 参考了 [fzf](https://github.com/junegunn/fzf)、[PSFzf](https://github.com/kelleyma49/PSFzf) 与 [PS-GuiCompletion](https://github.com/nightroman/PS-GuiCompletion)（v6）。
+- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 的编辑与补全基础
+- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) — [补全菜单](https://pscompletions.abgox.com/docs/completion-menu) 的 UI 参考
 
 ## License
 
