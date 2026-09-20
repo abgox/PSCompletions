@@ -177,8 +177,8 @@ pub(crate) fn api_run_batch(
 }
 
 /// Wrap a command line in the platform shell so batch/PowerShell shims (e.g. `scoop`) can be
-/// executed: `psc.run({ "scoop.ps1", "config" }, { shell = true })` → `cmd /c "scoop.ps1 config"` on
-/// Windows, `sh -c "scoop.ps1 config"` elsewhere. Arguments containing whitespace or quotes are
+/// executed: `psc.run({ "scoop", "config" }, { shell = true })` → `cmd /c "scoop config"` on
+/// Windows, `sh -c "scoop config"` elsewhere. Arguments containing whitespace or quotes are
 /// quoted so the shell sees them as single words.
 #[allow(dead_code)]
 fn wrap_shell(argv: &[String]) -> Vec<String> {

@@ -447,7 +447,7 @@ Do **not** spawn threads from Lua.
 - **Read-only files**: file APIs are read-only.
 - **Windows shim executables**: `psc.run` spawns the command directly — on Windows, batch/powerShell
   **shims** (e.g. `scoop`'s extension-less wrapper) cannot be spawned that way. Run them through the
-  shell instead: `psc.run({ "scoop.ps1", "config" }, { shell = true })`. (Or wrap manually with
+  shell instead: `psc.run({ "scoop", "config" }, { shell = true })`. (Or wrap manually with
   `cmd /c` when you need precise control.) Prefer `psc.which` first when in doubt.
 - **Trust model**: a completion's `hooks.lua` runs with the full `psc.*` power — `psc.run` can
   execute arbitrary subprocesses in the user's cwd, and `psc.read`/`psc.glob` can read any file.
