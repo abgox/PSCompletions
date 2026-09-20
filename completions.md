@@ -101,6 +101,7 @@
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
+|[hugo](https://gohugo.io)|A fast and flexible static site generator built with Go.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - The command-line interface for Ionic|
@@ -139,6 +140,7 @@
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
 |[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
+|[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
 |[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
 |[nl](https://uutils.org)|Number lines of files.|

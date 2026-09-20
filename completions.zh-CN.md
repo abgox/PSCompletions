@@ -101,6 +101,7 @@
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
+|[hugo](https://gohugo.io)|一个用 Go 构建的快速灵活的静态站点生成器。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - Ionic 的命令行界面|
@@ -139,6 +140,7 @@
 |[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
 |[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
 |[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
+|[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
 |[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
 |[ngrok](https://ngrok.com/)|面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
 |[nl](https://uutils.org)|为文件行编号。|
