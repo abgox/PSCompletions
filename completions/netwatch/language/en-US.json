@@ -1,0 +1,438 @@
+{
+  "meta": {
+    "url": "https://github.com/matthart1983/netwatch",
+    "description": [
+      "Real-time network diagnostics in your terminal."
+    ]
+  },
+  "next": [
+    {
+      "name": "daemon",
+      "tip": [
+        "Run in headless daemon mode."
+      ],
+      "option": [
+        {
+          "name": "--api-key",
+          "usage": [
+            "--api-key <key>"
+          ],
+          "tip": [
+            "Remote API key."
+          ],
+          "next": []
+        },
+        {
+          "name": "--metrics",
+          "tip": [
+            "Expose daemon metrics on 127.0.0.1:9464."
+          ]
+        },
+        {
+          "name": "--metrics-addr",
+          "usage": [
+            "--metrics-addr <addr>"
+          ],
+          "tip": [
+            "Daemon metrics address."
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "usage": [
+            "--remote <url>"
+          ],
+          "tip": [
+            "Remote URL (requires API key)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diagnose",
+      "tip": [
+        "Run the diagnostic engine."
+      ],
+      "next": [
+        {
+          "name": "corpus",
+          "usage": [
+            "corpus [dir]"
+          ],
+          "tip": [
+            "Show diagnostic corpus information."
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "Show diagnostic rule coverage."
+          ],
+          "option": [
+            {
+              "name": "--doc",
+              "usage": [
+                "--doc [path]"
+              ],
+              "tip": [
+                "Documentation output path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output as JSON."
+              ]
+            },
+            {
+              "name": "--seconds",
+              "usage": [
+                "--seconds <n>"
+              ],
+              "tip": [
+                "Coverage window in seconds (1..120)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--test",
+              "usage": [
+                "--test <check>"
+              ],
+              "tip": [
+                "Run a specific diagnostic test."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "episodes",
+          "usage": [
+            "episodes [dir]"
+          ],
+          "tip": [
+            "List recorded diagnostic episodes."
+          ]
+        },
+        {
+          "name": "export",
+          "usage": [
+            "export [--since days] [--out file] [--dry-run] [dir]"
+          ],
+          "tip": [
+            "Export diagnostic data."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Preview without writing files."
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <file>"
+              ],
+              "tip": [
+                "Output file path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--since",
+              "usage": [
+                "--since <days>"
+              ],
+              "tip": [
+                "Export data since N days ago."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "features",
+          "usage": [
+            "features [--out file] [--schema file] <file|dir>..."
+          ],
+          "tip": [
+            "Extract features from diagnostic episodes."
+          ],
+          "option": [
+            {
+              "name": "--out",
+              "usage": [
+                "--out <file>"
+              ],
+              "tip": [
+                "Output file path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--schema",
+              "usage": [
+                "--schema <file>"
+              ],
+              "tip": [
+                "Schema file path."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "replay",
+          "usage": [
+            "replay [--json] <file|dir>..."
+          ],
+          "tip": [
+            "Replay diagnostic episodes."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output as JSON."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "Run a diagnosis on a target."
+          ],
+          "option": [
+            {
+              "name": "--budget",
+              "usage": [
+                "--budget <duration>"
+              ],
+              "tip": [
+                "Diagnosis budget, e.g. 30s."
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <format>"
+              ],
+              "tip": [
+                "Output format."
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON output."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <name>"
+              ],
+              "tip": [
+                "Target to check."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "Run a read-only setup report."
+      ],
+      "option": [
+        {
+          "name": "--check-capture",
+          "tip": [
+            "Check packet capture capability."
+          ]
+        },
+        {
+          "name": "--interface",
+          "usage": [
+            "--interface <name>"
+          ],
+          "tip": [
+            "Check a specific network interface."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output the report as JSON."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resolver",
+      "tip": [
+        "Manage DNS resolver configuration."
+      ],
+      "next": [
+        {
+          "name": "recover",
+          "tip": [
+            "Recover the resolver to its managed state."
+          ],
+          "option": [
+            {
+              "name": "--unmanaged",
+              "tip": [
+                "Recover from unmanaged mode."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <ip> --unmanaged"
+          ],
+          "tip": [
+            "Set a custom DNS resolver."
+          ],
+          "option": [
+            {
+              "name": "--seconds",
+              "usage": [
+                "--seconds <n>"
+              ],
+              "tip": [
+                "Override duration in seconds (1..3600)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--unmanaged",
+              "tip": [
+                "Set resolver in unmanaged mode (no auto-recovery)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show current resolver status."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--demo",
+      "tip": [
+        "Replay the Diagnose demo."
+      ]
+    },
+    {
+      "name": "--generate-config",
+      "tip": [
+        "Write default config file and exit."
+      ]
+    },
+    {
+      "name": "--headless",
+      "alias": [
+        "--daemon"
+      ],
+      "usage": [
+        "--daemon, --headless"
+      ],
+      "tip": [
+        "Headless mode (daemon)."
+      ]
+    },
+    {
+      "name": "--lite",
+      "tip": [
+        "Start in Lite view."
+      ]
+    },
+    {
+      "name": "--no-sandbox",
+      "tip": [
+        "Disable sandbox enforcement."
+      ]
+    },
+    {
+      "name": "--sandbox-strict",
+      "tip": [
+        "Require sandbox enforcement; reject unverified startup entries."
+      ]
+    },
+    {
+      "name": "--view",
+      "usage": [
+        "--view <view>"
+      ],
+      "tip": [
+        "Set the view mode: full, lite, or dense."
+      ],
+      "next": [
+        {
+          "name": "dense",
+          "tip": [
+            "Dense view with four boxes and braille throughput."
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "Full view with all ten tabs."
+          ]
+        },
+        {
+          "name": "lite",
+          "tip": [
+            "Lite view for 80x24 terminals."
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Show version."
+      ]
+    }
+  ]
+}
