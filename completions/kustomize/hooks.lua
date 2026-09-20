@@ -56,7 +56,6 @@ psc.on({
     { command = { "edit", "add", "resource" }, multiple = true },
     { command = { "edit", "remove", "resource" }, multiple = true },
     { command = { "edit", "add", "base" }, multiple = true },
-    { command = "create" }
 }, add_yaml_files)
 
 psc.on({ option = "--namespace" }, add_namespaces)

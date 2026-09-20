@@ -9,5 +9,4 @@ psc.on({
     { command = "eval-all" },
     { option = "--from-file" },
     { option = "--split-exp-file" },
-    {}
 }, add_files)

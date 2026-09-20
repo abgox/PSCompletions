@@ -46,19 +46,7 @@ psc.on({
     { option = "-replace" }
 }, add_resources)
 
-psc.on({
-    { command = { "backend", "migrate" }, multiple = true },
-    { command = { "backend", "bootstrap" } },
-    { command = { "backend", "delete" } },
-    { command = "find", multiple = true },
-    { command = "list", multiple = true },
-    { command = { "dag", "graph" } },
-    { command = "init", multiple = true },
-    { command = "plan", multiple = true },
-    { command = "apply", multiple = true },
-    { command = "destroy", multiple = true },
-    { option = "--config" }
-}, add_units)
+psc.on({ option = "--config" }, add_units)
 
 psc.on({ option = "--tf-path" }, function()
     psc.add({ name = "terraform", tip = "terraform binary" })

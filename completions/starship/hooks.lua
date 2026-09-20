@@ -17,20 +17,9 @@ local function add_modules()
     end
 end
 
-local function add_configs()
-    -- starship config file paths
-    for _, p in ipairs(psc.glob("starship.toml") or {}) do
-        psc.add({ name = p, tip = "config" })
-    end
-    local cfg = psc.env("STARSHIP_CONFIG")
-    if cfg then psc.add({ name = cfg, tip = "STARSHIP_CONFIG" }) end
-end
-
 psc.on({ command = "preset" }, add_presets)
 
 psc.on({
     { command = "module" },
     { command = "toggle" }
 }, add_modules)
-
-psc.on({ command = "config" }, add_configs)

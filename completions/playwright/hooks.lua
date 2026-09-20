@@ -8,11 +8,6 @@ local function add_config()
     for _, p in ipairs(psc.glob("playwright.config.{js,ts,mjs,cjs,mts,cts}") or {}) do psc.add({ name = p }) end
 end
 
-psc.on({}, function()
-    add_config()
-    add_tests()
-end)
-
 psc.on({ command = "test" }, add_tests)
 
 psc.on({ command = "show-report" }, function()

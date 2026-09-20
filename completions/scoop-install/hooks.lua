@@ -2,32 +2,26 @@ if psc.platform ~= "windows" or psc.typing.option_like then
     return
 end
 
-local scoop_config_cache = nil
-
 local function get_scoop_config()
-    if scoop_config_cache then
-        return scoop_config_cache
-    end
     local root = psc.env("SCOOP")
+    if not root then
+        local scoop = psc.which("scoop")
+        if scoop then
+            root = scoop:gsub("\\shims\\scoop", "")
+        else
+            return {}
+        end
+    end
     local home = psc.env("USERPROFILE") or psc.env("HOME")
     if root then
         for _, path in ipairs({ psc.path(root, "config.json"), psc.path(home, ".config", "scoop", "config.json") }) do
             if psc.exist(path) then
                 local cfg = psc.json(path) or {}
-                scoop_config_cache = cfg
                 return cfg
             end
         end
     end
-    local cfg = {}
-    for _, line in ipairs(psc.run({ "scoop", "config" }, { shell = true }) or {}) do
-        local k, v = line:gsub("\27%[[%d;]*m", ""):match("^(%S+)%s*:%s*(.+)$")
-        if k then
-            cfg[k] = v
-        end
-    end
-    scoop_config_cache = cfg
-    return cfg
+    return {}
 end
 
 local function get_root()

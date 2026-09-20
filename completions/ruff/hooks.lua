@@ -6,18 +6,11 @@ local function add_config()
     for _, p in ipairs(psc.glob("{ruff.toml,.ruff.toml,pyproject.toml}") or {}) do psc.add({ name = p }) end
 end
 
-psc.on({
-    {},
-    { option = "--config" }
-}, add_config)
+psc.on({ option = "--config" }, add_config)
 
 psc.on({
-    {},
     { command = "check" },
     { command = "format" },
-    { command = "analyze" },
-    { command = "rule" },
-    { command = "linter" }
 }, add_files)
 
 psc.on({ option = "--select" }, function()
