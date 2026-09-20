@@ -1,0 +1,2989 @@
+{
+  "meta": {
+    "url": "https://opentofu.org",
+    "description": [
+      "Open-source infrastructure as code tool."
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [PLAN]"
+      ],
+      "tip": [
+        "Creates or updates infrastructure according to OpenTofu configuration."
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "Skip interactive approval of plan before applying."
+          ]
+        },
+        {
+          "name": "-backup",
+          "usage": [
+            "-backup <PATH>"
+          ],
+          "tip": [
+            "Path to backup the existing state file before modifying."
+          ],
+          "next": []
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "Disables progress-related messages in the output."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-deprecation",
+          "usage": [
+            "-deprecation <MODULE:M>"
+          ],
+          "tip": [
+            "Specify what type of warnings are shown.",
+            "Default: all."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Show deprecation warnings for all modules.",
+                "Default."
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "Show deprecation warnings only for relatively imported modules."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "Drop all deprecation warnings."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "Destroy OpenTofu-managed infrastructure."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "Limit the number of parallel resource operations.",
+            "Defaults to 10."
+          ],
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "If specified, sensitive values will be displayed."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to read and save state (unless state-out is specified).",
+            "Defaults to \"terraform.tfstate\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-state-out",
+          "usage": [
+            "-state-out <PATH>"
+          ],
+          "tip": [
+            "Path to write state to that is different than -state."
+          ],
+          "next": []
+        },
+        {
+          "name": "-suppress-forget-errors",
+          "tip": [
+            "Suppress the error that occurs when a destroy operation completes successfully but leaves forgotten instances behind."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a variable in the OpenTofu configuration.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Set variables in the OpenTofu configuration from a file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "tip": [
+        "Starts an interactive console for experimenting with OpenTofu expressions."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Streams the output of the console, to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Legacy option for the local backend only."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a variable in the OpenTofu configuration.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Set variables in the OpenTofu configuration from a file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "tip": [
+        "Destroy OpenTofu-managed infrastructure.",
+        "Convenience alias for: tofu apply -destroy."
+      ],
+      "option": [
+        {
+          "name": "-destroy",
+          "tip": [
+            "Select the \"destroy\" planning mode."
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "Limit the planning operation to not operate on the given resource.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-exclude-file",
+          "usage": [
+            "-exclude-file <FILE>"
+          ],
+          "tip": [
+            "Similar to -exclude, but specifies zero or more resource addresses from a file."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "Skip checking for external changes to remote objects while creating the plan."
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "Select the \"refresh only\" planning mode."
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <RESOURCE>"
+          ],
+          "tip": [
+            "Force replacement of a particular resource instance.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-suppress-forget-errors",
+          "tip": [
+            "Suppress the error that occurs when a destroy operation completes successfully but leaves forgotten instances behind."
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "Limit the planning operation to only the given resource.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-target-file",
+          "usage": [
+            "-target-file <FILE>"
+          ],
+          "tip": [
+            "Similar to -target, but specifies zero or more resource addresses from a file."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [TARGET]"
+      ],
+      "tip": [
+        "Rewrites all OpenTofu configuration files to a canonical format."
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "Check if the input is formatted. Exit status will be 0 if all input is properly formatted and non-zero otherwise."
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "Display diffs of formatting changes."
+          ]
+        },
+        {
+          "name": "-list",
+          "tip": [
+            "Don't list files whose formatting differs."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "Also process files in subdirectories."
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "Don't write to source files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock LOCK_ID"
+      ],
+      "tip": [
+        "Manually unlock the state for the defined configuration."
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "Don't ask for input for unlock confirmation."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "Downloads and installs modules needed for the configuration."
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable text coloring in the output."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the OpenTofu test directory.",
+            "Defaults to \"tests\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-update",
+          "tip": [
+            "Check already-downloaded modules for available updates and install the newest versions available."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "graph",
+      "tip": [
+        "Produces a representation of the dependency graph."
+      ],
+      "option": [
+        {
+          "name": "-draw-cycles",
+          "tip": [
+            "Highlight any cycles in the graph with colored edges."
+          ]
+        },
+        {
+          "name": "-module-depth",
+          "usage": [
+            "-module-depth <N>"
+          ],
+          "tip": [
+            "Deprecated option for module display depth."
+          ],
+          "next": []
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PLAN>"
+          ],
+          "tip": [
+            "Render graph using the specified plan file instead of the configuration in the current directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "-type",
+          "usage": [
+            "-type <TYPE>"
+          ],
+          "tip": [
+            "Type of graph to output.",
+            "Default: plan, or apply when -plan is set."
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply operation graph."
+              ]
+            },
+            {
+              "name": "plan",
+              "tip": [
+                "Plan operation graph."
+              ]
+            },
+            {
+              "name": "plan-destroy",
+              "tip": [
+                "Plan-destroy operation graph."
+              ]
+            },
+            {
+              "name": "plan-refresh-only",
+              "tip": [
+                "Plan-refresh-only operation graph."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import ADDR ID"
+      ],
+      "tip": [
+        "Import existing infrastructure into your OpenTofu state."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "Path to a directory of OpenTofu configuration files to use to configure the provider."
+          ],
+          "next": []
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "A rare option used for the remote backend only."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Disable interactive input prompts."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "The output of the command is printed in json format."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a variable in the OpenTofu configuration. This is only useful with the -config flag.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Set variables in the OpenTofu configuration from a file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Initialize a new or existing OpenTofu working directory."
+      ],
+      "option": [
+        {
+          "name": "-backend",
+          "alias": [
+            "-cloud"
+          ],
+          "usage": [
+            "-cloud, -backend"
+          ],
+          "tip": [
+            "Disable backend or cloud backend initialization for this configuration and use what was previously initialized instead."
+          ]
+        },
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "Configuration to be merged with what is in the configuration file's backend block.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-force-copy",
+          "tip": [
+            "Suppress prompts about copying state data when initializing a new state backend."
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "Copy the contents of the given module into the target directory before initialization."
+          ],
+          "next": []
+        },
+        {
+          "name": "-get",
+          "tip": [
+            "Disable downloading modules for this configuration."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "A rare option used for cloud backend and the remote backend only."
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Disable interactive prompts."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during backend migration."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "Set a dependency lockfile mode."
+          ],
+          "next": [
+            {
+              "name": "readonly",
+              "tip": [
+                "Read-only lockfile mode."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "Reconfigure a backend, and attempt to migrate any existing state."
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-plugin-dir",
+          "usage": [
+            "-plugin-dir <DIR>"
+          ],
+          "tip": [
+            "Directory containing plugin binaries. This overrides all default search paths for plugins.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "Reconfigure a backend, ignoring any saved configuration."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the OpenTofu test directory.",
+            "Defaults to \"tests\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "Install the latest module and provider versions allowed within configured constraints."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [HOSTNAME]"
+      ],
+      "tip": [
+        "Retrieves an authentication token for the given hostname and saves it in a credentials file."
+      ]
+    },
+    {
+      "name": "logout",
+      "usage": [
+        "logout [HOSTNAME]"
+      ],
+      "tip": [
+        "Removes locally-stored credentials for specified hostname."
+      ]
+    },
+    {
+      "name": "metadata",
+      "tip": [
+        "Metadata related commands."
+      ],
+      "next": [
+        {
+          "name": "functions",
+          "usage": [
+            "functions -json"
+          ],
+          "tip": [
+            "Prints out a json representation of the available function signatures."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [NAME]"
+      ],
+      "tip": [
+        "Reads an output variable from a OpenTofu state file and prints it."
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "For value types that can be automatically converted to a string, will print the raw string directly."
+          ]
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "If specified, sensitive values will be displayed."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "Path to the state file to read.",
+            "Defaults to \"terraform.tfstate\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "tip": [
+        "Generates a speculative execution plan."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "Disable progress-related messages."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "Attempt to consolidate similar error messages into a single item."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "Do not attempt to consolidate similar warning messages."
+          ]
+        },
+        {
+          "name": "-deprecation",
+          "usage": [
+            "-deprecation <MODULE:M>"
+          ],
+          "tip": [
+            "Specify what type of warnings are shown.",
+            "Default: all."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Show deprecation warnings for all modules.",
+                "Default."
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "Show deprecation warnings only for relatively imported modules."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "Drop all deprecation warnings."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "Select the \"destroy\" planning mode."
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "Return detailed exit codes when the command exits: 0 no changes, 1 error, 2 changes proposed."
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "Limit the planning operation to not operate on the given resource.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-exclude-file",
+          "usage": [
+            "-exclude-file <FILE>"
+          ],
+          "tip": [
+            "Similar to -exclude, but specifies zero or more resource addresses from a file."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "Experimental: generate HCL for imported resources not already present."
+          ],
+          "next": []
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Disable prompting for required input variables that are not set some other way."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock, such as \"5s\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable virtual terminal escape sequences."
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "Write a plan file to the given path. This can be used as input to the \"apply\" command."
+          ],
+          "next": []
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "Limit the number of concurrent operations.",
+            "Defaults to 10."
+          ],
+          "next": []
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "Skip checking for external changes to remote objects while creating the plan."
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "Select the \"refresh only\" planning mode."
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <RESOURCE>"
+          ],
+          "tip": [
+            "Force replacement of a particular resource instance.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "If specified, sensitive values will not be redacted in the UI output."
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "A legacy option used for the local backend only."
+          ],
+          "next": []
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "Limit the planning operation to only the given resource.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-target-file",
+          "usage": [
+            "-target-file <FILE>"
+          ],
+          "tip": [
+            "Similar to -target, but specifies zero or more resource addresses from a file."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "usage": [
+        "providers [DIR]"
+      ],
+      "tip": [
+        "Prints out a tree of modules annotated with their provider requirements."
+      ],
+      "option": [
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the OpenTofu test directory.",
+            "Defaults to \"tests\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock [PROVIDERS]"
+          ],
+          "tip": [
+            "Updates the dependency lock file (.terraform.lock.hcl)."
+          ],
+          "option": [
+            {
+              "name": "-fs-mirror",
+              "usage": [
+                "-fs-mirror <DIR>"
+              ],
+              "tip": [
+                "Consult the given filesystem mirror directory instead of the origin registry."
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-net-mirror",
+              "usage": [
+                "-net-mirror <URL>"
+              ],
+              "tip": [
+                "Consult the given network mirror (given as a base URL) instead of the origin registry."
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "Choose a target platform to request package checksums for.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror <TARGET-DIR>"
+          ],
+          "tip": [
+            "Build a local mirror directory of provider packages."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "Choose which target platform to build a mirror for."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "Prints out machine-readable schemas of provider plugins."
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "tip": [
+        "Update the state file of your infrastructure with metadata that matches the actual remote objects."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "Disables progress-related messages in the output."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "Resource to exclude. Operation will be limited to all resources that are not excluded.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "Ask for input for variables if not directly set."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "Limit the number of concurrent operations.",
+            "Defaults to 10."
+          ],
+          "next": []
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "Resource to target. Operation will be limited to this resource and its dependencies.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a variable in the OpenTofu configuration.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Set variables in the OpenTofu configuration from a file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [PATH]"
+      ],
+      "tip": [
+        "Reads and outputs a OpenTofu state or plan file in a human-readable form."
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "tip": [
+            "Show the current configuration (requires -json)."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Show the information in a machine-readable form."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "Disable terminal escape sequences."
+          ]
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "The plan from a saved plan file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "If specified, sensitive values will be displayed."
+          ]
+        },
+        {
+          "name": "-state",
+          "tip": [
+            "The latest state snapshot, if any."
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "Advanced state management."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [ADDRESS]"
+          ],
+          "tip": [
+            "List resources in the OpenTofu state."
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "Filters the results to include only instances whose resource types have an attribute named \"id\"."
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to a OpenTofu state file to use to look up resources."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "alias": [
+            "mv"
+          ],
+          "usage": [
+            "mv|move SOURCE DESTINATION"
+          ],
+          "tip": [
+            "Move an item in the OpenTofu state."
+          ],
+          "option": [
+            {
+              "name": "-dry-run",
+              "tip": [
+                "If set, prints out what would've been moved but doesn't actually move anything."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "A rare option used for the remote backend only."
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Pull current state and output to stdout."
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push PATH"
+          ],
+          "tip": [
+            "Update remote state from a local state file."
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Write the state even if lineages don't match or the remote serial is higher."
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove ADDRESS"
+          ],
+          "tip": [
+            "Remove one or more items from the OpenTofu state."
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "usage": [
+                "-backup <PATH>"
+              ],
+              "tip": [
+                "Path where OpenTofu should write the backup state."
+              ],
+              "next": []
+            },
+            {
+              "name": "-dry-run",
+              "tip": [
+                "If set, prints out what would've been removed but doesn't actually remove anything."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "Continue even if remote and local OpenTofu versions are incompatible."
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to the state file to update.",
+                "Defaults to the current workspace state."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "replace-provider",
+          "usage": [
+            "replace-provider <FROM> <TO>"
+          ],
+          "tip": [
+            "Replace provider in the OpenTofu state."
+          ],
+          "option": [
+            {
+              "name": "-auto-approve",
+              "tip": [
+                "Skip interactive approval."
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "A rare option used for the remote backend only."
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show ADDRESS"
+          ],
+          "tip": [
+            "Shows the attributes of a resource in the OpenTofu state."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Produce output in a machine-readable JSON format. Always disables color."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-show-sensitive",
+              "tip": [
+                "If specified, sensitive values will be displayed."
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Path to a OpenTofu state file to use to look up resources."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "taint",
+      "usage": [
+        "taint <ADDRESS>"
+      ],
+      "tip": [
+        "Mark a resource instance as not fully functional."
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "If specified, the command will succeed (exit code 0) even if the resource is missing."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "A rare option used for the remote backend only."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "Executes automated integration tests against the current OpenTofu configuration."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "If specified, OpenTofu will only execute the test files specified by this flag.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "If specified, machine readable output will be printed in JSON format."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the OpenTofu test directory.",
+            "Defaults to \"tests\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "Print the plan or state for each test run block as it executes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untaint",
+      "usage": [
+        "untaint <NAME>"
+      ],
+      "tip": [
+        "Remove the tainted state from a resource instance."
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "If specified, the command will succeed (exit code 0) even if the resource is missing."
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "A rare option used for the remote backend only."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "Don't hold a state lock during the operation."
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "Duration to retry a state lock."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "tip": [
+        "Validate the configuration files in a directory."
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "Show warnings in a more compact form that includes only the summary messages."
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "No consolidation will be performed for errors. Disabled by default."
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "No consolidation will be performed for warnings. Enabled by default."
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "Produce output in a machine-readable JSON format. Always disables color."
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "Produce the same output as -json, but sent directly to the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "If specified, output won't contain any color."
+          ]
+        },
+        {
+          "name": "-no-tests",
+          "tip": [
+            "If specified, OpenTofu will not validate test files."
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "Set the OpenTofu test directory.",
+            "Defaults to \"tests\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "Set a value for one of the input variables in the root module.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "Load variable values from the given file.",
+            "Repeatable."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "Displays the version of OpenTofu and all installed plugins."
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "Output the version information as a JSON object."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace",
+      "tip": [
+        "Workspace management."
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete NAME"
+          ],
+          "tip": [
+            "Delete a workspace."
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "Remove a workspace even if it is managing resources."
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "The output of the command is printed in json format."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List Workspaces."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "The output of the command is printed in json format."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "new",
+          "usage": [
+            "new NAME"
+          ],
+          "tip": [
+            "Create a new OpenTofu workspace."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "The output of the command is printed in json format."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "Don't hold a state lock during the operation."
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "Duration to retry a state lock."
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "Copy an existing state file into the new workspace."
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "select",
+          "usage": [
+            "select NAME"
+          ],
+          "tip": [
+            "Select a different OpenTofu workspace."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "The output of the command is printed in json format."
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "Produce the same output as -json, but sent directly to the given file."
+              ],
+              "next": []
+            },
+            {
+              "name": "-or-create",
+              "tip": [
+                "Create the OpenTofu workspace if it doesn't exist."
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "Set a value for one of the input variables in the root module.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "Load variable values from the given file.",
+                "Repeatable."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "Show the name of the current workspace."
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-chdir",
+      "usage": [
+        "-chdir <DIR>"
+      ],
+      "tip": [
+        "Switch to a different working directory before executing the given subcommand."
+      ],
+      "next": []
+    },
+    {
+      "name": "-help",
+      "tip": [
+        "Show this help output, or the help for a specified subcommand."
+      ]
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "An alias for the \"version\" subcommand."
+      ]
+    }
+  ]
+}

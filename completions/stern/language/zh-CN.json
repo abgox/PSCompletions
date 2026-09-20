@@ -1,0 +1,732 @@
+{
+  "meta": {
+    "url": "https://github.com/stern/stern",
+    "description": [
+      "同时 tail 多个 Kubernetes pod 与容器的日志。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all-namespaces",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all-namespaces"
+      ],
+      "tip": [
+        "跨所有 namespace tail。"
+      ]
+    },
+    {
+      "name": "--as",
+      "usage": [
+        "--as <USER>"
+      ],
+      "tip": [
+        "操作时模拟的用户名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <GROUP>"
+      ],
+      "tip": [
+        "操作时模拟的用户组。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <UID>"
+      ],
+      "tip": [
+        "操作时模拟的 UID。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-user-extra",
+      "usage": [
+        "--as-user-extra <EXTRA>"
+      ],
+      "tip": [
+        "操作时模拟的用户附加信息。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--burst",
+      "usage": [
+        "--burst <INT>"
+      ],
+      "tip": [
+        "对 Kubernetes API server 的最大突发节流。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
+      "tip": [
+        "默认缓存目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-authority",
+      "usage": [
+        "--certificate-authority <PATH>"
+      ],
+      "tip": [
+        "证书颁发机构 cert 文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-certificate",
+      "usage": [
+        "--client-certificate <PATH>"
+      ],
+      "tip": [
+        "TLS 客户端证书文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-key",
+      "usage": [
+        "--client-key <PATH>"
+      ],
+      "tip": [
+        "TLS 客户端密钥文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cluster",
+      "usage": [
+        "--cluster <NAME>"
+      ],
+      "tip": [
+        "使用的 kubeconfig cluster 名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <COLOR>"
+      ],
+      "tip": [
+        "强制彩色输出。",
+        "默认: auto。"
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "始终彩色。"
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "tty 接入时彩色。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "从不彩色。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--completion",
+      "usage": [
+        "--completion <SHELL>"
+      ],
+      "tip": [
+        "输出指定 shell 的 stern 补全代码。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 补全代码。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 补全代码。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 补全代码。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--condition",
+      "usage": [
+        "--condition <CONDITION>"
+      ],
+      "tip": [
+        "过滤条件：[condition-name[=condition-value]。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "stern 配置文件路径。",
+        "默认: ~/.config/stern/config.yaml。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --container <REGEX>"
+      ],
+      "tip": [
+        "pod 多容器时的容器名（正则）。",
+        "默认: .*。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-colors",
+      "usage": [
+        "--container-colors <COLORS>"
+      ],
+      "tip": [
+        "高亮容器名的颜色。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-state",
+      "usage": [
+        "--container-state <STATE>"
+      ],
+      "tip": [
+        "tail 指定状态的容器。",
+        "可重复或逗号分隔。默认: all。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "匹配所有容器状态。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "running",
+          "tip": [
+            "运行中的容器。"
+          ]
+        },
+        {
+          "name": "terminated",
+          "tip": [
+            "已终止的容器。"
+          ]
+        },
+        {
+          "name": "waiting",
+          "tip": [
+            "等待中的容器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <CONTEXT>"
+      ],
+      "tip": [
+        "使用的 kubeconfig context 名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--diff-container",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --diff-container"
+      ],
+      "tip": [
+        "不同容器显示不同颜色。"
+      ]
+    },
+    {
+      "name": "--disable-compression",
+      "tip": [
+        "对 server 所有请求禁用响应压缩。"
+      ]
+    },
+    {
+      "name": "--ephemeral-containers",
+      "tip": [
+        "包含或排除 ephemeral 容器。",
+        "默认: true。"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exclude <REGEX>"
+      ],
+      "tip": [
+        "排除匹配的日志行（正则）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-container",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exclude-container <REGEX>"
+      ],
+      "tip": [
+        "pod 多容器时排除的容器名（正则）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-pod",
+      "usage": [
+        "--exclude-pod <REGEX>"
+      ],
+      "tip": [
+        "排除的 pod 名（正则）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--field-selector",
+      "usage": [
+        "--field-selector <SELECTOR>"
+      ],
+      "tip": [
+        "过滤的 field selector。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--highlight",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --highlight <REGEX>"
+      ],
+      "tip": [
+        "高亮匹配的日志行（正则）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --include <REGEX>"
+      ],
+      "tip": [
+        "只含匹配的日志行（正则）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--init-containers",
+      "tip": [
+        "包含或排除 init 容器。",
+        "默认: true。"
+      ]
+    },
+    {
+      "name": "--insecure-skip-tls-verify",
+      "tip": [
+        "不校验 server 证书。"
+      ]
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <PATH>"
+      ],
+      "tip": [
+        "CLI 请求使用的 kubeconfig 路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-log-requests",
+      "usage": [
+        "--max-log-requests <INT>"
+      ],
+      "tip": [
+        "最大并发日志请求数。",
+        "默认: 50，--no-follow 时为 5。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <NAMESPACE>"
+      ],
+      "tip": [
+        "使用的 Kubernetes namespace。",
+        "可重复或逗号分隔。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-follow",
+      "tip": [
+        "日志展示完即退出。"
+      ]
+    },
+    {
+      "name": "--node",
+      "usage": [
+        "--node <NODE>"
+      ],
+      "tip": [
+        "按节点名过滤。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--only-log-lines",
+      "tip": [
+        "仅打印日志行。"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FORMAT>"
+      ],
+      "tip": [
+        "指定预设模板。",
+        "默认: default。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认输出模板。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "extjson",
+          "tip": [
+            "扩展 JSON 输出模板。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出模板。"
+          ]
+        },
+        {
+          "name": "ppextjson",
+          "tip": [
+            "美化扩展 JSON 输出模板。"
+          ]
+        },
+        {
+          "name": "raw",
+          "tip": [
+            "原始输出模板。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pod-colors",
+      "usage": [
+        "--pod-colors <COLORS>"
+      ],
+      "tip": [
+        "高亮 pod 名的颜色，逗号分隔的 SGR 序列。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --prompt"
+      ],
+      "tip": [
+        "交互选择 'app.kubernetes.io/instance' 标签值。"
+      ]
+    },
+    {
+      "name": "--qps",
+      "usage": [
+        "--qps <QPS>"
+      ],
+      "tip": [
+        "对 Kubernetes API server 的最大 QPS。-1 禁用客户端节流。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <TIMEOUT>"
+      ],
+      "tip": [
+        "单次 server 请求超时（如 1s、2m、3h）。",
+        "默认: 0（不超时）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--selector",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --selector <SELECTOR>"
+      ],
+      "tip": [
+        "过滤的 label selector。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--server",
+      "usage": [
+        "--server <ADDRESS>"
+      ],
+      "tip": [
+        "Kubernetes API server 地址与端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-hidden-options",
+      "tip": [
+        "打印隐藏选项列表。"
+      ]
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --since <DURATION>"
+      ],
+      "tip": [
+        "返回相对时长内的日志，如 5s、2m、3h。",
+        "默认: 48h0m0s。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "从 stdin 解析日志；设置后忽略所有 Kubernetes 相关 flag。"
+      ]
+    },
+    {
+      "name": "--tail",
+      "usage": [
+        "--tail <LINES>"
+      ],
+      "tip": [
+        "从日志末尾展示的行数。",
+        "默认: -1（全部）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--template",
+      "usage": [
+        "--template <TEMPLATE>"
+      ],
+      "tip": [
+        "日志行模板，留空用 --output。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--template-file",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --template-file <FILE>"
+      ],
+      "tip": [
+        "日志行模板文件路径。覆盖 --template。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--timestamps",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --timestamps [<FORMAT>]"
+      ],
+      "tip": [
+        "按指定格式打印时间戳（= 不可省略）。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "默认时间戳格式。"
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "短时间戳格式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timezone",
+      "usage": [
+        "--timezone <TIMEZONE>"
+      ],
+      "tip": [
+        "时间戳时区。",
+        "默认: Local。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tls-server-name",
+      "usage": [
+        "--tls-server-name <NAME>"
+      ],
+      "tip": [
+        "server 证书校验用的 server 名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "API server 认证 Bearer token。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <NAME>"
+      ],
+      "tip": [
+        "使用的 kubeconfig user 名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbosity",
+      "usage": [
+        "--verbosity <LEVEL>"
+      ],
+      "tip": [
+        "日志级别数字。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "打印版本并退出。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "stern 帮助。"
+      ]
+    }
+  ]
+}

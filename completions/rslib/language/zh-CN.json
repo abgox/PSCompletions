@@ -1,0 +1,651 @@
+{
+  "meta": {
+    "url": "https://rslib.rs",
+    "description": [
+      "基于 Rsbuild 的库开发工具，用于创建库与 UI 组件。"
+    ]
+  },
+  "next": [
+    {
+      "name": "build",
+      "tip": [
+        "为生产环境构建库。",
+        "未指定命令时的默认行为。"
+      ],
+      "option": [
+        {
+          "name": "--auto-extension",
+          "tip": [
+            "控制自动扩展名重定向（用 --no-auto-extension 禁用）。"
+          ]
+        },
+        {
+          "name": "--auto-external",
+          "tip": [
+            "控制依赖自动 external 化（用 --no-auto-external 禁用）。"
+          ]
+        },
+        {
+          "name": "--bundle",
+          "tip": [
+            "启用 bundle 模式（用 --no-bundle 禁用）。"
+          ]
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "构建前清理输出目录（用 --no-clean 禁用）。"
+          ]
+        },
+        {
+          "name": "--dist-path",
+          "usage": [
+            "--dist-path <DIR>"
+          ],
+          "tip": [
+            "设置输出目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dts",
+          "tip": [
+            "输出声明文件（用 --no-dts 禁用）。"
+          ]
+        },
+        {
+          "name": "--entry",
+          "usage": [
+            "--entry <ENTRY>"
+          ],
+          "tip": [
+            "设置入口文件或匹配模式。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--externals",
+          "usage": [
+            "--externals <PKG>"
+          ],
+          "tip": [
+            "将包加入 externals。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "指定输出格式。"
+          ],
+          "next": [
+            {
+              "name": "cjs",
+              "tip": [
+                "CommonJS 模块输出。"
+              ]
+            },
+            {
+              "name": "esm",
+              "tip": [
+                "ECMAScript 模块输出。"
+              ]
+            },
+            {
+              "name": "iife",
+              "tip": [
+                "立即执行函数表达式输出。"
+              ]
+            },
+            {
+              "name": "mf",
+              "tip": [
+                "Module Federation 格式输出。"
+              ]
+            },
+            {
+              "name": "umd",
+              "tip": [
+                "Universal Module Definition 输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--minify",
+          "tip": [
+            "压缩输出（用 --no-minify 禁用）。"
+          ]
+        },
+        {
+          "name": "--no-auto-extension",
+          "tip": [
+            "禁用自动扩展名重定向。"
+          ]
+        },
+        {
+          "name": "--no-auto-external",
+          "tip": [
+            "禁用依赖自动 external 化。"
+          ]
+        },
+        {
+          "name": "--no-bundle",
+          "tip": [
+            "禁用 bundle 模式。"
+          ]
+        },
+        {
+          "name": "--no-clean",
+          "tip": [
+            "构建前不清理输出目录。"
+          ]
+        },
+        {
+          "name": "--no-dts",
+          "tip": [
+            "不输出声明文件。"
+          ]
+        },
+        {
+          "name": "--no-minify",
+          "tip": [
+            "禁用输出压缩。"
+          ]
+        },
+        {
+          "name": "--syntax",
+          "usage": [
+            "--syntax <SYNTAX>"
+          ],
+          "tip": [
+            "设置构建语法目标。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <TARGET>"
+          ],
+          "tip": [
+            "设置运行时目标。"
+          ],
+          "next": [
+            {
+              "name": "node",
+              "tip": [
+                "为 Node.js 构建。"
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "为浏览器构建。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--tsconfig",
+          "usage": [
+            "--tsconfig <PATH>"
+          ],
+          "tip": [
+            "使用指定的 tsconfig（相对于项目根）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --version"
+          ],
+          "tip": [
+            "显示版本号。"
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "开启监听模式，文件变化时重新构建。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "inspect",
+      "tip": [
+        "查看 Rslib、Rsbuild 与 Rspack 配置。"
+      ],
+      "option": [
+        {
+          "name": "--mode",
+          "usage": [
+            "--mode <MODE>"
+          ],
+          "tip": [
+            "设置构建模式。"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "启用开发默认配置。"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "启用生产优化。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--output",
+          "usage": [
+            "--output <OUTPUT>"
+          ],
+          "tip": [
+            "设置检查结果的输出路径。",
+            "默认: .rsbuild。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "在输出中显示完整的函数定义。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mf-dev",
+      "tip": [
+        "以 Module Federation 格式启动 Rsbuild 开发服务器。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--auto-extension",
+      "tip": [
+        "控制自动扩展名重定向（用 --no-auto-extension 禁用）。"
+      ]
+    },
+    {
+      "name": "--auto-external",
+      "tip": [
+        "控制依赖自动 external 化（用 --no-auto-external 禁用）。"
+      ]
+    },
+    {
+      "name": "--bundle",
+      "tip": [
+        "启用 bundle 模式（用 --no-bundle 禁用）。"
+      ]
+    },
+    {
+      "name": "--clean",
+      "tip": [
+        "构建前清理输出目录（用 --no-clean 禁用）。"
+      ]
+    },
+    {
+      "name": "--dist-path",
+      "usage": [
+        "--dist-path <DIR>"
+      ],
+      "tip": [
+        "设置输出目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dts",
+      "tip": [
+        "输出声明文件（用 --no-dts 禁用）。"
+      ]
+    },
+    {
+      "name": "--entry",
+      "usage": [
+        "--entry <ENTRY>"
+      ],
+      "tip": [
+        "设置入口文件或匹配模式。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--externals",
+      "usage": [
+        "--externals <PKG>"
+      ],
+      "tip": [
+        "将包加入 externals。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <FORMAT>"
+      ],
+      "tip": [
+        "指定输出格式。"
+      ],
+      "next": [
+        {
+          "name": "cjs",
+          "tip": [
+            "CommonJS 模块输出。"
+          ]
+        },
+        {
+          "name": "esm",
+          "tip": [
+            "ECMAScript 模块输出。"
+          ]
+        },
+        {
+          "name": "iife",
+          "tip": [
+            "立即执行函数表达式输出。"
+          ]
+        },
+        {
+          "name": "mf",
+          "tip": [
+            "Module Federation 格式输出。"
+          ]
+        },
+        {
+          "name": "umd",
+          "tip": [
+            "Universal Module Definition 输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--minify",
+      "tip": [
+        "压缩输出（用 --no-minify 禁用）。"
+      ]
+    },
+    {
+      "name": "--no-auto-extension",
+      "tip": [
+        "禁用自动扩展名重定向。"
+      ]
+    },
+    {
+      "name": "--no-auto-external",
+      "tip": [
+        "禁用依赖自动 external 化。"
+      ]
+    },
+    {
+      "name": "--no-bundle",
+      "tip": [
+        "禁用 bundle 模式。"
+      ]
+    },
+    {
+      "name": "--no-clean",
+      "tip": [
+        "构建前不清理输出目录。"
+      ]
+    },
+    {
+      "name": "--no-dts",
+      "tip": [
+        "不输出声明文件。"
+      ]
+    },
+    {
+      "name": "--no-minify",
+      "tip": [
+        "禁用输出压缩。"
+      ]
+    },
+    {
+      "name": "--syntax",
+      "usage": [
+        "--syntax <SYNTAX>"
+      ],
+      "tip": [
+        "设置构建语法目标。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--target",
+      "usage": [
+        "--target <TARGET>"
+      ],
+      "tip": [
+        "设置运行时目标。"
+      ],
+      "next": [
+        {
+          "name": "node",
+          "tip": [
+            "为 Node.js 构建。"
+          ]
+        },
+        {
+          "name": "web",
+          "tip": [
+            "为浏览器构建。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--tsconfig",
+      "usage": [
+        "--tsconfig <PATH>"
+      ],
+      "tip": [
+        "使用指定的 tsconfig（相对于项目根）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "开启监听模式，文件变化时重新构建。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <CONFIG>"
+      ],
+      "tip": [
+        "指定配置文件，可为相对或绝对路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config-loader",
+      "usage": [
+        "--config-loader <LOADER>"
+      ],
+      "tip": [
+        "设置配置文件的加载器。",
+        "默认: auto。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动选择加载配置文件的方式。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "jiti",
+          "tip": [
+            "用 jiti 加载配置文件。"
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "用原生运行时加载器加载配置文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--env-dir",
+      "usage": [
+        "--env-dir <DIR>"
+      ],
+      "tip": [
+        "设置加载 .env 文件的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--env-mode",
+      "usage": [
+        "--env-mode <MODE>"
+      ],
+      "tip": [
+        "设置 env 模式，用于加载 .env.[mode] 文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此消息。"
+      ]
+    },
+    {
+      "name": "--lib",
+      "usage": [
+        "--lib <ID>"
+      ],
+      "tip": [
+        "指定库。",
+        "可重复，如 --lib esm --lib cjs。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <LEVEL>"
+      ],
+      "tip": [
+        "设置日志级别。"
+      ],
+      "next": [
+        {
+          "name": "error",
+          "tip": [
+            "错误级别日志。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息级别日志。"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "静默模式: 无进度输出。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告级别日志。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-env",
+      "tip": [
+        "禁用 .env 文件加载。"
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --root <ROOT>"
+      ],
+      "tip": [
+        "设置项目根目录，可为绝对路径或相对于 cwd 的路径。"
+      ],
+      "next": []
+    }
+  ]
+}

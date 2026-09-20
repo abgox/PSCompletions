@@ -1,0 +1,697 @@
+{
+  "meta": {
+    "url": "https://github.com/jonas/tig",
+    "description": [
+      "Tig is an ncurses-based text-mode interface for git(1).",
+      "It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands."
+    ]
+  },
+  "next": [
+    {
+      "name": "blame",
+      "usage": [
+        "blame [options] [rev] [--] path"
+      ],
+      "tip": [
+        "Show given file annotated by commits.",
+        "Takes zero or more git-blame(1) options. Optionally limited from given revision."
+      ]
+    },
+    {
+      "name": "grep",
+      "usage": [
+        "grep [options] [pattern]"
+      ],
+      "tip": [
+        "Open the grep view.",
+        "Supports the same options as git-grep(1)."
+      ]
+    },
+    {
+      "name": "log",
+      "usage": [
+        "log [options] [revs] [--] [paths]"
+      ],
+      "tip": [
+        "Start up in log view, displaying git-log(1) output."
+      ]
+    },
+    {
+      "name": "reflog",
+      "usage": [
+        "reflog [options] [revs]"
+      ],
+      "tip": [
+        "Start up in reflog view."
+      ]
+    },
+    {
+      "name": "refs",
+      "tip": [
+        "Start up in refs view.",
+        "All refs are displayed unless limited by one of --branches, --remotes, or --tags."
+      ],
+      "option": [
+        {
+          "name": "--branches",
+          "tip": [
+            "Limit the displayed refs to local branches."
+          ]
+        },
+        {
+          "name": "--remotes",
+          "tip": [
+            "Limit the displayed refs to remote-tracking branches."
+          ]
+        },
+        {
+          "name": "--tags",
+          "tip": [
+            "Limit the displayed refs to tags."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options] [revs] [--] [paths]"
+      ],
+      "tip": [
+        "Open diff view using the given git-show(1) options."
+      ]
+    },
+    {
+      "name": "stash",
+      "tip": [
+        "Start up in stash view."
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "Start up in status view."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show help message and exit."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show version and exit."
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C <path>"
+      ],
+      "tip": [
+        "Run as if Tig was started in <path> instead of the current working directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "+",
+      "usage": [
+        "+<number>"
+      ],
+      "tip": [
+        "Select line <number> in the first view."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--all",
+      "tip": [
+        "All the refs in refs/ are listed on the command line as if they were given.",
+        "Implies --no-revs."
+      ]
+    },
+    {
+      "name": "--ancestry-path",
+      "tip": [
+        "Only show commits that lie between two commits on an ancestry path.",
+        "The set of commits are limited to those which are descendants of the older one and ancestors of the newer one."
+      ]
+    },
+    {
+      "name": "--author-date-order",
+      "tip": [
+        "Process commits in order of their author timestamp.",
+        "A commit is older than another if its author timestamp is earlier, and the timestamp is used to break ties."
+      ]
+    },
+    {
+      "name": "--before",
+      "alias": [
+        "--until"
+      ],
+      "usage": [
+        "--until, --before <DATE>"
+      ],
+      "tip": [
+        "Show commits older than a specific date."
+      ],
+      "next": []
+    },
+    {
+      "name": "--boundary",
+      "tip": [
+        "Show the boundary commits that were always excluded from the log."
+      ]
+    },
+    {
+      "name": "--cached",
+      "tip": [
+        "Diff against the index rather than the working tree."
+      ]
+    },
+    {
+      "name": "--cherry",
+      "tip": [
+        "When comparing two branches, show only commits that have not been applied to the other branch."
+      ]
+    },
+    {
+      "name": "--cherry-pick",
+      "tip": [
+        "Like --cherry, but always show the full commit."
+      ]
+    },
+    {
+      "name": "--date-order",
+      "tip": [
+        "Process commits in order of committer timestamp.",
+        "Otherwise commits are processed in topological order."
+      ]
+    },
+    {
+      "name": "--diff-filter",
+      "usage": [
+        "--diff-filter <LETTERS>"
+      ],
+      "tip": [
+        "Limit the diff output to one of the following types: Added, Copied, Deleted, Modified, Renamed, Type-changed, Unmerged, or Broken."
+      ],
+      "next": []
+    },
+    {
+      "name": "--diff-merges",
+      "usage": [
+        "--diff-merges <STYLE>"
+      ],
+      "tip": [
+        "Output the diff for merge commits and their parents."
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "Alias for first-parent."
+          ]
+        },
+        {
+          "name": "combined",
+          "tip": [
+            "Do a combined diff."
+          ]
+        },
+        {
+          "name": "dense-combined",
+          "tip": [
+            "Like combined, but omit unrelated changes."
+          ]
+        },
+        {
+          "name": "first-parent",
+          "tip": [
+            "Print diff against the first parent only."
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "Do not output any diff info at all."
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "Print the combined diff as normal."
+          ]
+        },
+        {
+          "name": "remerge",
+          "tip": [
+            "Automatically re-merge parents and show a real diff."
+          ]
+        },
+        {
+          "name": "separate",
+          "tip": [
+            "Print separate diffs for each parent."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--first-parent",
+      "tip": [
+        "Only follow the first parent commit upon seeing a merge commit."
+      ]
+    },
+    {
+      "name": "--follow",
+      "tip": [
+        "Show changes which affect the specified paths, even when they happen on a file rename."
+      ]
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <STRING>"
+      ],
+      "tip": [
+        "Format to be used for each commit subject line."
+      ],
+      "next": []
+    },
+    {
+      "name": "--full-history",
+      "tip": [
+        "Show history for the given paths, including all commits with tree changes, not just those that change the given paths."
+      ]
+    },
+    {
+      "name": "--full-index",
+      "tip": [
+        "Instead of the first handful of characters, show the full pre- and post-image blob object names."
+      ]
+    },
+    {
+      "name": "--graph",
+      "tip": [
+        "Draw a text-based graphical representation of the commit history on the left hand side of the output."
+      ]
+    },
+    {
+      "name": "--grep",
+      "usage": [
+        "--grep <PATTERN>"
+      ],
+      "tip": [
+        "Show only commits that have the <PATTERN> in the commit message.",
+        "Note that this is a separate filter applied after --author, --since and other filters."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-all-space",
+      "tip": [
+        "Ignore all whitespace when comparing lines."
+      ]
+    },
+    {
+      "name": "--ignore-space-at-eol",
+      "tip": [
+        "Ignore changes in whitespace at the end of lines."
+      ]
+    },
+    {
+      "name": "--ignore-space-change",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --ignore-space-change"
+      ],
+      "tip": [
+        "Ignore changes in amount of whitespace."
+      ]
+    },
+    {
+      "name": "--indent-heuristic",
+      "tip": [
+        "Turn on diff.indent-heuristic even when diff.indent-heuristic in the config is false."
+      ]
+    },
+    {
+      "name": "--max-count",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --max-count <N>"
+      ],
+      "tip": [
+        "Limit the number of commits to output."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-parents",
+      "usage": [
+        "--max-parents <N>"
+      ],
+      "tip": [
+        "Do not show commits with more than <N> parents."
+      ],
+      "next": []
+    },
+    {
+      "name": "--merges",
+      "tip": [
+        "Only show merge commits."
+      ]
+    },
+    {
+      "name": "--name-only",
+      "tip": [
+        "Show only the names of files changed in each commit."
+      ]
+    },
+    {
+      "name": "--name-status",
+      "tip": [
+        "Show only the names of files changed in each commit, with the change kind.",
+        "The change kind is a letter identifying the modification: Added, Copied, Deleted, Modified, Renamed, or Type-changed."
+      ]
+    },
+    {
+      "name": "--no-merges",
+      "tip": [
+        "Do not show commits that have more than one parent."
+      ]
+    },
+    {
+      "name": "--no-notes",
+      "tip": [
+        "Do not show the notes attached to a commit."
+      ]
+    },
+    {
+      "name": "--no-patch",
+      "tip": [
+        "Suppress the diff part of the output, leaving only the message part."
+      ]
+    },
+    {
+      "name": "--notes",
+      "usage": [
+        "--notes[=<ref>]"
+      ],
+      "tip": [
+        "Show the notes attached to a commit.",
+        "When <ref> is omitted, the notes of the default ref are shown."
+      ],
+      "next": []
+    },
+    {
+      "name": "--numstat",
+      "tip": [
+        "Similar to --name-only, but shows number of added and deleted lines in numeric form."
+      ]
+    },
+    {
+      "name": "--oneline",
+      "tip": [
+        "This is a shorthand for --pretty=oneline --abbrev-commit used together."
+      ]
+    },
+    {
+      "name": "--output",
+      "usage": [
+        "--output <FILE>"
+      ],
+      "tip": [
+        "Write to <FILE> instead of stdout."
+      ],
+      "next": []
+    },
+    {
+      "name": "--patch",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --patch"
+      ],
+      "tip": [
+        "Show patch diffs."
+      ]
+    },
+    {
+      "name": "--pretty",
+      "usage": [
+        "--pretty <FORMAT>"
+      ],
+      "tip": [
+        "Pretty print each commit message in the given <FORMAT>."
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Alias for the full format."
+          ]
+        },
+        {
+          "name": "email",
+          "tip": [
+            "Similar to the full format, but add a From: header line."
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "Like the default format."
+          ]
+        },
+        {
+          "name": "mbox",
+          "tip": [
+            "Like email, but only if the commit has a From: header line."
+          ]
+        },
+        {
+          "name": "oneline",
+          "tip": [
+            "The subject and the abbreviated commit id, on a single line."
+          ]
+        },
+        {
+          "name": "raw",
+          "tip": [
+            "Show the entire commit as given by the git log format."
+          ]
+        },
+        {
+          "name": "reference",
+          "tip": [
+            "Like the default format, but indent the subject line."
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "The commit id, the author name and date, and the subject."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "Output the commits selected to be shown in reverse order."
+      ]
+    },
+    {
+      "name": "--root",
+      "tip": [
+        "When --root is specified the initial commit will always be shown in the output."
+      ]
+    },
+    {
+      "name": "--show-notes",
+      "usage": [
+        "--show-notes[=<ref>]"
+      ],
+      "tip": [
+        "Attach the notes for each commit to the output."
+      ],
+      "next": []
+    },
+    {
+      "name": "--simplify-merges",
+      "tip": [
+        "Show commits that change the number of parents, such as merges and introductions of branches."
+      ]
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "--after"
+      ],
+      "usage": [
+        "--after, --since <DATE>"
+      ],
+      "tip": [
+        "Show commits more recent than a specific date.",
+        "Must be specified with --pretty format to be interpreted correctly."
+      ],
+      "next": []
+    },
+    {
+      "name": "--stat",
+      "tip": [
+        "Show a diffstat at the end of the output."
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Read the list of commits from stdin instead of treating them as command line arguments."
+      ]
+    },
+    {
+      "name": "--submodule",
+      "usage": [
+        "--submodule <MODE>"
+      ],
+      "tip": [
+        "Changes in submodules are shown according to the given mode."
+      ],
+      "next": [
+        {
+          "name": "diff",
+          "tip": [
+            "The diff contents of the submodule."
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "A diff log between the two commits in the submodule."
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "Changes in submodules are never shown."
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "Only the short SHA-1 of the commit(s) in the submodule."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--topo-order",
+      "tip": [
+        "Do not show a commit until all of its descendants have been shown."
+      ]
+    },
+    {
+      "name": "--unified",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --unified <N>"
+      ],
+      "tip": [
+        "Generate diffs with <N> lines of context instead of the usual three."
+      ],
+      "next": []
+    },
+    {
+      "name": "--walk-reflogs",
+      "tip": [
+        "Follow the reflog of the current branch. Incompatible with --max-count."
+      ]
+    },
+    {
+      "name": "--word-diff",
+      "usage": [
+        "--word-diff[=<MODE>]"
+      ],
+      "tip": [
+        "Show the word-level diff within the file-level diff."
+      ],
+      "next": [
+        {
+          "name": "color",
+          "tip": [
+            "Like plain, but with colors."
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "Print removed and added words without any decoration."
+          ]
+        },
+        {
+          "name": "porcelain",
+          "tip": [
+            "Machine readable output intended for scripts."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--word-diff-regex",
+      "usage": [
+        "--word-diff-regex <REGEX>"
+      ],
+      "tip": [
+        "Use <REGEX> to decide what a non-space word is, instead of considering runs of non-whitespace to be a word."
+      ],
+      "next": []
+    },
+    {
+      "name": "-G",
+      "usage": [
+        "-G <REGEX>"
+      ],
+      "tip": [
+        "Show only diffs that change the number of occurrences of the regex <REGEX>."
+      ],
+      "next": []
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <STRING>"
+      ],
+      "tip": [
+        "Show only diffs that change the number of occurrences of the specified <STRING>."
+      ],
+      "next": []
+    }
+  ]
+}
