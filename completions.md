@@ -9,6 +9,7 @@
 |Completion|Description|
 |:-:|-|
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
+|[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
 |[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
 |[atac](https://github.com/Julien-cpsn/ATAC)|A simple API client in your terminal|
@@ -25,6 +26,7 @@
 |[basenc](https://uutils.org)|Encode/decode data and print to standard output.|
 |[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
 |[biome](https://biomejs.dev/)|Toolchain for web projects.|
+|[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
 |[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
 |[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
 |[bx](https://github.com/brave/brave-search-cli)|Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs.|
@@ -72,6 +74,7 @@
 |[expand](https://www.gnu.org/software/coreutils/)|Convert tabs in each FILE to spaces.|
 |[eza](https://eza.rocks)|A modern replacement for ls.|
 |[factor](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
+|[fastfetch](https://github.com/fastfetch-cli/fastfetch)|A neofetch-like tool for fetching system information and displaying them in a pretty way.|
 |[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
 |[ffmpeg](https://ffmpeg.org/)|Complete, cross-platform solution to record, convert and stream audio and video.|
 |[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
@@ -173,16 +176,19 @@
 |[playwright](https://playwright.dev/)|Framework for web testing and automation.|
 |[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
 |[pnpm](https://pnpm.io/)|Fast, disk-space-efficient package manager.|
+|[pnpx](https://pnpm.io/cli/dlx)|Run a package in a temporary environment.|
 |[podman](https://podman.io)|Manage pods, containers and images.|
 |[poetry](https://python-poetry.org)|Python dependency manager and packaging tool.|
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|Windows PowerShell CLI.|
 |[pr](https://www.gnu.org/software/coreutils/)|Paginate or columnate FILE(s) for printing.|
 |[prettier](https://prettier.io)|Opinionated code formatter.|
 |[printenv](https://www.gnu.org/software/coreutils/)|Print the values of environment VARIABLE(s).|
+|[prisma](https://www.prisma.io/docs/cli)|The Prisma Developer Platform, from your terminal.|
 |[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
 |[ptx](https://uutils.org)|Output a permuted index of the words in the input files.|
 |[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python](https://www.python.org)|Python interpreter command-line.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
@@ -190,6 +196,13 @@
 |[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
 |[rimraf](https://github.com/isaacs/rimraf)|A cross-platform `rm -rf` utility for Node.js.|
+|[rsbuild](https://rsbuild.rs)|A fast, extensible build tool for modern web development, powered by Rspack.|
+|[rsdoctor](https://rsdoctor.rs)|An AI-friendly build analyzer that makes the build process transparent.|
+|[rslib](https://rslib.rs)|An Rsbuild-based library development tool for creating libraries and UI components.|
+|[rslint](https://rslint.rs)|A high-performance, ESLint-compatible linter for JavaScript and TypeScript.|
+|[rspack](https://rspack.rs)|Fast Rust-based bundler for the web with a modernized webpack API.|
+|[rspress](https://rspress.rs)|Lightning fast static site generator.|
+|[rstest](https://rstest.rs)|A JavaScript testing framework powered by Rspack, with a Jest-compatible API.|
 |[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
 |[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
 |[rustup](https://rustup.rs)|The Rust toolchain installer.|
@@ -203,13 +216,18 @@
 |[sqlite3](https://www.sqlite.org)|SQLite command line interface.|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH key generation utility.|
 |[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
+|[stern](https://github.com/stern/stern)|Tail multiple pods and containers from Kubernetes.|
+|[stripe](https://docs.stripe.com/cli)|The official command-line tool to interact with Stripe.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
 |[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
 |[taze](https://github.com/antfu-collective/taze)|A modern CLI tool that keeps your deps fresh.|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - Infrastructure as Code tool|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
+|[tig](https://github.com/jonas/tig)|Tig is an ncurses-based text-mode interface for git(1).<br>It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands.|
+|[tofu](https://opentofu.org)|Open-source infrastructure as code tool.|
 |[tokei](https://github.com/XAMPPRocky/tokei)|Count your code, quickly|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML Toolkit|
+|[trivy](https://trivy.dev)|Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets.|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|The TypeScript Compiler.|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute. The easiest way to run TypeScript in Node.js.|
 |[ttyd](https://github.com/tsl0922/ttyd)|A tool for sharing terminal over the web|

@@ -9,6 +9,7 @@
 |Completion|Description|
 |:-:|-|
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
+|[act](https://github.com/nektos/act)|本地运行 GitHub Actions。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
 |[aria2c](https://aria2.github.io)|轻量级多协议多源下载工具。|
 |[atac](https://github.com/Julien-cpsn/ATAC)|在终端中使用的简易 API 客户端|
@@ -25,6 +26,7 @@
 |[basenc](https://uutils.org)|编码/解码数据并输出到标准输出。|
 |[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
 |[biome](https://biomejs.dev/)|Web 项目工具链。|
+|[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
 |[bun](https://bun.sh)|JavaScript 全能工具包。|
 |[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
 |[bx](https://github.com/brave/brave-search-cli)|零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。|
@@ -72,6 +74,7 @@
 |[expand](https://www.gnu.org/software/coreutils/)|将每个文件中的制表符转换为空格。|
 |[eza](https://eza.rocks)|ls 的现代替代品。|
 |[factor](https://uutils.org)|输出给定数字的质因数。|
+|[fastfetch](https://github.com/fastfetch-cli/fastfetch)|一个类似 neofetch 的工具，用于获取系统信息并以美观的方式显示。|
 |[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
 |[ffmpeg](https://ffmpeg.org/)|完整的跨平台音视频录制、转换和流媒体解决方案。|
 |[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
@@ -173,16 +176,19 @@
 |[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
 |[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|
 |[pnpm](https://pnpm.io/zh/)|快速、节省磁盘空间的包管理器。|
+|[pnpx](https://pnpm.io/cli/dlx)|在临时环境中运行一个包。|
 |[podman](https://podman.io)|管理 Pod、容器和镜像。|
 |[poetry](https://python-poetry.org)|Python dependency manager and packaging tool. |
 |[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|Windows PowerShell 命令行。|
 |[pr](https://www.gnu.org/software/coreutils/)|为打印分页或分列文件。|
 |[prettier](https://prettier.io)|固执己见的代码格式化工具。|
 |[printenv](https://www.gnu.org/software/coreutils/)|输出指定环境变量的值。|
+|[prisma](https://www.prisma.io/docs/cli)|终端里的 Prisma Developer Platform。|
 |[psc](https://pscompletions.abgox.com)|PSCompletions 模块的补全。|
 |[ptx](https://uutils.org)|输出输入文件中单词的排列索引。|
 |[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
+|[pytest](https://docs.pytest.org)|Python 测试框架。|
 |[python](https://www.python.org)|Python 解释器命令行。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
@@ -190,6 +196,13 @@
 |[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
 |[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
 |[rimraf](https://github.com/isaacs/rimraf)|跨平台的 Node.js `rm -rf` 工具。|
+|[rsbuild](https://rsbuild.rs)|基于 Rspack 的快速可扩展现代 Web 构建工具。|
+|[rsdoctor](https://rsdoctor.rs)|AI 友好的构建分析器，让构建过程透明可见。|
+|[rslib](https://rslib.rs)|基于 Rsbuild 的库开发工具，用于创建库与 UI 组件。|
+|[rslint](https://rslint.rs)|高性能、兼容 ESLint 的 JavaScript 与 TypeScript 检查器。|
+|[rspack](https://rspack.rs)|快速的 Rust 网页打包工具，兼容现代 webpack API。|
+|[rspress](https://rspress.rs)|闪电般快速的静态站点生成器。|
+|[rstest](https://rstest.rs)|基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。|
 |[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
 |[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|
 |[rustup](https://rustup.rs)|Rust 工具链安装器。|
@@ -203,13 +216,18 @@
 |[sqlite3](https://www.sqlite.org)|SQLite 命令行界面。|
 |[ssh-keygen](https://www.openssh.com)|OpenSSH 密钥生成工具。|
 |[starship](https://github.com/starship/starship)|跨平台终端提示符。|
+|[stern](https://github.com/stern/stern)|同时 tail 多个 Kubernetes pod 与容器的日志。|
+|[stripe](https://docs.stripe.com/cli)|与 Stripe 交互的官方命令行工具。|
 |[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
 |[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
 |[taze](https://github.com/antfu-collective/taze)|让你的依赖保持新鲜的现代化 CLI 工具。|
 |[terraform](https://www.terraform.io)|HashiCorp Terraform - 基础设施即代码工具|
 |[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
+|[tig](https://github.com/jonas/tig)|Tig 是一个基于 ncurses 的 git(1) 文本界面工具。<br>它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。|
+|[tofu](https://opentofu.org)|开源基础设施即代码工具。|
 |[tokei](https://github.com/XAMPPRocky/tokei)|快速统计你的代码量|
 |[tombi](https://tombi-toml.github.io/tombi/)|TOML 工具包|
+|[trivy](https://trivy.dev)|扫描容器镜像、文件系统与 Git 仓库的漏洞，以及配置问题与硬编码密钥。|
 |[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|TypeScript 编译器。|
 |[tsx](https://tsx.hirok.io)|TypeScript Execute。在 Node.js 中运行 TypeScript 的最简单方式。|
 |[ttyd](https://github.com/tsl0922/ttyd)|在 Web 上共享终端的工具|
