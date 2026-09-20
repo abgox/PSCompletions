@@ -1,0 +1,438 @@
+{
+  "meta": {
+    "url": "https://github.com/matthart1983/netwatch",
+    "description": [
+      "在终端中运行实时网络诊断。"
+    ]
+  },
+  "next": [
+    {
+      "name": "daemon",
+      "tip": [
+        "以无头守护进程模式运行。"
+      ],
+      "option": [
+        {
+          "name": "--api-key",
+          "usage": [
+            "--api-key <key>"
+          ],
+          "tip": [
+            "远程 API 密钥。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--metrics",
+          "tip": [
+            "在 127.0.0.1:9464 上暴露守护进程指标。"
+          ]
+        },
+        {
+          "name": "--metrics-addr",
+          "usage": [
+            "--metrics-addr <addr>"
+          ],
+          "tip": [
+            "守护进程指标地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remote",
+          "usage": [
+            "--remote <url>"
+          ],
+          "tip": [
+            "远程 URL（需要 API 密钥）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "diagnose",
+      "tip": [
+        "运行诊断引擎。"
+      ],
+      "next": [
+        {
+          "name": "corpus",
+          "usage": [
+            "corpus [dir]"
+          ],
+          "tip": [
+            "显示诊断语料库信息。"
+          ]
+        },
+        {
+          "name": "coverage",
+          "tip": [
+            "显示诊断规则覆盖率。"
+          ],
+          "option": [
+            {
+              "name": "--doc",
+              "usage": [
+                "--doc [path]"
+              ],
+              "tip": [
+                "文档输出路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--seconds",
+              "usage": [
+                "--seconds <n>"
+              ],
+              "tip": [
+                "覆盖率窗口（秒，1..120）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--test",
+              "usage": [
+                "--test <check>"
+              ],
+              "tip": [
+                "运行特定的诊断测试。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "episodes",
+          "usage": [
+            "episodes [dir]"
+          ],
+          "tip": [
+            "列出记录的诊断事件。"
+          ]
+        },
+        {
+          "name": "export",
+          "usage": [
+            "export [--since days] [--out file] [--dry-run] [dir]"
+          ],
+          "tip": [
+            "导出诊断数据。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "tip": [
+                "预览而不写入文件。"
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <file>"
+              ],
+              "tip": [
+                "输出文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--since",
+              "usage": [
+                "--since <days>"
+              ],
+              "tip": [
+                "导出 N 天前的数据。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "features",
+          "usage": [
+            "features [--out file] [--schema file] <file|dir>..."
+          ],
+          "tip": [
+            "从诊断事件中提取特征。"
+          ],
+          "option": [
+            {
+              "name": "--out",
+              "usage": [
+                "--out <file>"
+              ],
+              "tip": [
+                "输出文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--schema",
+              "usage": [
+                "--schema <file>"
+              ],
+              "tip": [
+                "模式文件路径。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "replay",
+          "usage": [
+            "replay [--json] <file|dir>..."
+          ],
+          "tip": [
+            "回放诊断事件。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "run",
+          "tip": [
+            "对目标运行诊断。"
+          ],
+          "option": [
+            {
+              "name": "--budget",
+              "usage": [
+                "--budget <duration>"
+              ],
+              "tip": [
+                "诊断预算，例如 30s。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <format>"
+              ],
+              "tip": [
+                "输出格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON 输出。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <name>"
+              ],
+              "tip": [
+                "要检查的目标。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "tip": [
+        "运行只读配置报告。"
+      ],
+      "option": [
+        {
+          "name": "--check-capture",
+          "tip": [
+            "检查数据包捕获功能。"
+          ]
+        },
+        {
+          "name": "--interface",
+          "usage": [
+            "--interface <name>"
+          ],
+          "tip": [
+            "检查特定的网络接口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出报告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "resolver",
+      "tip": [
+        "管理 DNS 解析器配置。"
+      ],
+      "next": [
+        {
+          "name": "recover",
+          "tip": [
+            "将解析器恢复到托管状态。"
+          ],
+          "option": [
+            {
+              "name": "--unmanaged",
+              "tip": [
+                "从非托管模式恢复。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <ip> --unmanaged"
+          ],
+          "tip": [
+            "设置自定义 DNS 解析器。"
+          ],
+          "option": [
+            {
+              "name": "--seconds",
+              "usage": [
+                "--seconds <n>"
+              ],
+              "tip": [
+                "覆盖持续时间（秒，1..3600）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unmanaged",
+              "tip": [
+                "以非托管模式设置解析器（无自动恢复）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示当前解析器状态。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--demo",
+      "tip": [
+        "回放诊断演示。"
+      ]
+    },
+    {
+      "name": "--generate-config",
+      "tip": [
+        "写入默认配置文件并退出。"
+      ]
+    },
+    {
+      "name": "--headless",
+      "alias": [
+        "--daemon"
+      ],
+      "usage": [
+        "--daemon, --headless"
+      ],
+      "tip": [
+        "无头模式（守护进程）。"
+      ]
+    },
+    {
+      "name": "--lite",
+      "tip": [
+        "以精简视图启动。"
+      ]
+    },
+    {
+      "name": "--no-sandbox",
+      "tip": [
+        "禁用沙箱强制执行。"
+      ]
+    },
+    {
+      "name": "--sandbox-strict",
+      "tip": [
+        "要求沙箱强制执行；拒绝未验证的启动项。"
+      ]
+    },
+    {
+      "name": "--view",
+      "usage": [
+        "--view <view>"
+      ],
+      "tip": [
+        "设置视图模式：full、lite 或 dense。"
+      ],
+      "next": [
+        {
+          "name": "dense",
+          "tip": [
+            "密集视图，四个窗口和盲文吞吐量图。"
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "完整视图，包含所有十个标签页。"
+          ]
+        },
+        {
+          "name": "lite",
+          "tip": [
+            "精简视图，适用于 80x24 终端。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本。"
+      ]
+    }
+  ]
+}
