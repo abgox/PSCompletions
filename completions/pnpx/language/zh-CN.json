@@ -1,0 +1,522 @@
+{
+  "meta": {
+    "url": "https://pnpm.io/cli/dlx",
+    "description": [
+      "在临时环境中运行一个包。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--aggregate-output",
+      "tip": [
+        "每个脚本退出后再将其缓存的输出一次性打印。"
+      ]
+    },
+    {
+      "name": "--allow-build",
+      "usage": [
+        "--allow-build <ALLOW_BUILD>"
+      ],
+      "tip": [
+        "允许在 dlx 安装期间运行生命周期 (构建) 脚本的包名。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--changed-files-ignore-pattern",
+      "usage": [
+        "--changed-files-ignore-pattern <CHANGED_FILES_IGNORE_PATTERN>"
+      ],
+      "tip": [
+        "[since] --filter 选择器应忽略的变更文件的 glob 模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "强制彩色输出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cpu",
+      "usage": [
+        "--cpu <CPU>"
+      ],
+      "tip": [
+        "dlx 安装应保留其平台相关可选依赖的 CPU 架构。",
+        "可重复或逗号分隔。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "所有架构。"
+          ]
+        },
+        {
+          "name": "arm64",
+          "tip": [
+            "ARM 64 位。"
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "本机架构。"
+          ]
+        },
+        {
+          "name": "x64",
+          "tip": [
+            "AMD64 / Intel 64 位。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dir",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --dir <DIR>"
+      ],
+      "tip": [
+        "设置工作目录。",
+        "默认: ."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "--filter / --filter-prod 选择器未匹配到工作区项目时以退出码 1 退出。"
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --filter <FILTER>"
+      ],
+      "tip": [
+        "选择要在哪些工作区项目上运行。",
+        "可重复添加。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--filter-prod",
+      "usage": [
+        "--filter-prod <FILTER_PROD>"
+      ],
+      "tip": [
+        "与 --filter 类似，但在选择项目时仅跟踪生产依赖。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--http-proxy",
+      "usage": [
+        "--http-proxy <HTTP_PROXY>"
+      ],
+      "tip": [
+        "HTTP registry 与 tarball 请求的代理。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--https-proxy",
+      "usage": [
+        "--https-proxy <HTTPS_PROXY>"
+      ],
+      "tip": [
+        "HTTPS registry 与 tarball 请求的代理。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-workspace",
+      "tip": [
+        "如同独立项目一样运行，忽略上层的 pnpm-workspace.yaml。"
+      ]
+    },
+    {
+      "name": "--include-workspace-root",
+      "tip": [
+        "递归命令同时在根工作区项目上运行。"
+      ]
+    },
+    {
+      "name": "--libc",
+      "usage": [
+        "--libc <LIBC>"
+      ],
+      "tip": [
+        "dlx 安装应保留其平台相关可选依赖的 libc 系列 (glibc, musl)。",
+        "可重复或逗号分隔。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "glibc",
+          "tip": [
+            "GNU C 库，多数 Linux 发行版使用。"
+          ]
+        },
+        {
+          "name": "musl",
+          "tip": [
+            "Alpine Linux 使用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "usage": [
+        "--loglevel <LOGLEVEL>"
+      ],
+      "tip": [
+        "打印日志的级别。"
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "调试级别日志。"
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "错误级别日志。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息级别日志。"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "静默模式: 无进度输出。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告级别日志。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-include-workspace-root",
+      "tip": [
+        "递归命令排除根工作区项目，覆盖 includeWorkspaceRoot: true 配置。"
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "usage": [
+        "--no-proxy <NO_PROXY>"
+      ],
+      "tip": [
+        "绕过已配置代理的主机。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "按工作区顺序运行递归工作区项目。"
+      ]
+    },
+    {
+      "name": "--npmrc-auth-file",
+      "alias": [
+        "--userconfig"
+      ],
+      "usage": [
+        "--userconfig, --npmrc-auth-file <NPMRC_AUTH_FILE>"
+      ],
+      "tip": [
+        "从指定的 .npmrc 读取认证配置，覆盖默认的 ~/.npmrc。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--os",
+      "usage": [
+        "--os <OS>"
+      ],
+      "tip": [
+        "dlx 安装应保留其平台相关可选依赖的操作系统。",
+        "可重复或逗号分隔。"
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "所有操作系统。"
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "本机操作系统。"
+          ]
+        },
+        {
+          "name": "darwin",
+          "tip": [
+            "macOS。"
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "Linux。"
+          ]
+        },
+        {
+          "name": "win32",
+          "tip": [
+            "Windows。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--package",
+      "usage": [
+        "--package <PACKAGE>"
+      ],
+      "tip": [
+        "运行命令前先安装的包。",
+        "可重复。省略时包名即命令名。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "在每个选中的工作区项目中并发运行脚本，不考虑拓扑排序。"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "为工作区中的每个项目运行命令，而非仅 --dir 中的项目。"
+      ]
+    },
+    {
+      "name": "--registry",
+      "usage": [
+        "--registry <REGISTRY>"
+      ],
+      "tip": [
+        "解析与拉取包所用的 npm registry 基地址。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reporter",
+      "usage": [
+        "--reporter <REPORTER>"
+      ],
+      "tip": [
+        "报告输出格式。",
+        "默认: default。"
+      ],
+      "next": [
+        {
+          "name": "append-only",
+          "tip": [
+            "与 default 类似，但在 TTY 上也强制追加式渲染: 每次更新一行，不移动光标。"
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "富输出: 进度行、包差异、生命周期输出与 Done in ... 汇总。"
+          ]
+        },
+        {
+          "name": "ndjson",
+          "tip": [
+            "stderr 上的换行分隔 JSON。"
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "无进度输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "以逆序处理递归工作区项目。"
+      ]
+    },
+    {
+      "name": "--shell-mode",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --shell-mode"
+      ],
+      "tip": [
+        "在 shell 中运行命令。",
+        "UNIX 上使用 /bin/sh，Windows 上使用 cmd.exe。"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "仅打印所执行命令的输出。"
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "递归工作区项目保持拓扑排序。"
+      ]
+    },
+    {
+      "name": "--state-dir",
+      "usage": [
+        "--state-dir <DIR>"
+      ],
+      "tip": [
+        "pnpm 持久化本机状态的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--store-dir",
+      "usage": [
+        "--store-dir <DIR>"
+      ],
+      "tip": [
+        "创建包存储的目录。",
+        "相对路径从工作区根解析，工作区外则从 --dir 解析。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stream",
+      "tip": [
+        "递归命令的脚本输出到达即流式打印，每次一行并带前缀。"
+      ]
+    },
+    {
+      "name": "--test-pattern",
+      "usage": [
+        "--test-pattern <TEST_PATTERN>"
+      ],
+      "tip": [
+        "测试文件的 glob 模式，[since] --filter 选择器据此判断哪些变更有效。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--use-stderr",
+      "tip": [
+        "将报告输出重定向到 stderr，把 stdout 留给命令自身结果。"
+      ]
+    },
+    {
+      "name": "--workspace-concurrency",
+      "usage": [
+        "--workspace-concurrency <NUMBER>"
+      ],
+      "tip": [
+        "并行处理的最大工作区项目数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--workspace-packages",
+      "usage": [
+        "--workspace-packages <WORKSPACE_PACKAGES>"
+      ],
+      "tip": [
+        "选择工作区项目的 glob 模式，覆盖 pnpm-workspace.yaml 的 packages 字段。",
+        "可重复添加。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--workspace-root",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace-root"
+      ],
+      "tip": [
+        "在根工作区项目上运行命令。"
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "自动回答 yes，跳过提示。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息。"
+      ]
+    }
+  ]
+}

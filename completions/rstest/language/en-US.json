@@ -1,0 +1,2906 @@
+{
+  "meta": {
+    "url": "https://rstest.rs",
+    "description": [
+      "A JavaScript testing framework powered by Rspack, with a Jest-compatible API."
+    ]
+  },
+  "next": [
+    {
+      "name": "init",
+      "usage": [
+        "init [project]"
+      ],
+      "tip": [
+        "Initialize rstest configuration."
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "tip": [
+            "Use default options (non-interactive)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [...filters]"
+      ],
+      "tip": [
+        "Lists all test files that Rstest will run."
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "Stop running tests after n failures. Set to 0 to run all tests regardless of failures."
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "Run browser in headless mode.",
+            "Default: true in CI."
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "Browser to use: chromium, firefox, webkit.",
+            "Default: chromium."
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium browser."
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox browser."
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit browser."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "Port for the browser mode dev server."
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "Provider-specific browser options."
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "Exit if the specified port is already in use."
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Run tests related to changed files in the current Git repository, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "Automatically clear mock calls, instances, contexts and results before every test."
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "Collect coverage for files outside the project root directory."
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Collect coverage only for changed files, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "Clean the coverage directory before writing reports."
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "Exclude files from coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "Include files for coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "Coverage provider to use."
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul coverage provider."
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 coverage provider."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "Coverage reporter to use.",
+            "Repeat the flag for multiple reporters."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "Generate coverage reports even when tests fail."
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "Directory to store coverage reports."
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "Detect async resources that leak after tests finish."
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "Disable console intercept."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "Exclude files from test."
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "Enable Module Federation compatibility mode."
+          ]
+        },
+        {
+          "name": "--filesOnly",
+          "tip": [
+            "Only list the test files."
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "Treat positional arguments as source file paths and run only related tests."
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "Provide global APIs."
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "Hide skipped test files from the output."
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "Hide skipped tests from the output."
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of hook in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "Match test files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeSuites",
+          "tip": [
+            "Include suites in output."
+          ]
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "Collect test and suite locations. This might increase the running time."
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "Run tests in an isolated environment."
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json [<BOOLEAN/PATH>]"
+          ],
+          "tip": [
+            "Print tests as JSON or write to a file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "Log heap usage after each test."
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "Maximum number of concurrent tests."
+          ],
+          "next": []
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "Clean test temporary files before the test starts."
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "Emit imported static assets."
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "Output JavaScript files in ES module format."
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "Allows the test suite to pass when no files are found."
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "Shorthand for --pool.type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "Additional Node.js execArgv passed to worker processes.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "Maximum number or percentage of workers (e.g. 4 or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "Memory threshold for recycling reused forks or VM workers (e.g. 256MB or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "Specify the test pool type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "Print console traces when calling any console method."
+          ]
+        },
+        {
+          "name": "--printLocation",
+          "tip": [
+            "Print test case location."
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "Run only projects that match the name, can be a full name or wildcards pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "Specify the reporter(s) to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "Automatically reset mock state before every test."
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "Automatically restore mock state and implementation before every test."
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "Number of times to retry a test if it fails."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "Split tests into several shards. This is useful for running tests in parallel on multiple machines."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "Silence intercepted test console output."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Do not silence test console output."
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "Silence console output for passed tests only."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Silence all intercepted test console output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "The number of milliseconds after which a test or suite is considered slow."
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "Path to the tsconfig.json file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "tip": [
+            "Print a summary after the list."
+          ]
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "The environment that will be used for testing."
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM test environment."
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom test environment."
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js test environment."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "Run only tests with a name that matches the regex."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of a test in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "Dump a Perfetto-compatible performance trace JSON file, plus a ranked markdown timing summary printed to the terminal and written next to it."
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "Restores all runtime env values that were changed with rstest.stubEnv before every test."
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "Restores all global variables that were changed with rstest.stubGlobal before every test."
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "Update snapshot files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "merge-reports",
+      "usage": [
+        "merge-reports [path]"
+      ],
+      "tip": [
+        "Merge blob reports from multiple shards into a unified report."
+      ],
+      "option": [
+        {
+          "name": "--cleanup",
+          "tip": [
+            "Remove blob report inputs after merging."
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "Collect coverage for files outside the project root directory."
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Collect coverage only for changed files, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "Clean the coverage directory before writing reports."
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "Exclude files from coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "Include files for coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "Coverage provider to use."
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul coverage provider."
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 coverage provider."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "Coverage reporter to use.",
+            "Repeat the flag for multiple reporters."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "Generate coverage reports even when tests fail."
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "Directory to store coverage reports."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "Specify the reporter(s) to use."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [...filters]"
+      ],
+      "tip": [
+        "Run tests without watch mode."
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "Stop running tests after n failures. Set to 0 to run all tests regardless of failures."
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "Run browser in headless mode.",
+            "Default: true in CI."
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "Browser to use: chromium, firefox, webkit.",
+            "Default: chromium."
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium browser."
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox browser."
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit browser."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "Port for the browser mode dev server."
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "Provider-specific browser options."
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "Exit if the specified port is already in use."
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Run tests related to changed files in the current Git repository, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "Automatically clear mock calls, instances, contexts and results before every test."
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "Collect coverage for files outside the project root directory."
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Collect coverage only for changed files, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "Clean the coverage directory before writing reports."
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "Exclude files from coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "Include files for coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "Coverage provider to use."
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul coverage provider."
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 coverage provider."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "Coverage reporter to use.",
+            "Repeat the flag for multiple reporters."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "Generate coverage reports even when tests fail."
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "Directory to store coverage reports."
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "Detect async resources that leak after tests finish."
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "Disable console intercept."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "Exclude files from test."
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "Enable Module Federation compatibility mode."
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "Treat positional arguments as source file paths and run only related tests."
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "Provide global APIs."
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "Hide skipped test files from the output."
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "Hide skipped tests from the output."
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of hook in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "Match test files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "Collect test and suite locations. This might increase the running time."
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "Run tests in an isolated environment."
+          ]
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "Log heap usage after each test."
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "Maximum number of concurrent tests."
+          ],
+          "next": []
+        },
+        {
+          "name": "--onlyFailures",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --onlyFailures"
+          ],
+          "tip": [
+            "Run only the test files that failed in the previous run."
+          ]
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "Clean test temporary files before the test starts."
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "Emit imported static assets."
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "Output JavaScript files in ES module format."
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "Allows the test suite to pass when no files are found."
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "Shorthand for --pool.type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "Additional Node.js execArgv passed to worker processes.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "Maximum number or percentage of workers (e.g. 4 or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "Memory threshold for recycling reused forks or VM workers (e.g. 256MB or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "Specify the test pool type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "Print console traces when calling any console method."
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "Run only projects that match the name, can be a full name or wildcards pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "Specify the reporter(s) to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "Automatically reset mock state before every test."
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "Automatically restore mock state and implementation before every test."
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "Number of times to retry a test if it fails."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "Split tests into several shards. This is useful for running tests in parallel on multiple machines."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "Silence intercepted test console output."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Do not silence test console output."
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "Silence console output for passed tests only."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Silence all intercepted test console output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "The number of milliseconds after which a test or suite is considered slow."
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "Path to the tsconfig.json file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "The environment that will be used for testing."
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM test environment."
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom test environment."
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js test environment."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "Run only tests with a name that matches the regex."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of a test in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "Dump a Perfetto-compatible performance trace JSON file, plus a ranked markdown timing summary printed to the terminal and written next to it."
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "Restores all runtime env values that were changed with rstest.stubEnv before every test."
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "Restores all global variables that were changed with rstest.stubGlobal before every test."
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "Update snapshot files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [...filters]"
+      ],
+      "tip": [
+        "Run tests in watch mode."
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "Stop running tests after n failures. Set to 0 to run all tests regardless of failures."
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "Run tests in browser mode."
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "Run browser in headless mode.",
+            "Default: true in CI."
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "Browser to use: chromium, firefox, webkit.",
+            "Default: chromium."
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium browser."
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox browser."
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit browser."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "Port for the browser mode dev server."
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "Provider-specific browser options."
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "Exit if the specified port is already in use."
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Run tests related to changed files in the current Git repository, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "Automatically clear mock calls, instances, contexts and results before every test."
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "Collect coverage for files outside the project root directory."
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "Collect coverage only for changed files, optionally since a commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "Clean the coverage directory before writing reports."
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "Enable code coverage collection."
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "Exclude files from coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "Include files for coverage collection."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "Coverage provider to use."
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul coverage provider."
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 coverage provider."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "Coverage reporter to use.",
+            "Repeat the flag for multiple reporters."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "Generate coverage reports even when tests fail."
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "Directory to store coverage reports."
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "Detect async resources that leak after tests finish."
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "Disable console intercept."
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "Exclude files from test."
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "Enable Module Federation compatibility mode."
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "Treat positional arguments as source file paths and run only related tests."
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "Provide global APIs."
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "Hide skipped test files from the output."
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "Hide skipped tests from the output."
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of hook in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "Match test files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "Collect test and suite locations. This might increase the running time."
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "Run tests in an isolated environment."
+          ]
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "Log heap usage after each test."
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "Maximum number of concurrent tests."
+          ],
+          "next": []
+        },
+        {
+          "name": "--onlyFailures",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --onlyFailures"
+          ],
+          "tip": [
+            "Run only the test files that failed in the previous run."
+          ]
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "Clean test temporary files before the test starts."
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "Emit imported static assets."
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "Output JavaScript files in ES module format."
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "Allows the test suite to pass when no files are found."
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "Shorthand for --pool.type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "Additional Node.js execArgv passed to worker processes.",
+            "Can be specified multiple times."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "Maximum number or percentage of workers (e.g. 4 or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "Memory threshold for recycling reused forks or VM workers (e.g. 256MB or 50%)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "Specify the test pool type."
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "Run tests in forked processes."
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "Run tests in worker threads."
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "Run tests in VM contexts on forked processes."
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "Run tests in VM contexts on worker threads."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "Print console traces when calling any console method."
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "Run only projects that match the name, can be a full name or wildcards pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "Specify the reporter(s) to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "Automatically reset mock state before every test."
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "Automatically restore mock state and implementation before every test."
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "Number of times to retry a test if it fails."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "Split tests into several shards. This is useful for running tests in parallel on multiple machines."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "Silence intercepted test console output."
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "Do not silence test console output."
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "Silence console output for passed tests only."
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "Silence all intercepted test console output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "The number of milliseconds after which a test or suite is considered slow."
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "Path to the tsconfig.json file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "The environment that will be used for testing."
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM test environment."
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom test environment."
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js test environment."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "Run only tests with a name that matches the regex."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "Timeout of a test in milliseconds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "Dump a Perfetto-compatible performance trace JSON file, plus a ranked markdown timing summary printed to the terminal and written next to it."
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "Restores all runtime env values that were changed with rstest.stubEnv before every test."
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "Restores all global variables that were changed with rstest.stubGlobal before every test."
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "Update snapshot files."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--bail",
+      "usage": [
+        "--bail [<NUMBER>]"
+      ],
+      "tip": [
+        "Stop running tests after n failures. Set to 0 to run all tests regardless of failures."
+      ],
+      "next": []
+    },
+    {
+      "name": "--browser",
+      "tip": [
+        "Run tests in browser mode."
+      ]
+    },
+    {
+      "name": "--browser.enabled",
+      "tip": [
+        "Run tests in browser mode."
+      ]
+    },
+    {
+      "name": "--browser.headless",
+      "tip": [
+        "Run browser in headless mode.",
+        "Default: true in CI."
+      ]
+    },
+    {
+      "name": "--browser.name",
+      "usage": [
+        "--browser.name <NAME>"
+      ],
+      "tip": [
+        "Browser to use: chromium, firefox, webkit.",
+        "Default: chromium."
+      ],
+      "next": [
+        {
+          "name": "chromium",
+          "tip": [
+            "Chromium browser."
+          ]
+        },
+        {
+          "name": "firefox",
+          "tip": [
+            "Firefox browser."
+          ]
+        },
+        {
+          "name": "webkit",
+          "tip": [
+            "WebKit browser."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--browser.port",
+      "usage": [
+        "--browser.port <PORT>"
+      ],
+      "tip": [
+        "Port for the browser mode dev server."
+      ],
+      "next": [
+        {
+          "name": "3000"
+        },
+        {
+          "name": "80"
+        },
+        {
+          "name": "8080"
+        }
+      ]
+    },
+    {
+      "name": "--browser.providerOptions.*",
+      "tip": [
+        "Provider-specific browser options."
+      ]
+    },
+    {
+      "name": "--browser.strictPort",
+      "tip": [
+        "Exit if the specified port is already in use."
+      ]
+    },
+    {
+      "name": "--changed",
+      "usage": [
+        "--changed [<COMMIT>]"
+      ],
+      "tip": [
+        "Run tests related to changed files in the current Git repository, optionally since a commit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--clearMocks",
+      "tip": [
+        "Automatically clear mock calls, instances, contexts and results before every test."
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "Enable code coverage collection."
+      ]
+    },
+    {
+      "name": "--coverage.allowExternal",
+      "tip": [
+        "Collect coverage for files outside the project root directory."
+      ]
+    },
+    {
+      "name": "--coverage.changed",
+      "usage": [
+        "--coverage.changed [<COMMIT>]"
+      ],
+      "tip": [
+        "Collect coverage only for changed files, optionally since a commit."
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.clean",
+      "tip": [
+        "Clean the coverage directory before writing reports."
+      ]
+    },
+    {
+      "name": "--coverage.enabled",
+      "tip": [
+        "Enable code coverage collection."
+      ]
+    },
+    {
+      "name": "--coverage.exclude",
+      "usage": [
+        "--coverage.exclude <PATTERN>"
+      ],
+      "tip": [
+        "Exclude files from coverage collection."
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.include",
+      "usage": [
+        "--coverage.include <PATTERN>"
+      ],
+      "tip": [
+        "Include files for coverage collection."
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.provider",
+      "usage": [
+        "--coverage.provider <PROVIDER>"
+      ],
+      "tip": [
+        "Coverage provider to use."
+      ],
+      "next": [
+        {
+          "name": "istanbul",
+          "tip": [
+            "Istanbul coverage provider."
+          ]
+        },
+        {
+          "name": "v8",
+          "tip": [
+            "V8 coverage provider."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--coverage.reporters",
+      "usage": [
+        "--coverage.reporters <REPORTER>"
+      ],
+      "tip": [
+        "Coverage reporter to use.",
+        "Repeat the flag for multiple reporters."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--coverage.reportOnFailure",
+      "tip": [
+        "Generate coverage reports even when tests fail."
+      ]
+    },
+    {
+      "name": "--coverage.reportsDirectory",
+      "usage": [
+        "--coverage.reportsDirectory <DIR>"
+      ],
+      "tip": [
+        "Directory to store coverage reports."
+      ],
+      "next": []
+    },
+    {
+      "name": "--detectAsyncLeaks",
+      "tip": [
+        "Detect async resources that leak after tests finish."
+      ]
+    },
+    {
+      "name": "--disableConsoleIntercept",
+      "tip": [
+        "Disable console intercept."
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <EXCLUDE>"
+      ],
+      "tip": [
+        "Exclude files from test."
+      ],
+      "next": []
+    },
+    {
+      "name": "--federation",
+      "tip": [
+        "Enable Module Federation compatibility mode."
+      ]
+    },
+    {
+      "name": "--findRelatedTests",
+      "alias": [
+        "--related"
+      ],
+      "usage": [
+        "--related, --findRelatedTests"
+      ],
+      "tip": [
+        "Treat positional arguments as source file paths and run only related tests."
+      ]
+    },
+    {
+      "name": "--globals",
+      "tip": [
+        "Provide global APIs."
+      ]
+    },
+    {
+      "name": "--hideSkippedTestFiles",
+      "tip": [
+        "Hide skipped test files from the output."
+      ]
+    },
+    {
+      "name": "--hideSkippedTests",
+      "tip": [
+        "Hide skipped tests from the output."
+      ]
+    },
+    {
+      "name": "--hookTimeout",
+      "usage": [
+        "--hookTimeout <VALUE>"
+      ],
+      "tip": [
+        "Timeout of hook in milliseconds."
+      ],
+      "next": []
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include <INCLUDE>"
+      ],
+      "tip": [
+        "Match test files."
+      ],
+      "next": []
+    },
+    {
+      "name": "--includeTaskLocation",
+      "tip": [
+        "Collect test and suite locations. This might increase the running time."
+      ]
+    },
+    {
+      "name": "--isolate",
+      "tip": [
+        "Run tests in an isolated environment."
+      ]
+    },
+    {
+      "name": "--logHeapUsage",
+      "tip": [
+        "Log heap usage after each test."
+      ]
+    },
+    {
+      "name": "--maxConcurrency",
+      "usage": [
+        "--maxConcurrency <VALUE>"
+      ],
+      "tip": [
+        "Maximum number of concurrent tests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--onlyFailures",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --onlyFailures"
+      ],
+      "tip": [
+        "Run only the test files that failed in the previous run."
+      ]
+    },
+    {
+      "name": "--output.cleanDistPath",
+      "tip": [
+        "Clean test temporary files before the test starts."
+      ]
+    },
+    {
+      "name": "--output.emitAssets",
+      "tip": [
+        "Emit imported static assets."
+      ]
+    },
+    {
+      "name": "--output.module",
+      "tip": [
+        "Output JavaScript files in ES module format."
+      ]
+    },
+    {
+      "name": "--passWithNoTests",
+      "tip": [
+        "Allows the test suite to pass when no files are found."
+      ]
+    },
+    {
+      "name": "--pool",
+      "usage": [
+        "--pool <TYPE>"
+      ],
+      "tip": [
+        "Shorthand for --pool.type."
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "Run tests in forked processes."
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "Run tests in worker threads."
+          ]
+        },
+        {
+          "name": "vmForks",
+          "tip": [
+            "Run tests in VM contexts on forked processes."
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "Run tests in VM contexts on worker threads."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pool.execArgv",
+      "usage": [
+        "--pool.execArgv <ARG>"
+      ],
+      "tip": [
+        "Additional Node.js execArgv passed to worker processes.",
+        "Can be specified multiple times."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--pool.maxWorkers",
+      "usage": [
+        "--pool.maxWorkers <VALUE>"
+      ],
+      "tip": [
+        "Maximum number or percentage of workers (e.g. 4 or 50%)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pool.memoryLimit",
+      "usage": [
+        "--pool.memoryLimit <LIMIT>"
+      ],
+      "tip": [
+        "Memory threshold for recycling reused forks or VM workers (e.g. 256MB or 50%)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--pool.type",
+      "usage": [
+        "--pool.type <TYPE>"
+      ],
+      "tip": [
+        "Specify the test pool type."
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "Run tests in forked processes."
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "Run tests in worker threads."
+          ]
+        },
+        {
+          "name": "vmForks",
+          "tip": [
+            "Run tests in VM contexts on forked processes."
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "Run tests in VM contexts on worker threads."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--printConsoleTrace",
+      "tip": [
+        "Print console traces when calling any console method."
+      ]
+    },
+    {
+      "name": "--project",
+      "usage": [
+        "--project <NAME>"
+      ],
+      "tip": [
+        "Run only projects that match the name, can be a full name or wildcards pattern."
+      ],
+      "next": []
+    },
+    {
+      "name": "--reporters",
+      "alias": [
+        "--reporter"
+      ],
+      "usage": [
+        "--reporter, --reporters <NAME>"
+      ],
+      "tip": [
+        "Specify the reporter(s) to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--resetMocks",
+      "tip": [
+        "Automatically reset mock state before every test."
+      ]
+    },
+    {
+      "name": "--restoreMocks",
+      "tip": [
+        "Automatically restore mock state and implementation before every test."
+      ]
+    },
+    {
+      "name": "--retry",
+      "usage": [
+        "--retry <RETRY>"
+      ],
+      "tip": [
+        "Number of times to retry a test if it fails."
+      ],
+      "next": []
+    },
+    {
+      "name": "--shard",
+      "usage": [
+        "--shard <INDEX/COUNT>"
+      ],
+      "tip": [
+        "Split tests into several shards. This is useful for running tests in parallel on multiple machines."
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "usage": [
+        "--silent [<VALUE>]"
+      ],
+      "tip": [
+        "Silence intercepted test console output."
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "Do not silence test console output."
+          ]
+        },
+        {
+          "name": "passed-only",
+          "tip": [
+            "Silence console output for passed tests only."
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "Silence all intercepted test console output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--slowTestThreshold",
+      "usage": [
+        "--slowTestThreshold <VALUE>"
+      ],
+      "tip": [
+        "The number of milliseconds after which a test or suite is considered slow."
+      ],
+      "next": []
+    },
+    {
+      "name": "--source.tsconfigPath",
+      "usage": [
+        "--source.tsconfigPath <PATH>"
+      ],
+      "tip": [
+        "Path to the tsconfig.json file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--testEnvironment",
+      "usage": [
+        "--testEnvironment <NAME>"
+      ],
+      "tip": [
+        "The environment that will be used for testing."
+      ],
+      "next": [
+        {
+          "name": "happy-dom",
+          "tip": [
+            "Happy DOM test environment."
+          ]
+        },
+        {
+          "name": "jsdom",
+          "tip": [
+            "jsdom test environment."
+          ]
+        },
+        {
+          "name": "node",
+          "tip": [
+            "Node.js test environment."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--testNamePattern",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --testNamePattern <VALUE>"
+      ],
+      "tip": [
+        "Run only tests with a name that matches the regex."
+      ],
+      "next": []
+    },
+    {
+      "name": "--testTimeout",
+      "usage": [
+        "--testTimeout <VALUE>"
+      ],
+      "tip": [
+        "Timeout of a test in milliseconds."
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "Dump a Perfetto-compatible performance trace JSON file, plus a ranked markdown timing summary printed to the terminal and written next to it."
+      ]
+    },
+    {
+      "name": "--unstubEnvs",
+      "tip": [
+        "Restores all runtime env values that were changed with rstest.stubEnv before every test."
+      ]
+    },
+    {
+      "name": "--unstubGlobals",
+      "tip": [
+        "Restores all global variables that were changed with rstest.stubGlobal before every test."
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "Update snapshot files."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Display version number."
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "Run tests in watch mode."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <CONFIG>"
+      ],
+      "tip": [
+        "Specify the configuration file, can be a relative or absolute path."
+      ],
+      "next": []
+    },
+    {
+      "name": "--config-loader",
+      "usage": [
+        "--config-loader <LOADER>"
+      ],
+      "tip": [
+        "Specify the loader to load the config file.",
+        "Default: auto."
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Automatically choose how to load the config file.",
+            "Default."
+          ]
+        },
+        {
+          "name": "jiti",
+          "tip": [
+            "Load the config file with jiti."
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "Load the config file with the native runtime loader."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Display this message."
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --root <ROOT>"
+      ],
+      "tip": [
+        "Specify the project root directory, can be an absolute path or a path relative to cwd."
+      ],
+      "next": []
+    }
+  ]
+}

@@ -1,0 +1,2790 @@
+{
+  "meta": {
+    "url": "https://www.prisma.io/docs/cli",
+    "description": [
+      "The Prisma Developer Platform, from your terminal."
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "Manage authentication for the Prisma Platform. Sign in and out, inspect identity, switch workspaces."
+      ],
+      "next": [
+        {
+          "name": "login",
+          "tip": [
+            "Log in to your Prisma platform account."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Clear stored authentication credentials."
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "Show who is signed in and which workspace commands target."
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "Manage stored workspace sessions. List them, switch the current one, end one."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List your workspace sessions."
+              ]
+            },
+            {
+              "name": "logout",
+              "usage": [
+                "logout <ID-OR-NAME>"
+              ],
+              "tip": [
+                "End one workspace session."
+              ]
+            },
+            {
+              "name": "use",
+              "usage": [
+                "use [ID-OR-NAME]"
+              ],
+              "tip": [
+                "Make a workspace session current: commands target that workspace."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "tip": [
+        "View Platform branches: the isolated environment behind each Git branch."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List a project's Platform branches."
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bucket",
+      "tip": [
+        "Manage S3-compatible object-store buckets for a project. CRUD operations and access keys."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create an object-store bucket."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "Bucket display name (auto-generated if omitted)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <BUCKET-ID>"
+          ],
+          "tip": [
+            "Delete a bucket and all its access keys."
+          ]
+        },
+        {
+          "name": "key",
+          "tip": [
+            "Manage a bucket's access keys. Create, list, and revoke per-consumer S3 credentials."
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create <BUCKET-ID>"
+              ],
+              "tip": [
+                "Create a bucket access key and print its one-time credentials."
+              ],
+              "option": [
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <NAME>"
+                  ],
+                  "tip": [
+                    "Key display name; use it to record which consumer holds the key (auto-generated if omitted)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "Access role; read_write unless set, use read for consumers that only download."
+                  ],
+                  "next": [
+                    {
+                      "name": "read",
+                      "tip": [
+                        "Consumers that only download."
+                      ]
+                    },
+                    {
+                      "name": "read_write",
+                      "tip": [
+                        "Full access role.",
+                        "Default."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <BUCKET-ID> <KEY-ID>"
+              ],
+              "tip": [
+                "Revoke and delete a bucket access key."
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list <BUCKET-ID>"
+              ],
+              "tip": [
+                "List access keys for a bucket."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List a project's object-store buckets."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contract",
+      "tip": [
+        "Author your data contract: the PSL source of your data model. Emit, infer, format."
+      ],
+      "next": [
+        {
+          "name": "emit",
+          "tip": [
+            "Emit your contract artifacts."
+          ],
+          "option": [
+            {
+              "name": "--output-path",
+              "usage": [
+                "--output-path <DIR>"
+              ],
+              "tip": [
+                "Directory to write contract.json and contract.d.ts into."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "format",
+          "tip": [
+            "Format your PSL contract source."
+          ]
+        },
+        {
+          "name": "infer",
+          "tip": [
+            "Infer a PSL contract from the live database schema."
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "usage": [
+                "--output <PATH>"
+              ],
+              "tip": [
+                "Write the inferred PSL contract to the specified path."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "db",
+      "tip": [
+        "Run contract operations against a live database. Verify, sign, update, migrate."
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "Bootstrap a database to match the current contract and sign it."
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "Advance the named ref to the post-command contract hash."
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Preview the planned operations without applying them."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": [
+            "Apply planned migrations to advance the database."
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "Advance the named ref to the post-apply marker after success."
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "From-state for the --show preview (@contract, @db, hash, ref name, or dir)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--show",
+              "tip": [
+                "Preview the migration route without applying (read-only)."
+              ]
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "Target contract reference (hash, prefix, ref name, migration dir name, <dir>^, or ./path)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "Inspect the live database schema."
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sign",
+          "usage": [
+            "sign [CONTRACT]"
+          ],
+          "tip": [
+            "Sign the database with your contract so you can safely run queries."
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "Advance the named ref to the post-command contract hash."
+              ],
+              "next": []
+            },
+            {
+              "name": "--contract",
+              "usage": [
+                "--contract <CONTRACT>"
+              ],
+              "tip": [
+                "Contract reference (hash, prefix, ref name, migration dir name, <dir>^, or ./path)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-advance-ref",
+              "tip": [
+                "Sign without advancing any ref (no ref file or snapshot is written)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Update your database schema to match your contract."
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "Advance the named ref to the post-command contract hash."
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Preview the planned operations without applying them."
+              ]
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "Contract to update to (hash, prefix, ref name, migration dir name, or ./path)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "Check whether the database marker and live schema match your contract."
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--marker-only",
+              "tip": [
+                "Skip schema verification and only check the database marker."
+              ]
+            },
+            {
+              "name": "--schema-only",
+              "tip": [
+                "Skip marker verification and only check whether the live schema satisfies the contract."
+              ]
+            },
+            {
+              "name": "--strict",
+              "tip": [
+                "Treat schema elements not present in the contract as an error."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "usage": [
+        "deploy <ENTRY>"
+      ],
+      "tip": [
+        "Deploy the application whose root node is <entry>'s default export."
+      ],
+      "example": [
+        "deploy src/service.ts"
+      ],
+      "option": [
+        {
+          "name": "--build-id",
+          "usage": [
+            "--build-id <ID>"
+          ],
+          "tip": [
+            "Join the deploy record your CI already created rather than letting the target create one."
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "Override the root node's name — the deploy's application name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <PATH>"
+          ],
+          "tip": [
+            "Write the deploy's outcome as JSON to this path — resources, preview URLs, and the failure cause."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stage",
+          "usage": [
+            "--stage <STAGE>"
+          ],
+          "tip": [
+            "Deploy scope to target; omit for production."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "usage": [
+        "dev <ENTRY>"
+      ],
+      "tip": [
+        "Bring up the application whose root node is <entry>'s default export, entirely on this machine."
+      ],
+      "example": [
+        "dev src/service.ts"
+      ],
+      "option": [
+        {
+          "name": "--fresh",
+          "tip": [
+            "Destroy the dev stack and wipe the dev state directory before starting."
+          ]
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "Override the root node's name — the dev instance's application name."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "feedback",
+      "usage": [
+        "feedback <MESSAGE>"
+      ],
+      "tip": [
+        "Send feedback to the Prisma CLI team."
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "usage": [
+            "--email <ADDRESS>"
+          ],
+          "tip": [
+            "Contact email if you want a reply; feedback is anonymous without it."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "Manage the GitHub connection that deploys on push. Connect or disconnect a repository."
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "usage": [
+            "connect [GIT-URL]"
+          ],
+          "tip": [
+            "Connect a project to a GitHub repository so every push deploys."
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "Disconnect the GitHub repository: pushes stop deploying."
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "Prepare this repository for Prisma: config file, dev dependency, AI-agent skills."
+      ],
+      "option": [
+        {
+          "name": "--no-postinstall",
+          "tip": [
+            "Skip adding the skills-sync postinstall hook."
+          ]
+        },
+        {
+          "name": "--postinstall",
+          "tip": [
+            "Add the skills-sync postinstall hook."
+          ]
+        },
+        {
+          "name": "--skills",
+          "usage": [
+            "--skills <AGENTS>"
+          ],
+          "tip": [
+            "Agents to install skills for (comma-separated)."
+          ],
+          "next": [
+            {
+              "name": "agents",
+              "tip": [
+                "Install skills for agents."
+              ]
+            },
+            {
+              "name": "claude",
+              "tip": [
+                "Install skills for Claude Code."
+              ]
+            },
+            {
+              "name": "cursor",
+              "tip": [
+                "Install skills for Cursor."
+              ]
+            },
+            {
+              "name": "devin",
+              "tip": [
+                "Install skills for Devin."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "Record that no agent skills are wanted."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsp",
+      "tip": [
+        "Start the Prisma ORM language server."
+      ],
+      "option": [
+        {
+          "name": "--client-process-id",
+          "usage": [
+            "--client-process-id <PID>"
+          ],
+          "tip": [
+            "Process id of the editor that spawned the server; the server ends when it dies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdio",
+          "tip": [
+            "Communicate with the editor over stdio (the default and only transport)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migration",
+      "tip": [
+        "Manage on-disk migrations derived from contract changes. Plan, inspect, check, track history."
+      ],
+      "next": [
+        {
+          "name": "check",
+          "usage": [
+            "check [TARGET]"
+          ],
+          "tip": [
+            "Verify artifact and graph integrity."
+          ],
+          "option": [
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "Narrow output to a single contract space."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "Show the migration graph topology."
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "Use ASCII glyphs (pipe-friendly)."
+              ]
+            },
+            {
+              "name": "--dot",
+              "tip": [
+                "Emit Graphviz DOT for the app graph."
+              ]
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "Print a key for the tree glyphs and lane colors."
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "Narrow output to a single contract space."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List on-disk migrations per contract space."
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "Use ASCII kind glyphs (pipe-friendly)."
+              ]
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "Print a key for the tree glyphs and lane colors."
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "Narrow output to a single contract space."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "Show executed migration history."
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "Use ASCII glyphs (pipe-friendly)."
+              ]
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--utc",
+              "tip": [
+                "Render human timestamps in UTC instead of local time."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "Scaffold a new migration for manual authoring."
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <HASH>"
+              ],
+              "tip": [
+                "Starting contract hash.",
+                "Default: latest migration target."
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <SLUG>"
+              ],
+              "tip": [
+                "Migration name (used in directory name)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "Plan a migration from contract changes."
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "Starting contract reference (hash, prefix, ref name, migration dir name, <dir>^, @empty, or ./path)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <SLUG>"
+              ],
+              "tip": [
+                "Name slug for the migration directory."
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "Destination contract reference; defaults to the emitted contract."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ref",
+          "tip": [
+            "Manage refs: named pointers to contracts. Set, list, delete."
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete <NAME>"
+              ],
+              "tip": [
+                "Delete a ref."
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List every named ref."
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set <NAME> <CONTRACT>"
+              ],
+              "tip": [
+                "Point a ref at a contract."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <TARGET>"
+          ],
+          "tip": [
+            "Display migration package contents."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show migration path and pending status."
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "Use ASCII glyphs (pipe-friendly)."
+              ]
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "Database connection string."
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "Origin contract reference; same grammar as --to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "Print a key for the tree glyphs and lane colors."
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "Narrow output to a single contract space."
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "Target contract reference (hash, prefix, ref name, migration dir name, <dir>^, or ./path)."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orm",
+      "tip": [
+        "Initialize a Prisma ORM project."
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "Initialize a new Prisma ORM project."
+          ],
+          "option": [
+            {
+              "name": "--authoring",
+              "usage": [
+                "--authoring <STYLE>"
+              ],
+              "tip": [
+                "Schema authoring style."
+              ],
+              "next": [
+                {
+                  "name": "psl",
+                  "tip": [
+                    "PSL schema authoring style."
+                  ]
+                },
+                {
+                  "name": "typescript",
+                  "tip": [
+                    "TypeScript schema authoring style."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--keep-previous-facade",
+              "tip": [
+                "Keep the previous target package in package.json when switching targets."
+              ]
+            },
+            {
+              "name": "--probe-db",
+              "tip": [
+                "Connect to DATABASE_URL once and check the server version."
+              ]
+            },
+            {
+              "name": "--schema-path",
+              "usage": [
+                "--schema-path <PATH>"
+              ],
+              "tip": [
+                "Where to write the starter schema."
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-install",
+              "tip": [
+                "Skip dependency installation and contract emission."
+              ]
+            },
+            {
+              "name": "--strict-probe",
+              "tip": [
+                "Treat a failed --probe-db as fatal."
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <DB>"
+              ],
+              "tip": [
+                "Database target."
+              ],
+              "next": [
+                {
+                  "name": "mongodb",
+                  "tip": [
+                    "MongoDB database target."
+                  ]
+                },
+                {
+                  "name": "postgres",
+                  "tip": [
+                    "Postgres database target."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--write-env",
+              "tip": [
+                "Write a .env file from .env.example (gitignored)."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "postgres",
+      "tip": [
+        "Manage Prisma Postgres databases. CRUD, usage metrics, backups, and connection credentials."
+      ],
+      "next": [
+        {
+          "name": "backup",
+          "tip": [
+            "Inspect and restore database backups. The platform takes them automatically."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list <DATABASE>"
+              ],
+              "tip": [
+                "List backups for a database."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git name; use to target one branch's environment."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--limit",
+                  "usage": [
+                    "--limit <N>"
+                  ],
+                  "tip": [
+                    "Maximum number of backups to return."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "restore",
+              "usage": [
+                "restore <DATABASE>"
+              ],
+              "tip": [
+                "Restore a database from a backup after exact id confirmation."
+              ],
+              "option": [
+                {
+                  "name": "--backup",
+                  "usage": [
+                    "--backup <BACKUP-ID>"
+                  ],
+                  "tip": [
+                    "Backup to restore from, listed by 'postgres backup list'."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git name; use to target one branch's environment."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--source-database",
+                  "usage": [
+                    "--source-database <DATABASE>"
+                  ],
+                  "tip": [
+                    "Database the backup belongs to; use when restoring another database's backup."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "Manage database connection credentials. Create, rotate, and revoke per-consumer connection URLs."
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create <DATABASE>"
+              ],
+              "tip": [
+                "Create an additional connection URL for a database; printed exactly once."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git name; use to target one branch's environment."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <NAME>"
+                  ],
+                  "tip": [
+                    "Connection name; use it to record which consumer holds the credential."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <CONNECTION-ID>"
+              ],
+              "tip": [
+                "Delete a database connection after exact id confirmation."
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list <DATABASE>"
+              ],
+              "tip": [
+                "List database connection metadata without secret values."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git name; use to target one branch's environment."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "rotate",
+              "usage": [
+                "rotate <CONNECTION-ID>"
+              ],
+              "tip": [
+                "Rotate connection credentials and print the new one-time connection URL."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a Prisma Postgres database and print its one-time connection URL."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "Prisma Postgres region id; set it when the data must live near a location."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <DATABASE>"
+          ],
+          "tip": [
+            "Delete a database after exact id confirmation."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List a project's Prisma Postgres databases."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <DATABASE>"
+          ],
+          "tip": [
+            "Show database metadata without secret values."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "usage",
+          "usage": [
+            "usage <DATABASE>"
+          ],
+          "tip": [
+            "Show usage metrics for a database."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git name; use to target one branch's environment."
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <ISO-DATE>"
+              ],
+              "tip": [
+                "Start of the usage period."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <ISO-DATE>"
+              ],
+              "tip": [
+                "End of the usage period."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "tip": [
+        "Manage Prisma Platform projects. CRUD, link a directory, transfer ownership, manage environment variables."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a Project and link this directory: commands run here target it."
+          ],
+          "option": [
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "Prisma Compute region for the project's infrastructure."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <ID-OR-NAME>"
+          ],
+          "tip": [
+            "Delete a Project permanently after exact id confirmation."
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "Manage a project's environment variables. Add, update, list, and delete values per scope."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [ASSIGNMENT]"
+              ],
+              "tip": [
+                "Create an environment variable in one scope: production, preview, or one branch."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Scope to one preview branch's override; use for values only that branch needs."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--file",
+                  "usage": [
+                    "--file <PATH>"
+                  ],
+                  "tip": [
+                    "Read KEY=VALUE assignments from a dotenv file; use to import many variables at once."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "Project-wide scope: production, or preview (shared by every preview branch)."
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "Preview scope, shared by every preview branch."
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <KEY>"
+              ],
+              "tip": [
+                "Delete an environment variable from one scope: production, preview, or one branch."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Scope to one preview branch's override; use for values only that branch needs."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "Project-wide scope: production, or preview (shared by every preview branch)."
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "Preview scope, shared by every preview branch."
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List environment variables in a scope: names and ids, never values."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Show what one preview branch resolves: the preview scope plus its overrides."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "Project-wide scope: production, or preview (shared by every preview branch)."
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "Preview scope, shared by every preview branch."
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "usage": [
+                "update [ASSIGNMENT]"
+              ],
+              "tip": [
+                "Replace an existing environment variable's value."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Scope to one preview branch's override; use for values only that branch needs."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--file",
+                  "usage": [
+                    "--file <PATH>"
+                  ],
+                  "tip": [
+                    "Read KEY=VALUE assignments from a dotenv file; use to import many variables at once."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "Project-wide scope: production, or preview (shared by every preview branch)."
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "Preview scope, shared by every preview branch."
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "usage": [
+            "link [ID-OR-NAME]"
+          ],
+          "tip": [
+            "Link this directory to a Project: commands run here target it by default."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all projects in your workspace."
+          ]
+        },
+        {
+          "name": "rename",
+          "usage": [
+            "rename <NAME>"
+          ],
+          "tip": [
+            "Rename a Project."
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [ID-OR-NAME]"
+          ],
+          "tip": [
+            "Show which Project this directory is linked to."
+          ]
+        },
+        {
+          "name": "transfer",
+          "usage": [
+            "transfer <ID-OR-NAME>"
+          ],
+          "tip": [
+            "Transfer a Project to another workspace after exact id confirmation."
+          ],
+          "option": [
+            {
+              "name": "--recipient-token",
+              "usage": [
+                "--recipient-token <TOKEN>"
+              ],
+              "tip": [
+                "Access token for the receiving workspace, when you are not a member of it."
+              ],
+              "next": []
+            },
+            {
+              "name": "--to-workspace",
+              "usage": [
+                "--to-workspace <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Receiving workspace, when it is one of your own stored sessions."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "tip": [
+        "Manage deployed services. Logs, versions, promote and rollback releases, custom domains."
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "Create a service in a project."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "Branch to create the service on.",
+                "Default: the default branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "Prisma Compute region id; set it when the service must run near a location."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [SERVICE]"
+          ],
+          "tip": [
+            "Delete a service from one branch."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "Branch the deletion is scoped to."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "domain",
+          "tip": [
+            "Manage custom domains for a service. Register hostnames, drive DNS and TLS verification, inspect status."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <HOSTNAME>"
+              ],
+              "tip": [
+                "Register a custom domain on the service's production branch."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "Service id or name the domain belongs to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <HOSTNAME>"
+              ],
+              "tip": [
+                "Delete a custom domain from the service."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "Service id or name the domain belongs to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "retry",
+              "usage": [
+                "retry <HOSTNAME>"
+              ],
+              "tip": [
+                "Retry custom domain DNS verification and TLS provisioning."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "Service id or name the domain belongs to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "usage": [
+                "show <HOSTNAME>"
+              ],
+              "tip": [
+                "Show custom domain status and certificate details."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "Service id or name the domain belongs to."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "wait",
+              "usage": [
+                "wait <HOSTNAME>"
+              ],
+              "tip": [
+                "Wait until a custom domain is active or failed."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name.",
+                    "Default: the project this directory is linked to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "Service id or name the domain belongs to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <DURATION>"
+                  ],
+                  "tip": [
+                    "Maximum time to wait.",
+                    "Default: 15m."
+                  ],
+                  "next": [
+                    {
+                      "name": "15m",
+                      "tip": [
+                        "15 minutes.",
+                        "Default."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List the services in a project."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "Branch the services live on.",
+                "Default: the default branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name.",
+                "Default: the project this directory is linked to."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "usage": [
+            "logs [SERVICE]"
+          ],
+          "tip": [
+            "Read logs for a version of the service."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "Branch the service lives on.",
+                "Default: the default branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--follow",
+              "tip": [
+                "Keep polling for new lines until interrupted."
+              ]
+            },
+            {
+              "name": "--from-start",
+              "tip": [
+                "Read from the beginning instead of the last lines."
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name."
+              ],
+              "next": []
+            },
+            {
+              "name": "--tail",
+              "usage": [
+                "--tail <N>"
+              ],
+              "tip": [
+                "Read the last N lines.",
+                "Default: 100."
+              ],
+              "next": [
+                {
+                  "name": "100",
+                  "tip": [
+                    "100 lines.",
+                    "Default."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--version-id",
+              "usage": [
+                "--version-id <ID>"
+              ],
+              "tip": [
+                "Service version id to read; use for a failed or stopped version.",
+                "Default: the live version."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "open",
+          "usage": [
+            "open [SERVICE]"
+          ],
+          "tip": [
+            "Open the service's live URL."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "Branch the service lives on.",
+                "Default: the default branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [SERVICE]"
+          ],
+          "tip": [
+            "Show a service and the version currently serving traffic."
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "Branch the service lives on.",
+                "Default: the default branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "Project id or name."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Manage a service's deploy versions. List, inspect, promote, roll back, start, stop, delete."
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete <VERSION>"
+              ],
+              "tip": [
+                "Delete a service version and the artifact it holds."
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [SERVICE]"
+              ],
+              "tip": [
+                "List versions of the service."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch the service lives on.",
+                    "Default: the default branch."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "promote",
+              "usage": [
+                "promote <VERSION>"
+              ],
+              "tip": [
+                "Promote a service version to production by rebuilding with production env vars."
+              ]
+            },
+            {
+              "name": "rollback",
+              "usage": [
+                "rollback [SERVICE]"
+              ],
+              "tip": [
+                "Roll back production to a previous service version."
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch the service lives on.",
+                    "Default: the default branch."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "Project id or name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--to",
+                  "usage": [
+                    "--to <VERSION>"
+                  ],
+                  "tip": [
+                    "Version id to roll back to; use when the last good version is further back.",
+                    "Default: the version before the live one."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "usage": [
+                "show <VERSION>"
+              ],
+              "tip": [
+                "Show a service version in detail."
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start <VERSION>"
+              ],
+              "tip": [
+                "Start a stopped service version."
+              ]
+            },
+            {
+              "name": "stop",
+              "usage": [
+                "stop <VERSION>"
+              ],
+              "tip": [
+                "Stop a running service version."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "Manage Prisma skills for AI coding agents. Sync and list the instruction files."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "Show which Prisma agent skills are installed in this project."
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Copy the AI-agent instruction files (skills) from installed Prisma packages into this project."
+          ],
+          "option": [
+            {
+              "name": "--disable",
+              "tip": [
+                "Stop other commands reporting out-of-date skills in this project."
+              ]
+            },
+            {
+              "name": "--enable",
+              "tip": [
+                "Undo --disable for this project."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "Inspect and change anonymous CLI telemetry."
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "Disable anonymous CLI telemetry."
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Enable anonymous CLI telemetry."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show whether anonymous CLI telemetry is enabled and why."
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--color",
+      "tip": [
+        "Force ANSI color on."
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "Read this config file instead of ./prisma.config.ts."
+      ],
+      "next": []
+    },
+    {
+      "name": "--confirm",
+      "usage": [
+        "--confirm <VALUE>"
+      ],
+      "tip": [
+        "Grant a consent prompt non-interactively by typing its token.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <FORMAT>"
+      ],
+      "tip": [
+        "Output format."
+      ],
+      "next": [
+        {
+          "name": "human",
+          "tip": [
+            "Human-readable output."
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON output."
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help for a command."
+      ]
+    },
+    {
+      "name": "--interactive",
+      "tip": [
+        "Force interactive prompts on."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Shorthand for --format json."
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <LEVEL>"
+      ],
+      "tip": [
+        "Commentary verbosity."
+      ],
+      "next": [
+        {
+          "name": "error",
+          "tip": [
+            "Error commentary."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info commentary."
+          ]
+        },
+        {
+          "name": "verbose",
+          "tip": [
+            "Verbose commentary."
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning commentary."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "Force ANSI color off."
+      ]
+    },
+    {
+      "name": "--no-interactive",
+      "tip": [
+        "Force interactive prompts off."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Shorthand for --log-level error."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Shorthand for --log-level verbose."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print the CLI version and exit."
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "Accept prompt defaults without asking."
+      ]
+    }
+  ]
+}

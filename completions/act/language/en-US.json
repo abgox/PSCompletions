@@ -1,0 +1,671 @@
+{
+  "meta": {
+    "url": "https://github.com/nektos/act",
+    "description": [
+      "Run GitHub Actions locally."
+    ]
+  },
+  "option": [
+    {
+      "name": "--action-cache-path",
+      "usage": [
+        "--action-cache-path <PATH>"
+      ],
+      "tip": [
+        "Defines the path where the actions get cached and host workspaces created."
+      ],
+      "next": []
+    },
+    {
+      "name": "--action-offline-mode",
+      "tip": [
+        "If action contents exists, it will not be fetch and pull again."
+      ]
+    },
+    {
+      "name": "--actor",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --actor <USER>"
+      ],
+      "tip": [
+        "User that triggered the event.",
+        "Default: nektos/act."
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-addr",
+      "usage": [
+        "--artifact-server-addr <ADDR>"
+      ],
+      "tip": [
+        "Defines the address to which the artifact server binds."
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-path",
+      "usage": [
+        "--artifact-server-path <PATH>"
+      ],
+      "tip": [
+        "Defines the path where the artifact server stores uploads and retrieves downloads from. If not specified the artifact server will not start."
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-port",
+      "usage": [
+        "--artifact-server-port <PORT>"
+      ],
+      "tip": [
+        "Defines the port where the artifact server listens.",
+        "Default: 34567."
+      ],
+      "next": []
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bind"
+      ],
+      "tip": [
+        "Bind working directory to container, rather than copy."
+      ]
+    },
+    {
+      "name": "--bug-report",
+      "tip": [
+        "Display system information for bug report."
+      ]
+    },
+    {
+      "name": "--cache-server-addr",
+      "usage": [
+        "--cache-server-addr <ADDR>"
+      ],
+      "tip": [
+        "Defines the address to which the cache server binds."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-external-url",
+      "usage": [
+        "--cache-server-external-url <URL>"
+      ],
+      "tip": [
+        "Defines the external URL for if the cache server is behind a proxy. Be careful that there is no trailing slash."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-path",
+      "usage": [
+        "--cache-server-path <PATH>"
+      ],
+      "tip": [
+        "Defines the path where the cache server stores caches."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-port",
+      "usage": [
+        "--cache-server-port <PORT>"
+      ],
+      "tip": [
+        "Defines the port where the artifact server listens. 0 means a randomly available port."
+      ],
+      "next": []
+    },
+    {
+      "name": "--concurrent-jobs",
+      "usage": [
+        "--concurrent-jobs <INT>"
+      ],
+      "tip": [
+        "Maximum number of concurrent jobs to run. Default is the number of CPUs available."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-architecture",
+      "usage": [
+        "--container-architecture <ARCH>"
+      ],
+      "tip": [
+        "Architecture which should be used to run containers, e.g. linux/amd64. If not specified, will use host default architecture."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-cap-add",
+      "usage": [
+        "--container-cap-add <CAP>"
+      ],
+      "tip": [
+        "Kernel capabilities to add to the workflow containers.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--container-cap-drop",
+      "usage": [
+        "--container-cap-drop <CAP>"
+      ],
+      "tip": [
+        "Kernel capabilities to remove from the workflow containers.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--container-daemon-socket",
+      "usage": [
+        "--container-daemon-socket <SOCKET>"
+      ],
+      "tip": [
+        "URI to Docker Engine socket (e.g. unix://~/.docker/run/docker.sock or - to disable bind mounting the socket)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-options",
+      "usage": [
+        "--container-options <OPTIONS>"
+      ],
+      "tip": [
+        "Custom docker container options for the job container without an options property in the job definition."
+      ],
+      "next": []
+    },
+    {
+      "name": "--defaultbranch",
+      "usage": [
+        "--defaultbranch <BRANCH>"
+      ],
+      "tip": [
+        "The name of the main branch."
+      ],
+      "next": []
+    },
+    {
+      "name": "--detect-event",
+      "tip": [
+        "Use first event type from workflow as event that triggered the workflow."
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --directory <DIR>"
+      ],
+      "tip": [
+        "Working directory.",
+        "Default: ."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dryrun",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --dryrun"
+      ],
+      "tip": [
+        "Disable container creation, validates only workflow correctness."
+      ]
+    },
+    {
+      "name": "--env",
+      "usage": [
+        "--env <ENV>"
+      ],
+      "tip": [
+        "Env to make available to actions with optional value.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <FILE>"
+      ],
+      "tip": [
+        "Environment file to read and use as env in the containers.",
+        "Default: .env."
+      ],
+      "next": []
+    },
+    {
+      "name": "--eventpath",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eventpath <PATH>"
+      ],
+      "tip": [
+        "Path to event JSON file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--github-instance",
+      "usage": [
+        "--github-instance <HOST>"
+      ],
+      "tip": [
+        "GitHub instance to use. Only use this when using GitHub Enterprise Server.",
+        "Default: github.com."
+      ],
+      "next": []
+    },
+    {
+      "name": "--graph",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --graph"
+      ],
+      "tip": [
+        "Draw workflows."
+      ]
+    },
+    {
+      "name": "--input",
+      "usage": [
+        "--input <INPUT>"
+      ],
+      "tip": [
+        "Action input to make available to actions.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--input-file",
+      "usage": [
+        "--input-file <FILE>"
+      ],
+      "tip": [
+        "Input file to read and use as action input.",
+        "Default: .input."
+      ],
+      "next": []
+    },
+    {
+      "name": "--insecure-secrets",
+      "tip": [
+        "NOT RECOMMENDED! Doesn't hide secrets while printing logs."
+      ]
+    },
+    {
+      "name": "--job",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --job <JOB>"
+      ],
+      "tip": [
+        "Run a specific job ID."
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Output logs in json format."
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "List workflows."
+      ]
+    },
+    {
+      "name": "--list-options",
+      "tip": [
+        "Print a json structure of compatible options."
+      ]
+    },
+    {
+      "name": "--local-repository",
+      "usage": [
+        "--local-repository <REPO=PATH>"
+      ],
+      "tip": [
+        "Replaces the specified repository and ref with a local folder.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--log-prefix-job-id",
+      "tip": [
+        "Output the job id within non-json logs instead of the entire name."
+      ]
+    },
+    {
+      "name": "--man-page",
+      "tip": [
+        "Print a generated manual page to stdout."
+      ]
+    },
+    {
+      "name": "--matrix",
+      "usage": [
+        "--matrix <MATRIX>"
+      ],
+      "tip": [
+        "Specify which matrix configuration to include.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--network",
+      "usage": [
+        "--network <NETWORK>"
+      ],
+      "tip": [
+        "Sets a docker network name.",
+        "Default: host."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-cache-server",
+      "tip": [
+        "Disable cache server."
+      ]
+    },
+    {
+      "name": "--no-recurse",
+      "tip": [
+        "Flag to disable running workflows from subdirectories of specified path in '--workflows'/'-W' flag."
+      ]
+    },
+    {
+      "name": "--no-skip-checkout",
+      "tip": [
+        "Use actions/checkout instead of copying local files into container."
+      ]
+    },
+    {
+      "name": "--platform",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --platform <PLATFORM=IMAGE>"
+      ],
+      "tip": [
+        "Custom image to use per platform.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--privileged",
+      "tip": [
+        "Use privileged mode."
+      ]
+    },
+    {
+      "name": "--pull",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pull"
+      ],
+      "tip": [
+        "Pull docker image(s) even if already present.",
+        "Default: true."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Disable logging of output from steps."
+      ]
+    },
+    {
+      "name": "--rebuild",
+      "tip": [
+        "Rebuild local action docker image(s) even if already present.",
+        "Default: true."
+      ]
+    },
+    {
+      "name": "--remote-name",
+      "usage": [
+        "--remote-name <NAME>"
+      ],
+      "tip": [
+        "Git remote name that will be used to retrieve url of git repo.",
+        "Default: origin."
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace-ghe-action-token-with-github-com",
+      "usage": [
+        "--replace-ghe-action-token-with-github-com <TOKEN>"
+      ],
+      "tip": [
+        "Personal access token for private actions on GitHub when using replace-ghe-action-with-github-com."
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace-ghe-action-with-github-com",
+      "usage": [
+        "--replace-ghe-action-with-github-com <ACTION>"
+      ],
+      "tip": [
+        "Allow specified actions from GitHub (github.com) when using GitHub Enterprise Server.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--reuse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reuse"
+      ],
+      "tip": [
+        "Don't remove container(s) on successfully completed workflow(s) to maintain state between runs."
+      ]
+    },
+    {
+      "name": "--rm",
+      "tip": [
+        "Automatically remove container(s)/volume(s) after a workflow(s) failure."
+      ]
+    },
+    {
+      "name": "--secret",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --secret <SECRET>"
+      ],
+      "tip": [
+        "Secret to make available to actions with optional value.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--secret-file",
+      "usage": [
+        "--secret-file <FILE>"
+      ],
+      "tip": [
+        "File with list of secrets to read from.",
+        "Default: .secrets."
+      ],
+      "next": []
+    },
+    {
+      "name": "--strict",
+      "tip": [
+        "Use strict workflow schema."
+      ]
+    },
+    {
+      "name": "--use-gitignore",
+      "tip": [
+        "Controls whether paths specified in .gitignore should be copied into container.",
+        "Default: true."
+      ]
+    },
+    {
+      "name": "--use-new-action-cache",
+      "tip": [
+        "Enable using the new Action Cache for storing Actions locally."
+      ]
+    },
+    {
+      "name": "--userns",
+      "usage": [
+        "--userns <NS>"
+      ],
+      "tip": [
+        "User namespace to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "tip": [
+        "Validate workflows."
+      ]
+    },
+    {
+      "name": "--var",
+      "usage": [
+        "--var <VAR>"
+      ],
+      "tip": [
+        "Variable to make available to actions with optional value.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--var-file",
+      "usage": [
+        "--var-file <FILE>"
+      ],
+      "tip": [
+        "File with list of vars to read from.",
+        "Default: .vars."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Verbose output."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Version for act."
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "Watch the contents of the local repo and run when files change."
+      ]
+    },
+    {
+      "name": "--workflows",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --workflows <PATH>"
+      ],
+      "tip": [
+        "Path to workflow file(s).",
+        "Default: ./.github/workflows/."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Help for act."
+      ]
+    }
+  ]
+}

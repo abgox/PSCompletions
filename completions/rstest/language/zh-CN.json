@@ -1,0 +1,2906 @@
+{
+  "meta": {
+    "url": "https://rstest.rs",
+    "description": [
+      "基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。"
+    ]
+  },
+  "next": [
+    {
+      "name": "init",
+      "usage": [
+        "init [project]"
+      ],
+      "tip": [
+        "初始化 rstest 配置。"
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "tip": [
+            "使用默认选项（非交互）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [...filters]"
+      ],
+      "tip": [
+        "列出 Rstest 将运行的所有测试文件。"
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "失败 n 次后停止运行测试。设为 0 则无论失败多少都跑完。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "以无头模式运行浏览器。",
+            "默认: 在 CI 中为 true。"
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "使用的浏览器: chromium、firefox、webkit。",
+            "默认: chromium。"
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium 浏览器。"
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox 浏览器。"
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit 浏览器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "浏览器模式开发服务器的端口。"
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "浏览器提供者专有选项。"
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "指定端口被占用时直接退出。"
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "运行与当前 Git 仓库变更文件相关的测试，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "每个测试前自动清除 mock 调用、实例、上下文与结果。"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "收集项目根目录之外的文件的覆盖率。"
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "仅收集变更文件的覆盖率，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "写报告前清理覆盖率目录。"
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集包含的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "使用的覆盖率提供者。"
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul 覆盖率提供者。"
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 覆盖率提供者。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "使用的覆盖率报告器。",
+            "多个报告器请重复该 flag。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "测试失败时也生成覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "存放覆盖率报告的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "检测测试结束后泄漏的异步资源。"
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "禁用 console 拦截。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "测试排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "启用 Module Federation 兼容模式。"
+          ]
+        },
+        {
+          "name": "--filesOnly",
+          "tip": [
+            "仅列出测试文件。"
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "将位置参数视为源文件路径，仅运行相关测试。"
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "提供全局 API。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "输出中隐藏跳过的测试文件。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "输出中隐藏跳过的测试。"
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "hook 超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "匹配测试文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeSuites",
+          "tip": [
+            "输出中包含测试套件。"
+          ]
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "收集测试与套件的位置。可能增加运行时间。"
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "在隔离环境中运行测试。"
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json [<BOOLEAN/PATH>]"
+          ],
+          "tip": [
+            "以 JSON 打印测试或写入文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "每个测试后打印堆内存用量。"
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "最大并发测试数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "测试开始前清理测试临时文件。"
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "输出导入的静态资源。"
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "以 ES 模块格式输出 JavaScript 文件。"
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "未找到文件时也让测试套件通过。"
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "--pool.type 的简写。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "传给 worker 进程的额外 Node.js execArgv。",
+            "可指定多次。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "最大 worker 数量或百分比（如 4 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "复用 fork 或 VM worker 的内存回收阈值（如 256MB 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "指定测试池类型。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "调用 console 方法时打印 console 调用栈。"
+          ]
+        },
+        {
+          "name": "--printLocation",
+          "tip": [
+            "打印测试用例位置。"
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "仅运行名称匹配的项目，可为全名或通配符模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "指定使用的报告器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "每个测试前自动重置 mock 状态。"
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "每个测试前自动恢复 mock 状态与实现。"
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "测试失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "将测试切分为多个分片，便于在多机并行运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "静默被拦截的测试 console 输出。"
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "不静默测试 console 输出。"
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "仅静默通过测试的 console 输出。"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "静默所有被拦截的测试 console 输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "测试或套件被视为缓慢的毫秒数阈值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "tsconfig.json 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "tip": [
+            "列表后打印摘要。"
+          ]
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "测试使用的环境。"
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM 测试环境。"
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom 测试环境。"
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js 测试环境。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "仅运行名称匹配正则的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "测试超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "输出 Perfetto 兼容的性能追踪 JSON 文件，并在终端打印分级 markdown 耗时摘要，同时写入同目录。"
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "每个测试前恢复被 rstest.stubEnv 修改的运行时 env 值。"
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "每个测试前恢复被 rstest.stubGlobal 修改的全局变量。"
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "更新快照文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "merge-reports",
+      "usage": [
+        "merge-reports [path]"
+      ],
+      "tip": [
+        "将多分片的 blob 报告合并为统一报告。"
+      ],
+      "option": [
+        {
+          "name": "--cleanup",
+          "tip": [
+            "合并后删除 blob 报告输入文件。"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "收集项目根目录之外的文件的覆盖率。"
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "仅收集变更文件的覆盖率，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "写报告前清理覆盖率目录。"
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集包含的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "使用的覆盖率提供者。"
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul 覆盖率提供者。"
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 覆盖率提供者。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "使用的覆盖率报告器。",
+            "多个报告器请重复该 flag。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "测试失败时也生成覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "存放覆盖率报告的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "指定使用的报告器。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [...filters]"
+      ],
+      "tip": [
+        "运行测试（非监听模式）。"
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "失败 n 次后停止运行测试。设为 0 则无论失败多少都跑完。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "以无头模式运行浏览器。",
+            "默认: 在 CI 中为 true。"
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "使用的浏览器: chromium、firefox、webkit。",
+            "默认: chromium。"
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium 浏览器。"
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox 浏览器。"
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit 浏览器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "浏览器模式开发服务器的端口。"
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "浏览器提供者专有选项。"
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "指定端口被占用时直接退出。"
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "运行与当前 Git 仓库变更文件相关的测试，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "每个测试前自动清除 mock 调用、实例、上下文与结果。"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "收集项目根目录之外的文件的覆盖率。"
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "仅收集变更文件的覆盖率，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "写报告前清理覆盖率目录。"
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集包含的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "使用的覆盖率提供者。"
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul 覆盖率提供者。"
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 覆盖率提供者。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "使用的覆盖率报告器。",
+            "多个报告器请重复该 flag。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "测试失败时也生成覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "存放覆盖率报告的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "检测测试结束后泄漏的异步资源。"
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "禁用 console 拦截。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "测试排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "启用 Module Federation 兼容模式。"
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "将位置参数视为源文件路径，仅运行相关测试。"
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "提供全局 API。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "输出中隐藏跳过的测试文件。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "输出中隐藏跳过的测试。"
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "hook 超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "匹配测试文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "收集测试与套件的位置。可能增加运行时间。"
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "在隔离环境中运行测试。"
+          ]
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "每个测试后打印堆内存用量。"
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "最大并发测试数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--onlyFailures",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --onlyFailures"
+          ],
+          "tip": [
+            "仅运行上次运行失败的测试文件。"
+          ]
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "测试开始前清理测试临时文件。"
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "输出导入的静态资源。"
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "以 ES 模块格式输出 JavaScript 文件。"
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "未找到文件时也让测试套件通过。"
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "--pool.type 的简写。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "传给 worker 进程的额外 Node.js execArgv。",
+            "可指定多次。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "最大 worker 数量或百分比（如 4 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "复用 fork 或 VM worker 的内存回收阈值（如 256MB 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "指定测试池类型。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "调用 console 方法时打印 console 调用栈。"
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "仅运行名称匹配的项目，可为全名或通配符模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "指定使用的报告器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "每个测试前自动重置 mock 状态。"
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "每个测试前自动恢复 mock 状态与实现。"
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "测试失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "将测试切分为多个分片，便于在多机并行运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "静默被拦截的测试 console 输出。"
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "不静默测试 console 输出。"
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "仅静默通过测试的 console 输出。"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "静默所有被拦截的测试 console 输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "测试或套件被视为缓慢的毫秒数阈值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "tsconfig.json 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "测试使用的环境。"
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM 测试环境。"
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom 测试环境。"
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js 测试环境。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "仅运行名称匹配正则的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "测试超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "输出 Perfetto 兼容的性能追踪 JSON 文件，并在终端打印分级 markdown 耗时摘要，同时写入同目录。"
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "每个测试前恢复被 rstest.stubEnv 修改的运行时 env 值。"
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "每个测试前恢复被 rstest.stubGlobal 修改的全局变量。"
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "更新快照文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [...filters]"
+      ],
+      "tip": [
+        "在监听模式下运行测试。"
+      ],
+      "option": [
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail [<NUMBER>]"
+          ],
+          "tip": [
+            "失败 n 次后停止运行测试。设为 0 则无论失败多少都跑完。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.enabled",
+          "tip": [
+            "在浏览器模式下运行测试。"
+          ]
+        },
+        {
+          "name": "--browser.headless",
+          "tip": [
+            "以无头模式运行浏览器。",
+            "默认: 在 CI 中为 true。"
+          ]
+        },
+        {
+          "name": "--browser.name",
+          "usage": [
+            "--browser.name <NAME>"
+          ],
+          "tip": [
+            "使用的浏览器: chromium、firefox、webkit。",
+            "默认: chromium。"
+          ],
+          "next": [
+            {
+              "name": "chromium",
+              "tip": [
+                "Chromium 浏览器。"
+              ]
+            },
+            {
+              "name": "firefox",
+              "tip": [
+                "Firefox 浏览器。"
+              ]
+            },
+            {
+              "name": "webkit",
+              "tip": [
+                "WebKit 浏览器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--browser.port",
+          "usage": [
+            "--browser.port <PORT>"
+          ],
+          "tip": [
+            "浏览器模式开发服务器的端口。"
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--browser.providerOptions.*",
+          "tip": [
+            "浏览器提供者专有选项。"
+          ]
+        },
+        {
+          "name": "--browser.strictPort",
+          "tip": [
+            "指定端口被占用时直接退出。"
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [<COMMIT>]"
+          ],
+          "tip": [
+            "运行与当前 Git 仓库变更文件相关的测试，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearMocks",
+          "tip": [
+            "每个测试前自动清除 mock 调用、实例、上下文与结果。"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.allowExternal",
+          "tip": [
+            "收集项目根目录之外的文件的覆盖率。"
+          ]
+        },
+        {
+          "name": "--coverage.changed",
+          "usage": [
+            "--coverage.changed [<COMMIT>]"
+          ],
+          "tip": [
+            "仅收集变更文件的覆盖率，可指定起始 commit。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.clean",
+          "tip": [
+            "写报告前清理覆盖率目录。"
+          ]
+        },
+        {
+          "name": "--coverage.enabled",
+          "tip": [
+            "启用代码覆盖率收集。"
+          ]
+        },
+        {
+          "name": "--coverage.exclude",
+          "usage": [
+            "--coverage.exclude <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.include",
+          "usage": [
+            "--coverage.include <PATTERN>"
+          ],
+          "tip": [
+            "覆盖率收集包含的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage.provider",
+          "usage": [
+            "--coverage.provider <PROVIDER>"
+          ],
+          "tip": [
+            "使用的覆盖率提供者。"
+          ],
+          "next": [
+            {
+              "name": "istanbul",
+              "tip": [
+                "Istanbul 覆盖率提供者。"
+              ]
+            },
+            {
+              "name": "v8",
+              "tip": [
+                "V8 覆盖率提供者。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--coverage.reporters",
+          "usage": [
+            "--coverage.reporters <REPORTER>"
+          ],
+          "tip": [
+            "使用的覆盖率报告器。",
+            "多个报告器请重复该 flag。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--coverage.reportOnFailure",
+          "tip": [
+            "测试失败时也生成覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--coverage.reportsDirectory",
+          "usage": [
+            "--coverage.reportsDirectory <DIR>"
+          ],
+          "tip": [
+            "存放覆盖率报告的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "检测测试结束后泄漏的异步资源。"
+          ]
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "禁用 console 拦截。"
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <EXCLUDE>"
+          ],
+          "tip": [
+            "测试排除的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--federation",
+          "tip": [
+            "启用 Module Federation 兼容模式。"
+          ]
+        },
+        {
+          "name": "--findRelatedTests",
+          "alias": [
+            "--related"
+          ],
+          "usage": [
+            "--related, --findRelatedTests"
+          ],
+          "tip": [
+            "将位置参数视为源文件路径，仅运行相关测试。"
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "提供全局 API。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTestFiles",
+          "tip": [
+            "输出中隐藏跳过的测试文件。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "输出中隐藏跳过的测试。"
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <VALUE>"
+          ],
+          "tip": [
+            "hook 超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include",
+          "usage": [
+            "--include <INCLUDE>"
+          ],
+          "tip": [
+            "匹配测试文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "收集测试与套件的位置。可能增加运行时间。"
+          ]
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "在隔离环境中运行测试。"
+          ]
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "每个测试后打印堆内存用量。"
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <VALUE>"
+          ],
+          "tip": [
+            "最大并发测试数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--onlyFailures",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --onlyFailures"
+          ],
+          "tip": [
+            "仅运行上次运行失败的测试文件。"
+          ]
+        },
+        {
+          "name": "--output.cleanDistPath",
+          "tip": [
+            "测试开始前清理测试临时文件。"
+          ]
+        },
+        {
+          "name": "--output.emitAssets",
+          "tip": [
+            "输出导入的静态资源。"
+          ]
+        },
+        {
+          "name": "--output.module",
+          "tip": [
+            "以 ES 模块格式输出 JavaScript 文件。"
+          ]
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "未找到文件时也让测试套件通过。"
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <TYPE>"
+          ],
+          "tip": [
+            "--pool.type 的简写。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pool.execArgv",
+          "usage": [
+            "--pool.execArgv <ARG>"
+          ],
+          "tip": [
+            "传给 worker 进程的额外 Node.js execArgv。",
+            "可指定多次。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pool.maxWorkers",
+          "usage": [
+            "--pool.maxWorkers <VALUE>"
+          ],
+          "tip": [
+            "最大 worker 数量或百分比（如 4 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.memoryLimit",
+          "usage": [
+            "--pool.memoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "复用 fork 或 VM worker 的内存回收阈值（如 256MB 或 50%）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pool.type",
+          "usage": [
+            "--pool.type <TYPE>"
+          ],
+          "tip": [
+            "指定测试池类型。"
+          ],
+          "next": [
+            {
+              "name": "forks",
+              "tip": [
+                "在 fork 子进程中运行测试。"
+              ]
+            },
+            {
+              "name": "threads",
+              "tip": [
+                "在 worker 线程中运行测试。"
+              ]
+            },
+            {
+              "name": "vmForks",
+              "tip": [
+                "在 fork 子进程的 VM 上下文中运行测试。"
+              ]
+            },
+            {
+              "name": "vmThreads",
+              "tip": [
+                "在 worker 线程的 VM 上下文中运行测试。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "调用 console 方法时打印 console 调用栈。"
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "仅运行名称匹配的项目，可为全名或通配符模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reporters",
+          "alias": [
+            "--reporter"
+          ],
+          "usage": [
+            "--reporter, --reporters <NAME>"
+          ],
+          "tip": [
+            "指定使用的报告器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resetMocks",
+          "tip": [
+            "每个测试前自动重置 mock 状态。"
+          ]
+        },
+        {
+          "name": "--restoreMocks",
+          "tip": [
+            "每个测试前自动恢复 mock 状态与实现。"
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <RETRY>"
+          ],
+          "tip": [
+            "测试失败时的重试次数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <INDEX/COUNT>"
+          ],
+          "tip": [
+            "将测试切分为多个分片，便于在多机并行运行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [<VALUE>]"
+          ],
+          "tip": [
+            "静默被拦截的测试 console 输出。"
+          ],
+          "next": [
+            {
+              "name": "false",
+              "tip": [
+                "不静默测试 console 输出。"
+              ]
+            },
+            {
+              "name": "passed-only",
+              "tip": [
+                "仅静默通过测试的 console 输出。"
+              ]
+            },
+            {
+              "name": "true",
+              "tip": [
+                "静默所有被拦截的测试 console 输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <VALUE>"
+          ],
+          "tip": [
+            "测试或套件被视为缓慢的毫秒数阈值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--source.tsconfigPath",
+          "usage": [
+            "--source.tsconfigPath <PATH>"
+          ],
+          "tip": [
+            "tsconfig.json 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testEnvironment",
+          "usage": [
+            "--testEnvironment <NAME>"
+          ],
+          "tip": [
+            "测试使用的环境。"
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "Happy DOM 测试环境。"
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom 测试环境。"
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js 测试环境。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <VALUE>"
+          ],
+          "tip": [
+            "仅运行名称匹配正则的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <VALUE>"
+          ],
+          "tip": [
+            "测试超时毫秒数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace",
+          "tip": [
+            "输出 Perfetto 兼容的性能追踪 JSON 文件，并在终端打印分级 markdown 耗时摘要，同时写入同目录。"
+          ]
+        },
+        {
+          "name": "--unstubEnvs",
+          "tip": [
+            "每个测试前恢复被 rstest.stubEnv 修改的运行时 env 值。"
+          ]
+        },
+        {
+          "name": "--unstubGlobals",
+          "tip": [
+            "每个测试前恢复被 rstest.stubGlobal 修改的全局变量。"
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "更新快照文件。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--bail",
+      "usage": [
+        "--bail [<NUMBER>]"
+      ],
+      "tip": [
+        "失败 n 次后停止运行测试。设为 0 则无论失败多少都跑完。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--browser",
+      "tip": [
+        "在浏览器模式下运行测试。"
+      ]
+    },
+    {
+      "name": "--browser.enabled",
+      "tip": [
+        "在浏览器模式下运行测试。"
+      ]
+    },
+    {
+      "name": "--browser.headless",
+      "tip": [
+        "以无头模式运行浏览器。",
+        "默认: 在 CI 中为 true。"
+      ]
+    },
+    {
+      "name": "--browser.name",
+      "usage": [
+        "--browser.name <NAME>"
+      ],
+      "tip": [
+        "使用的浏览器: chromium、firefox、webkit。",
+        "默认: chromium。"
+      ],
+      "next": [
+        {
+          "name": "chromium",
+          "tip": [
+            "Chromium 浏览器。"
+          ]
+        },
+        {
+          "name": "firefox",
+          "tip": [
+            "Firefox 浏览器。"
+          ]
+        },
+        {
+          "name": "webkit",
+          "tip": [
+            "WebKit 浏览器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--browser.port",
+      "usage": [
+        "--browser.port <PORT>"
+      ],
+      "tip": [
+        "浏览器模式开发服务器的端口。"
+      ],
+      "next": [
+        {
+          "name": "3000"
+        },
+        {
+          "name": "80"
+        },
+        {
+          "name": "8080"
+        }
+      ]
+    },
+    {
+      "name": "--browser.providerOptions.*",
+      "tip": [
+        "浏览器提供者专有选项。"
+      ]
+    },
+    {
+      "name": "--browser.strictPort",
+      "tip": [
+        "指定端口被占用时直接退出。"
+      ]
+    },
+    {
+      "name": "--changed",
+      "usage": [
+        "--changed [<COMMIT>]"
+      ],
+      "tip": [
+        "运行与当前 Git 仓库变更文件相关的测试，可指定起始 commit。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--clearMocks",
+      "tip": [
+        "每个测试前自动清除 mock 调用、实例、上下文与结果。"
+      ]
+    },
+    {
+      "name": "--coverage",
+      "tip": [
+        "启用代码覆盖率收集。"
+      ]
+    },
+    {
+      "name": "--coverage.allowExternal",
+      "tip": [
+        "收集项目根目录之外的文件的覆盖率。"
+      ]
+    },
+    {
+      "name": "--coverage.changed",
+      "usage": [
+        "--coverage.changed [<COMMIT>]"
+      ],
+      "tip": [
+        "仅收集变更文件的覆盖率，可指定起始 commit。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.clean",
+      "tip": [
+        "写报告前清理覆盖率目录。"
+      ]
+    },
+    {
+      "name": "--coverage.enabled",
+      "tip": [
+        "启用代码覆盖率收集。"
+      ]
+    },
+    {
+      "name": "--coverage.exclude",
+      "usage": [
+        "--coverage.exclude <PATTERN>"
+      ],
+      "tip": [
+        "覆盖率收集排除的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.include",
+      "usage": [
+        "--coverage.include <PATTERN>"
+      ],
+      "tip": [
+        "覆盖率收集包含的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--coverage.provider",
+      "usage": [
+        "--coverage.provider <PROVIDER>"
+      ],
+      "tip": [
+        "使用的覆盖率提供者。"
+      ],
+      "next": [
+        {
+          "name": "istanbul",
+          "tip": [
+            "Istanbul 覆盖率提供者。"
+          ]
+        },
+        {
+          "name": "v8",
+          "tip": [
+            "V8 覆盖率提供者。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--coverage.reporters",
+      "usage": [
+        "--coverage.reporters <REPORTER>"
+      ],
+      "tip": [
+        "使用的覆盖率报告器。",
+        "多个报告器请重复该 flag。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--coverage.reportOnFailure",
+      "tip": [
+        "测试失败时也生成覆盖率报告。"
+      ]
+    },
+    {
+      "name": "--coverage.reportsDirectory",
+      "usage": [
+        "--coverage.reportsDirectory <DIR>"
+      ],
+      "tip": [
+        "存放覆盖率报告的目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--detectAsyncLeaks",
+      "tip": [
+        "检测测试结束后泄漏的异步资源。"
+      ]
+    },
+    {
+      "name": "--disableConsoleIntercept",
+      "tip": [
+        "禁用 console 拦截。"
+      ]
+    },
+    {
+      "name": "--exclude",
+      "usage": [
+        "--exclude <EXCLUDE>"
+      ],
+      "tip": [
+        "测试排除的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--federation",
+      "tip": [
+        "启用 Module Federation 兼容模式。"
+      ]
+    },
+    {
+      "name": "--findRelatedTests",
+      "alias": [
+        "--related"
+      ],
+      "usage": [
+        "--related, --findRelatedTests"
+      ],
+      "tip": [
+        "将位置参数视为源文件路径，仅运行相关测试。"
+      ]
+    },
+    {
+      "name": "--globals",
+      "tip": [
+        "提供全局 API。"
+      ]
+    },
+    {
+      "name": "--hideSkippedTestFiles",
+      "tip": [
+        "输出中隐藏跳过的测试文件。"
+      ]
+    },
+    {
+      "name": "--hideSkippedTests",
+      "tip": [
+        "输出中隐藏跳过的测试。"
+      ]
+    },
+    {
+      "name": "--hookTimeout",
+      "usage": [
+        "--hookTimeout <VALUE>"
+      ],
+      "tip": [
+        "hook 超时毫秒数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--include",
+      "usage": [
+        "--include <INCLUDE>"
+      ],
+      "tip": [
+        "匹配测试文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--includeTaskLocation",
+      "tip": [
+        "收集测试与套件的位置。可能增加运行时间。"
+      ]
+    },
+    {
+      "name": "--isolate",
+      "tip": [
+        "在隔离环境中运行测试。"
+      ]
+    },
+    {
+      "name": "--logHeapUsage",
+      "tip": [
+        "每个测试后打印堆内存用量。"
+      ]
+    },
+    {
+      "name": "--maxConcurrency",
+      "usage": [
+        "--maxConcurrency <VALUE>"
+      ],
+      "tip": [
+        "最大并发测试数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--onlyFailures",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --onlyFailures"
+      ],
+      "tip": [
+        "仅运行上次运行失败的测试文件。"
+      ]
+    },
+    {
+      "name": "--output.cleanDistPath",
+      "tip": [
+        "测试开始前清理测试临时文件。"
+      ]
+    },
+    {
+      "name": "--output.emitAssets",
+      "tip": [
+        "输出导入的静态资源。"
+      ]
+    },
+    {
+      "name": "--output.module",
+      "tip": [
+        "以 ES 模块格式输出 JavaScript 文件。"
+      ]
+    },
+    {
+      "name": "--passWithNoTests",
+      "tip": [
+        "未找到文件时也让测试套件通过。"
+      ]
+    },
+    {
+      "name": "--pool",
+      "usage": [
+        "--pool <TYPE>"
+      ],
+      "tip": [
+        "--pool.type 的简写。"
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "在 fork 子进程中运行测试。"
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "在 worker 线程中运行测试。"
+          ]
+        },
+        {
+          "name": "vmForks",
+          "tip": [
+            "在 fork 子进程的 VM 上下文中运行测试。"
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "在 worker 线程的 VM 上下文中运行测试。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pool.execArgv",
+      "usage": [
+        "--pool.execArgv <ARG>"
+      ],
+      "tip": [
+        "传给 worker 进程的额外 Node.js execArgv。",
+        "可指定多次。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--pool.maxWorkers",
+      "usage": [
+        "--pool.maxWorkers <VALUE>"
+      ],
+      "tip": [
+        "最大 worker 数量或百分比（如 4 或 50%）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pool.memoryLimit",
+      "usage": [
+        "--pool.memoryLimit <LIMIT>"
+      ],
+      "tip": [
+        "复用 fork 或 VM worker 的内存回收阈值（如 256MB 或 50%）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pool.type",
+      "usage": [
+        "--pool.type <TYPE>"
+      ],
+      "tip": [
+        "指定测试池类型。"
+      ],
+      "next": [
+        {
+          "name": "forks",
+          "tip": [
+            "在 fork 子进程中运行测试。"
+          ]
+        },
+        {
+          "name": "threads",
+          "tip": [
+            "在 worker 线程中运行测试。"
+          ]
+        },
+        {
+          "name": "vmForks",
+          "tip": [
+            "在 fork 子进程的 VM 上下文中运行测试。"
+          ]
+        },
+        {
+          "name": "vmThreads",
+          "tip": [
+            "在 worker 线程的 VM 上下文中运行测试。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--printConsoleTrace",
+      "tip": [
+        "调用 console 方法时打印 console 调用栈。"
+      ]
+    },
+    {
+      "name": "--project",
+      "usage": [
+        "--project <NAME>"
+      ],
+      "tip": [
+        "仅运行名称匹配的项目，可为全名或通配符模式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reporters",
+      "alias": [
+        "--reporter"
+      ],
+      "usage": [
+        "--reporter, --reporters <NAME>"
+      ],
+      "tip": [
+        "指定使用的报告器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--resetMocks",
+      "tip": [
+        "每个测试前自动重置 mock 状态。"
+      ]
+    },
+    {
+      "name": "--restoreMocks",
+      "tip": [
+        "每个测试前自动恢复 mock 状态与实现。"
+      ]
+    },
+    {
+      "name": "--retry",
+      "usage": [
+        "--retry <RETRY>"
+      ],
+      "tip": [
+        "测试失败时的重试次数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--shard",
+      "usage": [
+        "--shard <INDEX/COUNT>"
+      ],
+      "tip": [
+        "将测试切分为多个分片，便于在多机并行运行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--silent",
+      "usage": [
+        "--silent [<VALUE>]"
+      ],
+      "tip": [
+        "静默被拦截的测试 console 输出。"
+      ],
+      "next": [
+        {
+          "name": "false",
+          "tip": [
+            "不静默测试 console 输出。"
+          ]
+        },
+        {
+          "name": "passed-only",
+          "tip": [
+            "仅静默通过测试的 console 输出。"
+          ]
+        },
+        {
+          "name": "true",
+          "tip": [
+            "静默所有被拦截的测试 console 输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--slowTestThreshold",
+      "usage": [
+        "--slowTestThreshold <VALUE>"
+      ],
+      "tip": [
+        "测试或套件被视为缓慢的毫秒数阈值。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--source.tsconfigPath",
+      "usage": [
+        "--source.tsconfigPath <PATH>"
+      ],
+      "tip": [
+        "tsconfig.json 文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--testEnvironment",
+      "usage": [
+        "--testEnvironment <NAME>"
+      ],
+      "tip": [
+        "测试使用的环境。"
+      ],
+      "next": [
+        {
+          "name": "happy-dom",
+          "tip": [
+            "Happy DOM 测试环境。"
+          ]
+        },
+        {
+          "name": "jsdom",
+          "tip": [
+            "jsdom 测试环境。"
+          ]
+        },
+        {
+          "name": "node",
+          "tip": [
+            "Node.js 测试环境。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--testNamePattern",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --testNamePattern <VALUE>"
+      ],
+      "tip": [
+        "仅运行名称匹配正则的测试。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--testTimeout",
+      "usage": [
+        "--testTimeout <VALUE>"
+      ],
+      "tip": [
+        "测试超时毫秒数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace",
+      "tip": [
+        "输出 Perfetto 兼容的性能追踪 JSON 文件，并在终端打印分级 markdown 耗时摘要，同时写入同目录。"
+      ]
+    },
+    {
+      "name": "--unstubEnvs",
+      "tip": [
+        "每个测试前恢复被 rstest.stubEnv 修改的运行时 env 值。"
+      ]
+    },
+    {
+      "name": "--unstubGlobals",
+      "tip": [
+        "每个测试前恢复被 rstest.stubGlobal 修改的全局变量。"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --update"
+      ],
+      "tip": [
+        "更新快照文件。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "在监听模式下运行测试。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <CONFIG>"
+      ],
+      "tip": [
+        "指定配置文件，可为相对或绝对路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config-loader",
+      "usage": [
+        "--config-loader <LOADER>"
+      ],
+      "tip": [
+        "指定加载配置文件的加载器。",
+        "默认: auto。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动选择加载配置文件的方式。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "jiti",
+          "tip": [
+            "用 jiti 加载配置文件。"
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "用原生运行时加载器加载配置文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此消息。"
+      ]
+    },
+    {
+      "name": "--root",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --root <ROOT>"
+      ],
+      "tip": [
+        "设置项目根目录，可为绝对路径或相对于 cwd 的路径。"
+      ],
+      "next": []
+    }
+  ]
+}

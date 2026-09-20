@@ -1,0 +1,671 @@
+{
+  "meta": {
+    "url": "https://github.com/nektos/act",
+    "description": [
+      "本地运行 GitHub Actions。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--action-cache-path",
+      "usage": [
+        "--action-cache-path <PATH>"
+      ],
+      "tip": [
+        "action 缓存与宿主工作区目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--action-offline-mode",
+      "tip": [
+        "action 已存在则不再拉取；开启会关闭强制拉取。"
+      ]
+    },
+    {
+      "name": "--actor",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --actor <USER>"
+      ],
+      "tip": [
+        "触发事件的用户。",
+        "默认: nektos/act。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-addr",
+      "usage": [
+        "--artifact-server-addr <ADDR>"
+      ],
+      "tip": [
+        "artifact server 绑定地址。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-path",
+      "usage": [
+        "--artifact-server-path <PATH>"
+      ],
+      "tip": [
+        "artifact server 存取上传的路径；不指定则不启动。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--artifact-server-port",
+      "usage": [
+        "--artifact-server-port <PORT>"
+      ],
+      "tip": [
+        "artifact server 监听端口。",
+        "默认: 34567。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bind",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --bind"
+      ],
+      "tip": [
+        "工作目录 bind 进容器而非拷贝。"
+      ]
+    },
+    {
+      "name": "--bug-report",
+      "tip": [
+        "打印 bug 报告用系统信息。"
+      ]
+    },
+    {
+      "name": "--cache-server-addr",
+      "usage": [
+        "--cache-server-addr <ADDR>"
+      ],
+      "tip": [
+        "cache server 绑定地址。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-external-url",
+      "usage": [
+        "--cache-server-external-url <URL>"
+      ],
+      "tip": [
+        "cache server 在代理后的外部 URL，末尾勿带斜杠。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-path",
+      "usage": [
+        "--cache-server-path <PATH>"
+      ],
+      "tip": [
+        "cache server 存缓存的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-server-port",
+      "usage": [
+        "--cache-server-port <PORT>"
+      ],
+      "tip": [
+        "artifact server 监听端口。0 为随机可用端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--concurrent-jobs",
+      "usage": [
+        "--concurrent-jobs <INT>"
+      ],
+      "tip": [
+        "最大并发 job 数。默认 CPU 数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-architecture",
+      "usage": [
+        "--container-architecture <ARCH>"
+      ],
+      "tip": [
+        "容器运行架构，如 linux/amd64；省略用宿主默认。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-cap-add",
+      "usage": [
+        "--container-cap-add <CAP>"
+      ],
+      "tip": [
+        "workflow 容器添加的 kernel capability。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--container-cap-drop",
+      "usage": [
+        "--container-cap-drop <CAP>"
+      ],
+      "tip": [
+        "workflow 容器移除的 kernel capability。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--container-daemon-socket",
+      "usage": [
+        "--container-daemon-socket <SOCKET>"
+      ],
+      "tip": [
+        "Docker Engine socket URI（- 禁用 socket 挂载）。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-options",
+      "usage": [
+        "--container-options <OPTIONS>"
+      ],
+      "tip": [
+        "job 容器自定义 docker 参数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--defaultbranch",
+      "usage": [
+        "--defaultbranch <BRANCH>"
+      ],
+      "tip": [
+        "主分支名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--detect-event",
+      "tip": [
+        "用 workflow 首个事件类型作为触发事件。"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --directory <DIR>"
+      ],
+      "tip": [
+        "工作目录。",
+        "默认: ."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dryrun",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --dryrun"
+      ],
+      "tip": [
+        "不建容器，仅校验 workflow 正确性。"
+      ]
+    },
+    {
+      "name": "--env",
+      "usage": [
+        "--env <ENV>"
+      ],
+      "tip": [
+        "传给 action 的 env（可带值）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--env-file",
+      "usage": [
+        "--env-file <FILE>"
+      ],
+      "tip": [
+        "容器 env 读取的环境文件。",
+        "默认: .env。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--eventpath",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --eventpath <PATH>"
+      ],
+      "tip": [
+        "事件 JSON 文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--github-instance",
+      "usage": [
+        "--github-instance <HOST>"
+      ],
+      "tip": [
+        "GitHub 实例名；仅 GitHub Enterprise Server 用。",
+        "默认: github.com。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--graph",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --graph"
+      ],
+      "tip": [
+        "绘制 workflows。"
+      ]
+    },
+    {
+      "name": "--input",
+      "usage": [
+        "--input <INPUT>"
+      ],
+      "tip": [
+        "传给 action 的 input。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--input-file",
+      "usage": [
+        "--input-file <FILE>"
+      ],
+      "tip": [
+        "读取为 action input 的文件。",
+        "默认: .input。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--insecure-secrets",
+      "tip": [
+        "不推荐！日志不再隐藏 secrets。"
+      ]
+    },
+    {
+      "name": "--job",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --job <JOB>"
+      ],
+      "tip": [
+        "只运行指定 job ID。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "日志 json 格式输出。"
+      ]
+    },
+    {
+      "name": "--list",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --list"
+      ],
+      "tip": [
+        "列出 workflows。"
+      ]
+    },
+    {
+      "name": "--list-options",
+      "tip": [
+        "打印兼容选项的 json 结构。"
+      ]
+    },
+    {
+      "name": "--local-repository",
+      "usage": [
+        "--local-repository <REPO=PATH>"
+      ],
+      "tip": [
+        "指定仓库 ref 替换为本地目录。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--log-prefix-job-id",
+      "tip": [
+        "非 json 日志用 job id 而非全名做前缀。"
+      ]
+    },
+    {
+      "name": "--man-page",
+      "tip": [
+        "打印生成的 man 页到 stdout。"
+      ]
+    },
+    {
+      "name": "--matrix",
+      "usage": [
+        "--matrix <MATRIX>"
+      ],
+      "tip": [
+        "指定包含的 matrix 配置。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--network",
+      "usage": [
+        "--network <NETWORK>"
+      ],
+      "tip": [
+        "docker 网络名。",
+        "默认: host。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-cache-server",
+      "tip": [
+        "禁用 cache server。"
+      ]
+    },
+    {
+      "name": "--no-recurse",
+      "tip": [
+        "禁用 --workflows 指定路径子目录 workflow。"
+      ]
+    },
+    {
+      "name": "--no-skip-checkout",
+      "tip": [
+        "用 actions/checkout 而非拷贝本地文件进容器。"
+      ]
+    },
+    {
+      "name": "--platform",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --platform <PLATFORM=IMAGE>"
+      ],
+      "tip": [
+        "每个平台自定义镜像。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--privileged",
+      "tip": [
+        "特权模式。"
+      ]
+    },
+    {
+      "name": "--pull",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pull"
+      ],
+      "tip": [
+        "已有镜像也拉取。",
+        "默认: true。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "禁用步骤输出日志。"
+      ]
+    },
+    {
+      "name": "--rebuild",
+      "tip": [
+        "已有本地 action 镜像也重建。",
+        "默认: true。"
+      ]
+    },
+    {
+      "name": "--remote-name",
+      "usage": [
+        "--remote-name <NAME>"
+      ],
+      "tip": [
+        "取 git 仓库 url 的 remote 名。",
+        "默认: origin。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace-ghe-action-token-with-github-com",
+      "usage": [
+        "--replace-ghe-action-token-with-github-com <TOKEN>"
+      ],
+      "tip": [
+        "GHE 私有 action 的 GitHub 个人 token。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--replace-ghe-action-with-github-com",
+      "usage": [
+        "--replace-ghe-action-with-github-com <ACTION>"
+      ],
+      "tip": [
+        "GHE Server 允许来自 GitHub 的指定 action。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--reuse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reuse"
+      ],
+      "tip": [
+        "成功 workflow 不删容器，多次运行保持状态。"
+      ]
+    },
+    {
+      "name": "--rm",
+      "tip": [
+        "失败 workflow 后自动删容器/卷。"
+      ]
+    },
+    {
+      "name": "--secret",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --secret <SECRET>"
+      ],
+      "tip": [
+        "传给 action 的 secret（可带值）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--secret-file",
+      "usage": [
+        "--secret-file <FILE>"
+      ],
+      "tip": [
+        "读取 secrets 列表的文件。",
+        "默认: .secrets。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--strict",
+      "tip": [
+        "严格 workflow schema。"
+      ]
+    },
+    {
+      "name": "--use-gitignore",
+      "tip": [
+        ".gitignore 路径是否拷进容器。",
+        "默认: true。"
+      ]
+    },
+    {
+      "name": "--use-new-action-cache",
+      "tip": [
+        "启用新 Action Cache 本地存 Actions。"
+      ]
+    },
+    {
+      "name": "--userns",
+      "usage": [
+        "--userns <NS>"
+      ],
+      "tip": [
+        "使用的 user namespace。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "tip": [
+        "校验 workflows。"
+      ]
+    },
+    {
+      "name": "--var",
+      "usage": [
+        "--var <VAR>"
+      ],
+      "tip": [
+        "传给 action 的变量（可带值）。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--var-file",
+      "usage": [
+        "--var-file <FILE>"
+      ],
+      "tip": [
+        "读取 vars 列表的文件。",
+        "默认: .vars。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "详细输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "act 版本。"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "监听本地仓库变化自动运行。"
+      ]
+    },
+    {
+      "name": "--workflows",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --workflows <PATH>"
+      ],
+      "tip": [
+        "workflow 文件路径。",
+        "默认: ./.github/workflows/。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "act 帮助。"
+      ]
+    }
+  ]
+}

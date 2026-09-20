@@ -1,0 +1,732 @@
+{
+  "meta": {
+    "url": "https://github.com/stern/stern",
+    "description": [
+      "Tail multiple pods and containers from Kubernetes."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all-namespaces",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --all-namespaces"
+      ],
+      "tip": [
+        "If present, tail across all namespaces."
+      ]
+    },
+    {
+      "name": "--as",
+      "usage": [
+        "--as <USER>"
+      ],
+      "tip": [
+        "Username to impersonate for the operation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <GROUP>"
+      ],
+      "tip": [
+        "Group to impersonate for the operation.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <UID>"
+      ],
+      "tip": [
+        "UID to impersonate for the operation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-user-extra",
+      "usage": [
+        "--as-user-extra <EXTRA>"
+      ],
+      "tip": [
+        "User extras to impersonate for the operation.",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--burst",
+      "usage": [
+        "--burst <INT>"
+      ],
+      "tip": [
+        "Maximum burst for throttle to the Kubernetes API server."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
+      "tip": [
+        "Default cache directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-authority",
+      "usage": [
+        "--certificate-authority <PATH>"
+      ],
+      "tip": [
+        "Path to a cert file for the certificate authority."
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-certificate",
+      "usage": [
+        "--client-certificate <PATH>"
+      ],
+      "tip": [
+        "Path to a client certificate file for TLS."
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-key",
+      "usage": [
+        "--client-key <PATH>"
+      ],
+      "tip": [
+        "Path to a client key file for TLS."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cluster",
+      "usage": [
+        "--cluster <NAME>"
+      ],
+      "tip": [
+        "The name of the kubeconfig cluster to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color <COLOR>"
+      ],
+      "tip": [
+        "Force set color output.",
+        "Default: auto."
+      ],
+      "next": [
+        {
+          "name": "always",
+          "tip": [
+            "Always colorize."
+          ]
+        },
+        {
+          "name": "auto",
+          "tip": [
+            "Colorize if tty attached.",
+            "Default."
+          ]
+        },
+        {
+          "name": "never",
+          "tip": [
+            "Never colorize."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--completion",
+      "usage": [
+        "--completion <SHELL>"
+      ],
+      "tip": [
+        "Output stern command-line completion code for the specified shell."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash completion code."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish completion code."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh completion code."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--condition",
+      "usage": [
+        "--condition <CONDITION>"
+      ],
+      "tip": [
+        "The condition to filter on: [condition-name[=condition-value]."
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "Path to the stern config file.",
+        "Default: ~/.config/stern/config.yaml."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --container <REGEX>"
+      ],
+      "tip": [
+        "Container name when multiple containers in pod (regular expression).",
+        "Default: .*."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-colors",
+      "usage": [
+        "--container-colors <COLORS>"
+      ],
+      "tip": [
+        "Specifies the colors used to highlight container names."
+      ],
+      "next": []
+    },
+    {
+      "name": "--container-state",
+      "usage": [
+        "--container-state <STATE>"
+      ],
+      "tip": [
+        "Tail containers with the given state.",
+        "Repeat or comma-separate for multiple. Default: all."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "all",
+          "tip": [
+            "Match all container states.",
+            "Default."
+          ]
+        },
+        {
+          "name": "running",
+          "tip": [
+            "Running containers."
+          ]
+        },
+        {
+          "name": "terminated",
+          "tip": [
+            "Terminated containers."
+          ]
+        },
+        {
+          "name": "waiting",
+          "tip": [
+            "Waiting containers."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <CONTEXT>"
+      ],
+      "tip": [
+        "The name of the kubeconfig context to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--diff-container",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --diff-container"
+      ],
+      "tip": [
+        "Display different colors for different containers."
+      ]
+    },
+    {
+      "name": "--disable-compression",
+      "tip": [
+        "If true, opt-out of response compression for all requests to the server."
+      ]
+    },
+    {
+      "name": "--ephemeral-containers",
+      "tip": [
+        "Include or exclude ephemeral containers.",
+        "Default: true."
+      ]
+    },
+    {
+      "name": "--exclude",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --exclude <REGEX>"
+      ],
+      "tip": [
+        "Log lines to exclude (regular expression).",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-container",
+      "alias": [
+        "-E"
+      ],
+      "usage": [
+        "-E, --exclude-container <REGEX>"
+      ],
+      "tip": [
+        "Container name to exclude when multiple containers in pod (regular expression).",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--exclude-pod",
+      "usage": [
+        "--exclude-pod <REGEX>"
+      ],
+      "tip": [
+        "Pod name to exclude (regular expression).",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--field-selector",
+      "usage": [
+        "--field-selector <SELECTOR>"
+      ],
+      "tip": [
+        "Selector (field query) to filter on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--highlight",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --highlight <REGEX>"
+      ],
+      "tip": [
+        "Log lines to highlight (regular expression).",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--include",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --include <REGEX>"
+      ],
+      "tip": [
+        "Log lines to include (regular expression).",
+        "Repeatable."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--init-containers",
+      "tip": [
+        "Include or exclude init containers.",
+        "Default: true."
+      ]
+    },
+    {
+      "name": "--insecure-skip-tls-verify",
+      "tip": [
+        "If true, the server's certificate will not be checked for validity."
+      ]
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <PATH>"
+      ],
+      "tip": [
+        "Path to the kubeconfig file to use for CLI requests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-log-requests",
+      "usage": [
+        "--max-log-requests <INT>"
+      ],
+      "tip": [
+        "Maximum number of concurrent logs to request.",
+        "Default: 50, but 5 when specifying --no-follow."
+      ],
+      "next": []
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <NAMESPACE>"
+      ],
+      "tip": [
+        "Kubernetes namespace to use.",
+        "Repeat or comma-separate for multiple."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--no-follow",
+      "tip": [
+        "Exit when all logs have been shown."
+      ]
+    },
+    {
+      "name": "--node",
+      "usage": [
+        "--node <NODE>"
+      ],
+      "tip": [
+        "Node name to filter on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--only-log-lines",
+      "tip": [
+        "Print only log lines."
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FORMAT>"
+      ],
+      "tip": [
+        "Specify predefined template.",
+        "Default: default."
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Default output template.",
+            "Default."
+          ]
+        },
+        {
+          "name": "extjson",
+          "tip": [
+            "Extended JSON output template."
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON output template."
+          ]
+        },
+        {
+          "name": "ppextjson",
+          "tip": [
+            "Pretty-printed extended JSON output template."
+          ]
+        },
+        {
+          "name": "raw",
+          "tip": [
+            "Raw output template."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--pod-colors",
+      "usage": [
+        "--pod-colors <COLORS>"
+      ],
+      "tip": [
+        "Specifies the colors used to highlight pod names, as a comma-separated SGR list."
+      ],
+      "next": []
+    },
+    {
+      "name": "--prompt",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --prompt"
+      ],
+      "tip": [
+        "Toggle interactive prompt for selecting 'app.kubernetes.io/instance' label values."
+      ]
+    },
+    {
+      "name": "--qps",
+      "usage": [
+        "--qps <QPS>"
+      ],
+      "tip": [
+        "Maximum QPS to the Kubernetes API server. Use -1 to disable client-side throttling."
+      ],
+      "next": []
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <TIMEOUT>"
+      ],
+      "tip": [
+        "The length of time to wait before giving up on a single server request (e.g. 1s, 2m, 3h).",
+        "Default: 0 (no timeout)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--selector",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --selector <SELECTOR>"
+      ],
+      "tip": [
+        "Selector (label query) to filter on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--server",
+      "usage": [
+        "--server <ADDRESS>"
+      ],
+      "tip": [
+        "The address and port of the Kubernetes API server."
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-hidden-options",
+      "tip": [
+        "Print a list of hidden options."
+      ]
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --since <DURATION>"
+      ],
+      "tip": [
+        "Return logs newer than a relative duration like 5s, 2m, or 3h.",
+        "Default: 48h0m0s."
+      ],
+      "next": []
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Parse logs from stdin. All Kubernetes related flags are ignored when it is set."
+      ]
+    },
+    {
+      "name": "--tail",
+      "usage": [
+        "--tail <LINES>"
+      ],
+      "tip": [
+        "The number of lines from the end of the logs to show.",
+        "Default: -1 (all logs)."
+      ],
+      "next": []
+    },
+    {
+      "name": "--template",
+      "usage": [
+        "--template <TEMPLATE>"
+      ],
+      "tip": [
+        "Template to use for log lines, leave empty to use --output flag."
+      ],
+      "next": []
+    },
+    {
+      "name": "--template-file",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --template-file <FILE>"
+      ],
+      "tip": [
+        "Path to template to use for log lines. It overrides --template option."
+      ],
+      "next": []
+    },
+    {
+      "name": "--timestamps",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --timestamps [<FORMAT>]"
+      ],
+      "tip": [
+        "Print timestamps with the specified format ('=' cannot be omitted)."
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "Default timestamp format."
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "Short timestamp format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timezone",
+      "usage": [
+        "--timezone <TIMEZONE>"
+      ],
+      "tip": [
+        "Set timestamps to specific timezone.",
+        "Default: Local."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tls-server-name",
+      "usage": [
+        "--tls-server-name <NAME>"
+      ],
+      "tip": [
+        "Server name to use for server certificate validation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "Bearer token for authentication to the API server."
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <NAME>"
+      ],
+      "tip": [
+        "The name of the kubeconfig user to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbosity",
+      "usage": [
+        "--verbosity <LEVEL>"
+      ],
+      "tip": [
+        "Number of the log level verbosity."
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Print the version and exit."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Help for stern."
+      ]
+    }
+  ]
+}

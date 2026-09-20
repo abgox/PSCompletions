@@ -1,0 +1,2790 @@
+{
+  "meta": {
+    "url": "https://www.prisma.io/docs/cli",
+    "description": [
+      "终端里的 Prisma Developer Platform。"
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "tip": [
+        "管理 Prisma Platform 认证。登录登出、查看身份、切换 workspace。"
+      ],
+      "next": [
+        {
+          "name": "login",
+          "tip": [
+            "登录 Prisma platform 账号。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "清除已存储的认证凭证。"
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "显示当前登录身份与命令目标 workspace。"
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "管理已存储的 workspace 会话。列出、切换、结束。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出 workspace 会话。"
+              ]
+            },
+            {
+              "name": "logout",
+              "usage": [
+                "logout <ID-OR-NAME>"
+              ],
+              "tip": [
+                "结束一个 workspace 会话。"
+              ]
+            },
+            {
+              "name": "use",
+              "usage": [
+                "use [ID-OR-NAME]"
+              ],
+              "tip": [
+                "切换当前 workspace 会话：命令目标改为该 workspace。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "tip": [
+        "查看 Platform branch：每个 Git branch 背后的隔离环境。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的 Platform branch。"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bucket",
+      "tip": [
+        "管理项目的 S3 兼容对象存储 bucket。CRUD 与访问密钥。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建对象存储 bucket。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "Bucket 显示名（省略则自动生成）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <BUCKET-ID>"
+          ],
+          "tip": [
+            "删除 bucket 及其所有访问密钥。"
+          ]
+        },
+        {
+          "name": "key",
+          "tip": [
+            "管理 bucket 访问密钥。为每消费者创建、列出、撤销 S3 凭证。"
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create <BUCKET-ID>"
+              ],
+              "tip": [
+                "创建 bucket 访问密钥并一次性打印凭证。"
+              ],
+              "option": [
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <NAME>"
+                  ],
+                  "tip": [
+                    "密钥显示名；记录持有人（省略则自动生成）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "访问角色；默认 read_write，仅下载的消费者用 read。"
+                  ],
+                  "next": [
+                    {
+                      "name": "read",
+                      "tip": [
+                        "仅下载的消费者。"
+                      ]
+                    },
+                    {
+                      "name": "read_write",
+                      "tip": [
+                        "完整访问角色。",
+                        "默认。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <BUCKET-ID> <KEY-ID>"
+              ],
+              "tip": [
+                "撤销并删除 bucket 访问密钥。"
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list <BUCKET-ID>"
+              ],
+              "tip": [
+                "列出 bucket 的访问密钥。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的对象存储 bucket。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "contract",
+      "tip": [
+        "编写数据 contract：数据模型的 PSL 源码。Emit、infer、format。"
+      ],
+      "next": [
+        {
+          "name": "emit",
+          "tip": [
+            "生成 contract 产物。"
+          ],
+          "option": [
+            {
+              "name": "--output-path",
+              "usage": [
+                "--output-path <DIR>"
+              ],
+              "tip": [
+                "写入 contract.json 与 contract.d.ts 的目录。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "format",
+          "tip": [
+            "格式化 PSL contract 源码。"
+          ]
+        },
+        {
+          "name": "infer",
+          "tip": [
+            "从在线数据库 schema 推导 PSL contract。"
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "usage": [
+                "--output <PATH>"
+              ],
+              "tip": [
+                "将推导的 PSL contract 写入指定路径。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "db",
+      "tip": [
+        "对在线数据库运行 contract 操作。Verify、sign、update、migrate。"
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "初始化数据库以匹配当前 contract 并签名。"
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "将指定 ref 前进到命令后的 contract hash。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "仅预览计划的操作，不执行。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": [
+            "应用已规划的迁移以推进数据库。"
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "成功后将指定 ref 前进到应用后标记。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "--show 预览的 from 状态（@contract、@db、hash、ref 名或目录）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--show",
+              "tip": [
+                "仅预览迁移路线，不执行（只读）。"
+              ]
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "目标 contract 引用（hash、前缀、ref 名、迁移目录名、<dir>^ 或 ./path）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "查看在线数据库 schema。"
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sign",
+          "usage": [
+            "sign [CONTRACT]"
+          ],
+          "tip": [
+            "用 contract 给数据库签名，之后可安全查询。"
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "将指定 ref 前进到命令后的 contract hash。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--contract",
+              "usage": [
+                "--contract <CONTRACT>"
+              ],
+              "tip": [
+                "Contract 引用（hash、前缀、ref 名、迁移目录名、<dir>^ 或 ./path）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-advance-ref",
+              "tip": [
+                "签名但不推进任何 ref（不写 ref 文件与快照）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "更新数据库 schema 以匹配 contract。"
+          ],
+          "option": [
+            {
+              "name": "--advance-ref",
+              "usage": [
+                "--advance-ref <NAME>"
+              ],
+              "tip": [
+                "将指定 ref 前进到命令后的 contract hash。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "仅预览计划的操作，不执行。"
+              ]
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "更新目标 contract（hash、前缀、ref 名、迁移目录名或 ./path）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "verify",
+          "tip": [
+            "检查数据库 marker 与在线 schema 是否匹配 contract。"
+          ],
+          "option": [
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--marker-only",
+              "tip": [
+                "跳过 schema 校验，仅检查数据库 marker。"
+              ]
+            },
+            {
+              "name": "--schema-only",
+              "tip": [
+                "跳过 marker 校验，仅检查在线 schema 是否满足 contract。"
+              ]
+            },
+            {
+              "name": "--strict",
+              "tip": [
+                "contract 之外的 schema 元素视为错误。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deploy",
+      "usage": [
+        "deploy <ENTRY>"
+      ],
+      "tip": [
+        "部署以 <entry> 默认导出为根节点的应用。"
+      ],
+      "example": [
+        "deploy src/service.ts"
+      ],
+      "option": [
+        {
+          "name": "--build-id",
+          "usage": [
+            "--build-id <ID>"
+          ],
+          "tip": [
+            "加入 CI 已创建的部署记录，而非让目标新建。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "覆盖根节点名——即部署的应用名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <PATH>"
+          ],
+          "tip": [
+            "将部署结果写为 JSON：资源、预览 URL 与失败原因。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stage",
+          "usage": [
+            "--stage <STAGE>"
+          ],
+          "tip": [
+            "目标部署范围；省略则为生产。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "usage": [
+        "dev <ENTRY>"
+      ],
+      "tip": [
+        "在本机拉起以 <entry> 默认导出为根节点的应用。"
+      ],
+      "example": [
+        "dev src/service.ts"
+      ],
+      "option": [
+        {
+          "name": "--fresh",
+          "tip": [
+            "启动前销毁 dev 栈并清空 dev 状态目录。"
+          ]
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "覆盖根节点名——即 dev 实例的应用名。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "feedback",
+      "usage": [
+        "feedback <MESSAGE>"
+      ],
+      "tip": [
+        "向 Prisma CLI 团队发送反馈。"
+      ],
+      "option": [
+        {
+          "name": "--email",
+          "usage": [
+            "--email <ADDRESS>"
+          ],
+          "tip": [
+            "希望回复请留邮箱；否则反馈匿名。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "git",
+      "tip": [
+        "管理 push 即部署的 GitHub 连接。连接或断开仓库。"
+      ],
+      "next": [
+        {
+          "name": "connect",
+          "usage": [
+            "connect [GIT-URL]"
+          ],
+          "tip": [
+            "连接 GitHub 仓库，使每次 push 自动部署。"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "disconnect",
+          "tip": [
+            "断开 GitHub 仓库：push 不再部署。"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "为本仓库准备 Prisma：配置文件、dev 依赖、AI-agent skills。"
+      ],
+      "option": [
+        {
+          "name": "--no-postinstall",
+          "tip": [
+            "跳过添加 skills 同步 postinstall 钩子。"
+          ]
+        },
+        {
+          "name": "--postinstall",
+          "tip": [
+            "添加 skills 同步 postinstall 钩子。"
+          ]
+        },
+        {
+          "name": "--skills",
+          "usage": [
+            "--skills <AGENTS>"
+          ],
+          "tip": [
+            "为哪些 agent 安装 skills（逗号分隔）。"
+          ],
+          "next": [
+            {
+              "name": "agents",
+              "tip": [
+                "为 agents 安装 skills。"
+              ]
+            },
+            {
+              "name": "claude",
+              "tip": [
+                "为 Claude Code 安装 skills。"
+              ]
+            },
+            {
+              "name": "cursor",
+              "tip": [
+                "为 Cursor 安装 skills。"
+              ]
+            },
+            {
+              "name": "devin",
+              "tip": [
+                "为 Devin 安装 skills。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "记录不需要 agent skills。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lsp",
+      "tip": [
+        "启动 Prisma ORM language server。"
+      ],
+      "option": [
+        {
+          "name": "--client-process-id",
+          "usage": [
+            "--client-process-id <PID>"
+          ],
+          "tip": [
+            "启动 server 的编辑器进程 id；其退出则 server 结束。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdio",
+          "tip": [
+            "通过 stdio 与编辑器通信（默认且唯一的传输方式）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migration",
+      "tip": [
+        "管理由 contract 变更派生的磁盘迁移。Plan、inspect、check、track history。"
+      ],
+      "next": [
+        {
+          "name": "check",
+          "usage": [
+            "check [TARGET]"
+          ],
+          "tip": [
+            "校验产物与图完整性。"
+          ],
+          "option": [
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "仅限定到一个 contract space。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "graph",
+          "tip": [
+            "展示迁移图拓扑。"
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "用 ASCII 字符（便于管道）。"
+              ]
+            },
+            {
+              "name": "--dot",
+              "tip": [
+                "输出应用图的 Graphviz DOT。"
+              ]
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "打印树字符与通道颜色的图例。"
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "仅限定到一个 contract space。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "按 contract space 列出磁盘迁移。"
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "用 ASCII 类型字符（便于管道）。"
+              ]
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "打印树字符与通道颜色的图例。"
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "仅限定到一个 contract space。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "展示已执行的迁移历史。"
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "用 ASCII 字符（便于管道）。"
+              ]
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--utc",
+              "tip": [
+                "人类可读时间戳用 UTC 而非本地时间。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "new",
+          "tip": [
+            "为手写迁移搭脚手架。"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <HASH>"
+              ],
+              "tip": [
+                "起始 contract hash。",
+                "默认: 最新迁移目标。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <SLUG>"
+              ],
+              "tip": [
+                "迁移名（用于目录名）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "plan",
+          "tip": [
+            "从 contract 变更规划迁移。"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "起始 contract 引用（hash、前缀、ref 名、迁移目录名、<dir>^、@empty 或 ./path）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <SLUG>"
+              ],
+              "tip": [
+                "迁移目录的命名 slug。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "目标 contract 引用；默认 emit 的 contract。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ref",
+          "tip": [
+            "管理 refs：指向 contract 的命名指针。Set、list、delete。"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete <NAME>"
+              ],
+              "tip": [
+                "删除 ref。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出所有命名 ref。"
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set <NAME> <CONTRACT>"
+              ],
+              "tip": [
+                "将 ref 指向 contract。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <TARGET>"
+          ],
+          "tip": [
+            "展示迁移包内容。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "展示迁移路径与待执行状态。"
+          ],
+          "option": [
+            {
+              "name": "--ascii",
+              "tip": [
+                "用 ASCII 字符（便于管道）。"
+              ]
+            },
+            {
+              "name": "--db",
+              "usage": [
+                "--db <URL>"
+              ],
+              "tip": [
+                "数据库连接串。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <CONTRACT>"
+              ],
+              "tip": [
+                "起始 contract 引用；与 --to 同语法。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--legend",
+              "tip": [
+                "打印树字符与通道颜色的图例。"
+              ]
+            },
+            {
+              "name": "--space",
+              "usage": [
+                "--space <ID>"
+              ],
+              "tip": [
+                "仅限定到一个 contract space。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <CONTRACT>"
+              ],
+              "tip": [
+                "目标 contract 引用（hash、前缀、ref 名、迁移目录名、<dir>^ 或 ./path）。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "orm",
+      "tip": [
+        "初始化 Prisma ORM 项目。"
+      ],
+      "next": [
+        {
+          "name": "init",
+          "tip": [
+            "初始化新的 Prisma ORM 项目。"
+          ],
+          "option": [
+            {
+              "name": "--authoring",
+              "usage": [
+                "--authoring <STYLE>"
+              ],
+              "tip": [
+                "Schema 编写风格。"
+              ],
+              "next": [
+                {
+                  "name": "psl",
+                  "tip": [
+                    "PSL schema 编写风格。"
+                  ]
+                },
+                {
+                  "name": "typescript",
+                  "tip": [
+                    "TypeScript schema 编写风格。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--keep-previous-facade",
+              "tip": [
+                "切换 target 时保留 package.json 中的旧 target 包。"
+              ]
+            },
+            {
+              "name": "--probe-db",
+              "tip": [
+                "连接 DATABASE_URL 一次并检查 server 版本。"
+              ]
+            },
+            {
+              "name": "--schema-path",
+              "usage": [
+                "--schema-path <PATH>"
+              ],
+              "tip": [
+                "起始 schema 写入位置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-install",
+              "tip": [
+                "跳过依赖安装与 contract 生成。"
+              ]
+            },
+            {
+              "name": "--strict-probe",
+              "tip": [
+                "--probe-db 失败视为致命错误。"
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <DB>"
+              ],
+              "tip": [
+                "数据库目标。"
+              ],
+              "next": [
+                {
+                  "name": "mongodb",
+                  "tip": [
+                    "MongoDB 数据库目标。"
+                  ]
+                },
+                {
+                  "name": "postgres",
+                  "tip": [
+                    "Postgres 数据库目标。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--write-env",
+              "tip": [
+                "从 .env.example 写 .env 文件（gitignored）。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "postgres",
+      "tip": [
+        "管理 Prisma Postgres 数据库。CRUD、使用量、备份与连接凭证。"
+      ],
+      "next": [
+        {
+          "name": "backup",
+          "tip": [
+            "查看与恢复数据库备份。平台自动备份。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list <DATABASE>"
+              ],
+              "tip": [
+                "列出数据库的备份。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git 名；用于指定目标 branch 环境。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--limit",
+                  "usage": [
+                    "--limit <N>"
+                  ],
+                  "tip": [
+                    "最多返回的备份数。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "restore",
+              "usage": [
+                "restore <DATABASE>"
+              ],
+              "tip": [
+                "从备份恢复数据库，需精确 id 确认。"
+              ],
+              "option": [
+                {
+                  "name": "--backup",
+                  "usage": [
+                    "--backup <BACKUP-ID>"
+                  ],
+                  "tip": [
+                    "用于恢复的备份，见 'postgres backup list'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git 名；用于指定目标 branch 环境。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--source-database",
+                  "usage": [
+                    "--source-database <DATABASE>"
+                  ],
+                  "tip": [
+                    "备份所属数据库；恢复其他库备份到本库时用。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "管理数据库连接凭证。为每消费者创建、轮换、撤销连接 URL。"
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create <DATABASE>"
+              ],
+              "tip": [
+                "为数据库新增连接 URL，一次性打印。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git 名；用于指定目标 branch 环境。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--name",
+                  "usage": [
+                    "--name <NAME>"
+                  ],
+                  "tip": [
+                    "连接名；记录凭证持有人。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <CONNECTION-ID>"
+              ],
+              "tip": [
+                "删除数据库连接，需精确 id 确认。"
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list <DATABASE>"
+              ],
+              "tip": [
+                "列出数据库连接元数据，不含密钥。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "Branch git 名；用于指定目标 branch 环境。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "rotate",
+              "usage": [
+                "rotate <CONNECTION-ID>"
+              ],
+              "tip": [
+                "轮换连接凭证并一次性打印新连接 URL。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "创建 Prisma Postgres 数据库并一次性打印连接 URL。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "Prisma Postgres region id；数据需就近存放时设置。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <DATABASE>"
+          ],
+          "tip": [
+            "删除数据库，需精确 id 确认。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目的 Prisma Postgres 数据库。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show <DATABASE>"
+          ],
+          "tip": [
+            "展示数据库元数据，不含密钥。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "usage",
+          "usage": [
+            "usage <DATABASE>"
+          ],
+          "tip": [
+            "展示数据库使用量指标。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <GIT-NAME>"
+              ],
+              "tip": [
+                "Branch git 名；用于指定目标 branch 环境。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <ISO-DATE>"
+              ],
+              "tip": [
+                "使用量周期起点。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--to",
+              "usage": [
+                "--to <ISO-DATE>"
+              ],
+              "tip": [
+                "使用量周期终点。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "tip": [
+        "管理 Prisma Platform 项目。CRUD、目录 link、转移所有权、管理环境变量。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "创建项目并 link 本目录：在此运行的命令默认指向它。"
+          ],
+          "option": [
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "项目基础设施的 Prisma Compute region。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete <ID-OR-NAME>"
+          ],
+          "tip": [
+            "精确 id 确认后永久删除项目。"
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "管理项目环境变量。按 scope 添加、更新、列出、删除。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [ASSIGNMENT]"
+              ],
+              "tip": [
+                "在一个 scope 创建环境变量：production、preview 或单个 branch。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "限定到单个 preview branch 的覆盖；仅该 branch 需要的值用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--file",
+                  "usage": [
+                    "--file <PATH>"
+                  ],
+                  "tip": [
+                    "从 dotenv 文件读 KEY=VALUE，一次导入多个。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "项目级 scope：production，或所有 preview branch 共享的 preview。"
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "所有 preview branch 共享的 preview scope。"
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <KEY>"
+              ],
+              "tip": [
+                "从一个 scope 删除环境变量：production、preview 或单个 branch。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "限定到单个 preview branch 的覆盖；仅该 branch 需要的值用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "项目级 scope：production，或所有 preview branch 共享的 preview。"
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "所有 preview branch 共享的 preview scope。"
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 scope 内环境变量：名称与 id，绝不含值。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "展示单个 preview branch 的解析结果：preview scope 加其覆盖。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "项目级 scope：production，或所有 preview branch 共享的 preview。"
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "所有 preview branch 共享的 preview scope。"
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "usage": [
+                "update [ASSIGNMENT]"
+              ],
+              "tip": [
+                "替换已有环境变量的值。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <GIT-NAME>"
+                  ],
+                  "tip": [
+                    "限定到单个 preview branch 的覆盖；仅该 branch 需要的值用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--file",
+                  "usage": [
+                    "--file <PATH>"
+                  ],
+                  "tip": [
+                    "从 dotenv 文件读 KEY=VALUE，一次导入多个。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--role",
+                  "usage": [
+                    "--role <VALUE>"
+                  ],
+                  "tip": [
+                    "项目级 scope：production，或所有 preview branch 共享的 preview。"
+                  ],
+                  "next": [
+                    {
+                      "name": "preview",
+                      "tip": [
+                        "所有 preview branch 共享的 preview scope。"
+                      ]
+                    },
+                    {
+                      "name": "production",
+                      "tip": [
+                        "Production scope。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "link",
+          "usage": [
+            "link [ID-OR-NAME]"
+          ],
+          "tip": [
+            "将本目录 link 到项目：在此运行的命令默认指向它。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 workspace 内所有项目。"
+          ]
+        },
+        {
+          "name": "rename",
+          "usage": [
+            "rename <NAME>"
+          ],
+          "tip": [
+            "重命名项目。"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [ID-OR-NAME]"
+          ],
+          "tip": [
+            "展示本目录 link 的项目。"
+          ]
+        },
+        {
+          "name": "transfer",
+          "usage": [
+            "transfer <ID-OR-NAME>"
+          ],
+          "tip": [
+            "精确 id 确认后将项目转给另一 workspace。"
+          ],
+          "option": [
+            {
+              "name": "--recipient-token",
+              "usage": [
+                "--recipient-token <TOKEN>"
+              ],
+              "tip": [
+                "对方 workspace 的访问 token；你不是其成员时用。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--to-workspace",
+              "usage": [
+                "--to-workspace <ID-OR-NAME>"
+              ],
+              "tip": [
+                "接收 workspace；其为你已存会话之一时用。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "service",
+      "tip": [
+        "管理已部署服务。日志、版本、promote 回滚、自定义域名。"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create <NAME>"
+          ],
+          "tip": [
+            "在项目中创建服务。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "创建服务的 branch。",
+                "默认: 默认 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--region",
+              "usage": [
+                "--region <REGION>"
+              ],
+              "tip": [
+                "Prisma Compute region id；服务需就近运行时设置。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "usage": [
+            "delete [SERVICE]"
+          ],
+          "tip": [
+            "从一个 branch 删除服务。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "删除作用的 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "domain",
+          "tip": [
+            "管理服务的自定义域名。注册 hostname、推进 DNS 与 TLS 校验、查看状态。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <HOSTNAME>"
+              ],
+              "tip": [
+                "在服务的生产 branch 注册自定义域名。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch 名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "域名所属服务的 id 或名称。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <HOSTNAME>"
+              ],
+              "tip": [
+                "从服务删除自定义域名。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch 名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "域名所属服务的 id 或名称。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "retry",
+              "usage": [
+                "retry <HOSTNAME>"
+              ],
+              "tip": [
+                "重试自定义域名的 DNS 校验与 TLS 签发。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch 名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "域名所属服务的 id 或名称。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "usage": [
+                "show <HOSTNAME>"
+              ],
+              "tip": [
+                "展示自定义域名状态与证书详情。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch 名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "域名所属服务的 id 或名称。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "wait",
+              "usage": [
+                "wait <HOSTNAME>"
+              ],
+              "tip": [
+                "等待自定义域名生效或失败。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "Branch 名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。",
+                    "默认: 本目录 link 的项目。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--service",
+                  "usage": [
+                    "--service <NAME>"
+                  ],
+                  "tip": [
+                    "域名所属服务的 id 或名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <DURATION>"
+                  ],
+                  "tip": [
+                    "最长等待时间。",
+                    "默认: 15m。"
+                  ],
+                  "next": [
+                    {
+                      "name": "15m",
+                      "tip": [
+                        "15 分钟。",
+                        "默认。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出项目中的服务。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <BRANCH>"
+              ],
+              "tip": [
+                "服务所在的 branch。",
+                "默认: 默认 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。",
+                "默认: 本目录 link 的项目。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "logs",
+          "usage": [
+            "logs [SERVICE]"
+          ],
+          "tip": [
+            "读取服务某版本的日志。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "服务所在的 branch。",
+                "默认: 默认 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--follow",
+              "tip": [
+                "持续拉取新行直到中断。"
+              ]
+            },
+            {
+              "name": "--from-start",
+              "tip": [
+                "从头读取而非末尾行。"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tail",
+              "usage": [
+                "--tail <N>"
+              ],
+              "tip": [
+                "读取末尾 N 行。",
+                "默认: 100。"
+              ],
+              "next": [
+                {
+                  "name": "100",
+                  "tip": [
+                    "100 行。",
+                    "默认。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--version-id",
+              "usage": [
+                "--version-id <ID>"
+              ],
+              "tip": [
+                "要读的服务版本 id；调试失败或已停版本时用。",
+                "默认: 在线版本。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "open",
+          "usage": [
+            "open [SERVICE]"
+          ],
+          "tip": [
+            "打开服务的线上 URL。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "服务所在的 branch。",
+                "默认: 默认 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show [SERVICE]"
+          ],
+          "tip": [
+            "展示服务与当前 serving 流量的版本。"
+          ],
+          "option": [
+            {
+              "name": "--branch",
+              "usage": [
+                "--branch <NAME>"
+              ],
+              "tip": [
+                "服务所在的 branch。",
+                "默认: 默认 branch。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project <ID-OR-NAME>"
+              ],
+              "tip": [
+                "项目 id 或名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "管理服务的部署版本。列出、查看、promote、回滚、启停、删除。"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete <VERSION>"
+              ],
+              "tip": [
+                "删除服务版本及其产物。"
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [SERVICE]"
+              ],
+              "tip": [
+                "列出服务的版本。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "服务所在的 branch。",
+                    "默认: 默认 branch。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "promote",
+              "usage": [
+                "promote <VERSION>"
+              ],
+              "tip": [
+                "用生产 env vars 重建并发布服务版本到生产。"
+              ]
+            },
+            {
+              "name": "rollback",
+              "usage": [
+                "rollback [SERVICE]"
+              ],
+              "tip": [
+                "将生产回滚到上一服务版本。"
+              ],
+              "option": [
+                {
+                  "name": "--branch",
+                  "usage": [
+                    "--branch <NAME>"
+                  ],
+                  "tip": [
+                    "服务所在的 branch。",
+                    "默认: 默认 branch。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project <ID-OR-NAME>"
+                  ],
+                  "tip": [
+                    "项目 id 或名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--to",
+                  "usage": [
+                    "--to <VERSION>"
+                  ],
+                  "tip": [
+                    "回滚目标版本 id；上一个可用版本更早时用。",
+                    "默认: 在线版本之前的一个。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "usage": [
+                "show <VERSION>"
+              ],
+              "tip": [
+                "展示服务版本详情。"
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start <VERSION>"
+              ],
+              "tip": [
+                "启动已停的服务版本。"
+              ]
+            },
+            {
+              "name": "stop",
+              "usage": [
+                "stop <VERSION>"
+              ],
+              "tip": [
+                "停止运行中的服务版本。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "tip": [
+        "管理 AI coding agent 的 Prisma skills。同步与列出指令文件。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "展示项目中已装的 Prisma agent skills。"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "将已装 Prisma 包内的 AI-agent 指令文件（skills）拷入本项目。"
+          ],
+          "option": [
+            {
+              "name": "--disable",
+              "tip": [
+                "本项目不再报告 skills 过期。"
+              ]
+            },
+            {
+              "name": "--enable",
+              "tip": [
+                "撤销本项目的 --disable。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "telemetry",
+      "tip": [
+        "查看与修改匿名 CLI telemetry。"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "禁用匿名 CLI telemetry。"
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "启用匿名 CLI telemetry。"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "展示匿名 CLI telemetry 是否启用及原因。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--color",
+      "tip": [
+        "强制 ANSI 彩色开。"
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "读该配置文件而非 ./prisma.config.ts。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--confirm",
+      "usage": [
+        "--confirm <VALUE>"
+      ],
+      "tip": [
+        "输入 token 以非交互确认 consent 提示。",
+        "可重复。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <FORMAT>"
+      ],
+      "tip": [
+        "输出格式。"
+      ],
+      "next": [
+        {
+          "name": "human",
+          "tip": [
+            "人类可读输出。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON 输出。"
+          ]
+        },
+        {
+          "name": "markdown",
+          "tip": [
+            "Markdown 输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印命令帮助。"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "tip": [
+        "强制交互提示开。"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "--format json 的简写。"
+      ]
+    },
+    {
+      "name": "--log-level",
+      "usage": [
+        "--log-level <LEVEL>"
+      ],
+      "tip": [
+        "解说详细度。"
+      ],
+      "next": [
+        {
+          "name": "error",
+          "tip": [
+            "错误解说。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "信息解说。"
+          ]
+        },
+        {
+          "name": "verbose",
+          "tip": [
+            "啰嗦解说。"
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "警告解说。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "强制 ANSI 彩色关。"
+      ]
+    },
+    {
+      "name": "--no-interactive",
+      "tip": [
+        "强制交互提示关。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "--log-level error 的简写。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "--log-level verbose 的简写。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印 CLI 版本并退出。"
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "直接接受提示默认值。"
+      ]
+    }
+  ]
+}

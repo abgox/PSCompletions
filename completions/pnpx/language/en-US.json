@@ -1,0 +1,522 @@
+{
+  "meta": {
+    "url": "https://pnpm.io/cli/dlx",
+    "description": [
+      "Run a package in a temporary environment."
+    ]
+  },
+  "option": [
+    {
+      "name": "--aggregate-output",
+      "tip": [
+        "Hold each script's streamed output until the script exits, then print it as one block."
+      ]
+    },
+    {
+      "name": "--allow-build",
+      "usage": [
+        "--allow-build <ALLOW_BUILD>"
+      ],
+      "tip": [
+        "Package names allowed to run lifecycle (build) scripts during the dlx install.",
+        "May be repeated."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--changed-files-ignore-pattern",
+      "usage": [
+        "--changed-files-ignore-pattern <CHANGED_FILES_IGNORE_PATTERN>"
+      ],
+      "tip": [
+        "Glob patterns of changed files that the [since] --filter selector should ignore."
+      ],
+      "next": []
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "Force colored output."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cpu",
+      "usage": [
+        "--cpu <CPU>"
+      ],
+      "tip": [
+        "CPU architectures whose platform-tagged optional dependencies the dlx install should keep.",
+        "Repeat or comma-separate for multiple."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Every architecture."
+          ]
+        },
+        {
+          "name": "arm64",
+          "tip": [
+            "ARM 64-bit."
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "This machine's own architecture."
+          ]
+        },
+        {
+          "name": "x64",
+          "tip": [
+            "AMD64 / Intel 64-bit."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--dir",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --dir <DIR>"
+      ],
+      "tip": [
+        "Set working directory.",
+        "Default: ."
+      ],
+      "next": []
+    },
+    {
+      "name": "--fail-if-no-match",
+      "tip": [
+        "Exit with code 1 when the --filter / --filter-prod selectors match no workspace project."
+      ]
+    },
+    {
+      "name": "--filter",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --filter <FILTER>"
+      ],
+      "tip": [
+        "Select which workspace projects to run on.",
+        "Repeat to add more."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--filter-prod",
+      "usage": [
+        "--filter-prod <FILTER_PROD>"
+      ],
+      "tip": [
+        "Like --filter, but follow only production dependencies when selecting projects."
+      ],
+      "next": []
+    },
+    {
+      "name": "--http-proxy",
+      "usage": [
+        "--http-proxy <HTTP_PROXY>"
+      ],
+      "tip": [
+        "Proxy for HTTP registry and tarball requests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--https-proxy",
+      "usage": [
+        "--https-proxy <HTTPS_PROXY>"
+      ],
+      "tip": [
+        "Proxy for HTTPS registry and tarball requests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-workspace",
+      "tip": [
+        "Run as if the project were standalone, ignoring any pnpm-workspace.yaml above it."
+      ]
+    },
+    {
+      "name": "--include-workspace-root",
+      "tip": [
+        "Also run a recursive command on the root workspace project."
+      ]
+    },
+    {
+      "name": "--libc",
+      "usage": [
+        "--libc <LIBC>"
+      ],
+      "tip": [
+        "libc families (glibc, musl) whose platform-tagged optional dependencies the dlx install should keep.",
+        "Repeat or comma-separate for multiple."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "glibc",
+          "tip": [
+            "GNU C Library, used by most Linux distributions."
+          ]
+        },
+        {
+          "name": "musl",
+          "tip": [
+            "Used by Alpine Linux."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--loglevel",
+      "usage": [
+        "--loglevel <LOGLEVEL>"
+      ],
+      "tip": [
+        "What level of logs to print."
+      ],
+      "next": [
+        {
+          "name": "debug",
+          "tip": [
+            "Debug level logging."
+          ]
+        },
+        {
+          "name": "error",
+          "tip": [
+            "Error level logging."
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "Info level logging."
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "Silent mode: no progress output."
+          ]
+        },
+        {
+          "name": "warn",
+          "tip": [
+            "Warning level logging."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-include-workspace-root",
+      "tip": [
+        "Leave the root workspace project out of a recursive command, overriding an includeWorkspaceRoot: true setting."
+      ]
+    },
+    {
+      "name": "--no-proxy",
+      "usage": [
+        "--no-proxy <NO_PROXY>"
+      ],
+      "tip": [
+        "Hosts that bypass configured proxies."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-sort",
+      "tip": [
+        "Run recursive workspace projects in workspace order."
+      ]
+    },
+    {
+      "name": "--npmrc-auth-file",
+      "alias": [
+        "--userconfig"
+      ],
+      "usage": [
+        "--userconfig, --npmrc-auth-file <NPMRC_AUTH_FILE>"
+      ],
+      "tip": [
+        "Path to an .npmrc to read auth settings from, overriding the default ~/.npmrc."
+      ],
+      "next": []
+    },
+    {
+      "name": "--os",
+      "usage": [
+        "--os <OS>"
+      ],
+      "tip": [
+        "Operating systems whose platform-tagged optional dependencies the dlx install should keep.",
+        "Repeat or comma-separate for multiple."
+      ],
+      "repeat": 99,
+      "next": [
+        {
+          "name": "*",
+          "tip": [
+            "Every OS."
+          ]
+        },
+        {
+          "name": "current",
+          "tip": [
+            "This machine's own OS."
+          ]
+        },
+        {
+          "name": "darwin",
+          "tip": [
+            "macOS."
+          ]
+        },
+        {
+          "name": "linux",
+          "tip": [
+            "Linux."
+          ]
+        },
+        {
+          "name": "win32",
+          "tip": [
+            "Windows."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--package",
+      "usage": [
+        "--package <PACKAGE>"
+      ],
+      "tip": [
+        "The package to install before running the command.",
+        "May be repeated. When omitted, the command name is the package."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "tip": [
+        "Run scripts in every selected workspace project concurrently, disregarding topological sorting."
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --recursive"
+      ],
+      "tip": [
+        "Run the command for every project in the workspace instead of only the project in --dir."
+      ]
+    },
+    {
+      "name": "--registry",
+      "usage": [
+        "--registry <REGISTRY>"
+      ],
+      "tip": [
+        "Base URL of the npm registry to resolve and fetch packages from."
+      ],
+      "next": []
+    },
+    {
+      "name": "--reporter",
+      "usage": [
+        "--reporter <REPORTER>"
+      ],
+      "tip": [
+        "Reporter output format.",
+        "Default: default."
+      ],
+      "next": [
+        {
+          "name": "append-only",
+          "tip": [
+            "Like default but forces the append-only rendering even on a TTY: one line per update, no cursor movement."
+          ]
+        },
+        {
+          "name": "default",
+          "tip": [
+            "Rich visual output: a progress line, a packages diff, lifecycle output, and a Done in ... summary."
+          ]
+        },
+        {
+          "name": "ndjson",
+          "tip": [
+            "Newline-delimited JSON on stderr."
+          ]
+        },
+        {
+          "name": "silent",
+          "tip": [
+            "No progress output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "Process recursive workspace projects in reverse order."
+      ]
+    },
+    {
+      "name": "--shell-mode",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --shell-mode"
+      ],
+      "tip": [
+        "Run the command inside of a shell.",
+        "Uses /bin/sh on UNIX and cmd.exe on Windows."
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --silent"
+      ],
+      "tip": [
+        "Only the output of the executed command is printed."
+      ]
+    },
+    {
+      "name": "--sort",
+      "tip": [
+        "Keep recursive workspace projects sorted topologically."
+      ]
+    },
+    {
+      "name": "--state-dir",
+      "usage": [
+        "--state-dir <DIR>"
+      ],
+      "tip": [
+        "Directory in which pnpm persists machine-local state."
+      ],
+      "next": []
+    },
+    {
+      "name": "--store-dir",
+      "usage": [
+        "--store-dir <DIR>"
+      ],
+      "tip": [
+        "Directory in which the package store is created.",
+        "Relative paths are resolved from the workspace root, or from --dir outside a workspace."
+      ],
+      "next": []
+    },
+    {
+      "name": "--stream",
+      "tip": [
+        "Stream a recursive command's script output as it arrives, one prefixed line at a time."
+      ]
+    },
+    {
+      "name": "--test-pattern",
+      "usage": [
+        "--test-pattern <TEST_PATTERN>"
+      ],
+      "tip": [
+        "Glob patterns naming test files, used by the [since] --filter selector to decide which changes count."
+      ],
+      "next": []
+    },
+    {
+      "name": "--use-stderr",
+      "tip": [
+        "Divert the reporter's output to stderr, leaving stdout for the command's own result."
+      ]
+    },
+    {
+      "name": "--workspace-concurrency",
+      "usage": [
+        "--workspace-concurrency <NUMBER>"
+      ],
+      "tip": [
+        "Maximum number of workspace projects to process in parallel."
+      ],
+      "next": []
+    },
+    {
+      "name": "--workspace-packages",
+      "usage": [
+        "--workspace-packages <WORKSPACE_PACKAGES>"
+      ],
+      "tip": [
+        "Glob patterns selecting the workspace's projects, overriding the packages field of pnpm-workspace.yaml.",
+        "Repeat to add more."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--workspace-root",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --workspace-root"
+      ],
+      "tip": [
+        "Run the command on the root workspace project."
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "Automatically answer yes to prompts."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}

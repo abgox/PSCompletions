@@ -1,0 +1,2988 @@
+{
+  "meta": {
+    "url": "https://opentofu.org",
+    "description": [
+      "开源基础设施即代码工具。"
+    ]
+  },
+  "next": [
+    {
+      "name": "apply",
+      "usage": [
+        "apply [PLAN]"
+      ],
+      "tip": [
+        "按 OpenTofu 配置创建或更新基础设施。"
+      ],
+      "option": [
+        {
+          "name": "-auto-approve",
+          "tip": [
+            "应用前跳过 plan 交互确认。"
+          ]
+        },
+        {
+          "name": "-backup",
+          "usage": [
+            "-backup <PATH>"
+          ],
+          "tip": [
+            "修改前备份 state 文件的路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "禁用进度相关消息输出。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-deprecation",
+          "usage": [
+            "-deprecation <MODULE:M>"
+          ],
+          "tip": [
+            "指定展示的警告类型。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "展示所有模块的废弃警告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "仅展示相对导入模块的废弃警告。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "丢弃所有废弃警告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "销毁 OpenTofu 管理的基础设施。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "未直接设置的变量请求输入。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "限制并行资源操作数。",
+            "默认 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "显示敏感值。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "读写 state 的路径（除非指定 state-out）。",
+            "默认 terraform.tfstate。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-state-out",
+          "usage": [
+            "-state-out <PATH>"
+          ],
+          "tip": [
+            "写 state 到与 -state 不同的路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-suppress-forget-errors",
+          "tip": [
+            "销毁成功但残留 forgotten 实例时的错误不再报错。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "console",
+      "tip": [
+        "启动交互式 console 调试 OpenTofu 表达式。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "console 输出流式写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "仅本地后端的遗留选项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "destroy",
+      "tip": [
+        "销毁 OpenTofu 管理的基础设施。",
+        "等价于 tofu apply -destroy。"
+      ],
+      "option": [
+        {
+          "name": "-destroy",
+          "tip": [
+            "选择 destroy 规划模式。"
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "规划排除指定资源。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-exclude-file",
+          "usage": [
+            "-exclude-file <FILE>"
+          ],
+          "tip": [
+            "与 -exclude 同义，地址列表来自文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "规划时跳过检查远端对象外部变更。"
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "选择 refresh only 规划模式。"
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <RESOURCE>"
+          ],
+          "tip": [
+            "强制替换指定资源实例。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-suppress-forget-errors",
+          "tip": [
+            "销毁成功但残留 forgotten 实例时的错误不再报错。"
+          ]
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "规划仅限定到指定资源。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-target-file",
+          "usage": [
+            "-target-file <FILE>"
+          ],
+          "tip": [
+            "与 -target 同义，地址列表来自文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fmt",
+      "usage": [
+        "fmt [TARGET]"
+      ],
+      "tip": [
+        "重写所有 OpenTofu 配置文件为标准格式。"
+      ],
+      "option": [
+        {
+          "name": "-check",
+          "tip": [
+            "检查输入格式；全合规退出码 0 否则非零。"
+          ]
+        },
+        {
+          "name": "-diff",
+          "tip": [
+            "展示格式变更 diff。"
+          ]
+        },
+        {
+          "name": "-list",
+          "tip": [
+            "不列出格式不同的文件。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-recursive",
+          "tip": [
+            "同时处理子目录文件。"
+          ]
+        },
+        {
+          "name": "-write",
+          "tip": [
+            "不写回源文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "force-unlock",
+      "usage": [
+        "force-unlock LOCK_ID"
+      ],
+      "tip": [
+        "手动解锁当前配置的 state。"
+      ],
+      "option": [
+        {
+          "name": "-force",
+          "tip": [
+            "解锁确认不请求输入。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "get",
+      "tip": [
+        "下载安装配置所需的模块。"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用输出着色。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 OpenTofu 测试目录。",
+            "默认 tests。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-update",
+          "tip": [
+            "检查已下载模块更新并安装最新版。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "graph",
+      "tip": [
+        "输出操作间依赖图。"
+      ],
+      "option": [
+        {
+          "name": "-draw-cycles",
+          "tip": [
+            "彩色边高亮图中环，辅助诊断环错误。"
+          ]
+        },
+        {
+          "name": "-module-depth",
+          "usage": [
+            "-module-depth <N>"
+          ],
+          "tip": [
+            "已废弃的模块展示深度选项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PLAN>"
+          ],
+          "tip": [
+            "用指定 plan 文件而非当前目录配置渲染图。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-type",
+          "usage": [
+            "-type <TYPE>"
+          ],
+          "tip": [
+            "输出的图类型。"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply 操作图。"
+              ]
+            },
+            {
+              "name": "plan",
+              "tip": [
+                "Plan 操作图。"
+              ]
+            },
+            {
+              "name": "plan-destroy",
+              "tip": [
+                "Plan-destroy 操作图。"
+              ]
+            },
+            {
+              "name": "plan-refresh-only",
+              "tip": [
+                "Plan-refresh-only 操作图。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "import",
+      "usage": [
+        "import ADDR ID"
+      ],
+      "tip": [
+        "将已有基础设施导入 OpenTofu state。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-config",
+          "usage": [
+            "-config <PATH>"
+          ],
+          "tip": [
+            "配置 provider 的 OpenTofu 配置目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "仅远端后端用的罕见选项。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "禁用交互输入提示。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "命令输出打印 json 格式。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置 OpenTofu 配置变量（仅配合 -config 有用）。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "tip": [
+        "初始化新的或已有的 OpenTofu 工作目录。"
+      ],
+      "option": [
+        {
+          "name": "-backend",
+          "alias": [
+            "-cloud"
+          ],
+          "usage": [
+            "-cloud, -backend"
+          ],
+          "tip": [
+            "禁用后端初始化，沿用此前初始化结果。"
+          ]
+        },
+        {
+          "name": "-backend-config",
+          "usage": [
+            "-backend-config <PATH>"
+          ],
+          "tip": [
+            "与 backend 块合并的配置。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-force-copy",
+          "tip": [
+            "新后端拷贝 state 数据不再提示。"
+          ]
+        },
+        {
+          "name": "-from-module",
+          "usage": [
+            "-from-module <SOURCE>"
+          ],
+          "tip": [
+            "初始化前将指定模块内容拷入目标目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-get",
+          "tip": [
+            "禁用下载本配置的模块。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "仅云后端与远端后端用的罕见选项。"
+          ]
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "禁用交互提示。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "后端迁移期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lockfile",
+          "usage": [
+            "-lockfile <MODE>"
+          ],
+          "tip": [
+            "设置依赖锁文件模式。"
+          ],
+          "next": [
+            {
+              "name": "readonly",
+              "tip": [
+                "只读锁文件模式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-migrate-state",
+          "tip": [
+            "重配后端并尝试迁移已有 state。"
+          ]
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-plugin-dir",
+          "usage": [
+            "-plugin-dir <DIR>"
+          ],
+          "tip": [
+            "插件二进制目录，覆盖默认搜索路径。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-reconfigure",
+          "tip": [
+            "忽略已存配置重配后端。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 OpenTofu 测试目录。",
+            "默认 tests。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-upgrade",
+          "tip": [
+            "安装约束内最新模块与 provider 版。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "login",
+      "usage": [
+        "login [HOSTNAME]"
+      ],
+      "tip": [
+        "获取指定主机 token 存入本地凭证文件。"
+      ]
+    },
+    {
+      "name": "logout",
+      "usage": [
+        "logout [HOSTNAME]"
+      ],
+      "tip": [
+        "删除指定主机的本地存储凭证。"
+      ]
+    },
+    {
+      "name": "metadata",
+      "tip": [
+        "元数据相关命令。"
+      ],
+      "next": [
+        {
+          "name": "functions",
+          "usage": [
+            "functions -json"
+          ],
+          "tip": [
+            "打印可用函数签名的 json 表示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "output",
+      "usage": [
+        "output [NAME]"
+      ],
+      "tip": [
+        "读取 state 文件 output 变量并打印。"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "指定则机器可读 JSON 输出。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-raw",
+          "tip": [
+            "可转字符串的值直接打印 raw 串。"
+          ]
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "显示敏感值。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "读取的 state 文件路径。",
+            "默认 terraform.tfstate。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "plan",
+      "tip": [
+        "生成推测性执行计划。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "禁用进度相关消息。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "尝试合并相似错误消息。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "不合并相似警告消息。"
+          ]
+        },
+        {
+          "name": "-deprecation",
+          "usage": [
+            "-deprecation <MODULE:M>"
+          ],
+          "tip": [
+            "指定展示的警告类型。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "展示所有模块的废弃警告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "local",
+              "tip": [
+                "仅展示相对导入模块的废弃警告。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "丢弃所有废弃警告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "-destroy",
+          "tip": [
+            "选择 destroy 规划模式。"
+          ]
+        },
+        {
+          "name": "-detailed-exitcode",
+          "tip": [
+            "返回详细退出码：0 无变更，1 错误，2 有变更。"
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "规划排除指定资源。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-exclude-file",
+          "usage": [
+            "-exclude-file <FILE>"
+          ],
+          "tip": [
+            "与 -exclude 同义，地址列表来自文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-generate-config-out",
+          "usage": [
+            "-generate-config-out <PATH>"
+          ],
+          "tip": [
+            "实验性：为已导入资源生成 HCL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "禁用必需输入变量提示。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长，如 5s。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用虚拟终端转义序列。"
+          ]
+        },
+        {
+          "name": "-out",
+          "usage": [
+            "-out <PATH>"
+          ],
+          "tip": [
+            "plan 文件写入路径，可供 apply 使用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "限制并发操作数。",
+            "默认 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-refresh",
+          "tip": [
+            "规划时跳过检查远端对象外部变更。"
+          ]
+        },
+        {
+          "name": "-refresh-only",
+          "tip": [
+            "选择 refresh only 规划模式。"
+          ]
+        },
+        {
+          "name": "-replace",
+          "usage": [
+            "-replace <RESOURCE>"
+          ],
+          "tip": [
+            "强制替换指定资源实例。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "UI 输出不脱敏敏感值。"
+          ]
+        },
+        {
+          "name": "-state",
+          "usage": [
+            "-state <PATH>"
+          ],
+          "tip": [
+            "仅本地后端的遗留选项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "规划仅限定到指定资源。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-target-file",
+          "usage": [
+            "-target-file <FILE>"
+          ],
+          "tip": [
+            "与 -target 同义，地址列表来自文件。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "providers",
+      "usage": [
+        "providers [DIR]"
+      ],
+      "tip": [
+        "打印模块树及其 provider 需求。"
+      ],
+      "option": [
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 OpenTofu 测试目录。",
+            "默认 tests。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "lock",
+          "usage": [
+            "lock [PROVIDERS]"
+          ],
+          "tip": [
+            "更新依赖锁文件 (.terraform.lock.hcl)。"
+          ],
+          "option": [
+            {
+              "name": "-fs-mirror",
+              "usage": [
+                "-fs-mirror <DIR>"
+              ],
+              "tip": [
+                "用指定文件系统镜像目录替代源 registry。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-net-mirror",
+              "usage": [
+                "-net-mirror <URL>"
+              ],
+              "tip": [
+                "用指定网络镜像（base URL）替代源 registry。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "为目标平台请求包校验和，如 linux_amd64。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "mirror",
+          "usage": [
+            "mirror <TARGET-DIR>"
+          ],
+          "tip": [
+            "构建 provider 包本地镜像目录。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "为哪个目标平台构建镜像。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "schema",
+          "tip": [
+            "打印 provider 插件机器可读 schema。"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "refresh",
+      "tip": [
+        "用远端实际元数据更新 state 文件。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-concise",
+          "tip": [
+            "禁用进度相关消息。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-exclude",
+          "usage": [
+            "-exclude <RESOURCE>"
+          ],
+          "tip": [
+            "排除指定资源及依赖它的资源。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-input",
+          "tip": [
+            "未直接设置的变量请求输入。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-parallelism",
+          "usage": [
+            "-parallelism <N>"
+          ],
+          "tip": [
+            "限制并发操作数。",
+            "默认 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-target",
+          "usage": [
+            "-target <RESOURCE>"
+          ],
+          "tip": [
+            "仅限定到指定资源及其依赖。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件设置 OpenTofu 配置变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [PATH]"
+      ],
+      "tip": [
+        "人类可读输出 state 或 plan 文件。"
+      ],
+      "option": [
+        {
+          "name": "-config",
+          "tip": [
+            "展示当前配置（需 -json）。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读形式展示信息。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "禁用终端转义序列。"
+          ]
+        },
+        {
+          "name": "-plan",
+          "usage": [
+            "-plan <PATH>"
+          ],
+          "tip": [
+            "展示已存 plan 文件的 plan。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-show-sensitive",
+          "tip": [
+            "显示敏感值。"
+          ]
+        },
+        {
+          "name": "-state",
+          "tip": [
+            "展示最新 state 快照。"
+          ]
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "state",
+      "tip": [
+        "高级 state 管理。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [ADDRESS]"
+          ],
+          "tip": [
+            "列出 state 中的资源。"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "仅含 id 属性等于给定值的实例。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "查找资源的 state 文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "move",
+          "alias": [
+            "mv"
+          ],
+          "usage": [
+            "mv|move SOURCE DESTINATION"
+          ],
+          "tip": [
+            "移动 state 中的条目。"
+          ],
+          "option": [
+            {
+              "name": "-dry-run",
+              "tip": [
+                "仅打印将移动什么，不真移动。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "仅远端后端用的罕见选项。"
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "拉取当前 state 输出到 stdout。"
+          ],
+          "option": [
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push PATH"
+          ],
+          "tip": [
+            "用本地 state 文件更新远端 state。"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "血统不匹配或远端序列号更高也强写。"
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "alias": [
+            "rm"
+          ],
+          "usage": [
+            "rm|remove ADDRESS"
+          ],
+          "tip": [
+            "从 state 删除条目。"
+          ],
+          "option": [
+            {
+              "name": "-backup",
+              "usage": [
+                "-backup <PATH>"
+              ],
+              "tip": [
+                "备份 state 写入路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-dry-run",
+              "tip": [
+                "仅打印将删除什么，不真删除。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "远端与本地版本不兼容也继续。"
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "更新的 state 文件路径。",
+                "默认当前 workspace state。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "replace-provider",
+          "usage": [
+            "replace-provider <FROM> <TO>"
+          ],
+          "tip": [
+            "替换 state 中的 provider。"
+          ],
+          "option": [
+            {
+              "name": "-auto-approve",
+              "tip": [
+                "跳过交互确认。"
+              ]
+            },
+            {
+              "name": "-ignore-remote-version",
+              "tip": [
+                "仅远端后端用的罕见选项。"
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "usage": [
+            "show ADDRESS"
+          ],
+          "tip": [
+            "展示 state 中资源的属性。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "机器可读 JSON 输出。恒禁用颜色。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-show-sensitive",
+              "tip": [
+                "显示敏感值。"
+              ]
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "查找资源的 state 文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "taint",
+      "usage": [
+        "taint <ADDRESS>"
+      ],
+      "tip": [
+        "标记资源实例功能不完整。"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "资源缺失也成功（退出码 0）。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "仅远端后端用的罕见选项。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "对当前配置执行自动化集成测试。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-filter",
+          "usage": [
+            "-filter <TESTFILE>"
+          ],
+          "tip": [
+            "仅执行指定测试文件。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "指定则机器可读 JSON 输出。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 OpenTofu 测试目录。",
+            "默认 tests。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-verbose",
+          "tip": [
+            "执行时打印每个 test run 块的 plan/state。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untaint",
+      "usage": [
+        "untaint <NAME>"
+      ],
+      "tip": [
+        "移除资源实例的 tainted 状态。"
+      ],
+      "option": [
+        {
+          "name": "-allow-missing",
+          "tip": [
+            "资源缺失也成功（退出码 0）。"
+          ]
+        },
+        {
+          "name": "-ignore-remote-version",
+          "tip": [
+            "仅远端后端用的罕见选项。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-lock",
+          "tip": [
+            "操作期间不持有 state 锁。"
+          ]
+        },
+        {
+          "name": "-lock-timeout",
+          "usage": [
+            "-lock-timeout <DURATION>"
+          ],
+          "tip": [
+            "重试 state 锁的时长。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "validate",
+      "tip": [
+        "校验目录中的配置文件。"
+      ],
+      "option": [
+        {
+          "name": "-compact-warnings",
+          "tip": [
+            "警告只显示摘要的精简形式。"
+          ]
+        },
+        {
+          "name": "-consolidate-errors",
+          "tip": [
+            "错误不做合并。默认禁用。"
+          ]
+        },
+        {
+          "name": "-consolidate-warnings",
+          "tip": [
+            "警告不做合并。默认启用。"
+          ]
+        },
+        {
+          "name": "-json",
+          "tip": [
+            "机器可读 JSON 输出。恒禁用颜色。"
+          ]
+        },
+        {
+          "name": "-json-into",
+          "usage": [
+            "-json-into <PATH>"
+          ],
+          "tip": [
+            "与 -json 同内容，直接写入指定文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-no-color",
+          "tip": [
+            "输出不含颜色。"
+          ]
+        },
+        {
+          "name": "-no-tests",
+          "tip": [
+            "不校验测试文件。"
+          ]
+        },
+        {
+          "name": "-test-directory",
+          "usage": [
+            "-test-directory <PATH>"
+          ],
+          "tip": [
+            "设置 OpenTofu 测试目录。",
+            "默认 tests。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-var",
+          "usage": [
+            "-var <FOO=BAR>"
+          ],
+          "tip": [
+            "设置根模块输入变量。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "-var-file",
+          "usage": [
+            "-var-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载变量值。",
+            "可重复。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "显示 OpenTofu 与已装插件版本。"
+      ],
+      "option": [
+        {
+          "name": "-json",
+          "tip": [
+            "版本信息输出 JSON 对象。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "workspace",
+      "tip": [
+        "Workspace 管理。"
+      ],
+      "next": [
+        {
+          "name": "delete",
+          "usage": [
+            "delete NAME"
+          ],
+          "tip": [
+            "删除 workspace。"
+          ],
+          "option": [
+            {
+              "name": "-force",
+              "tip": [
+                "管理资源的 workspace 也强删。"
+              ]
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "命令输出打印 json 格式。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 workspace。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "命令输出打印 json 格式。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "new",
+          "usage": [
+            "new NAME"
+          ],
+          "tip": [
+            "创建新的 OpenTofu workspace。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "命令输出打印 json 格式。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-lock",
+              "tip": [
+                "操作期间不持有 state 锁。"
+              ]
+            },
+            {
+              "name": "-lock-timeout",
+              "usage": [
+                "-lock-timeout <DURATION>"
+              ],
+              "tip": [
+                "重试 state 锁的时长。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-state",
+              "usage": [
+                "-state <PATH>"
+              ],
+              "tip": [
+                "拷入新 workspace 的已有 state 文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "select",
+          "usage": [
+            "select NAME"
+          ],
+          "tip": [
+            "切换 OpenTofu workspace。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "命令输出打印 json 格式。"
+              ]
+            },
+            {
+              "name": "-json-into",
+              "usage": [
+                "-json-into <PATH>"
+              ],
+              "tip": [
+                "与 -json 同内容，直接写入指定文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-or-create",
+              "tip": [
+                "workspace 不存在则创建。"
+              ]
+            },
+            {
+              "name": "-var",
+              "usage": [
+                "-var <FOO=BAR>"
+              ],
+              "tip": [
+                "设置根模块输入变量。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "-var-file",
+              "usage": [
+                "-var-file <FILE>"
+              ],
+              "tip": [
+                "从文件加载变量值。",
+                "可重复。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "show",
+          "tip": [
+            "展示当前 workspace 名。"
+          ]
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "-chdir",
+      "usage": [
+        "-chdir <DIR>"
+      ],
+      "tip": [
+        "执行子命令前切换工作目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-help",
+      "tip": [
+        "展示本帮助或指定子命令帮助。"
+      ]
+    },
+    {
+      "name": "-version",
+      "tip": [
+        "等价于 version 子命令。"
+      ]
+    }
+  ]
+}

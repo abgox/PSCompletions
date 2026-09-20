@@ -1,0 +1,475 @@
+{
+  "meta": {
+    "url": "https://rspack.rs",
+    "description": [
+      "快速的 Rust 网页打包工具，兼容现代 webpack API。"
+    ]
+  },
+  "next": [
+    {
+      "name": "preview",
+      "usage": [
+        "preview [dir]"
+      ],
+      "tip": [
+        "为构建产物运行 Rspack 服务器。"
+      ],
+      "option": [
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "预览服务器的主机。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "打开浏览器。"
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "预览服务器的端口。"
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--public-path",
+          "usage": [
+            "--public-path <PATH>"
+          ],
+          "tip": [
+            "静态资源服务器路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <CONFIG>"
+          ],
+          "tip": [
+            "服务器的配置项。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "serve",
+      "tip": [
+        "运行 Rspack 开发服务器。"
+      ],
+      "option": [
+        {
+          "name": "--devtool",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --devtool <VALUE>"
+          ],
+          "tip": [
+            "设置调试用的 source map 风格。",
+            "用 false 禁用 source map。"
+          ],
+          "next": [
+            {
+              "name": "cheap-module-source-map",
+              "tip": [
+                "无列信息的廉价 source map。"
+              ]
+            },
+            {
+              "name": "eval",
+              "tip": [
+                "基于 eval 的模块，重新构建更快。"
+              ]
+            },
+            {
+              "name": "false",
+              "tip": [
+                "禁用 source map。"
+              ]
+            },
+            {
+              "name": "source-map",
+              "tip": [
+                "完整的独立 source map。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--entry",
+          "usage": [
+            "--entry <ENTRY>"
+          ],
+          "tip": [
+            "入口文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <HOST>"
+          ],
+          "tip": [
+            "指定要使用的主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--hot",
+          "usage": [
+            "--hot [<MODE>]"
+          ],
+          "tip": [
+            "启用热模块替换。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "构建模式。"
+          ],
+          "next": [
+            {
+              "name": "development",
+              "tip": [
+                "启用开发默认配置。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "禁用所有默认优化。"
+              ]
+            },
+            {
+              "name": "production",
+              "tip": [
+                "启用生产优化。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-open",
+          "tip": [
+            "服务器启动时不打开浏览器。"
+          ]
+        },
+        {
+          "name": "--open",
+          "usage": [
+            "--open [<URL>]"
+          ],
+          "tip": [
+            "服务器启动时打开浏览器；传 --no-open 禁用，或 --open <url> 打开指定 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-path",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output-path <DIR>"
+          ],
+          "tip": [
+            "输出目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "指定要使用的端口。"
+          ],
+          "next": [
+            {
+              "name": "3000"
+            },
+            {
+              "name": "80"
+            },
+            {
+              "name": "8080"
+            }
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "监听文件变化并重新构建。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--devtool",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --devtool <VALUE>"
+      ],
+      "tip": [
+        "设置调试用的 source map 风格。",
+        "用 false 禁用 source map。"
+      ],
+      "next": [
+        {
+          "name": "cheap-module-source-map",
+          "tip": [
+            "无列信息的廉价 source map。"
+          ]
+        },
+        {
+          "name": "eval",
+          "tip": [
+            "基于 eval 的模块，重新构建更快。"
+          ]
+        },
+        {
+          "name": "false",
+          "tip": [
+            "禁用 source map。"
+          ]
+        },
+        {
+          "name": "source-map",
+          "tip": [
+            "完整的独立 source map。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--entry",
+      "usage": [
+        "--entry <ENTRY>"
+      ],
+      "tip": [
+        "入口文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--json",
+      "usage": [
+        "--json [<PATH>]"
+      ],
+      "tip": [
+        "输出 stats JSON。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--mode",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --mode <MODE>"
+      ],
+      "tip": [
+        "构建模式。"
+      ],
+      "next": [
+        {
+          "name": "development",
+          "tip": [
+            "启用开发默认配置。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "禁用所有默认优化。"
+          ]
+        },
+        {
+          "name": "production",
+          "tip": [
+            "启用生产优化。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--output-path",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output-path <DIR>"
+      ],
+      "tip": [
+        "输出目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本号。"
+      ]
+    },
+    {
+      "name": "--watch",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --watch"
+      ],
+      "tip": [
+        "监听文件变化并重新构建。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <PATH>"
+      ],
+      "tip": [
+        "配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config-loader",
+      "usage": [
+        "--config-loader <LOADER>"
+      ],
+      "tip": [
+        "指定加载配置文件的加载器，可为 auto、jiti 或 native。",
+        "默认: auto。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "自动选择加载配置文件的方式。",
+            "默认。"
+          ]
+        },
+        {
+          "name": "jiti",
+          "tip": [
+            "用 jiti 加载配置文件。"
+          ]
+        },
+        {
+          "name": "native",
+          "tip": [
+            "用原生运行时加载器加载配置文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config-name",
+      "usage": [
+        "--config-name <NAME>"
+      ],
+      "tip": [
+        "要使用的配置名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--env",
+      "usage": [
+        "--env <ENV>"
+      ],
+      "tip": [
+        "传给配置函数的 env。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此消息。"
+      ]
+    },
+    {
+      "name": "--node-env",
+      "usage": [
+        "--node-env <VALUE>"
+      ],
+      "tip": [
+        "将 process.env.NODE_ENV 设为指定值。"
+      ],
+      "next": [
+        {
+          "name": "development"
+        },
+        {
+          "name": "production"
+        },
+        {
+          "name": "test"
+        }
+      ]
+    }
+  ]
+}

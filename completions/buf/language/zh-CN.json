@@ -1,0 +1,5064 @@
+{
+  "meta": {
+    "url": "https://github.com/bufbuild/buf",
+    "description": [
+      "Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。"
+    ]
+  },
+  "next": [
+    {
+      "name": "beta",
+      "tip": [
+        "Beta 命令，不稳定且可能变更。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "buf-plugin-v1",
+          "tip": [
+            "将 buf 作为 check plugin 运行。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "传递给 plugin。默认：binary。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--protocol",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            },
+            {
+              "name": "--spec",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "buf-plugin-v1beta1",
+          "tip": [
+            "将 buf 作为 check plugin 运行。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "传递给 plugin。默认：binary。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--protocol",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            },
+            {
+              "name": "--spec",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "buf-plugin-v2",
+          "tip": [
+            "将 buf 作为 check plugin 运行。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "传递给 plugin。默认：binary。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--protocol",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            },
+            {
+              "name": "--spec",
+              "tip": [
+                "传递给 plugin。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "price",
+          "usage": [
+            "price <source>"
+          ],
+          "tip": [
+            "获取给定 source 或 module 的 BSR 付费计划价格。"
+          ],
+          "option": [
+            {
+              "name": "--disable-symlinks",
+              "tip": [
+                "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+                "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "registry",
+          "tip": [
+            "管理 Buf Schema Registry 上的资源。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "plugin",
+              "tip": [
+                "管理 Buf Schema Registry 上的 plugin。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "delete",
+                  "usage": [
+                    "delete <remote/owner/plugin[:version]>"
+                  ],
+                  "tip": [
+                    "从 registry 删除 plugin。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--force",
+                      "tip": [
+                        "不确认即强制删除。请谨慎使用。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "push",
+                  "usage": [
+                    "push <source>"
+                  ],
+                  "tip": [
+                    "向 registry 推送 plugin。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--disable-symlinks",
+                      "tip": [
+                        "从本地文件系统读取 source 或配置时不要跟随符号链接。"
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--image",
+                      "usage": [
+                        "--image <IMAGE>"
+                      ],
+                      "tip": [
+                        "要推送的已有 image。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--override-remote",
+                      "usage": [
+                        "--override-remote <REMOTE>"
+                      ],
+                      "tip": [
+                        "覆盖 buf.plugin.yaml 中 name 和 dependencies 里找到的默认 remote。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--visibility",
+                      "usage": [
+                        "--visibility <VISIBILITY>"
+                      ],
+                      "tip": [
+                        "plugin 的可见性设置。"
+                      ],
+                      "next": [
+                        {
+                          "name": "private",
+                          "tip": [
+                            "私有。"
+                          ]
+                        },
+                        {
+                          "name": "public",
+                          "tip": [
+                            "公开。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "webhook",
+              "tip": [
+                "管理 Buf Schema Registry 上仓库的 webhook。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "create",
+                  "tip": [
+                    "创建仓库 webhook。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--callback-url",
+                      "usage": [
+                        "--callback-url <URL>"
+                      ],
+                      "tip": [
+                        "给定事件发生时 webhook 回调的 url。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--event",
+                      "usage": [
+                        "--event <EVENT>"
+                      ],
+                      "tip": [
+                        "要为 webhook 创建的事件类型。",
+                        "使用 proto enum 的字符串值，例如 WEBHOOK_EVENT_REPOSITORY_PUSH。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--owner",
+                      "usage": [
+                        "--owner <OWNER>"
+                      ],
+                      "tip": [
+                        "要为其创建 webhook 的仓库的 owner 名称。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--remote",
+                      "usage": [
+                        "--remote <REMOTE>"
+                      ],
+                      "tip": [
+                        "创建的 webhook 所属仓库的 remote。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--repository",
+                      "usage": [
+                        "--repository <REPOSITORY>"
+                      ],
+                      "tip": [
+                        "要为其创建 webhook 的仓库名称。"
+                      ],
+                      "next": []
+                    }
+                  ]
+                },
+                {
+                  "name": "delete",
+                  "tip": [
+                    "删除仓库 webhook。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--id",
+                      "usage": [
+                        "--id <ID>"
+                      ],
+                      "tip": [
+                        "要删除的 webhook ID。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--remote",
+                      "usage": [
+                        "--remote <REMOTE>"
+                      ],
+                      "tip": [
+                        "该 webhook ID 所属仓库的 remote。"
+                      ],
+                      "next": []
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "tip": [
+                    "列出仓库 webhook。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--owner",
+                      "usage": [
+                        "--owner <OWNER>"
+                      ],
+                      "tip": [
+                        "要列出 webhook 的仓库的 owner 名称。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--remote",
+                      "usage": [
+                        "--remote <REMOTE>"
+                      ],
+                      "tip": [
+                        "要列出 webhook 的 owner 和仓库的 remote。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--repository",
+                      "usage": [
+                        "--repository <REPOSITORY>"
+                      ],
+                      "tip": [
+                        "要列出 webhook 的仓库名称。"
+                      ],
+                      "next": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "studio-agent",
+          "tip": [
+            "作为 Studio agent 运行 HTTP(S) 服务器。"
+          ],
+          "option": [
+            {
+              "name": "--bind",
+              "usage": [
+                "--bind <ADDRESS>"
+              ],
+              "tip": [
+                "用于接收 HTTP 请求的监听地址。默认：127.0.0.1。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ca-cert",
+              "usage": [
+                "--ca-cert <CERT>"
+              ],
+              "tip": [
+                "客户端和服务器 TLS 配置中使用的 CA 证书。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--client-cert",
+              "usage": [
+                "--client-cert <CERT>"
+              ],
+              "tip": [
+                "客户端 TLS 配置中使用的证书。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--client-key",
+              "usage": [
+                "--client-key <KEY>"
+              ],
+              "tip": [
+                "客户端 TLS 配置中使用的 key。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--disallowed-header",
+              "usage": [
+                "--disallowed-header <HEADER>"
+              ],
+              "tip": [
+                "此 agent 不允许的 header 名称。",
+                "携带这些 header 的 enveloped 请求会被拒绝而不是转发。",
+                "如果多次指定，多个 header 会被追加。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--forward-header",
+              "usage": [
+                "--forward-header <FROM=TO>"
+              ],
+              "tip": [
+                "通过 agent 转发到目标服务器的 header。",
+                "必须是等号分隔的键值对，例如 --forward-header=fromHeader1=toHeader1。",
+                "如果多次指定，多个 header 对会被追加。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--origin",
+              "usage": [
+                "--origin <URL>"
+              ],
+              "tip": [
+                "CORS 允许的 origin。默认：https://buf.build。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "用于接收 HTTP 请求的端口。默认：8080。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--private-network",
+              "tip": [
+                "以私有网络 CORS 使用 agent。"
+              ]
+            },
+            {
+              "name": "--server-cert",
+              "usage": [
+                "--server-cert <CERT>"
+              ],
+              "tip": [
+                "服务器 TLS 配置中使用的证书。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--server-key",
+              "usage": [
+                "--server-key <KEY>"
+              ],
+              "tip": [
+                "服务器 TLS 配置中使用的 key。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "breaking",
+      "usage": [
+        "breaking <input> --against <against-input>"
+      ],
+      "tip": [
+        "验证没有做出 breaking change。"
+      ],
+      "option": [
+        {
+          "name": "--against",
+          "usage": [
+            "--against <AGAINST-INPUT>"
+          ],
+          "tip": [
+            "要对比检查的 source、module 或 image。",
+            "必需，除非设置了 --against-registry。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--against-config",
+          "usage": [
+            "--against-config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置 against 的 source、module 或 image 的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--against-registry",
+          "tip": [
+            "针对 registry 中默认分支的最新 commit 运行 breaking 检查。",
+            "不能与 --against 一起使用。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stdout 的构建错误或检查违规的格式。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-imports",
+          "tip": [
+            "在 breaking change 检测中排除 import。"
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--limit-to-input-files",
+          "tip": [
+            "仅针对输入中的文件运行 breaking 检查。",
+            "设置后，against 输入仅包含输入中的文件。",
+            "覆盖 --path。"
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "usage": [
+        "build <input>"
+      ],
+      "tip": [
+        "将 Protobuf 文件构建为 Buf image。",
+        "如果未指定参数，输入默认为当前目录。"
+      ],
+      "option": [
+        {
+          "name": "--as-file-descriptor-set",
+          "tip": [
+            "输出为 google.protobuf.FileDescriptorSet 而不是 image。",
+            "image 与 FileDescriptorSet 在 wire 上兼容，但此项会移除 Buf 用途附加的元数据。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stderr 的构建错误的格式。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-imports",
+          "tip": [
+            "排除 import。"
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exclude-source-info",
+          "tip": [
+            "排除 source info。"
+          ]
+        },
+        {
+          "name": "--exclude-source-retention-options",
+          "tip": [
+            "排除 retention 为 source 的 option。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "构建的 image 的输出位置。默认：nul。"
+          ],
+          "next": [
+            {
+              "name": "binpb",
+              "tip": [
+                "二进制 protocol buffers。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "txtpb",
+              "tip": [
+                "文本 protocol buffers。"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "要包含在此 image 中的 type（package、message、enum、extension、service、method）。",
+            "类型名可以以 .** 结尾，递归包含该元素及其下所有嵌套内容。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "tip": [
+        "为常用 shell 生成自动补全脚本。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "生成 bash 自动补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "生成 fish 自动补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "生成 powershell 自动补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "生成 zsh 自动补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "与配置文件一起工作。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "init",
+          "usage": [
+            "init [buf.build/owner/foobar]"
+          ],
+          "tip": [
+            "在当前目录初始化新的 buf.yaml。"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <OUTPUT>"
+              ],
+              "tip": [
+                "写入配置文件的目标目录。默认：.。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ls-breaking-rules",
+          "tip": [
+            "列出 breaking 规则。"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <CONFIG>"
+              ],
+              "tip": [
+                "用于配置的 buf.yaml 文件或数据。",
+                "必须设置 --configured-only。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--configured-only",
+              "tip": [
+                "列出已配置的规则，而不是列出所有可用规则。"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "打印规则的格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "文本。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--include-deprecated",
+              "tip": [
+                "同时打印已弃用的规则。",
+                "如果设置了 --configured-only 则无效。"
+              ]
+            },
+            {
+              "name": "--module-path",
+              "usage": [
+                "--module-path <PATH>"
+              ],
+              "tip": [
+                "要列出已配置规则的特定 module 的路径，如 buf.yaml 中所指定。",
+                "如果 buf.yaml 定义了多个 module 则为必需。必须设置 --configured-only。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "列出给定配置版本的所有规则。",
+                "如果设置了 --configured-only 则不能设置。"
+              ],
+              "next": [
+                {
+                  "name": "v1",
+                  "tip": [
+                    "Buf Configuration v1。"
+                  ]
+                },
+                {
+                  "name": "v1beta1",
+                  "tip": [
+                    "Buf Configuration v1beta1。"
+                  ]
+                },
+                {
+                  "name": "v2",
+                  "tip": [
+                    "Buf Configuration v2。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls-lint-rules",
+          "tip": [
+            "列出 lint 规则。"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <CONFIG>"
+              ],
+              "tip": [
+                "用于配置的 buf.yaml 文件或数据。",
+                "必须设置 --configured-only。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--configured-only",
+              "tip": [
+                "列出已配置的规则，而不是列出所有可用规则。"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "打印规则的格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "文本。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--include-deprecated",
+              "tip": [
+                "同时打印已弃用的规则。",
+                "如果设置了 --configured-only 则无效。"
+              ]
+            },
+            {
+              "name": "--module-path",
+              "usage": [
+                "--module-path <PATH>"
+              ],
+              "tip": [
+                "要列出已配置规则的特定 module 的路径，如 buf.yaml 中所指定。",
+                "如果 buf.yaml 定义了多个 module 则为必需。必须设置 --configured-only。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--version",
+              "usage": [
+                "--version <VERSION>"
+              ],
+              "tip": [
+                "列出给定配置版本的所有规则。",
+                "如果设置了 --configured-only 则不能设置。"
+              ],
+              "next": [
+                {
+                  "name": "v1",
+                  "tip": [
+                    "Buf Configuration v1。"
+                  ]
+                },
+                {
+                  "name": "v1beta1",
+                  "tip": [
+                    "Buf Configuration v1beta1。"
+                  ]
+                },
+                {
+                  "name": "v2",
+                  "tip": [
+                    "Buf Configuration v2。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls-modules",
+          "tip": [
+            "列出已配置的 module。"
+          ],
+          "option": [
+            {
+              "name": "--config",
+              "usage": [
+                "--config <CONFIG>"
+              ],
+              "tip": [
+                "用于配置的 buf.yaml 文件或数据。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "打印规则的格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                },
+                {
+                  "name": "name",
+                  "tip": [
+                    "Buf module 名称。"
+                  ]
+                },
+                {
+                  "name": "path",
+                  "tip": [
+                    "workspace 文件路径。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "migrate",
+          "tip": [
+            "将指定目录或路径下的所有 buf.yaml、buf.work.yaml、buf.gen.yaml 和 buf.lock 文件迁移到 v2。"
+          ],
+          "option": [
+            {
+              "name": "--buf-gen-yaml",
+              "usage": [
+                "--buf-gen-yaml <PATH>"
+              ],
+              "tip": [
+                "要迁移的 buf.gen.yaml 生成模板的路径。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--diff",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --diff"
+              ],
+              "tip": [
+                "将 diff 写入 stdout，而不是在磁盘上迁移文件。",
+                "适用于执行 dry run。"
+              ]
+            },
+            {
+              "name": "--module",
+              "usage": [
+                "--module <DIRECTORY>"
+              ],
+              "tip": [
+                "要迁移的 module 目录。",
+                "buf.yaml 和 buf.lock 将被迁移。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--workspace",
+              "usage": [
+                "--workspace <DIRECTORY>"
+              ],
+              "tip": [
+                "要迁移的 workspace 目录。",
+                "buf.work.yaml、buf.yamls 和 buf.locks 将被迁移。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "convert",
+      "usage": [
+        "convert <input>"
+      ],
+      "tip": [
+        "在二进制、文本和 JSON 之间转换 message。"
+      ],
+      "option": [
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stderr 的构建错误的格式。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--from",
+          "usage": [
+            "--from <FORMAT>"
+          ],
+          "tip": [
+            "要转换的 payload 的位置。默认：- (stdin)。"
+          ],
+          "next": [
+            {
+              "name": "binpb",
+              "tip": [
+                "二进制 protocol buffers。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "txtpb",
+              "tip": [
+                "文本 protocol buffers。"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--to",
+          "usage": [
+            "--to <FORMAT>"
+          ],
+          "tip": [
+            "转换的输出位置。默认：- (stdout)。"
+          ],
+          "next": [
+            {
+              "name": "binpb",
+              "tip": [
+                "二进制 protocol buffers。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "txtpb",
+              "tip": [
+                "文本 protocol buffers。"
+              ]
+            },
+            {
+              "name": "yaml",
+              "tip": [
+                "YAML。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "输入中 message 的完整类型名，例如 acme.weather.v1.Units。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate",
+          "tip": [
+            "应用 protovalidate 规则来验证 --from 指定的 message。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "curl",
+      "usage": [
+        "curl <url>"
+      ],
+      "tip": [
+        "调用 RPC 端点，类似 cURL。"
+      ],
+      "option": [
+        {
+          "name": "--cacert",
+          "usage": [
+            "--cacert <FILE>"
+          ],
+          "tip": [
+            "包含受信任证书颁发机构集合的 PEM 编码 X509 证书池文件路径。",
+            "仅对 https 协议有效；与 --insecure 一起使用时不适用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cert",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --cert <FILE>"
+          ],
+          "tip": [
+            "用于 TLS 客户端证书的 PEM 编码 X509 证书文件路径。",
+            "仅对 https 协议有效。还必须存在 --key 标志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--connect-timeout",
+          "usage": [
+            "--connect-timeout <SECONDS>"
+          ],
+          "tip": [
+            "与服务器建立连接的时间限制，单位秒。",
+            "如果不存在此标志则无限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--data",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --data <DATA>"
+          ],
+          "tip": [
+            "请求数据。零个或多个 JSON 文档，每个表示一个请求 message。",
+            "对于 unary RPC 应恰好有一个 JSON 文档。",
+            "值 @<path> 表示从文件读取数据；- 表示从 stdin 读取。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--emit-defaults",
+          "tip": [
+            "为 JSON 编码的响应输出默认值。"
+          ]
+        },
+        {
+          "name": "--header",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --header <HEADER>"
+          ],
+          "tip": [
+            "RPC 调用要包含的请求头，每个形如 name: value。",
+            "值 @<path> 表示从文件读取请求头；- 表示从 stdin 读取。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--http2-prior-knowledge",
+          "tip": [
+            "指示应使用 HTTP/2。",
+            "未设置此项时，http URL 使用 HTTP 1.1，https URL 通过协议协商选择。"
+          ]
+        },
+        {
+          "name": "--http3",
+          "tip": [
+            "指示应使用 HTTP/3。",
+            "未设置此项时，通过协议协商选择 HTTP 1.1 或 HTTP/2。"
+          ]
+        },
+        {
+          "name": "--insecure",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --insecure"
+          ],
+          "tip": [
+            "使 TLS 连接不安全，且不验证服务器证书。",
+            "通常不推荐。仅对 https 协议有效。"
+          ]
+        },
+        {
+          "name": "--keepalive-time",
+          "usage": [
+            "--keepalive-time <SECONDS>"
+          ],
+          "tip": [
+            "TCP keepalive 传输之间的时长，单位秒。默认：60。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--key",
+          "usage": [
+            "--key <FILE>"
+          ],
+          "tip": [
+            "用于 TLS 客户端证书的 PEM 编码 X509 私钥文件路径。",
+            "仅对 https 协议有效。还必须存在 --cert 或 -E 标志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list-methods",
+          "tip": [
+            "列出支持的 method 然后退出。",
+            "使用 server reflection 时，URL 必须是基础 URL，不包含 service 或 method 名称。"
+          ]
+        },
+        {
+          "name": "--list-services",
+          "tip": [
+            "列出支持的 service 然后退出。",
+            "使用 server reflection 时，URL 必须是基础 URL，不包含 service 或 method 名称。"
+          ]
+        },
+        {
+          "name": "--netrc",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --netrc"
+          ],
+          "tip": [
+            "查找用户主目录下的 .netrc 中的凭据，并通过 basic authorization header 发送。",
+            "如果存在 --user 或 -u 则被忽略。"
+          ]
+        },
+        {
+          "name": "--netrc-file",
+          "usage": [
+            "--netrc-file <FILE>"
+          ],
+          "tip": [
+            "类似 --netrc，但使用指定文件而不是用户主目录下的 .netrc。",
+            "不能与 --netrc 或 -n 标志一起使用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-keepalive",
+          "tip": [
+            "禁用连接的 TCP keepalive。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <FILE>"
+          ],
+          "tip": [
+            "用响应数据创建输出文件的路径。",
+            "如果未指定，响应会打印到 stdout。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--protocol",
+          "usage": [
+            "--protocol <PROTOCOL>"
+          ],
+          "tip": [
+            "要使用的 RPC 协议。默认：connect。"
+          ],
+          "next": [
+            {
+              "name": "connect",
+              "tip": [
+                "Connect 协议。"
+              ]
+            },
+            {
+              "name": "grpc",
+              "tip": [
+                "gRPC。"
+              ]
+            },
+            {
+              "name": "grpcweb",
+              "tip": [
+                "gRPC-Web。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--reflect",
+          "tip": [
+            "使用 server reflection 来确定 schema。默认：true。"
+          ]
+        },
+        {
+          "name": "--reflect-header",
+          "usage": [
+            "--reflect-header <HEADER>"
+          ],
+          "tip": [
+            "reflection 请求要包含的请求头，每个形如 name: value。",
+            "仅在同时设置 --reflect 时可用。",
+            "值为 * 时会包含来自 --header 和 -H 的所有普通请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reflect-protocol",
+          "usage": [
+            "--reflect-protocol <PROTOCOL>"
+          ],
+          "tip": [
+            "从服务器下载信息要使用的 reflection 协议。",
+            "仅在使用 server reflection 时可用。"
+          ],
+          "next": [
+            {
+              "name": "grpc-v1",
+              "tip": [
+                "grpc.reflection.v1.ServerReflection。"
+              ]
+            },
+            {
+              "name": "grpc-v1alpha",
+              "tip": [
+                "grpc.reflection.v1alpha.ServerReflection。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--schema",
+          "usage": [
+            "--schema <SCHEMA>"
+          ],
+          "tip": [
+            "用于 RPC schema 的 module，如果服务器不支持 server reflection 则为必需。",
+            "设置此项意味着 --reflect=false，除非显式存在 reflect 标志。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--servername",
+          "usage": [
+            "--servername <NAME>"
+          ],
+          "tip": [
+            "如果 URL 协议为 https，TLS 握手 SNI 中使用的服务器名称。",
+            "默认为 URL 中的 origin host 或 Host header 中的值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--unix-socket",
+          "usage": [
+            "--unix-socket <PATH>"
+          ],
+          "tip": [
+            "要使用的 unix socket 路径，替代连接到 URL 中主机和端口的 TCP socket。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --user <USER>"
+          ],
+          "tip": [
+            "通过 basic authorization header 发送的用户凭据，格式为 username:password。",
+            "如果值中没有冒号，则视为仅有用户名，并提示输入密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user-agent",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --user-agent <AGENT>"
+          ],
+          "tip": [
+            "要发送的 user agent 字符串。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "开启 verbose 模式。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dep",
+      "tip": [
+        "与依赖一起工作。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "graph",
+          "usage": [
+            "graph <input>"
+          ],
+          "tip": [
+            "打印依赖图。"
+          ],
+          "option": [
+            {
+              "name": "--disable-symlinks",
+              "tip": [
+                "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+                "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+              ]
+            },
+            {
+              "name": "--error-format",
+              "usage": [
+                "--error-format <FORMAT>"
+              ],
+              "tip": [
+                "打印到 stderr 的构建错误的格式。"
+              ],
+              "next": [
+                {
+                  "name": "github-actions",
+                  "tip": [
+                    "GitHub Actions workflow 命令。"
+                  ]
+                },
+                {
+                  "name": "gitlab-code-quality",
+                  "tip": [
+                    "GitLab Code Quality 报告。"
+                  ]
+                },
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                },
+                {
+                  "name": "junit",
+                  "tip": [
+                    "JUnit XML。"
+                  ]
+                },
+                {
+                  "name": "msvs",
+                  "tip": [
+                    "Microsoft Visual Studio 风格。"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "人类可读的文本。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "打印 graph 的格式。"
+              ],
+              "next": [
+                {
+                  "name": "dot",
+                  "tip": [
+                    "Graphviz DOT。"
+                  ]
+                },
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "usage": [
+            "prune <directory>"
+          ],
+          "tip": [
+            "从 buf.lock 中清理未使用的依赖。"
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <directory>"
+          ],
+          "tip": [
+            "更新 buf.lock 中固定的 module 依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "export",
+      "usage": [
+        "export <source>"
+      ],
+      "tip": [
+        "将 proto 文件从一个位置导出到另一个位置。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "为导出的输入包含可用的文档和 license 文件。",
+            "如果输入包含多个 module，文档和 license 文件名会附加 module 名称。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--exclude-imports",
+          "tip": [
+            "排除 import。"
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "导出文件的输出目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "usage": [
+        "format <source>"
+      ],
+      "tip": [
+        "格式化 Protobuf 文件。"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --diff"
+          ],
+          "tip": [
+            "显示 diff 而不是重写文件。"
+          ]
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stderr 的构建错误的格式。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "tip": [
+            "如果文件未格式化，则以非零退出码退出。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "格式化文件的输出位置。默认：- (stdout)。"
+          ],
+          "next": [
+            {
+              "name": "dir",
+              "tip": [
+                "格式化文件的目录。"
+              ]
+            },
+            {
+              "name": "protofile",
+              "tip": [
+                "单个格式化后的 .proto 文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--write",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --write"
+          ],
+          "tip": [
+            "就地重写文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "usage": [
+        "generate <input>"
+      ],
+      "tip": [
+        "使用 protoc plugin 生成代码。",
+        "使用 buf.gen.yaml 模板，默认使用当前目录中的 buf.gen.yaml。",
+        "如果未指定参数，输入默认为当前目录。"
+      ],
+      "option": [
+        {
+          "name": "--clean",
+          "tip": [
+            "在生成前删除 plugin 将要写入的目录、jar 文件或 zip 文件。",
+            "无需调用 rm -rf 即可清理已有资产。"
+          ]
+        },
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "构建错误的格式，打印到 stderr。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exclude-type",
+          "usage": [
+            "--exclude-type <TYPE>"
+          ],
+          "tip": [
+            "要从此 image 中排除的 type（package、message、enum、extension、service、method）。",
+            "类型名可以以 .** 结尾，递归排除该元素及其下所有嵌套内容。",
+            "标志用法覆盖 buf.gen.yaml。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-imports",
+          "tip": [
+            "同时生成所有 import，Well-Known Types 除外。"
+          ]
+        },
+        {
+          "name": "--include-wkt",
+          "tip": [
+            "同时生成 Well-Known Types。",
+            "未将 --include-imports 设为 true 时不能设为 true。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "生成到的基础目录。",
+            "此值会被前置到生成模板中的 out 目录。默认：.。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--template",
+          "usage": [
+            "--template <TEMPLATE>"
+          ],
+          "tip": [
+            "要使用的生成模板文件或数据。",
+            "必须是 YAML 或 JSON 格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "要包含在此 image 中的 type（package、message、enum、extension、service、method）。",
+            "类型名可以以 .** 结尾，递归包含该元素及其下所有嵌套内容。",
+            "标志用法覆盖 buf.gen.yaml。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [command]"
+      ],
+      "tip": [
+        "关于任意命令的帮助。"
+      ]
+    },
+    {
+      "name": "lint",
+      "usage": [
+        "lint <input>"
+      ],
+      "tip": [
+        "对 Protobuf 文件运行 lint。"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stdout 的构建错误或检查违规的格式。"
+          ],
+          "next": [
+            {
+              "name": "config-ignore-yaml",
+              "tip": [
+                "Buf Configuration YAML 忽略文件。"
+              ]
+            },
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "ls-files",
+      "usage": [
+        "ls-files <input>"
+      ],
+      "tip": [
+        "列出 Protobuf 文件。"
+      ],
+      "option": [
+        {
+          "name": "--config",
+          "usage": [
+            "--config <CONFIG>"
+          ],
+          "tip": [
+            "用于配置的 buf.yaml 文件或数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--exclude-path",
+          "usage": [
+            "--exclude-path <PATH>"
+          ],
+          "tip": [
+            "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "打印 .proto 文件的格式。"
+          ],
+          "next": [
+            {
+              "name": "import",
+              "tip": [
+                "可导入格式。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--include-importable",
+          "tip": [
+            "包含输入可导入的所有 .proto 文件。",
+            "如果设置此项，--include-imports 则多余。"
+          ]
+        },
+        {
+          "name": "--include-imports",
+          "tip": [
+            "包含 import。"
+          ]
+        },
+        {
+          "name": "--path",
+          "usage": [
+            "--path <PATH>"
+          ],
+          "tip": [
+            "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+            "如果多次指定，取并集。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "lsp",
+      "tip": [
+        "与 Buf Language Server 一起工作。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "serve",
+          "tip": [
+            "启动 language server。"
+          ],
+          "option": [
+            {
+              "name": "--debug-address",
+              "usage": [
+                "--debug-address <ADDRESS>"
+              ],
+              "tip": [
+                "用于提供 debug 端点的地址，例如 localhost:6060。",
+                "未指定时禁用。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pipe",
+              "usage": [
+                "--pipe <PATH>"
+              ],
+              "tip": [
+                "要监听的 UNIX socket 路径。未指定时使用 stdio。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "tip": [
+        "与 check plugin 一起工作。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "prune",
+          "usage": [
+            "prune <directory>"
+          ],
+          "tip": [
+            "从 buf.lock 中清理未使用的 plugin。"
+          ]
+        },
+        {
+          "name": "push",
+          "usage": [
+            "push <remote/owner/plugin>"
+          ],
+          "tip": [
+            "向 registry 推送 check plugin。"
+          ],
+          "option": [
+            {
+              "name": "--binary",
+              "usage": [
+                "--binary <FILE>"
+              ],
+              "tip": [
+                "要推送的 Wasm 二进制文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--create",
+              "tip": [
+                "如果 plugin 不存在则创建。",
+                "如果未设置 --create-visibility，默认在 BSR 上创建私有 plugin。",
+                "必须与 --create-type 一起使用。"
+              ]
+            },
+            {
+              "name": "--create-type",
+              "usage": [
+                "--create-type <TYPE>"
+              ],
+              "tip": [
+                "创建时 plugin 的 type 设置。只能与 --create 一起设置。"
+              ],
+              "next": [
+                {
+                  "name": "check",
+                  "tip": [
+                    "Check plugin。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--create-visibility",
+              "usage": [
+                "--create-visibility <VISIBILITY>"
+              ],
+              "tip": [
+                "创建时 plugin 的可见性设置。只能与 --create 一起设置。"
+              ],
+              "next": [
+                {
+                  "name": "private",
+                  "tip": [
+                    "私有。"
+                  ]
+                },
+                {
+                  "name": "public",
+                  "tip": [
+                    "公开。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--label",
+              "usage": [
+                "--label <LABEL>"
+              ],
+              "tip": [
+                "将 label 关联到推送的 plugin。",
+                "可以多次使用。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--source-control-url",
+              "usage": [
+                "--source-control-url <URL>"
+              ],
+              "tip": [
+                "查看已推送 plugin 源代码的 URL，例如源代码控制中的特定 commit。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update <directory>"
+          ],
+          "tip": [
+            "更新 buf.lock 中固定的 remote plugin。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "usage": [
+        "push <source>"
+      ],
+      "tip": [
+        "推送到 registry。"
+      ],
+      "option": [
+        {
+          "name": "--create",
+          "tip": [
+            "如果 module 不存在则创建。",
+            "如果未设置 --create-visibility，默认创建私有 module。"
+          ]
+        },
+        {
+          "name": "--create-default-label",
+          "usage": [
+            "--create-default-label <LABEL>"
+          ],
+          "tip": [
+            "创建时 module 的默认 label 设置。",
+            "如果未设置，module 会以默认 label main 创建。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--create-visibility",
+          "usage": [
+            "--create-visibility <VISIBILITY>"
+          ],
+          "tip": [
+            "创建时 module 的可见性设置。只能与 --create 一起设置。"
+          ],
+          "next": [
+            {
+              "name": "private",
+              "tip": [
+                "私有。"
+              ]
+            },
+            {
+              "name": "public",
+              "tip": [
+                "公开。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--error-format",
+          "usage": [
+            "--error-format <FORMAT>"
+          ],
+          "tip": [
+            "打印到 stderr 的构建错误的格式。"
+          ],
+          "next": [
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions workflow 命令。"
+              ]
+            },
+            {
+              "name": "gitlab-code-quality",
+              "tip": [
+                "GitLab Code Quality 报告。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit XML。"
+              ]
+            },
+            {
+              "name": "msvs",
+              "tip": [
+                "Microsoft Visual Studio 风格。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "人类可读的文本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude-unnamed",
+          "tip": [
+            "仅向 BSR 推送已命名 module。",
+            "已命名 module 不得有任何未命名依赖。"
+          ]
+        },
+        {
+          "name": "--git-metadata",
+          "tip": [
+            "使用 Git 源代码控制状态来设置标志值。",
+            "从必需的 origin remote 推导 --source-control-url、--label 和 --create-default-label。",
+            "仅兼容 Git source 仓库的 checkout。"
+          ]
+        },
+        {
+          "name": "--label",
+          "usage": [
+            "--label <LABEL>"
+          ],
+          "tip": [
+            "将 label 关联到推送的 module。",
+            "可以多次使用。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--source-control-url",
+          "usage": [
+            "--source-control-url <URL>"
+          ],
+          "tip": [
+            "查看已推送 module 源代码的 URL，例如源代码控制中的特定 commit。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "registry",
+      "tip": [
+        "管理 Buf Schema Registry 上的资源。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "cc",
+          "tip": [
+            "清除 registry 缓存。"
+          ]
+        },
+        {
+          "name": "login",
+          "usage": [
+            "login [domain]"
+          ],
+          "tip": [
+            "登录 Buf Schema Registry。"
+          ],
+          "option": [
+            {
+              "name": "--prompt",
+              "tip": [
+                "提示输入 token。设备必须是 TTY。",
+                "与 --token-stdin 标志互斥。"
+              ]
+            },
+            {
+              "name": "--token-stdin",
+              "tip": [
+                "从 stdin 读取 token。此命令默认提示输入 token。",
+                "与 --prompt 标志互斥。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [domain]"
+          ],
+          "tip": [
+            "登出 Buf Schema Registry。"
+          ]
+        },
+        {
+          "name": "module",
+          "tip": [
+            "管理 BSR module。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "commit",
+              "tip": [
+                "管理 module 的 commit。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "add-label",
+                  "usage": [
+                    "add-label <remote/owner/module:commit> --label <label>"
+                  ],
+                  "tip": [
+                    "为 commit 添加 label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--label",
+                      "usage": [
+                        "--label <LABEL>"
+                      ],
+                      "tip": [
+                        "要添加到 commit 的 label。至少需要一个。"
+                      ],
+                      "repeat": 99,
+                      "next": []
+                    }
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/repository:commit>"
+                  ],
+                  "tip": [
+                    "获取 commit 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/module[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 module commit。",
+                    "对于 label 引用，列出与该 label 关联的当前和历史 commit。",
+                    "如果未指定引用，列出此 module 中的所有 commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--digest-changes-only",
+                      "tip": [
+                        "仅 digest 发生变化的 commit。",
+                        "默认列出所有 commit。"
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。默认按最新的在前排序。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "resolve",
+                  "usage": [
+                    "resolve <remote/owner/repository[:ref]>"
+                  ],
+                  "tip": [
+                    "从引用解析 commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "usage": [
+                "create <remote/owner/module>"
+              ],
+              "tip": [
+                "创建 BSR module。"
+              ],
+              "option": [
+                {
+                  "name": "--default-label-name",
+                  "usage": [
+                    "--default-label-name <LABEL>"
+                  ],
+                  "tip": [
+                    "module 的默认 label 名称。默认：main。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--visibility",
+                  "usage": [
+                    "--visibility <VISIBILITY>"
+                  ],
+                  "tip": [
+                    "module 的可见性设置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "private",
+                      "tip": [
+                        "私有。"
+                      ]
+                    },
+                    {
+                      "name": "public",
+                      "tip": [
+                        "公开。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <remote/owner/module>"
+              ],
+              "tip": [
+                "删除 BSR module。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "不确认即强制删除。请谨慎使用。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "deprecate",
+              "usage": [
+                "deprecate <remote/owner/module>"
+              ],
+              "tip": [
+                "弃用一个 BSR module。"
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info <remote/owner/module>"
+              ],
+              "tip": [
+                "获取 BSR module。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "管理 module 的 label。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "archive",
+                  "usage": [
+                    "archive <remote/owner/module:label>"
+                  ],
+                  "tip": [
+                    "归档一个 module label。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/module:label>"
+                  ],
+                  "tip": [
+                    "显示 label 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/module[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 module label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--archive-status",
+                      "usage": [
+                        "--archive-status <STATUS>"
+                      ],
+                      "tip": [
+                        "所列 label 的归档状态。"
+                      ],
+                      "next": [
+                        {
+                          "name": "all",
+                          "tip": [
+                            "所有 label。"
+                          ]
+                        },
+                        {
+                          "name": "archived",
+                          "tip": [
+                            "仅归档的 label。"
+                          ]
+                        },
+                        {
+                          "name": "unarchived",
+                          "tip": [
+                            "仅未归档的 label。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "unarchive",
+                  "usage": [
+                    "unarchive <remote/owner/module:label>"
+                  ],
+                  "tip": [
+                    "取消归档一个 module label。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "settings",
+              "tip": [
+                "管理 module 的设置。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "update",
+                  "usage": [
+                    "update <remote/owner/module>"
+                  ],
+                  "tip": [
+                    "更新 BSR module 设置。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--default-label-name",
+                      "usage": [
+                        "--default-label-name <LABEL>"
+                      ],
+                      "tip": [
+                        "commit 默认推送到的 label。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--description",
+                      "usage": [
+                        "--description <DESCRIPTION>"
+                      ],
+                      "tip": [
+                        "module 的新描述。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--url",
+                      "usage": [
+                        "--url <URL>"
+                      ],
+                      "tip": [
+                        "module 的新 URL。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--visibility",
+                      "usage": [
+                        "--visibility <VISIBILITY>"
+                      ],
+                      "tip": [
+                        "module 的可见性设置。"
+                      ],
+                      "next": [
+                        {
+                          "name": "private",
+                          "tip": [
+                            "私有。"
+                          ]
+                        },
+                        {
+                          "name": "public",
+                          "tip": [
+                            "公开。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "undeprecate",
+              "usage": [
+                "undeprecate <buf.build/owner/module>"
+              ],
+              "tip": [
+                "取消弃用一个 BSR module。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "organization",
+          "tip": [
+            "管理 organization。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create <remote/organization>"
+              ],
+              "tip": [
+                "创建新的 BSR organization。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <remote/organization>"
+              ],
+              "tip": [
+                "删除 BSR organization。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "不确认即强制删除。请谨慎使用。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info <remote/organization>"
+              ],
+              "tip": [
+                "显示 BSR organization 的信息。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "update",
+              "usage": [
+                "update <remote/organization>"
+              ],
+              "tip": [
+                "更新 BSR organization。"
+              ],
+              "option": [
+                {
+                  "name": "--description",
+                  "usage": [
+                    "--description <DESCRIPTION>"
+                  ],
+                  "tip": [
+                    "organization 的新描述。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--url",
+                  "usage": [
+                    "--url <URL>"
+                  ],
+                  "tip": [
+                    "organization 的新 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "plugin",
+          "tip": [
+            "管理 BSR plugin。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "commit",
+              "tip": [
+                "管理 plugin 的 commit。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "add-label",
+                  "usage": [
+                    "add-label <remote/owner/plugin:commit> --label <label>"
+                  ],
+                  "tip": [
+                    "为 commit 添加 label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--label",
+                      "usage": [
+                        "--label <LABEL>"
+                      ],
+                      "tip": [
+                        "要添加到 commit 的 label。至少需要一个。"
+                      ],
+                      "repeat": 99,
+                      "next": []
+                    }
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/repository:commit>"
+                  ],
+                  "tip": [
+                    "获取 commit 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/plugin[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 plugin commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--digest-changes-only",
+                      "tip": [
+                        "仅 digest 发生变化的 commit。",
+                        "默认列出所有 commit。"
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。默认按最新的在前排序。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "resolve",
+                  "usage": [
+                    "resolve <remote/owner/repository[:ref]>"
+                  ],
+                  "tip": [
+                    "从引用解析 commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "usage": [
+                "create <remote/owner/plugin>"
+              ],
+              "tip": [
+                "创建 BSR plugin。"
+              ],
+              "option": [
+                {
+                  "name": "--default-label-name",
+                  "usage": [
+                    "--default-label-name <LABEL>"
+                  ],
+                  "tip": [
+                    "plugin 的默认 label 名称。默认：main。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--type",
+                  "usage": [
+                    "--type <TYPE>"
+                  ],
+                  "tip": [
+                    "plugin 的 type。"
+                  ],
+                  "next": [
+                    {
+                      "name": "check",
+                      "tip": [
+                        "Check plugin。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--visibility",
+                  "usage": [
+                    "--visibility <VISIBILITY>"
+                  ],
+                  "tip": [
+                    "plugin 的可见性设置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "private",
+                      "tip": [
+                        "私有。"
+                      ]
+                    },
+                    {
+                      "name": "public",
+                      "tip": [
+                        "公开。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <remote/owner/plugin>"
+              ],
+              "tip": [
+                "删除 BSR plugin。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "不确认即强制删除。请谨慎使用。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info <remote/owner/plugin>"
+              ],
+              "tip": [
+                "获取 BSR plugin。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "管理 plugin 的 label。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "archive",
+                  "usage": [
+                    "archive <remote/owner/plugin:label>"
+                  ],
+                  "tip": [
+                    "归档一个 plugin label。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/plugin:label>"
+                  ],
+                  "tip": [
+                    "显示 label 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/plugin[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 plugin label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--archive-status",
+                      "usage": [
+                        "--archive-status <STATUS>"
+                      ],
+                      "tip": [
+                        "所列 label 的归档状态。"
+                      ],
+                      "next": [
+                        {
+                          "name": "all",
+                          "tip": [
+                            "所有 label。"
+                          ]
+                        },
+                        {
+                          "name": "archived",
+                          "tip": [
+                            "仅归档的 label。"
+                          ]
+                        },
+                        {
+                          "name": "unarchived",
+                          "tip": [
+                            "仅未归档的 label。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "unarchive",
+                  "usage": [
+                    "unarchive <remote/owner/plugin:label>"
+                  ],
+                  "tip": [
+                    "取消归档一个 plugin label。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "settings",
+              "tip": [
+                "管理 plugin 的设置。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "update",
+                  "usage": [
+                    "update <remote/owner/plugin>"
+                  ],
+                  "tip": [
+                    "更新 BSR plugin 设置。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--description",
+                      "usage": [
+                        "--description <DESCRIPTION>"
+                      ],
+                      "tip": [
+                        "plugin 的新描述。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--url",
+                      "usage": [
+                        "--url <URL>"
+                      ],
+                      "tip": [
+                        "plugin 的新 URL。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--visibility",
+                      "usage": [
+                        "--visibility <VISIBILITY>"
+                      ],
+                      "tip": [
+                        "plugin 的可见性设置。"
+                      ],
+                      "next": [
+                        {
+                          "name": "private",
+                          "tip": [
+                            "私有。"
+                          ]
+                        },
+                        {
+                          "name": "public",
+                          "tip": [
+                            "公开。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "policy",
+          "tip": [
+            "管理 BSR policy。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "commit",
+              "tip": [
+                "管理 policy 的 commit。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "add-label",
+                  "usage": [
+                    "add-label <remote/owner/policy:commit> --label <label>"
+                  ],
+                  "tip": [
+                    "为 commit 添加 label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--label",
+                      "usage": [
+                        "--label <LABEL>"
+                      ],
+                      "tip": [
+                        "要添加到 commit 的 label。至少需要一个。"
+                      ],
+                      "repeat": 99,
+                      "next": []
+                    }
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/repository:commit>"
+                  ],
+                  "tip": [
+                    "获取 commit 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/policy[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 policy commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--digest-changes-only",
+                      "tip": [
+                        "仅 digest 发生变化的 commit。",
+                        "默认列出所有 commit。"
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。默认按最新的在前排序。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "resolve",
+                  "usage": [
+                    "resolve <remote/owner/repository[:ref]>"
+                  ],
+                  "tip": [
+                    "从引用解析 commit。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "usage": [
+                "create <remote/owner/policy>"
+              ],
+              "tip": [
+                "创建 BSR policy。"
+              ],
+              "option": [
+                {
+                  "name": "--default-label-name",
+                  "usage": [
+                    "--default-label-name <LABEL>"
+                  ],
+                  "tip": [
+                    "policy 的默认 label 名称。默认：main。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--visibility",
+                  "usage": [
+                    "--visibility <VISIBILITY>"
+                  ],
+                  "tip": [
+                    "policy 的可见性设置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "private",
+                      "tip": [
+                        "私有。"
+                      ]
+                    },
+                    {
+                      "name": "public",
+                      "tip": [
+                        "公开。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "delete",
+              "usage": [
+                "delete <remote/owner/policy>"
+              ],
+              "tip": [
+                "删除 BSR policy。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "tip": [
+                    "不确认即强制删除。请谨慎使用。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "info",
+              "usage": [
+                "info <remote/owner/policy>"
+              ],
+              "tip": [
+                "获取 BSR policy。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "label",
+              "tip": [
+                "管理 policy 的 label。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "archive",
+                  "usage": [
+                    "archive <remote/owner/policy:label>"
+                  ],
+                  "tip": [
+                    "归档一个 policy label。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "usage": [
+                    "info <remote/owner/policy:label>"
+                  ],
+                  "tip": [
+                    "显示 label 信息。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "list",
+                  "usage": [
+                    "list <remote/owner/policy[:ref]>"
+                  ],
+                  "tip": [
+                    "列出 policy label。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--archive-status",
+                      "usage": [
+                        "--archive-status <STATUS>"
+                      ],
+                      "tip": [
+                        "所列 label 的归档状态。"
+                      ],
+                      "next": [
+                        {
+                          "name": "all",
+                          "tip": [
+                            "所有 label。"
+                          ]
+                        },
+                        {
+                          "name": "archived",
+                          "tip": [
+                            "仅归档的 label。"
+                          ]
+                        },
+                        {
+                          "name": "unarchived",
+                          "tip": [
+                            "仅未归档的 label。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--format",
+                      "usage": [
+                        "--format <FORMAT>"
+                      ],
+                      "tip": [
+                        "要使用的输出格式。"
+                      ],
+                      "next": [
+                        {
+                          "name": "json",
+                          "tip": [
+                            "JSON。"
+                          ]
+                        },
+                        {
+                          "name": "text",
+                          "tip": [
+                            "文本。"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "--page-size",
+                      "usage": [
+                        "--page-size <SIZE>"
+                      ],
+                      "tip": [
+                        "分页大小。默认：10。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--page-token",
+                      "usage": [
+                        "--page-token <TOKEN>"
+                      ],
+                      "tip": [
+                        "分页 token。",
+                        "如果还有更多结果，--format=json 输出中会包含 next_page 键。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--reverse",
+                      "tip": [
+                        "反转结果。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "unarchive",
+                  "usage": [
+                    "unarchive <remote/owner/policy:label>"
+                  ],
+                  "tip": [
+                    "取消归档一个 policy label。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "settings",
+              "tip": [
+                "管理 policy 的设置。"
+              ],
+              "option": [
+                {
+                  "name": "--help-tree",
+                  "tip": [
+                    "打印整个子命令树。"
+                  ]
+                }
+              ],
+              "next": [
+                {
+                  "name": "update",
+                  "usage": [
+                    "update <remote/owner/policy>"
+                  ],
+                  "tip": [
+                    "更新 BSR policy 设置。"
+                  ],
+                  "option": [
+                    {
+                      "name": "--description",
+                      "usage": [
+                        "--description <DESCRIPTION>"
+                      ],
+                      "tip": [
+                        "policy 的新描述。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--url",
+                      "usage": [
+                        "--url <URL>"
+                      ],
+                      "tip": [
+                        "policy 的新 URL。"
+                      ],
+                      "next": []
+                    },
+                    {
+                      "name": "--visibility",
+                      "usage": [
+                        "--visibility <VISIBILITY>"
+                      ],
+                      "tip": [
+                        "policy 的可见性设置。"
+                      ],
+                      "next": [
+                        {
+                          "name": "private",
+                          "tip": [
+                            "私有。"
+                          ]
+                        },
+                        {
+                          "name": "public",
+                          "tip": [
+                            "公开。"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sdk",
+          "tip": [
+            "管理生成的 SDK。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "info",
+              "usage": [
+                "info --module <module> --plugin <plugin>"
+              ],
+              "tip": [
+                "获取给定 module、plugin 及可选 version 的 SDK 信息。"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "usage": [
+                    "--format <FORMAT>"
+                  ],
+                  "tip": [
+                    "要使用的输出格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "文本。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--module",
+                  "usage": [
+                    "--module <MODULE>"
+                  ],
+                  "tip": [
+                    "SDK 的 module 引用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--plugin",
+                  "usage": [
+                    "--plugin <PLUGIN>"
+                  ],
+                  "tip": [
+                    "SDK 的 plugin 引用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--version",
+                  "usage": [
+                    "--version <VERSION>"
+                  ],
+                  "tip": [
+                    "SDK 的版本。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "version",
+              "usage": [
+                "version --module <module> --plugin <plugin>"
+              ],
+              "tip": [
+                "将 module 和 plugin 引用解析为特定的生成 SDK 版本。"
+              ],
+              "option": [
+                {
+                  "name": "--module",
+                  "usage": [
+                    "--module <MODULE>"
+                  ],
+                  "tip": [
+                    "要解析的 module 引用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--plugin",
+                  "usage": [
+                    "--plugin <PLUGIN>"
+                  ],
+                  "tip": [
+                    "要解析的 plugin 引用。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "whoami",
+          "usage": [
+            "whoami <domain>"
+          ],
+          "tip": [
+            "检查是否已登录 Buf Schema Registry。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "要使用的输出格式。"
+              ],
+              "next": [
+                {
+                  "name": "json",
+                  "tip": [
+                    "JSON。"
+                  ]
+                },
+                {
+                  "name": "text",
+                  "tip": [
+                    "文本。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "tip": [
+        "与 Protobuf source 文件一起工作。"
+      ],
+      "option": [
+        {
+          "name": "--help-tree",
+          "tip": [
+            "打印整个子命令树。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "edit",
+          "tip": [
+            "编辑 Protobuf source 文件。"
+          ],
+          "option": [
+            {
+              "name": "--help-tree",
+              "tip": [
+                "打印整个子命令树。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "deprecate",
+              "usage": [
+                "deprecate <source> --prefix <prefix>"
+              ],
+              "tip": [
+                "弃用 source 中匹配给定前缀的 type。"
+              ],
+              "option": [
+                {
+                  "name": "--config",
+                  "usage": [
+                    "--config <CONFIG>"
+                  ],
+                  "tip": [
+                    "用于配置的 buf.yaml 文件或数据。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--disable-symlinks",
+                  "tip": [
+                    "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+                    "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+                  ]
+                },
+                {
+                  "name": "--error-format",
+                  "usage": [
+                    "--error-format <FORMAT>"
+                  ],
+                  "tip": [
+                    "打印到 stderr 的构建错误的格式。"
+                  ],
+                  "next": [
+                    {
+                      "name": "github-actions",
+                      "tip": [
+                        "GitHub Actions workflow 命令。"
+                      ]
+                    },
+                    {
+                      "name": "gitlab-code-quality",
+                      "tip": [
+                        "GitLab Code Quality 报告。"
+                      ]
+                    },
+                    {
+                      "name": "json",
+                      "tip": [
+                        "JSON。"
+                      ]
+                    },
+                    {
+                      "name": "junit",
+                      "tip": [
+                        "JUnit XML。"
+                      ]
+                    },
+                    {
+                      "name": "msvs",
+                      "tip": [
+                        "Microsoft Visual Studio 风格。"
+                      ]
+                    },
+                    {
+                      "name": "text",
+                      "tip": [
+                        "人类可读的文本。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--exclude-path",
+                  "usage": [
+                    "--exclude-path <PATH>"
+                  ],
+                  "tip": [
+                    "排除特定文件或目录，例如 proto/a/a.proto、proto/a。",
+                    "如果多次指定，取并集。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--path",
+                  "usage": [
+                    "--path <PATH>"
+                  ],
+                  "tip": [
+                    "限定到特定文件或目录，例如 proto/a/a.proto、proto/a。",
+                    "如果多次指定，取并集。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--prefix",
+                  "usage": [
+                    "--prefix <PREFIX>"
+                  ],
+                  "tip": [
+                    "要弃用的 type 的全限定名前缀。",
+                    "必需。可多次指定。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "usage": [
+        "stats <source>"
+      ],
+      "tip": [
+        "获取给定 source 或 module 的统计信息。"
+      ],
+      "option": [
+        {
+          "name": "--disable-symlinks",
+          "tip": [
+            "从本地文件系统读取 source 或配置时不要跟随符号链接。",
+            "默认此 CLI 会跟随符号链接，但在 Buf Schema Registry 上从不跟随。"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "要使用的输出格式。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON。"
+              ]
+            },
+            {
+              "name": "text",
+              "tip": [
+                "文本。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--help-tree",
+      "tip": [
+        "打印整个子命令树。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--debug",
+      "tip": [
+        "开启 debug 日志。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此命令的帮助。"
+      ]
+    },
+    {
+      "name": "--log-format",
+      "usage": [
+        "--log-format <FORMAT>"
+      ],
+      "tip": [
+        "日志格式。"
+      ],
+      "next": [
+        {
+          "name": "color",
+          "tip": [
+            "彩色文本。"
+          ]
+        },
+        {
+          "name": "json",
+          "tip": [
+            "JSON。"
+          ]
+        },
+        {
+          "name": "text",
+          "tip": [
+            "纯文本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <DURATION>"
+      ],
+      "tip": [
+        "超时前的时长。设为 0 表示不超时。"
+      ],
+      "next": []
+    }
+  ]
+}

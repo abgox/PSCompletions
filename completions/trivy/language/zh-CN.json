@@ -1,0 +1,8066 @@
+{
+  "meta": {
+    "url": "https://trivy.dev",
+    "description": [
+      "扫描容器镜像、文件系统与 Git 仓库的漏洞，以及配置问题与硬编码密钥。"
+    ]
+  },
+  "next": [
+    {
+      "name": "clean",
+      "tip": [
+        "删除缓存文件。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "删除所有缓存。"
+          ]
+        },
+        {
+          "name": "--checks-bundle",
+          "tip": [
+            "删除 checks bundle。"
+          ]
+        },
+        {
+          "name": "--java-db",
+          "tip": [
+            "删除 Java 数据库。"
+          ]
+        },
+        {
+          "name": "--scan-cache",
+          "tip": [
+            "删除扫描缓存（容器与 VM 镜像分析结果）。"
+          ]
+        },
+        {
+          "name": "--vex-repo",
+          "tip": [
+            "删除 VEX 仓库。"
+          ]
+        },
+        {
+          "name": "--vuln-db",
+          "tip": [
+            "删除漏洞数据库。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [SHELL]"
+      ],
+      "tip": [
+        "生成指定 shell 的补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "alias": [
+        "conf"
+      ],
+      "usage": [
+        "conf|config DIR"
+      ],
+      "tip": [
+        "扫描配置文件中的错误配置。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: memory。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cf-params",
+          "usage": [
+            "--cf-params <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 CloudFormation 参数文件的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--k8s-version",
+          "usage": [
+            "--k8s-version <VERSION>"
+          ],
+          "tip": [
+            "校验过时 api 的 k8s 版本（如 1.21.0）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认: azure-arm,cloudformation,dockerfile,helm,kubernetes,terraform,terraformplan-json,terraformplan-snapshot,ansible。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <FORMAT>"
+          ],
+          "tip": [
+            "输出的合规报告格式。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "完整报告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要报告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tf-exclude-downloaded-modules",
+          "tip": [
+            "排除已下载 terraform 模块的错误配置。"
+          ]
+        },
+        {
+          "name": "--tf-vars",
+          "usage": [
+            "--tf-vars <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Terraform tfvars 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "convert",
+      "alias": [
+        "conv"
+      ],
+      "usage": [
+        "conv|convert RESULT_JSON"
+      ],
+      "tip": [
+        "将 Trivy JSON 报告转为其他格式。"
+      ],
+      "option": [
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-on-eol",
+          "usage": [
+            "--exit-on-eol <CODE>"
+          ],
+          "tip": [
+            "OS 到达停服期时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <FORMAT>"
+          ],
+          "tip": [
+            "输出的报告格式。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "完整报告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要报告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "生成 json 报告包含的扫描器。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "filesystem",
+      "alias": [
+        "fs"
+      ],
+      "usage": [
+        "fs|filesystem PATH"
+      ],
+      "tip": [
+        "扫描本地文件系统。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: memory。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cf-params",
+          "usage": [
+            "--cf-params <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 CloudFormation 参数文件的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignored-licenses",
+          "usage": [
+            "--ignored-licenses <LICENSE>"
+          ],
+          "tip": [
+            "忽略的许可证列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-dev-deps",
+          "tip": [
+            "报告包含开发依赖（支持 npm、yarn、gradle）。"
+          ]
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--license-confidence-level",
+          "usage": [
+            "--license-confidence-level <FLOAT>"
+          ],
+          "tip": [
+            "许可证分类器置信度。",
+            "默认: 0.9。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-full",
+          "tip": [
+            "从源码头与许可证文件积极查找许可证。"
+          ]
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <FORMAT>"
+          ],
+          "tip": [
+            "输出的合规报告格式。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "完整报告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要报告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln,secret。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "image",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|image IMAGE_NAME"
+      ],
+      "tip": [
+        "扫描容器镜像。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: fs。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告（内置如 docker-cis-1.6.0）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--docker-host",
+          "usage": [
+            "--docker-host <SOCKET>"
+          ],
+          "tip": [
+            "docker 扫描用的 unix domain socket 路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-on-eol",
+          "usage": [
+            "--exit-on-eol <CODE>"
+          ],
+          "tip": [
+            "OS 到达停服期时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignored-licenses",
+          "usage": [
+            "--ignored-licenses <LICENSE>"
+          ],
+          "tip": [
+            "忽略的许可证列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-config-scanners",
+          "usage": [
+            "--image-config-scanners <SCANNER>"
+          ],
+          "tip": [
+            "容器镜像配置的检测项，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--image-src",
+          "usage": [
+            "--image-src <SOURCE>"
+          ],
+          "tip": [
+            "按优先级使用的镜像源。",
+            "默认: docker,containerd,podman,remote。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "containerd",
+              "tip": [
+                "Containerd 镜像源。"
+              ]
+            },
+            {
+              "name": "docker",
+              "tip": [
+                "Docker 镜像源。"
+              ]
+            },
+            {
+              "name": "podman",
+              "tip": [
+                "Podman 镜像源。"
+              ]
+            },
+            {
+              "name": "remote",
+              "tip": [
+                "远端 registry 镜像源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--input",
+          "usage": [
+            "--input <PATH>"
+          ],
+          "tip": [
+            "输入文件路径，替代镜像名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--license-confidence-level",
+          "usage": [
+            "--license-confidence-level <FLOAT>"
+          ],
+          "tip": [
+            "许可证分类器置信度。",
+            "默认: 0.9。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-full",
+          "tip": [
+            "从源码头与许可证文件积极查找许可证。"
+          ]
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--max-image-size",
+          "usage": [
+            "--max-image-size <SIZE>"
+          ],
+          "tip": [
+            "处理的镜像上限，人性化格式（如 44kB、17MB）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "多平台镜像设 platform（os/arch 形式）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--podman-host",
+          "usage": [
+            "--podman-host <SOCKET>"
+          ],
+          "tip": [
+            "podman 扫描用的 unix socket 路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--removed-pkgs",
+          "tip": [
+            "检测已删除包的漏洞（仅 Alpine）。"
+          ]
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <FORMAT>"
+          ],
+          "tip": [
+            "合规报告格式。",
+            "默认: summary。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "完整报告。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要报告。",
+                "默认。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln,secret。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "kubernetes",
+      "alias": [
+        "k8s"
+      ],
+      "usage": [
+        "k8s|kubernetes [CONTEXT]"
+      ],
+      "tip": [
+        "[实验性] 扫描 kubernetes 集群。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--burst",
+          "usage": [
+            "--burst <INT>"
+          ],
+          "tip": [
+            "节流最大突发。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: fs。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-node-collector",
+          "tip": [
+            "不执行 node-collector job，跳过节点错误配置发现。"
+          ]
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--exclude-kinds",
+          "usage": [
+            "--exclude-kinds <KIND>"
+          ],
+          "tip": [
+            "扫描排除的 kind（如 node）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exclude-namespaces",
+          "usage": [
+            "--exclude-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "扫描排除的 namespace（如 kube-system）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exclude-nodes",
+          "usage": [
+            "--exclude-nodes <LABEL>"
+          ],
+          "tip": [
+            "node-collector job 排除的节点 label。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exclude-owned",
+          "tip": [
+            "排除有 owner 引用的资源。"
+          ]
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。",
+            "默认: table。"
+          ],
+          "next": [
+            {
+              "name": "cyclonedx",
+              "tip": [
+                "CycloneDX 格式。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式。"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格格式。",
+                "默认。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-src",
+          "usage": [
+            "--image-src <SOURCE>"
+          ],
+          "tip": [
+            "按优先级使用的镜像源。",
+            "默认: docker,containerd,podman,remote。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "containerd",
+              "tip": [
+                "Containerd 镜像源。"
+              ]
+            },
+            {
+              "name": "docker",
+              "tip": [
+                "Docker 镜像源。"
+              ]
+            },
+            {
+              "name": "podman",
+              "tip": [
+                "Podman 镜像源。"
+              ]
+            },
+            {
+              "name": "remote",
+              "tip": [
+                "远端 registry 镜像源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-kinds",
+          "usage": [
+            "--include-kinds <KIND>"
+          ],
+          "tip": [
+            "扫描包含的 kind（如 node）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-namespaces",
+          "usage": [
+            "--include-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "扫描包含的 namespace（如 kube-system）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--k8s-version",
+          "usage": [
+            "--k8s-version <VERSION>"
+          ],
+          "tip": [
+            "校验过时 api 的 k8s 版本（如 1.21.0）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--kubeconfig",
+          "usage": [
+            "--kubeconfig <PATH>"
+          ],
+          "tip": [
+            "使用的 kubeconfig 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--node-collector-imageref",
+          "usage": [
+            "--node-collector-imageref <REF>"
+          ],
+          "tip": [
+            "node-collector 扫描 job 的镜像引用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--node-collector-namespace",
+          "usage": [
+            "--node-collector-namespace <NAMESPACE>"
+          ],
+          "tip": [
+            "部署 node-collector job 的 namespace。",
+            "默认: trivy-temp。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--qps",
+          "usage": [
+            "--qps <QPS>"
+          ],
+          "tip": [
+            "客户端到 master 的最大 QPS。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--report",
+          "usage": [
+            "--report <FORMAT>"
+          ],
+          "tip": [
+            "输出的报告格式。",
+            "默认: all。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "完整报告。",
+                "默认。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要报告。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln,misconfig,secret,rbac。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "rbac",
+              "tip": [
+                "RBAC 扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-images",
+          "tip": [
+            "跳过集群资源中镜像的下载与扫描（漏洞与密钥）。"
+          ]
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tf-exclude-downloaded-modules",
+          "tip": [
+            "排除已下载 terraform 模块的错误配置。"
+          ]
+        },
+        {
+          "name": "--tolerations",
+          "usage": [
+            "--tolerations <TOLERATION>"
+          ],
+          "tip": [
+            "node-collector job tolerations。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "module",
+      "alias": [
+        "m"
+      ],
+      "usage": [
+        "m|module"
+      ],
+      "tip": [
+        "管理模块。"
+      ],
+      "option": [
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "alias": [
+        "p"
+      ],
+      "usage": [
+        "p|plugin"
+      ],
+      "tip": [
+        "管理插件。"
+      ]
+    },
+    {
+      "name": "registry",
+      "tip": [
+        "管理 registry 认证。"
+      ]
+    },
+    {
+      "name": "repository",
+      "alias": [
+        "repo"
+      ],
+      "usage": [
+        "repo|repository <REPO>"
+      ],
+      "tip": [
+        "扫描仓库。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <BRANCH>"
+          ],
+          "tip": [
+            "扫描的 branch 名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: fs。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cf-params",
+          "usage": [
+            "--cf-params <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 CloudFormation 参数文件的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--commit",
+          "usage": [
+            "--commit <HASH>"
+          ],
+          "tip": [
+            "扫描的 commit hash。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignored-licenses",
+          "usage": [
+            "--ignored-licenses <LICENSE>"
+          ],
+          "tip": [
+            "忽略的许可证列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-dev-deps",
+          "tip": [
+            "报告包含开发依赖（支持 npm、yarn、gradle）。"
+          ]
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--license-confidence-level",
+          "usage": [
+            "--license-confidence-level <FLOAT>"
+          ],
+          "tip": [
+            "许可证分类器置信度。",
+            "默认: 0.9。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-full",
+          "tip": [
+            "从源码头与许可证文件积极查找许可证。"
+          ]
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sbom-sources",
+          "usage": [
+            "--sbom-sources <SOURCE>"
+          ],
+          "tip": [
+            "尝试拉取 SBOM 的来源。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI SBOM 来源。"
+              ]
+            },
+            {
+              "name": "rekor",
+              "tip": [
+                "Rekor SBOM 来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln,secret。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "扫描的 tag 名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tf-exclude-downloaded-modules",
+          "tip": [
+            "排除已下载 terraform 模块的错误配置。"
+          ]
+        },
+        {
+          "name": "--tf-vars",
+          "usage": [
+            "--tf-vars <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Terraform tfvars 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rootfs",
+      "usage": [
+        "rootfs ROOTDIR"
+      ],
+      "tip": [
+        "扫描 rootfs。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: memory。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cf-params",
+          "usage": [
+            "--cf-params <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 CloudFormation 参数文件的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--check-namespaces",
+          "usage": [
+            "--check-namespaces <NAMESPACE>"
+          ],
+          "tip": [
+            "Rego 命名空间。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-check",
+          "usage": [
+            "--config-check <PATH>"
+          ],
+          "tip": [
+            "指定 Rego 检查文件或其目录的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-data",
+          "usage": [
+            "--config-data <PATH>"
+          ],
+          "tip": [
+            "指定递归加载 Rego 检查数据的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-on-eol",
+          "usage": [
+            "--exit-on-eol <CODE>"
+          ],
+          "tip": [
+            "OS 到达停服期时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignored-licenses",
+          "usage": [
+            "--ignored-licenses <LICENSE>"
+          ],
+          "tip": [
+            "忽略的许可证列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-deprecated-checks",
+          "tip": [
+            "包含已废弃检查。"
+          ]
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--license-confidence-level",
+          "usage": [
+            "--license-confidence-level <FLOAT>"
+          ],
+          "tip": [
+            "许可证分类器置信度。",
+            "默认: 0.9。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--license-full",
+          "tip": [
+            "从源码头与许可证文件积极查找许可证。"
+          ]
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rego-error-limit",
+          "usage": [
+            "--rego-error-limit <INT>"
+          ],
+          "tip": [
+            "Rego 策略求值允许的最大编译错误数。",
+            "默认: 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sbom-sources",
+          "usage": [
+            "--sbom-sources <SOURCE>"
+          ],
+          "tip": [
+            "尝试拉取 SBOM 的来源。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI SBOM 来源。"
+              ]
+            },
+            {
+              "name": "rekor",
+              "tip": [
+                "Rekor SBOM 来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln,secret。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "misconfig",
+              "tip": [
+                "错误配置扫描。"
+              ]
+            },
+            {
+              "name": "secret",
+              "tip": [
+                "密钥扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-check-update",
+          "tip": [
+            "跳过拉取 rego 检查更新。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trace-rego",
+          "tip": [
+            "自定义查询的详细追踪输出。"
+          ]
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "sbom",
+      "usage": [
+        "sbom SBOM_PATH"
+      ],
+      "tip": [
+        "扫描 SBOM 的漏洞与许可证。"
+      ],
+      "option": [
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: memory。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-on-eol",
+          "usage": [
+            "--exit-on-eol <CODE>"
+          ],
+          "tip": [
+            "OS 到达停服期时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignored-licenses",
+          "usage": [
+            "--ignored-licenses <LICENSE>"
+          ],
+          "tip": [
+            "忽略的许可证列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <PATH>"
+          ],
+          "tip": [
+            "输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sbom-sources",
+          "usage": [
+            "--sbom-sources <SOURCE>"
+          ],
+          "tip": [
+            "尝试拉取 SBOM 的来源。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI SBOM 来源。"
+              ]
+            },
+            {
+              "name": "rekor",
+              "tip": [
+                "Rekor SBOM 来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。",
+            "默认: vuln。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "license",
+              "tip": [
+                "许可证扫描。"
+              ]
+            },
+            {
+              "name": "vuln",
+              "tip": [
+                "漏洞扫描。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "server",
+      "alias": [
+        "s"
+      ],
+      "usage": [
+        "s|server"
+      ],
+      "tip": [
+        "服务端模式。"
+      ],
+      "option": [
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: fs。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--listen",
+          "usage": [
+            "--listen <ADDRESS>"
+          ],
+          "tip": [
+            "服务端模式监听地址。",
+            "默认: localhost:4954。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--password",
+          "usage": [
+            "--password <PASSWORD>"
+          ],
+          "tip": [
+            "密码。允许多个逗号分隔。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--password-stdin",
+          "tip": [
+            "从 stdin 读密码。不支持逗号分隔多密码。"
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--registry-token",
+          "usage": [
+            "--registry-token <TOKEN>"
+          ],
+          "tip": [
+            "Registry token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--username",
+          "usage": [
+            "--username <NAME>"
+          ],
+          "tip": [
+            "用户名。允许多个逗号分隔。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "tip": [
+        "打印版本。"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "版本格式。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 版本格式。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "vex",
+      "tip": [
+        "[实验性] VEX 工具。"
+      ]
+    },
+    {
+      "name": "vm",
+      "usage": [
+        "vm VM_IMAGE"
+      ],
+      "tip": [
+        "[实验性] 扫描虚拟机镜像。"
+      ],
+      "option": [
+        {
+          "name": "--ansible-extra-vars",
+          "usage": [
+            "--ansible-extra-vars <VARS>"
+          ],
+          "tip": [
+            "设置额外变量 key=value 或 @file（YAML/JSON）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-inventory",
+          "usage": [
+            "--ansible-inventory <PATH>"
+          ],
+          "tip": [
+            "指定 inventory 主机路径或逗号分隔主机列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ansible-playbook",
+          "usage": [
+            "--ansible-playbook <PATH>"
+          ],
+          "tip": [
+            "指定要扫描的 playbook 文件路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--aws-region",
+          "usage": [
+            "--aws-region <REGION>"
+          ],
+          "tip": [
+            "扫描的 AWS region。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-backend",
+          "usage": [
+            "--cache-backend <BACKEND>"
+          ],
+          "tip": [
+            "缓存后端（如 redis://localhost:6379）。",
+            "默认: fs。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-ttl",
+          "usage": [
+            "--cache-ttl <TTL>"
+          ],
+          "tip": [
+            "redis 缓存后端的缓存 TTL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--checks-bundle-repository",
+          "usage": [
+            "--checks-bundle-repository <URL>"
+          ],
+          "tip": [
+            "拉取 checks bundle 的 OCI registry URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compliance",
+          "usage": [
+            "--compliance <REPORT>"
+          ],
+          "tip": [
+            "生成的合规报告。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--config-file-schemas",
+          "usage": [
+            "--config-file-schemas <PATH>"
+          ],
+          "tip": [
+            "指定 JSON 配置文件 schema 路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--custom-headers",
+          "usage": [
+            "--custom-headers <HEADER>"
+          ],
+          "tip": [
+            "客户端模式自定义请求头。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--db-repository",
+          "usage": [
+            "--db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--dependency-tree",
+          "tip": [
+            "展示漏洞包的依赖来源树。"
+          ]
+        },
+        {
+          "name": "--detection-priority",
+          "usage": [
+            "--detection-priority <PRIORITY>"
+          ],
+          "tip": [
+            "指定检测优先级。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-telemetry",
+          "tip": [
+            "禁用向 Aqua 发送匿名用量数据。"
+          ]
+        },
+        {
+          "name": "--distro",
+          "usage": [
+            "--distro <DISTRO>"
+          ],
+          "tip": [
+            "指定发行版 <family>/<version>。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--download-db-only",
+          "tip": [
+            "仅下载/更新漏洞数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--download-java-db-only",
+          "tip": [
+            "仅下载/更新 Java 索引数据库，不扫描。"
+          ]
+        },
+        {
+          "name": "--enable-modules",
+          "usage": [
+            "--enable-modules <MODULE>"
+          ],
+          "tip": [
+            "启用的模块名。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--exit-code",
+          "usage": [
+            "--exit-code <CODE>"
+          ],
+          "tip": [
+            "发现安全问题时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exit-on-eol",
+          "usage": [
+            "--exit-on-eol <CODE>"
+          ],
+          "tip": [
+            "OS 到达停服期时的退出码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file-patterns",
+          "usage": [
+            "--file-patterns <PATTERN>"
+          ],
+          "tip": [
+            "指定配置文件模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "格式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.APIVersions 可用 API 版本。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-set",
+          "usage": [
+            "--helm-set <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-file",
+          "usage": [
+            "--helm-set-file <KEY=PATH>"
+          ],
+          "tip": [
+            "从命令行指定文件读取 Helm values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-set-string",
+          "usage": [
+            "--helm-set-string <KEY=VALUE>"
+          ],
+          "tip": [
+            "命令行指定 Helm 字符串 values。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-values",
+          "usage": [
+            "--helm-values <PATH>"
+          ],
+          "tip": [
+            "指定覆盖 Helm values.yaml 的路径。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-policy",
+          "usage": [
+            "--ignore-policy <PATH>"
+          ],
+          "tip": [
+            "指定评估每个漏洞的 Rego 文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-status",
+          "usage": [
+            "--ignore-status <STATUS>"
+          ],
+          "tip": [
+            "忽略的漏洞状态，逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--ignore-unfixed",
+          "tip": [
+            "仅展示已修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--ignorefile",
+          "usage": [
+            "--ignorefile <PATH>"
+          ],
+          "tip": [
+            "指定 .trivyignore 文件。",
+            "默认: .trivyignore。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--include-non-failures",
+          "tip": [
+            "包含成功项，仅 '--scanners misconfig' 有效。"
+          ]
+        },
+        {
+          "name": "--java-db-repository",
+          "usage": [
+            "--java-db-repository <REPO>"
+          ],
+          "tip": [
+            "按优先级拉取 trivy-java-db 的 OCI 仓库。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--list-all-pkgs",
+          "tip": [
+            "JSON 报告输出所有包而不论漏洞。",
+            "默认: true。"
+          ]
+        },
+        {
+          "name": "--misconfig-scanners",
+          "usage": [
+            "--misconfig-scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的错误配置扫描器。",
+            "默认见英文。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "azure-arm",
+              "tip": [
+                "Azure ARM 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "cloudformation",
+              "tip": [
+                "CloudFormation 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "dockerfile",
+              "tip": [
+                "Dockerfile 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "helm",
+              "tip": [
+                "Helm 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "kubernetes",
+              "tip": [
+                "Kubernetes 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-json",
+              "tip": [
+                "Terraform plan JSON 错误配置扫描器。"
+              ]
+            },
+            {
+              "name": "terraformplan-snapshot",
+              "tip": [
+                "Terraform plan 快照错误配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--module-dir",
+          "usage": [
+            "--module-dir <DIR>"
+          ],
+          "tip": [
+            "加载 wasm 模块的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "隐藏进度条。"
+          ]
+        },
+        {
+          "name": "--offline-scan",
+          "tip": [
+            "不发 API 请求识别依赖。"
+          ]
+        },
+        {
+          "name": "--output-plugin-arg",
+          "usage": [
+            "--output-plugin-arg <ARG>"
+          ],
+          "tip": [
+            "输出插件参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "usage": [
+            "--parallel <INT>"
+          ],
+          "tip": [
+            "并行扫描 goroutine 数，0 自动检测。",
+            "默认: 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pkg-relationships",
+          "usage": [
+            "--pkg-relationships <RELATIONSHIP>"
+          ],
+          "tip": [
+            "包关系列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--pkg-types",
+          "usage": [
+            "--pkg-types <TYPE>"
+          ],
+          "tip": [
+            "包类型列表。",
+            "默认: os,library。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "library",
+              "tip": [
+                "库包。"
+              ]
+            },
+            {
+              "name": "os",
+              "tip": [
+                "系统包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--raw-config-scanners",
+          "usage": [
+            "--raw-config-scanners <TYPE>"
+          ],
+          "tip": [
+            "同时扫描原始配置的扫描器类型。"
+          ],
+          "next": [
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 原始配置扫描器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--redis-ca",
+          "usage": [
+            "--redis-ca <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的 ca 文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-cert",
+          "usage": [
+            "--redis-cert <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的证书文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-key",
+          "usage": [
+            "--redis-key <PATH>"
+          ],
+          "tip": [
+            "redis 缓存后端的密钥文件位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--redis-tls",
+          "tip": [
+            "redis 缓存后端启用公钥 TLS。"
+          ]
+        },
+        {
+          "name": "--rekor-url",
+          "usage": [
+            "--rekor-url <URL>"
+          ],
+          "tip": [
+            "rekor STL server 地址。",
+            "默认: https://rekor.sigstore.dev。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--render-cause",
+          "usage": [
+            "--render-cause <TYPE>"
+          ],
+          "tip": [
+            "表格报告中展示渲染原因的配置类型。"
+          ],
+          "next": [
+            {
+              "name": "ansible",
+              "tip": [
+                "Ansible 渲染原因。"
+              ]
+            },
+            {
+              "name": "terraform",
+              "tip": [
+                "Terraform 渲染原因。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--sbom-sources",
+          "usage": [
+            "--sbom-sources <SOURCE>"
+          ],
+          "tip": [
+            "尝试拉取 SBOM 的来源。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI SBOM 来源。"
+              ]
+            },
+            {
+              "name": "rekor",
+              "tip": [
+                "Rekor SBOM 来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--scanners",
+          "usage": [
+            "--scanners <SCANNER>"
+          ],
+          "tip": [
+            "逗号分隔的检测项。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--secret-config",
+          "usage": [
+            "--secret-config <PATH>"
+          ],
+          "tip": [
+            "密钥扫描配置文件路径。",
+            "默认: trivy-secret.yaml。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server",
+          "usage": [
+            "--server <ADDRESS>"
+          ],
+          "tip": [
+            "客户端模式 server 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <SEVERITY>"
+          ],
+          "tip": [
+            "展示的安全问题严重级别。",
+            "可重复或逗号分隔。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "CRITICAL",
+              "tip": [
+                "严重。"
+              ]
+            },
+            {
+              "name": "HIGH",
+              "tip": [
+                "高危。"
+              ]
+            },
+            {
+              "name": "LOW",
+              "tip": [
+                "低危。"
+              ]
+            },
+            {
+              "name": "MEDIUM",
+              "tip": [
+                "中危。"
+              ]
+            },
+            {
+              "name": "UNKNOWN",
+              "tip": [
+                "未知。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--show-suppressed",
+          "tip": [
+            "展示被抑制的漏洞。"
+          ]
+        },
+        {
+          "name": "--skip-db-update",
+          "tip": [
+            "跳过更新漏洞数据库。"
+          ]
+        },
+        {
+          "name": "--skip-dirs",
+          "usage": [
+            "--skip-dirs <PATTERN>"
+          ],
+          "tip": [
+            "跳过的目录或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-files",
+          "usage": [
+            "--skip-files <PATTERN>"
+          ],
+          "tip": [
+            "跳过的文件或 glob 模式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--skip-java-db-update",
+          "tip": [
+            "跳过更新 Java 索引数据库。"
+          ]
+        },
+        {
+          "name": "--skip-version-check",
+          "tip": [
+            "隐藏版本更新与 Trivy 公告。"
+          ]
+        },
+        {
+          "name": "--skip-vex-repo-update",
+          "tip": [
+            "跳过 VEX 仓库更新。"
+          ]
+        },
+        {
+          "name": "--table-mode",
+          "usage": [
+            "--table-mode <MODE>"
+          ],
+          "tip": [
+            "table 格式展示的表格。",
+            "默认: summary,detailed。"
+          ],
+          "next": [
+            {
+              "name": "detailed",
+              "tip": [
+                "详情表。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "摘要表。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <PATH>"
+          ],
+          "tip": [
+            "输出模板（文件路径须 .tpl 后缀）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tf-exclude-downloaded-modules",
+          "tip": [
+            "排除已下载 terraform 模块的错误配置。"
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "客户端/服务端模式认证。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token-header",
+          "usage": [
+            "--token-header <HEADER>"
+          ],
+          "tip": [
+            "客户端/服务端模式 token 请求头名。",
+            "默认: Trivy-Token。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vex",
+          "usage": [
+            "--vex <SOURCE>"
+          ],
+          "tip": [
+            "VEX 来源（repo、oci 或文件路径）。"
+          ],
+          "next": [
+            {
+              "name": "oci",
+              "tip": [
+                "OCI VEX 来源。"
+              ]
+            },
+            {
+              "name": "repo",
+              "tip": [
+                "VEX 仓库来源。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vuln-severity-source",
+          "usage": [
+            "--vuln-severity-source <SOURCE>"
+          ],
+          "tip": [
+            "选择漏洞严重级别的数据源顺序。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--cacert",
+      "usage": [
+        "--cacert <PATH>"
+      ],
+      "tip": [
+        "PEM 编码 CA 证书文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
+      "tip": [
+        "缓存目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <PATH>"
+      ],
+      "tip": [
+        "配置文件路径。",
+        "默认: trivy.yaml。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "调试模式。"
+      ]
+    },
+    {
+      "name": "--generate-default-config",
+      "tip": [
+        "写默认配置到 trivy-default.yaml。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "trivy 帮助。"
+      ]
+    },
+    {
+      "name": "--insecure",
+      "tip": [
+        "允许不安全的 server 连接。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "隐藏进度条与日志输出。"
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <DURATION>"
+      ],
+      "tip": [
+        "超时。",
+        "默认: 5m0s。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "展示版本。"
+      ]
+    }
+  ]
+}

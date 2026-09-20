@@ -1,0 +1,697 @@
+{
+  "meta": {
+    "url": "https://github.com/jonas/tig",
+    "description": [
+      "Tig 是一个基于 ncurses 的 git(1) 文本界面工具。",
+      "它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "blame",
+      "usage": [
+        "blame [options] [rev] [--] path"
+      ],
+      "tip": [
+        "显示给定文件的逐行提交注解。",
+        "接受零个或多个 git-blame(1) 选项。可选择性地限定起始版本。"
+      ]
+    },
+    {
+      "name": "grep",
+      "usage": [
+        "grep [options] [pattern]"
+      ],
+      "tip": [
+        "打开 grep 视图。",
+        "支持 git-grep(1) 的全部选项。"
+      ]
+    },
+    {
+      "name": "log",
+      "usage": [
+        "log [options] [revs] [--] [paths]"
+      ],
+      "tip": [
+        "启动时进入 log 视图，显示 git-log(1) 的输出。"
+      ]
+    },
+    {
+      "name": "reflog",
+      "usage": [
+        "reflog [options] [revs]"
+      ],
+      "tip": [
+        "启动时进入 reflog 视图。"
+      ]
+    },
+    {
+      "name": "refs",
+      "tip": [
+        "启动时进入 refs 视图。",
+        "默认显示所有引用，除非用 --branches、--remotes 或 --tags 加以限制。"
+      ],
+      "option": [
+        {
+          "name": "--branches",
+          "tip": [
+            "仅显示本地分支。"
+          ]
+        },
+        {
+          "name": "--remotes",
+          "tip": [
+            "仅显示远程跟踪分支。"
+          ]
+        },
+        {
+          "name": "--tags",
+          "tip": [
+            "仅显示标签。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show [options] [revs] [--] [paths]"
+      ],
+      "tip": [
+        "使用给定的 git-show(1) 选项打开 diff 视图。"
+      ]
+    },
+    {
+      "name": "stash",
+      "tip": [
+        "启动时进入 stash 视图。"
+      ]
+    },
+    {
+      "name": "status",
+      "tip": [
+        "启动时进入 status 视图。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助信息并退出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示版本信息并退出。"
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C <path>"
+      ],
+      "tip": [
+        "如同在 <path> 而非当前工作目录下启动 Tig。"
+      ],
+      "next": []
+    },
+    {
+      "name": "+",
+      "usage": [
+        "+<number>"
+      ],
+      "tip": [
+        "在第一个视图中选中第 <number> 行。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--all",
+      "tip": [
+        "将 refs/ 下的所有引用作为命令行参数传入，如同逐一列出。",
+        "隐含 --no-revs。"
+      ]
+    },
+    {
+      "name": "--ancestry-path",
+      "tip": [
+        "仅显示位于两个提交之间同一祖先路径上的提交。",
+        "提交集合被限定为较旧提交的子孙、较新提交的祖先。"
+      ]
+    },
+    {
+      "name": "--author-date-order",
+      "tip": [
+        "按作者时间戳顺序处理提交。",
+        "作者时间戳较早的提交视为更旧，时间戳同时用于打破平局。"
+      ]
+    },
+    {
+      "name": "--before",
+      "alias": [
+        "--until"
+      ],
+      "usage": [
+        "--until, --before <DATE>"
+      ],
+      "tip": [
+        "显示早于指定日期的提交。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--boundary",
+      "tip": [
+        "显示那些始终被排除在日志之外的边界提交。"
+      ]
+    },
+    {
+      "name": "--cached",
+      "tip": [
+        "与索引而不是工作树比较。"
+      ]
+    },
+    {
+      "name": "--cherry",
+      "tip": [
+        "比较两个分支时，仅显示未应用于另一分支的提交。"
+      ]
+    },
+    {
+      "name": "--cherry-pick",
+      "tip": [
+        "与 --cherry 相同，但始终显示完整提交。"
+      ]
+    },
+    {
+      "name": "--date-order",
+      "tip": [
+        "按提交者时间戳顺序处理提交。",
+        "否则按拓扑顺序处理提交。"
+      ]
+    },
+    {
+      "name": "--diff-filter",
+      "usage": [
+        "--diff-filter <LETTERS>"
+      ],
+      "tip": [
+        "将 diff 输出限定为以下类型之一：Added、Copied、Deleted、Modified、Renamed、Type-changed、Unmerged 或 Broken。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--diff-merges",
+      "usage": [
+        "--diff-merges <STYLE>"
+      ],
+      "tip": [
+        "输出合并提交及其父提交的 diff。"
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "first-parent 的别名。"
+          ]
+        },
+        {
+          "name": "combined",
+          "tip": [
+            "输出合并式 diff。"
+          ]
+        },
+        {
+          "name": "dense-combined",
+          "tip": [
+            "与 combined 相同，但省略不相关的更改。"
+          ]
+        },
+        {
+          "name": "first-parent",
+          "tip": [
+            "仅输出与第一个父提交的 diff。"
+          ]
+        },
+        {
+          "name": "off",
+          "tip": [
+            "完全不输出任何 diff 信息。"
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "正常输出合并式 diff。"
+          ]
+        },
+        {
+          "name": "remerge",
+          "tip": [
+            "自动重新合并父提交，并显示真实的 diff。"
+          ]
+        },
+        {
+          "name": "separate",
+          "tip": [
+            "为每个父提交分别输出 diff。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--first-parent",
+      "tip": [
+        "遇到合并提交时只追踪第一个父提交。"
+      ]
+    },
+    {
+      "name": "--follow",
+      "tip": [
+        "显示影响指定路径的更改，即使发生在文件重命名上。"
+      ]
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <STRING>"
+      ],
+      "tip": [
+        "用于每个提交主题行的格式。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--full-history",
+      "tip": [
+        "显示给定路径的历史，包括所有包含树更改的提交，而不仅是更改了给定路径的提交。"
+      ]
+    },
+    {
+      "name": "--full-index",
+      "tip": [
+        "不显示对象名的前若干字符，而显示完整的变更前后的 blob 对象名。"
+      ]
+    },
+    {
+      "name": "--graph",
+      "tip": [
+        "在输出左侧绘制提交历史的文本图形表示。"
+      ]
+    },
+    {
+      "name": "--grep",
+      "usage": [
+        "--grep <PATTERN>"
+      ],
+      "tip": [
+        "仅显示提交信息中包含 <PATTERN> 的提交。",
+        "注意这是独立的过滤器，在 --author、--since 等其他过滤器之后应用。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-all-space",
+      "tip": [
+        "比较行时忽略所有空白字符。"
+      ]
+    },
+    {
+      "name": "--ignore-space-at-eol",
+      "tip": [
+        "忽略行尾空白的变化。"
+      ]
+    },
+    {
+      "name": "--ignore-space-change",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --ignore-space-change"
+      ],
+      "tip": [
+        "忽略空白字符数量上的变化。"
+      ]
+    },
+    {
+      "name": "--indent-heuristic",
+      "tip": [
+        "即使配置中的 diff.indent-heuristic 为 false，也开启 diff.indent-heuristic。"
+      ]
+    },
+    {
+      "name": "--max-count",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --max-count <N>"
+      ],
+      "tip": [
+        "限制输出的提交数量。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--max-parents",
+      "usage": [
+        "--max-parents <N>"
+      ],
+      "tip": [
+        "不显示父提交数量超过 <N> 的提交。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--merges",
+      "tip": [
+        "仅显示合并提交。"
+      ]
+    },
+    {
+      "name": "--name-only",
+      "tip": [
+        "仅显示每个提交中更改的文件名。"
+      ]
+    },
+    {
+      "name": "--name-status",
+      "tip": [
+        "仅显示每个提交中更改的文件名及其更改类型。",
+        "更改类型是一个标识修改种类的字母：Added、Copied、Deleted、Modified、Renamed 或 Type-changed。"
+      ]
+    },
+    {
+      "name": "--no-merges",
+      "tip": [
+        "不显示拥有多个父提交的提交。"
+      ]
+    },
+    {
+      "name": "--no-notes",
+      "tip": [
+        "不显示附加在提交上的 notes。"
+      ]
+    },
+    {
+      "name": "--no-patch",
+      "tip": [
+        "抑制输出的 diff 部分，仅保留信息部分。"
+      ]
+    },
+    {
+      "name": "--notes",
+      "usage": [
+        "--notes[=<ref>]"
+      ],
+      "tip": [
+        "显示附加在提交上的 notes。",
+        "省略 <ref> 时，显示默认引用的 notes。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--numstat",
+      "tip": [
+        "与 --name-only 类似，但以数字形式显示新增和删除的行数。"
+      ]
+    },
+    {
+      "name": "--oneline",
+      "tip": [
+        "这是 --pretty=oneline --abbrev-commit 合用的简写。"
+      ]
+    },
+    {
+      "name": "--output",
+      "usage": [
+        "--output <FILE>"
+      ],
+      "tip": [
+        "写入 <FILE> 而不是标准输出。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--patch",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --patch"
+      ],
+      "tip": [
+        "显示补丁式 diff。"
+      ]
+    },
+    {
+      "name": "--pretty",
+      "usage": [
+        "--pretty <FORMAT>"
+      ],
+      "tip": [
+        "按给定的 <FORMAT> 美化打印每条提交信息。"
+      ],
+      "next": [
+        {
+          "name": "default",
+          "tip": [
+            "full 格式的别名。"
+          ]
+        },
+        {
+          "name": "email",
+          "tip": [
+            "与 full 格式相似，但会添加 From: 头行。"
+          ]
+        },
+        {
+          "name": "full",
+          "tip": [
+            "与默认格式相同。"
+          ]
+        },
+        {
+          "name": "mbox",
+          "tip": [
+            "与 email 相同，但仅当提交带有 From: 头行时。"
+          ]
+        },
+        {
+          "name": "oneline",
+          "tip": [
+            "主题与缩写提交 id 放在一行。"
+          ]
+        },
+        {
+          "name": "raw",
+          "tip": [
+            "按 git log format 给出完整提交。"
+          ]
+        },
+        {
+          "name": "reference",
+          "tip": [
+            "与默认格式相同，但缩进主题行。"
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "提交 id、作者名与日期，以及主题。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--reverse",
+      "tip": [
+        "以相反顺序输出被选中的提交。"
+      ]
+    },
+    {
+      "name": "--root",
+      "tip": [
+        "指定 --root 时，初始提交总会显示在输出中。"
+      ]
+    },
+    {
+      "name": "--show-notes",
+      "usage": [
+        "--show-notes[=<ref>]"
+      ],
+      "tip": [
+        "将每条提交的 notes 附加到输出中。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--simplify-merges",
+      "tip": [
+        "显示改变父提交数量的提交，例如合并与分支引入。"
+      ]
+    },
+    {
+      "name": "--since",
+      "alias": [
+        "--after"
+      ],
+      "usage": [
+        "--after, --since <DATE>"
+      ],
+      "tip": [
+        "显示晚于指定日期的提交。",
+        "必须配合 --pretty 格式指定才能被正确解析。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--stat",
+      "tip": [
+        "在输出末尾显示 diffstat。"
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "从标准输入读取提交列表，而不是将它们作为命令行参数处理。"
+      ]
+    },
+    {
+      "name": "--submodule",
+      "usage": [
+        "--submodule <MODE>"
+      ],
+      "tip": [
+        "子模块中的更改按给定模式显示。"
+      ],
+      "next": [
+        {
+          "name": "diff",
+          "tip": [
+            "子模块中的 diff 内容。"
+          ]
+        },
+        {
+          "name": "log",
+          "tip": [
+            "子模块中两个提交之间的 diff 日志。"
+          ]
+        },
+        {
+          "name": "none",
+          "tip": [
+            "从不显示子模块中的更改。"
+          ]
+        },
+        {
+          "name": "short",
+          "tip": [
+            "仅显示子模块中提交(们)的短 SHA-1。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--topo-order",
+      "tip": [
+        "在显示完所有子孙提交之前，不显示该提交。"
+      ]
+    },
+    {
+      "name": "--unified",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --unified <N>"
+      ],
+      "tip": [
+        "生成带 <N> 行上下文的 diff，而不是通常的三行。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--walk-reflogs",
+      "tip": [
+        "追踪当前分支的 reflog。与 --max-count 不兼容。"
+      ]
+    },
+    {
+      "name": "--word-diff",
+      "usage": [
+        "--word-diff[=<MODE>]"
+      ],
+      "tip": [
+        "在文件级 diff 中显示词级 diff。"
+      ],
+      "next": [
+        {
+          "name": "color",
+          "tip": [
+            "与 plain 相同，但使用颜色。"
+          ]
+        },
+        {
+          "name": "plain",
+          "tip": [
+            "不带任何修饰地打印被删除和新增的词。"
+          ]
+        },
+        {
+          "name": "porcelain",
+          "tip": [
+            "面向脚本的可读机器输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--word-diff-regex",
+      "usage": [
+        "--word-diff-regex <REGEX>"
+      ],
+      "tip": [
+        "使用 <REGEX> 判定什么算非空白词，而不是把连续的非空白字符视为一个词。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-G",
+      "usage": [
+        "-G <REGEX>"
+      ],
+      "tip": [
+        "仅显示改变了正则 <REGEX> 出现次数的 diff。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-S",
+      "usage": [
+        "-S <STRING>"
+      ],
+      "tip": [
+        "仅显示改变了指定 <STRING> 出现次数的 diff。"
+      ],
+      "next": []
+    }
+  ]
+}
