@@ -12,6 +12,7 @@
 |[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
 |[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
+|[ast-grep](https://github.com/ast-grep/ast-grep)|Search and Rewrite code at large scale using AST pattern.|
 |[atac](https://github.com/Julien-cpsn/ATAC)|A simple API client in your terminal|
 |[atuin](https://atuin.sh)|Magical shell history.<br>Atuin replaces your existing shell history with a SQLite database, and records additional context for your commands.|
 |[aube](https://aube.jdx.dev)|A fast Node.js package manager|
@@ -87,6 +88,7 @@
 |[gem](https://guides.rubygems.org)|RubyGems is a package manager for Ruby libraries.|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
+|[ghgrab](https://github.com/abhixdd/ghgrab)|A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo|
 |[git](https://git-scm.com)|Version control system.|
 |[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
 |[glab](https://gitlab.com/gitlab-org/cli)|An open source GitLab CLI tool that brings GitLab to your command line.|

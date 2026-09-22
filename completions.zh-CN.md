@@ -12,6 +12,7 @@
 |[act](https://github.com/nektos/act)|本地运行 GitHub Actions。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
 |[aria2c](https://aria2.github.io)|轻量级多协议多源下载工具。|
+|[ast-grep](https://github.com/ast-grep/ast-grep)|使用 AST 模式在大规模代码中搜索与重写。|
 |[atac](https://github.com/Julien-cpsn/ATAC)|在终端中使用的简易 API 客户端|
 |[atuin](https://atuin.sh)|魔法 shell 历史记录<br>Atuin 使用 SQLite 数据库取代你现有的命令行历史记录，并为你的命令记录额外的上下文信息|
 |[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
@@ -87,6 +88,7 @@
 |[gem](https://guides.rubygems.org)|RubyGems 是一个用于 Ruby 库的包管理器。|
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
+|[ghgrab](https://github.com/abhixdd/ghgrab)|一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件|
 |[git](https://git-scm.com)|版本控制系统。|
 |[gitversion](https://gitversion.net/)|一款可依据 Git 提交历史生成语义化版本号的工具|
 |[glab](https://gitlab.com/gitlab-org/cli)|一个开源的 GitLab CLI 工具，将 GitLab 带到你的命令行。|
