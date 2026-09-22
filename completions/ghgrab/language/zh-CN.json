@@ -1,0 +1,554 @@
+{
+  "meta": {
+    "url": "https://github.com/abhixdd/ghgrab",
+    "description": [
+      "一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件"
+    ]
+  },
+  "next": [
+    {
+      "name": "agent",
+      "tip": [
+        "用于脚本和代理的机器友好命令。"
+      ],
+      "next": [
+        {
+          "name": "download",
+          "usage": [
+            "download <URL> [PATHS]..."
+          ],
+          "tip": [
+            "从仓库下载特定路径。"
+          ],
+          "option": [
+            {
+              "name": "--cwd",
+              "tip": [
+                "将文件下载到当前目录。"
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "并行下载数量（1-64，默认：4）。"
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "顺序下载。"
+                  ]
+                },
+                {
+                  "name": "16",
+                  "tip": [
+                    "最大推荐并行度。"
+                  ]
+                },
+                {
+                  "name": "4",
+                  "tip": [
+                    "默认并行度。"
+                  ]
+                },
+                {
+                  "name": "8",
+                  "tip": [
+                    "较高并行度。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出（用于脚本）。"
+              ]
+            },
+            {
+              "name": "--no-folder",
+              "tip": [
+                "直接下载文件到目标位置，不创建仓库文件夹。"
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <OUT>"
+              ],
+              "tip": [
+                "本次运行的自定义输出目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "下载整个仓库。"
+              ]
+            },
+            {
+              "name": "--subtree",
+              "usage": [
+                "--subtree <SUBTREE>"
+              ],
+              "tip": [
+                "下载特定的子树路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "一次性 GitHub 令牌。使用 auto/gh 从 GitHub CLI 读取。"
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "运行时从 GitHub CLI 读取令牌。"
+                  ]
+                },
+                {
+                  "name": "gh",
+                  "tip": [
+                    "从 GitHub CLI 读取令牌（auto 的别名）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tree",
+          "usage": [
+            "tree <URL>"
+          ],
+          "tip": [
+            "以 JSON 格式获取仓库树。"
+          ],
+          "option": [
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "一次性 GitHub 令牌。使用 auto/gh 从 GitHub CLI 读取。"
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "运行时从 GitHub CLI 读取令牌。"
+                  ]
+                },
+                {
+                  "name": "gh",
+                  "tip": [
+                    "从 GitHub CLI 读取令牌（auto 的别名）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "管理 ghgrab 配置。"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出当前配置（令牌已屏蔽）。"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置配置值。"
+          ],
+          "next": [
+            {
+              "name": "path",
+              "usage": [
+                "path <VALUE>"
+              ],
+              "tip": [
+                "设置自定义下载文件夹。"
+              ]
+            },
+            {
+              "name": "token",
+              "usage": [
+                "token <VALUE>"
+              ],
+              "tip": [
+                "设置 GitHub 令牌。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "移除配置值。"
+          ],
+          "next": [
+            {
+              "name": "path",
+              "tip": [
+                "移除自定义下载文件夹。"
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "移除 GitHub 令牌。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "启动基于 stdio 的 MCP 服务器，或将 ghgrab 安装到 MCP 客户端中。"
+      ],
+      "option": [
+        {
+          "name": "--install",
+          "tip": [
+            "自动在 MCP 客户端中配置 ghgrab（Claude Desktop、Cursor、VS Code、Windsurf）。"
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "MCP 会话的一次性 GitHub 令牌。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "运行时从 GitHub CLI 读取令牌。"
+              ]
+            },
+            {
+              "name": "gh",
+              "tip": [
+                "从 GitHub CLI 读取令牌（auto 的别名）。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "alias": [
+        "rel"
+      ],
+      "usage": [
+        "rel|release <REPO>"
+      ],
+      "tip": [
+        "下载 GitHub 发行版资产，支持操作系统/架构感知选择。"
+      ],
+      "option": [
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "覆盖检测到的架构。"
+          ],
+          "next": [
+            {
+              "name": "aarch64",
+              "tip": [
+                "64 位 ARM。"
+              ]
+            },
+            {
+              "name": "amd64",
+              "tip": [
+                "64 位 x86。"
+              ]
+            },
+            {
+              "name": "arm64",
+              "tip": [
+                "64 位 ARM（别名）。"
+              ]
+            },
+            {
+              "name": "x86_64",
+              "tip": [
+                "64 位 x86（别名）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--asset-regex",
+          "usage": [
+            "--asset-regex <ASSET_REGEX>"
+          ],
+          "tip": [
+            "用于匹配特定发行版资产的正则表达式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bin-path",
+          "usage": [
+            "--bin-path <BIN_PATH>"
+          ],
+          "tip": [
+            "将选定的二进制文件安装到指定目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "将文件下载到当前目录。"
+          ]
+        },
+        {
+          "name": "--extract",
+          "tip": [
+            "下载后解压归档资产。"
+          ]
+        },
+        {
+          "name": "--file-type",
+          "usage": [
+            "--file-type <FILE_TYPE>"
+          ],
+          "tip": [
+            "首选工件类型。"
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "任意工件类型（默认）。"
+              ]
+            },
+            {
+              "name": "archive",
+              "tip": [
+                "仅归档文件（zip、tar.gz 等）。"
+              ]
+            },
+            {
+              "name": "binary",
+              "tip": [
+                "仅二进制文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "覆盖检测到的操作系统。"
+          ],
+          "next": [
+            {
+              "name": "linux",
+              "tip": [
+                "Linux。"
+              ]
+            },
+            {
+              "name": "macos",
+              "tip": [
+                "macOS。"
+              ]
+            },
+            {
+              "name": "windows",
+              "tip": [
+                "Windows。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--out",
+          "usage": [
+            "--out <OUT>"
+          ],
+          "tip": [
+            "本次运行的自定义输出目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "未指定标签时允许选择预发布版本。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "下载特定的发行版标签。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "一次性 GitHub 令牌。使用 auto/gh 从 GitHub CLI 读取。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "运行时从 GitHub CLI 读取令牌。"
+              ]
+            },
+            {
+              "name": "gh",
+              "tip": [
+                "从 GitHub CLI 读取令牌（auto 的别名）。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cwd",
+      "tip": [
+        "将文件下载到当前目录。"
+      ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs <JOBS>"
+      ],
+      "tip": [
+        "并行下载数量（1-64，默认：4）。"
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "顺序下载。"
+          ]
+        },
+        {
+          "name": "16",
+          "tip": [
+            "最大推荐并行度。"
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "默认并行度。"
+          ]
+        },
+        {
+          "name": "8",
+          "tip": [
+            "较高并行度。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-folder",
+      "tip": [
+        "直接下载文件到目标位置，不创建仓库文件夹。"
+      ]
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "一次性 GitHub 令牌（不存储）。使用 auto/gh 从 GitHub CLI 读取。"
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "运行时从 GitHub CLI 读取令牌。"
+          ]
+        },
+        {
+          "name": "gh",
+          "tip": [
+            "从 GitHub CLI 读取令牌（auto 的别名）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示帮助。"
+      ]
+    }
+  ]
+}

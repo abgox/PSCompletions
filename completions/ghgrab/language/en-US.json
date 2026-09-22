@@ -1,0 +1,554 @@
+{
+  "meta": {
+    "url": "https://github.com/abhixdd/ghgrab",
+    "description": [
+      "A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo"
+    ]
+  },
+  "next": [
+    {
+      "name": "agent",
+      "tip": [
+        "Machine-friendly commands for scripts and agents."
+      ],
+      "next": [
+        {
+          "name": "download",
+          "usage": [
+            "download <URL> [PATHS]..."
+          ],
+          "tip": [
+            "Download specific paths from a repository."
+          ],
+          "option": [
+            {
+              "name": "--cwd",
+              "tip": [
+                "Download files to current directory."
+              ]
+            },
+            {
+              "name": "--jobs",
+              "alias": [
+                "-j"
+              ],
+              "usage": [
+                "-j, --jobs <JOBS>"
+              ],
+              "tip": [
+                "Number of parallel downloads (1-64, default: 4)."
+              ],
+              "next": [
+                {
+                  "name": "1",
+                  "tip": [
+                    "Sequential downloads."
+                  ]
+                },
+                {
+                  "name": "16",
+                  "tip": [
+                    "Maximum recommended parallelism."
+                  ]
+                },
+                {
+                  "name": "4",
+                  "tip": [
+                    "Default parallelism."
+                  ]
+                },
+                {
+                  "name": "8",
+                  "tip": [
+                    "Higher parallelism."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Print output as JSON (for scripting)."
+              ]
+            },
+            {
+              "name": "--no-folder",
+              "tip": [
+                "Download files directly into target without repo folder."
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <OUT>"
+              ],
+              "tip": [
+                "Custom output directory for this run."
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "Download the entire repository."
+              ]
+            },
+            {
+              "name": "--subtree",
+              "usage": [
+                "--subtree <SUBTREE>"
+              ],
+              "tip": [
+                "Download a specific subtree path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "One-time GitHub token for this run. Use auto/gh to read from GitHub CLI."
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "Read token from GitHub CLI at runtime."
+                  ]
+                },
+                {
+                  "name": "gh",
+                  "tip": [
+                    "Read token from GitHub CLI (alias for auto)."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tree",
+          "usage": [
+            "tree <URL>"
+          ],
+          "tip": [
+            "Fetch the repository tree as JSON."
+          ],
+          "option": [
+            {
+              "name": "--token",
+              "usage": [
+                "--token <TOKEN>"
+              ],
+              "tip": [
+                "One-time GitHub token for this run. Use auto/gh to read from GitHub CLI."
+              ],
+              "next": [
+                {
+                  "name": "auto",
+                  "tip": [
+                    "Read token from GitHub CLI at runtime."
+                  ]
+                },
+                {
+                  "name": "gh",
+                  "tip": [
+                    "Read token from GitHub CLI (alias for auto)."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Manage ghgrab configuration."
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List current configuration (token is masked)."
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set a configuration value."
+          ],
+          "next": [
+            {
+              "name": "path",
+              "usage": [
+                "path <VALUE>"
+              ],
+              "tip": [
+                "Set a custom download folder."
+              ]
+            },
+            {
+              "name": "token",
+              "usage": [
+                "token <VALUE>"
+              ],
+              "tip": [
+                "Set the GitHub token."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "Remove a configuration value."
+          ],
+          "next": [
+            {
+              "name": "path",
+              "tip": [
+                "Remove the custom download folder."
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "Remove the GitHub token."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp",
+      "tip": [
+        "Start an MCP server over stdio, or install ghgrab into an MCP client."
+      ],
+      "option": [
+        {
+          "name": "--install",
+          "tip": [
+            "Auto-configure ghgrab in an MCP client (Claude Desktop, Cursor, VS Code, Windsurf)."
+          ]
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "One-time GitHub token for MCP sessions."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Read token from GitHub CLI at runtime."
+              ]
+            },
+            {
+              "name": "gh",
+              "tip": [
+                "Read token from GitHub CLI (alias for auto)."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "release",
+      "alias": [
+        "rel"
+      ],
+      "usage": [
+        "rel|release <REPO>"
+      ],
+      "tip": [
+        "Download GitHub release assets with OS/architecture-aware selection."
+      ],
+      "option": [
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "Override detected architecture."
+          ],
+          "next": [
+            {
+              "name": "aarch64",
+              "tip": [
+                "64-bit ARM."
+              ]
+            },
+            {
+              "name": "amd64",
+              "tip": [
+                "64-bit x86."
+              ]
+            },
+            {
+              "name": "arm64",
+              "tip": [
+                "64-bit ARM (alias)."
+              ]
+            },
+            {
+              "name": "x86_64",
+              "tip": [
+                "64-bit x86 (alias)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--asset-regex",
+          "usage": [
+            "--asset-regex <ASSET_REGEX>"
+          ],
+          "tip": [
+            "Regex for matching a specific release asset."
+          ],
+          "next": []
+        },
+        {
+          "name": "--bin-path",
+          "usage": [
+            "--bin-path <BIN_PATH>"
+          ],
+          "tip": [
+            "Install the selected binary into the provided directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "tip": [
+            "Download files to current directory."
+          ]
+        },
+        {
+          "name": "--extract",
+          "tip": [
+            "Extract archive assets after download."
+          ]
+        },
+        {
+          "name": "--file-type",
+          "usage": [
+            "--file-type <FILE_TYPE>"
+          ],
+          "tip": [
+            "Preferred artifact type."
+          ],
+          "next": [
+            {
+              "name": "any",
+              "tip": [
+                "Any artifact type (default)."
+              ]
+            },
+            {
+              "name": "archive",
+              "tip": [
+                "Archive only (zip, tar.gz, etc.)."
+              ]
+            },
+            {
+              "name": "binary",
+              "tip": [
+                "Binary only."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "Override detected operating system."
+          ],
+          "next": [
+            {
+              "name": "linux",
+              "tip": [
+                "Linux."
+              ]
+            },
+            {
+              "name": "macos",
+              "tip": [
+                "macOS."
+              ]
+            },
+            {
+              "name": "windows",
+              "tip": [
+                "Windows."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--out",
+          "usage": [
+            "--out <OUT>"
+          ],
+          "tip": [
+            "Custom output directory for this run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "Allow selecting prereleases when tag is not specified."
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "Download a specific release tag."
+          ],
+          "next": []
+        },
+        {
+          "name": "--token",
+          "usage": [
+            "--token <TOKEN>"
+          ],
+          "tip": [
+            "One-time GitHub token for this run. Use auto/gh to read from GitHub CLI."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Read token from GitHub CLI at runtime."
+              ]
+            },
+            {
+              "name": "gh",
+              "tip": [
+                "Read token from GitHub CLI (alias for auto)."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--cwd",
+      "tip": [
+        "Download files to current directory."
+      ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs <JOBS>"
+      ],
+      "tip": [
+        "Number of parallel downloads (1-64, default: 4)."
+      ],
+      "next": [
+        {
+          "name": "1",
+          "tip": [
+            "Sequential downloads."
+          ]
+        },
+        {
+          "name": "16",
+          "tip": [
+            "Maximum recommended parallelism."
+          ]
+        },
+        {
+          "name": "4",
+          "tip": [
+            "Default parallelism."
+          ]
+        },
+        {
+          "name": "8",
+          "tip": [
+            "Higher parallelism."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--no-folder",
+      "tip": [
+        "Download files directly into target without repo folder."
+      ]
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "One-time GitHub token (not stored). Use auto/gh to read from GitHub CLI."
+      ],
+      "next": [
+        {
+          "name": "auto",
+          "tip": [
+            "Read token from GitHub CLI at runtime."
+          ]
+        },
+        {
+          "name": "gh",
+          "tip": [
+            "Read token from GitHub CLI (alias for auto)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}

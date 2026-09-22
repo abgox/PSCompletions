@@ -1,0 +1,1669 @@
+{
+  "meta": {
+    "url": "https://github.com/ast-grep/ast-grep",
+    "description": [
+      "Search and Rewrite code at large scale using AST pattern."
+    ]
+  },
+  "next": [
+    {
+      "name": "completions",
+      "usage": [
+        "completions [SHELL]"
+      ],
+      "tip": [
+        "Generate shell completion script."
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash shell."
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish shell."
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish shell."
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell."
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh shell."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "Print this message or the help of the given subcommand(s)."
+      ]
+    },
+    {
+      "name": "lsp",
+      "tip": [
+        "Start language server."
+      ]
+    },
+    {
+      "name": "new",
+      "usage": [
+        "new [NAME]"
+      ],
+      "tip": [
+        "Create new ast-grep project or items like rules/tests."
+      ],
+      "option": [
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "The language of the item to create. Only for rule and util."
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Accept all default options without interactive input during creation."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "project",
+          "usage": [
+            "project [NAME]"
+          ],
+          "tip": [
+            "Create an new project by scaffolding."
+          ]
+        },
+        {
+          "name": "rule",
+          "usage": [
+            "rule [NAME]"
+          ],
+          "tip": [
+            "Create a new rule."
+          ]
+        },
+        {
+          "name": "test",
+          "usage": [
+            "test [NAME]"
+          ],
+          "tip": [
+            "Create a new test case."
+          ]
+        },
+        {
+          "name": "util",
+          "usage": [
+            "util [NAME]"
+          ],
+          "tip": [
+            "Create a new global utility rule."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outline",
+      "usage": [
+        "outline [PATHS]..."
+      ],
+      "tip": [
+        "Explore code structure for symbols, imports, exports, and members."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "Controls output color."
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "Follow symbolic links."
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "Include or exclude file paths by glob. Precede a glob with ! to exclude it."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--items",
+          "usage": [
+            "--items <ITEMS>"
+          ],
+          "tip": [
+            "Select which top-level items to include."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "All top-level items, including imports and exports."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Use structure for file or stdin input, exports when any directory is given."
+              ]
+            },
+            {
+              "name": "exports",
+              "tip": [
+                "Top-level items exported from the file or module."
+              ]
+            },
+            {
+              "name": "imports",
+              "tip": [
+                "Top-level items imported from other files or modules."
+              ]
+            },
+            {
+              "name": "structure",
+              "tip": [
+                "Top-level items defined locally in the file, excluding imports."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "Output outline entries in structured JSON."
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "Single-line JSON array."
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "Pretty-printed JSON array."
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "One JSON object per line."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "Specify the input language."
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--match",
+          "usage": [
+            "--match <REGEX>"
+          ],
+          "tip": [
+            "Keep only top-level items matching this regex."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-default-outline-rules",
+          "tip": [
+            "Do not load bundled outline extractor definitions."
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "Do not respect hidden file system or ignore files."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "Don't respect .ignore files."
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "Don't respect manually configured ignore files like .git/info/exclude."
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "Don't respect global ignore files like git's core.excludesFile."
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "Search hidden files and directories."
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "Don't respect ignore files in parent directories."
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "Don't respect version control ignore files."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--outline-rules",
+          "usage": [
+            "--outline-rules <FILE>"
+          ],
+          "tip": [
+            "Load additional outline extractor definitions."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pub-members",
+          "tip": [
+            "Display only public members in member views."
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Enable search code from StdIn."
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "Set the approximate number of threads to use. 0 auto-selects."
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE[,TYPE...]>"
+          ],
+          "tip": [
+            "Keep only top-level items with these comma-separated symbol types."
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--view",
+          "usage": [
+            "--view <VIEW>"
+          ],
+          "tip": [
+            "Select the text presentation."
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "Use digest for file or stdin input, names when any directory is given."
+              ]
+            },
+            {
+              "name": "digest",
+              "tip": [
+                "Signatures plus compact member name digests."
+              ]
+            },
+            {
+              "name": "expanded",
+              "tip": [
+                "Signatures plus one source/signature line per direct member."
+              ]
+            },
+            {
+              "name": "names",
+              "tip": [
+                "One grouped name line per symbol type for each file."
+              ]
+            },
+            {
+              "name": "signatures",
+              "tip": [
+                "One source/signature line per top-level item."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [PATHS]..."
+      ],
+      "tip": [
+        "Run one time search or rewrite in command line. (default command)"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --after <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines after each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --before <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines before each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "Controls output color."
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines around each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug-query",
+          "usage": [
+            "--debug-query[=<FORMAT>]"
+          ],
+          "tip": [
+            "Print query pattern's tree-sitter AST. Requires lang be set explicitly."
+          ],
+          "next": [
+            {
+              "name": "ast",
+              "tip": [
+                "Print the query in tree-sitter AST format, only named nodes are shown."
+              ]
+            },
+            {
+              "name": "cst",
+              "tip": [
+                "Print the query in tree-sitter CST format, both named and unnamed nodes are shown."
+              ]
+            },
+            {
+              "name": "pattern",
+              "tip": [
+                "Print the query parsed in Pattern format."
+              ]
+            },
+            {
+              "name": "sexp",
+              "tip": [
+                "Print the query in S-expression format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--files-with-matches",
+          "tip": [
+            "Print only the paths with at least one match and suppress match contents."
+          ]
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "Follow symbolic links."
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "Include or exclude file paths by glob. Precede a glob with ! to exclude it."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--heading",
+          "usage": [
+            "--heading <WHEN>"
+          ],
+          "tip": [
+            "Controls whether to print the file name as heading."
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "Always print heading regardless of output type."
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "Print heading for terminal tty but not for piped output."
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "Never print heading regardless of output type."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect <GRANULARITY>"
+          ],
+          "tip": [
+            "Inspect information for file/rule discovery and scanning."
+          ],
+          "next": [
+            {
+              "name": "entity",
+              "tip": [
+                "Show per-file/per-rule tracing information."
+              ]
+            },
+            {
+              "name": "nothing",
+              "tip": [
+                "Do not show any tracing information."
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "Show summary about how many files are scanned and skipped."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Start interactive edit session."
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "Output matches in structured JSON."
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "Single-line JSON array."
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "Pretty-printed JSON array."
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "One JSON object per line."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--kind",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --kind <KIND>"
+          ],
+          "tip": [
+            "AST kind to match, in ESQuery style selector."
+          ],
+          "next": []
+        },
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "The language of the pattern."
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "Do not respect hidden file system or ignore files."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "Don't respect .ignore files."
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "Don't respect manually configured ignore files like .git/info/exclude."
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "Don't respect global ignore files like git's core.excludesFile."
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "Search hidden files and directories."
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "Don't respect ignore files in parent directories."
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "Don't respect version control ignore files."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pattern",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pattern <PATTERN>"
+          ],
+          "tip": [
+            "AST pattern to match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--rewrite",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rewrite <FIX>"
+          ],
+          "tip": [
+            "String to replace the matched AST node."
+          ],
+          "next": []
+        },
+        {
+          "name": "--selector",
+          "usage": [
+            "--selector <KIND>"
+          ],
+          "tip": [
+            "AST kind to extract sub-part of pattern to match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Enable search code from StdIn."
+          ]
+        },
+        {
+          "name": "--strictness",
+          "usage": [
+            "--strictness <STRICTNESS>"
+          ],
+          "tip": [
+            "The strictness of the pattern."
+          ],
+          "next": [
+            {
+              "name": "ast",
+              "tip": [
+                "Match only ast nodes."
+              ]
+            },
+            {
+              "name": "cst",
+              "tip": [
+                "Match all nodes exactly."
+              ]
+            },
+            {
+              "name": "relaxed",
+              "tip": [
+                "Match ast nodes except comments."
+              ]
+            },
+            {
+              "name": "signature",
+              "tip": [
+                "Match ast nodes except comments, without text."
+              ]
+            },
+            {
+              "name": "smart",
+              "tip": [
+                "Match all nodes except source trivial nodes."
+              ]
+            },
+            {
+              "name": "template",
+              "tip": [
+                "Match text only, node kinds are ignored."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "Set the approximate number of threads to use. 0 auto-selects."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "Apply all rewrite without confirmation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scan",
+      "usage": [
+        "scan [PATHS]..."
+      ],
+      "tip": [
+        "Scan and rewrite code by configuration."
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --after <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines after each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --before <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines before each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "Controls output color."
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <NUM>"
+          ],
+          "tip": [
+            "Show NUM lines around each match."
+          ],
+          "next": []
+        },
+        {
+          "name": "--error",
+          "usage": [
+            "--error[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "Set rule severity to error. No value sets all rules."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--files-with-matches",
+          "tip": [
+            "Print only the paths with at least one match and suppress match contents."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <REGEX>"
+          ],
+          "tip": [
+            "Scan the codebase with rules with ids matching REGEX."
+          ],
+          "next": []
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "Follow symbolic links."
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "Output warning/error messages in different formats."
+          ],
+          "next": [
+            {
+              "name": "github"
+            },
+            {
+              "name": "sarif"
+            }
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "Include or exclude file paths by glob. Precede a glob with ! to exclude it."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hint",
+          "usage": [
+            "--hint[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "Set rule severity to hint. No value sets all rules."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-metadata",
+          "tip": [
+            "Include rule metadata in the json output. Requires --json."
+          ]
+        },
+        {
+          "name": "--info",
+          "usage": [
+            "--info[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "Set rule severity to info. No value sets all rules."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--inline-rules",
+          "usage": [
+            "--inline-rules <RULE_TEXT>"
+          ],
+          "tip": [
+            "Scan the codebase with a rule defined by the provided RULE_TEXT."
+          ],
+          "next": []
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect <GRANULARITY>"
+          ],
+          "tip": [
+            "Inspect information for file/rule discovery and scanning."
+          ],
+          "next": [
+            {
+              "name": "entity",
+              "tip": [
+                "Show per-file/per-rule tracing information."
+              ]
+            },
+            {
+              "name": "nothing",
+              "tip": [
+                "Do not show any tracing information."
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "Show summary about how many files are scanned and skipped."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Start interactive edit session."
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "Output matches in structured JSON."
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "Single-line JSON array."
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "Pretty-printed JSON array."
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "One JSON object per line."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--max-results",
+          "usage": [
+            "--max-results <NUM>"
+          ],
+          "tip": [
+            "Show at most NUM results and stop running once the limit is reached."
+          ],
+          "next": []
+        },
+        {
+          "name": "--min-severity",
+          "usage": [
+            "--min-severity <SEVERITY>"
+          ],
+          "tip": [
+            "Set the minimum severity of rules to scan."
+          ],
+          "next": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "hint"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "Do not respect hidden file system or ignore files."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "Don't respect .ignore files."
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "Don't respect manually configured ignore files like .git/info/exclude."
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "Don't respect global ignore files like git's core.excludesFile."
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "Search hidden files and directories."
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "Don't respect ignore files in parent directories."
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "Don't respect version control ignore files."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--off",
+          "usage": [
+            "--off[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "Turn off rule. No value turns off all rules."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--report-style",
+          "usage": [
+            "--report-style <REPORT_STYLE>"
+          ],
+          "tip": [
+            "Output diagnostic style."
+          ],
+          "next": [
+            {
+              "name": "medium",
+              "tip": [
+                "Condensed diagnostic, with line number, severity, message and notes."
+              ]
+            },
+            {
+              "name": "rich",
+              "tip": [
+                "Richly formatted diagnostic, with source code previews."
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "Short diagnostic, with line number, severity, and message."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--rule",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rule <RULE_FILE>"
+          ],
+          "tip": [
+            "Scan the codebase with the single rule located at the path RULE_FILE."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Enable search code from StdIn."
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "Set the approximate number of threads to use. 0 auto-selects."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "Apply all rewrite without confirmation."
+          ]
+        },
+        {
+          "name": "--warning",
+          "usage": [
+            "--warning[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "Set rule severity to warning. No value sets all rules."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "Test ast-grep rules."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "Controls output color."
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <REGEX>"
+          ],
+          "tip": [
+            "Only run rule test cases that matches REGEX."
+          ],
+          "next": []
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "Follow symbolic links while searching test YAML files."
+          ]
+        },
+        {
+          "name": "--include-off",
+          "tip": [
+            "Include severity:off rules in test."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Start an interactive review to update snapshots selectively."
+          ]
+        },
+        {
+          "name": "--skip-snapshot-tests",
+          "tip": [
+            "Only check if the test code is valid, without checking rule output."
+          ]
+        },
+        {
+          "name": "--snapshot-dir",
+          "usage": [
+            "--snapshot-dir <SNAPSHOT_DIR>"
+          ],
+          "tip": [
+            "Specify the directory name storing snapshots. Default to __snapshots__."
+          ],
+          "next": []
+        },
+        {
+          "name": "--test-dir",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --test-dir <TEST_DIR>"
+          ],
+          "tip": [
+            "The directories to search test YAML files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "Update the content of all snapshots that have changed in test."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <CONFIG_FILE>"
+      ],
+      "tip": [
+        "Path to ast-grep root config, default is sgconfig.yml."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}
