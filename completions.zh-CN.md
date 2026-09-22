@@ -245,6 +245,9 @@
 |[vite](https://github.com/vitejs/vite)|下一代前端工具链。|
 |[vitest](https://github.com/vitest-dev/vitest)|下一代测试框架。|
 |[volta](https://volta.sh)|JavaScript 工具管理器。|
+|[vp](https://viteplus.dev)|Vite+ 命令行界面。<br>创建、开发、构建、测试、检查、格式化 JavaScript 项目并管理其依赖。|
+|[vpr](https://viteplus.dev/guide/run)|独立任务运行器（等同于 `vp run`）。<br>在工作区包中运行任务。|
+|[vpx](https://viteplus.dev/guide/vpx)|执行本地或远程 npm 包中的命令。<br>运行本地可执行文件，或下载并运行远程包。|
 |[watchexec](https://github.com/watchexec/watchexec)|在监视的文件更改时执行命令<br>递归监视更改并运行命令|
 |[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
 |[winget](https://github.com/microsoft/winget-cli)|Windows 包管理器。|

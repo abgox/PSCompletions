@@ -245,6 +245,9 @@
 |[vite](https://github.com/vitejs/vite)|Next generation frontend tooling.|
 |[vitest](https://github.com/vitest-dev/vitest)|Next generation testing framework.|
 |[volta](https://volta.sh)|JavaScript tool manager.|
+|[vp](https://viteplus.dev)|Vite+ command line interface.<br>Create, develop, build, test, lint, format, and manage JavaScript projects.|
+|[vpr](https://viteplus.dev/guide/run)|Standalone task runner (equivalent to `vp run`).<br>Run tasks across workspace packages.|
+|[vpx](https://viteplus.dev/guide/vpx)|Execute a command from a local or remote npm package.<br>Run local binaries, or download and run remote packages.|
 |[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
 |[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
 |[winget](https://github.com/microsoft/winget-cli)|Windows package manager.|
