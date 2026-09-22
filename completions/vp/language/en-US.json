@@ -1,0 +1,6279 @@
+{
+  "meta": {
+    "url": "https://viteplus.dev",
+    "description": [
+      "Vite+ command line interface.",
+      "Create, develop, build, test, lint, format, and manage JavaScript projects."
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Add packages to dependencies."
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build <NAMES>"
+          ],
+          "tip": [
+            "A list of package names allowed to run postinstall."
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "Number of global package installs to run in parallel (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo (can be used multiple times)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install globally."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "Node.js version to use for global installation (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "Save the new dependency to the default catalog."
+          ]
+        },
+        {
+          "name": "--save-catalog-name",
+          "usage": [
+            "--save-catalog-name <CATALOG_NAME>"
+          ],
+          "tip": [
+            "Save the new dependency to the specified catalog name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "Save to `devDependencies`."
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "Save exact version rather than semver range."
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "Save to `optionalDependencies`."
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "Save to `peerDependencies` and `devDependencies`."
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --save-prod"
+          ],
+          "tip": [
+            "Save to `dependencies` (default)."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "Only add if package exists in workspace (pnpm-specific)."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Add to workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "usage": [
+        "build [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "Build for production."
+      ],
+      "option": [
+        {
+          "name": "--app",
+          "tip": [
+            "Same as `builder: {}`."
+          ]
+        },
+        {
+          "name": "--assetsDir",
+          "usage": [
+            "--assetsDir <DIR>"
+          ],
+          "tip": [
+            "Directory under outDir to place assets in (default: assets)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--assetsInlineLimit",
+          "usage": [
+            "--assetsInlineLimit <NUMBER>"
+          ],
+          "tip": [
+            "Static asset base64 inline threshold in bytes (default: 4096)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "Public base path (default: /)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "Allow/disable clear screen when logging."
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "Show debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--emptyOutDir",
+          "tip": [
+            "Force empty outDir when it's outside of root."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "Filter debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "Set log level."
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error level."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level."
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent level."
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn level."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--manifest",
+          "usage": [
+            "--manifest [NAME]"
+          ],
+          "tip": [
+            "Emit build manifest json."
+          ],
+          "next": []
+        },
+        {
+          "name": "--minify",
+          "usage": [
+            "--minify [MINIFIER]"
+          ],
+          "tip": [
+            "Enable/disable minification, or specify minifier to use (default: oxc)."
+          ],
+          "next": [
+            {
+              "name": "esbuild",
+              "tip": [
+                "Minify with esbuild."
+              ]
+            },
+            {
+              "name": "oxc",
+              "tip": [
+                "Minify with Oxc (default)."
+              ]
+            },
+            {
+              "name": "terser",
+              "tip": [
+                "Minify with Terser."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "Set env mode."
+          ],
+          "next": []
+        },
+        {
+          "name": "--outDir",
+          "usage": [
+            "--outDir <DIR>"
+          ],
+          "tip": [
+            "Output directory (default: dist)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sourcemap",
+          "usage": [
+            "--sourcemap [OUTPUT]"
+          ],
+          "tip": [
+            "Output source maps for build (default: false)."
+          ],
+          "next": [
+            {
+              "name": "hidden",
+              "tip": [
+                "Hidden source maps."
+              ]
+            },
+            {
+              "name": "inline",
+              "tip": [
+                "Inline source maps."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ssr",
+          "usage": [
+            "--ssr [ENTRY]"
+          ],
+          "tip": [
+            "Build specified entry for server-side rendering."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ssrManifest",
+          "usage": [
+            "--ssrManifest [NAME]"
+          ],
+          "tip": [
+            "Emit ssr manifest json."
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <TARGET>"
+          ],
+          "tip": [
+            "Transpile target (default: 'baseline-widely-available')."
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "Rebuilds when modules have changed on disk."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <COMMAND>"
+      ],
+      "tip": [
+        "Manage the task cache."
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "Clean up all the cache."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "usage": [
+        "check [OPTIONS] [PATHS]..."
+      ],
+      "tip": [
+        "Run format, lint, and type checks."
+      ],
+      "option": [
+        {
+          "name": "--fix",
+          "tip": [
+            "Auto-fix format and lint issues."
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "Do not exit with error when pattern is unmatched."
+          ]
+        },
+        {
+          "name": "--no-fmt",
+          "tip": [
+            "Skip format check."
+          ]
+        },
+        {
+          "name": "--no-lint",
+          "tip": [
+            "Skip lint rules; type-check still runs when `lint.options.typeCheck` is true."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Disable reporting on warnings, only errors are reported."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [OPTIONS]"
+      ],
+      "tip": [
+        "Configure hooks and agent integration."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "Update coding agent instructions."
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "Install the hook dispatcher."
+          ]
+        },
+        {
+          "name": "--hooks-dir",
+          "usage": [
+            "--hooks-dir <PATH>"
+          ],
+          "tip": [
+            "Custom hooks directory (default: .vite-hooks, or last used in this clone)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "Skip updating coding agent instructions."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Skip hook dispatcher installation."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [TEMPLATE] [OPTIONS] [-- TEMPLATE_OPTIONS]"
+      ],
+      "tip": [
+        "Create a new project from a template."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <NAME>"
+          ],
+          "tip": [
+            "Write coding agent instructions to AGENTS.md, CLAUDE.md, etc."
+          ],
+          "next": []
+        },
+        {
+          "name": "--approve-builds",
+          "tip": [
+            "Approve and run gated dependency build scripts without prompting."
+          ]
+        },
+        {
+          "name": "--directory",
+          "usage": [
+            "--directory <DIR>"
+          ],
+          "tip": [
+            "Target directory for the generated project."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "usage": [
+            "--editor <NAME>"
+          ],
+          "tip": [
+            "Write editor config files for the specified editor."
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "Initialize a git repository."
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "Set up pre-commit hooks (default in non-interactive mode)."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "tip": [
+            "Enable interactive prompts."
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "List all available templates."
+          ]
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "Skip writing coding agent instructions."
+          ]
+        },
+        {
+          "name": "--no-editor",
+          "tip": [
+            "Skip writing editor config files."
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "Skip git repository initialization."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Skip pre-commit hooks setup."
+          ]
+        },
+        {
+          "name": "--no-interactive",
+          "tip": [
+            "Run in non-interactive mode."
+          ]
+        },
+        {
+          "name": "--package-manager",
+          "usage": [
+            "--package-manager <MANAGER>"
+          ],
+          "tip": [
+            "Use the specified package manager."
+          ],
+          "next": [
+            {
+              "name": "bun",
+              "tip": [
+                "Use bun as the package manager."
+              ]
+            },
+            {
+              "name": "npm",
+              "tip": [
+                "Use npm as the package manager."
+              ]
+            },
+            {
+              "name": "pnpm",
+              "tip": [
+                "Use pnpm as the package manager."
+              ]
+            },
+            {
+              "name": "yarn",
+              "tip": [
+                "Use yarn as the package manager."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Show detailed scaffolding output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dedupe",
+      "usage": [
+        "dedupe [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Deduplicate dependencies by removing older versions."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check if deduplication would make changes."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "usage": [
+        "dev [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "Run the development server."
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "Public base path (default: /)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "Allow/disable clear screen when logging."
+          ]
+        },
+        {
+          "name": "--cors",
+          "tip": [
+            "Enable CORS."
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "Show debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--experimentalBundle",
+          "tip": [
+            "Use experimental full bundle mode (this is highly experimental)."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "Filter debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force the optimizer to ignore the cache and re-bundle."
+          ]
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host [HOST]"
+          ],
+          "tip": [
+            "Specify hostname."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "Set log level."
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error level."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level."
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent level."
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn level."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "Set env mode."
+          ],
+          "next": []
+        },
+        {
+          "name": "--open",
+          "usage": [
+            "--open [PATH]"
+          ],
+          "tip": [
+            "Open browser on startup."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "Specify port."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictPort",
+          "tip": [
+            "Exit if specified port is already in use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dlx",
+      "usage": [
+        "dlx [OPTIONS] <ARGS>..."
+      ],
+      "tip": [
+        "Download and execute a package without installing it globally."
+      ],
+      "option": [
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <NAME>"
+          ],
+          "tip": [
+            "Package(s) to install before running."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "Execute within a shell environment."
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "Suppress all output except the executed command's output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "usage": [
+        "env <COMMAND>"
+      ],
+      "tip": [
+        "Manage Node.js and package managers."
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "usage": [
+            "clean [SCOPE]"
+          ],
+          "tip": [
+            "Remove unused runtimes and package managers.",
+            "Scope: node, pm, or a package-manager family."
+          ]
+        },
+        {
+          "name": "current",
+          "usage": [
+            "current [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "Show current environment information."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "default",
+          "usage": [
+            "default [VALUES]..."
+          ],
+          "tip": [
+            "Set or show global environment defaults."
+          ]
+        },
+        {
+          "name": "doctor",
+          "usage": [
+            "doctor [SCOPE]"
+          ],
+          "tip": [
+            "Run diagnostics and show environment status."
+          ]
+        },
+        {
+          "name": "exec",
+          "alias": [
+            "run"
+          ],
+          "usage": [
+            "run|exec [OPTIONS] [COMMAND]..."
+          ],
+          "tip": [
+            "Execute a command in a resolved or explicit environment."
+          ],
+          "option": [
+            {
+              "name": "--node",
+              "usage": [
+                "--node <NODE>"
+              ],
+              "tip": [
+                "Node.js version to use (e.g., \"20.18.0\", \"lts\", \"^20.0.0\")."
+              ],
+              "next": []
+            },
+            {
+              "name": "--npm",
+              "usage": [
+                "--npm <NPM>"
+              ],
+              "tip": [
+                "npm version to use (alias for --package-manager npm@<version>)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--package-manager",
+              "usage": [
+                "--package-manager <PACKAGE_MANAGER>"
+              ],
+              "tip": [
+                "Package manager and version to use (for example, pnpm@10)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "i"
+          ],
+          "usage": [
+            "i|install [REQUESTS]..."
+          ],
+          "tip": [
+            "Install a resolved or explicit environment."
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "List locally installed environment components."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output as JSON."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-remote",
+          "alias": [
+            "ls-remote"
+          ],
+          "usage": [
+            "ls-remote|list-remote [OPTIONS] [VALUES]..."
+          ],
+          "tip": [
+            "List available versions from component registries."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Show all versions (not just recent)."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output as JSON."
+              ]
+            },
+            {
+              "name": "--lts",
+              "tip": [
+                "Show only LTS versions."
+              ]
+            },
+            {
+              "name": "--sort",
+              "usage": [
+                "--sort <SORT>"
+              ],
+              "tip": [
+                "Version sorting order."
+              ],
+              "next": [
+                {
+                  "name": "asc",
+                  "tip": [
+                    "Sort versions in ascending order (earliest to latest)."
+                  ]
+                },
+                {
+                  "name": "desc",
+                  "tip": [
+                    "Sort versions in descending order (latest to earliest)."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "off",
+          "usage": [
+            "off [SCOPE]"
+          ],
+          "tip": [
+            "Enable system-first mode for selected environment scopes.",
+            "Scope: node, pm, npm, pnpm, yarn, or bun."
+          ]
+        },
+        {
+          "name": "on",
+          "usage": [
+            "on [SCOPE]"
+          ],
+          "tip": [
+            "Enable managed mode for selected environment scopes.",
+            "Scope: node, pm, npm, pnpm, yarn, or bun."
+          ]
+        },
+        {
+          "name": "pin",
+          "usage": [
+            "pin [OPTIONS] [SPECS]..."
+          ],
+          "tip": [
+            "Pin Node.js and package-manager versions in the project."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Overwrite an existing pin without confirmation."
+              ]
+            },
+            {
+              "name": "--no-install",
+              "tip": [
+                "Skip pre-downloading the pinned version."
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <TARGET>"
+              ],
+              "tip": [
+                "Explicitly choose the write target (overrides the default selection)."
+              ],
+              "next": [
+                {
+                  "name": "dev-engines",
+                  "tip": [
+                    "Pin via package.json#devEngines.runtime."
+                  ]
+                },
+                {
+                  "name": "node-version",
+                  "tip": [
+                    "Pin via the .node-version file."
+                  ]
+                },
+                {
+                  "name": "nvmrc",
+                  "tip": [
+                    "Pin via the .nvmrc file."
+                  ]
+                },
+                {
+                  "name": "package-manager",
+                  "tip": [
+                    "Pin via the top-level packageManager field."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--unpin",
+              "tip": [
+                "Remove the pin from the current directory."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "usage": [
+            "print [SCOPE]"
+          ],
+          "tip": [
+            "Print PATH setup for the resolved environment.",
+            "Scope: node, pm, or a package-manager family."
+          ]
+        },
+        {
+          "name": "setup",
+          "tip": [
+            "Create or update shims in VP_HOME/bin."
+          ],
+          "option": [
+            {
+              "name": "--env-only",
+              "tip": [
+                "Only create env files (skip shims and instructions)."
+              ]
+            },
+            {
+              "name": "--refresh",
+              "tip": [
+                "Force refresh shims even if they exist."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "uni"
+          ],
+          "usage": [
+            "uni|uninstall <SPECS>..."
+          ],
+          "tip": [
+            "Uninstall explicit component versions."
+          ]
+        },
+        {
+          "name": "unpin",
+          "usage": [
+            "unpin [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "Remove project environment pins (alias for `pin --unpin`)."
+          ],
+          "option": [
+            {
+              "name": "--target",
+              "usage": [
+                "--target <TARGET>"
+              ],
+              "tip": [
+                "Explicitly choose which pin source to remove."
+              ],
+              "next": [
+                {
+                  "name": "dev-engines"
+                },
+                {
+                  "name": "node-version"
+                },
+                {
+                  "name": "nvmrc"
+                },
+                {
+                  "name": "package-manager"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "use",
+          "usage": [
+            "use [OPTIONS] [REQUESTS]..."
+          ],
+          "tip": [
+            "Activate an environment for this shell session."
+          ],
+          "option": [
+            {
+              "name": "--no-install",
+              "tip": [
+                "Skip auto-installation if version not present."
+              ]
+            },
+            {
+              "name": "--silent-if-unchanged",
+              "tip": [
+                "Suppress output if version is already active."
+              ]
+            },
+            {
+              "name": "--unset",
+              "tip": [
+                "Remove session override (revert to file-based resolution)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "which",
+          "usage": [
+            "which <TOOL>"
+          ],
+          "tip": [
+            "Show path to the tool that would be executed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [OPTIONS] [COMMAND]..."
+      ],
+      "tip": [
+        "Execute a command from local node_modules/.bin."
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Exit with a non-zero status if a `--filter` expression matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTERS>"
+          ],
+          "tip": [
+            "Match packages by name, directory, or glob pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run concurrently without topological ordering."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Select all packages in the workspace."
+          ]
+        },
+        {
+          "name": "--report-summary",
+          "tip": [
+            "Save results to vp-exec-summary.json."
+          ]
+        },
+        {
+          "name": "--resume-from",
+          "usage": [
+            "--resume-from <PACKAGE>"
+          ],
+          "tip": [
+            "Resume from a specific package."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "Reverse execution order."
+          ]
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "Execute the command within a shell environment."
+          ]
+        },
+        {
+          "name": "--transitive",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --transitive"
+          ],
+          "tip": [
+            "Select the current package and its transitive dependencies."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Select the workspace root package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "explain",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|explain <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Show why a package is installed."
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "Limit tree depth."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only dev dependencies."
+          ]
+        },
+        {
+          "name": "--exclude-peers",
+          "tip": [
+            "Exclude peer dependencies."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo."
+          ],
+          "next": []
+        },
+        {
+          "name": "--find-by",
+          "usage": [
+            "--find-by <FINDER_NAME>"
+          ],
+          "tip": [
+            "Use a finder function defined in .pnpmfile.cjs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show extended information."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Exclude optional dependencies."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "Show parseable output."
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Only production dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Check recursively across all workspaces."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Check in workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "alias": [
+        "fmt"
+      ],
+      "usage": [
+        "fmt|format [PATH]... [OPTIONS]"
+      ],
+      "tip": [
+        "Format code."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check if files are formatted, also show statistics."
+          ]
+        },
+        {
+          "name": "--ignore-path",
+          "usage": [
+            "--ignore-path <PATH>"
+          ],
+          "tip": [
+            "Path to ignore file(s). Can be specified multiple times. If not specified, .gitignore and .prettierignore in the current directory are used."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--list-different",
+          "tip": [
+            "List files that would be changed."
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "Do not exit with error when pattern is unmatched."
+          ]
+        },
+        {
+          "name": "--stdin-filepath",
+          "usage": [
+            "--stdin-filepath <PATH>"
+          ],
+          "tip": [
+            "Specify the file name to use to infer which parser to use."
+          ],
+          "next": []
+        },
+        {
+          "name": "--threads",
+          "usage": [
+            "--threads <INT>"
+          ],
+          "tip": [
+            "Number of threads to use. Set to 1 for using only 1 CPU core."
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--with-node-modules",
+          "tip": [
+            "Format code in node_modules directory (skipped by default)."
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "Format and write files in place (default)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hooks",
+      "usage": [
+        "hooks <COMMAND> [OPTIONS]"
+      ],
+      "tip": [
+        "Manage the Git hook dispatcher."
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "Disable hooks: unset core.hooksPath, remove <dir>/_, persist preference."
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "Custom hooks directory (default: .vite-hooks, or last used)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "Install or refresh the hook dispatcher (sets core.hooksPath)."
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "Custom hooks directory (default: .vite-hooks, or last used)."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show preference, core.hooksPath, and dispatcher state."
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "Custom hooks directory (default: .vite-hooks, or last used)."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "implode",
+      "usage": [
+        "implode [OPTIONS]"
+      ],
+      "tip": [
+        "Remove vp and all related data."
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "Skip confirmation prompt."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "alias": [
+        "view",
+        "show"
+      ],
+      "usage": [
+        "info|view|show <PACKAGE> [FIELD] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "View package information from the registry."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Install all dependencies, or add packages if package names are provided."
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "Number of global package installs to run in parallel (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only install devDependencies."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo (can be used multiple times)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--fix-lockfile",
+          "tip": [
+            "Fix broken lockfile entries (pnpm and yarn@2+ only)."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Fail if lockfile needs to be updated (CI mode)."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install globally (requires package names)."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Do not run lifecycle scripts."
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Only update lockfile, don't install."
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "Allow lockfile updates (opposite of --frozen-lockfile)."
+          ]
+        },
+        {
+          "name": "--no-lockfile",
+          "tip": [
+            "Don't read or generate lockfile."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Do not install optionalDependencies."
+          ]
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "Node.js version to use for global installation (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "Only use packages already in cache."
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Use cached packages when available."
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Do not install devDependencies."
+          ]
+        },
+        {
+          "name": "--resolution-only",
+          "tip": [
+            "Re-run resolution for peer dependency analysis (pnpm only)."
+          ]
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "Save the new dependency to the default catalog (only when adding packages)."
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "Save exact version (only when adding packages)."
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "Save to optionalDependencies (only when adding packages)."
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "Save to peerDependencies (only when adding packages)."
+          ]
+        },
+        {
+          "name": "--shamefully-hoist",
+          "tip": [
+            "Create flat node_modules (pnpm only)."
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Suppress output (silent mode)."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Install in workspace root only."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "alias": [
+        "ln"
+      ],
+      "usage": [
+        "ln|link [PACKAGE|DIR] [ARGS]..."
+      ],
+      "tip": [
+        "Link packages for local development."
+      ]
+    },
+    {
+      "name": "lint",
+      "usage": [
+        "lint [PATH]... [OPTIONS]"
+      ],
+      "tip": [
+        "Lint code."
+      ],
+      "option": [
+        {
+          "name": "--allow",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --allow <NAME>"
+          ],
+          "tip": [
+            "Allow the rule or category (suppress the lint)."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "All categories except nursery. Does not enable plugins automatically."
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "Code that is outright wrong or useless."
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "New lints that are still under development."
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "Lints which are rather strict or have occasional false positives."
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "Code that could be written in a more performant way."
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "Lints which prevent the use of language and library features."
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "Code that should be written in a more idiomatic way."
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "Code that is most likely wrong or useless."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--debug",
+          "usage": [
+            "--debug <OPTIONS>"
+          ],
+          "tip": [
+            "Enable debug output options. Options are comma-separated."
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "Print the list of files that will be linted, then exit."
+              ]
+            },
+            {
+              "name": "timings",
+              "tip": [
+                "Enable per-rule timing information."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--deny",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --deny <NAME>"
+          ],
+          "tip": [
+            "Deny the rule or category (emit an error)."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "All categories except nursery. Does not enable plugins automatically."
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "Code that is outright wrong or useless."
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "New lints that are still under development."
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "Lints which are rather strict or have occasional false positives."
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "Code that could be written in a more performant way."
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "Lints which prevent the use of language and library features."
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "Code that should be written in a more idiomatic way."
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "Code that is most likely wrong or useless."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--deny-warnings",
+          "tip": [
+            "Ensure warnings produce a non-zero exit code."
+          ]
+        },
+        {
+          "name": "--disable-oxc-plugin",
+          "tip": [
+            "Disable oxc unique rules, which is turned on by default."
+          ]
+        },
+        {
+          "name": "--disable-typescript-plugin",
+          "tip": [
+            "Disable TypeScript plugin, which is turned on by default."
+          ]
+        },
+        {
+          "name": "--disable-unicorn-plugin",
+          "tip": [
+            "Disable unicorn plugin, which is turned on by default."
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Fix as many issues as possible. Only unfixed issues are reported in the output."
+          ]
+        },
+        {
+          "name": "--fix-dangerously",
+          "tip": [
+            "Apply dangerous fixes and suggestions."
+          ]
+        },
+        {
+          "name": "--fix-suggestions",
+          "tip": [
+            "Apply auto-fixable suggestions. May change program behavior."
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <ARG>"
+          ],
+          "tip": [
+            "Use a specific output format."
+          ],
+          "next": [
+            {
+              "name": "agent",
+              "tip": [
+                "Agent format."
+              ]
+            },
+            {
+              "name": "checkstyle",
+              "tip": [
+                "Checkstyle format."
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "Default format."
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub format."
+              ]
+            },
+            {
+              "name": "gitlab",
+              "tip": [
+                "GitLab format."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON format."
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit format."
+              ]
+            },
+            {
+              "name": "sarif",
+              "tip": [
+                "SARIF format."
+              ]
+            },
+            {
+              "name": "stylish",
+              "tip": [
+                "Stylish format."
+              ]
+            },
+            {
+              "name": "unix",
+              "tip": [
+                "Unix format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-path",
+          "usage": [
+            "--ignore-path <PATH>"
+          ],
+          "tip": [
+            "Specify the file to use as your .eslintignore."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pattern",
+          "usage": [
+            "--ignore-pattern <PAT>"
+          ],
+          "tip": [
+            "Specify patterns of files to ignore (in addition to those in .eslintignore)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--import-plugin",
+          "tip": [
+            "Enable import plugin and detect ESM problems."
+          ]
+        },
+        {
+          "name": "--jest-plugin",
+          "tip": [
+            "Enable the Jest plugin and detect test problems."
+          ]
+        },
+        {
+          "name": "--jsdoc-plugin",
+          "tip": [
+            "Enable jsdoc plugin and detect JSDoc problems."
+          ]
+        },
+        {
+          "name": "--jsx-a11y-plugin",
+          "tip": [
+            "Enable the JSX-a11y plugin and detect accessibility problems."
+          ]
+        },
+        {
+          "name": "--max-warnings",
+          "usage": [
+            "--max-warnings <INT>"
+          ],
+          "tip": [
+            "Specify a warning threshold, which can be used to force exit with an error status if there are too many warning-level rule violations."
+          ],
+          "next": []
+        },
+        {
+          "name": "--nextjs-plugin",
+          "tip": [
+            "Enable the Next.js plugin and detect Next.js problems."
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "Do not exit with an error when no files are selected for linting."
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "tip": [
+            "Disable excluding files from .eslintignore files, --ignore-path flags and --ignore-pattern flags."
+          ]
+        },
+        {
+          "name": "--node-plugin",
+          "tip": [
+            "Enable the node plugin and detect node usage problems."
+          ]
+        },
+        {
+          "name": "--print-config",
+          "tip": [
+            "Output the configuration to be used. When present, no linting is performed and only config-related options are valid."
+          ]
+        },
+        {
+          "name": "--promise-plugin",
+          "tip": [
+            "Enable the promise plugin and detect promise usage problems."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Disable reporting on warnings, only errors are reported."
+          ]
+        },
+        {
+          "name": "--react-perf-plugin",
+          "tip": [
+            "Enable the React performance plugin and detect rendering performance problems."
+          ]
+        },
+        {
+          "name": "--react-plugin",
+          "tip": [
+            "Enable react plugin, which is turned off by default."
+          ]
+        },
+        {
+          "name": "--report-unused-disable-directives",
+          "tip": [
+            "Report directive comments like // oxlint-disable-line, when no errors would have been reported on that line anyway."
+          ]
+        },
+        {
+          "name": "--report-unused-disable-directives-severity",
+          "usage": [
+            "--report-unused-disable-directives-severity <SEVERITY>"
+          ],
+          "tip": [
+            "Same as --report-unused-disable-directives, but allows you to specify the severity level."
+          ],
+          "next": []
+        },
+        {
+          "name": "--rules",
+          "tip": [
+            "List all the rules that are currently registered."
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Do not display any diagnostics."
+          ]
+        },
+        {
+          "name": "--threads",
+          "usage": [
+            "--threads <INT>"
+          ],
+          "tip": [
+            "Number of threads to use. Set to 1 for using only 1 CPU core."
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--tsconfig",
+          "usage": [
+            "--tsconfig <PATH>"
+          ],
+          "tip": [
+            "Override the TypeScript config used for import resolution."
+          ],
+          "next": []
+        },
+        {
+          "name": "--type-aware",
+          "tip": [
+            "Enable rules that require type information."
+          ]
+        },
+        {
+          "name": "--type-check",
+          "tip": [
+            "Enable experimental type checking (includes TypeScript compiler diagnostics)."
+          ]
+        },
+        {
+          "name": "--vitest-plugin",
+          "tip": [
+            "Enable the Vitest plugin and detect test problems."
+          ]
+        },
+        {
+          "name": "--vue-plugin",
+          "tip": [
+            "Enable the vue plugin and detect vue usage problems."
+          ]
+        },
+        {
+          "name": "--warn",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --warn <NAME>"
+          ],
+          "tip": [
+            "Warn on the rule or category (emit a warning)."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "All categories except nursery. Does not enable plugins automatically."
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "Code that is outright wrong or useless."
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "New lints that are still under development."
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "Lints which are rather strict or have occasional false positives."
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "Code that could be written in a more performant way."
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "Lints which prevent the use of language and library features."
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "Code that should be written in a more idiomatic way."
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "Code that is most likely wrong or useless."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [PATTERN] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "List installed packages."
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "Maximum depth of dependency tree."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only dev dependencies."
+          ]
+        },
+        {
+          "name": "--exclude-peers",
+          "tip": [
+            "Exclude peer dependencies."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo."
+          ],
+          "next": []
+        },
+        {
+          "name": "--find-by",
+          "usage": [
+            "--find-by <FINDER_NAME>"
+          ],
+          "tip": [
+            "Use a finder function."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "List global packages."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output in JSON format."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show extended information."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Exclude optional dependencies."
+          ]
+        },
+        {
+          "name": "--only-projects",
+          "tip": [
+            "Show only project packages."
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "Parseable output format."
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Only production dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "List across all workspaces."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "usage": [
+        "migrate [PATH] [OPTIONS]"
+      ],
+      "tip": [
+        "Migrate an existing project to Vite+."
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <NAME>"
+          ],
+          "tip": [
+            "Write coding agent instructions to AGENTS.md, CLAUDE.md, etc."
+          ],
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "usage": [
+            "--editor <NAME>"
+          ],
+          "tip": [
+            "Write editor config files into the project."
+          ],
+          "next": []
+        },
+        {
+          "name": "--full",
+          "tip": [
+            "Also run the full setup for an existing Vite+ project."
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "Set up pre-commit hooks (default in non-interactive mode)."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "tip": [
+            "Enable interactive prompts."
+          ]
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "Skip writing coding agent instructions."
+          ]
+        },
+        {
+          "name": "--no-editor",
+          "tip": [
+            "Skip writing editor config files."
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "Skip pre-commit hooks setup."
+          ]
+        },
+        {
+          "name": "--no-interactive",
+          "tip": [
+            "Run in non-interactive mode (skip prompts and use defaults)."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "usage": [
+        "node [OPTIONS] [SCRIPT] [ARGS]..."
+      ],
+      "tip": [
+        "Run a Node.js script (shorthand for `env exec node`)."
+      ],
+      "option": [
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "Node.js version to use (e.g., \"20.18.0\", \"lts\", \"^20.0.0\")."
+          ],
+          "next": []
+        },
+        {
+          "name": "--npm",
+          "usage": [
+            "--npm <NPM>"
+          ],
+          "tip": [
+            "npm version to use (alias for --package-manager npm@<version>)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-manager",
+          "usage": [
+            "--package-manager <PACKAGE_MANAGER>"
+          ],
+          "tip": [
+            "Package manager and version to use (for example, pnpm@10)."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Check for outdated packages."
+      ],
+      "option": [
+        {
+          "name": "--compatible",
+          "tip": [
+            "Only show compatible versions."
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "Number of global package checks to run in parallel (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Only dev dependencies."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo."
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "Output format: table (default), list, or json."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON output."
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List output."
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "Table output (default)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Check globally installed packages."
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "Show extended information."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Exclude optional dependencies."
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Only production and optional dependencies."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Check recursively across all workspaces."
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "Sort results by field."
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Include workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pack",
+      "usage": [
+        "pack [...files] [OPTIONS]"
+      ],
+      "tip": [
+        "Build library."
+      ],
+      "option": [
+        {
+          "name": "--attw",
+          "tip": [
+            "Enable Are the types wrong integration (default: false)."
+          ]
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "Clean output directory, --no-clean to disable."
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <COUNT>"
+          ],
+          "tip": [
+            "Maximum number of Rolldown builds to run in parallel."
+          ],
+          "next": []
+        },
+        {
+          "name": "--copy",
+          "usage": [
+            "--copy <DIR>"
+          ],
+          "tip": [
+            "Copy files to output dir."
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "usage": [
+            "--debug [FEAT]"
+          ],
+          "tip": [
+            "Show debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--deps.never-bundle",
+          "usage": [
+            "--deps.never-bundle <MODULE>"
+          ],
+          "tip": [
+            "Mark dependencies as external."
+          ],
+          "next": []
+        },
+        {
+          "name": "--devtools",
+          "tip": [
+            "Enable devtools integration."
+          ]
+        },
+        {
+          "name": "--dts",
+          "tip": [
+            "Generate dts files."
+          ]
+        },
+        {
+          "name": "--env-file",
+          "usage": [
+            "--env-file <FILE>"
+          ],
+          "tip": [
+            "Load environment variables from a file, when used together with --env, variables in --env take precedence."
+          ],
+          "next": []
+        },
+        {
+          "name": "--env-prefix",
+          "usage": [
+            "--env-prefix <PREFIX>"
+          ],
+          "tip": [
+            "Prefix for env variables to inject into the bundle (default: TSDOWN_)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--env.*",
+          "usage": [
+            "--env.* <VALUE>"
+          ],
+          "tip": [
+            "Define compile-time env variables."
+          ],
+          "next": []
+        },
+        {
+          "name": "--exe",
+          "tip": [
+            "Bundle as executable."
+          ]
+        },
+        {
+          "name": "--exports",
+          "tip": [
+            "Generate export-related metadata for package.json (experimental)."
+          ]
+        },
+        {
+          "name": "--fail-on-warn",
+          "tip": [
+            "Fail on warnings (default: true)."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter configs (cwd or name), e.g. /pkg-name$/ or pkg-name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "Bundle format (default: esm)."
+          ],
+          "next": [
+            {
+              "name": "cjs",
+              "tip": [
+                "CommonJS bundle format."
+              ]
+            },
+            {
+              "name": "esm",
+              "tip": [
+                "ESM bundle format (default)."
+              ]
+            },
+            {
+              "name": "iife",
+              "tip": [
+                "IIFE bundle format."
+              ]
+            },
+            {
+              "name": "umd",
+              "tip": [
+                "UMD bundle format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--from-vite",
+          "usage": [
+            "--from-vite [VITEST]"
+          ],
+          "tip": [
+            "Reuse config from Vite or Vitest."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-watch",
+          "usage": [
+            "--ignore-watch <PATH>"
+          ],
+          "tip": [
+            "Ignore custom paths in watch mode."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "Set log level: info, warn, error, silent."
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error level."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level."
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent level."
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn level."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--minify",
+          "tip": [
+            "Minify output."
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "Disable config file."
+          ]
+        },
+        {
+          "name": "--no-write",
+          "tip": [
+            "Disable writing files to disk, incompatible with watch mode (default: true)."
+          ]
+        },
+        {
+          "name": "--on-success",
+          "usage": [
+            "--on-success <COMMAND>"
+          ],
+          "tip": [
+            "Command to run on success."
+          ],
+          "next": []
+        },
+        {
+          "name": "--out-dir",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --out-dir <DIR>"
+          ],
+          "tip": [
+            "Output directory (default: dist)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "Target platform (default: node)."
+          ],
+          "next": [
+            {
+              "name": "browser",
+              "tip": [
+                "Target browsers."
+              ]
+            },
+            {
+              "name": "neutral",
+              "tip": [
+                "Platform-neutral target."
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Target Node.js (default)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--publint",
+          "tip": [
+            "Enable publint (default: false)."
+          ]
+        },
+        {
+          "name": "--report",
+          "tip": [
+            "Size report (default: true)."
+          ]
+        },
+        {
+          "name": "--root",
+          "usage": [
+            "--root <DIR>"
+          ],
+          "tip": [
+            "Root directory of input files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shims",
+          "tip": [
+            "Enable cjs and esm shims (default: false)."
+          ]
+        },
+        {
+          "name": "--sourcemap",
+          "tip": [
+            "Generate source map (default: false)."
+          ]
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <TARGET>"
+          ],
+          "tip": [
+            "Bundle target, e.g \"es2015\", \"esnext\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "--treeshake",
+          "tip": [
+            "Tree-shake bundle (default: true)."
+          ]
+        },
+        {
+          "name": "--tsconfig",
+          "usage": [
+            "--tsconfig <TSCONFIG>"
+          ],
+          "tip": [
+            "Set tsconfig path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--unbundle",
+          "tip": [
+            "Unbundle mode."
+          ]
+        },
+        {
+          "name": "--unused",
+          "tip": [
+            "Enable unused dependencies check (default: false)."
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch [PATH]"
+          ],
+          "tip": [
+            "Watch mode."
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --workspace [DIR]"
+          ],
+          "tip": [
+            "Enable workspace mode."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "usage": [
+        "pm <COMMAND>"
+      ],
+      "tip": [
+        "Forward a command to the package manager."
+      ],
+      "next": [
+        {
+          "name": "adduser",
+          "alias": [
+            "login"
+          ],
+          "usage": [
+            "login|adduser [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Log in to a registry."
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            },
+            {
+              "name": "--scope",
+              "usage": [
+                "--scope <SCOPE>"
+              ],
+              "tip": [
+                "Scope for the login."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "approve-builds",
+          "usage": [
+            "approve-builds [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Approve dependency lifecycle scripts (install/postinstall) to run."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Approve every package currently pending approval. Mutually exclusive with positional packages."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "audit",
+          "usage": [
+            "audit [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Run a security audit."
+          ],
+          "option": [
+            {
+              "name": "--fix",
+              "tip": [
+                "Automatically fix vulnerabilities."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            },
+            {
+              "name": "--level",
+              "usage": [
+                "--level <LEVEL>"
+              ],
+              "tip": [
+                "Minimum vulnerability level to report."
+              ],
+              "next": [
+                {
+                  "name": "critical",
+                  "tip": [
+                    "Show critical vulnerabilities only."
+                  ]
+                },
+                {
+                  "name": "high",
+                  "tip": [
+                    "Show high vulnerabilities and above."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show info vulnerabilities and above."
+                  ]
+                },
+                {
+                  "name": "low",
+                  "tip": [
+                    "Show low vulnerabilities and above."
+                  ]
+                },
+                {
+                  "name": "moderate",
+                  "tip": [
+                    "Show moderate vulnerabilities and above."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--production",
+              "tip": [
+                "Only audit production dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "author",
+          "alias": [
+            "owner"
+          ],
+          "usage": [
+            "owner|author <COMMAND>"
+          ],
+          "tip": [
+            "Manage package owners."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [OPTIONS] <USER> <PACKAGE>"
+              ],
+              "tip": [
+                "Add package owner."
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] <PACKAGE>"
+              ],
+              "tip": [
+                "List package owners."
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm [OPTIONS] <USER> <PACKAGE>"
+              ],
+              "tip": [
+                "Remove package owner."
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cache",
+          "usage": [
+            "cache <SUBCOMMAND> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Manage package cache (subcommand: dir, path, clean)."
+          ]
+        },
+        {
+          "name": "ci",
+          "tip": [
+            "Clean install dependencies for CI environments."
+          ]
+        },
+        {
+          "name": "config",
+          "alias": [
+            "c"
+          ],
+          "usage": [
+            "c|config <COMMAND>"
+          ],
+          "tip": [
+            "Manage package manager configuration."
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete [OPTIONS] <KEY>"
+              ],
+              "tip": [
+                "Delete configuration key."
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "Use global config."
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "Config location."
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "Global config."
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "Project config (default)."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [OPTIONS] <KEY>"
+              ],
+              "tip": [
+                "Get configuration value."
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "Use global config."
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "Config location."
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "Global config."
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "Project config (default)."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [OPTIONS]"
+              ],
+              "tip": [
+                "List all configuration."
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "Use global config."
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "Config location: project (default) or global."
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "Global config."
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "Project config (default)."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [OPTIONS] <KEY> <VALUE>"
+              ],
+              "tip": [
+                "Set configuration value."
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "Use global config."
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "Config location."
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "Global config."
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "Project config (default)."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deprecate",
+          "usage": [
+            "deprecate [OPTIONS] <PACKAGE> <MESSAGE> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Deprecate a package version."
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "One-time password for authentication."
+              ],
+              "next": []
+            },
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "dist-tag",
+          "usage": [
+            "dist-tag <COMMAND>"
+          ],
+          "tip": [
+            "Manage distribution tags."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <PACKAGE_AT_VERSION> <TAG>"
+              ],
+              "tip": [
+                "Add a distribution tag."
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [PACKAGE]"
+              ],
+              "tip": [
+                "List distribution tags for a package."
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm <PACKAGE> <TAG>"
+              ],
+              "tip": [
+                "Remove a distribution tag."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fund",
+          "usage": [
+            "fund [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Show funding information for installed packages."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [PATTERN] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "List installed packages."
+          ],
+          "option": [
+            {
+              "name": "--depth",
+              "usage": [
+                "--depth <DEPTH>"
+              ],
+              "tip": [
+                "Maximum depth of dependency tree."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "Only dev dependencies."
+              ]
+            },
+            {
+              "name": "--exclude-peers",
+              "tip": [
+                "Exclude peer dependencies."
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "Filter packages in monorepo."
+              ],
+              "next": []
+            },
+            {
+              "name": "--find-by",
+              "usage": [
+                "--find-by <FINDER_NAME>"
+              ],
+              "tip": [
+                "Use a finder function."
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "List global packages."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "Show extended information."
+              ]
+            },
+            {
+              "name": "--no-optional",
+              "tip": [
+                "Exclude optional dependencies."
+              ]
+            },
+            {
+              "name": "--only-projects",
+              "tip": [
+                "Show only project packages."
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "Parseable output format."
+              ]
+            },
+            {
+              "name": "--prod",
+              "alias": [
+                "-P"
+              ],
+              "usage": [
+                "-P, --prod"
+              ],
+              "tip": [
+                "Only production dependencies."
+              ]
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "List across all workspaces."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Log out from a registry."
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            },
+            {
+              "name": "--scope",
+              "usage": [
+                "--scope <SCOPE>"
+              ],
+              "tip": [
+                "Scope for the logout."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pack",
+          "usage": [
+            "pack [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Create a tarball of the package."
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "Filter packages to pack."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <OUT>"
+              ],
+              "tip": [
+                "Output path for the tarball."
+              ],
+              "next": []
+            },
+            {
+              "name": "--pack-destination",
+              "usage": [
+                "--pack-destination <PACK_DESTINATION>"
+              ],
+              "tip": [
+                "Directory where the tarball will be saved."
+              ],
+              "next": []
+            },
+            {
+              "name": "--pack-gzip-level",
+              "usage": [
+                "--pack-gzip-level <PACK_GZIP_LEVEL>"
+              ],
+              "tip": [
+                "Gzip compression level (0-9)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "Pack all workspace packages."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch <PACKAGE> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Prepare a package for local patching."
+          ]
+        },
+        {
+          "name": "patch-commit",
+          "usage": [
+            "patch-commit <PATCH_DIR> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Commit a prepared package patch."
+          ]
+        },
+        {
+          "name": "ping",
+          "usage": [
+            "ping [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Ping the registry."
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "usage": [
+            "prune [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Remove unnecessary packages."
+          ],
+          "option": [
+            {
+              "name": "--no-optional",
+              "tip": [
+                "Remove optional dependencies."
+              ]
+            },
+            {
+              "name": "--prod",
+              "tip": [
+                "Remove devDependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish [OPTIONS] [TARBALL|FOLDER] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Publish package to registry."
+          ],
+          "option": [
+            {
+              "name": "--access",
+              "usage": [
+                "--access <ACCESS>"
+              ],
+              "tip": [
+                "Access level (public/restricted)."
+              ],
+              "next": [
+                {
+                  "name": "public",
+                  "tip": [
+                    "Public access."
+                  ]
+                },
+                {
+                  "name": "restricted",
+                  "tip": [
+                    "Restricted access."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "Preview without publishing."
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "Filter packages in monorepo."
+              ],
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force publish."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            },
+            {
+              "name": "--no-git-checks",
+              "tip": [
+                "Skip git checks."
+              ]
+            },
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "One-time password for authentication."
+              ],
+              "next": []
+            },
+            {
+              "name": "--provenance",
+              "tip": [
+                "Publish with provenance."
+              ]
+            },
+            {
+              "name": "--publish-branch",
+              "usage": [
+                "--publish-branch <BRANCH>"
+              ],
+              "tip": [
+                "Set the branch name to publish from."
+              ],
+              "next": []
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "Publish all workspace packages."
+              ]
+            },
+            {
+              "name": "--report-summary",
+              "tip": [
+                "Save publish summary."
+              ]
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "Publish tag."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "alias": [
+            "rb"
+          ],
+          "usage": [
+            "rb|rebuild [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Rebuild native modules."
+          ]
+        },
+        {
+          "name": "search",
+          "usage": [
+            "search [OPTIONS] <TERMS>... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Search for packages in the registry."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "Show extended information."
+              ]
+            },
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stage",
+          "usage": [
+            "stage <COMMAND>"
+          ],
+          "tip": [
+            "Stage a package for publishing (npm staged publishing workflow)."
+          ],
+          "next": [
+            {
+              "name": "approve",
+              "usage": [
+                "approve [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Promote a staged version to the live registry (2FA required)."
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "download",
+              "usage": [
+                "download [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Download the staged tarball for inspection."
+              ],
+              "option": [
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] [PACKAGE] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "List staged versions."
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "publish",
+              "usage": [
+                "publish [OPTIONS] [TARBALL|FOLDER] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Stage a package for publishing (no 2FA required)."
+              ],
+              "option": [
+                {
+                  "name": "--access",
+                  "usage": [
+                    "--access <ACCESS>"
+                  ],
+                  "tip": [
+                    "Access level (public/restricted)."
+                  ],
+                  "next": [
+                    {
+                      "name": "public",
+                      "tip": [
+                        "Public access."
+                      ]
+                    },
+                    {
+                      "name": "restricted",
+                      "tip": [
+                        "Restricted access."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "Preview without staging."
+                  ]
+                },
+                {
+                  "name": "--filter",
+                  "usage": [
+                    "--filter <PATTERN>"
+                  ],
+                  "tip": [
+                    "Filter packages in monorepo."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--provenance",
+                  "tip": [
+                    "Stage with provenance."
+                  ]
+                },
+                {
+                  "name": "--recursive",
+                  "alias": [
+                    "-r"
+                  ],
+                  "usage": [
+                    "-r, --recursive"
+                  ],
+                  "tip": [
+                    "Stage all publishable workspace packages."
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <TAG>"
+                  ],
+                  "tip": [
+                    "Publish tag."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "reject",
+              "usage": [
+                "reject [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Discard a staged version (2FA required)."
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "One-time password for authentication."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "view",
+              "usage": [
+                "view [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Show details about a staged version."
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "token",
+          "usage": [
+            "token <COMMAND>"
+          ],
+          "tip": [
+            "Manage authentication tokens."
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Create a new authentication token."
+              ],
+              "option": [
+                {
+                  "name": "--cidr",
+                  "usage": [
+                    "--cidr <CIDR>"
+                  ],
+                  "tip": [
+                    "CIDR ranges to restrict the token to."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--readonly",
+                  "tip": [
+                    "Create a read-only token."
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "List all known tokens."
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output in JSON format."
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "revoke",
+              "usage": [
+                "revoke [OPTIONS] <TOKEN> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "Revoke an authentication token."
+              ],
+              "option": [
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "Registry URL."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "usage": [
+            "version [OPTIONS] [NEW_VERSION] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Forward the native package version command."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "alias": [
+            "info",
+            "show"
+          ],
+          "usage": [
+            "view|info|show <PACKAGE> [FIELD] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "View package information from the registry."
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "Output in JSON format."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "whoami",
+          "usage": [
+            "whoami [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Show the current logged-in user."
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "Registry URL."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "preview",
+      "usage": [
+        "preview [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "Preview production build."
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "Public base path (default: /)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "Allow/disable clear screen when logging."
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "Show debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "Filter debug logs."
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host [HOST]"
+          ],
+          "tip": [
+            "Specify hostname."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "Set log level."
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error level."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info level."
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent level."
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn level."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "Set env mode."
+          ],
+          "next": []
+        },
+        {
+          "name": "--open",
+          "usage": [
+            "--open [PATH]"
+          ],
+          "tip": [
+            "Open browser on startup."
+          ],
+          "next": []
+        },
+        {
+          "name": "--outDir",
+          "usage": [
+            "--outDir <DIR>"
+          ],
+          "tip": [
+            "Output directory (default: dist)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "Specify port."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictPort",
+          "tip": [
+            "Exit if specified port is already in use."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "usage": [
+        "rebuild [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Rebuild native modules."
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [OPTIONS] [TASK_SPECIFIER] [ADDITIONAL_ARGS]..."
+      ],
+      "tip": [
+        "Run tasks (also available as standalone `vpr`)."
+      ],
+      "option": [
+        {
+          "name": "--cache",
+          "tip": [
+            "Force caching on for all tasks and scripts."
+          ]
+        },
+        {
+          "name": "--concurrency-limit",
+          "usage": [
+            "--concurrency-limit <N>"
+          ],
+          "tip": [
+            "Maximum number of tasks to run concurrently (default: 4)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "Exit with a non-zero status if a filter matches no packages."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTERS>"
+          ],
+          "tip": [
+            "Match packages by name, directory, or glob pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-depends-on",
+          "tip": [
+            "Do not run dependencies specified in `dependsOn` fields."
+          ]
+        },
+        {
+          "name": "--last-details",
+          "tip": [
+            "Display the detailed summary of the last run."
+          ]
+        },
+        {
+          "name": "--log",
+          "usage": [
+            "--log <MODE>"
+          ],
+          "tip": [
+            "Set output mode: interleaved (default), labeled, or grouped."
+          ],
+          "next": [
+            {
+              "name": "grouped",
+              "tip": [
+                "Grouped output."
+              ]
+            },
+            {
+              "name": "interleaved",
+              "tip": [
+                "Interleaved output (default)."
+              ]
+            },
+            {
+              "name": "labeled",
+              "tip": [
+                "Labeled output."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Force caching off for all tasks and scripts."
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "Run tasks without dependency ordering; concurrency is unlimited unless `--concurrency-limit` is specified."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Select all packages in the workspace."
+          ]
+        },
+        {
+          "name": "--transitive",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --transitive"
+          ],
+          "tip": [
+            "Select the current package and its transitive dependencies."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show the full detailed summary after execution."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Select the workspace root package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staged",
+      "usage": [
+        "staged [OPTIONS]"
+      ],
+      "tip": [
+        "Run linters on staged files."
+      ],
+      "option": [
+        {
+          "name": "--allow-empty",
+          "tip": [
+            "Allow empty commits when tasks revert all staged changes."
+          ]
+        },
+        {
+          "name": "--concurrent",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --concurrent [<number|boolean>]"
+          ],
+          "tip": [
+            "Run tasks at the same time. Use false to run one task at a time."
+          ],
+          "next": []
+        },
+        {
+          "name": "--continue-on-error",
+          "tip": [
+            "Run all tasks to completion even if one fails."
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <PATH>"
+          ],
+          "tip": [
+            "Working directory to run all tasks in."
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "Enable debug output."
+          ]
+        },
+        {
+          "name": "--diff",
+          "usage": [
+            "--diff <STRING>"
+          ],
+          "tip": [
+            "Override the default --staged flag of git diff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff-filter",
+          "usage": [
+            "--diff-filter <STRING>"
+          ],
+          "tip": [
+            "Override the default --diff-filter=ACMR flag of git diff."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-on-changes",
+          "tip": [
+            "Fail with exit code 1 when tasks modify tracked files."
+          ]
+        },
+        {
+          "name": "--hide-partially-staged",
+          "tip": [
+            "Hide unstaged changes from partially staged files."
+          ]
+        },
+        {
+          "name": "--hide-unstaged",
+          "tip": [
+            "Hide all unstaged changes before running tasks."
+          ]
+        },
+        {
+          "name": "--no-concurrent",
+          "tip": [
+            "Run one task at a time."
+          ]
+        },
+        {
+          "name": "--no-stash",
+          "tip": [
+            "Disable the backup stash."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Disable console output."
+          ]
+        },
+        {
+          "name": "--relative",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --relative"
+          ],
+          "tip": [
+            "Pass filepaths relative to cwd to tasks."
+          ]
+        },
+        {
+          "name": "--revert",
+          "tip": [
+            "Revert to original state in case of errors."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show task output even when tasks succeed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [COMMAND] [FILTERS]... [OPTIONS]"
+      ],
+      "tip": [
+        "Run tests."
+      ],
+      "option": [
+        {
+          "name": "--allowOnly",
+          "tip": [
+            "Allow tests and suites that are marked as only (default: !process.env.CI)."
+          ]
+        },
+        {
+          "name": "--api",
+          "usage": [
+            "--api [PORT]"
+          ],
+          "tip": [
+            "Specify server port."
+          ],
+          "next": []
+        },
+        {
+          "name": "--attachmentsDir",
+          "usage": [
+            "--attachmentsDir <DIR>"
+          ],
+          "tip": [
+            "The directory where attachments from context.annotate are stored in (default: .vitest-attachments)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail <NUMBER>"
+          ],
+          "tip": [
+            "Stop test execution when given number of tests have failed (default: 0)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "usage": [
+            "--browser <NAME>"
+          ],
+          "tip": [
+            "Run tests in the browser. Equivalent to --browser.enabled (default: false)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache",
+          "tip": [
+            "Enable cache."
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [SINCE]"
+          ],
+          "tip": [
+            "Run tests that are affected by the changed files (default: false)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearCache",
+          "tip": [
+            "Delete all Vitest caches without running any tests."
+          ]
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "Clear terminal screen when re-running tests during watch mode (default: true)."
+          ]
+        },
+        {
+          "name": "--compare",
+          "usage": [
+            "--compare <FILE>"
+          ],
+          "tip": [
+            "Benchmark output file to compare against."
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Enable coverage report."
+          ]
+        },
+        {
+          "name": "--dangerouslyIgnoreUnhandledErrors",
+          "tip": [
+            "Ignore any unhandled errors that occur."
+          ]
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "Detect asynchronous resources leaking from the test file (default: false)."
+          ]
+        },
+        {
+          "name": "--diff",
+          "usage": [
+            "--diff <PATH>"
+          ],
+          "tip": [
+            "DiffOptions object or a path to a module which exports DiffOptions object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <PATH>"
+          ],
+          "tip": [
+            "Base directory to scan for the test files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "Disable automatic interception of console logging (default: false)."
+          ]
+        },
+        {
+          "name": "--dom",
+          "tip": [
+            "Mock browser API with happy-dom."
+          ]
+        },
+        {
+          "name": "--environment",
+          "usage": [
+            "--environment <NAME>"
+          ],
+          "tip": [
+            "Specify runner environment, if not running in the browser (default: node)."
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "happy-dom browser environment."
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom browser environment."
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js environment (default)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <GLOB>"
+          ],
+          "tip": [
+            "Additional file globs to be excluded from test."
+          ],
+          "next": []
+        },
+        {
+          "name": "--execArgv",
+          "usage": [
+            "--execArgv <OPTION>"
+          ],
+          "tip": [
+            "Pass additional arguments to node process when spawning worker_threads or child_process."
+          ],
+          "next": []
+        },
+        {
+          "name": "--expandSnapshotDiff",
+          "tip": [
+            "Show full diff when snapshot fails."
+          ]
+        },
+        {
+          "name": "--expect",
+          "tip": [
+            "Configuration options for expect() matches."
+          ]
+        },
+        {
+          "name": "--experimental",
+          "usage": [
+            "--experimental <FEATURES>"
+          ],
+          "tip": [
+            "Experimental features."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fileParallelism",
+          "tip": [
+            "Should all test files run in parallel. Use --no-file-parallelism to disable (default: true)."
+          ]
+        },
+        {
+          "name": "--filesOnly",
+          "tip": [
+            "Print only test files with out the test cases."
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "Inject apis globally."
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "Hide logs for skipped tests."
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "Default hook timeout in milliseconds (default: 10000). Use 0 to disable timeout completely."
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "Collect test and suite locations in the location property."
+          ]
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect [[HOST:]PORT]"
+          ],
+          "tip": [
+            "Enable Node.js inspector (default: 127.0.0.1:9229)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--inspectBrk",
+          "usage": [
+            "--inspectBrk [[HOST:]PORT]"
+          ],
+          "tip": [
+            "Enable Node.js inspector and break before the test starts."
+          ],
+          "next": []
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "Run every test file in isolation. To disable isolation, use --no-isolate (default: true)."
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json [VALUE]"
+          ],
+          "tip": [
+            "Print collected tests as JSON or write to a file (Default: false)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--listTags",
+          "usage": [
+            "--listTags [TYPE]"
+          ],
+          "tip": [
+            "List all available tags instead of running tests. --list-tags=json will output tags in JSON format, unless there are no tags."
+          ],
+          "next": []
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "Show the size of heap for each test when running in node."
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <NUMBER>"
+          ],
+          "tip": [
+            "Maximum number of concurrent tests and suites during test file execution (default: 5)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--maxWorkers",
+          "usage": [
+            "--maxWorkers <WORKERS>"
+          ],
+          "tip": [
+            "Maximum number or percentage of workers to run tests in."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mergeReports",
+          "usage": [
+            "--mergeReports [PATH]"
+          ],
+          "tip": [
+            "Path to a blob reports directory. If this options is used, Vitest won't run any tests, it will only report previously recorded tests."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mode",
+          "usage": [
+            "--mode <NAME>"
+          ],
+          "tip": [
+            "Override Vite mode (default: test or benchmark)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "Removes colors from the console output (default: true)."
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "Open UI automatically (default: !process.env.CI)."
+          ]
+        },
+        {
+          "name": "--outputFile",
+          "usage": [
+            "--outputFile <FILE>"
+          ],
+          "tip": [
+            "Write test results to a file when supporter reporter is also specified."
+          ],
+          "next": []
+        },
+        {
+          "name": "--outputJson",
+          "usage": [
+            "--outputJson <FILE>"
+          ],
+          "tip": [
+            "Benchmark output file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "Pass when no tests are found."
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <POOL>"
+          ],
+          "tip": [
+            "Specify pool, if not running in the browser (default: forks)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "Always print console stack traces."
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "The name of the project to run if you are using Vitest workspace feature. This can be repeated for multiple projects."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reporter",
+          "usage": [
+            "--reporter <NAME>"
+          ],
+          "tip": [
+            "Specify reporters."
+          ],
+          "next": [
+            {
+              "name": "agent",
+              "tip": [
+                "Agent reporter."
+              ]
+            },
+            {
+              "name": "blob",
+              "tip": [
+                "Blob reporter."
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "Default reporter."
+              ]
+            },
+            {
+              "name": "dot",
+              "tip": [
+                "Dot reporter."
+              ]
+            },
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions reporter."
+              ]
+            },
+            {
+              "name": "hanging-process",
+              "tip": [
+                "Hanging-process reporter."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON reporter."
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit reporter."
+              ]
+            },
+            {
+              "name": "minimal",
+              "tip": [
+                "Minimal reporter."
+              ]
+            },
+            {
+              "name": "tap",
+              "tip": [
+                "TAP reporter."
+              ]
+            },
+            {
+              "name": "tap-flat",
+              "tip": [
+                "Flat TAP reporter."
+              ]
+            },
+            {
+              "name": "tree",
+              "tip": [
+                "Tree reporter."
+              ]
+            },
+            {
+              "name": "verbose",
+              "tip": [
+                "Verbose reporter."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <TIMES>"
+          ],
+          "tip": [
+            "Retry the test specific number of times if it fails (default: 0)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--root",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --root <PATH>"
+          ],
+          "tip": [
+            "Root path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--run",
+          "tip": [
+            "Disable watch mode."
+          ]
+        },
+        {
+          "name": "--sequence",
+          "usage": [
+            "--sequence <OPTIONS>"
+          ],
+          "tip": [
+            "Options for how tests should be sorted."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <SHARDS>"
+          ],
+          "tip": [
+            "Test suite shard to execute in a format of <index>/<count>."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [VALUE]"
+          ],
+          "tip": [
+            "Silent console output from tests. Use 'passed-only' to see logs from failing tests only."
+          ],
+          "next": [
+            {
+              "name": "passed-only",
+              "tip": [
+                "See logs from failing tests only."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <THRESHOLD>"
+          ],
+          "tip": [
+            "Threshold in milliseconds for a test or suite to be considered slow (default: 300)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "Start Vitest without running tests. Tests will be running only on change (default: false)."
+          ]
+        },
+        {
+          "name": "--staticParse",
+          "tip": [
+            "Parse files statically instead of running them to collect tests (default: false)."
+          ]
+        },
+        {
+          "name": "--staticParseConcurrency",
+          "usage": [
+            "--staticParseConcurrency <LIMIT>"
+          ],
+          "tip": [
+            "How many tests to process at the same time (default: os.availableParallelism())."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictTags",
+          "tip": [
+            "Should Vitest throw an error if test has a tag that is not defined in the config (default: true)."
+          ]
+        },
+        {
+          "name": "--tagsFilter",
+          "usage": [
+            "--tagsFilter <EXPRESSION>"
+          ],
+          "tip": [
+            "Run only tests with the specified tags."
+          ],
+          "next": []
+        },
+        {
+          "name": "--teardownTimeout",
+          "usage": [
+            "--teardownTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "Default timeout of a teardown function in milliseconds (default: 10000)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <PATTERN>"
+          ],
+          "tip": [
+            "Run tests with full names matching the specified regexp pattern."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "Default timeout of a test in milliseconds (default: 5000). Use 0 to disable timeout completely."
+          ],
+          "next": []
+        },
+        {
+          "name": "--typecheck",
+          "tip": [
+            "Enable typechecking alongside tests (default: false)."
+          ]
+        },
+        {
+          "name": "--ui",
+          "tip": [
+            "Enable UI."
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update [TYPE]"
+          ],
+          "tip": [
+            "Update snapshot (accepts boolean, \"new\", \"all\" or \"none\")."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Update all snapshots."
+              ]
+            },
+            {
+              "name": "new",
+              "tip": [
+                "Update new snapshots."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "Update no snapshots."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vmMemoryLimit",
+          "usage": [
+            "--vmMemoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "Memory limit for VM pools."
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "Enable watch mode."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bench",
+          "usage": [
+            "bench [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "Run benchmarks."
+          ]
+        },
+        {
+          "name": "dev",
+          "usage": [
+            "dev [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "Run tests in development mode."
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "List matching tests."
+          ]
+        },
+        {
+          "name": "related",
+          "usage": [
+            "related [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "Run tests related to changed files."
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "Run tests once."
+          ]
+        },
+        {
+          "name": "watch",
+          "usage": [
+            "watch [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "Run tests in watch mode."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "toolchain",
+      "usage": [
+        "toolchain [OPTIONS] [TOOLS]..."
+      ],
+      "tip": [
+        "Show active Vite+ tools, versions, and relationships."
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "tip": [
+            "Use the global Vite+ toolchain."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Print the graph as JSON."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "remove",
+        "rm",
+        "un"
+      ],
+      "usage": [
+        "un|rm|remove|uninstall <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Remove packages from dependencies."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Preview what would be removed without actually removing (only with -g)."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo."
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Remove global packages."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Remove recursively from all workspace packages."
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "Only remove from `devDependencies` (pnpm-specific)."
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "Only remove from `optionalDependencies` (pnpm-specific)."
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --save-prod"
+          ],
+          "tip": [
+            "Only remove from `dependencies` (pnpm-specific)."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Remove from workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink [PACKAGE|DIR] [ARGS]..."
+      ],
+      "tip": [
+        "Unlink packages."
+      ],
+      "option": [
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Unlink in every workspace package."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "Update packages to their latest versions."
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "Number of global package updates to run in parallel (only with -g)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "Update only devDependencies."
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "Filter packages in monorepo (can be used multiple times)."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Update global packages."
+          ]
+        },
+        {
+          "name": "--ignore-node-mismatch",
+          "tip": [
+            "Skip up-to-date global packages installed with a different Node.js version."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Interactive mode."
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "Update to latest version (ignore semver range)."
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "Don't update optionalDependencies."
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "Update lockfile only, don't modify package.json."
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "Update only dependencies (production)."
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Update recursively in all workspace packages."
+          ]
+        },
+        {
+          "name": "--reinstall-node-mismatch",
+          "tip": [
+            "Reinstall up-to-date global packages installed with a different Node.js version."
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "Only update if package exists in workspace (pnpm-specific)."
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "Include workspace root."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [OPTIONS] [VERSION]"
+      ],
+      "tip": [
+        "Update vp itself to the latest version."
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "Check for updates without installing."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Force reinstall even if already on the target version."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "Custom npm registry URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--rollback",
+          "tip": [
+            "Revert to the previously active version."
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Suppress output."
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "npm dist-tag to install (default: \"latest\", also: \"alpha\")."
+          ],
+          "next": [
+            {
+              "name": "alpha",
+              "tip": [
+                "Alpha prerelease."
+              ]
+            },
+            {
+              "name": "latest",
+              "tip": [
+                "Latest stable release (default)."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C <DIR>"
+      ],
+      "tip": [
+        "Run as if vp was started in <DIR> instead of the current working directory."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6279 @@
+{
+  "meta": {
+    "url": "https://viteplus.dev",
+    "description": [
+      "Vite+ 命令行界面。",
+      "创建、开发、构建、测试、检查、格式化 JavaScript 项目并管理其依赖。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "usage": [
+        "add <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "添加包到依赖。"
+      ],
+      "option": [
+        {
+          "name": "--allow-build",
+          "usage": [
+            "--allow-build <NAMES>"
+          ],
+          "tip": [
+            "允许运行 postinstall 的包名列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "并行执行的全局包安装数量（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包（可多次使用）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "全局安装所用的 Node.js 版本（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "将新依赖保存到默认 catalog。"
+          ]
+        },
+        {
+          "name": "--save-catalog-name",
+          "usage": [
+            "--save-catalog-name <CATALOG_NAME>"
+          ],
+          "tip": [
+            "将新依赖保存到指定的 catalog 名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "保存到 `devDependencies`。"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "保存精确版本而非 semver 范围。"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "保存到 `optionalDependencies`。"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "保存到 `peerDependencies` 与 `devDependencies`。"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --save-prod"
+          ],
+          "tip": [
+            "保存到 `dependencies`（默认）。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "仅当包存在于工作区时添加（pnpm 特有）。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "添加到工作区根目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "usage": [
+        "build [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "构建生产版本。"
+      ],
+      "option": [
+        {
+          "name": "--app",
+          "tip": [
+            "等同于 `builder: {}`。"
+          ]
+        },
+        {
+          "name": "--assetsDir",
+          "usage": [
+            "--assetsDir <DIR>"
+          ],
+          "tip": [
+            "outDir 下存放静态资源的目录（默认：assets）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--assetsInlineLimit",
+          "usage": [
+            "--assetsInlineLimit <NUMBER>"
+          ],
+          "tip": [
+            "静态资源 base64 内联阈值（字节，默认：4096）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "公共基础路径（默认：/）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "记录日志时允许/禁止清屏。"
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "显示调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--emptyOutDir",
+          "tip": [
+            "outDir 在 root 之外时强制清空。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "过滤调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "设置日志级别。"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error 级别。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 级别。"
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent 级别。"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn 级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--manifest",
+          "usage": [
+            "--manifest [NAME]"
+          ],
+          "tip": [
+            "输出构建 manifest json。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--minify",
+          "usage": [
+            "--minify [MINIFIER]"
+          ],
+          "tip": [
+            "启用/禁用压缩，或指定压缩器（默认：oxc）。"
+          ],
+          "next": [
+            {
+              "name": "esbuild",
+              "tip": [
+                "使用 esbuild 压缩。"
+              ]
+            },
+            {
+              "name": "oxc",
+              "tip": [
+                "使用 Oxc 压缩（默认）。"
+              ]
+            },
+            {
+              "name": "terser",
+              "tip": [
+                "使用 Terser 压缩。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "设置环境模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--outDir",
+          "usage": [
+            "--outDir <DIR>"
+          ],
+          "tip": [
+            "输出目录（默认：dist）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sourcemap",
+          "usage": [
+            "--sourcemap [OUTPUT]"
+          ],
+          "tip": [
+            "输出构建 source map（默认：false）。"
+          ],
+          "next": [
+            {
+              "name": "hidden",
+              "tip": [
+                "隐藏 source map。"
+              ]
+            },
+            {
+              "name": "inline",
+              "tip": [
+                "内联 source map。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ssr",
+          "usage": [
+            "--ssr [ENTRY]"
+          ],
+          "tip": [
+            "为服务端渲染构建指定入口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ssrManifest",
+          "usage": [
+            "--ssrManifest [NAME]"
+          ],
+          "tip": [
+            "输出 ssr manifest json。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <TARGET>"
+          ],
+          "tip": [
+            "转译目标（默认：'baseline-widely-available'）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "磁盘模块变化时重新构建。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": [
+        "cache <COMMAND>"
+      ],
+      "tip": [
+        "管理任务缓存。"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "tip": [
+            "清理全部缓存。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "usage": [
+        "check [OPTIONS] [PATHS]..."
+      ],
+      "tip": [
+        "运行格式、检查与类型检查。"
+      ],
+      "option": [
+        {
+          "name": "--fix",
+          "tip": [
+            "自动修复格式与检查问题。"
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "模式未匹配时不以错误退出。"
+          ]
+        },
+        {
+          "name": "--no-fmt",
+          "tip": [
+            "跳过格式检查。"
+          ]
+        },
+        {
+          "name": "--no-lint",
+          "tip": [
+            "跳过检查规则；当 `lint.options.typeCheck` 为 true 时仍运行类型检查。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "不报告警告，仅报告错误。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": [
+        "config [OPTIONS]"
+      ],
+      "tip": [
+        "配置钩子与 Agent 集成。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "tip": [
+            "更新编码 Agent 须知。"
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "安装钩子分发器。"
+          ]
+        },
+        {
+          "name": "--hooks-dir",
+          "usage": [
+            "--hooks-dir <PATH>"
+          ],
+          "tip": [
+            "自定义钩子目录（默认：.vite-hooks，或本仓库上次使用的目录）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "跳过更新编码 Agent 须知。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "跳过钩子分发器安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [TEMPLATE] [OPTIONS] [-- TEMPLATE_OPTIONS]"
+      ],
+      "tip": [
+        "从模板创建新项目。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <NAME>"
+          ],
+          "tip": [
+            "将编码 Agent 须知写入 AGENTS.md、CLAUDE.md 等文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--approve-builds",
+          "tip": [
+            "无需确认，直接批准并运行受限的依赖构建脚本。"
+          ]
+        },
+        {
+          "name": "--directory",
+          "usage": [
+            "--directory <DIR>"
+          ],
+          "tip": [
+            "生成项目所用的目标目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "usage": [
+            "--editor <NAME>"
+          ],
+          "tip": [
+            "为指定编辑器写入编辑器配置文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "初始化 Git 仓库。"
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "设置 pre-commit 钩子（非交互模式下默认启用）。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "tip": [
+            "启用交互式提示。"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "列出所有可用模板。"
+          ]
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "跳过写入编码 Agent 须知。"
+          ]
+        },
+        {
+          "name": "--no-editor",
+          "tip": [
+            "跳过写入编辑器配置文件。"
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "跳过 Git 仓库初始化。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "跳过 pre-commit 钩子设置。"
+          ]
+        },
+        {
+          "name": "--no-interactive",
+          "tip": [
+            "以非交互模式运行。"
+          ]
+        },
+        {
+          "name": "--package-manager",
+          "usage": [
+            "--package-manager <MANAGER>"
+          ],
+          "tip": [
+            "使用指定的包管理器。"
+          ],
+          "next": [
+            {
+              "name": "bun",
+              "tip": [
+                "使用 bun 作为包管理器。"
+              ]
+            },
+            {
+              "name": "npm",
+              "tip": [
+                "使用 npm 作为包管理器。"
+              ]
+            },
+            {
+              "name": "pnpm",
+              "tip": [
+                "使用 pnpm 作为包管理器。"
+              ]
+            },
+            {
+              "name": "yarn",
+              "tip": [
+                "使用 yarn 作为包管理器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "显示详细的脚手架输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dedupe",
+      "usage": [
+        "dedupe [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "通过移除旧版本来去重依赖。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查去重是否会产生变更。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dev",
+      "usage": [
+        "dev [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "运行开发服务器。"
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "公共基础路径（默认：/）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "记录日志时允许/禁止清屏。"
+          ]
+        },
+        {
+          "name": "--cors",
+          "tip": [
+            "启用 CORS。"
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "显示调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--experimentalBundle",
+          "tip": [
+            "使用实验性完整打包模式（高度实验性）。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "过滤调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制优化器忽略缓存并重新打包。"
+          ]
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host [HOST]"
+          ],
+          "tip": [
+            "指定主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "设置日志级别。"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error 级别。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 级别。"
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent 级别。"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn 级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "设置环境模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--open",
+          "usage": [
+            "--open [PATH]"
+          ],
+          "tip": [
+            "启动时打开浏览器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "指定端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictPort",
+          "tip": [
+            "指定端口已被占用时直接退出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dlx",
+      "usage": [
+        "dlx [OPTIONS] <ARGS>..."
+      ],
+      "tip": [
+        "下载并执行包，无需将其安装为依赖。"
+      ],
+      "option": [
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <NAME>"
+          ],
+          "tip": [
+            "运行前要安装的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "在 Shell 环境中执行。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --silent"
+          ],
+          "tip": [
+            "抑制除被执行命令输出之外的全部输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "env",
+      "usage": [
+        "env <COMMAND>"
+      ],
+      "tip": [
+        "管理 Node.js 与包管理器环境。"
+      ],
+      "next": [
+        {
+          "name": "clean",
+          "usage": [
+            "clean [SCOPE]"
+          ],
+          "tip": [
+            "移除未使用的托管运行时与包管理器。",
+            "范围：node、pm 或某个包管理器系列。"
+          ]
+        },
+        {
+          "name": "current",
+          "usage": [
+            "current [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "显示当前环境信息。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "default",
+          "usage": [
+            "default [VALUES]..."
+          ],
+          "tip": [
+            "设置或显示全局环境默认值。"
+          ]
+        },
+        {
+          "name": "doctor",
+          "usage": [
+            "doctor [SCOPE]"
+          ],
+          "tip": [
+            "运行诊断并显示环境状态。"
+          ]
+        },
+        {
+          "name": "exec",
+          "alias": [
+            "run"
+          ],
+          "usage": [
+            "run|exec [OPTIONS] [COMMAND]..."
+          ],
+          "tip": [
+            "在已解析或显式指定的环境中执行命令。"
+          ],
+          "option": [
+            {
+              "name": "--node",
+              "usage": [
+                "--node <NODE>"
+              ],
+              "tip": [
+                "要使用的 Node.js 版本（例如 \"20.18.0\"、\"lts\"、\"^20.0.0\"）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--npm",
+              "usage": [
+                "--npm <NPM>"
+              ],
+              "tip": [
+                "要使用的 npm 版本（等同于 --package-manager npm@<version>）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--package-manager",
+              "usage": [
+                "--package-manager <PACKAGE_MANAGER>"
+              ],
+              "tip": [
+                "要使用的包管理器及版本（例如 pnpm@10）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "alias": [
+            "i"
+          ],
+          "usage": [
+            "i|install [REQUESTS]..."
+          ],
+          "tip": [
+            "安装已解析或显式指定的环境。"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "列出本地已安装的环境组件。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list-remote",
+          "alias": [
+            "ls-remote"
+          ],
+          "usage": [
+            "ls-remote|list-remote [OPTIONS] [VALUES]..."
+          ],
+          "tip": [
+            "列出组件仓库中的可用版本。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "显示全部版本（不仅是近期版本）。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--lts",
+              "tip": [
+                "仅显示 LTS 版本。"
+              ]
+            },
+            {
+              "name": "--sort",
+              "usage": [
+                "--sort <SORT>"
+              ],
+              "tip": [
+                "版本排序。"
+              ],
+              "next": [
+                {
+                  "name": "asc",
+                  "tip": [
+                    "按升序排列版本（从最早到最新）。"
+                  ]
+                },
+                {
+                  "name": "desc",
+                  "tip": [
+                    "按降序排列版本（从最新到最早）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "off",
+          "usage": [
+            "off [SCOPE]"
+          ],
+          "tip": [
+            "为选定的环境范围启用系统优先模式。",
+            "范围：node、pm、npm、pnpm、yarn 或 bun。"
+          ]
+        },
+        {
+          "name": "on",
+          "usage": [
+            "on [SCOPE]"
+          ],
+          "tip": [
+            "为选定的环境范围启用托管模式。",
+            "范围：node、pm、npm、pnpm、yarn 或 bun。"
+          ]
+        },
+        {
+          "name": "pin",
+          "usage": [
+            "pin [OPTIONS] [SPECS]..."
+          ],
+          "tip": [
+            "在当前项目中固定 Node.js 与包管理器版本。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "不经确认覆盖已有固定。"
+              ]
+            },
+            {
+              "name": "--no-install",
+              "tip": [
+                "跳过预下载固定版本。"
+              ]
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <TARGET>"
+              ],
+              "tip": [
+                "显式选择写入目标（覆盖默认选择）。"
+              ],
+              "next": [
+                {
+                  "name": "dev-engines",
+                  "tip": [
+                    "通过 package.json#devEngines.runtime 固定。"
+                  ]
+                },
+                {
+                  "name": "node-version",
+                  "tip": [
+                    "通过 .node-version 文件固定。"
+                  ]
+                },
+                {
+                  "name": "nvmrc",
+                  "tip": [
+                    "通过 .nvmrc 文件固定。"
+                  ]
+                },
+                {
+                  "name": "package-manager",
+                  "tip": [
+                    "通过顶层 packageManager 字段固定。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--unpin",
+              "tip": [
+                "移除当前目录的固定。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "usage": [
+            "print [SCOPE]"
+          ],
+          "tip": [
+            "打印当前环境的 PATH 设置。",
+            "范围：node、pm 或某个包管理器系列。"
+          ]
+        },
+        {
+          "name": "setup",
+          "tip": [
+            "创建或更新 VP_HOME/bin 中的垫片。"
+          ],
+          "option": [
+            {
+              "name": "--env-only",
+              "tip": [
+                "仅创建环境文件（跳过垫片与指引）。"
+              ]
+            },
+            {
+              "name": "--refresh",
+              "tip": [
+                "即使垫片已存在也强制刷新。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "uninstall",
+          "alias": [
+            "uni"
+          ],
+          "usage": [
+            "uni|uninstall <SPECS>..."
+          ],
+          "tip": [
+            "卸载显式指定的组件版本。"
+          ]
+        },
+        {
+          "name": "unpin",
+          "usage": [
+            "unpin [OPTIONS] [SCOPE]"
+          ],
+          "tip": [
+            "移除当前目录的环境固定（等同于 `pin --unpin`）。"
+          ],
+          "option": [
+            {
+              "name": "--target",
+              "usage": [
+                "--target <TARGET>"
+              ],
+              "tip": [
+                "显式选择要移除的固定来源。"
+              ],
+              "next": [
+                {
+                  "name": "dev-engines"
+                },
+                {
+                  "name": "node-version"
+                },
+                {
+                  "name": "nvmrc"
+                },
+                {
+                  "name": "package-manager"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "use",
+          "usage": [
+            "use [OPTIONS] [REQUESTS]..."
+          ],
+          "tip": [
+            "为当前 Shell 会话激活环境。"
+          ],
+          "option": [
+            {
+              "name": "--no-install",
+              "tip": [
+                "版本不存在时跳过自动安装。"
+              ]
+            },
+            {
+              "name": "--silent-if-unchanged",
+              "tip": [
+                "版本已激活时抑制输出。"
+              ]
+            },
+            {
+              "name": "--unset",
+              "tip": [
+                "移除会话覆盖（恢复基于文件的解析）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "which",
+          "usage": [
+            "which <TOOL>"
+          ],
+          "tip": [
+            "显示将被执行的工具路径。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "usage": [
+        "exec [OPTIONS] [COMMAND]..."
+      ],
+      "tip": [
+        "执行本地 node_modules/.bin 中的命令。"
+      ],
+      "option": [
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "`--filter` 表达式未匹配到包时以非零状态退出。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTERS>"
+          ],
+          "tip": [
+            "按名称、目录或 glob 模式匹配包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "并发运行，不按拓扑排序。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "选择工作区中的全部包。"
+          ]
+        },
+        {
+          "name": "--report-summary",
+          "tip": [
+            "将结果保存到 vp-exec-summary.json。"
+          ]
+        },
+        {
+          "name": "--resume-from",
+          "usage": [
+            "--resume-from <PACKAGE>"
+          ],
+          "tip": [
+            "从指定包恢复执行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "反转执行顺序。"
+          ]
+        },
+        {
+          "name": "--shell-mode",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --shell-mode"
+          ],
+          "tip": [
+            "在 Shell 环境中执行命令。"
+          ]
+        },
+        {
+          "name": "--transitive",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --transitive"
+          ],
+          "tip": [
+            "选择当前包及其传递依赖。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "选择工作区根包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "explain",
+      "alias": [
+        "why"
+      ],
+      "usage": [
+        "why|explain <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "显示包被安装的原因。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "限制树的深度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅开发依赖。"
+          ]
+        },
+        {
+          "name": "--exclude-peers",
+          "tip": [
+            "排除对等依赖。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--find-by",
+          "usage": [
+            "--find-by <FINDER_NAME>"
+          ],
+          "tip": [
+            "使用 .pnpmfile.cjs 中定义的查找函数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示扩展信息。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "排除可选依赖。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "显示可解析输出。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "仅生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归检查全部工作区。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "在工作区根目录检查。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "alias": [
+        "fmt"
+      ],
+      "usage": [
+        "fmt|format [PATH]... [OPTIONS]"
+      ],
+      "tip": [
+        "格式化代码。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查文件是否已格式化，并显示统计信息。"
+          ]
+        },
+        {
+          "name": "--ignore-path",
+          "usage": [
+            "--ignore-path <PATH>"
+          ],
+          "tip": [
+            "忽略文件路径。可多次指定。未指定时使用当前目录的 .gitignore 与 .prettierignore。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--list-different",
+          "tip": [
+            "列出将被改动的文件。"
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "模式未匹配时不以错误退出。"
+          ]
+        },
+        {
+          "name": "--stdin-filepath",
+          "usage": [
+            "--stdin-filepath <PATH>"
+          ],
+          "tip": [
+            "指定用于推断解析器的文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--threads",
+          "usage": [
+            "--threads <INT>"
+          ],
+          "tip": [
+            "要使用的线程数。设为 1 则仅使用 1 个 CPU 核心。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--with-node-modules",
+          "tip": [
+            "格式化 node_modules 目录中的代码（默认跳过）。"
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "格式化并就地写入文件（默认）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "hooks",
+      "usage": [
+        "hooks <COMMAND> [OPTIONS]"
+      ],
+      "tip": [
+        "管理 Git 钩子分发器。"
+      ],
+      "next": [
+        {
+          "name": "disable",
+          "tip": [
+            "禁用钩子：取消 core.hooksPath 设置，删除 <dir>/_ 并持久化偏好。"
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "enable",
+          "tip": [
+            "安装或刷新钩子分发器（设置 core.hooksPath）。"
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示偏好、core.hooksPath 与分发器状态。"
+          ],
+          "option": [
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <PATH>"
+              ],
+              "tip": [
+                "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "implode",
+      "usage": [
+        "implode [OPTIONS]"
+      ],
+      "tip": [
+        "移除 vp 及全部相关数据。"
+      ],
+      "option": [
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "跳过确认提示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "alias": [
+        "view",
+        "show"
+      ],
+      "usage": [
+        "info|view|show <PACKAGE> [FIELD] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "查看注册表中的包信息。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "alias": [
+        "i"
+      ],
+      "usage": [
+        "i|install [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "安装全部依赖；若给出包名，则作用等同于 `vp add`。"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "并行执行的全局包安装数量（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包（可多次使用）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--fix-lockfile",
+          "tip": [
+            "修复损坏的锁文件条目（仅 pnpm 与 yarn@2+）。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制重新安装全部依赖。"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "锁文件需要更新时直接失败（CI 模式）。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装（需要给出包名）。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "不运行生命周期脚本。"
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件，不执行安装。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "允许更新锁文件（与 --frozen-lockfile 相反）。"
+          ]
+        },
+        {
+          "name": "--no-lockfile",
+          "tip": [
+            "不读取也不生成锁文件。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "不安装 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "全局安装所用的 Node.js 版本（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "仅使用缓存中已有的包。"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "优先使用缓存的包。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "不安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--resolution-only",
+          "tip": [
+            "重新执行解析以进行对等依赖分析（仅 pnpm）。"
+          ]
+        },
+        {
+          "name": "--save-catalog",
+          "tip": [
+            "将新依赖保存到默认 catalog（仅在添加包时）。"
+          ]
+        },
+        {
+          "name": "--save-exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --save-exact"
+          ],
+          "tip": [
+            "保存精确版本（仅在添加包时）。"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "保存到 optionalDependencies（仅在添加包时）。"
+          ]
+        },
+        {
+          "name": "--save-peer",
+          "tip": [
+            "保存到 peerDependencies（仅在添加包时）。"
+          ]
+        },
+        {
+          "name": "--shamefully-hoist",
+          "tip": [
+            "创建扁平的 node_modules（仅 pnpm）。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "抑制输出（静默模式）。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "仅在工作区根目录安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "alias": [
+        "ln"
+      ],
+      "usage": [
+        "ln|link [PACKAGE|DIR] [ARGS]..."
+      ],
+      "tip": [
+        "链接包以进行本地开发。"
+      ]
+    },
+    {
+      "name": "lint",
+      "usage": [
+        "lint [PATH]... [OPTIONS]"
+      ],
+      "tip": [
+        "检查代码。"
+      ],
+      "option": [
+        {
+          "name": "--allow",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --allow <NAME>"
+          ],
+          "tip": [
+            "允许规则或分类（抑制检查）。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "除 nursery 外的全部分类。不会自动启用插件。"
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "完全错误或无用的代码。"
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "仍在开发中的新检查。"
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "较为严格或偶有误报的检查。"
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "可以写得更高效的代码。"
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "限制语言与库特性使用的检查。"
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "应当写得更符合习惯的代码。"
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "很可能错误或无用的代码。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--debug",
+          "usage": [
+            "--debug <OPTIONS>"
+          ],
+          "tip": [
+            "启用调试输出选项。多个选项以逗号分隔。"
+          ],
+          "next": [
+            {
+              "name": "files",
+              "tip": [
+                "打印将被检查的文件列表，然后退出。"
+              ]
+            },
+            {
+              "name": "timings",
+              "tip": [
+                "启用按规则计时的信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--deny",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --deny <NAME>"
+          ],
+          "tip": [
+            "对规则或分类报错。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "除 nursery 外的全部分类。不会自动启用插件。"
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "完全错误或无用的代码。"
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "仍在开发中的新检查。"
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "较为严格或偶有误报的检查。"
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "可以写得更高效的代码。"
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "限制语言与库特性使用的检查。"
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "应当写得更符合习惯的代码。"
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "很可能错误或无用的代码。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--deny-warnings",
+          "tip": [
+            "确保警告产生非零退出码。"
+          ]
+        },
+        {
+          "name": "--disable-oxc-plugin",
+          "tip": [
+            "禁用 oxc 特有规则（默认启用）。"
+          ]
+        },
+        {
+          "name": "--disable-typescript-plugin",
+          "tip": [
+            "禁用 TypeScript 插件（默认启用）。"
+          ]
+        },
+        {
+          "name": "--disable-unicorn-plugin",
+          "tip": [
+            "禁用 unicorn 插件（默认启用）。"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "尽可能修复问题。输出中仅报告未修复的问题。"
+          ]
+        },
+        {
+          "name": "--fix-dangerously",
+          "tip": [
+            "应用危险修复与建议。"
+          ]
+        },
+        {
+          "name": "--fix-suggestions",
+          "tip": [
+            "应用可自动修复的建议。可能改变程序行为。"
+          ]
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <ARG>"
+          ],
+          "tip": [
+            "使用指定的输出格式。"
+          ],
+          "next": [
+            {
+              "name": "agent",
+              "tip": [
+                "Agent 格式。"
+              ]
+            },
+            {
+              "name": "checkstyle",
+              "tip": [
+                "Checkstyle 格式。"
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "Default 格式。"
+              ]
+            },
+            {
+              "name": "github",
+              "tip": [
+                "GitHub 格式。"
+              ]
+            },
+            {
+              "name": "gitlab",
+              "tip": [
+                "GitLab 格式。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 格式。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit 格式。"
+              ]
+            },
+            {
+              "name": "sarif",
+              "tip": [
+                "SARIF 格式。"
+              ]
+            },
+            {
+              "name": "stylish",
+              "tip": [
+                "Stylish 格式。"
+              ]
+            },
+            {
+              "name": "unix",
+              "tip": [
+                "Unix 格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--ignore-path",
+          "usage": [
+            "--ignore-path <PATH>"
+          ],
+          "tip": [
+            "指定用作 .eslintignore 的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-pattern",
+          "usage": [
+            "--ignore-pattern <PAT>"
+          ],
+          "tip": [
+            "指定要忽略的文件模式（在 .eslintignore 之外追加）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--import-plugin",
+          "tip": [
+            "启用 import 插件并检测 ESM 问题。"
+          ]
+        },
+        {
+          "name": "--jest-plugin",
+          "tip": [
+            "启用 Jest 插件并检测测试问题。"
+          ]
+        },
+        {
+          "name": "--jsdoc-plugin",
+          "tip": [
+            "启用 jsdoc 插件并检测 JSDoc 问题。"
+          ]
+        },
+        {
+          "name": "--jsx-a11y-plugin",
+          "tip": [
+            "启用 JSX-a11y 插件并检测无障碍问题。"
+          ]
+        },
+        {
+          "name": "--max-warnings",
+          "usage": [
+            "--max-warnings <INT>"
+          ],
+          "tip": [
+            "指定警告阈值，警告过多时可强制以错误状态退出。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--nextjs-plugin",
+          "tip": [
+            "启用 Next.js 插件并检测 Next.js 问题。"
+          ]
+        },
+        {
+          "name": "--no-error-on-unmatched-pattern",
+          "tip": [
+            "没有文件被选中检查时不以错误退出。"
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "tip": [
+            "禁用从 .eslintignore 文件、--ignore-path 与 --ignore-pattern 中排除文件。"
+          ]
+        },
+        {
+          "name": "--node-plugin",
+          "tip": [
+            "启用 node 插件并检测 Node 使用问题。"
+          ]
+        },
+        {
+          "name": "--print-config",
+          "tip": [
+            "输出将被使用的配置。出现时不执行检查，仅配置相关选项有效。"
+          ]
+        },
+        {
+          "name": "--promise-plugin",
+          "tip": [
+            "启用 promise 插件并检测 Promise 使用问题。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "不报告警告，仅报告错误。"
+          ]
+        },
+        {
+          "name": "--react-perf-plugin",
+          "tip": [
+            "启用 React 性能插件并检测渲染性能问题。"
+          ]
+        },
+        {
+          "name": "--react-plugin",
+          "tip": [
+            "启用 react 插件（默认关闭）。"
+          ]
+        },
+        {
+          "name": "--report-unused-disable-directives",
+          "tip": [
+            "当某行本就不会报错时，报告 // oxlint-disable-line 之类的指令注释。"
+          ]
+        },
+        {
+          "name": "--report-unused-disable-directives-severity",
+          "usage": [
+            "--report-unused-disable-directives-severity <SEVERITY>"
+          ],
+          "tip": [
+            "等同于 --report-unused-disable-directives，但可指定报告的严重级别。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rules",
+          "tip": [
+            "列出当前注册的全部规则。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "不显示任何诊断信息。"
+          ]
+        },
+        {
+          "name": "--threads",
+          "usage": [
+            "--threads <INT>"
+          ],
+          "tip": [
+            "要使用的线程数。设为 1 则仅使用 1 个 CPU 核心。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--tsconfig",
+          "usage": [
+            "--tsconfig <PATH>"
+          ],
+          "tip": [
+            "覆盖用于导入解析的 TypeScript 配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type-aware",
+          "tip": [
+            "启用需要类型信息的规则。"
+          ]
+        },
+        {
+          "name": "--type-check",
+          "tip": [
+            "启用实验性类型检查（包含 TypeScript 编译器诊断）。"
+          ]
+        },
+        {
+          "name": "--vitest-plugin",
+          "tip": [
+            "启用 Vitest 插件并检测测试问题。"
+          ]
+        },
+        {
+          "name": "--vue-plugin",
+          "tip": [
+            "启用 vue 插件并检测 Vue 使用问题。"
+          ]
+        },
+        {
+          "name": "--warn",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --warn <NAME>"
+          ],
+          "tip": [
+            "对规则或分类发出警告。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "除 nursery 外的全部分类。不会自动启用插件。"
+              ]
+            },
+            {
+              "name": "correctness",
+              "tip": [
+                "完全错误或无用的代码。"
+              ]
+            },
+            {
+              "name": "nursery",
+              "tip": [
+                "仍在开发中的新检查。"
+              ]
+            },
+            {
+              "name": "pedantic",
+              "tip": [
+                "较为严格或偶有误报的检查。"
+              ]
+            },
+            {
+              "name": "perf",
+              "tip": [
+                "可以写得更高效的代码。"
+              ]
+            },
+            {
+              "name": "restriction",
+              "tip": [
+                "限制语言与库特性使用的检查。"
+              ]
+            },
+            {
+              "name": "style",
+              "tip": [
+                "应当写得更符合习惯的代码。"
+              ]
+            },
+            {
+              "name": "suspicious",
+              "tip": [
+                "很可能错误或无用的代码。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [PATTERN] [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "列出已安装的包。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <DEPTH>"
+          ],
+          "tip": [
+            "依赖树的最大深度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅开发依赖。"
+          ]
+        },
+        {
+          "name": "--exclude-peers",
+          "tip": [
+            "排除对等依赖。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--find-by",
+          "usage": [
+            "--find-by <FINDER_NAME>"
+          ],
+          "tip": [
+            "使用查找函数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "列出全局包。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示扩展信息。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "排除可选依赖。"
+          ]
+        },
+        {
+          "name": "--only-projects",
+          "tip": [
+            "仅显示项目包。"
+          ]
+        },
+        {
+          "name": "--parseable",
+          "tip": [
+            "可解析的输出格式。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "仅生产依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "列出全部工作区的包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "usage": [
+        "migrate [PATH] [OPTIONS]"
+      ],
+      "tip": [
+        "将现有项目迁移到 Vite+。"
+      ],
+      "option": [
+        {
+          "name": "--agent",
+          "usage": [
+            "--agent <NAME>"
+          ],
+          "tip": [
+            "将编码 Agent 须知写入 AGENTS.md、CLAUDE.md 等文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editor",
+          "usage": [
+            "--editor <NAME>"
+          ],
+          "tip": [
+            "将编辑器配置文件写入项目。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--full",
+          "tip": [
+            "同时为已有的 Vite+ 项目运行完整设置。"
+          ]
+        },
+        {
+          "name": "--hooks",
+          "tip": [
+            "设置 pre-commit 钩子（非交互模式下默认启用）。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "tip": [
+            "启用交互式提示。"
+          ]
+        },
+        {
+          "name": "--no-agent",
+          "tip": [
+            "跳过写入编码 Agent 须知。"
+          ]
+        },
+        {
+          "name": "--no-editor",
+          "tip": [
+            "跳过写入编辑器配置文件。"
+          ]
+        },
+        {
+          "name": "--no-hooks",
+          "tip": [
+            "跳过 pre-commit 钩子设置。"
+          ]
+        },
+        {
+          "name": "--no-interactive",
+          "tip": [
+            "以非交互模式运行（跳过提示并使用默认值）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "node",
+      "usage": [
+        "node [OPTIONS] [SCRIPT] [ARGS]..."
+      ],
+      "tip": [
+        "运行 Node.js 脚本（`env exec node` 的简写）。"
+      ],
+      "option": [
+        {
+          "name": "--node",
+          "usage": [
+            "--node <NODE>"
+          ],
+          "tip": [
+            "要使用的 Node.js 版本（例如 \"20.18.0\"、\"lts\"、\"^20.0.0\"）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--npm",
+          "usage": [
+            "--npm <NPM>"
+          ],
+          "tip": [
+            "要使用的 npm 版本（等同于 --package-manager npm@<version>）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--package-manager",
+          "usage": [
+            "--package-manager <PACKAGE_MANAGER>"
+          ],
+          "tip": [
+            "要使用的包管理器及版本（例如 pnpm@10）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "检查过时的包。"
+      ],
+      "option": [
+        {
+          "name": "--compatible",
+          "tip": [
+            "仅显示兼容版本。"
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "并行执行的全局包检查数量（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅开发依赖。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "输出格式：table（默认）、list 或 json。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 输出。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列表输出。"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "表格输出（默认）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "检查全局安装的包。"
+          ]
+        },
+        {
+          "name": "--long",
+          "tip": [
+            "显示扩展信息。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "排除可选依赖。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "仅生产与可选依赖。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归检查全部工作区。"
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "按字段排序结果。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "包含工作区根目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pack",
+      "usage": [
+        "pack [...files] [OPTIONS]"
+      ],
+      "tip": [
+        "构建库。"
+      ],
+      "option": [
+        {
+          "name": "--attw",
+          "tip": [
+            "启用 Are the types wrong 集成（默认：false）。"
+          ]
+        },
+        {
+          "name": "--clean",
+          "tip": [
+            "清理输出目录，用 --no-clean 可禁用。"
+          ]
+        },
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <COUNT>"
+          ],
+          "tip": [
+            "并行运行的最大 Rolldown 构建数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--copy",
+          "usage": [
+            "--copy <DIR>"
+          ],
+          "tip": [
+            "复制文件到输出目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "usage": [
+            "--debug [FEAT]"
+          ],
+          "tip": [
+            "显示调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--deps.never-bundle",
+          "usage": [
+            "--deps.never-bundle <MODULE>"
+          ],
+          "tip": [
+            "将依赖标记为外部依赖。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--devtools",
+          "tip": [
+            "启用 devtools 集成。"
+          ]
+        },
+        {
+          "name": "--dts",
+          "tip": [
+            "生成 dts 文件。"
+          ]
+        },
+        {
+          "name": "--env-file",
+          "usage": [
+            "--env-file <FILE>"
+          ],
+          "tip": [
+            "从文件加载环境变量；与 --env 联用时 --env 中的变量优先。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env-prefix",
+          "usage": [
+            "--env-prefix <PREFIX>"
+          ],
+          "tip": [
+            "注入到包中的环境变量前缀（默认：TSDOWN_）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env.*",
+          "usage": [
+            "--env.* <VALUE>"
+          ],
+          "tip": [
+            "定义编译时环境变量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--exe",
+          "tip": [
+            "打包为可执行文件。"
+          ]
+        },
+        {
+          "name": "--exports",
+          "tip": [
+            "为 package.json 生成导出相关元数据（实验性）。"
+          ]
+        },
+        {
+          "name": "--fail-on-warn",
+          "tip": [
+            "出现警告时失败（默认：true）。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤配置（cwd 或名称），例如 /pkg-name$/ 或 pkg-name。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format <FORMAT>"
+          ],
+          "tip": [
+            "打包格式（默认：esm）。"
+          ],
+          "next": [
+            {
+              "name": "cjs",
+              "tip": [
+                "CommonJS 包格式。"
+              ]
+            },
+            {
+              "name": "esm",
+              "tip": [
+                "ESM 包格式（默认）。"
+              ]
+            },
+            {
+              "name": "iife",
+              "tip": [
+                "IIFE 包格式。"
+              ]
+            },
+            {
+              "name": "umd",
+              "tip": [
+                "UMD 包格式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--from-vite",
+          "usage": [
+            "--from-vite [VITEST]"
+          ],
+          "tip": [
+            "复用 Vite 或 Vitest 配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-watch",
+          "usage": [
+            "--ignore-watch <PATH>"
+          ],
+          "tip": [
+            "监视模式下忽略自定义路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "设置日志级别：info、warn、error、silent。"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error 级别。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 级别。"
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent 级别。"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn 级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--minify",
+          "tip": [
+            "压缩输出。"
+          ]
+        },
+        {
+          "name": "--no-config",
+          "tip": [
+            "禁用配置文件。"
+          ]
+        },
+        {
+          "name": "--no-write",
+          "tip": [
+            "禁用写入文件到磁盘，与监视模式不兼容（默认：true）。"
+          ]
+        },
+        {
+          "name": "--on-success",
+          "usage": [
+            "--on-success <COMMAND>"
+          ],
+          "tip": [
+            "成功时运行的命令。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--out-dir",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --out-dir <DIR>"
+          ],
+          "tip": [
+            "输出目录（默认：dist）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform <PLATFORM>"
+          ],
+          "tip": [
+            "目标平台（默认：node）。"
+          ],
+          "next": [
+            {
+              "name": "browser",
+              "tip": [
+                "目标为浏览器。"
+              ]
+            },
+            {
+              "name": "neutral",
+              "tip": [
+                "平台无关目标。"
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "目标为 Node.js（默认）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--publint",
+          "tip": [
+            "启用 publint（默认：false）。"
+          ]
+        },
+        {
+          "name": "--report",
+          "tip": [
+            "体积报告（默认：true）。"
+          ]
+        },
+        {
+          "name": "--root",
+          "usage": [
+            "--root <DIR>"
+          ],
+          "tip": [
+            "输入文件的根目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shims",
+          "tip": [
+            "启用 cjs 与 esm 垫片（默认：false）。"
+          ]
+        },
+        {
+          "name": "--sourcemap",
+          "tip": [
+            "生成 source map（默认：false）。"
+          ]
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <TARGET>"
+          ],
+          "tip": [
+            "打包目标，例如 \"es2015\"、\"esnext\"。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--treeshake",
+          "tip": [
+            "Tree-shake 打包（默认：true）。"
+          ]
+        },
+        {
+          "name": "--tsconfig",
+          "usage": [
+            "--tsconfig <TSCONFIG>"
+          ],
+          "tip": [
+            "设置 tsconfig 路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--unbundle",
+          "tip": [
+            "非打包模式。"
+          ]
+        },
+        {
+          "name": "--unused",
+          "tip": [
+            "启用未使用依赖检查（默认：false）。"
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch [PATH]"
+          ],
+          "tip": [
+            "监视模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--workspace",
+          "alias": [
+            "-W"
+          ],
+          "usage": [
+            "-W, --workspace [DIR]"
+          ],
+          "tip": [
+            "启用工作区模式。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "pm",
+      "usage": [
+        "pm <COMMAND>"
+      ],
+      "tip": [
+        "向包管理器转发命令。"
+      ],
+      "next": [
+        {
+          "name": "adduser",
+          "alias": [
+            "login"
+          ],
+          "usage": [
+            "login|adduser [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "登录注册表。"
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--scope",
+              "usage": [
+                "--scope <SCOPE>"
+              ],
+              "tip": [
+                "登录的作用域。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "approve-builds",
+          "usage": [
+            "approve-builds [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "批准依赖生命周期脚本（install/postinstall）运行。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "批准当前全部待批准的包。与位置参数互斥。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "audit",
+          "usage": [
+            "audit [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "运行安全审计。"
+          ],
+          "option": [
+            {
+              "name": "--fix",
+              "tip": [
+                "自动修复漏洞。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--level",
+              "usage": [
+                "--level <LEVEL>"
+              ],
+              "tip": [
+                "要报告的最低漏洞级别。"
+              ],
+              "next": [
+                {
+                  "name": "critical",
+                  "tip": [
+                    "仅显示 critical 漏洞。"
+                  ]
+                },
+                {
+                  "name": "high",
+                  "tip": [
+                    "显示 high 及以上漏洞。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示 info 及以上漏洞。"
+                  ]
+                },
+                {
+                  "name": "low",
+                  "tip": [
+                    "显示 low 及以上漏洞。"
+                  ]
+                },
+                {
+                  "name": "moderate",
+                  "tip": [
+                    "显示 moderate 及以上漏洞。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--production",
+              "tip": [
+                "仅审计生产依赖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "author",
+          "alias": [
+            "owner"
+          ],
+          "usage": [
+            "owner|author <COMMAND>"
+          ],
+          "tip": [
+            "管理包所有者。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add [OPTIONS] <USER> <PACKAGE>"
+              ],
+              "tip": [
+                "添加包所有者。"
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] <PACKAGE>"
+              ],
+              "tip": [
+                "列出包所有者。"
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm [OPTIONS] <USER> <PACKAGE>"
+              ],
+              "tip": [
+                "移除包所有者。"
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cache",
+          "usage": [
+            "cache <SUBCOMMAND> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "管理包缓存（子命令：dir、path、clean）。"
+          ]
+        },
+        {
+          "name": "ci",
+          "tip": [
+            "为 CI 环境全新安装依赖。"
+          ]
+        },
+        {
+          "name": "config",
+          "alias": [
+            "c"
+          ],
+          "usage": [
+            "c|config <COMMAND>"
+          ],
+          "tip": [
+            "管理包管理器配置。"
+          ],
+          "next": [
+            {
+              "name": "delete",
+              "usage": [
+                "delete [OPTIONS] <KEY>"
+              ],
+              "tip": [
+                "删除配置键。"
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "使用全局配置。"
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "配置位置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "全局配置。"
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "项目配置（默认）。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get [OPTIONS] <KEY>"
+              ],
+              "tip": [
+                "获取配置值。"
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "使用全局配置。"
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "配置位置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "全局配置。"
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "项目配置（默认）。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [OPTIONS]"
+              ],
+              "tip": [
+                "列出全部配置。"
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "使用全局配置。"
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "配置位置：project（默认）或 global。"
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "全局配置。"
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "项目配置（默认）。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "set",
+              "usage": [
+                "set [OPTIONS] <KEY> <VALUE>"
+              ],
+              "tip": [
+                "设置配置值。"
+              ],
+              "option": [
+                {
+                  "name": "--global",
+                  "alias": [
+                    "-g"
+                  ],
+                  "usage": [
+                    "-g, --global"
+                  ],
+                  "tip": [
+                    "使用全局配置。"
+                  ]
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--location",
+                  "usage": [
+                    "--location <LOCATION>"
+                  ],
+                  "tip": [
+                    "配置位置。"
+                  ],
+                  "next": [
+                    {
+                      "name": "global",
+                      "tip": [
+                        "全局配置。"
+                      ]
+                    },
+                    {
+                      "name": "project",
+                      "tip": [
+                        "项目配置（默认）。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deprecate",
+          "usage": [
+            "deprecate [OPTIONS] <PACKAGE> <MESSAGE> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "弃用包版本。"
+          ],
+          "option": [
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "用于认证的一次性密码。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "dist-tag",
+          "usage": [
+            "dist-tag <COMMAND>"
+          ],
+          "tip": [
+            "管理分发标签。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <PACKAGE_AT_VERSION> <TAG>"
+              ],
+              "tip": [
+                "添加分发标签。"
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [PACKAGE]"
+              ],
+              "tip": [
+                "列出包的分发标签。"
+              ]
+            },
+            {
+              "name": "rm",
+              "usage": [
+                "rm <PACKAGE> <TAG>"
+              ],
+              "tip": [
+                "移除分发标签。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fund",
+          "usage": [
+            "fund [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "显示已安装包的资金信息。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list [PATTERN] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "列出已安装的包。"
+          ],
+          "option": [
+            {
+              "name": "--depth",
+              "usage": [
+                "--depth <DEPTH>"
+              ],
+              "tip": [
+                "依赖树的最大深度。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "仅开发依赖。"
+              ]
+            },
+            {
+              "name": "--exclude-peers",
+              "tip": [
+                "排除对等依赖。"
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "过滤 monorepo 中的包。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--find-by",
+              "usage": [
+                "--find-by <FINDER_NAME>"
+              ],
+              "tip": [
+                "使用查找函数。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "alias": [
+                "-g"
+              ],
+              "usage": [
+                "-g, --global"
+              ],
+              "tip": [
+                "列出全局包。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "显示扩展信息。"
+              ]
+            },
+            {
+              "name": "--no-optional",
+              "tip": [
+                "排除可选依赖。"
+              ]
+            },
+            {
+              "name": "--only-projects",
+              "tip": [
+                "仅显示项目包。"
+              ]
+            },
+            {
+              "name": "--parseable",
+              "tip": [
+                "可解析的输出格式。"
+              ]
+            },
+            {
+              "name": "--prod",
+              "alias": [
+                "-P"
+              ],
+              "usage": [
+                "-P, --prod"
+              ],
+              "tip": [
+                "仅生产依赖。"
+              ]
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "列出全部工作区的包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "登出注册表。"
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--scope",
+              "usage": [
+                "--scope <SCOPE>"
+              ],
+              "tip": [
+                "登出的作用域。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pack",
+          "usage": [
+            "pack [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "创建包的 tarball。"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "过滤要打包的包。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--out",
+              "usage": [
+                "--out <OUT>"
+              ],
+              "tip": [
+                "tarball 的输出路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pack-destination",
+              "usage": [
+                "--pack-destination <PACK_DESTINATION>"
+              ],
+              "tip": [
+                "tarball 保存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pack-gzip-level",
+              "usage": [
+                "--pack-gzip-level <PACK_GZIP_LEVEL>"
+              ],
+              "tip": [
+                "Gzip 压缩级别（0-9）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "打包全部工作区包。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "patch",
+          "usage": [
+            "patch <PACKAGE> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "准备对包进行本地补丁。"
+          ]
+        },
+        {
+          "name": "patch-commit",
+          "usage": [
+            "patch-commit <PATCH_DIR> [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "提交已准备的包补丁。"
+          ]
+        },
+        {
+          "name": "ping",
+          "usage": [
+            "ping [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "Ping 注册表。"
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "prune",
+          "usage": [
+            "prune [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "移除不需要的包。"
+          ],
+          "option": [
+            {
+              "name": "--no-optional",
+              "tip": [
+                "移除可选依赖。"
+              ]
+            },
+            {
+              "name": "--prod",
+              "tip": [
+                "移除 devDependencies。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "usage": [
+            "publish [OPTIONS] [TARBALL|FOLDER] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "发布包到注册表。"
+          ],
+          "option": [
+            {
+              "name": "--access",
+              "usage": [
+                "--access <ACCESS>"
+              ],
+              "tip": [
+                "访问级别（public/restricted）。"
+              ],
+              "next": [
+                {
+                  "name": "public",
+                  "tip": [
+                    "公开访问。"
+                  ]
+                },
+                {
+                  "name": "restricted",
+                  "tip": [
+                    "受限访问。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--dry-run",
+              "tip": [
+                "预览而不发布。"
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <PATTERN>"
+              ],
+              "tip": [
+                "过滤 monorepo 中的包。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "强制发布。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--no-git-checks",
+              "tip": [
+                "跳过 Git 检查。"
+              ]
+            },
+            {
+              "name": "--otp",
+              "usage": [
+                "--otp <OTP>"
+              ],
+              "tip": [
+                "用于认证的一次性密码。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--provenance",
+              "tip": [
+                "附带来源证明发布。"
+              ]
+            },
+            {
+              "name": "--publish-branch",
+              "usage": [
+                "--publish-branch <BRANCH>"
+              ],
+              "tip": [
+                "设置从哪个分支发布。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--recursive",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --recursive"
+              ],
+              "tip": [
+                "发布全部工作区包。"
+              ]
+            },
+            {
+              "name": "--report-summary",
+              "tip": [
+                "保存发布摘要。"
+              ]
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "发布标签。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rebuild",
+          "alias": [
+            "rb"
+          ],
+          "usage": [
+            "rb|rebuild [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "重新构建原生模块。"
+          ]
+        },
+        {
+          "name": "search",
+          "usage": [
+            "search [OPTIONS] <TERMS>... [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "在注册表中搜索包。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "显示扩展信息。"
+              ]
+            },
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "stage",
+          "usage": [
+            "stage <COMMAND>"
+          ],
+          "tip": [
+            "暂存包以发布（npm 分阶段发布流程）。"
+          ],
+          "next": [
+            {
+              "name": "approve",
+              "usage": [
+                "approve [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "将暂存版本提升到正式注册表（需要 2FA）。"
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "download",
+              "usage": [
+                "download [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "下载暂存的 tarball 以供检查。"
+              ],
+              "option": [
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] [PACKAGE] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "列出已暂存版本。"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "publish",
+              "usage": [
+                "publish [OPTIONS] [TARBALL|FOLDER] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "暂存包以发布（无需 2FA）。"
+              ],
+              "option": [
+                {
+                  "name": "--access",
+                  "usage": [
+                    "--access <ACCESS>"
+                  ],
+                  "tip": [
+                    "访问级别（public/restricted）。"
+                  ],
+                  "next": [
+                    {
+                      "name": "public",
+                      "tip": [
+                        "公开访问。"
+                      ]
+                    },
+                    {
+                      "name": "restricted",
+                      "tip": [
+                        "受限访问。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "预览而不暂存。"
+                  ]
+                },
+                {
+                  "name": "--filter",
+                  "usage": [
+                    "--filter <PATTERN>"
+                  ],
+                  "tip": [
+                    "过滤 monorepo 中的包。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--provenance",
+                  "tip": [
+                    "附带来源证明暂存。"
+                  ]
+                },
+                {
+                  "name": "--recursive",
+                  "alias": [
+                    "-r"
+                  ],
+                  "usage": [
+                    "-r, --recursive"
+                  ],
+                  "tip": [
+                    "暂存全部可发布的工作区包。"
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tag",
+                  "usage": [
+                    "--tag <TAG>"
+                  ],
+                  "tip": [
+                    "发布标签。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "reject",
+              "usage": [
+                "reject [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "丢弃暂存版本（需要 2FA）。"
+              ],
+              "option": [
+                {
+                  "name": "--otp",
+                  "usage": [
+                    "--otp <OTP>"
+                  ],
+                  "tip": [
+                    "用于认证的一次性密码。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "view",
+              "usage": [
+                "view [OPTIONS] <STAGE_ID> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "显示暂存版本的详情。"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "token",
+          "usage": [
+            "token <COMMAND>"
+          ],
+          "tip": [
+            "管理认证令牌。"
+          ],
+          "next": [
+            {
+              "name": "create",
+              "usage": [
+                "create [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "创建新的认证令牌。"
+              ],
+              "option": [
+                {
+                  "name": "--cidr",
+                  "usage": [
+                    "--cidr <CIDR>"
+                  ],
+                  "tip": [
+                    "限制令牌的 CIDR 范围。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--readonly",
+                  "tip": [
+                    "创建只读令牌。"
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "alias": [
+                "ls"
+              ],
+              "usage": [
+                "ls|list [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "列出全部已知令牌。"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 JSON 格式输出。"
+                  ]
+                },
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "revoke",
+              "usage": [
+                "revoke [OPTIONS] <TOKEN> [-- <PASS_THROUGH_ARGS>...]"
+              ],
+              "tip": [
+                "撤销认证令牌。"
+              ],
+              "option": [
+                {
+                  "name": "--registry",
+                  "usage": [
+                    "--registry <URL>"
+                  ],
+                  "tip": [
+                    "注册表 URL。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "version",
+          "usage": [
+            "version [OPTIONS] [NEW_VERSION] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "转发原生包版本命令。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view",
+          "alias": [
+            "info",
+            "show"
+          ],
+          "usage": [
+            "view|info|show <PACKAGE> [FIELD] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "查看注册表中的包信息。"
+          ],
+          "option": [
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "whoami",
+          "usage": [
+            "whoami [OPTIONS] [-- <PASS_THROUGH_ARGS>...]"
+          ],
+          "tip": [
+            "显示当前登录用户。"
+          ],
+          "option": [
+            {
+              "name": "--registry",
+              "usage": [
+                "--registry <URL>"
+              ],
+              "tip": [
+                "注册表 URL。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "preview",
+      "usage": [
+        "preview [ROOT] [OPTIONS]"
+      ],
+      "tip": [
+        "预览生产构建。"
+      ],
+      "option": [
+        {
+          "name": "--base",
+          "usage": [
+            "--base <PATH>"
+          ],
+          "tip": [
+            "公共基础路径（默认：/）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "记录日志时允许/禁止清屏。"
+          ]
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug [FEAT]"
+          ],
+          "tip": [
+            "显示调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <FILTER>"
+          ],
+          "tip": [
+            "过滤调试日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host [HOST]"
+          ],
+          "tip": [
+            "指定主机名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logLevel",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --logLevel <LEVEL>"
+          ],
+          "tip": [
+            "设置日志级别。"
+          ],
+          "next": [
+            {
+              "name": "error",
+              "tip": [
+                "Error 级别。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Info 级别。"
+              ]
+            },
+            {
+              "name": "silent",
+              "tip": [
+                "Silent 级别。"
+              ]
+            },
+            {
+              "name": "warn",
+              "tip": [
+                "Warn 级别。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mode",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --mode <MODE>"
+          ],
+          "tip": [
+            "设置环境模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--open",
+          "usage": [
+            "--open [PATH]"
+          ],
+          "tip": [
+            "启动时打开浏览器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--outDir",
+          "usage": [
+            "--outDir <DIR>"
+          ],
+          "tip": [
+            "输出目录（默认：dist）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "指定端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictPort",
+          "tip": [
+            "指定端口已被占用时直接退出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rebuild",
+      "usage": [
+        "rebuild [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "重新构建原生模块。"
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [OPTIONS] [TASK_SPECIFIER] [ADDITIONAL_ARGS]..."
+      ],
+      "tip": [
+        "运行任务（亦可作为独立命令 `vpr` 使用）。"
+      ],
+      "option": [
+        {
+          "name": "--cache",
+          "tip": [
+            "为全部任务与脚本强制启用缓存。"
+          ]
+        },
+        {
+          "name": "--concurrency-limit",
+          "usage": [
+            "--concurrency-limit <N>"
+          ],
+          "tip": [
+            "并发运行的最大任务数（默认：4）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-if-no-match",
+          "tip": [
+            "过滤器未匹配到包时以非零状态退出。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <FILTERS>"
+          ],
+          "tip": [
+            "按名称、目录或 glob 模式匹配包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-depends-on",
+          "tip": [
+            "不运行 `dependsOn` 字段中指定的依赖。"
+          ]
+        },
+        {
+          "name": "--last-details",
+          "tip": [
+            "显示上次运行的详细摘要。"
+          ]
+        },
+        {
+          "name": "--log",
+          "usage": [
+            "--log <MODE>"
+          ],
+          "tip": [
+            "设置输出模式：interleaved（默认）、labeled 或 grouped。"
+          ],
+          "next": [
+            {
+              "name": "grouped",
+              "tip": [
+                "分组输出。"
+              ]
+            },
+            {
+              "name": "interleaved",
+              "tip": [
+                "交错输出（默认）。"
+              ]
+            },
+            {
+              "name": "labeled",
+              "tip": [
+                "带标签输出。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "为全部任务与脚本强制禁用缓存。"
+          ]
+        },
+        {
+          "name": "--parallel",
+          "tip": [
+            "忽略依赖顺序运行任务；除非指定 `--concurrency-limit`，否则并发无上限。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "选择工作区中的全部包。"
+          ]
+        },
+        {
+          "name": "--transitive",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --transitive"
+          ],
+          "tip": [
+            "选择当前包及其传递依赖。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "执行后显示完整详细摘要。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "选择工作区根包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staged",
+      "usage": [
+        "staged [OPTIONS]"
+      ],
+      "tip": [
+        "对已暂存文件运行检查器。"
+      ],
+      "option": [
+        {
+          "name": "--allow-empty",
+          "tip": [
+            "当任务还原了所有暂存改动时，允许空提交。"
+          ]
+        },
+        {
+          "name": "--concurrent",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --concurrent [<number|boolean>]"
+          ],
+          "tip": [
+            "同时运行任务。使用 false 可一次运行一个任务。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--continue-on-error",
+          "tip": [
+            "即使某个任务失败，也将所有任务运行到完成。"
+          ]
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <PATH>"
+          ],
+          "tip": [
+            "运行所有任务所用的工作目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "启用调试输出。"
+          ]
+        },
+        {
+          "name": "--diff",
+          "usage": [
+            "--diff <STRING>"
+          ],
+          "tip": [
+            "覆盖 git diff 默认的 --staged 标志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff-filter",
+          "usage": [
+            "--diff-filter <STRING>"
+          ],
+          "tip": [
+            "覆盖 git diff 默认的 --diff-filter=ACMR 标志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fail-on-changes",
+          "tip": [
+            "当任务修改了已跟踪文件时，以退出码 1 失败。"
+          ]
+        },
+        {
+          "name": "--hide-partially-staged",
+          "tip": [
+            "隐藏部分暂存文件中未暂存的改动。"
+          ]
+        },
+        {
+          "name": "--hide-unstaged",
+          "tip": [
+            "运行任务前隐藏所有未暂存的改动。"
+          ]
+        },
+        {
+          "name": "--no-concurrent",
+          "tip": [
+            "一次运行一个任务。"
+          ]
+        },
+        {
+          "name": "--no-stash",
+          "tip": [
+            "禁用备份储藏。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "禁用控制台输出。"
+          ]
+        },
+        {
+          "name": "--relative",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --relative"
+          ],
+          "tip": [
+            "向任务传递相对于 cwd 的文件路径。"
+          ]
+        },
+        {
+          "name": "--revert",
+          "tip": [
+            "出错时还原到原始状态。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "即使任务成功也显示任务输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test [COMMAND] [FILTERS]... [OPTIONS]"
+      ],
+      "tip": [
+        "运行测试。"
+      ],
+      "option": [
+        {
+          "name": "--allowOnly",
+          "tip": [
+            "允许标记为 only 的测试与套件（默认：!process.env.CI）。"
+          ]
+        },
+        {
+          "name": "--api",
+          "usage": [
+            "--api [PORT]"
+          ],
+          "tip": [
+            "指定服务器端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--attachmentsDir",
+          "usage": [
+            "--attachmentsDir <DIR>"
+          ],
+          "tip": [
+            "context.annotate 附件的存储目录（默认：.vitest-attachments）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bail",
+          "usage": [
+            "--bail <NUMBER>"
+          ],
+          "tip": [
+            "失败测试达到给定数量时停止执行（默认：0）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--browser",
+          "usage": [
+            "--browser <NAME>"
+          ],
+          "tip": [
+            "在浏览器中运行测试。等同于 --browser.enabled（默认：false）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache",
+          "tip": [
+            "启用缓存。"
+          ]
+        },
+        {
+          "name": "--changed",
+          "usage": [
+            "--changed [SINCE]"
+          ],
+          "tip": [
+            "运行受改动文件影响的测试（默认：false）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--clearCache",
+          "tip": [
+            "删除全部 Vitest 缓存而不运行测试。"
+          ]
+        },
+        {
+          "name": "--clearScreen",
+          "tip": [
+            "监视模式重新运行时清屏（默认：true）。"
+          ]
+        },
+        {
+          "name": "--compare",
+          "usage": [
+            "--compare <FILE>"
+          ],
+          "tip": [
+            "用于对比的基准测试输出文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "启用覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--dangerouslyIgnoreUnhandledErrors",
+          "tip": [
+            "忽略发生的未处理错误。"
+          ]
+        },
+        {
+          "name": "--detectAsyncLeaks",
+          "tip": [
+            "检测测试文件中泄漏的异步资源（默认：false）。"
+          ]
+        },
+        {
+          "name": "--diff",
+          "usage": [
+            "--diff <PATH>"
+          ],
+          "tip": [
+            "DiffOptions 对象，或导出 DiffOptions 对象的模块路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <PATH>"
+          ],
+          "tip": [
+            "扫描测试文件的基础目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disableConsoleIntercept",
+          "tip": [
+            "禁用控制台日志的自动拦截（默认：false）。"
+          ]
+        },
+        {
+          "name": "--dom",
+          "tip": [
+            "用 happy-dom 模拟浏览器 API。"
+          ]
+        },
+        {
+          "name": "--environment",
+          "usage": [
+            "--environment <NAME>"
+          ],
+          "tip": [
+            "指定运行环境（非浏览器模式，默认：node）。"
+          ],
+          "next": [
+            {
+              "name": "happy-dom",
+              "tip": [
+                "happy-dom 浏览器环境。"
+              ]
+            },
+            {
+              "name": "jsdom",
+              "tip": [
+                "jsdom 浏览器环境。"
+              ]
+            },
+            {
+              "name": "node",
+              "tip": [
+                "Node.js 环境（默认）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--exclude",
+          "usage": [
+            "--exclude <GLOB>"
+          ],
+          "tip": [
+            "测试中要排除的额外文件 glob。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--execArgv",
+          "usage": [
+            "--execArgv <OPTION>"
+          ],
+          "tip": [
+            "生成 worker_threads 或 child_process 时向 Node 进程传递额外参数。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--expandSnapshotDiff",
+          "tip": [
+            "快照失败时显示完整差异。"
+          ]
+        },
+        {
+          "name": "--expect",
+          "tip": [
+            "expect() 匹配的配置选项。"
+          ]
+        },
+        {
+          "name": "--experimental",
+          "usage": [
+            "--experimental <FEATURES>"
+          ],
+          "tip": [
+            "实验性功能。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fileParallelism",
+          "tip": [
+            "所有测试文件是否并行运行。用 --no-file-parallelism 可禁用（默认：true）。"
+          ]
+        },
+        {
+          "name": "--filesOnly",
+          "tip": [
+            "仅打印测试文件，不打印测试用例。"
+          ]
+        },
+        {
+          "name": "--globals",
+          "tip": [
+            "全局注入 API。"
+          ]
+        },
+        {
+          "name": "--hideSkippedTests",
+          "tip": [
+            "隐藏跳过测试的日志。"
+          ]
+        },
+        {
+          "name": "--hookTimeout",
+          "usage": [
+            "--hookTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "钩子默认超时（毫秒，默认：10000）。设为 0 可完全禁用超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--includeTaskLocation",
+          "tip": [
+            "在 location 属性中收集测试与套件位置。"
+          ]
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect [[HOST:]PORT]"
+          ],
+          "tip": [
+            "启用 Node.js 检查器（默认：127.0.0.1:9229）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--inspectBrk",
+          "usage": [
+            "--inspectBrk [[HOST:]PORT]"
+          ],
+          "tip": [
+            "启用 Node.js 检查器，并在测试开始前中断。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--isolate",
+          "tip": [
+            "每个测试文件独立运行。用 --no-isolate 可禁用隔离（默认：true）。"
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json [VALUE]"
+          ],
+          "tip": [
+            "以 JSON 打印收集到的测试，或写入文件（默认：false）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--listTags",
+          "usage": [
+            "--listTags [TYPE]"
+          ],
+          "tip": [
+            "列出全部可用标签而不运行测试。--list-tags=json 将以 JSON 输出标签（无标签时除外）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--logHeapUsage",
+          "tip": [
+            "在 Node 中运行时显示每个测试的堆大小。"
+          ]
+        },
+        {
+          "name": "--maxConcurrency",
+          "usage": [
+            "--maxConcurrency <NUMBER>"
+          ],
+          "tip": [
+            "测试文件执行期间并发测试与套件的最大数量（默认：5）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--maxWorkers",
+          "usage": [
+            "--maxWorkers <WORKERS>"
+          ],
+          "tip": [
+            "运行测试的最大 Worker 数量或百分比。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mergeReports",
+          "usage": [
+            "--mergeReports [PATH]"
+          ],
+          "tip": [
+            "Blob 报告目录路径。使用此选项时 Vitest 不运行测试，仅报告之前记录的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mode",
+          "usage": [
+            "--mode <NAME>"
+          ],
+          "tip": [
+            "覆盖 Vite 模式（默认：test 或 benchmark）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "移除控制台输出中的颜色（默认：true）。"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "自动打开 UI（默认：!process.env.CI）。"
+          ]
+        },
+        {
+          "name": "--outputFile",
+          "usage": [
+            "--outputFile <FILE>"
+          ],
+          "tip": [
+            "同时指定了受支持的报告器时，将测试结果写入文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--outputJson",
+          "usage": [
+            "--outputJson <FILE>"
+          ],
+          "tip": [
+            "基准测试输出文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--passWithNoTests",
+          "tip": [
+            "未找到测试时仍通过。"
+          ]
+        },
+        {
+          "name": "--pool",
+          "usage": [
+            "--pool <POOL>"
+          ],
+          "tip": [
+            "指定运行池（非浏览器模式，默认：forks）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--printConsoleTrace",
+          "tip": [
+            "始终打印控制台堆栈跟踪。"
+          ]
+        },
+        {
+          "name": "--project",
+          "usage": [
+            "--project <NAME>"
+          ],
+          "tip": [
+            "使用 Vitest 工作区功能时要运行的项目名。可重复指定多个项目。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--reporter",
+          "usage": [
+            "--reporter <NAME>"
+          ],
+          "tip": [
+            "指定报告器。"
+          ],
+          "next": [
+            {
+              "name": "agent",
+              "tip": [
+                "Agent 报告器。"
+              ]
+            },
+            {
+              "name": "blob",
+              "tip": [
+                "Blob 报告器。"
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "默认报告器。"
+              ]
+            },
+            {
+              "name": "dot",
+              "tip": [
+                "Dot 报告器。"
+              ]
+            },
+            {
+              "name": "github-actions",
+              "tip": [
+                "GitHub Actions 报告器。"
+              ]
+            },
+            {
+              "name": "hanging-process",
+              "tip": [
+                "Hanging-process 报告器。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "JSON 报告器。"
+              ]
+            },
+            {
+              "name": "junit",
+              "tip": [
+                "JUnit 报告器。"
+              ]
+            },
+            {
+              "name": "minimal",
+              "tip": [
+                "Minimal 报告器。"
+              ]
+            },
+            {
+              "name": "tap",
+              "tip": [
+                "TAP 报告器。"
+              ]
+            },
+            {
+              "name": "tap-flat",
+              "tip": [
+                "扁平 TAP 报告器。"
+              ]
+            },
+            {
+              "name": "tree",
+              "tip": [
+                "Tree 报告器。"
+              ]
+            },
+            {
+              "name": "verbose",
+              "tip": [
+                "Verbose 报告器。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--retry",
+          "usage": [
+            "--retry <TIMES>"
+          ],
+          "tip": [
+            "测试失败时重试指定次数（默认：0）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --root <PATH>"
+          ],
+          "tip": [
+            "根路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--run",
+          "tip": [
+            "禁用监视模式。"
+          ]
+        },
+        {
+          "name": "--sequence",
+          "usage": [
+            "--sequence <OPTIONS>"
+          ],
+          "tip": [
+            "测试排序选项。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <SHARDS>"
+          ],
+          "tip": [
+            "以 <index>/<count> 格式执行测试套件分片。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "usage": [
+            "--silent [VALUE]"
+          ],
+          "tip": [
+            "测试的控制台输出静默。使用 'passed-only' 可仅查看失败测试的日志。"
+          ],
+          "next": [
+            {
+              "name": "passed-only",
+              "tip": [
+                "仅查看失败测试的日志。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--slowTestThreshold",
+          "usage": [
+            "--slowTestThreshold <THRESHOLD>"
+          ],
+          "tip": [
+            "测试或套件被视为缓慢的阈值（毫秒，默认：300）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--standalone",
+          "tip": [
+            "启动 Vitest 但不运行测试。仅在变更时运行测试（默认：false）。"
+          ]
+        },
+        {
+          "name": "--staticParse",
+          "tip": [
+            "静态解析文件以收集测试，而不运行它们（默认：false）。"
+          ]
+        },
+        {
+          "name": "--staticParseConcurrency",
+          "usage": [
+            "--staticParseConcurrency <LIMIT>"
+          ],
+          "tip": [
+            "同时处理多少个测试（默认：os.availableParallelism()）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strictTags",
+          "tip": [
+            "测试带有配置中未定义的标签时 Vitest 是否报错（默认：true）。"
+          ]
+        },
+        {
+          "name": "--tagsFilter",
+          "usage": [
+            "--tagsFilter <EXPRESSION>"
+          ],
+          "tip": [
+            "仅运行带指定标签的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--teardownTimeout",
+          "usage": [
+            "--teardownTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "清理函数的默认超时（毫秒，默认：10000）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testNamePattern",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --testNamePattern <PATTERN>"
+          ],
+          "tip": [
+            "运行全名匹配指定正则的测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testTimeout",
+          "usage": [
+            "--testTimeout <TIMEOUT>"
+          ],
+          "tip": [
+            "测试默认超时（毫秒，默认：5000）。设为 0 可完全禁用超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--typecheck",
+          "tip": [
+            "在测试之外启用类型检查（默认：false）。"
+          ]
+        },
+        {
+          "name": "--ui",
+          "tip": [
+            "启用 UI。"
+          ]
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update [TYPE]"
+          ],
+          "tip": [
+            "更新快照（接受布尔值、\"new\"、\"all\" 或 \"none\"）。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "更新全部快照。"
+              ]
+            },
+            {
+              "name": "new",
+              "tip": [
+                "更新新增快照。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "不更新快照。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--vmMemoryLimit",
+          "usage": [
+            "--vmMemoryLimit <LIMIT>"
+          ],
+          "tip": [
+            "VM 池的内存限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "启用监视模式。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "bench",
+          "usage": [
+            "bench [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "运行基准测试。"
+          ]
+        },
+        {
+          "name": "dev",
+          "usage": [
+            "dev [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "以开发模式运行测试。"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "列出匹配的测试。"
+          ]
+        },
+        {
+          "name": "related",
+          "usage": [
+            "related [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "运行与改动文件相关的测试。"
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "运行一次测试。"
+          ]
+        },
+        {
+          "name": "watch",
+          "usage": [
+            "watch [FILTERS]... [OPTIONS]"
+          ],
+          "tip": [
+            "以监视模式运行测试。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "toolchain",
+      "usage": [
+        "toolchain [OPTIONS] [TOOLS]..."
+      ],
+      "tip": [
+        "显示启用的 Vite+ 工具、版本及其关系。"
+      ],
+      "option": [
+        {
+          "name": "--global",
+          "tip": [
+            "使用全局 Vite+ 工具链。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 打印关系图。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "remove",
+        "rm",
+        "un"
+      ],
+      "usage": [
+        "un|rm|remove|uninstall <PACKAGES>... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "从依赖中移除包。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "预览将被移除的内容而不实际移除（仅与 -g 联用）。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "移除全局包。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归地从全部工作区包移除。"
+          ]
+        },
+        {
+          "name": "--save-dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --save-dev"
+          ],
+          "tip": [
+            "仅从 `devDependencies` 移除（pnpm 特有）。"
+          ]
+        },
+        {
+          "name": "--save-optional",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --save-optional"
+          ],
+          "tip": [
+            "仅从 `optionalDependencies` 移除（pnpm 特有）。"
+          ]
+        },
+        {
+          "name": "--save-prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --save-prod"
+          ],
+          "tip": [
+            "仅从 `dependencies` 移除（pnpm 特有）。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "从工作区根目录移除。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink [PACKAGE|DIR] [ARGS]..."
+      ],
+      "tip": [
+        "取消链接包。"
+      ],
+      "option": [
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "在每个工作区包中取消链接。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [OPTIONS] [PACKAGES]... [-- <PASS_THROUGH_ARGS>...]"
+      ],
+      "tip": [
+        "将包更新到最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <CONCURRENCY>"
+          ],
+          "tip": [
+            "并行执行的全局包更新数量（仅与 -g 联用）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --dev"
+          ],
+          "tip": [
+            "仅更新 devDependencies。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <PATTERN>"
+          ],
+          "tip": [
+            "过滤 monorepo 中的包（可多次使用）。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "更新全局包。"
+          ]
+        },
+        {
+          "name": "--ignore-node-mismatch",
+          "tip": [
+            "跳过用不同 Node.js 版本安装的最新全局包。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "交互模式。"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "更新到最新版本（忽略 semver 范围）。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "不更新 optionalDependencies。"
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "仅更新锁文件，不修改 package.json。"
+          ]
+        },
+        {
+          "name": "--prod",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --prod"
+          ],
+          "tip": [
+            "仅更新 dependencies（生产依赖）。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归更新全部工作区包。"
+          ]
+        },
+        {
+          "name": "--reinstall-node-mismatch",
+          "tip": [
+            "重新安装用不同 Node.js 版本安装的最新全局包。"
+          ]
+        },
+        {
+          "name": "--workspace",
+          "tip": [
+            "仅当包存在于工作区时更新（pnpm 特有）。"
+          ]
+        },
+        {
+          "name": "--workspace-root",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --workspace-root"
+          ],
+          "tip": [
+            "包含工作区根目录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [OPTIONS] [VERSION]"
+      ],
+      "tip": [
+        "将 vp 自身更新到最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--check",
+          "tip": [
+            "检查更新而不安装。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使已是目标版本也强制重装。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <URL>"
+          ],
+          "tip": [
+            "自定义 npm 注册表 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rollback",
+          "tip": [
+            "回滚到之前启用的版本。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "抑制输出。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "要安装的 npm dist-tag（默认：\"latest\"，还有：\"alpha\"）。"
+          ],
+          "next": [
+            {
+              "name": "alpha",
+              "tip": [
+                "Alpha 预发布版。"
+              ]
+            },
+            {
+              "name": "latest",
+              "tip": [
+                "最新稳定版（默认）。"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    },
+    {
+      "name": "-C",
+      "usage": [
+        "-C <DIR>"
+      ],
+      "tip": [
+        "如同 vp 在 <DIR> 而非当前工作目录启动一样运行。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助。"
+      ]
+    }
+  ]
+}
