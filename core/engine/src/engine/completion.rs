@@ -560,12 +560,15 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
         }
     }
     let mut candidates: Vec<&Node> = Vec::new();
-    // An option's value pending (`--format=j<TAB>`, `--exclude a,b<TAB>`,
-    // `--exclude b<TAB>` first segment): only the owning option's value
-    // candidates can fill the slot — never sibling commands, options, or
-    // globals. `layers` keeps the option so hooks fire at it. Plain
-    // space-separated partials (`--format j<TAB>`, neither `=` nor separator)
-    // keep the historical command-context path below.
+    // An option's value pending in `=`/separator form (`--format=j<TAB>`,
+    // `--exclude a,b<TAB>`): only the owning option's value candidates can
+    // fill the slot — never sibling commands, options, or globals (the `=`
+    // head is glued on, so bailing out to a sibling is impossible).
+    // `layers` keeps the option so hooks fire at it. Plain space-separated
+    // partials (`--tag a<TAB>`) instead take the generic path below, yielding
+    // the same set as the empty pending (`--tag <TAB>`): the option's values
+    // plus sibling options and globals. The in-menu filter is a pure view, so
+    // clearing it must restore exactly that set.
     let pending_value_of_option = matches!(
         pending.as_ref().and_then(|p| p.kind.as_deref()),
         Some("value")
@@ -603,18 +606,20 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 candidates.push(n);
             }
         } else if let Some(c) = ctx {
-            // After consuming an option value (e.g. `--depth 1`),
-            // the ctx is at the value node (or the option node, when the value is
-            // still pending). In both cases, show the next candidates from the
-            // nearest command context instead of the value/option node's next.
-            // Also truncate `layers` so that hooks fire at the correct position.
-            let ctx_is_option = ctx.map(|c| c.is_option).unwrap_or(false);
-            let is_value_context = tokens.last().is_some_and(|t| t.kind == "value")
-                || pending
-                    .as_ref()
-                    .and_then(|p| p.kind.as_deref())
-                    .is_some_and(|k| k == "value" || (k == "command" && ctx_is_option));
-            if is_value_context {
+            // A completed option value (e.g. `--depth 1`) fills the slot, so
+            // the context resets to the nearest command context. An option
+            // that yields to a pending command word (the word matches a known
+            // command, so the option acts as a flag) resets the same way.
+            // A still-pending plain value (`--tag a<TAB>`) is NOT a reset: it
+            // falls into the generic branch, offering the option's own values
+            // plus siblings and globals — the same set as the empty pending.
+            // `layers` is truncated only on reset, so hooks fire at the
+            // correct position.
+            let ctx_is_option = c.is_option;
+            let pending_kind = pending.as_ref().and_then(|p| p.kind.as_deref());
+            let value_consumed = tokens.last().is_some_and(|t| t.kind == "value");
+            let pending_new_command = pending_kind == Some("command") && ctx_is_option;
+            if value_consumed || pending_new_command {
                 let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
                 if let Some(idx) = cmd_idx {
                     if let Some(cmd_node) = stack.get(idx) {
@@ -969,6 +974,112 @@ mod tests {
         assert_eq!(
             r2.context.pending.as_ref().unwrap().kind.as_deref(),
             Some("value")
+        );
+        // The unfinished plain value keeps the option's own candidates.
+        let texts2: Vec<&str> = r2.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(
+            texts2.contains(&"json") && texts2.contains(&"yaml"),
+            "unfinished value keeps option candidates: {texts2:?}"
+        );
+    }
+
+    #[test]
+    fn plain_partial_option_value_offers_full_context_set() {
+        // `vp upgrade --tag a<TAB>`: the unfinished plain value yields the
+        // same set as the empty pending (`--tag <TAB>`) — the option's own
+        // values plus sibling options and globals. The in-menu filter is a
+        // pure view, so clearing it restores exactly this set.
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "upgrade", "option": [
+                { "name": "--tag", "next": [ { "name": "latest" }, { "name": "alpha" } ] },
+                { "name": "--force" }
+            ] } ],
+            "global_option": [ { "name": "--help" } ]
+        }));
+        let r = resolve(
+            &tree,
+            &["upgrade".into(), "--tag".into(), "a".into()],
+            false,
+        );
+        assert_eq!(
+            r.context.pending.as_ref().and_then(|p| p.kind.as_deref()),
+            Some("value")
+        );
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(
+            texts.contains(&"latest") && texts.contains(&"alpha"),
+            "option value candidates kept: {texts:?}"
+        );
+        assert!(
+            texts.contains(&"--force"),
+            "sibling options stay reachable: {texts:?}"
+        );
+        assert!(
+            texts.contains(&"--help"),
+            "globals stay reachable: {texts:?}"
+        );
+        // Hooks still see the option layer, not a truncated command chain.
+        assert_eq!(
+            r.context.layers.last(),
+            Some(&("option".to_string(), "--tag".to_string())),
+            "layers: {:?}",
+            r.context.layers
+        );
+    }
+
+    #[test]
+    fn plain_partial_option_value_matches_empty_pending_set() {
+        // `--tag a<TAB>` resolves to the same candidate set as `--tag <TAB>`
+        // (trailing space): the pending word only pre-fills the menu filter.
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "upgrade", "option": [
+                { "name": "--tag", "next": [ { "name": "latest" }, { "name": "alpha" } ] },
+                { "name": "--force" }
+            ] } ],
+            "global_option": [ { "name": "--help" } ]
+        }));
+        let partial = resolve(
+            &tree,
+            &["upgrade".into(), "--tag".into(), "a".into()],
+            false,
+        );
+        let empty = resolve(&tree, &["upgrade".into(), "--tag".into()], true);
+        assert!(empty.context.pending.is_none());
+        let mut partial_texts: Vec<&str> = partial.items.iter().map(|i| i.text.as_str()).collect();
+        let mut empty_texts: Vec<&str> = empty.items.iter().map(|i| i.text.as_str()).collect();
+        partial_texts.sort_unstable();
+        empty_texts.sort_unstable();
+        assert_eq!(partial_texts, empty_texts);
+    }
+
+    #[test]
+    fn completed_option_value_still_resets_to_command() {
+        // `vp upgrade --tag alpha <TAB>` (trailing space): the value is
+        // consumed, so the context resets to the command — its options stay
+        // reachable while the option's own candidates are gone.
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "upgrade", "option": [
+                { "name": "--tag", "next": [ { "name": "latest" }, { "name": "alpha" } ] },
+                { "name": "--force" }
+            ] } ]
+        }));
+        let r = resolve(
+            &tree,
+            &["upgrade".into(), "--tag".into(), "alpha".into()],
+            true,
+        );
+        assert!(r.context.pending.is_none());
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(
+            texts.contains(&"--force"),
+            "command options reachable after consumed value: {texts:?}"
+        );
+        assert!(
+            !texts.contains(&"latest") && !texts.contains(&"alpha"),
+            "option candidates gone after consumed value: {texts:?}"
         );
     }
 
