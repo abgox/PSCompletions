@@ -155,10 +155,12 @@ fn hook_completes_well_within_timeout() {
     // deadline. The budget is generous (still well under the 10 s cap) so parallel test
     // load cannot exhaust it before the subprocess finishes — the assertion is about
     // completing with correct output, not about a tight timing window.
+    // `echo` is a shell builtin on Windows, not an executable: spawning it directly
+    // fails there, so run through the platform shell instead.
     let script = r#"
     local t = {}
     for i = 1, 1000 do t[i] = { name = "x" .. i } end
-    local lines = psc.run({ "echo", "hello" })
+    local lines = psc.run({ "echo", "hello" }, { shell = true })
     t[1001] = { name = lines[1] }
     return t
 "#;
