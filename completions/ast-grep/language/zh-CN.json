@@ -1,0 +1,1669 @@
+{
+  "meta": {
+    "url": "https://github.com/ast-grep/ast-grep",
+    "description": [
+      "使用 AST 模式在大规模代码中搜索与重写。"
+    ]
+  },
+  "next": [
+    {
+      "name": "completions",
+      "usage": [
+        "completions [SHELL]"
+      ],
+      "tip": [
+        "生成 shell 补全脚本。"
+      ],
+      "next": [
+        {
+          "name": "bash",
+          "tip": [
+            "Bash 补全脚本。"
+          ]
+        },
+        {
+          "name": "elvish",
+          "tip": [
+            "Elvish 补全脚本。"
+          ]
+        },
+        {
+          "name": "fish",
+          "tip": [
+            "Fish 补全脚本。"
+          ]
+        },
+        {
+          "name": "powershell",
+          "tip": [
+            "PowerShell 补全脚本。"
+          ]
+        },
+        {
+          "name": "zsh",
+          "tip": [
+            "Zsh 补全脚本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "打印该命令或子命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "lsp",
+      "tip": [
+        "启动语言服务器。"
+      ]
+    },
+    {
+      "name": "new",
+      "usage": [
+        "new [NAME]"
+      ],
+      "tip": [
+        "创建新的 ast-grep 项目或规则 / 测试等条目。"
+      ],
+      "option": [
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "要创建条目的语言。仅用于 rule 与 util。"
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--yes",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes"
+          ],
+          "tip": [
+            "创建过程中接受全部默认选项，无需交互式输入。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "project",
+          "usage": [
+            "project [NAME]"
+          ],
+          "tip": [
+            "通过脚手架创建新项目。"
+          ]
+        },
+        {
+          "name": "rule",
+          "usage": [
+            "rule [NAME]"
+          ],
+          "tip": [
+            "创建新规则。"
+          ]
+        },
+        {
+          "name": "test",
+          "usage": [
+            "test [NAME]"
+          ],
+          "tip": [
+            "创建新的测试用例。"
+          ]
+        },
+        {
+          "name": "util",
+          "usage": [
+            "util [NAME]"
+          ],
+          "tip": [
+            "创建新的全局工具规则。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outline",
+      "usage": [
+        "outline [PATHS]..."
+      ],
+      "tip": [
+        "浏览代码结构中的符号、导入、导出与成员。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "控制输出颜色。"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "跟踪符号链接。"
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "按 glob 包含或排除文件路径。以 ! 开头表示排除。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--items",
+          "usage": [
+            "--items <ITEMS>"
+          ],
+          "tip": [
+            "选择包含哪些顶层条目。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "全部顶层条目，含导入与导出。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "文件或 stdin 输入使用 structure，给定目录时使用 exports。"
+              ]
+            },
+            {
+              "name": "exports",
+              "tip": [
+                "从文件或模块导出的顶层条目。"
+              ]
+            },
+            {
+              "name": "imports",
+              "tip": [
+                "从其他文件或模块导入的顶层条目。"
+              ]
+            },
+            {
+              "name": "structure",
+              "tip": [
+                "文件中本地定义的顶层条目，不含导入。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "以结构化 JSON 输出 outline 条目。"
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "单行 JSON 数组。"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "美化打印的 JSON 数组。"
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "每行一个 JSON 对象。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "指定输入语言。"
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--match",
+          "usage": [
+            "--match <REGEX>"
+          ],
+          "tip": [
+            "仅保留匹配该正则的顶层条目。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-default-outline-rules",
+          "tip": [
+            "不加载内置的 outline 提取器定义。"
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "不遵守隐藏文件系统或忽略文件。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "不遵守 .ignore 文件。"
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "不遵守手动配置的忽略文件，如 .git/info/exclude。"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "不遵守全局忽略文件，如 git 的 core.excludesFile。"
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "搜索隐藏文件与目录。"
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "不遵守父目录中的忽略文件。"
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "不遵守版本控制忽略文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--outline-rules",
+          "usage": [
+            "--outline-rules <FILE>"
+          ],
+          "tip": [
+            "加载额外的 outline 提取器定义。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pub-members",
+          "tip": [
+            "在成员视图中仅显示公开成员。"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从标准输入读取待搜索代码。"
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "设置使用的大致线程数。0 表示自动选择。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE[,TYPE...]>"
+          ],
+          "tip": [
+            "仅保留这些逗号分隔符号类型的顶层条目。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--view",
+          "usage": [
+            "--view <VIEW>"
+          ],
+          "tip": [
+            "选择文本展示形式。"
+          ],
+          "next": [
+            {
+              "name": "auto",
+              "tip": [
+                "文件或 stdin 输入使用 digest，给定目录时使用 names。"
+              ]
+            },
+            {
+              "name": "digest",
+              "tip": [
+                "签名加精简成员名称摘要。"
+              ]
+            },
+            {
+              "name": "expanded",
+              "tip": [
+                "签名加每个直接成员一行源码 / 签名。"
+              ]
+            },
+            {
+              "name": "names",
+              "tip": [
+                "每个文件每种符号类型一行分组名称。"
+              ]
+            },
+            {
+              "name": "signatures",
+              "tip": [
+                "每个顶层条目一行源码 / 签名。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [PATHS]..."
+      ],
+      "tip": [
+        "在命令行中运行一次性搜索或重写。(默认命令)"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --after <NUM>"
+          ],
+          "tip": [
+            "在每个匹配后显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --before <NUM>"
+          ],
+          "tip": [
+            "在每个匹配前显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "控制输出颜色。"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <NUM>"
+          ],
+          "tip": [
+            "在每个匹配前后显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug-query",
+          "usage": [
+            "--debug-query[=<FORMAT>]"
+          ],
+          "tip": [
+            "打印查询 pattern 的 tree-sitter AST。需要显式设置 lang。"
+          ],
+          "next": [
+            {
+              "name": "ast",
+              "tip": [
+                "以 tree-sitter AST 格式打印查询，仅显示命名节点。"
+              ]
+            },
+            {
+              "name": "cst",
+              "tip": [
+                "以 tree-sitter CST 格式打印查询，显示命名与匿名节点。"
+              ]
+            },
+            {
+              "name": "pattern",
+              "tip": [
+                "以 Pattern 格式打印解析后的查询。"
+              ]
+            },
+            {
+              "name": "sexp",
+              "tip": [
+                "以 S-expression 格式打印查询。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--files-with-matches",
+          "tip": [
+            "仅打印有匹配的文件路径，不显示匹配内容。"
+          ]
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "跟踪符号链接。"
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "按 glob 包含或排除文件路径。以 ! 开头表示排除。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--heading",
+          "usage": [
+            "--heading <WHEN>"
+          ],
+          "tip": [
+            "控制是否将文件名作为标题打印。"
+          ],
+          "next": [
+            {
+              "name": "always",
+              "tip": [
+                "始终打印标题。"
+              ]
+            },
+            {
+              "name": "auto",
+              "tip": [
+                "终端 tty 打印标题，管道输出不打印。"
+              ]
+            },
+            {
+              "name": "never",
+              "tip": [
+                "从不打印标题。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect <GRANULARITY>"
+          ],
+          "tip": [
+            "查看文件 / 规则发现与扫描过程的信息。"
+          ],
+          "next": [
+            {
+              "name": "entity",
+              "tip": [
+                "显示每个文件 / 每条规则的追踪信息。"
+              ]
+            },
+            {
+              "name": "nothing",
+              "tip": [
+                "不显示任何追踪信息。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "显示扫描与跳过文件数量的摘要。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "启动交互式编辑会话。"
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "以结构化 JSON 输出匹配结果。"
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "单行 JSON 数组。"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "美化打印的 JSON 数组。"
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "每行一个 JSON 对象。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--kind",
+          "alias": [
+            "-k"
+          ],
+          "usage": [
+            "-k, --kind <KIND>"
+          ],
+          "tip": [
+            "要匹配的 AST kind，使用 ESQuery 风格选择器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lang",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --lang <LANG>"
+          ],
+          "tip": [
+            "pattern 的语言。"
+          ],
+          "next": [
+            {
+              "name": "Bash"
+            },
+            {
+              "name": "C"
+            },
+            {
+              "name": "Cpp"
+            },
+            {
+              "name": "CSharp"
+            },
+            {
+              "name": "Css"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Elixir"
+            },
+            {
+              "name": "Go"
+            },
+            {
+              "name": "Haskell"
+            },
+            {
+              "name": "Hcl"
+            },
+            {
+              "name": "Html"
+            },
+            {
+              "name": "Java"
+            },
+            {
+              "name": "JavaScript"
+            },
+            {
+              "name": "Json"
+            },
+            {
+              "name": "Kotlin"
+            },
+            {
+              "name": "Lua"
+            },
+            {
+              "name": "Markdown"
+            },
+            {
+              "name": "Nix"
+            },
+            {
+              "name": "Php"
+            },
+            {
+              "name": "Python"
+            },
+            {
+              "name": "Ruby"
+            },
+            {
+              "name": "Rust"
+            },
+            {
+              "name": "Scala"
+            },
+            {
+              "name": "Solidity"
+            },
+            {
+              "name": "Swift"
+            },
+            {
+              "name": "Tsx"
+            },
+            {
+              "name": "TypeScript"
+            },
+            {
+              "name": "Yaml"
+            }
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "不遵守隐藏文件系统或忽略文件。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "不遵守 .ignore 文件。"
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "不遵守手动配置的忽略文件，如 .git/info/exclude。"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "不遵守全局忽略文件，如 git 的 core.excludesFile。"
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "搜索隐藏文件与目录。"
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "不遵守父目录中的忽略文件。"
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "不遵守版本控制忽略文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--pattern",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pattern <PATTERN>"
+          ],
+          "tip": [
+            "要匹配的 AST 模式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rewrite",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rewrite <FIX>"
+          ],
+          "tip": [
+            "用于替换匹配到的 AST 节点的字符串。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--selector",
+          "usage": [
+            "--selector <KIND>"
+          ],
+          "tip": [
+            "提取 pattern 子部分进行匹配的 AST kind。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从标准输入读取待搜索代码。"
+          ]
+        },
+        {
+          "name": "--strictness",
+          "usage": [
+            "--strictness <STRICTNESS>"
+          ],
+          "tip": [
+            "pattern 的严格程度。"
+          ],
+          "next": [
+            {
+              "name": "ast",
+              "tip": [
+                "仅匹配 ast 节点。"
+              ]
+            },
+            {
+              "name": "cst",
+              "tip": [
+                "完全匹配所有节点。"
+              ]
+            },
+            {
+              "name": "relaxed",
+              "tip": [
+                "匹配除注释外的 ast 节点。"
+              ]
+            },
+            {
+              "name": "signature",
+              "tip": [
+                "匹配除注释外的 ast 节点，不含文本。"
+              ]
+            },
+            {
+              "name": "smart",
+              "tip": [
+                "匹配除源码琐碎节点外的所有节点。"
+              ]
+            },
+            {
+              "name": "template",
+              "tip": [
+                "仅匹配文本，忽略节点 kind。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "设置使用的大致线程数。0 表示自动选择。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "无需确认，直接应用全部重写。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "scan",
+      "usage": [
+        "scan [PATHS]..."
+      ],
+      "tip": [
+        "按配置文件扫描并重写代码。"
+      ],
+      "option": [
+        {
+          "name": "--after",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --after <NUM>"
+          ],
+          "tip": [
+            "在每个匹配后显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--before",
+          "alias": [
+            "-B"
+          ],
+          "usage": [
+            "-B, --before <NUM>"
+          ],
+          "tip": [
+            "在每个匹配前显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "控制输出颜色。"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--context",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --context <NUM>"
+          ],
+          "tip": [
+            "在每个匹配前后显示 NUM 行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--error",
+          "usage": [
+            "--error[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "将规则严重级别设为 error。无值时作用于全部规则。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--files-with-matches",
+          "tip": [
+            "仅打印有匹配的文件路径，不显示匹配内容。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "usage": [
+            "--filter <REGEX>"
+          ],
+          "tip": [
+            "仅使用 id 匹配 REGEX 的规则扫描代码库。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "跟踪符号链接。"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <FORMAT>"
+          ],
+          "tip": [
+            "以不同格式输出 warning/error 信息。"
+          ],
+          "next": [
+            {
+              "name": "github"
+            },
+            {
+              "name": "sarif"
+            }
+          ]
+        },
+        {
+          "name": "--globs",
+          "usage": [
+            "--globs <GLOBS>"
+          ],
+          "tip": [
+            "按 glob 包含或排除文件路径。以 ! 开头表示排除。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--hint",
+          "usage": [
+            "--hint[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "将规则严重级别设为 hint。无值时作用于全部规则。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--include-metadata",
+          "tip": [
+            "在 json 输出中包含规则元数据。需要 --json。"
+          ]
+        },
+        {
+          "name": "--info",
+          "usage": [
+            "--info[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "将规则严重级别设为 info。无值时作用于全部规则。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--inline-rules",
+          "usage": [
+            "--inline-rules <RULE_TEXT>"
+          ],
+          "tip": [
+            "使用给定的 RULE_TEXT 定义的规则扫描代码库。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--inspect",
+          "usage": [
+            "--inspect <GRANULARITY>"
+          ],
+          "tip": [
+            "查看文件 / 规则发现与扫描过程的信息。"
+          ],
+          "next": [
+            {
+              "name": "entity",
+              "tip": [
+                "显示每个文件 / 每条规则的追踪信息。"
+              ]
+            },
+            {
+              "name": "nothing",
+              "tip": [
+                "不显示任何追踪信息。"
+              ]
+            },
+            {
+              "name": "summary",
+              "tip": [
+                "显示扫描与跳过文件数量的摘要。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "启动交互式编辑会话。"
+          ]
+        },
+        {
+          "name": "--json",
+          "usage": [
+            "--json[=<STYLE>]"
+          ],
+          "tip": [
+            "以结构化 JSON 输出匹配结果。"
+          ],
+          "next": [
+            {
+              "name": "compact",
+              "tip": [
+                "单行 JSON 数组。"
+              ]
+            },
+            {
+              "name": "pretty",
+              "tip": [
+                "美化打印的 JSON 数组。"
+              ]
+            },
+            {
+              "name": "stream",
+              "tip": [
+                "每行一个 JSON 对象。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--max-results",
+          "usage": [
+            "--max-results <NUM>"
+          ],
+          "tip": [
+            "最多显示 NUM 条结果，达到上限即停止。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--min-severity",
+          "usage": [
+            "--min-severity <SEVERITY>"
+          ],
+          "tip": [
+            "设置参与扫描的规则最低严重级别。"
+          ],
+          "next": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "hint"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "off"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "--no-ignore",
+          "usage": [
+            "--no-ignore <FILE_TYPE>"
+          ],
+          "tip": [
+            "不遵守隐藏文件系统或忽略文件。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "不遵守 .ignore 文件。"
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "不遵守手动配置的忽略文件，如 .git/info/exclude。"
+              ]
+            },
+            {
+              "name": "global",
+              "tip": [
+                "不遵守全局忽略文件，如 git 的 core.excludesFile。"
+              ]
+            },
+            {
+              "name": "hidden",
+              "tip": [
+                "搜索隐藏文件与目录。"
+              ]
+            },
+            {
+              "name": "parent",
+              "tip": [
+                "不遵守父目录中的忽略文件。"
+              ]
+            },
+            {
+              "name": "vcs",
+              "tip": [
+                "不遵守版本控制忽略文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--off",
+          "usage": [
+            "--off[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "关闭规则。无值时关闭全部规则。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--report-style",
+          "usage": [
+            "--report-style <REPORT_STYLE>"
+          ],
+          "tip": [
+            "诊断输出风格。"
+          ],
+          "next": [
+            {
+              "name": "medium",
+              "tip": [
+                "精简诊断，含行号、严重级别、消息与备注。"
+              ]
+            },
+            {
+              "name": "rich",
+              "tip": [
+                "富文本诊断，含源码预览。"
+              ]
+            },
+            {
+              "name": "short",
+              "tip": [
+                "简短诊断，含行号、严重级别与消息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--rule",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --rule <RULE_FILE>"
+          ],
+          "tip": [
+            "使用位于 RULE_FILE 的单条规则扫描代码库。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从标准输入读取待搜索代码。"
+          ]
+        },
+        {
+          "name": "--threads",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --threads <NUM>"
+          ],
+          "tip": [
+            "设置使用的大致线程数。0 表示自动选择。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "无需确认，直接应用全部重写。"
+          ]
+        },
+        {
+          "name": "--warning",
+          "usage": [
+            "--warning[=<RULE_ID>...]"
+          ],
+          "tip": [
+            "将规则严重级别设为 warning。无值时作用于全部规则。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "测试 ast-grep 规则。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "usage": [
+            "--color <WHEN>"
+          ],
+          "tip": [
+            "控制输出颜色。"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "ansi"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --filter <REGEX>"
+          ],
+          "tip": [
+            "仅运行匹配 REGEX 的规则测试用例。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--follow",
+          "tip": [
+            "搜索测试 YAML 文件时跟踪符号链接。"
+          ]
+        },
+        {
+          "name": "--include-off",
+          "tip": [
+            "在测试中包含 severity:off 的规则。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "启动交互式审查，有选择地更新快照。"
+          ]
+        },
+        {
+          "name": "--skip-snapshot-tests",
+          "tip": [
+            "仅校验测试代码是否合法，不检查规则输出。"
+          ]
+        },
+        {
+          "name": "--snapshot-dir",
+          "usage": [
+            "--snapshot-dir <SNAPSHOT_DIR>"
+          ],
+          "tip": [
+            "指定存放快照的目录名。默认为 __snapshots__。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--test-dir",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --test-dir <TEST_DIR>"
+          ],
+          "tip": [
+            "搜索测试 YAML 文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update-all",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --update-all"
+          ],
+          "tip": [
+            "更新测试中发生变化的全部快照内容。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config <CONFIG_FILE>"
+      ],
+      "tip": [
+        "ast-grep 根配置路径，默认为 sgconfig.yml。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助。"
+      ]
+    }
+  ]
+}
