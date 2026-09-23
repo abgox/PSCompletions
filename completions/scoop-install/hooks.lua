@@ -20,6 +20,7 @@ local function get_scoop_config()
                 return cfg
             end
         end
+        return { root_path = root }
     end
     return {}
 end
