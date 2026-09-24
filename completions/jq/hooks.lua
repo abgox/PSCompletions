@@ -1,11 +1,3 @@
-local function add_json_files()
-    for _, p in ipairs(psc.glob("**/*.json") or {}) do
-        local name = p:match("([^/\\]+)$")
-        if name then psc.add({ name = p, tip = "json file" }) end
-        if #completions > 100 then break end
-    end
-end
-
 local function add_filters()
     -- common jq filters
     local filters = { ".", ".[]", "keys", "keys_unsorted", "values", "length", "type", "select", "map", "select(.a)" }
@@ -31,7 +23,4 @@ local function add_filters()
     end
 end
 
-psc.on({}, function()
-    add_filters()
-    add_json_files()
-end)
+psc.on({}, add_filters)

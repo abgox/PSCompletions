@@ -5,8 +5,6 @@ local function add_files()
 end
 
 psc.on({
-    { command = "eval" },
-    { command = "eval-all" },
     { option = "--from-file" },
     { option = "--split-exp-file" },
 }, add_files)
