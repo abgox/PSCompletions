@@ -64,8 +64,7 @@
       ]
     },
     "name": {
-      "title": "命令名称",
-      "markdownDescription": "它应该是一个完整的名称，简写应该放在 `alias` 中",
+      "markdownDescription": "该补全项的规范名称 —— 即 **最长** 的形式。\n\n- 较短的拼写放进 `alias`\n- 含空格的取值需要加引号",
       "examples": [
         ""
       ],
@@ -85,8 +84,7 @@
       ]
     },
     "alias": {
-      "title": "命令别名",
-      "markdownDescription": "它通常是一个简写名称，完整的名称应该使用 `name` 定义",
+      "markdownDescription": "该补全项的其他拼写，按 **最长 → 最短** 排列。\n\n- 规范名称留在 `name`，别名只放其余形式\n- `usage` 必须展示每一个别名，顺序 **正好相反**（最短在前）",
       "examples": [
         []
       ],
@@ -135,8 +133,8 @@
       ]
     },
     "repeat": {
-      "type": "number",
-      "description": "该补全项的最大重复次数。",
+      "type": "integer",
+      "markdownDescription": "该补全项最多可出现的次数。\n\n- 仅在次数未知或基本无限制时才用 `99`\n- 达到次数上限后该项不再出现在补全中",
       "minimum": 1,
       "examples": [
         1,
@@ -552,13 +550,14 @@
                   ]
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       ]
     },
     "info": {
-      "markdownDescription": "一些额外的信息，hooks 可通过 `psc.manifest.info` 访问",
+      "markdownDescription": "供 hooks 使用的自由格式数据，通过 `psc.manifest.info` 读取。",
       "type": "object",
       "minProperties": 1
     }

@@ -64,8 +64,7 @@
       ]
     },
     "name": {
-      "title": "Command name",
-      "markdownDescription": "It should be a full name, and the short name should be in `alias`",
+      "markdownDescription": "The item's canonical name — its **longest** form.\n\n- Put the shorter spellings in `alias`\n- Quote a value containing spaces",
       "examples": [
         ""
       ],
@@ -85,8 +84,7 @@
       ]
     },
     "alias": {
-      "title": "Command alias",
-      "markdownDescription": "It should be a short name, and the full name should be in `name`",
+      "markdownDescription": "Alternative spellings for this item, ordered **longest → shortest**.\n\n- The canonical name stays in `name`; aliases are only the remaining forms\n- `usage` must show every alias, and there it appears in the **opposite** order (shortest first)",
       "examples": [
         []
       ],
@@ -135,8 +133,8 @@
       ]
     },
     "repeat": {
-      "type": "number",
-      "description": "Maximum number of times this item can repeat.",
+      "type": "integer",
+      "markdownDescription": "Maximum number of times this item may appear.\n\n- Use `99` only when the limit is unknown or effectively unlimited\n- The item stops being offered once the limit is reached",
       "minimum": 1,
       "examples": [
         1,
@@ -552,13 +550,14 @@
                   ]
                 }
               }
-            }
+            },
+            "additionalProperties": false
           }
         }
       ]
     },
     "info": {
-      "markdownDescription": "Additional information, exposed to hooks via `psc.manifest.info`",
+      "markdownDescription": "Free-form data for hooks, read as `psc.manifest.info`.",
       "type": "object",
       "minProperties": 1
     }
