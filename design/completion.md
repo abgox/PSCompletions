@@ -40,7 +40,7 @@ tree's root `option` items apply. `global_option` is always appended. Place a fl
 
 | Field | Meaning |
 | --- | --- |
-| `path` | Subcommand path of **canonical names** (aliases expanded, case-normalized). |
+| `path` | Subcommand path of **canonical names** (aliases expanded; the manifest's declared casing, not the user's input casing). |
 | `layers` | Typed context-switch chain: `(kind, canonical)` tuples — commands always; options when they have a `next` array (even empty) or a non-empty `option` array. Drives **declarative location matching** (`psc.on` spec matching). |
 | `pending` | The **unfinished last token** (the word being typed); `None` when the line ends with a space. |
 | `opts` | All completed options' **canonical names**, in order (aliases expanded; symmetrical to `path`). The most recent is `opts[#opts]`. |
@@ -49,6 +49,12 @@ tree's root `option` items apply. `global_option` is always appended. Place a fl
 Each token is classified as `command` / `option` / `value` / `unknown`:
 - Known commands/options push a `command`/`option` token with a **`canonical`** = the main
   (longest) name — alias input normalizes to it.
+- **Case sensitivity**: command words and option *values* match case-insensitively, but
+  **options match exactly**. Short flags are case-significant in real CLIs (`git commit -c`
+  reuses-and-edits a message while `-C` reuses it), so folding case let whichever option came
+  first in the array swallow both spellings — the loser's `repeat` slot was then consumed as if
+  the user had typed it. Aliases still normalize to the option's `name`; only the comparison
+  is exact.
 - Values of options become `value` tokens (even when the value is not in the option's static
   candidates). The engine implements **"command/option wins"**: an option with `next` (even
   empty) consumes the next token as its value — unless that token matches a known command or

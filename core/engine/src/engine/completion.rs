@@ -39,8 +39,18 @@ impl Node {
         // Only the declared side is normalized: a typed word matches verbatim,
         // so `--format=json` never matches here (it is split into option +
         // value first) and a value like `abc=` never collides with a command.
-        self.all_names()
-            .any(|n| Self::canonical_spelling(n).eq_ignore_ascii_case(text))
+        // Options compare case-sensitively: short flags are case-significant in
+        // real CLIs (`git commit -c` reuses-and-edits, `-C` reuses), so folding
+        // case let whichever option came first in the array swallow both
+        // spellings. Commands and option values stay case-insensitive.
+        self.all_names().any(|n| {
+            let n = Self::canonical_spelling(n);
+            if self.is_option {
+                n == text
+            } else {
+                n.eq_ignore_ascii_case(text)
+            }
+        })
     }
 }
 
@@ -659,7 +669,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                     if let Some(mn) = matched {
                         // Skip when already offered from the context's own list (e.g. an option
                         // candidate-value layer), so the item never appears twice.
-                        if used.get(&mn.name.to_lowercase()).copied().unwrap_or(0) == 0
+                        if used.get(&mn.name).copied().unwrap_or(0) == 0
                             && !candidates.iter().any(|c| std::ptr::eq(*c, mn))
                         {
                             candidates.push(mn);
@@ -673,9 +683,10 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
     // Assemble items (repeat limits + name/alias expansion)
     let mut items: Vec<CompletionItem> = Vec::new();
     for (idx, n) in candidates.iter().enumerate() {
-        // Repeat counts are keyed by canonical identity (trailing-`=` stripped).
+        // Repeat counts are keyed by the declared canonical identity (trailing `=` stripped,
+        // original casing kept): `-b` and `-B` are independent options with separate budgets.
         let used_count = used
-            .get(&Node::canonical_spelling(&n.name).to_lowercase())
+            .get(Node::canonical_spelling(&n.name))
             .copied()
             .unwrap_or(0);
         if n.repeat == 0 && used_count > 0 {
@@ -760,7 +771,7 @@ fn find_command<'a>(ctx: Option<&'a Node>, tree: &'a Tree, text: &str) -> Option
 }
 
 fn bump(used: &mut HashMap<String, i32>, name: &str) {
-    *used.entry(name.to_lowercase()).or_insert(0) += 1;
+    *used.entry(name.to_string()).or_insert(0) += 1;
 }
 
 fn add_next_if_not_seen<'a>(out: &mut Vec<&'a Node>, items: &'a [Node], seen: &[String]) {
@@ -878,14 +889,86 @@ mod tests {
     #[test]
     fn tokens_keep_original_case_opts_are_canonical() {
         let tree = git_tree();
-        // Parsing is case-insensitive; token input keeps the user's original casing, while
-        // `path`/`opts` store canonical names (hooks compare with psc.eq / psc.contains).
-        // `-B` matches checkout's `-b` (case-insensitive) → opts holds the canonical `-b`.
+        // Command words stay case-insensitive; token input keeps the user's original casing,
+        // while `path`/`opts` store canonical names (hooks compare with psc.eq / psc.contains).
+        // checkout declares both `-b` and `-B`; case-sensitive option matching keeps them
+        // distinct, so `-B` resolves to its own node.
         let r = resolve(&tree, &["CHECKOUT".to_string(), "-B".to_string()], true);
         assert_eq!(r.context.path, vec!["checkout"]);
-        assert_eq!(r.context.opts, vec!["-b"]);
+        assert_eq!(r.context.opts, vec!["-B"]);
         assert_eq!(r.context.tokens[0].text, "CHECKOUT");
         assert_eq!(r.context.tokens[1].text, "-B");
+    }
+
+    #[test]
+    fn option_case_variants_bind_to_their_own_node() {
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "commit", "option": [
+                { "name": "--reedit-message", "alias": ["-c"], "next": [] },
+                { "name": "--reuse-message", "alias": ["-C"], "next": [] }
+            ] } ]
+        }));
+        let texts =
+            |r: &Resolved| -> Vec<String> { r.items.iter().map(|i| i.text.clone()).collect() };
+
+        let lower = resolve(&tree, &["commit".into(), "-c".into()], true);
+        assert_eq!(lower.context.opts, vec!["--reedit-message"]);
+        let lower_texts = texts(&lower);
+        assert!(
+            lower_texts.contains(&"--reuse-message".to_string())
+                && lower_texts.contains(&"-C".to_string()),
+            "the other option stays reachable: {lower_texts:?}"
+        );
+        assert!(
+            !lower_texts.contains(&"--reedit-message".to_string())
+                && !lower_texts.contains(&"-c".to_string()),
+            "the used option is filtered out: {lower_texts:?}"
+        );
+
+        let upper = resolve(&tree, &["commit".into(), "-C".into()], true);
+        assert_eq!(upper.context.opts, vec!["--reuse-message"]);
+        let upper_texts = texts(&upper);
+        assert!(
+            upper_texts.contains(&"--reedit-message".to_string())
+                && upper_texts.contains(&"-c".to_string()),
+            "the other option stays reachable: {upper_texts:?}"
+        );
+        assert!(
+            !upper_texts.contains(&"--reuse-message".to_string())
+                && !upper_texts.contains(&"-C".to_string()),
+            "the used option is filtered out: {upper_texts:?}"
+        );
+    }
+
+    #[test]
+    fn git_commit_short_flags_stay_case_sensitive() {
+        let tree = git_tree();
+        for (typed, canonical) in [("-c", "--reedit-message"), ("-C", "--reuse-message")] {
+            let r = resolve(&tree, &["commit".into(), typed.into()], true);
+            assert_eq!(
+                r.context.opts,
+                vec![canonical],
+                "{typed} must bind to {canonical}"
+            );
+        }
+    }
+
+    #[test]
+    fn case_variant_options_do_not_share_repeat_budget() {
+        // git checkout declares `-b` and `-B` as two independent options.
+        // Typing one must not mark the other as used.
+        let tree = git_tree();
+        let r = resolve(&tree, &["checkout".into(), "-B".into()], true);
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(
+            !texts.contains(&"-B"),
+            "the typed option is used once and filtered: {texts:?}"
+        );
+        assert!(
+            texts.contains(&"-b"),
+            "the case-variant sibling must stay available: {texts:?}"
+        );
     }
 
     #[test]

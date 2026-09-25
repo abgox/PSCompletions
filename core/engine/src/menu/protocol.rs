@@ -621,40 +621,39 @@ fn find_node_in_context<'a>(
     tree: &'a completion::Tree,
     name: &str,
 ) -> Option<&'a completion::Node> {
-    let lower = name.to_lowercase();
     let search_next: &[completion::Node] = ctx.map_or(&tree.next, |c| &c.next);
     let search_option: &[completion::Node] = ctx.map_or(&tree.options, |c| &c.option);
     for n in search_next {
-        if let Some(found) = find_node_rec(n, &lower) {
+        if let Some(found) = find_node_rec(n, name) {
             return Some(found);
         }
     }
     for n in search_option {
-        if let Some(found) = find_node_rec(n, &lower) {
+        if let Some(found) = find_node_rec(n, name) {
             return Some(found);
         }
     }
     if let Some(n) = tree
         .global_options
         .iter()
-        .find(|n| n.all_names().any(|a| a.eq_ignore_ascii_case(&lower)))
+        .find(|n| n.all_names().any(|a| a == name))
     {
         return Some(n);
     }
     None
 }
 
-fn find_node_rec<'a>(node: &'a completion::Node, lower: &str) -> Option<&'a completion::Node> {
-    if node.all_names().any(|a| a.eq_ignore_ascii_case(lower)) {
+fn find_node_rec<'a>(node: &'a completion::Node, name: &str) -> Option<&'a completion::Node> {
+    if node.all_names().any(|a| a == name) {
         return Some(node);
     }
     for child in &node.next {
-        if let Some(found) = find_node_rec(child, lower) {
+        if let Some(found) = find_node_rec(child, name) {
             return Some(found);
         }
     }
     for child in &node.option {
-        if let Some(found) = find_node_rec(child, lower) {
+        if let Some(found) = find_node_rec(child, name) {
             return Some(found);
         }
     }
