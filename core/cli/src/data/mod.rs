@@ -11,25 +11,24 @@ pub mod config;
 // crate-internal `crate::data::read_text` paths keep working.
 pub use psc_common::{read_text, strip_bom};
 
-pub fn assert_valid_name(name: &str) {
-    debug_assert!(
-        crate::validate::is_valid_name(name),
-        "invalid completion name: {name:?}"
-    );
-}
-
 /// Whether a completion entry exists on disk (`<data>/completions/<name>`), as a real directory
 /// or as a link (symlink/junction from `scripts/link-completion.ps1`). Uses `symlink_metadata`,
 /// so a dangling link still counts as present.
 pub fn completion_dir_exists(data_dir: &str, name: &str) -> bool {
-    assert_valid_name(name);
+    if !crate::validate::is_valid_name(name) {
+        return false;
+    }
     std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
 }
 
 /// Remove a completion entry: a symlink/junction is removed **as a link only** (the linked
 /// local source stays intact), a real directory recursively, a missing path is a no-op.
+/// An invalid name is a no-op: callers report it, and this keeps the destructive
+/// path from ever resolving outside `<data>/completions`.
 pub fn remove_completion_entry(data_dir: &str, name: &str) {
-    assert_valid_name(name);
+    if !crate::validate::is_valid_name(name) {
+        return;
+    }
     let dir = format!("{data_dir}/completions/{name}");
     if let Ok(md) = std::fs::symlink_metadata(&dir) {
         if md.file_type().is_symlink() {
@@ -484,6 +483,51 @@ mod tests {
         let (root, data) = tmp_data_dir("scoop");
         remove_completion_entry(&data, "nope");
         assert!(!root.join("completions/nope").exists());
+        std::fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn traversal_names_never_escape_the_completions_dir() {
+        // `psc rm ../../victim` used to resolve outside the library: `assert_valid_name` was a
+        // debug_assert (compiled out in release) and the existence probe followed the path.
+        let (root, data) = tmp_data_dir("scoop");
+        let victim = root.join("victim");
+        std::fs::create_dir_all(&victim).unwrap();
+        std::fs::write(victim.join("keep.txt"), "keep").unwrap();
+
+        for evil in ["../victim", "..\\victim", "..", ".", "a/b", "C:evil", ""] {
+            assert!(
+                !completion_dir_exists(&data, evil),
+                "{evil:?} must not be treated as installed"
+            );
+            remove_completion_entry(&data, evil);
+        }
+        assert!(
+            victim.join("keep.txt").exists(),
+            "a sibling of completions/ must survive"
+        );
+        std::fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn traversal_name_reports_not_available() {
+        use crate::validate::name_status;
+        let (root, data) = tmp_data_dir("scoop");
+        let completions_dir = format!("{data}/completions");
+        let settings = Settings::default();
+        let index = Index::default();
+        for evil in ["../scoop", "..\\scoop", "..", ".", "scoop/../scoop"] {
+            assert_eq!(
+                name_status(&settings, &index, &completions_dir, evil),
+                0,
+                "{evil:?} must not resolve to an installed entry"
+            );
+        }
+        assert_eq!(
+            name_status(&settings, &index, &completions_dir, "scoop"),
+            2,
+            "a real entry is still detected"
+        );
         std::fs::remove_dir_all(root).ok();
     }
 

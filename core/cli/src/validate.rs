@@ -12,6 +12,11 @@ use crate::output::{fail, Out};
 /// Completion name status: 2=installed/local link (alias set or dir on disk), 1=remote-only, 0=unknown.
 /// All subcommands that accept a completion name share this same determination.
 pub fn name_status(settings: &Settings, index: &Index, completions_dir: &str, name: &str) -> u8 {
+    // Reject before touching the filesystem: a name carrying separators would make the
+    // `completions_dir/name` probe resolve outside the library directory.
+    if !is_valid_name(name) {
+        return 0;
+    }
     if settings.alias.contains_key(name)
         || std::path::Path::new(&format!("{completions_dir}/{name}")).exists()
     {
