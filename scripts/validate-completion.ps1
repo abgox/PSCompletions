@@ -67,6 +67,7 @@ $L = @{
         cat_usageRootPrefix    = 'Usage root prefix'
         cat_rate               = 'Translation rate'
         cfg_missingLanguage    = 'config.json is missing the "language" array'
+        cfg_missingFile        = '{0} is missing (required)'
         cfg_langNoFile         = 'config.language has "{0}" but language/{0}.json does not exist'
         cfg_fileNoLang         = 'language/{0}.json exists but is not declared in config.language'
         cfg_hooksFlagNoFile    = 'config.hooks=true/false but hooks.lua does not exist'
@@ -107,6 +108,7 @@ $L = @{
         cat_usageRootPrefix    = 'usage 根前缀'
         cat_rate               = '翻译完成度'
         cfg_missingLanguage    = 'config.json 缺少 language 数组'
+        cfg_missingFile        = '缺少 {0}（必需）'
         cfg_langNoFile         = 'config.language 含 "{0}" 但 language/{0}.json 不存在'
         cfg_fileNoLang         = 'language/{0}.json 存在但 config.language 未声明'
         cfg_hooksFlagNoFile    = 'config.hooks 为 true/false 但 hooks.lua 不存在'
@@ -432,6 +434,12 @@ foreach ($name in $CompletionList) {
     if (Test-Path -LiteralPath $langDir) { $fileList += @(Get-ChildItem -LiteralPath $langDir -Filter '*.json' | ForEach-Object { "language/$($_.Name)" }) }
     $entry.files = $fileList
     $entry.fileCount = $fileList.Count
+
+    # config.json is required. Only flag a missing one when the completion
+    # directory itself exists, so a deliberately removed completion stays clean.
+    if ((Test-Path -LiteralPath $completionDir) -and -not (Test-Path -LiteralPath $configFile)) {
+        $entry.issues.config.Add(@{ code = 'cfg_missingFile'; args = @('config.json') })
+    }
 
     if (Test-Path -LiteralPath $langDir) {
         foreach ($f in Get-ChildItem -LiteralPath $langDir -Filter '*.json') {
