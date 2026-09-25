@@ -618,7 +618,9 @@ Use hooks when a static list can't know the real values at authoring time — th
 
 If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
 
-**Slot rule**: inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and examples, not the manifest alone. File candidates belong at file-taking command positionals (a filtered glob matching the command's recommended kinds is encouraged) and path-taking option values (`--config`). See `design/hooks.md §9` for the full rule with examples.
+**Slot rule**: inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and examples, not the manifest alone. Do not inject generic file/directory listings: unfiltered `psc.ls(".")` and unfiltered `psc.glob` results are not completion candidates. A hook may add a small, semantically filtered set only when the CLI specifically requires a known name, extension, or project location; otherwise leave the path slot free and let native path completion handle it after an explicit path prefix (`./`, `../`, `/`, `C:\`, `~/`). See `design/hooks.md §9` for the full rule with examples.
+
+**Path-candidate admission test**: before registering any path candidate, the author must be able to state the exact value kind the CLI accepts, why that path is more useful than native path completion, and what bounded name/extension/location filter makes it meaningful. If any answer is missing, do not add it. A path-taking slot alone is not a reason to add candidates; never use an all-file glob, generic directory listing, or fallback listing to make discovery appear complete.
 
 ## Updating Existing Completions (New Tool Version)
 
