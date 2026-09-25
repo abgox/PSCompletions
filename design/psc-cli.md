@@ -152,6 +152,10 @@ psc alias --reset                   # restore every completion's aliases
   completion stays with its earlier owner — the newcomer skips it with an ownership warning
   (`alias_owned`, naming the owner; move it with `alias rm <owner> <word>` first if intended).
 - **Validation (rm)**: refuses to remove the last remaining alias of a completion (`alias_unique`).
+- **JSON payloads**: `add` → `[{name, ok, added}]`; `rm` → `{name, ok, removed}`;
+  `alias <add|rm> <name> --reset` → `{name, ok, reset}`; `alias --reset` → `{ok, reset}` where
+  `reset` is `[{name, aliases}]`. Every reset payload also carries `skipped: [{alias, owner}]`
+  when a word stayed with an earlier owner (the `alias_owned` warning in text mode).
 - **Errors**: too few params → `Too few parameters.`; name not installed →
   `<name>: Completion not added.`; per-alias errors: `has_wildcard`, `alias_owned`, `alias_exist`.
 - **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects;
@@ -423,6 +427,10 @@ on demand.
     failures), per-item failures as `ok: false` entries in the result array (`add`/`rm`/`update`
     /`info`). This lets the PowerShell wrapper uniformly parse output and render errors without
     branching on exit codes.
+  - **Sole exemption**: bare `psc` (no command) prints the usage help and exits `0` in both modes.
+    It is not a command execution — there is no failure to express and no documented JSON help
+    shape — so `--json` is ignored there. The module never reaches this path (its `default` branch
+    renders help itself without spawning `psc`).
 - ANSI color when stdout is a TTY, stripped otherwise.
 
 ## 10. PowerShell module bridge

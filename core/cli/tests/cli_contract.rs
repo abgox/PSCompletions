@@ -100,6 +100,26 @@ fn v_ok(v: &serde_json::Value) -> bool {
         .unwrap_or(false)
 }
 
+fn rewrite_settings(d: &Path, f: impl FnOnce(&mut serde_json::Value)) {
+    let p = d.join("settings.json");
+    let mut v = parse_json(&std::fs::read_to_string(&p).unwrap());
+    f(&mut v);
+    std::fs::write(&p, serde_json::to_string(&v).unwrap()).unwrap();
+}
+
+fn set_live_aliases(d: &Path, aliases: &[&str]) {
+    rewrite_settings(d, |v| {
+        v["alias"]["git"] = serde_json::json!(aliases);
+    });
+}
+
+fn set_config_alias(d: &Path, aliases: &[&str]) {
+    let p = d.join("completions/git/config.json");
+    let mut v = parse_json(&std::fs::read_to_string(&p).unwrap());
+    v["alias"] = serde_json::json!(aliases);
+    std::fs::write(&p, serde_json::to_string(&v).unwrap()).unwrap();
+}
+
 /// Standard remote index + demo completion served by the local server.
 fn demo_routes() -> Vec<(&'static str, String)> {
     vec![
@@ -183,6 +203,88 @@ fn json_alias_bad_subcmd() {
     assert_eq!(code, 0);
     let v = parse_json(&out);
     assert!(!((v["ok"]).as_bool().unwrap_or(false)));
+}
+
+#[test]
+fn json_unknown_top_level_command_is_in_band() {
+    let d = make_data("json-unknown-cmd", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "nosuchcommand"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert!(!((v["ok"]).as_bool().unwrap_or(false)), "{out}");
+    assert_eq!(v["error"], "Invalid subcommand.");
+}
+
+#[test]
+fn text_unknown_top_level_command_fails() {
+    let d = make_data("txt-unknown-cmd", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["nosuchcommand"]);
+    assert_eq!(code, 1, "{out}");
+    assert!(out.contains("Invalid subcommand."), "{out}");
+}
+
+#[test]
+fn json_alias_global_reset_reports_resulting_aliases() {
+    let d = make_data("json-alias-reset", "http://127.0.0.1:9");
+    set_live_aliases(&d, &["git", "g", "gg"]);
+    let (code, out) = psc(&d, &["--json", "alias", "--reset"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    let entry = &v["reset"][0];
+    assert_eq!(entry["name"], "git", "{out}");
+    assert_eq!(entry["aliases"], serde_json::json!(["git"]), "{out}");
+}
+
+#[test]
+fn json_alias_named_reset_reports_resulting_aliases() {
+    let d = make_data("json-alias-named-reset", "http://127.0.0.1:9");
+    set_live_aliases(&d, &["git", "g", "gg"]);
+    set_config_alias(&d, &["git", "g"]);
+    let (code, out) = psc(&d, &["--json", "alias", "add", "git", "--reset"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["name"], "git", "{out}");
+    assert_eq!(v["ok"], true, "{out}");
+    assert_eq!(v["reset"], serde_json::json!(["git", "g"]), "{out}");
+}
+
+#[test]
+fn json_alias_named_reset_reports_skipped_words() {
+    let d = make_data("json-alias-reset-skip", "http://127.0.0.1:9");
+    set_live_aliases(&d, &["git"]);
+    rewrite_settings(&d, |v| {
+        v["alias"] = serde_json::json!({ "aaa": ["shared"], "git": ["git"] });
+    });
+    set_config_alias(&d, &["git", "shared"]);
+    let (code, out) = psc(&d, &["--json", "alias", "add", "git", "--reset"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["reset"], serde_json::json!(["git"]), "{out}");
+    assert_eq!(v["skipped"][0]["alias"], "shared", "{out}");
+    assert_eq!(v["skipped"][0]["owner"], "aaa", "{out}");
+}
+
+#[test]
+fn json_alias_rm_success_stdout_is_only_json() {
+    let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
+    set_live_aliases(&d, &["git", "g", "gg"]);
+    let (code, out) = psc(&d, &["--json", "alias", "rm", "git", "g"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    assert_eq!(v["removed"], serde_json::json!(["g"]), "{out}");
+}
+
+#[test]
+fn json_alias_add_success_stdout_is_only_json() {
+    let d = make_data("json-alias-add-clean", "http://127.0.0.1:9");
+    set_live_aliases(&d, &["git"]);
+    let (code, out) = psc(&d, &["--json", "alias", "add", "git", "zz"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v[0]["ok"], true, "{out}");
+    assert_eq!(v[0]["added"], serde_json::json!(["zz"]), "{out}");
 }
 
 #[test]

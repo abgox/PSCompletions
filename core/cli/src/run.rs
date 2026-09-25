@@ -9,7 +9,7 @@ use crate::commands::{
 use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
 use crate::messages::msg_cli;
-use crate::output::Out;
+use crate::output::{fail, Out};
 pub fn run(args: Vec<String>) -> ExitCode {
     let (data_arg, json, language_arg, result_arg, rest) = parse_args(&args);
     let Some(data_dir) = data_arg.or_else(|| std::env::var("PSCOMPLETIONS_DATA_DIR").ok()) else {
@@ -92,10 +92,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
             &out,
             json,
         ),
-        _ => {
-            out.line(&msg_cli(&lang, "sub_cmd"));
-            ExitCode::FAILURE
-        }
+        _ => fail(&out, msg_cli(&lang, "sub_cmd"), json),
     };
     code
 }
