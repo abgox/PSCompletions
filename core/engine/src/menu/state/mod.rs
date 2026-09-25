@@ -657,8 +657,10 @@ impl MenuState {
         self.cursor_to_top = cursor_to_top;
         self.cursor_to_bottom = cursor_to_bottom;
         self.page_max = (ui_height - 3).max(0) as usize;
-        self.page_current = self.selected.min(self.page_max);
-        self.offset = self.offset.min(self.filtered.len().saturating_sub(1));
+        // `update_window` owns the offset/page_current pair: it scrolls the selected row back
+        // into view when the page shrank (resize, or a filter that cut the list down) and
+        // derives `page_current` as the page-relative row the renderer highlights.
+        self.update_window();
         self.build_content_box();
     }
 
