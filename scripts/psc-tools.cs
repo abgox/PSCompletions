@@ -337,7 +337,7 @@ namespace PscTools {
             ValidateOptions((IDictionary)baseTree);
             ValidateAllTips((IDictionary)baseTree, "", false, false);
             ValidateAllTips((IDictionary)targetTree, "", false, false);
-            CompareFields((IDictionary)baseTree, (IDictionary)targetTree, "", false);
+            CompareFields((IDictionary)baseTree, (IDictionary)targetTree, "", false, false);
             return S;
         }
 
@@ -550,7 +550,7 @@ namespace PscTools {
             foreach (var k in d.Keys) yield return k;
         }
 
-        static void CompareFields(IDictionary baseObj, IDictionary targetObj, string path, bool skipValueCheck)
+        static void CompareFields(IDictionary baseObj, IDictionary targetObj, string path, bool skipValueCheck, bool openData)
         {
             var seen = new HashSet<object>();
             var keys = new List<object>();
@@ -569,12 +569,16 @@ namespace PscTools {
 
                 var currentPath = path.Length > 0 ? path + " > " + keyStr : keyStr;
                 var childSkip = skipValueCheck || (Opts.CompletionName == "psc" && keyStr != "name");
+                // `info` is declared an open hook-data object: the schema puts no
+                // name-uniqueness contract on it, so arrays inside it are ordinary
+                // data and must not be held to the manifest item rules.
+                var childOpen = openData || keyStr == "info";
 
-                CompareValue(baseVal, targetVal, currentPath, keyStr, childSkip);
+                CompareValue(baseVal, targetVal, currentPath, keyStr, childSkip, childOpen);
             }
         }
 
-        static void CompareValue(object baseValIn, object targetValIn, string path, string key, bool skipValueCheck)
+        static void CompareValue(object baseValIn, object targetValIn, string path, string key, bool skipValueCheck, bool openData)
         {
             if (key == "tip" || key == "description" || key == "usage" || key == "example")
             {
@@ -624,8 +628,11 @@ namespace PscTools {
                 var baseArr = WrapOne(baseVal);
                 var targetArr = WrapOne(targetVal);
 
-                TestDuplicates(baseArr, path, Opts.BaseLang);
-                TestDuplicates(targetArr, path, Opts.TargetLang);
+                if (!openData)
+                {
+                    TestDuplicates(baseArr, path, Opts.BaseLang);
+                    TestDuplicates(targetArr, path, Opts.TargetLang);
+                }
 
                 var named = NamedArrayCheck(baseArr) || NamedArrayCheck(targetArr);
                 if (named)
@@ -635,7 +642,7 @@ namespace PscTools {
                         Add(S.TypeMismatch, path + " (" + Red + baseType + Cyan + " > " + Red + targetType + Cyan + ")");
                         return;
                     }
-                    CompareNamedArray(baseArr, targetArr, path, skipValueCheck);
+                    CompareNamedArray(baseArr, targetArr, path, skipValueCheck, openData);
                 }
                 else
                 {
@@ -658,7 +665,7 @@ namespace PscTools {
 
             if (baseType == "Hashtable" && targetType == "Hashtable")
             {
-                CompareFields((IDictionary)baseVal, (IDictionary)targetVal, path, skipValueCheck);
+                CompareFields((IDictionary)baseVal, (IDictionary)targetVal, path, skipValueCheck, openData);
                 return;
             }
 
@@ -737,7 +744,7 @@ namespace PscTools {
             }
         }
 
-        static void CompareNamedArray(IList baseArr, IList targetArr, string path, bool skipValueCheck)
+        static void CompareNamedArray(IList baseArr, IList targetArr, string path, bool skipValueCheck, bool openData)
         {
             var targetByName = new Dictionary<string, object>(StringComparer.Ordinal);
             foreach (var item in targetArr)
@@ -760,7 +767,7 @@ namespace PscTools {
 
                 if (baseName != null && targetByName.ContainsKey(baseName))
                 {
-                    CompareFields(bd, (IDictionary)targetByName[baseName], currentPath, skipValueCheck);
+                    CompareFields(bd, (IDictionary)targetByName[baseName], currentPath, skipValueCheck, openData);
                 }
                 else
                 {
