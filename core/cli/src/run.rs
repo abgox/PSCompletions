@@ -12,8 +12,8 @@ use crate::messages::msg_cli;
 use crate::output::Out;
 pub fn run(args: Vec<String>) -> ExitCode {
     let (data_arg, json, language_arg, result_arg, rest) = parse_args(&args);
-    let Some(data_dir) = data_arg.or_else(|| std::env::var("PSC_DATA_DIR").ok()) else {
-        eprintln!("psc: no data dir (pass --data <dir> or set PSC_DATA_DIR)");
+    let Some(data_dir) = data_arg.or_else(|| std::env::var("PSCOMPLETIONS_DATA_DIR").ok()) else {
+        eprintln!("psc: no data dir (pass --data <dir> or set PSCOMPLETIONS_DATA_DIR)");
         return ExitCode::FAILURE;
     };
     let data_dir = normalize_data_dir(&data_dir);

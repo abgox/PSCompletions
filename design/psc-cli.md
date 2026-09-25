@@ -29,7 +29,7 @@ lifecycles, and future shells need only the engine.
 
 The CLI operates on a module data directory, passed by the host:
 
-- Primary: `--data <dir>` argument; fallback: env `PSC_DATA_DIR`.
+- Primary: `--data <dir>` argument; fallback: env `PSCOMPLETIONS_DATA_DIR`.
 - Files the CLI reads/writes (all under `<data>`):
   - `settings.json` — local completion list (`alias`), all config (`config`, incl. `config.completion`).
     Written **atomically** (pid-suffixed temp file + rename) so a crash mid-write can never leave a
@@ -83,7 +83,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 
 | Flag | Meaning |
 | --- | --- |
-| `--data <dir>` / `--data=<dir>` | Data directory. Overrides `PSC_DATA_DIR` env var. Required by the binary. |
+| `--data <dir>` / `--data=<dir>` | Data directory. Overrides `PSCOMPLETIONS_DATA_DIR` env var. Required by the binary. |
 | `--json` | Structured JSON output (used by the PowerShell wrapper). |
 | `--language <lang>` | Only used by `init` (bootstrap default language when settings are missing). |
 | `--result <file>` | Only used by `init` (write the init JSON payload to a file). |
@@ -406,7 +406,7 @@ on demand.
   readable colored hints — deliberately **not** written to stderr: PowerShell (5.1, and 7.3+ with
   `$PSNativeCommandUseErrorActionPreference`) treats native stderr as an error stream (red
   `ErrorRecord`s, possible exceptions), which would break the interactive UX this CLI hosts.
-  (One exception: running the bare binary without `--data`/`PSC_DATA_DIR` prints a usage note to
+  (One exception: running the bare binary without `--data`/`PSCOMPLETIONS_DATA_DIR` prints a usage note to
   stderr — the module path always passes `--data`, so this never happens in normal use.)
 - Text by default; every command accepts `--json`.
 - **Output contract (two modes, no exceptions)**:

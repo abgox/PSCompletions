@@ -80,7 +80,7 @@ pub fn normalize_data_dir(data_dir: &str) -> String {
 pub fn print_help() {
     println!("psc — PSCompletions CLI");
     println!();
-    println!("Usage: psc <command> [args]  (data dir via --data <dir> or PSC_DATA_DIR)");
+    println!("Usage: psc <command> [args]  (data dir via --data <dir> or PSCOMPLETIONS_DATA_DIR)");
     println!("  list                   List installed completions");
     println!("  info <name>...         Show completion metadata");
     println!("  config [core|menu|context] <key> [<value>]   Get/set config");
