@@ -2,6 +2,12 @@
 
 [English](./CHANGELOG.md)
 
+## 7.5.2
+
+- 修复了历史记录含多字节字符时的崩溃
+- 修复了菜单列表收缩时选中行滚出视野的问题
+- 其他的优化和修复
+
 ## 7.5.1
 
 - 改进了 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 的语义

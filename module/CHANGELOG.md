@@ -2,6 +2,12 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.5.2
+
+- Fixed a crash when history lines contain multi-byte characters.
+- Fixed the selected row scrolling out of view when the menu list shrinks.
+- Other optimizations and fixes.
+
 ## 7.5.1
 
 - Improved the semantics of [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol).
