@@ -223,7 +223,7 @@ function Get-JsonErrors {
 }
 
 function Get-ConfigIssues {
-    param([hashtable]$Config, [string]$LangDir)
+    param([hashtable]$Config, [string[]]$LangFileNames, [bool]$HasHooks)
     $issues = [System.Collections.Generic.List[object]]::new()
 
     if (-not $Config.ContainsKey('language') -or @($Config['language']).Count -eq 0) {
@@ -231,25 +231,20 @@ function Get-ConfigIssues {
     }
     else {
         $cfgLangs = @($Config['language'])
-        $langFiles = @()
-        if (Test-Path -LiteralPath $LangDir) {
-            $langFiles = @(Get-ChildItem -LiteralPath $LangDir -Filter '*.json' | ForEach-Object { $_.BaseName })
-        }
         foreach ($l in $cfgLangs) {
-            if ($l -notin $langFiles) { $issues.Add(@{ code = 'cfg_langNoFile'; args = @($l) }) }
+            if ($l -notin $LangFileNames) { $issues.Add(@{ code = 'cfg_langNoFile'; args = @($l) }) }
         }
-        foreach ($f in $langFiles) {
+        foreach ($f in $LangFileNames) {
             if ($f -notin $cfgLangs) { $issues.Add(@{ code = 'cfg_fileNoLang'; args = @($f) }) }
         }
     }
 
-    $hooksFile = Join-Path (Split-Path -Parent $LangDir) 'hooks.lua'
     if ($Config.ContainsKey('hooks')) {
         # hooks: true or false both declare a hooks.lua (false = present but disabled by default).
-        if (-not (Test-Path -LiteralPath $hooksFile)) { $issues.Add(@{ code = 'cfg_hooksFlagNoFile'; args = @() }) }
+        if (-not $HasHooks) { $issues.Add(@{ code = 'cfg_hooksFlagNoFile'; args = @() }) }
     }
     else {
-        if (Test-Path -LiteralPath $hooksFile) { $issues.Add(@{ code = 'cfg_hooksFileNoFlag'; args = @() }) }
+        if ($HasHooks) { $issues.Add(@{ code = 'cfg_hooksFileNoFlag'; args = @() }) }
     }
 
     if ($Config.ContainsKey('alias')) {
@@ -428,44 +423,50 @@ foreach ($name in $CompletionList) {
         fileCount = 0
     }
 
+    # Probe each path once; every check below reads these instead of re-stat'ing.
+    $hasDir = Test-Path -LiteralPath $completionDir
+    $hasLangDir = Test-Path -LiteralPath $langDir
+    $hasConfig = Test-Path -LiteralPath $configFile
+    $hasHooks = Test-Path -LiteralPath $hooksFile
+    $langFiles = if ($hasLangDir) { @(Get-ChildItem -LiteralPath $langDir -Filter '*.json') } else { @() }
+    $langFileNames = @($langFiles | ForEach-Object { $_.BaseName })
+
     $fileList = @()
-    if (Test-Path -LiteralPath $configFile) { $fileList += 'config.json' }
-    if (Test-Path -LiteralPath $hooksFile) { $fileList += 'hooks.lua' }
-    if (Test-Path -LiteralPath $langDir) { $fileList += @(Get-ChildItem -LiteralPath $langDir -Filter '*.json' | ForEach-Object { "language/$($_.Name)" }) }
+    if ($hasConfig) { $fileList += 'config.json' }
+    if ($hasHooks) { $fileList += 'hooks.lua' }
+    if ($hasLangDir) { $fileList += @($langFiles | ForEach-Object { "language/$($_.Name)" }) }
     $entry.files = $fileList
     $entry.fileCount = $fileList.Count
 
     # config.json is required. Only flag a missing one when the completion
     # directory itself exists, so a deliberately removed completion stays clean.
-    if ((Test-Path -LiteralPath $completionDir) -and -not (Test-Path -LiteralPath $configFile)) {
+    if ($hasDir -and -not $hasConfig) {
         $entry.issues.config.Add(@{ code = 'cfg_missingFile'; args = @('config.json') })
     }
 
-    if (Test-Path -LiteralPath $langDir) {
-        foreach ($f in Get-ChildItem -LiteralPath $langDir -Filter '*.json') {
-            $jsonText = Get-Content -LiteralPath $f.FullName -Raw
-            $errs = Get-JsonErrors -JsonText $jsonText -SchemaFile $manifestSchema
-            foreach ($e in $errs) { $entry.issues.schema.Add(@{ file = $f.Name; text = $e }) }
-            $i18n = Get-I18nSpacingIssues -JsonPath $f.FullName
-            foreach ($e in $i18n) { $entry.issues.schema.Add($e) }
-        }
+    foreach ($f in $langFiles) {
+        $jsonText = Get-Content -LiteralPath $f.FullName -Raw
+        $errs = Get-JsonErrors -JsonText $jsonText -SchemaFile $manifestSchema
+        foreach ($e in $errs) { $entry.issues.schema.Add(@{ file = $f.Name; text = $e }) }
+        $i18n = Get-I18nSpacingIssues -JsonPath $f.FullName
+        foreach ($e in $i18n) { $entry.issues.schema.Add($e) }
     }
-    if (Test-Path -LiteralPath $configFile) {
+
+    if ($hasConfig) {
+        # One read serves both the schema check and the parsed form below.
         $cfgText = Get-Content -LiteralPath $configFile -Raw
         $errs = Get-JsonErrors -JsonText $cfgText -SchemaFile $configSchema
         foreach ($e in $errs) { $entry.issues.config.Add(@{ code = 'cfg_schema'; args = @($e) }) }
-    }
 
-    $config = $null
-    if (Test-Path -LiteralPath $configFile) {
-        try { $config = Get-Content -LiteralPath $configFile -Raw | ConvertFrom-Json -AsHashtable } catch { $config = $null }
+        $config = $null
+        try { $config = $cfgText | ConvertFrom-Json -AsHashtable } catch { $config = $null }
         if ($config) {
-            $cfgIssues = Get-ConfigIssues -Config $config -LangDir $langDir
+            $cfgIssues = Get-ConfigIssues -Config $config -LangFileNames $langFileNames -HasHooks $hasHooks
             foreach ($i in $cfgIssues) { $entry.issues.config.Add($i) }
         }
     }
 
-    if (Test-Path -LiteralPath $hooksFile) {
+    if ($hasHooks) {
         $entry.hasHooks = $true
         $hookIssues = Get-HookSyntaxIssues -HooksFile $hooksFile
         foreach ($i in $hookIssues) { $entry.issues.hooks.Add($i) }
