@@ -316,10 +316,6 @@ pub fn cmd_update(
             }
         }
     });
-    if json {
-        let results = results.lock().unwrap();
-        println!("{}", serde_json::to_string(&*results).unwrap_or_default());
-    }
     // Persist the renames actually executed during this update so the module's pending
     // notifications can still show them even if the JSON results were not consumed.
     let executed_renames: Vec<(String, String)> = {
@@ -339,18 +335,20 @@ pub fn cmd_update(
     // Refresh the persisted post-check state (added/removed/renamed/update/module) and check the module version.
     // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
     record_post_check(data_dir, settings, &old_list, index, &executed_renames);
-    if let Err(e) = settings.save(settings_path) {
-        if json {
-            let mut results = results.lock().unwrap().clone();
+    // Save first, print once: the payload must carry the save outcome, and `--json` mode owes
+    // the consumer exactly one JSON document.
+    let save_err = settings.save(settings_path).err();
+    if json {
+        let mut results = results.lock().unwrap().clone();
+        if let Some(e) = save_err {
             results.push(serde_json::json!({"ok": false, "error": e}));
-            println!("{}", serde_json::to_string(&results).unwrap_or_default());
-            return ExitCode::SUCCESS;
         }
+        println!("{}", serde_json::to_string(&results).unwrap_or_default());
+        return ExitCode::SUCCESS;
+    }
+    if let Some(e) = save_err {
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
-    }
-    if json {
-        return ExitCode::SUCCESS;
     }
     if had_error.load(std::sync::atomic::Ordering::SeqCst) {
         ExitCode::FAILURE

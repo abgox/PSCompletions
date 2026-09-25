@@ -455,6 +455,30 @@ fn json_update_named_updates_version_marker() {
 }
 
 #[test]
+fn json_update_save_failure_still_emits_one_document() {
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-update-savefail", &srv);
+    psc(&d, &["--json", "add", "demo"]);
+    let sp = d.join("settings.json");
+    let mut perm = std::fs::metadata(&sp).unwrap().permissions();
+    perm.set_readonly(true);
+    std::fs::set_permissions(&sp, perm.clone()).unwrap();
+    let (code, out) = psc(&d, &["--json", "update", "demo"]);
+    let _ = std::fs::set_permissions(&sp, perm);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        out.trim().lines().count(),
+        1,
+        "--json mode owes exactly one document: {out}"
+    );
+    let v = parse_json(&out);
+    assert!(
+        v.as_array().unwrap().iter().any(|e| e["ok"] == true),
+        "{out}"
+    );
+}
+
+#[test]
 fn json_update_named_unknown_reports_in_band() {
     // A NAMED update of a name that is neither installed nor indexed reports the failure
     // in-band (per-entry ok:false, exit 0). The silent skip applies only to `--all`
