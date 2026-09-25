@@ -692,17 +692,47 @@ namespace PscTools {
         static void TestDuplicates(IList arr, string path, string sideLabel)
         {
             if (arr == null || arr.Count < 2) return;
-            var seen = new HashSet<string>(StringComparer.Ordinal);
+            // Menu rows are expanded from every display spelling (name + each
+            // alias), so a collision on any spelling shows twice. Track all
+            // spellings, not just name (e.g. `--file` with alias `-F` plus a
+            // standalone `-F` node, or name == alias within one item).
+            var seen = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var item in arr)
             {
                 var d = item as IDictionary;
                 if (d == null) continue;
                 if (!d.Contains("name")) continue;
                 var n = ToPsString(d["name"]);
-                if (!seen.Add(n))
+                var spells = new List<string>();
+                spells.Add(n);
+                if (d.Contains("alias"))
                 {
-                    var currentPath = path.Length > 0 ? path + " > " + n : n;
-                    Add(S.DuplicateItems, currentPath + " (" + Red + sideLabel + Cyan + ")");
+                    var al = AsList(d["alias"]);
+                    if (al != null)
+                        foreach (var a in al)
+                            spells.Add(ToPsString(a));
+                }
+                var intra = new HashSet<string>(StringComparer.Ordinal);
+                foreach (var s in spells)
+                {
+                    if (!intra.Add(s))
+                    {
+                        var selfPath = path.Length > 0 ? path + " > " + n : n;
+                        Add(S.DuplicateItems, selfPath + " (alias " + Red + s + Cyan + " duplicates within " + n + ", " + sideLabel + ")");
+                    }
+                }
+                foreach (var s in intra)
+                {
+                    string owner;
+                    if (seen.TryGetValue(s, out owner))
+                    {
+                        var currentPath = path.Length > 0 ? path + " > " + s : s;
+                        Add(S.DuplicateItems, currentPath + " (" + Red + sideLabel + Cyan + ": " + n + " collides with " + owner + ")");
+                    }
+                    else
+                    {
+                        seen[s] = n;
+                    }
                 }
             }
         }
