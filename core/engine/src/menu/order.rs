@@ -254,12 +254,30 @@ fn compute_command_scores(history: &str) -> HashMap<String, TokenStats> {
 /// after the leading whitespace + alias + trailing whitespace (i.e. the argument segment).
 fn strip_alias<'a>(line: &'a str, alias: &str) -> Option<&'a str> {
     let line = line.trim_start_matches([' ', '\t']);
-    let lower = line.to_lowercase();
     let a = alias.to_lowercase();
-    if !lower.starts_with(&a) {
+    if a.is_empty() {
         return None;
     }
-    let after = &line[a.len()..];
+    // Walk the line character by character, folding case as we go, and keep the
+    // boundary index of the original string. A character's lowercase can be a
+    // different byte length than the character itself (`İ` is 2 bytes but folds
+    // to `i` + U+0307, 3 bytes), so the folded alias length is not a valid slice
+    // index into `line` — using it panics on a non-boundary offset.
+    let mut folded = String::new();
+    let mut end = 0;
+    for (i, ch) in line.char_indices() {
+        for lc in ch.to_lowercase() {
+            folded.push(lc);
+        }
+        end = i + ch.len_utf8();
+        if folded.len() >= a.len() {
+            break;
+        }
+    }
+    if folded != a {
+        return None;
+    }
+    let after = &line[end..];
     let after_trim = after.trim_start_matches([' ', '\t']);
     // `\s+` requires at least one whitespace + `.+` at least one content char.
     if after.len() == after_trim.len() || after_trim.is_empty() {
@@ -408,6 +426,17 @@ mod tests {
         assert_eq!(strip_alias("gith", "git"), None);
         assert_eq!(strip_alias("git", "git"), None);
         assert_eq!(strip_alias("git ", "git"), None); // no content after
+    }
+
+    #[test]
+    fn strip_alias_survives_multibyte_case_folding() {
+        // "İ" is 2 UTF-8 bytes but lowercases to "i" + U+0307 (3 bytes), so the
+        // lowercased alias length is not a valid slice index into the original line.
+        assert_eq!(strip_alias("İstanbul", "i"), None);
+        // A non-ASCII alias whose lowercase is shorter must not slice mid-character.
+        assert_eq!(strip_alias("ẞ value", "ẞ"), Some("value"));
+        // A non-ASCII alias that does match is still recognized.
+        assert_eq!(strip_alias("日本 get", "日本"), Some("get"));
     }
 
     #[test]
