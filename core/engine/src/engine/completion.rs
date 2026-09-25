@@ -257,7 +257,7 @@ fn needs_value_arg(n: &Node) -> bool {
 /// `=`. Only option-shaped words (`-` prefix) qualify; anything else —
 /// including a value that merely contains `=` — is left alone. The command
 /// word itself never reaches `resolve` (arg tokens exclude it).
-fn split_eq_token(text: &str) -> Option<(&str, &str)> {
+pub(crate) fn split_eq_token(text: &str) -> Option<(&str, &str)> {
     if !text.starts_with('-') {
         return None;
     }

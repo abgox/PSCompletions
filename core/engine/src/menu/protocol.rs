@@ -490,7 +490,8 @@ fn peek_predict_symbol_inner(
         return None;
     }
     // Navigate arg_tokens to find the current context node, then search within that subtree (not the whole tree).
-    let (ctx, stack) = resolve_context_stack(tree, &input.arg_tokens);
+    let (ctx, stack, in_value_slot) =
+        resolve_context_stack(tree, &input.arg_tokens, input.treat_last_as_complete);
     // Fast static path: if the candidate's own node within the current context has static candidates, it's a switch.
     if let Some(node) = find_node_in_context(ctx, tree, candidate) {
         if has_static_candidates(node) {
@@ -521,18 +522,29 @@ fn peek_predict_symbol_inner(
         };
         items.iter().map(|it| it.text.to_lowercase()).collect()
     };
-    // Exclude ambient options: `global_option` plus whatever the peek layer
+    // Exclude ambient items: `global_option` plus whatever the peek layer
     // merely inherits (ancestor options bubbling down, or root `option` as
     // the fallback source). Such items appear in both lists without opening
     // a new layer, so they must not count as new or remaining (see
-    // design/completion.md). Root `option` items are the current layer's own
-    // at the root (empty stack).
+    // design/completion.md).
     let mut globals: std::collections::HashSet<String> = tree
         .global_options
         .iter()
         .flat_map(|n| n.all_names().map(|s| s.to_lowercase()))
         .collect();
-    if !stack.is_empty() {
+    if in_value_slot && stack.is_empty() {
+        // An option value at the root: the parent menu lists only value
+        // candidates, and consuming the value drops back to the root layer, so
+        // every root candidate (commands *and* options) is ambient here. A
+        // reset command layer is `stay`, never `switch` (design/completion.md §3).
+        globals.extend(
+            tree.next
+                .iter()
+                .chain(tree.options.iter())
+                .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+        );
+    } else if !stack.is_empty() {
+        // Inside a command, the root `option` is only a fallback source.
         globals.extend(
             tree.options
                 .iter()
@@ -577,13 +589,26 @@ fn has_static_candidates(node: &completion::Node) -> bool {
 /// command stack. Commands push their node as the new context; options (bubbled
 /// or global) are consumed without changing the context, matching the same
 /// context-maintenance behaviour that `completion::resolve` uses.
+///
+/// Also reports whether the input sits in an **option value slot** — the pending
+/// word belongs to an option that takes a value. That state has an empty command
+/// stack exactly like the root does, so `stack.is_empty()` alone cannot tell the
+/// two apart. Like `completion::resolve`, an unrecognized word does not move the
+/// context and does not stop the walk: whether some earlier word happened to be a
+/// defined command must not change how a later option is read.
 fn resolve_context_stack<'a>(
     tree: &'a completion::Tree,
     arg_tokens: &[String],
-) -> (Option<&'a completion::Node>, Vec<&'a completion::Node>) {
+    treat_last_as_complete: bool,
+) -> (
+    Option<&'a completion::Node>,
+    Vec<&'a completion::Node>,
+    bool,
+) {
     let mut ctx: Option<&'a completion::Node> = None;
     let mut stack: Vec<&'a completion::Node> = Vec::new();
-    for token in arg_tokens {
+    let mut in_value_slot = false;
+    for (i, token) in arg_tokens.iter().enumerate() {
         // 1. Try the command chain (`next`).
         let next = if let Some(c) = ctx {
             c.next.iter().find(|n| n.matches(token))
@@ -593,29 +618,43 @@ fn resolve_context_stack<'a>(
         if let Some(n) = next {
             ctx = Some(n);
             stack.push(n);
+            in_value_slot = false;
             continue;
         }
         // 2. Not a command — check if it's an option (bubbling → root → global).
         //    Options don't switch context, so keep ctx and stack unchanged.
-        let is_option = stack
+        //    An `=`-attached word carries its value inline, so match on the head.
+        let head = completion::split_eq_token(token)
+            .map(|(left, _)| left)
+            .unwrap_or(token.as_str());
+        let opt = stack
             .iter()
             .rev()
-            .any(|n| n.option.iter().any(|o| o.matches(token)))
-            || tree.options.iter().any(|o| o.matches(token))
-            || tree.global_options.iter().any(|o| o.matches(token));
-        if is_option {
+            .flat_map(|n| n.option.iter())
+            .chain(tree.options.iter())
+            .chain(tree.global_options.iter())
+            .find(|o| o.matches(head));
+        if let Some(o) = opt {
+            in_value_slot = o.next_is_array || (o.option_is_array && !o.option.is_empty());
             continue;
         }
-        // 3. Unknown token — stop.
-        break;
+        // 3. A free-form word. Inside a value slot it is that option's value;
+        //    outside one it is an unknown token at the current context. Either
+        //    way the context is unchanged — keep walking. The slot only stays
+        //    open while the word is still the one being typed.
+        let pending_word = i + 1 == arg_tokens.len() && !treat_last_as_complete;
+        if !(in_value_slot && pending_word) {
+            in_value_slot = false;
+        }
     }
-    (ctx, stack)
+    (ctx, stack, in_value_slot)
 }
 
-/// Search for a node by name within the current context subtree (or root tree
-/// when `ctx` is `None`), plus global options. Unlike the old `find_node`, this
-/// does NOT search the entire tree globally — it respects the current command
-/// path so that sibling subtrees don't leak their nodes.
+/// Find the node a candidate row came from: a **direct** child of the current
+/// context's `next`/`option` (or of the root tree when `ctx` is `None`), plus
+/// global options. Deliberately not recursive — a deeper node that happens to
+/// share the spelling is a *different* option, and borrowing its candidates
+/// would mislabel the row's landing (design/completion.md §3).
 fn find_node_in_context<'a>(
     ctx: Option<&'a completion::Node>,
     tree: &'a completion::Tree,
@@ -623,41 +662,11 @@ fn find_node_in_context<'a>(
 ) -> Option<&'a completion::Node> {
     let search_next: &[completion::Node] = ctx.map_or(&tree.next, |c| &c.next);
     let search_option: &[completion::Node] = ctx.map_or(&tree.options, |c| &c.option);
-    for n in search_next {
-        if let Some(found) = find_node_rec(n, name) {
-            return Some(found);
-        }
-    }
-    for n in search_option {
-        if let Some(found) = find_node_rec(n, name) {
-            return Some(found);
-        }
-    }
-    if let Some(n) = tree
-        .global_options
+    search_next
         .iter()
+        .chain(search_option.iter())
+        .chain(tree.global_options.iter())
         .find(|n| n.all_names().any(|a| a == name))
-    {
-        return Some(n);
-    }
-    None
-}
-
-fn find_node_rec<'a>(node: &'a completion::Node, name: &str) -> Option<&'a completion::Node> {
-    if node.all_names().any(|a| a == name) {
-        return Some(node);
-    }
-    for child in &node.next {
-        if let Some(found) = find_node_rec(child, name) {
-            return Some(found);
-        }
-    }
-    for child in &node.option {
-        if let Some(found) = find_node_rec(child, name) {
-            return Some(found);
-        }
-    }
-    None
 }
 
 /// Derive the hooks.lua path from the manifest path: `<cmd>/language/<lang>.json` → `<cmd>/hooks.lua`.
@@ -1461,5 +1470,137 @@ mod tests {
         };
         apply_value_prefix(&mut eqd, &eq_ctx);
         assert_eq!(eqd[0].completion_text, "--exclude=aa,bb");
+    }
+
+    #[test]
+    fn peek_judges_a_value_slot_landing_as_ambient() {
+        // At a separator-list tail the parent menu shows only value candidates
+        // (by design), so the landing — the root option layer reached after the
+        // value is consumed — must not read as "new fruit".
+        let dir = std::env::temp_dir().join(format!("psc-peek-sep-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},
+                "next":[{"name":"sub"}],
+                "option":[
+                  {"name":"--tag","next":[{"name":"a"},{"name":"b"}]},
+                  {"name":"--exclude=","separator":",","next":[{"name":"aa"},{"name":"bb"}]}
+                ]}"#,
+        )
+        .unwrap();
+        let base = |tokens: Vec<&str>, complete: bool| CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: tokens.into_iter().map(str::to_string).collect(),
+            treat_last_as_complete: complete,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+
+        // `a --exclude=aa,<Tab>`: the pending token is `aa,` (tail empty) and the
+        // row rebuilds to `--exclude=aa,bb`. Landing is the root menu.
+        let attached = base(vec!["--exclude=aa,"], false);
+        assert_eq!(
+            peek_predict_symbol(&attached, "--exclude=aa,bb"),
+            Some("stay".into()),
+            "attached separator-list landing"
+        );
+
+        // Space form of the same shape.
+        assert_eq!(
+            peek_predict_symbol(&base(vec!["--exclude", "aa,"], false), "--exclude=aa,bb"),
+            Some("stay".into()),
+            "space-form separator-list landing"
+        );
+
+        // With a command in the stack the root options were already ambient.
+        let with_cmd = base(vec!["sub", "--exclude=aa,"], false);
+        assert_eq!(
+            peek_predict_symbol(&with_cmd, "--exclude=aa,bb"),
+            Some("stay".into()),
+            "command-prefixed landing"
+        );
+
+        // An *undefined* leading word is just `unknown`: it must not change the
+        // answer, because whether some earlier word happened to be a defined
+        // command says nothing about how `--exclude=aa,` should be read.
+        for prefix in ["zzz", "not-a-command", "123"] {
+            let unknown_prefix = base(vec![prefix, "--exclude=aa,"], false);
+            assert_eq!(
+                peek_predict_symbol(&unknown_prefix, "--exclude=aa,bb"),
+                Some("stay".into()),
+                "unknown prefix {prefix:?} must not change the verdict"
+            );
+        }
+
+        // Space form with an unknown word in front of it, too.
+        let sp = base(vec!["zzz", "--exclude", "aa,"], false);
+        assert_eq!(
+            peek_predict_symbol(&sp, "--exclude=aa,bb"),
+            Some("stay".into()),
+            "space form behind an unknown word"
+        );
+
+        // The first level, before any segment is typed: `a --exclude=<Tab>`
+        // offers both `aa` and `bb`, and both land on the root menu.
+        let first = base(vec!["--exclude="], false);
+        assert_eq!(
+            peek_predict_symbol(&first, "--exclude=aa"),
+            Some("stay".into()),
+            "initial value slot (aa)"
+        );
+        assert_eq!(
+            peek_predict_symbol(&first, "--exclude=bb"),
+            Some("stay".into()),
+            "initial value slot (bb)"
+        );
+
+        // A plain `=`-attached value still resolves.
+        assert!(
+            peek_predict_symbol(&base(vec!["--tag="], false), "--tag=b").is_some(),
+            "attached-value peek still resolves"
+        );
+    }
+
+    #[test]
+    fn peek_does_not_borrow_a_deeper_node_with_the_same_name() {
+        // Root `-m` is `--model` (no static candidates). A nested `upgrade`
+        // owns a *different* `-m` (`--method`) that does have values. The row
+        // being previewed is the root one, so its landing must be judged from
+        // the root node, not from the unrelated descendant.
+        let dir = std::env::temp_dir().join(format!("psc-peek-deep-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},
+                "option":[{"name":"-m","tip":["model"]}],
+                "next":[{"name":"upgrade","option":[
+                            {"name":"--method","alias":["-m"],"next":[{"name":"fast"}]}]}]}"#,
+        )
+        .unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_ne!(peek_predict_symbol(&input, "-m"), Some("switch".into()));
     }
 }
