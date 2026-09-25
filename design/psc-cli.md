@@ -251,6 +251,11 @@ psc rm --all
   `scripts/link-completion.ps1`) is removed **as a link only** — the linked local source stays
   intact. `symlink_metadata().is_symlink()` detects junctions too (Windows junction is reported
   as a symlink), and link removal never touches the target.
+- **Name validity**: a name must be a single path-free token — no `/`, `\`, `:`, spaces or control
+  characters, and not `.`, `..` or empty. It is validated **before any filesystem access**, so
+  `psc rm ..\..\victim` is rejected instead of resolving outside the library directory. An invalid
+  name reports the same `<name> is not an available completion.` as an unknown one. The same rule
+  covers `rm` / `update` / `completion` / `alias`.
 - **Errors**: no args → `Too few parameters.`; name in neither the registry nor the remote
   library → `<name> is not an available completion.`; in the remote library but not installed →
   `<name>: Completion not added.`
