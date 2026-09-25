@@ -107,7 +107,7 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
   - `parse_wildcard` — tokenizes into `Pat` (`Lit` / `Any`).
   - `wildcard_match` — wildcard matching with backtracking.
   - `wildcard_segments` / `wildcard_highlight` — highlight byte ranges.
-- `state.rs::match_segments` — public highlight entry used by the menu UI; resolves
+- `state/mod.rs::match_segments` — public highlight entry used by the menu UI; resolves
   the mode exactly like `filter_items` so highlights always match.
 - Config: `filter_mode` (`menu` group).
 

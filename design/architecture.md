@@ -75,8 +75,10 @@ platform/arch via `$IsWindows`/`$IsMacOS` + `[RuntimeInformation]::ProcessArchit
 <triple>` (and zig for zigbuild).
 
 The CI build job (`.github/workflows/ci.yml`) produces the same binaries on its own hosted
-runners: plain `cargo build --release` (cross targets via the runner's toolchain), then uploads
-them as build artifacts — it does not run `cargo fmt` or zigbuild.
+runners, picking one of three commands per matrix entry (`ci.yml:103-108`): `cargo zigbuild
+--release` for the glibc-floor targets, `cargo build --release --target <triple>` for other cross
+targets, and plain `cargo build --release` for native ones. It then uploads them as build
+artifacts — the build job does not run `cargo fmt` (lint/test run as separate jobs).
 
 ## 4. End-to-end flow
 

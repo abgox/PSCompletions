@@ -608,7 +608,7 @@ A new config key touches several places — follow the full chain:
 5. If the engine consumes it at build time, read it from the build context's `global_config`
    (not a new per-field input), and update `design/protocol.md` if the build input changes.
 6. Run `.\scripts\compare-json.ps1 psc` (structure + translation) and
-   `cargo test` (config registry).
+   `cargo test --manifest-path core/Cargo.toml` (config registry).
 
 ## Dynamic Completions (`hooks.lua`)
 
