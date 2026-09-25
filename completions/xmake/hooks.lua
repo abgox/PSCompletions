@@ -24,7 +24,4 @@ psc.on({
     { command = "uninstall" }
 }, add_targets)
 
-psc.on({
-    { option = "--file" },
-    { option = "--project" }
-}, add_files)
+psc.on({ option = "--file" }, add_files)

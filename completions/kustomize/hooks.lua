@@ -16,14 +16,6 @@ local function add_dirs_with_kustomization()
         local dir = p:match("^(.*)[/\\]Kustomization$")
         if dir then psc.add({ name = dir }) end
     end
-    -- fallback: list current dir entries that are directories
-    if #psc.glob("**/kustomization.yaml") == 0 then
-        for _, e in ipairs(psc.ls(".") or {}) do
-            if e.is_dir then
-                psc.add({ name = e.name })
-            end
-        end
-    end
 end
 
 local function add_yaml_files()
@@ -55,7 +47,8 @@ psc.on({
 psc.on({
     { command = { "edit", "add", "resource" }, multiple = true },
     { command = { "edit", "remove", "resource" }, multiple = true },
-    { command = { "edit", "add", "base" }, multiple = true },
 }, add_yaml_files)
+
+psc.on({ command = { "edit", "add", "base" }, multiple = true }, add_dirs_with_kustomization)
 
 psc.on({ option = "--namespace" }, add_namespaces)

@@ -22,9 +22,3 @@ psc.on({
 }, add_tests)
 
 psc.on({ option = "--config" }, add_config)
-
-psc.on({ option = "--root" }, function()
-    for _, e in ipairs(psc.ls(".") or {}) do
-        if e.is_dir then psc.add({ name = e.name }) end
-    end
-end)

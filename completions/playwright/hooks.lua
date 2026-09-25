@@ -10,10 +10,6 @@ end
 
 psc.on({ command = "test" }, add_tests)
 
-psc.on({ command = "show-report" }, function()
-    for _, p in ipairs(psc.glob("playwright-report/**/*") or {}) do psc.add({ name = p }) end
-end)
-
 psc.on({ command = "show-trace" }, function()
     for _, p in ipairs(psc.glob("**/*.zip") or {}) do psc.add({ name = p }) end
 end)

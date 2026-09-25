@@ -15,8 +15,8 @@ local function add_layouts()
     -- layout dir from config
     local layout_dir = psc.env("ZELLIJ_CONFIG_DIR")
     if layout_dir then
-        for _, e in ipairs(psc.ls(layout_dir) or {}) do
-            if not e.is_dir then psc.add({ name = e.name, tip = e.path }) end
+        for _, p in ipairs(psc.glob(psc.path(layout_dir, "layouts", "*.kdl")) or {}) do
+            psc.add({ name = p, tip = "layout" })
         end
     end
 end

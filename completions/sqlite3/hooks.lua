@@ -6,6 +6,5 @@ end
 
 psc.on({
     {},
-    { option = "-init" },
     { option = "-append" }
 }, add_db_files)

@@ -2,11 +2,15 @@ local function add_key_files()
     for _, p in ipairs(psc.glob("*.pub") or {}) do
         psc.add({ name = p, tip = "public key" })
     end
-    for _, e in ipairs(psc.ls(psc.env("HOME") or psc.env("USERPROFILE") or psc.cwd) or {}) do
-        if e.name:match("id_") then psc.add({ name = e.path, tip = e.name }) end
-    end
-    for _, p in ipairs(psc.glob(psc.path(psc.env("HOME") or psc.env("USERPROFILE") or "", ".ssh", "*")) or {}) do
-        psc.add({ name = p, tip = "ssh key" })
+    local ssh_dir = psc.path(psc.env("HOME") or psc.env("USERPROFILE") or psc.cwd, ".ssh")
+    for _, e in ipairs(psc.ls(ssh_dir) or {}) do
+        if not e.is_dir and e.name:match("^id_") then
+            if e.name:match("%.pub$") then
+                psc.add({ name = e.path, tip = "public key" })
+            else
+                psc.add({ name = e.path, tip = "private key" })
+            end
+        end
     end
 end
 

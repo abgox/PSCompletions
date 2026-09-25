@@ -1,16 +1,5 @@
-local function add_dirs()
-    psc.add(psc.items(psc.ls(".") or {}, function(e)
-        if e.is_dir then return { name = e.name } end
-    end))
-end
-
 local function add_protos()
     psc.add(psc.items(psc.glob("**/*.proto") or {}, function(p) return { name = p } end))
-end
-
-local function add_sources()
-    add_dirs()
-    add_protos()
 end
 
 local function add_buf_yaml()
@@ -45,19 +34,7 @@ psc.on({
     { command = { "source", "edit", "deprecate" } },
     { option = "--against" },
     { option = "--schema", multiple = true },
-}, add_sources)
-
-psc.on({
-    { command = { "dep", "prune" } },
-    { command = { "dep", "update" } },
-    { command = { "plugin", "prune" } },
-    { command = { "plugin", "update" } },
-}, add_dirs)
-
-psc.on({
-    { command = { "config", "migrate" }, option = "--module" },
-    { command = { "config", "migrate" }, option = "--workspace" },
-}, add_dirs)
+}, add_protos)
 
 psc.on({
     { option = "--config" },

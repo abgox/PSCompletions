@@ -61,10 +61,6 @@ local function add_gradle_files()
         local name = p:match("([^/\\]+)$")
         if name then psc.add({ name = name, tip = p }) end
     end
-    for _, p in ipairs(psc.glob("gradle/**/*") or {}) do
-        local name = p:match("([^/\\]+)$")
-        if name then psc.add({ name = name, tip = p }) end
-    end
 end
 
 psc.on({}, function()
@@ -75,14 +71,6 @@ end)
 psc.on({ option = "--exclude-task" }, add_tasks)
 
 psc.on({ option = "--init-script" }, add_gradle_files)
-
-psc.on({ option = "--project-dir" }, function()
-    local entries = psc.ls(".")
-    if not entries then return end
-    for _, e in ipairs(entries) do
-        if e.is_dir then psc.add({ name = e.name, tip = e.path }) end
-    end
-end)
 
 psc.on({ option = "--project-prop" }, function()
     local p = psc.read("gradle.properties")

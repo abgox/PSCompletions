@@ -22,10 +22,7 @@ end
 
 psc.on({
     { command = "compile" },
-    { command = "watch" },
-    { command = "eval" },
-    { option = "--font-path" },
-    { option = "--root" }
+    { command = "watch" }
 }, add_files)
 
 psc.on({ command = "fonts" }, add_fonts)

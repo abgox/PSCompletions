@@ -118,13 +118,10 @@ psc.on({ option = "--namespace" }, add_namespaces)
 psc.on({ option = "--kube-context" }, add_contexts)
 
 psc.on({ option = "--kubeconfig" }, function()
+    local kc = psc.env("KUBECONFIG")
+    if kc then psc.add({ name = kc }) end
     local home = psc.env("USERPROFILE") or psc.env("HOME")
     if home then
-        local dir = psc.path(home, ".kube")
-        for _, e in ipairs(psc.ls(dir) or {}) do
-            if not e.is_dir then
-                psc.add({ name = e.path })
-            end
-        end
+        psc.add({ name = psc.path(home, ".kube", "config") })
     end
 end)

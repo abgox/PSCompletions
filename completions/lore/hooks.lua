@@ -36,13 +36,6 @@ local function add_files()
             if f and f ~= "" then psc.add({ name = f, tip = line }) end
         end
     end
-    -- fallback to ls
-    local entries = psc.ls(".")
-    if entries then
-        for _, e in ipairs(entries) do
-            if not e.is_dir then psc.add({ name = e.name, tip = e.path }) end
-        end
-    end
 end
 
 local function add_remotes()
