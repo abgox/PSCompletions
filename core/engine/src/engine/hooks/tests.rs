@@ -298,7 +298,7 @@ fn provide_empty_yield_leaves_default_symbol() {
     psc.on({ command = "exec" }, function() end)
     "#;
     let out = run_hook(&root_provide_ctx(), script, &static_rows(&["exec"])).unwrap();
-    assert!(out.iter().all(|i| i.symbol == None));
+    assert!(out.iter().all(|i| i.symbol.is_none()));
 }
 
 /// Runs a hook against a temp log dir and returns the resulting error.log content.
