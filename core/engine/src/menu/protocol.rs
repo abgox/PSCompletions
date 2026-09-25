@@ -511,7 +511,7 @@ fn peek_predict_symbol_inner(
         return None;
     }
     let parent_set: std::collections::HashSet<String> = if let Some(cached) = cached_parent {
-        cached.iter().map(|it| it.text.to_lowercase()).collect()
+        cached.iter().map(|it| ambient_key(&it.text)).collect()
     } else {
         let mut parent = input.clone();
         parent.order = None;
@@ -520,7 +520,7 @@ fn peek_predict_symbol_inner(
             Ok((items, _)) => items,
             Err(_) => return None,
         };
-        items.iter().map(|it| it.text.to_lowercase()).collect()
+        items.iter().map(|it| ambient_key(&it.text)).collect()
     };
     // Exclude ambient items: `global_option` plus whatever the peek layer
     // merely inherits (ancestor options bubbling down, or root `option` as
@@ -530,7 +530,7 @@ fn peek_predict_symbol_inner(
     let mut globals: std::collections::HashSet<String> = tree
         .global_options
         .iter()
-        .flat_map(|n| n.all_names().map(|s| s.to_lowercase()))
+        .flat_map(|n| n.all_names().map(ambient_key))
         .collect();
     if in_value_slot && stack.is_empty() {
         // An option value at the root: the parent menu lists only value
@@ -541,24 +541,24 @@ fn peek_predict_symbol_inner(
             tree.next
                 .iter()
                 .chain(tree.options.iter())
-                .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+                .flat_map(|n| n.all_names().map(ambient_key)),
         );
     } else if !stack.is_empty() {
         // Inside a command, the root `option` is only a fallback source.
         globals.extend(
             tree.options
                 .iter()
-                .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+                .flat_map(|n| n.all_names().map(ambient_key)),
         );
     }
     globals.extend(
         stack
             .iter()
             .flat_map(|n| n.option.iter())
-            .flat_map(|n| n.all_names().map(|s| s.to_lowercase())),
+            .flat_map(|n| n.all_names().map(ambient_key)),
     );
     let has_new = peek_items.iter().any(|it| {
-        !parent_set.contains(&it.text.to_lowercase()) && !globals.contains(&it.text.to_lowercase())
+        !parent_set.contains(&ambient_key(&it.text)) && !globals.contains(&ambient_key(&it.text))
     });
     if has_new {
         return Some("switch".into());
@@ -577,6 +577,18 @@ fn peek_predict_symbol_inner(
     // computation above (it guards `switch` against ubiquitous items
     // faking a new layer).
     Some("stay".into())
+}
+
+/// Ambient comparison key: options (`-...`) compare case-sensitively, commands
+/// and values stay case-insensitive — the same split `completion::Node::matches`
+/// uses. Item text loses the declared `is_option` flag, so the leading `-`
+/// heuristic recovers it (mirrors the manifest validation rule).
+fn ambient_key(text: &str) -> String {
+    if text.starts_with('-') {
+        text.to_string()
+    } else {
+        text.to_lowercase()
+    }
 }
 
 fn has_static_candidates(node: &completion::Node) -> bool {
@@ -666,7 +678,17 @@ fn find_node_in_context<'a>(
         .iter()
         .chain(search_option.iter())
         .chain(tree.global_options.iter())
-        .find(|n| n.all_names().any(|a| a == name))
+        .find(|n| {
+            n.all_names().any(|a| {
+                let a = completion::Node::canonical_spelling(a);
+                let b = completion::Node::canonical_spelling(name);
+                if n.is_option {
+                    a == b
+                } else {
+                    a.eq_ignore_ascii_case(b)
+                }
+            })
+        })
 }
 
 /// Derive the hooks.lua path from the manifest path: `<cmd>/language/<lang>.json` → `<cmd>/hooks.lua`.
@@ -1602,5 +1624,69 @@ mod tests {
             log_dir: String::new(),
         };
         assert_ne!(peek_predict_symbol(&input, "-m"), Some("switch".into()));
+    }
+
+    #[test]
+    fn peek_keeps_case_variant_options_distinct() {
+        // `-b` and `-B` are different options: the peek layer must not treat
+        // one as ambient merely because the other is already visible.
+        let dir = std::env::temp_dir().join(format!("psc-peek-case-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},
+                "next":[{"name":"run"}],
+                "option":[{"name":"-b"},{"name":"-B","next":[{"name":"x"}]}]}"#,
+        )
+        .unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_eq!(peek_predict_symbol(&input, "-B"), Some("switch".into()));
+        assert_eq!(peek_predict_symbol(&input, "-b"), Some("stay".into()));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn peek_matches_commands_case_insensitively() {
+        // Commands stay case-insensitive: `RUN` resolves to the `run` node,
+        // so its static candidates still predict `switch`.
+        let dir = std::env::temp_dir().join(format!("psc-peek-cmd-case-{}", std::process::id()));
+        let _ = std::fs::create_dir_all(&dir);
+        let manifest = dir.join("manifest.json");
+        std::fs::write(
+            &manifest,
+            r#"{"meta":{"url":"https://example.com","description":["t"]},
+                "next":[{"name":"run","next":[{"name":"fast"}]}]}"#,
+        )
+        .unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: manifest.to_string_lossy().into_owned(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({ "enable_cache": 0 }),
+            data: serde_json::Value::Null,
+            order: None,
+            cache_dir: String::new(),
+            log_dir: String::new(),
+        };
+        assert_eq!(peek_predict_symbol(&input, "RUN"), Some("switch".into()));
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }
