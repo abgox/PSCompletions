@@ -631,9 +631,22 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $psi.StandardErrorEncoding = [System.Text.Encoding]::UTF8
             $process = [System.Diagnostics.Process]::Start($psi)
             $stderr = $process.StandardError
+            $lineTask = $stderr.ReadLineAsync()
+            $stderrWatch = [Diagnostics.Stopwatch]::StartNew()
+            $timedOut = $false
             while (-not $process.HasExited) {
-                $lineTask = $stderr.ReadLineAsync()
-                if (-not $lineTask.Wait(30000)) {
+                if ($null -ne $lineTask -and $lineTask.IsCompleted) {
+                    $line = $null
+                    try { $line = $lineTask.Result } catch { }
+                    if ($null -eq $line) {
+                        $lineTask = $null
+                    }
+                    else {
+                        $stderrWatch.Restart()
+                        $lineTask = $stderr.ReadLineAsync()
+                    }
+                }
+                if ($stderrWatch.Elapsed.TotalSeconds -ge 30) {
                     try { $process.Kill() } catch { }
                     try {
                         $esc = [char]27
@@ -641,16 +654,12 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                     }
                     catch { }
                     $errorMsg = 'menu timed out'
+                    $timedOut = $true
                     break
                 }
-                $line = $lineTask.Result
-                if ($null -eq $line) { break }
+                Start-Sleep -Milliseconds 10
             }
-            # Bounded wait for full exit; Kill on abnormal residue so Tab never hangs
-            if (-not $process.WaitForExit(30000)) {
-                try { $process.Kill() } catch { }
-                $errorMsg = 'menu timed out'
-            }
+            if (-not $timedOut) { $process.WaitForExit() }
             if ([System.IO.File]::Exists($outputPath)) {
                 $result = [System.IO.File]::ReadAllText($outputPath, $utf8) | ConvertFrom-Json
             }
