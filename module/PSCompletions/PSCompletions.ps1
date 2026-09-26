@@ -1021,4 +1021,4 @@ else {
         Remove-Item $PSCompletions.path.change -ErrorAction Ignore
     }
 }
-Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script
+Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'

@@ -318,7 +318,7 @@
                 _forward_psc
                 if ($LASTEXITCODE -eq 0 -and $arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
                     $PSCompletions.init_data()
-                    Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script
+                    Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'
                     $need_init = $false
                 }
             }
@@ -342,12 +342,12 @@
                     $oldKey = $PSCompletions.config.trigger_key
                     try {
                         Remove-PSReadLineKeyHandler $oldKey
-                        Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.script
+                        Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'
                     }
                     catch {
                         # Rebind failed: restore the removed old trigger key to avoid "old key dead and new key not active"
                         try {
-                            Set-PSReadLineKeyHandler -Key $oldKey -ScriptBlock $PSCompletions.menu.script
+                            Set-PSReadLineKeyHandler -Key $oldKey -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'
                         }
                         catch { }
                         _param_err 'err' 'trigger_key' $PSCompletions.info.menu.config.err.trigger_key
@@ -358,7 +358,7 @@
                 _forward_psc
                 if ($LASTEXITCODE -eq 0 -and $arg[1] -eq 'menu' -and $arg[2] -eq 'trigger_key') {
                     $PSCompletions.config.trigger_key = $arg[3]
-                    Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.script
+                    Set-PSReadLineKeyHandler -Key $arg[3] -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'
                 }
             }
         }
