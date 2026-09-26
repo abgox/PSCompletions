@@ -17,7 +17,7 @@ else {
     [System.IO.Path]::Combine($(if ([string]::IsNullOrWhiteSpace($env:XDG_DATA_HOME)) { [System.IO.Path]::Combine($HOME, '.local', 'share') } else { $env:XDG_DATA_HOME }), 'com.abgox', 'PSCompletions')
 }
 New-Variable -Name PSCompletions -Option Constant -Value @{
-    version     = '7.5.2'
+    version     = '7.6.0'
     binary_ok   = $false
     initialized = $false
     path        = @{

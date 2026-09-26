@@ -2,6 +2,16 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## 7.6.0
+
+- Moved the data directory out of the module folder by default; set `PSCOMPLETIONS_DATA_DIR` to override it.
+  - Windows: `%APPDATA%\com.abgox\PSCompletions`
+  - macOS: `~/Library/Application Support/com.abgox/PSCompletions`
+  - Linux: `${XDG_DATA_HOME:-$HOME/.local/share}/com.abgox/PSCompletions`
+- Filter prompt no longer uses the `focus` semantic color.
+- Fixed menu selection delays caused by dynamic hooks.
+- Other optimizations and fixes.
+
 ## 7.5.2
 
 - Fixed a crash when history lines contain multi-byte characters.

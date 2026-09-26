@@ -2,6 +2,16 @@
 
 [English](./CHANGELOG.md)
 
+## 7.6.0
+
+- 数据目录默认移出模块文件夹，可通过 `PSCOMPLETIONS_DATA_DIR` 覆盖
+  - Windows: `%APPDATA%\com.abgox\PSCompletions`
+  - macOS: `~/Library/Application Support/com.abgox/PSCompletions`
+  - Linux: `${XDG_DATA_HOME:-$HOME/.local/share}/com.abgox/PSCompletions`
+- 过滤提示符不再使用 `focus` 语义颜色
+- 修复了动态 hooks 导致菜单候选项应用延迟的问题
+- 其他的优化和修复
+
 ## 7.5.2
 
 - 修复了历史记录含多字节字符时的崩溃
