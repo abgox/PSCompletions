@@ -105,7 +105,7 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg
         bx,
         y + prompt_row,
         '>',
-        Style::default().fg(focus_c).bg(bg),
+        Style::default().fg(STRUCT_C).bg(bg),
     );
 
     // The bar owns one cell: split the filter at the cursor and shift the right half over.

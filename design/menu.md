@@ -222,25 +222,25 @@ root-level flag into deep contexts.
 
 **no width computation, no configurable width, no following the input cursor**:
 
-The focus color (`color_focus`, default red) carries a **three-layer focus** concept — each
-layer guides the user's attention to a different interactive element:
+The focus color (`color_focus`, default red) marks the selection system — the elements
+that answer "where am I / what will be applied":
 
-1. **Input focus** — the `>` before the filter prompt. Signals "type here to filter"; the
-   first thing the eye lands on when the menu opens.
-2. **Position focus** — the current counter number (`3` in `3/12`). Signals "you are looking
+1. **Position focus** — the current counter number (`3` in `3/12`). Signals "you are looking
    at item 3 of 12"; a quick spatial reference without scanning the list.
-3. **Selection focus** — the left rail `▍` + the `>` prefix on the highlighted row. Signals
+2. **Selection focus** — the left rail `▍` + the `>` prefix on the highlighted row. Signals
    "this is the item that will be applied"; the direct target of the user's action.
 
-All three share the same color to reinforce that they are part of the same interaction
-loop: input → locate → select. The visual consistency helps users build a mental model
-where "red = where I am / what I'm doing" without needing to learn separate cues.
+Both share the same color so users build a mental model where "red = where I am /
+what I'm doing" without needing to learn separate cues. The filter prompt is deliberately
+excluded: it is static chrome (same family as the rail and separators), and painting it red
+would split attention between the prompt and the moving selection. The input affordance
+there is carried by the blinking cursor instead.
 
 - **Pinned to column 0**: the full-width separator line + right scrollbar span the whole line
   and do not move with the cursor.
-- **Filter prompt line (own row)**: `>` in **red** ("red = input/selected" language), content in
-  the default color; with an empty filter and a hint present, the hint is dimmed (from the psc
-  completion's `info.filter_hint`, localized). When `last_check` in `change.json` is older than
+- **Filter prompt line (own row)**: `>` in **dark grey** (structural, same family as the
+  rail and separators), content in the default color; with an empty filter and a hint present,
+  the hint is dimmed (from the psc completion's `info.filter_hint`, localized). When `last_check` in `change.json` is older than
   7 days, a stale-update hint (from `info.filter_hint_stale`, localized) is appended, prompting
   the user to run `psc update`. The row sits on the side nearest the input
   line (bottom for below-facing, top for above-facing).
@@ -250,9 +250,9 @@ where "red = where I am / what I'm doing" without needing to learn separate cues
   characters themselves are not highlighted).
 - **Counter row**: `current(red)/total(default)` + a separator line.
 - **Left rail + selection mark**: every row has a `▍` rail (the selected row turns **red**, the
-  rest dark grey); the selected row's text is prefixed with a red `>` (echoing the filter row),
-  text shifted one column right for the "pop-out" offset — a **double focus marker** with the
-  rail, moving with the selection.
+  rest dark grey); the selected row's text is prefixed with a red `>` — the only red `>`
+  on screen — text shifted one column right for the "pop-out" offset — a **double focus
+  marker** with the rail, moving with the selection.
 - **Selected row**: indicated by the red rail + red brackets together; the text itself is not
   emphasized (bold/underline render inconsistently across terminals).
 - **Right proportional scrollbar**: same dark grey `│` as the rail/separators; height ∝
@@ -268,10 +268,11 @@ where "red = where I am / what I'm doing" without needing to learn separate cues
     inside the box, the list when inside the list.
   - **Gap coverage**: the description panel sits flush against the menu (its border is the
     separator — there is no gap row), so no stale terminal content can show between them.
-- **Colors**: text in the terminal's default foreground; emphasis is **red** (`>` prompts,
-  counter position, selected slider) and **cyan** (match highlight); structural grey for
-  rail/separators/scrollbar/description border; **yellow** for the no-match warning circle
-  (solid `●` shown on the counter row when the filter matches nothing).
+- **Colors**: text in the terminal's default foreground; emphasis is **red** (counter
+  position, selected rail/slider and selection mark) and **cyan** (match highlight);
+  structural grey for the filter prompt, rail/separators/scrollbar/description border;
+  **yellow** for the no-match warning circle (solid `●` shown on the counter row when the
+  filter matches nothing).
 - **Orientation**: flips automatically by available space above/below (fzf `--layout=reverse` idea).
 - **Mouse**: left click selects; double-click within 400 ms confirms; wheel moves the selection
   (scrolls the description when over the box).
@@ -347,7 +348,7 @@ rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 60
 Boolean keys are stored as JSON numbers (`1`/`0`); `psc config` accepts only `0`/`1` on input.
 
 **Color configuration**: the menu supports two configurable colors — `color_focus` (default `red`,
-used for `>` prompts, counter position, selected rail) and `color_match` (default `cyan`, used
+used for counter position, selected rail and selection mark) and `color_match` (default `cyan`, used
 for match highlighting). Structure elements (rail/separators/scrollbar/description border) use
 dark grey and are not configurable. Text uses the terminal default foreground. Items are
 zero-width (pinned left, truncated). The filter prompt is `>`, the counter reads `current/total`
