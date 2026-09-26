@@ -1,0 +1,787 @@
+{
+  "meta": {
+    "url": "https://github.com/zerx-lab/FluxDown",
+    "description": [
+      "An aria2c-style command-line download client for FluxDown."
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "alias": [
+        "get"
+      ],
+      "usage": [
+        "get|add [URLS]..."
+      ],
+      "tip": [
+        "Add one or more download tasks."
+      ],
+      "option": [
+        {
+          "name": "--checksum",
+          "usage": [
+            "--checksum <ALGO=HASH>"
+          ],
+          "tip": [
+            "Verify the download with a checksum in algo=hexhash format."
+          ],
+          "next": [
+            {
+              "name": "md5=0cc175b9c0f1b6a831c399e269772661"
+            },
+            {
+              "name": "sha1=da39a3ee5e6b4b0d3255bfef95601890afd80709"
+            },
+            {
+              "name": "sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ]
+        },
+        {
+          "name": "--cookies",
+          "usage": [
+            "--cookies <STRING>"
+          ],
+          "tip": [
+            "Set cookies for the download."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dir <DIR>"
+          ],
+          "tip": [
+            "Set the save directory; omit it to use the service default."
+          ],
+          "next": []
+        },
+        {
+          "name": "--http-passwd",
+          "usage": [
+            "--http-passwd <PASSWORD>"
+          ],
+          "tip": [
+            "Set the HTTP Basic authentication password."
+          ],
+          "next": []
+        },
+        {
+          "name": "--http-user",
+          "usage": [
+            "--http-user <USERNAME>"
+          ],
+          "tip": [
+            "Set the HTTP Basic authentication username."
+          ],
+          "next": []
+        },
+        {
+          "name": "--input-file",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --input-file <FILE>"
+          ],
+          "tip": [
+            "Read URLs from a file, one per line; use - for standard input."
+          ],
+          "next": [
+            {
+              "name": "-",
+              "tip": [
+                "Read URLs from standard input."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Download with the embedded engine without connecting to a running service."
+          ]
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <NAME>"
+          ],
+          "tip": [
+            "Set the output filename when adding a single URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause",
+          "tip": [
+            "Create the task without starting it; conflicts with --local."
+          ]
+        },
+        {
+          "name": "--proxy",
+          "usage": [
+            "--proxy <URL>"
+          ],
+          "tip": [
+            "Set a proxy URL for this task."
+          ],
+          "next": []
+        },
+        {
+          "name": "--queue",
+          "usage": [
+            "--queue <ID>"
+          ],
+          "tip": [
+            "Select a named queue; omit it to use the default queue."
+          ],
+          "next": []
+        },
+        {
+          "name": "--referrer",
+          "usage": [
+            "--referrer <URL>"
+          ],
+          "tip": [
+            "Set the Referrer header."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-auth",
+          "tip": [
+            "Save the site's HTTP Basic credentials for matching tasks."
+          ]
+        },
+        {
+          "name": "--segments",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --segments <COUNT>"
+          ],
+          "tip": [
+            "Set the segment or thread count; use 0 to select automatically."
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Select the segment count automatically."
+              ]
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--user-agent",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --user-agent <STRING>"
+          ],
+          "tip": [
+            "Set the User-Agent header."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "Read or write persistent CLI settings without contacting the service."
+      ],
+      "next": [
+        {
+          "name": "get",
+          "usage": [
+            "get [KEY]"
+          ],
+          "tip": [
+            "Read one configuration value, or list all values when KEY is omitted."
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [COMMAND]..."
+          ],
+          "tip": [
+            "Show help for config commands."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all persistent configuration values."
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "Print the configuration file path."
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <KEY> <VALUE>"
+          ],
+          "tip": [
+            "Set a persistent configuration value."
+          ],
+          "next": [
+            {
+              "name": "timeout",
+              "tip": [
+                "Request timeout in seconds."
+              ],
+              "next": [
+                {
+                  "name": "30",
+                  "tip": [
+                    "Use the default request timeout."
+                  ]
+                },
+                {
+                  "name": "300"
+                },
+                {
+                  "name": "5"
+                },
+                {
+                  "name": "60"
+                }
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "Management API token."
+              ],
+              "next": [
+                {
+                  "name": "fxd_your_token_here",
+                  "tip": [
+                    "Example management API token."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "url",
+              "tip": [
+                "Service base URL."
+              ],
+              "next": [
+                {
+                  "name": "http://127.0.0.1:17800",
+                  "tip": [
+                    "Default local service address."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "usage": [
+            "unset <KEY>"
+          ],
+          "tip": [
+            "Clear a persistent configuration value."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "Show help for commands."
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Show application information for the service."
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list"
+      ],
+      "tip": [
+        "List download tasks."
+      ],
+      "option": [
+        {
+          "name": "--status",
+          "usage": [
+            "--status <STATUS>"
+          ],
+          "tip": [
+            "Filter tasks by status name or numeric code."
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "Status 0: pending."
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "Status 1: downloading."
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "Status 2: paused."
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "Status 3: completed."
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "Status 4: error."
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "Status 5: preparing."
+              ]
+            },
+            {
+              "name": "completed",
+              "tip": [
+                "Download completed."
+              ]
+            },
+            {
+              "name": "downloading",
+              "tip": [
+                "Currently downloading."
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Stopped because of an error."
+              ]
+            },
+            {
+              "name": "paused",
+              "tip": [
+                "Paused by the user or queue."
+              ]
+            },
+            {
+              "name": "pending",
+              "tip": [
+                "Waiting to start."
+              ]
+            },
+            {
+              "name": "preparing",
+              "tip": [
+                "Preparing metadata or file layout."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "usage": [
+        "pause <ID>"
+      ],
+      "tip": [
+        "Pause one task."
+      ]
+    },
+    {
+      "name": "pause-all",
+      "tip": [
+        "Pause all tasks."
+      ]
+    },
+    {
+      "name": "ping",
+      "tip": [
+        "Check whether the service is running without requiring a token."
+      ]
+    },
+    {
+      "name": "queue",
+      "tip": [
+        "List named queues and their configuration."
+      ]
+    },
+    {
+      "name": "resume",
+      "usage": [
+        "resume <ID>"
+      ],
+      "tip": [
+        "Resume one task."
+      ]
+    },
+    {
+      "name": "resume-all",
+      "tip": [
+        "Resume all paused tasks."
+      ]
+    },
+    {
+      "name": "rm",
+      "usage": [
+        "rm <ID>"
+      ],
+      "tip": [
+        "Delete one task."
+      ],
+      "option": [
+        {
+          "name": "--delete-files",
+          "tip": [
+            "Also delete the task's downloaded files."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rss",
+      "tip": [
+        "Manage RSS subscriptions for automatic tracking and downloading."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <URL>"
+          ],
+          "tip": [
+            "Add an RSS or Atom subscription."
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --dir <DIR>"
+              ],
+              "tip": [
+                "Set the save directory; omit it to inherit from the queue or global setting."
+              ],
+              "next": []
+            },
+            {
+              "name": "--exclude",
+              "usage": [
+                "--exclude <KEYWORDS>"
+              ],
+              "tip": [
+                "Exclude matching keywords."
+              ],
+              "next": []
+            },
+            {
+              "name": "--include",
+              "usage": [
+                "--include <KEYWORDS>"
+              ],
+              "tip": [
+                "Include matching keywords; use | for OR and spaces for AND."
+              ],
+              "next": []
+            },
+            {
+              "name": "--interval",
+              "usage": [
+                "--interval <MINUTES>"
+              ],
+              "tip": [
+                "Set the feed polling interval in minutes; the service default is 30."
+              ],
+              "next": [
+                {
+                  "name": "1440"
+                },
+                {
+                  "name": "15"
+                },
+                {
+                  "name": "30",
+                  "tip": [
+                    "Use the service default polling interval."
+                  ]
+                },
+                {
+                  "name": "5"
+                },
+                {
+                  "name": "60"
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "Set the subscription name; omit it to use the feed title."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-auto",
+              "tip": [
+                "Only collect feed items instead of creating download tasks automatically."
+              ]
+            },
+            {
+              "name": "--queue",
+              "usage": [
+                "--queue <ID>"
+              ],
+              "tip": [
+                "Select the queue for downloaded items; omit it to use the default queue."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [COMMAND]..."
+          ],
+          "tip": [
+            "Show help for RSS commands."
+          ]
+        },
+        {
+          "name": "items",
+          "usage": [
+            "items <ID>"
+          ],
+          "tip": [
+            "List items collected by an RSS subscription."
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List all RSS subscriptions."
+          ]
+        },
+        {
+          "name": "refresh",
+          "usage": [
+            "refresh <ID>"
+          ],
+          "tip": [
+            "Fetch an RSS subscription immediately."
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <ID>"
+          ],
+          "tip": [
+            "Delete an RSS subscription and its collected items."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "alias": [
+        "stat"
+      ],
+      "usage": [
+        "stat|status <ID>"
+      ],
+      "tip": [
+        "Show details for one task."
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [ID]"
+      ],
+      "tip": [
+        "Poll and redraw task progress until completion or an error."
+      ],
+      "option": [
+        {
+          "name": "--interval",
+          "usage": [
+            "--interval <SECONDS>"
+          ],
+          "tip": [
+            "Set the refresh interval in seconds; the default is 1."
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "Use the default refresh interval."
+              ]
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "30"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help."
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "Print machine-readable JSON output."
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <SECONDS>"
+      ],
+      "tip": [
+        "Set the per-request timeout in seconds; the default is 30."
+      ],
+      "next": [
+        {
+          "name": "30",
+          "tip": [
+            "Use the default request timeout."
+          ]
+        },
+        {
+          "name": "300"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "Set the management API token."
+      ],
+      "next": []
+    },
+    {
+      "name": "--url",
+      "usage": [
+        "--url <URL>"
+      ],
+      "tip": [
+        "Set the service base URL; the default is http://127.0.0.1:17800."
+      ],
+      "next": [
+        {
+          "name": "http://127.0.0.1:17800",
+          "tip": [
+            "Default local service address."
+          ]
+        }
+      ]
+    }
+  ]
+}
