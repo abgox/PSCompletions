@@ -1,0 +1,787 @@
+{
+  "meta": {
+    "url": "https://github.com/zerx-lab/FluxDown",
+    "description": [
+      "用于 FluxDown 的 aria2c 风格命令行下载客户端。"
+    ]
+  },
+  "next": [
+    {
+      "name": "add",
+      "alias": [
+        "get"
+      ],
+      "usage": [
+        "get|add [URLS]..."
+      ],
+      "tip": [
+        "添加一个或多个下载任务。"
+      ],
+      "option": [
+        {
+          "name": "--checksum",
+          "usage": [
+            "--checksum <ALGO=HASH>"
+          ],
+          "tip": [
+            "使用 algo=hexhash 格式的校验和验证下载。"
+          ],
+          "next": [
+            {
+              "name": "md5=0cc175b9c0f1b6a831c399e269772661"
+            },
+            {
+              "name": "sha1=da39a3ee5e6b4b0d3255bfef95601890afd80709"
+            },
+            {
+              "name": "sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          ]
+        },
+        {
+          "name": "--cookies",
+          "usage": [
+            "--cookies <STRING>"
+          ],
+          "tip": [
+            "设置下载所需的 Cookie。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dir",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dir <DIR>"
+          ],
+          "tip": [
+            "设置保存目录；省略时使用服务默认目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--http-passwd",
+          "usage": [
+            "--http-passwd <PASSWORD>"
+          ],
+          "tip": [
+            "设置 HTTP Basic 身份验证密码。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--http-user",
+          "usage": [
+            "--http-user <USERNAME>"
+          ],
+          "tip": [
+            "设置 HTTP Basic 身份验证用户名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--input-file",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --input-file <FILE>"
+          ],
+          "tip": [
+            "从文件逐行读取 URL；使用 - 从标准输入读取。"
+          ],
+          "next": [
+            {
+              "name": "-",
+              "tip": [
+                "从标准输入读取 URL。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "使用内嵌引擎下载，不连接正在运行的服务。"
+          ]
+        },
+        {
+          "name": "--out",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --out <NAME>"
+          ],
+          "tip": [
+            "添加单个 URL 时设置输出文件名。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause",
+          "tip": [
+            "创建任务但不开始下载；不能与 --local 同时使用。"
+          ]
+        },
+        {
+          "name": "--proxy",
+          "usage": [
+            "--proxy <URL>"
+          ],
+          "tip": [
+            "为此任务设置代理 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--queue",
+          "usage": [
+            "--queue <ID>"
+          ],
+          "tip": [
+            "选择命名队列；省略时使用默认队列。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--referrer",
+          "usage": [
+            "--referrer <URL>"
+          ],
+          "tip": [
+            "设置 Referrer 请求头。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save-auth",
+          "tip": [
+            "保存此站点的 HTTP Basic 凭据，供匹配的任务使用。"
+          ]
+        },
+        {
+          "name": "--segments",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --segments <COUNT>"
+          ],
+          "tip": [
+            "设置分段或线程数；使用 0 自动选择。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "自动选择分段数。"
+              ]
+            },
+            {
+              "name": "1"
+            },
+            {
+              "name": "16"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--user-agent",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --user-agent <STRING>"
+          ],
+          "tip": [
+            "设置 User-Agent 请求头。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "读取或写入持久化 CLI 配置，不连接服务。"
+      ],
+      "next": [
+        {
+          "name": "get",
+          "usage": [
+            "get [KEY]"
+          ],
+          "tip": [
+            "读取一个配置值；省略 KEY 时列出全部值。"
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [COMMAND]..."
+          ],
+          "tip": [
+            "显示 config 命令的帮助。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出全部持久化配置值。"
+          ]
+        },
+        {
+          "name": "path",
+          "tip": [
+            "打印配置文件路径。"
+          ]
+        },
+        {
+          "name": "set",
+          "usage": [
+            "set <KEY> <VALUE>"
+          ],
+          "tip": [
+            "设置持久化配置值。"
+          ],
+          "next": [
+            {
+              "name": "timeout",
+              "tip": [
+                "以秒为单位的请求超时时间。"
+              ],
+              "next": [
+                {
+                  "name": "30",
+                  "tip": [
+                    "使用默认请求超时时间。"
+                  ]
+                },
+                {
+                  "name": "300"
+                },
+                {
+                  "name": "5"
+                },
+                {
+                  "name": "60"
+                }
+              ]
+            },
+            {
+              "name": "token",
+              "tip": [
+                "管理 API 令牌。"
+              ],
+              "next": [
+                {
+                  "name": "fxd_your_token_here",
+                  "tip": [
+                    "管理 API 令牌示例。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "url",
+              "tip": [
+                "服务基址 URL。"
+              ],
+              "next": [
+                {
+                  "name": "http://127.0.0.1:17800",
+                  "tip": [
+                    "默认本机服务地址。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "usage": [
+            "unset <KEY>"
+          ],
+          "tip": [
+            "清除持久化配置值。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]..."
+      ],
+      "tip": [
+        "显示命令帮助。"
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "显示服务应用信息。"
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list"
+      ],
+      "tip": [
+        "列出下载任务。"
+      ],
+      "option": [
+        {
+          "name": "--status",
+          "usage": [
+            "--status <STATUS>"
+          ],
+          "tip": [
+            "按状态名称或数字代码筛选任务。"
+          ],
+          "next": [
+            {
+              "name": "0",
+              "tip": [
+                "状态 0：pending。"
+              ]
+            },
+            {
+              "name": "1",
+              "tip": [
+                "状态 1：downloading。"
+              ]
+            },
+            {
+              "name": "2",
+              "tip": [
+                "状态 2：paused。"
+              ]
+            },
+            {
+              "name": "3",
+              "tip": [
+                "状态 3：completed。"
+              ]
+            },
+            {
+              "name": "4",
+              "tip": [
+                "状态 4：error。"
+              ]
+            },
+            {
+              "name": "5",
+              "tip": [
+                "状态 5：preparing。"
+              ]
+            },
+            {
+              "name": "completed",
+              "tip": [
+                "下载已完成。"
+              ]
+            },
+            {
+              "name": "downloading",
+              "tip": [
+                "正在下载。"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "因错误而停止。"
+              ]
+            },
+            {
+              "name": "paused",
+              "tip": [
+                "已被用户或队列暂停。"
+              ]
+            },
+            {
+              "name": "pending",
+              "tip": [
+                "等待开始。"
+              ]
+            },
+            {
+              "name": "preparing",
+              "tip": [
+                "正在准备元数据或文件布局。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "usage": [
+        "pause <ID>"
+      ],
+      "tip": [
+        "暂停单个任务。"
+      ]
+    },
+    {
+      "name": "pause-all",
+      "tip": [
+        "暂停全部任务。"
+      ]
+    },
+    {
+      "name": "ping",
+      "tip": [
+        "无需 token 即可检查服务是否正在运行。"
+      ]
+    },
+    {
+      "name": "queue",
+      "tip": [
+        "列出命名队列及其配置。"
+      ]
+    },
+    {
+      "name": "resume",
+      "usage": [
+        "resume <ID>"
+      ],
+      "tip": [
+        "恢复单个任务。"
+      ]
+    },
+    {
+      "name": "resume-all",
+      "tip": [
+        "恢复全部已暂停的任务。"
+      ]
+    },
+    {
+      "name": "rm",
+      "usage": [
+        "rm <ID>"
+      ],
+      "tip": [
+        "删除单个任务。"
+      ],
+      "option": [
+        {
+          "name": "--delete-files",
+          "tip": [
+            "同时删除任务已下载的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rss",
+      "tip": [
+        "管理用于自动追番和自动下载的 RSS 订阅。"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <URL>"
+          ],
+          "tip": [
+            "添加 RSS 或 Atom 订阅。"
+          ],
+          "option": [
+            {
+              "name": "--dir",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --dir <DIR>"
+              ],
+              "tip": [
+                "设置保存目录；省略时依次继承队列目录和全局目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exclude",
+              "usage": [
+                "--exclude <KEYWORDS>"
+              ],
+              "tip": [
+                "排除匹配的关键词。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--include",
+              "usage": [
+                "--include <KEYWORDS>"
+              ],
+              "tip": [
+                "包含匹配的关键词；使用 | 表示或，使用空格表示且。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--interval",
+              "usage": [
+                "--interval <MINUTES>"
+              ],
+              "tip": [
+                "设置以分钟为单位的抓取间隔；服务默认值为 30。"
+              ],
+              "next": [
+                {
+                  "name": "1440"
+                },
+                {
+                  "name": "15"
+                },
+                {
+                  "name": "30",
+                  "tip": [
+                    "使用服务默认抓取间隔。"
+                  ]
+                },
+                {
+                  "name": "5"
+                },
+                {
+                  "name": "60"
+                }
+              ]
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "设置订阅名；省略时使用源标题。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-auto",
+              "tip": [
+                "仅收集源条目，不自动创建下载任务。"
+              ]
+            },
+            {
+              "name": "--queue",
+              "usage": [
+                "--queue <ID>"
+              ],
+              "tip": [
+                "选择下载条目的队列；省略时使用默认队列。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "usage": [
+            "help [COMMAND]..."
+          ],
+          "tip": [
+            "显示 RSS 命令的帮助。"
+          ]
+        },
+        {
+          "name": "items",
+          "usage": [
+            "items <ID>"
+          ],
+          "tip": [
+            "列出 RSS 订阅收集的条目。"
+          ]
+        },
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出全部 RSS 订阅。"
+          ]
+        },
+        {
+          "name": "refresh",
+          "usage": [
+            "refresh <ID>"
+          ],
+          "tip": [
+            "立即抓取 RSS 订阅。"
+          ]
+        },
+        {
+          "name": "rm",
+          "usage": [
+            "rm <ID>"
+          ],
+          "tip": [
+            "删除 RSS 订阅及其已收集条目。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "status",
+      "alias": [
+        "stat"
+      ],
+      "usage": [
+        "stat|status <ID>"
+      ],
+      "tip": [
+        "显示单个任务的详情。"
+      ]
+    },
+    {
+      "name": "watch",
+      "usage": [
+        "watch [ID]"
+      ],
+      "tip": [
+        "轮询并重绘任务进度，直至完成或出错。"
+      ],
+      "option": [
+        {
+          "name": "--interval",
+          "usage": [
+            "--interval <SECONDS>"
+          ],
+          "tip": [
+            "设置以秒为单位的刷新间隔；默认值为 1。"
+          ],
+          "next": [
+            {
+              "name": "1",
+              "tip": [
+                "使用默认刷新间隔。"
+              ]
+            },
+            {
+              "name": "10"
+            },
+            {
+              "name": "2"
+            },
+            {
+              "name": "30"
+            },
+            {
+              "name": "5"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助信息。"
+      ]
+    },
+    {
+      "name": "--json",
+      "tip": [
+        "输出机器可读的 JSON。"
+      ]
+    },
+    {
+      "name": "--timeout",
+      "usage": [
+        "--timeout <SECONDS>"
+      ],
+      "tip": [
+        "设置单次请求超时秒数；默认值为 30。"
+      ],
+      "next": [
+        {
+          "name": "30",
+          "tip": [
+            "使用默认请求超时时间。"
+          ]
+        },
+        {
+          "name": "300"
+        },
+        {
+          "name": "5"
+        },
+        {
+          "name": "60"
+        }
+      ]
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "设置管理 API 令牌。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--url",
+      "usage": [
+        "--url <URL>"
+      ],
+      "tip": [
+        "设置服务基址 URL；默认值为 http://127.0.0.1:17800。"
+      ],
+      "next": [
+        {
+          "name": "http://127.0.0.1:17800",
+          "tip": [
+            "默认本机服务地址。"
+          ]
+        }
+      ]
+    }
+  ]
+}
