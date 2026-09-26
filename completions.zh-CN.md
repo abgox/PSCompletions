@@ -79,6 +79,7 @@
 |[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
 |[ffmpeg](https://ffmpeg.org/)|完整的跨平台音视频录制、转换和流媒体解决方案。|
 |[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
+|[fluxdown](https://github.com/zerx-lab/FluxDown)|用于 FluxDown 的 aria2c 风格命令行下载客户端。|
 |[fmt](https://uutils.org)|将输入文件的段落重新格式化输出到标准输出。|
 |[fnm](https://github.com/Schniz/fnm)|使用 Rust 编写的快速简单的 Node.js 版本管理器。|
 |[fold](https://uutils.org)|将每个文件写入标准输出，同时拆分长行。|

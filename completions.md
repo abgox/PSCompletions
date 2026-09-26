@@ -79,6 +79,7 @@
 |[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
 |[ffmpeg](https://ffmpeg.org/)|Complete, cross-platform solution to record, convert and stream audio and video.|
 |[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
+|[fluxdown](https://github.com/zerx-lab/FluxDown)|An aria2c-style command-line download client for FluxDown.|
 |[fmt](https://uutils.org)|Reformat paragraphs from input files to stdout.|
 |[fnm](https://github.com/Schniz/fnm)|Fast and simple Node.js version manager, built in Rust.|
 |[fold](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
