@@ -1,14 +1,28 @@
-﻿Microsoft.PowerShell.Core\Set-StrictMode -Off
+﻿param([switch]$SkipMigration)
+
+Microsoft.PowerShell.Core\Set-StrictMode -Off
 
 if ($PSCompletions.guid) { return }
 
-$_ = "$PSScriptRoot/data"
+$_ = if (-not [string]::IsNullOrWhiteSpace($env:PSCOMPLETIONS_DATA_DIR)) {
+    $env:PSCOMPLETIONS_DATA_DIR
+}
+elseif ($IsWindows -or $PSEdition -eq 'Desktop') {
+    [System.IO.Path]::Combine([Environment]::GetFolderPath([Environment+SpecialFolder]::ApplicationData), 'com.abgox', 'PSCompletions')
+}
+elseif ($IsMacOS) {
+    [System.IO.Path]::Combine($HOME, 'Library', 'Application Support', 'com.abgox', 'PSCompletions')
+}
+else {
+    [System.IO.Path]::Combine($(if ([string]::IsNullOrWhiteSpace($env:XDG_DATA_HOME)) { [System.IO.Path]::Combine($HOME, '.local', 'share') } else { $env:XDG_DATA_HOME }), 'com.abgox', 'PSCompletions')
+}
 New-Variable -Name PSCompletions -Option Constant -Value @{
     version     = '7.5.2'
     binary_ok   = $false
     initialized = $false
     path        = @{
         root             = $PSScriptRoot
+        data             = $_
         settings         = "$_/settings.json"
         completions      = "$_/completions"
         temp             = "$_/temp"
@@ -102,28 +116,6 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                     [Microsoft.PowerShell.PSConsoleReadLine]::Replace($completion.ReplacementIndex, $completion.ReplacementLength, $result)
                 }
             }
-        }
-    }
-}
-
-if ($IsWindows -or $PSEdition -eq 'Desktop') {
-    if ($PSCompletions.path.root.StartsWith($env:ProgramFiles) -or $PSCompletions.path.root.StartsWith($env:SystemRoot)) {
-        if (![Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-            Microsoft.PowerShell.Utility\Write-Host -ForegroundColor Red @"
-
-[PSCompletions] Administrator Required
--------------------------------------------------
-PSCompletions is installed in a system-level directory.
-Location: $($PSCompletions.path.root)
-
-To use PSCompletions normally, please:
-1. Run PowerShell as Administrator.
-2. Or reinstall the module to a user-writable location via '-Scope CurrentUser'.
-
-Refer to: https://pscompletions.abgox.com/docs/require-admin
-
-"@
-            return
         }
     }
 }
@@ -549,7 +541,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 path    = [string]$menuOrder.path
             }
         }
-        $input.data_dir = [System.IO.Path]::Combine($PSCompletions.path.root, 'data')
+        $input.data_dir = $PSCompletions.path.data
         $input.order_dir = $PSCompletions.path.order
         $input.menu_dir = $PSCompletions.path.menu
         $initialFilter = $PSCompletions.menu.initial_filter
@@ -932,7 +924,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $PSCompletions.binary_ok = $false
             return
         }
-        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.settings)
+        $dataDir = $PSCompletions.path.data
         $tmp = $PSCompletions.path.menu
         $PSCompletions.ensure_dir($tmp)
         $id = [System.Guid]::NewGuid().ToString('N')
@@ -983,51 +975,63 @@ if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
     $PSCompletions.config.trigger_key = $_.config.trigger_key
 }
 else {
+    if (![System.IO.Path]::IsPathRooted($PSCompletions.path.data)) {
+        throw "[PSCompletions] Invalid data directory ($($PSCompletions.path.data)): PSCOMPLETIONS_DATA_DIR must be an absolute path. Unset it to use the default location."
+    }
     $PSCompletions.config.trigger_key = 'Tab'
-    if (![System.IO.Directory]::Exists($PSCompletions.path.order)) {
+    if (-not $SkipMigration) {
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ensure_dir -Force {
             param([string]$path)
             if (![System.IO.Directory]::Exists($path)) { New-Item -ItemType Directory $path -ErrorAction SilentlyContinue | Out-Null }
         }
-        Add-Member -InputObject $PSCompletions -MemberType ScriptMethod move_old_version {
-            function _moveData {
-                param($Dir, $JsonFile, $CompletionsDir)
-                $PSCompletions.ensure_dir($CompletionsDir)
-                if (![System.IO.File]::Exists($JsonFile) -and [System.IO.File]::Exists("$Dir/data.json")) {
-                    Move-Item "$Dir/data.json" $JsonFile -Force -ErrorAction Ignore
+        Add-Member -InputObject $PSCompletions -MemberType ScriptMethod psc_completion_ready -Force {
+            param([string]$dataDir)
+            return ([System.IO.File]::Exists([System.IO.Path]::Combine($dataDir, 'completions', 'psc', 'config.json')) -and [System.IO.File]::Exists([System.IO.Path]::Combine($dataDir, 'completions', 'psc', 'language', 'en-US.json')))
+        }
+        Add-Member -InputObject $PSCompletions -MemberType ScriptMethod find_data_source -Force {
+            $currentData = [System.IO.Path]::Combine($PSCompletions.path.root, 'data')
+            if ($PSCompletions.psc_completion_ready($currentData)) { return $currentData }
+            $parent = Split-Path $PSCompletions.path.root -Parent
+            $versionDirs = @(Get-ChildItem -LiteralPath $parent -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^\d+\.\d' -and $_.FullName -ne $PSCompletions.path.root })
+            foreach ($dir in ($versionDirs | Sort-Object { try { [version]$_.Name } catch { [version]'0.0' } } -Descending)) {
+                $dataDir = [System.IO.Path]::Combine($dir.FullName, 'data')
+                if ($PSCompletions.psc_completion_ready($dataDir)) { return $dataDir }
+            }
+        }
+        Add-Member -InputObject $PSCompletions -MemberType ScriptMethod migrate_data -Force {
+            $PSCompletions.ensure_dir($PSCompletions.path.completions)
+            $target = $PSCompletions.path.data
+            if ($PSCompletions.psc_completion_ready($target)) { return }
+            $source = $PSCompletions.find_data_source()
+            if ($source) {
+                $legacySettings = [System.IO.Path]::Combine($source, 'data.json')
+                if ([System.IO.File]::Exists($legacySettings) -and ![System.IO.File]::Exists($PSCompletions.path.settings)) {
+                    Copy-Item -LiteralPath $legacySettings -Destination $PSCompletions.path.settings -Force -ErrorAction SilentlyContinue
                 }
-                $Dir, $PSCompletions.path.root | ForEach-Object {
-                    if ([System.IO.Directory]::Exists("$_/completions")) {
-                        Get-ChildItem "$_/completions" -Directory | ForEach-Object { Copy-Item $_.FullName $CompletionsDir -Force -Recurse }
-                        Remove-Item "$_/completions" -Force -Recurse -ErrorAction Ignore
+                try {
+                    Get-ChildItem -LiteralPath $source -Force | ForEach-Object {
+                        Copy-Item -LiteralPath $_.FullName -Destination $target -Recurse -Force -ErrorAction Stop
+                    }
+                    if ($PSCompletions.psc_completion_ready($target)) {
+                        Remove-Item -LiteralPath $source -Recurse -Force -ErrorAction Stop
+                    }
+                }
+                catch { }
+            }
+            if (!$PSCompletions.psc_completion_ready($target)) {
+                $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.completions, 'psc')
+                foreach ($seedParent in @(
+                        $PSCompletions.path.root,
+                        (Split-Path (Split-Path $PSCompletions.path.root -Parent) -Parent)
+                    )) {
+                    if ($PSCompletions.psc_completion_ready($seedParent)) {
+                        Copy-Item -LiteralPath ([System.IO.Path]::Combine($seedParent, 'completions', 'psc')) -Destination $seedTarget -Recurse -Force
+                        break
                     }
                 }
             }
-            $version = (Get-ChildItem (Split-Path $PSCompletions.path.root -Parent) -ErrorAction Ignore).Name | Where-Object { $_ -match '^\d+\.\d.*' } | Sort-Object { [Version]$_ }
-            if ($null -eq $version) {
-                $scoop_persist = Join-Path $PSCompletions.path.root.Replace('\modules\PSCompletions', '') 'persist'
-                foreach ($_ in "$scoop_persist/abgox.PSCompletions", "$scoop_persist/pscompletions") {
-                    if ([System.IO.Directory]::Exists($_)) { _moveData $_ "$_/data/settings.json" "$_/data/completions" }
-                }
-                return
-            }
-            if ($version.Count -ge 2) {
-                $oldVerDir = Join-Path (Split-Path $PSCompletions.path.root -Parent) $version[-2]
-                if ([System.IO.Directory]::Exists("$oldVerDir/data")) { Move-Item "$oldVerDir/data" $PSCompletions.path.root -Force -ErrorAction Ignore }
-            }
-            else {
-                $oldVerDir = $PSCompletions.path.root
-            }
-            _moveData $oldVerDir $PSCompletions.path.settings $PSCompletions.path.completions
         }
-        $PSCompletions.move_old_version()
-        $PSCompletions.ensure_dir($PSCompletions.path.order)
-        if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
-            $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
-            $PSCompletions.config.trigger_key = $_.config.trigger_key
-        }
-        Remove-Item "$($PSCompletions.path.temp)/alias.csv" -ErrorAction Ignore
-        Remove-Item $PSCompletions.path.change -ErrorAction Ignore
+        $PSCompletions.migrate_data()
     }
 }
 Set-PSReadLineKeyHandler -Key $PSCompletions.config.trigger_key -ScriptBlock $PSCompletions.menu.script -BriefDescription 'PSCompletionsMenuComplete' -Description 'Open the completion menu provided by PSCompletions.'

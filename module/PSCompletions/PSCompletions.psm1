@@ -43,7 +43,7 @@
             $PSCompletions.write_with_color('[PSCompletions] psc binary missing.')
             return
         }
-        $dataDir = [System.IO.Path]::GetDirectoryName($PSCompletions.path.settings)
+        $dataDir = $PSCompletions.path.data
         # psc emits UTF-8, but PowerShell decodes native output via [Console]::OutputEncoding (GBK on Chinese systems); switch temporarily
         $oldEncoding = [Console]::OutputEncoding
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
@@ -390,9 +390,21 @@
                 # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
                 if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                     if ($PressKey.VirtualKeyCode -eq 13) {
-                        Get-ChildItem ($PSCompletions.path.root + '/data') | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+                        if ([System.IO.Directory]::Exists($PSCompletions.path.data)) {
+                            Get-ChildItem -LiteralPath $PSCompletions.path.data -Force | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+                        }
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
                         $PSCompletions.ensure_dir($PSCompletions.path.completions)
+                        $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.completions, 'psc')
+                        foreach ($seed in @(
+                            [System.IO.Path]::Combine($PSCompletions.path.root, 'completions', 'psc'),
+                            [System.IO.Path]::Combine((Split-Path (Split-Path $PSCompletions.path.root -Parent) -Parent), 'completions', 'psc')
+                        )) {
+                            if ([System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'config.json')) -and [System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'language', 'en-US.json'))) {
+                                Copy-Item -LiteralPath $seed -Destination $seedTarget -Recurse -Force
+                                break
+                            }
+                        }
                         $PSCompletions.init_data()
                     }
                     else {

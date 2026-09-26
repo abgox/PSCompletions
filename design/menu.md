@@ -90,7 +90,8 @@ The menu's input handling is the **user-visible contract**:
     "raw_config": { "completion": { "enable_tip": 1 }, "global": {}, "default": {} }
   },
   "terminal": { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 },
-                "window": { "top": 0, "h": 30 }, "platform": "windows" }
+                "window": { "top": 0, "h": 30 }, "platform": "windows" },
+  "data_dir": "<resolved data directory>"
 }
 ```
 
@@ -104,7 +105,8 @@ The menu's input handling is the **user-visible contract**:
 > instead — the engine then builds and ranks the candidates itself
 > (`cmd`/`arg_tokens`/`manifest`/`hooks`/`order`).
 > `window.top/h` is the visible window (BufferSize spans the whole scrollback); layout space is
-> clipped to the visible window.
+> clipped to the visible window. `data_dir` is the resolved runtime data directory; the menu
+> engine uses it for stale-update state and other host data lookups.
 
 ### output.json (Rust → PowerShell)
 

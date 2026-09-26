@@ -27,9 +27,14 @@ lifecycles, and future shells need only the engine.
 
 ## 3. Data discovery
 
-The CLI operates on a module data directory, passed by the host:
+The CLI operates on one resolved data directory. The PowerShell host resolves it once and always passes it explicitly:
 
-- Primary: `--data <dir>` argument; fallback: env `PSCOMPLETIONS_DATA_DIR`.
+- `PSCOMPLETIONS_DATA_DIR` — optional install-time/user override read by the PowerShell host when non-empty.
+- Otherwise the host uses the platform default: `%APPDATA%\com.abgox\PSCompletions` on Windows,
+  `~/Library/Application Support/com.abgox/PSCompletions` on macOS, and
+  `${XDG_DATA_HOME:-$HOME/.local/share}/com.abgox/PSCompletions` on Linux.
+- The host passes the resolved directory as `--data <dir>` to `psc`; the Rust binary keeps its
+  existing direct-invocation fallback to the same environment variable when no `--data` is given.
 - Files the CLI reads/writes (all under `<data>`):
   - `settings.json` — local completion list (`alias`), all config (`config`, incl. `config.completion`).
     Written **atomically** (pid-suffixed temp file + rename) so a crash mid-write can never leave a
@@ -83,7 +88,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 
 | Flag | Meaning |
 | --- | --- |
-| `--data <dir>` / `--data=<dir>` | Data directory. Overrides `PSCOMPLETIONS_DATA_DIR` env var. Required by the binary. |
+| `--data <dir>` / `--data=<dir>` | Data directory. The PowerShell host always passes its resolved directory; when invoking the binary directly, this overrides `PSCOMPLETIONS_DATA_DIR`. |
 | `--json` | Structured JSON output (used by the PowerShell wrapper). |
 | `--language <lang>` | Only used by `init` (bootstrap default language when settings are missing). |
 | `--result <file>` | Only used by `init` (write the init JSON payload to a file). |
@@ -310,7 +315,7 @@ psc --reset
 ```
 
 - Implemented in the psm1 switch (not Rust). Shows an interactive confirmation; on Enter it
-  deletes the module data directory contents (everything except module source) and re-initializes.
+  deletes the resolved data directory contents, restores the bundled `psc` completion, and re-initializes.
 
 
 ### 6.10 `init` — internal command (not user-facing)
@@ -436,7 +441,7 @@ on demand.
 ## 10. PowerShell module bridge
 
 - `PSCompletions` function: no-arg → interactive info page (unchanged); with args → spawn
-  `psc <args>` via `_forward_psc` (pass `--data <module data dir>`), forward stdout/stderr/exit.
+  `psc <args>` via `_forward_psc` (pass `--data <resolved data dir>`), forward stdout/stderr/exit.
 - `config menu trigger_key` re-binds PSReadLine (`Set-PSReadLineKeyHandler`) — the one host-side
   validation that stays in PowerShell (validate-then-persist).
 - Interactive confirms for `add --all` and `rm --all` in the wrapper.

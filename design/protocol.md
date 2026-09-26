@@ -88,14 +88,18 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
   "config": { "flags": {}, "context_switch": "~", "context_stay": "?" },
   "terminal": { "cursor": { "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
   "order": { "history": "...", "cmd": "git", "aliases": ["git"], "path": "..." },
+  "data_dir": "<resolved data directory>",
   "order_dir": "<order cache directory>",
   "menu_dir": "<menu temp directory>",
   "initial_filter": "^to"
 }
 ```
 
-Fields: `items` | `build`, `config`, `terminal`, `order`?, `order_dir`, `menu_dir`,
+Fields: `items` | `build`, `config`, `terminal`, `order`?, `data_dir`, `order_dir`, `menu_dir`,
 `initial_filter`?.
+
+`data_dir` (optional) is the resolved runtime data directory; the engine uses it to locate
+host-side state such as `temp/change.json`.
 
 `order_dir` (optional, always set by the module) is the order-cache directory; the engine prunes
 stale files (older than 90 days) from it in a background thread on each menu open.
