@@ -66,10 +66,3 @@ psc.on({
 }, add_versions)
 
 psc.on({ command = "submit" }, add_manifest_dirs)
-
-psc.on({ command = "analyze" }, function()
-    for _, p in ipairs(psc.glob("**/*.{exe,msi,msix}") or {}) do
-        psc.add({ name = p, tip = "installer" })
-        if #completions > 80 then break end
-    end
-end)

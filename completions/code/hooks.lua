@@ -8,9 +8,6 @@ local function add_extensions()
 end
 
 local function add_workspaces()
-    for _, p in ipairs(psc.glob("*.code-workspace") or {}) do
-        psc.add({ name = p, tip = "workspace" })
-    end
     for _, p in ipairs(psc.glob("**/*.code-workspace") or {}) do
         psc.add({ name = p, tip = "workspace" })
     end

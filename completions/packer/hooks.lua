@@ -21,9 +21,6 @@ local function add_templates()
     for _, p in ipairs(psc.glob("*.pkr.json") or {}) do
         psc.add({ name = p, tip = "template" })
     end
-    for _, p in ipairs(psc.glob("*.json") or {}) do
-        psc.add({ name = p, tip = "template" })
-    end
 end
 
 psc.on({

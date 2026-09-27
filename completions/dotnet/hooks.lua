@@ -1,9 +1,5 @@
 local function add_projects()
-    local csproj = psc.glob("**/*.csproj") or {}
-    local sln = psc.glob("**/*.sln") or {}
-    local fsproj = psc.glob("**/*.fsproj") or {}
-    local vbproj = psc.glob("**/*.vbproj") or {}
-    for _, p in ipairs(psc.concat(csproj, sln, fsproj, vbproj)) do
+    for _, p in ipairs(psc.glob("**/*.{csproj,sln,fsproj,vbproj}") or {}) do
         psc.add({ name = p, tip = "project" })
     end
 end
@@ -68,8 +64,8 @@ psc.on({
     { command = "pack",                    multiple = true },
     { command = "msbuild",                 multiple = true },
     { command = "solution" },
-    { command = { "solution", "add" },    multiple = true },
-    { command = { "solution", "remove" }, multiple = true },
+    { command = { "solution", "add" },     multiple = true },
+    { command = { "solution", "remove" },  multiple = true },
     { command = { "reference", "add" },    multiple = true },
     { command = { "reference", "remove" }, multiple = true },
     { option = "--project" }
@@ -77,7 +73,7 @@ psc.on({
 
 psc.on({
     { command = { "package", "add" } },
-    { command = { "package", "remove" }, multiple = true },
+    { command = { "package", "remove" },  multiple = true },
     { command = { "package", "list" } },
     { command = { "package", "search" } },
     { command = { "package", "update" } },

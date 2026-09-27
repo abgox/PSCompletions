@@ -54,13 +54,13 @@ end
 
 local function add_ecosystem_files()
     for _, p in ipairs(psc.glob("ecosystem.config.*") or {}) do
-        psc.add({ name = p, tip = p })
+        psc.add({ name = p })
     end
     for _, p in ipairs(psc.glob("pm2.config.*") or {}) do
-        psc.add({ name = p, tip = p })
+        psc.add({ name = p })
     end
     for _, p in ipairs(psc.glob("*.config.js") or {}) do
-        psc.add({ name = p, tip = p })
+        psc.add({ name = p })
     end
 end
 

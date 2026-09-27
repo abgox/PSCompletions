@@ -47,7 +47,7 @@ psc.on({ option = "--model" }, add_models)
 
 psc.on({ option = "--config" }, function()
     for _, p in ipairs(psc.glob("**/config.toml") or {}) do
-        psc.add({ name = p, tip = p })
+        psc.add({ name = p })
     end
 end)
 

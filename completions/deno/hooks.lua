@@ -20,18 +20,6 @@ end
 
 psc.on({ command = "task" }, add_tasks)
 
-psc.on({
-    { command = "run" },
-    { command = "bench" },
-    { command = "check" },
-    { command = "lint" },
-    { command = "fmt" },
-    { command = "test" },
-    { command = "compile" }
-}, function()
-    for _, p in ipairs(psc.glob("**/*.{ts,js,tsx,jsx,mts,mjs}") or {}) do psc.add({ name = p }) end
-end)
-
 psc.on({ option = "--config" }, function()
     for _, p in ipairs(psc.glob("{deno.json,deno.jsonc}") or {}) do psc.add({ name = p }) end
 end)

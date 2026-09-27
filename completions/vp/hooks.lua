@@ -55,12 +55,6 @@ local function add_deps()
     end
 end
 
-local function add_tests()
-    for _, p in ipairs(psc.glob("**/*.{test,spec}.{ts,js,tsx,jsx,mts,cts}") or {}) do
-        psc.add({ name = p })
-    end
-end
-
 psc.on({ command = "run" }, add_scripts)
 
 psc.on({ command = "exec" }, add_bins)
@@ -71,13 +65,3 @@ psc.on({
     { command = "explain", multiple = true },
     { command = "outdated", multiple = true }
 }, add_deps)
-
-psc.on({
-    { command = "test" },
-    { command = { "test", "run" } },
-    { command = { "test", "watch" } },
-    { command = { "test", "dev" } },
-    { command = { "test", "related" } },
-    { command = { "test", "bench" } },
-    { command = { "test", "list" } }
-}, add_tests)

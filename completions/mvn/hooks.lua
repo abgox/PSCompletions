@@ -73,7 +73,7 @@ end)
 psc.on({ option = "--file" }, function()
     for _, p in ipairs(psc.glob("**/pom.xml") or {}) do
         local name = p:match("([^/\\]+)$")
-        if name then psc.add({ name = p, tip = p }) end
+        if name then psc.add({ name = p }) end
     end
     psc.add({ name = "pom.xml", tip = "main pom" })
 end)
