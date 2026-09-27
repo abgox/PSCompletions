@@ -618,9 +618,18 @@ Use hooks when a static list can't know the real values at authoring time — th
 
 If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
 
-**Slot rule**: inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and examples, not the manifest alone. Do not inject generic file/directory listings: unfiltered `psc.ls(".")` and unfiltered `psc.glob` results are not completion candidates. A hook may add a small, semantically filtered set only when the CLI specifically requires a known name, extension, or project location; otherwise leave the path slot free and let native path completion handle it after an explicit path prefix (`./`, `../`, `/`, `C:\`, `~/`). See `design/hooks.md §9` for the full rule with examples.
+**Slot rule**: inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and examples, not the manifest alone. Never offer files at a context whose slot takes subcommands, names, keys, or nothing (`{}`, `{ command = "build" }` offering `rspress.config.ts` where only `build`/`preview` are valid). If a slot accepts files but the manifest shows no placeholder, add the `usage` placeholder (`[FILES]...`) so the slot is documented. For allowed `psc.ls` candidates in a relative file or directory slot, use `entry.name` as the completion `name`; use `entry.path` only when the slot requires an absolute path or as a tip.
 
-**Path-candidate admission test**: before registering any path candidate, the author must be able to state the exact value kind the CLI accepts, why that path is more useful than native path completion, and what bounded name/extension/location filter makes it meaningful. If any answer is missing, do not add it. A path-taking slot alone is not a reason to add candidates; never use an all-file glob, generic directory listing, or fallback listing to make discovery appear complete.
+**Path-candidate rule — one question settles it: can native path completion do this job?** Native path completion works *inside the current directory* and only once the user has typed a path prefix (`./`, `../`, `/`, `C:\`, `~/`). It never searches by name at a depth the user has not typed. Everything follows from that:
+
+- **A hook must provide it** when the candidate is found *by name* at a depth the user has not typed — a config file that may live anywhere in the tree (`tsconfig*.json`, `biome.{json,jsonc}`, `.swcrc`, `Cargo.toml`, `wrangler.toml`). A recursive glob whose **last segment contains a literal name fragment** (letters/digits that are not merely the extension) is the right tool.
+- **Leave it to native path completion** when the candidate is only "a file of this type somewhere" — `**/*.{js,ts,jsx,tsx}`, `**/*.py`, `**/*.{yaml,yml}`. Such a set is **unbounded by construction**: it grows with the repository instead of staying a small list. The user usually already knows where their own file is, so typing a prefix reaches it faster than scanning a flat list that buries the subcommands and options.
+
+**An extension is not a filter.** `**/*.{js,ts}` is not a "small, semantically filtered set" — it is the whole repository, and it will bury the static candidates. Never add a file listing to make discovery *look* complete.
+
+**Carve-out — an extension-only glob is allowed only when the CLI accepts no other kind of file in that slot *and* the format belongs to the tool rather than to the user** (e.g. `buf` takes `.proto` and nothing else; `dotnet build` takes a project/solution). Ask: when the user wants this, do they want *their own* file of that type, or a file *this tool* owns? If the answer is "their own", native path completion wins. Also prefer narrowing to a fixed depth when the CLI does not need arbitrary depth.
+
+See `design/hooks.md §9` for the full rule with worked examples.
 
 ## Updating Existing Completions (New Tool Version)
 
