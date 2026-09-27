@@ -184,11 +184,11 @@ pub(crate) use formats::{
     api_json, api_json_batch, api_log, api_toml, api_toml_batch, api_yaml, api_yaml_batch,
     append_log, now_local,
 };
-#[cfg(test)]
-pub(crate) use fs::normalize_glob_pattern;
 pub(crate) use fs::{
     api_exist, api_glob, api_ls, api_ls_batch, api_path, api_read, api_read_batch, api_which,
     resolve, table_to_strings,
 };
+#[cfg(test)]
+pub(crate) use fs::{glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
 pub(crate) use items::{api_add, api_concat, api_contains, api_items, api_join, api_split};
 pub(crate) use run::{api_run, api_run_batch};

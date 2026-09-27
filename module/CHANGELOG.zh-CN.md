@@ -2,6 +2,10 @@
 
 [English](./CHANGELOG.md)
 
+## Unreleased
+
+- 修复了 hook 在超大或层级很深的目录树中执行 glob 时菜单卡死的问题
+
 ## 7.6.0
 
 - 数据目录默认移出模块文件夹，可通过 `PSCOMPLETIONS_DATA_DIR` 覆盖

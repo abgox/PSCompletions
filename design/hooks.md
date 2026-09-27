@@ -122,7 +122,7 @@ array/string tools).
 | `psc.yaml(path)` / `psc.yaml_batch(paths)` | `table?` / `table<path, table?>` | Read + parse YAML. Single: nil on failure. Batch: nil at a path for a missing/unparseable file. |
 | `psc.ls(path)` | `psc_path_entry[]?` | Directory entries `{name, path, is_dir, is_link}` (`path` is the entry's full resolved path); nil if the directory does not exist (an empty dir yields an empty array). `is_dir` follows symlinks (a symlink to a directory counts as a directory). |
 | `psc.ls_batch({dir,...})` | `table<number, psc_path_entry[]?>` | List **multiple directories in parallel**; results in input order, nil at an index for a missing dir. |
-| `psc.glob(pattern)` | `string[]?` | Glob matching (supports `*`/`?`/`**` and `{a,b}` alternation via `globset`); the pattern resolves against `psc.cwd` (an absolute pattern ignores it); results are absolute and deduplicated; the walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (like `ripgrep`) — ignored files are not returned; nil for an invalid pattern (a valid pattern with no match yields an empty array). |
+| `psc.glob(pattern)` | `string[]?` | Glob matching (supports `*`/`?`/`**` and `{a,b}` alternation via `globset`); the pattern resolves against `psc.cwd` (an absolute pattern ignores it); results are absolute and deduplicated; the walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (like `ripgrep`) — ignored files are not returned; nil for an invalid pattern (a valid pattern with no match yields an empty array). Bounded: the walk stops after 500 ms (or the hook's remaining time, whichever comes first) and returns the matches found so far (see §11). |
 | `psc.path(...)` | `string` | Normalize/join path segments into one path using the **native platform separator** (`\` on Windows, `/` elsewhere): a single argument normalizes its separators (on Windows `/` → `\`), multiple arguments are joined with that separator. Duplicate separators collapse (`psc.path("a/", "/b")` → `"a\b"` on Windows, `"a/b"` elsewhere); a leading separator (absolute segment) and a drive root like `C:\` are preserved. |
 | `psc.exist(path)` | `boolean` | Whether the path exists (follows symlinks). |
 | `psc.env(name)` | `string?` | Environment variable; nil if unset. |
@@ -458,9 +458,20 @@ Do **not** spawn threads from Lua.
   (timeout, captured output, cross-platform).
 - **Timeout**: `psc.run` defaults to a 5 s timeout for a single subprocess, and the whole hook
   script is capped at 10 s (checked by an instruction-count hook) so neither a hung command nor an
-  infinite Lua loop can block completion. The cap covers Lua instructions and subprocess waits;
-  **file reads (`psc.read`/`psc.json`/`psc.ls`/`psc.glob`) are not timed** — a hung network share
-  can block them (a known limitation, not a sandbox escape).
+  infinite Lua loop can block completion. The cap covers Lua instructions and subprocess waits.
+  Blocking file APIs are **not** covered by the instruction-count hook (a native walk executes no
+  Lua instructions, so the VM hook can never fire mid-call); `psc.glob` therefore carries its own
+  **500 ms budget** and stops there, and `psc.read`/`psc.json`/`psc.ls` stay untimed — a hung
+  network share can still block those (a known limitation, not a sandbox escape).
+- **Glob is time-bounded, not count-bounded**: the 500 ms budget is per `glob` call and is
+  deliberately far below the 10 s hook cap — a completion menu that waits seconds is broken no
+  matter what it finds. A walk that runs out of time returns the matches it already found, so the
+  result is a **partial** array (the shallowest matches arrive first, and those are nearly always
+  the wanted ones) rather than a hang. There is deliberately **no** match-count cap: the menu
+  scrolls without a practical item limit, so a result is never truncated merely for being large.
+  A hook that needs completeness over a huge tree must not rely on `glob` — narrow the pattern
+  instead. Note the budget is per call, so a hook making several `glob` calls spends up to
+  500 ms each.
 - **Read-only files**: file APIs are read-only.
 - **Windows shim executables**: `psc.run` spawns the command directly — on Windows, batch/powerShell
   **shims** (e.g. `scoop`'s extension-less wrapper) cannot be spawned that way. Run them through the

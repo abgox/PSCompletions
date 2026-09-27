@@ -2,6 +2,10 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- Fixed the menu freezing when a hook globbed a very large or deeply nested directory tree.
+
 ## 7.6.0
 
 - Moved the data directory out of the module folder by default; set `PSCOMPLETIONS_DATA_DIR` to override it.

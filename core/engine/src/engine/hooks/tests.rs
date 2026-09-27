@@ -1,9 +1,9 @@
 //! Tests for the Lua hooks runtime.
 
-use super::api::{api_which, normalize_glob_pattern};
+use super::api::{api_which, glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
 use super::runner::{new_sandbox_lua, run_hook_with_timeout};
 use super::*;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 fn ctx() -> HookContext {
     HookContext {
@@ -1999,6 +1999,99 @@ fn glob_returns_nil_on_invalid_pattern() {
 "#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();
     assert_eq!(out[0].text, "nil-ok");
+}
+
+/// Create `count` empty files named `<prefix><i><suffix>` in `dir`.
+fn make_files(dir: &std::path::Path, count: usize, prefix: &str, suffix: &str) {
+    std::fs::create_dir_all(dir).unwrap();
+    for i in 0..count {
+        std::fs::write(dir.join(format!("{prefix}{i}{suffix}")), "").unwrap();
+    }
+}
+
+/// A matcher for `<dir>/<prefix>*<suffix>`, mirroring what `api_glob` compiles.
+fn test_matcher(dir: &std::path::Path, prefix: &str, suffix: &str) -> globset::GlobMatcher {
+    let pat = format!(
+        "{}/{prefix}*{suffix}",
+        dir.to_string_lossy().replace('\\', "/")
+    );
+    globset::GlobBuilder::new(&pat)
+        .literal_separator(true)
+        .case_insensitive(cfg!(windows))
+        .backslash_escape(false)
+        .build()
+        .unwrap()
+        .compile_matcher()
+}
+
+#[test]
+fn glob_walk_cuts_short_at_stop_instant() {
+    // Regression guard: the instruction-count timeout cannot fire inside a native walk (it
+    // executes no Lua instructions), so the walk must honor its own stop instant. A stop time
+    // already in the past must stop it early and hand back a partial result — unbounded, it
+    // returns all 300 files and freezes the menu on a deep tree.
+    // Driven through `glob_walk` directly (the instant is a parameter, not the process-global
+    // slot), so the assertion is deterministic and cannot interfere with sibling hook tests.
+    let base = std::env::temp_dir().join("psc-glob-deadline-test");
+    let _ = std::fs::remove_dir_all(&base);
+    make_files(&base, 300, "f", ".txt");
+    let matcher = test_matcher(&base, "f", ".txt");
+
+    let past = std::time::Instant::now() - Duration::from_secs(1);
+    let cut = glob_walk(&base, &matcher, None, past);
+    assert!(
+        cut.len() < 300,
+        "a past stop instant must cut the walk short, got {} of 300",
+        cut.len()
+    );
+
+    // A future stop instant must not truncate.
+    let future = std::time::Instant::now() + Duration::from_secs(60);
+    let full = glob_walk(&base, &matcher, None, future);
+    assert_eq!(full.len(), 300);
+    // Results are still real, deduped matches.
+    let mut sorted = full.clone();
+    sorted.sort();
+    sorted.dedup();
+    assert_eq!(sorted.len(), full.len(), "results must stay deduped");
+    assert!(full.iter().all(|p| p.ends_with(".txt")), "{full:?}");
+
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
+fn glob_stop_at_takes_the_earlier_bound() {
+    // A glob must never outlast the hook it runs in, but it also has its own (much shorter)
+    // budget so a menu never waits seconds. Whichever bound lands first wins.
+    let now = Instant::now();
+
+    // No hook deadline (no hook running): the glob's own budget applies.
+    let alone = glob_stop_at(now, None);
+    assert_eq!(alone, now + GLOB_BUDGET);
+    assert!(
+        alone > now,
+        "the budget must leave the walk time to make progress"
+    );
+
+    // A hook deadline further out than the budget: the budget still wins.
+    let slack = glob_stop_at(now, Some(now + Duration::from_secs(3600)));
+    assert_eq!(slack, now + GLOB_BUDGET);
+
+    // A hook deadline nearer than the budget: the hook's remaining time wins, so a glob can
+    // never push the hook past its own cap.
+    let tight = now + Duration::from_millis(50);
+    assert_eq!(glob_stop_at(now, Some(tight)), tight);
+}
+
+#[test]
+fn glob_budget_is_far_below_the_hook_cap() {
+    // The whole point of a dedicated budget: a completion menu must not wait seconds. Keep this
+    // asserted so a future bump to the hook-wide 10 s cap cannot silently reintroduce the freeze.
+    assert!(
+        GLOB_BUDGET < Duration::from_secs(1),
+        "GLOB_BUDGET is {:?}; a menu cannot wait that long",
+        GLOB_BUDGET
+    );
 }
 
 #[test]

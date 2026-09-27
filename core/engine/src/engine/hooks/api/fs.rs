@@ -1,6 +1,7 @@
 //! `psc.*` file-system capabilities: read / exists / ls / glob, plus the batch `read_batch`.
 
 use mlua::{Lua, Table, Value};
+use std::time::{Duration, Instant};
 
 use super::parallel_map;
 
@@ -123,6 +124,29 @@ pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
     }
 }
 
+/// Wall-clock budget for a single `glob` walk. Deliberately far below the hook's 10 s cap: a
+/// completion menu that takes seconds to open is broken no matter what it finds, so a slow walk
+/// returns the matches it already has instead of making the user wait. Measured on a 50k-file
+/// tree (~0.6 s to walk), this leaves ample headroom for any legitimate listing while keeping the
+/// worst case imperceptible.
+pub(crate) const GLOB_BUDGET: Duration = Duration::from_millis(500);
+
+/// How often the walk checks whether it is out of time. Every entry would put a clock read in
+/// the per-file path; every 256 entries keeps that negligible while reacting in low milliseconds.
+const GLOB_POLL_INTERVAL: usize = 256;
+
+/// When a walk must stop: its own budget, or whatever is left of the hook's deadline, whichever
+/// comes first. `hook_deadline` is a parameter (rather than read from the process-global slot) so
+/// the composition is testable without shared state.
+pub(crate) fn glob_stop_at(now: Instant, hook_deadline: Option<Instant>) -> Instant {
+    match hook_deadline {
+        Some(hook) => (now + GLOB_BUDGET).min(hook),
+        None => now + GLOB_BUDGET,
+    }
+}
+
+/// `psc.glob(pattern)` → array of matching file paths (see `normalize_glob_pattern` for the
+/// pattern and ignore-file contract). The walk is time-bounded — see `glob_walk`.
 pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Option<Vec<String>>> {
     let _ = lua;
     let normalized = normalize_glob_pattern(&pattern);
@@ -186,6 +210,29 @@ pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Op
         Some(depth)
     };
 
+    let stop_at = glob_stop_at(
+        Instant::now(),
+        crate::engine::hooks::runner::hook_deadline(),
+    );
+    Ok(Some(glob_walk(walk_root, &matcher, max_depth, stop_at)))
+}
+
+/// Walk `walk_root` (respecting ignore files, like ripgrep) and collect the paths `matcher`
+/// accepts, stopping at `stop_at`.
+///
+/// The walk is time-bounded, not count-bounded: the menu scrolls without a practical item limit,
+/// so a result is never truncated for being large — only for taking too long to find. A partial
+/// result degrades gracefully (the shallowest matches arrive first, and those are nearly always
+/// the ones wanted), whereas a hang blocks the menu outright.
+///
+/// `stop_at` is an explicit parameter (not read from the process-global slot) so the bound is
+/// testable without shared state.
+pub(crate) fn glob_walk(
+    walk_root: &std::path::Path,
+    matcher: &globset::GlobMatcher,
+    max_depth: Option<usize>,
+    stop_at: Instant,
+) -> Vec<String> {
     let mut builder = ignore::WalkBuilder::new(walk_root);
     builder
         .hidden(false)
@@ -202,18 +249,23 @@ pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Op
 
     let mut out = Vec::new();
     let mut seen = std::collections::HashSet::new();
+    let mut visited: usize = 0;
     for entry in walker {
+        // A recursive glob is a native walk: it burns wall-clock time without executing one
+        // Lua instruction, so the VM instruction-count hook can never interrupt it. Checking
+        // the clock here is what keeps a huge/deep tree from freezing the menu (the same
+        // reason `psc.run` checks the deadline — see `api/run.rs`).
+        visited += 1;
+        if visited.is_multiple_of(GLOB_POLL_INTERVAL) && Instant::now() >= stop_at {
+            break;
+        }
         let Ok(entry) = entry else { continue };
-        let path = entry.path();
-        let cand = path.to_string_lossy().replace('\\', "/");
-        if matcher.is_match(&cand) {
-            let s = path.to_string_lossy().replace('\\', "/");
-            if seen.insert(s.clone()) {
-                out.push(s);
-            }
+        let s = entry.path().to_string_lossy().replace('\\', "/");
+        if matcher.is_match(&s) && seen.insert(s.clone()) {
+            out.push(s);
         }
     }
-    Ok(Some(out))
+    out
 }
 
 /// `psc.path(...)` → normalize/join path segments into one path using the **native platform

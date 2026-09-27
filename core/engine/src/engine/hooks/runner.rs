@@ -14,13 +14,15 @@ use super::{HookContext, LuaItem};
 /// process, so a single slot is enough. Uses `Instant` to avoid `SystemTime` clock skew.
 pub(crate) static HOOK_DEADLINE: std::sync::Mutex<Option<Instant>> = std::sync::Mutex::new(None);
 
+/// The running hook's deadline, or `None` when no hook is running / the slot is contended.
+/// Read it from a blocking `psc.*` call (one that executes no Lua instructions, so the
+/// instruction-count hook cannot interrupt it) to cut that call short instead of hanging.
+pub(crate) fn hook_deadline() -> Option<Instant> {
+    HOOK_DEADLINE.try_lock().ok().and_then(|g| *g)
+}
+
 pub(crate) fn is_hook_expired() -> bool {
-    if let Ok(guard) = HOOK_DEADLINE.try_lock() {
-        if let Some(dl) = *guard {
-            return Instant::now() >= dl;
-        }
-    }
-    false
+    hook_deadline().is_some_and(|dl| Instant::now() >= dl)
 }
 
 struct HookDeadlineGuard;
