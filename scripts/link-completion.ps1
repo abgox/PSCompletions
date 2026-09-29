@@ -20,6 +20,9 @@ if (!$PSCompletions) {
 
 $PSCompletions.initialize()
 
+# Junctions are Windows-only and need no elevation; other platforms only have symbolic links.
+$linkType = if ($IsWindows) { 'Junction' } else { 'SymbolicLink' }
+
 $text = $text.'link-completion'
 
 foreach ($CompletionName in $CompletionList) {
@@ -41,7 +44,7 @@ foreach ($CompletionName in $CompletionList) {
     $test_dir = Join-Path $PSCompletions.path.completions $CompletionName
     if ($CompletionName -eq 'psc') {
         Remove-Item $test_dir -Recurse -Force -ErrorAction Ignore
-        $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
+        $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
         continue
     }
@@ -49,7 +52,7 @@ foreach ($CompletionName in $CompletionList) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.exist))
         continue
     }
-    $null = New-Item -ItemType Junction -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
+    $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
 
     $language = $PSCompletions.get_language($CompletionName)
 
