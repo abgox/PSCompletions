@@ -1,0 +1,4806 @@
+{
+  "meta": {
+    "url": "https://brew.sh",
+    "description": [
+      "Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)"
+    ]
+  },
+  "next": [
+    {
+      "name": "--cache",
+      "tip": [
+        "显示 Homebrew 的下载缓存。",
+        "若提供了 formula 或 cask，显示缓存它的文件或目录。"
+      ]
+    },
+    {
+      "name": "--caskroom",
+      "tip": [
+        "显示 Homebrew 的 Caskroom 路径。",
+        "若提供了 cask，显示其将被安装的位置。"
+      ]
+    },
+    {
+      "name": "--cellar",
+      "tip": [
+        "显示 Homebrew 的 Cellar 路径。",
+        "若提供了 formula，显示其 keg 的位置。"
+      ]
+    },
+    {
+      "name": "--config",
+      "tip": [
+        "显示有助于调试的 Homebrew 与系统配置信息。"
+      ]
+    },
+    {
+      "name": "--env",
+      "tip": [
+        "总结 Homebrew 构建环境。"
+      ]
+    },
+    {
+      "name": "--prefix",
+      "tip": [
+        "显示 Homebrew 的安装路径。",
+        "若提供了 formula，显示其安装位置。"
+      ]
+    },
+    {
+      "name": "--repository",
+      "tip": [
+        "显示 Homebrew Git 仓库的位置。",
+        "若提供了 tap，显示其仓库的位置。"
+      ]
+    },
+    {
+      "name": "--taps",
+      "tip": [
+        "列出所有已安装的 tap。"
+      ]
+    },
+    {
+      "name": "alias",
+      "usage": [
+        "alias [<ALIAS>[=<COMMAND>]]"
+      ],
+      "tip": [
+        "显示别名对应的命令，或打印完整列表。"
+      ],
+      "option": [
+        {
+          "name": "--edit",
+          "tip": [
+            "在文本编辑器中编辑别名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "analytics",
+      "tip": [
+        "控制 Homebrew 匿名聚合用户行为统计。"
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "关闭 Homebrew 统计。"
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "打开 Homebrew 统计。"
+          ]
+        },
+        {
+          "name": "state",
+          "tip": [
+            "显示 Homebrew 统计的当前状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "as-console-user",
+      "usage": [
+        "as-console-user <COMMAND> ..."
+      ],
+      "tip": [
+        "以当前 macOS 控制台用户运行 Homebrew 命令。"
+      ]
+    },
+    {
+      "name": "audit",
+      "usage": [
+        "audit [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "检查 formula 或 cask 是否违反 Homebrew 代码风格。"
+      ],
+      "option": [
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "审计指定的 CPU 架构。",
+            "传入 all 表示审计全部架构。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "检查相对 main 分支有变更的文件。"
+          ]
+        },
+        {
+          "name": "--display-filename",
+          "tip": [
+            "在每行输出前加上被审计的文件或 formula 名。"
+          ]
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "用 RuboCop 的自动修正功能修复风格问题。"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "运行额外的、较慢的、遍历 Git 仓库的风格检查。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "仅检查当前已安装的 formula 与 cask。"
+          ]
+        },
+        {
+          "name": "--new",
+          "tip": [
+            "对新 formula 或 cask 运行额外的风格检查。",
+            "隐含 --strict 与 --online。"
+          ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "运行额外的、较慢的、需要网络的风格检查。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "审计指定的操作系统。",
+            "传入 all 表示审计全部操作系统。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "运行额外的、更严格的风格检查。"
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "检查指定 tap 内的 formula 与 cask。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "autoremove",
+      "tip": [
+        "卸载仅作为依赖安装且已不再需要的 formula。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "列出将被卸载的内容，但实际不卸载。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "benchmark",
+      "usage": [
+        "benchmark <FORMULA> ..."
+      ],
+      "tip": [
+        "用 hyperfine 测试 brew install 与 fetch 的负载。"
+      ],
+      "option": [
+        {
+          "name": "--exec",
+          "tip": [
+            "用 -- 之后的参数运行 hyperfine，而非 Homebrew 自带负载。"
+          ]
+        },
+        {
+          "name": "--runs",
+          "usage": [
+            "--runs <COUNT>"
+          ],
+          "tip": [
+            "每种负载的重复次数。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "bottle",
+      "usage": [
+        "bottle <FORMULA>|<FILE> ..."
+      ],
+      "tip": [
+        "从已安装的 formula 生成 bottle（二进制包）。"
+      ],
+      "option": [
+        {
+          "name": "--force-core-tap",
+          "tip": [
+            "即使 formula 不在 homebrew/core 或已安装的 tap 中也构建 bottle。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将 bottle 信息写入 JSON 文件，可用作 --merge 的值。"
+          ]
+        },
+        {
+          "name": "--keep-old",
+          "tip": [
+            "尝试在生成的 DSL 中保留 rebuild 版本号。"
+          ]
+        },
+        {
+          "name": "--merge",
+          "tip": [
+            "为 formula 生成更新后的 bottle 块，并可选地合并入 formula 文件。"
+          ]
+        },
+        {
+          "name": "--no-rebuild",
+          "tip": [
+            "从生成的 DSL 中删除 rebuild 版本号。"
+          ]
+        },
+        {
+          "name": "--skip-relocation",
+          "tip": [
+            "不检查 bottle 是否可标记为 relocatable。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump",
+      "usage": [
+        "bump [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "显示过时的包及可用的最新版本。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅检查 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅检查 formula。"
+          ]
+        },
+        {
+          "name": "--full-name",
+          "tip": [
+            "打印全限定名的 formula / cask。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "检查当前已安装的 formula 与 cask。"
+          ]
+        },
+        {
+          "name": "--no-autobump",
+          "tip": [
+            "忽略 autobump 列表中的 formula / cask。"
+          ]
+        },
+        {
+          "name": "--no-fork",
+          "tip": [
+            "不尝试 fork 仓库。"
+          ]
+        },
+        {
+          "name": "--no-pull-requests",
+          "tip": [
+            "不从 GitHub 获取 PR。"
+          ]
+        },
+        {
+          "name": "--open-pr",
+          "tip": [
+            "若尚无 PR，则为新版本发起一个。"
+          ]
+        },
+        {
+          "name": "--repology",
+          "tip": [
+            "用 Repology 检查过时的包。"
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "检查指定 tap 内的 formula 与 cask。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "bump-cask-pr",
+      "usage": [
+        "bump-cask-pr <CASK>"
+      ],
+      "tip": [
+        "创建 PR 以新版本更新 cask。"
+      ],
+      "option": [
+        {
+          "name": "--commit",
+          "tip": [
+            "与 --write-only 联用时，写入修改后生成新提交。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "打印将要做的事而不实际执行。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "开 PR 前不运行 brew audit。"
+          ]
+        },
+        {
+          "name": "--no-browse",
+          "tip": [
+            "打印 PR 链接而不打开它。"
+          ]
+        },
+        {
+          "name": "--no-style",
+          "tip": [
+            "开 PR 前不运行 brew style --fix。"
+          ]
+        },
+        {
+          "name": "--write-only",
+          "tip": [
+            "只做预期的文件修改，不执行任何 Git 操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump-compatibility-version",
+      "usage": [
+        "bump-compatibility-version <FORMULA> ..."
+      ],
+      "tip": [
+        "创建提交以递增 formula 的 compatibility_version。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "打印将要做的事而不实际执行。"
+          ]
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "向默认提交信息追加内容。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--write-only",
+          "tip": [
+            "只做预期的文件修改，不执行任何 Git 操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump-formula-pr",
+      "usage": [
+        "bump-formula-pr [<FORMULA>]"
+      ],
+      "tip": [
+        "创建 PR 以新 URL 或新 tag 更新 formula。"
+      ],
+      "option": [
+        {
+          "name": "--commit",
+          "tip": [
+            "与 --write-only 联用时，写入修改后生成新提交。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "打印将要做的事而不实际执行。"
+          ]
+        },
+        {
+          "name": "--no-audit",
+          "tip": [
+            "开 PR 前不运行 brew audit。"
+          ]
+        },
+        {
+          "name": "--no-browse",
+          "tip": [
+            "打印 PR 链接而不打开它。"
+          ]
+        },
+        {
+          "name": "--no-style",
+          "tip": [
+            "开 PR 前不运行 brew style --fix。"
+          ]
+        },
+        {
+          "name": "--write-only",
+          "tip": [
+            "只做预期的文件修改，不执行任何 Git 操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump-revision",
+      "usage": [
+        "bump-revision <FORMULA> ..."
+      ],
+      "tip": [
+        "创建提交以递增 formula 的 revision。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "打印将要做的事而不实际执行。"
+          ]
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "向默认提交信息追加内容。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--remove-bottle-block",
+          "tip": [
+            "递增 revision 的同时删除 bottle 块。"
+          ]
+        },
+        {
+          "name": "--write-only",
+          "tip": [
+            "只做预期的文件修改，不执行任何 Git 操作。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "bump-unversioned-casks",
+      "usage": [
+        "bump-unversioned-casks <CASK>|<TAP> ..."
+      ],
+      "tip": [
+        "检查指定 tap 中所有无版本 URL 的 cask 更新。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "除缓存状态与发起 PR 外，其余全部执行。"
+          ]
+        },
+        {
+          "name": "--limit",
+          "usage": [
+            "--limit <MINUTES>"
+          ],
+          "tip": [
+            "最大运行时长（分钟）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--state-file",
+          "usage": [
+            "--state-file <FILE>"
+          ],
+          "tip": [
+            "用于缓存状态的文件。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "bundle",
+      "tip": [
+        "管理来自 Homebrew、Mac App Store、VSCode、Go、Cargo 等的非 Ruby 依赖。"
+      ],
+      "option": [
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "从该位置的 Brewfile 读取或写入。",
+            "用 --file=- 管道读写 stdin / stdout。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "从全局 Brewfile 读取或写入。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add <FORMULA>|<CASK> ..."
+          ],
+          "tip": [
+            "向 Brewfile 添加条目。"
+          ]
+        },
+        {
+          "name": "check",
+          "tip": [
+            "检查 Brewfile 中的依赖是否都已安装。"
+          ]
+        },
+        {
+          "name": "cleanup",
+          "tip": [
+            "卸载不在 Brewfile 中的全部依赖。"
+          ]
+        },
+        {
+          "name": "dump",
+          "tip": [
+            "将全部已安装的 cask / formula / 镜像 / tap 写入 Brewfile。"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "在编辑器中编辑 Brewfile。"
+          ]
+        },
+        {
+          "name": "env",
+          "tip": [
+            "打印 brew bundle exec 环境中设置的变量。"
+          ]
+        },
+        {
+          "name": "exec",
+          "usage": [
+            "exec <COMMAND> ..."
+          ],
+          "tip": [
+            "在基于 Brewfile 的隔离构建环境中运行外部命令。"
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装并升级 Brewfile 中的全部依赖。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出 Brewfile 中的全部依赖。"
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <NAME> ..."
+          ],
+          "tip": [
+            "从 Brewfile 删除匹配名称的条目。"
+          ]
+        },
+        {
+          "name": "sh",
+          "tip": [
+            "在 brew bundle exec 环境中运行 shell。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "casks",
+      "tip": [
+        "列出所有本地可安装的 cask（含短名）。"
+      ]
+    },
+    {
+      "name": "cat",
+      "usage": [
+        "cat <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "显示 formula 或 cask 的源码。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "usage": [
+        "cleanup [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "删除过期的锁文件、下载缓存与已安装 formula 的旧版本。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "展示将被删除的内容，但实际不删除。"
+          ]
+        },
+        {
+          "name": "--prune",
+          "usage": [
+            "--prune [<DAYS>]"
+          ],
+          "tip": [
+            "删除早于指定天数的全部缓存文件。",
+            "用 --prune=all 删除全部。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prune-prefix",
+          "tip": [
+            "仅清理 prefix 中的符号链接与目录。"
+          ]
+        },
+        {
+          "name": "--scrub",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --scrub"
+          ],
+          "tip": [
+            "清理缓存，包括最新版本的下载。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "usage": [
+        "command <COMMAND> ..."
+      ],
+      "tip": [
+        "显示调用 brew cmd 时实际使用的文件路径。"
+      ]
+    },
+    {
+      "name": "command-not-found-init",
+      "tip": [
+        "打印为 shell 设置 command-not-found 钩子的说明。"
+      ]
+    },
+    {
+      "name": "commands",
+      "tip": [
+        "显示内建与外部命令列表。"
+      ],
+      "option": [
+        {
+          "name": "--include-aliases",
+          "tip": [
+            "包含内部命令的别名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "tip": [
+        "控制 Homebrew 是否自动链接外部 tap 的 shell 补全文件。"
+      ],
+      "next": [
+        {
+          "name": "link",
+          "tip": [
+            "链接 Homebrew 的补全文件。"
+          ]
+        },
+        {
+          "name": "state",
+          "tip": [
+            "显示 Homebrew 补全的当前状态。"
+          ]
+        },
+        {
+          "name": "unlink",
+          "tip": [
+            "取消链接 Homebrew 的补全文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "config",
+      "tip": [
+        "显示有助于调试的 Homebrew 与系统配置信息。"
+      ]
+    },
+    {
+      "name": "contributions",
+      "tip": [
+        "汇总对 Homebrew 仓库的贡献。"
+      ],
+      "option": [
+        {
+          "name": "--csv",
+          "tip": [
+            "以 CSV 输出结果。"
+          ]
+        },
+        {
+          "name": "--from",
+          "usage": [
+            "--from <DATE>"
+          ],
+          "tip": [
+            "汇总该日期之后的贡献。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--maintainer-report-csv",
+          "usage": [
+            "--maintainer-report-csv <FILE>"
+          ],
+          "tip": [
+            "将维护者报告写入该 CSV 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quarter",
+          "usage": [
+            "--quarter <QUARTER>"
+          ],
+          "tip": [
+            "汇总本季度的贡献。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--repositories",
+          "usage": [
+            "--repositories <REPOS>"
+          ],
+          "tip": [
+            "指定逗号分隔的待搜索仓库列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--to",
+          "usage": [
+            "--to <DATE>"
+          ],
+          "tip": [
+            "汇总截至该日期的贡献。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--user",
+          "usage": [
+            "--user <USER>"
+          ],
+          "tip": [
+            "指定逗号分隔的 GitHub 用户名或邮箱列表。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create <URL>"
+      ],
+      "tip": [
+        "为 URL 处的可下载文件生成 formula 或 cask。"
+      ],
+      "option": [
+        {
+          "name": "--autotools",
+          "tip": [
+            "创建 Autotools 风格构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--cabal",
+          "tip": [
+            "创建 Cabal 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--cask",
+          "tip": [
+            "创建 cask 的基础模板。"
+          ]
+        },
+        {
+          "name": "--cmake",
+          "tip": [
+            "创建 CMake 风格构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--crystal",
+          "tip": [
+            "创建 Crystal 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--go",
+          "tip": [
+            "创建 Go 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "表示 URL 指向包的仓库而非文件。"
+          ]
+        },
+        {
+          "name": "--meson",
+          "tip": [
+            "创建 Meson 风格构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--no-fetch",
+          "tip": [
+            "不下载 URL 到缓存，也不向 formula 添加其 SHA-256。"
+          ]
+        },
+        {
+          "name": "--node",
+          "tip": [
+            "创建 Node 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--perl",
+          "tip": [
+            "创建 Perl 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--python",
+          "tip": [
+            "创建 Python 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--ruby",
+          "tip": [
+            "创建 Ruby 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--rust",
+          "tip": [
+            "创建 Rust 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--set-name",
+          "usage": [
+            "--set-name <NAME>"
+          ],
+          "tip": [
+            "显式设置新 formula 或 cask 的名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set-version",
+          "usage": [
+            "--set-version <VERSION>"
+          ],
+          "tip": [
+            "显式设置新 formula 或 cask 的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--zig",
+          "tip": [
+            "创建 Zig 构建的基础模板。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "debugger",
+      "usage": [
+        "debugger <COMMAND> ..."
+      ],
+      "tip": [
+        "以调试模式运行指定的 Homebrew 命令。"
+      ],
+      "option": [
+        {
+          "name": "--open",
+          "alias": [
+            "-O"
+          ],
+          "usage": [
+            "-O, --open"
+          ],
+          "tip": [
+            "通过 Unix socket 启动远程调试。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "deps",
+      "usage": [
+        "deps [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "显示 formula 或 cask 的依赖。"
+      ],
+      "option": [
+        {
+          "name": "--annotate",
+          "tip": [
+            "在输出中标记 build、test、implicit、optional 或 recommended 依赖。"
+          ]
+        },
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "显示指定 CPU 架构的依赖。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--brewfile",
+          "usage": [
+            "--brewfile <FILE>"
+          ],
+          "tip": [
+            "以 Brewfile 中列出的 formula 与 cask 为输入。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--declared",
+          "alias": [
+            "--direct",
+            "--1",
+            "-1"
+          ],
+          "usage": [
+            "-1, --1, --direct, --declared"
+          ],
+          "tip": [
+            "仅显示 formula 中声明的直接依赖。"
+          ]
+        },
+        {
+          "name": "--dot",
+          "tip": [
+            "以 DOT 格式显示文本图描述。"
+          ]
+        },
+        {
+          "name": "--for-each",
+          "tip": [
+            "为每个提供的 formula 列出依赖，每行一个 formula。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--full-name",
+          "tip": [
+            "按全名列出依赖。"
+          ]
+        },
+        {
+          "name": "--graph",
+          "tip": [
+            "以有向图展示依赖。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "显示 HEAD 版本而非稳定版的依赖。"
+          ]
+        },
+        {
+          "name": "--include-build",
+          "tip": [
+            "包含 formula 的 :build 依赖。"
+          ]
+        },
+        {
+          "name": "--include-implicit",
+          "tip": [
+            "包含用于下载解包源码的隐式依赖。"
+          ]
+        },
+        {
+          "name": "--include-optional",
+          "tip": [
+            "包含 formula 的 :optional 依赖。"
+          ]
+        },
+        {
+          "name": "--include-requirements",
+          "tip": [
+            "除依赖外还包含 formula 的 requirement。"
+          ]
+        },
+        {
+          "name": "--include-test",
+          "tip": [
+            "包含 formula 的 :test 依赖。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "列出当前已安装 formula 的依赖。"
+          ]
+        },
+        {
+          "name": "--missing",
+          "tip": [
+            "仅显示缺失的依赖。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "显示指定操作系统的依赖。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "剪掉树中已见过的部分。"
+          ]
+        },
+        {
+          "name": "--skip-recommended",
+          "tip": [
+            "跳过 formula 的 :recommended 依赖。"
+          ]
+        },
+        {
+          "name": "--topological",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --topological"
+          ],
+          "tip": [
+            "按拓扑序排列依赖。"
+          ]
+        },
+        {
+          "name": "--tree",
+          "tip": [
+            "以树展示依赖。"
+          ]
+        },
+        {
+          "name": "--union",
+          "tip": [
+            "显示多个 formula 依赖的并集而非交集。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "desc",
+      "usage": [
+        "desc [<FORMULA>|<CASK>|<TEXT> ...]"
+      ],
+      "tip": [
+        "显示 formula 的名称与单行描述。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--description",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --description"
+          ],
+          "tip": [
+            "仅在描述中搜索文本。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--name",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --name"
+          ],
+          "tip": [
+            "仅在名称中搜索文本。"
+          ]
+        },
+        {
+          "name": "--search",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --search"
+          ],
+          "tip": [
+            "同时在名称与描述中搜索文本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "developer",
+      "tip": [
+        "控制 Homebrew 开发者模式。"
+      ],
+      "next": [
+        {
+          "name": "off",
+          "tip": [
+            "关闭 Homebrew 开发者模式。"
+          ]
+        },
+        {
+          "name": "on",
+          "tip": [
+            "打开 Homebrew 开发者模式。"
+          ]
+        },
+        {
+          "name": "state",
+          "tip": [
+            "显示 Homebrew 开发者模式的当前状态。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "tip": [
+        "在浏览器中打开 Homebrew 在线文档。"
+      ]
+    },
+    {
+      "name": "doctor",
+      "alias": [
+        "dr"
+      ],
+      "usage": [
+        "dr|doctor [<CHECK> ...]"
+      ],
+      "tip": [
+        "检查系统是否存在潜在问题。"
+      ],
+      "option": [
+        {
+          "name": "--audit-debug",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --audit-debug"
+          ],
+          "tip": [
+            "启用审计方法的调试与性能分析。"
+          ]
+        },
+        {
+          "name": "--list-checks",
+          "tip": [
+            "列出所有审计方法，可作为参数单独运行。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "edit",
+      "usage": [
+        "edit [<FORMULA>|<CASK>|<TAP> ...]"
+      ],
+      "tip": [
+        "在编辑器中打开 formula、cask 或 tap。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--print-path",
+          "tip": [
+            "打印待编辑的文件路径而不打开编辑器。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "exec",
+      "alias": [
+        "x"
+      ],
+      "usage": [
+        "x|exec [<OPTIONS>] <COMMAND> ..."
+      ],
+      "tip": [
+        "在由 Homebrew formula 填充的环境中运行命令。"
+      ],
+      "option": [
+        {
+          "name": "--deny-network",
+          "tip": [
+            "拒绝沙盒内的网络访问。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "usage": [
+            "--formulae <FORMULA>,..."
+          ],
+          "tip": [
+            "运行命令前先安装并加入 PATH 的逗号分隔 formula。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sandbox",
+          "usage": [
+            "--sandbox <PATH>"
+          ],
+          "tip": [
+            "在 Homebrew 沙盒中运行命令，允许写入该路径。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "extract",
+      "usage": [
+        "extract <FORMULA> <TAP>"
+      ],
+      "tip": [
+        "翻查仓库历史找到 formula 的旧版本并复制到 tap 中。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "若目标 formula 已存在则覆盖。"
+          ]
+        },
+        {
+          "name": "--git-revision",
+          "usage": [
+            "--git-revision <REVISION>"
+          ],
+          "tip": [
+            "从该 revision 起搜索 formula 的指定版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "提取 formula 的指定版本而非最新版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "fetch",
+      "usage": [
+        "fetch [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "下载 formula 的 bottle 或源码包，以及 cask 的二进制文件。"
+      ],
+      "option": [
+        {
+          "name": "--all-platforms",
+          "tip": [
+            "下载所有支持的操作系统与架构的版本。"
+          ]
+        },
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "下载指定 CPU 架构的版本。",
+            "传入 all 表示下载全部架构。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bottle-tag",
+          "usage": [
+            "--bottle-tag <TAG>"
+          ],
+          "tip": [
+            "下载指定 tag 的 bottle。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-bottle",
+          "tip": [
+            "下载源码包以备将来 bottling，而不是下载 bottle。"
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --build-from-source"
+          ],
+          "tip": [
+            "下载源码包而不是 bottle。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--deps",
+          "tip": [
+            "同时下载所列 formula 的依赖。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "删除之前缓存的版本并重新拉取。"
+          ]
+        },
+        {
+          "name": "--force-bottle",
+          "tip": [
+            "即使 bottle 通常不会用于安装也下载它。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "拉取 HEAD 版本而非稳定版。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "下载指定操作系统的版本。",
+            "传入 all 表示下载全部操作系统。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "下载失败时重试，最多 5 次，指数退避。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "find-appcast",
+      "usage": [
+        "find-appcast <APP_PATH>"
+      ],
+      "tip": [
+        "查找 app 包的 appcast，供 cask livecheck 使用。"
+      ]
+    },
+    {
+      "name": "formula",
+      "usage": [
+        "formula <FORMULA> ..."
+      ],
+      "tip": [
+        "显示 formula 所在路径。"
+      ]
+    },
+    {
+      "name": "formulae",
+      "tip": [
+        "列出所有本地可安装的 formula（含短名）。"
+      ]
+    },
+    {
+      "name": "generate-cask-token",
+      "usage": [
+        "generate-cask-token <APP>|<NAME>"
+      ],
+      "tip": [
+        "为应用生成 cask token、文件名与头行。"
+      ]
+    },
+    {
+      "name": "generate-man-completions",
+      "tip": [
+        "生成 Homebrew 的 man 手册与 shell 补全。"
+      ],
+      "option": [
+        {
+          "name": "--no-exit-code",
+          "tip": [
+            "即使没有任何变更也以状态码 0 退出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate-zap",
+      "usage": [
+        "generate-zap <CASK>|<NAME>"
+      ],
+      "tip": [
+        "扫描系统关联文件，为 cask 生成 zap 段。"
+      ],
+      "option": [
+        {
+          "name": "--name",
+          "tip": [
+            "将参数视为原始应用名而非 cask token。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gist-logs",
+      "usage": [
+        "gist-logs <FORMULA>"
+      ],
+      "tip": [
+        "将 formula 构建失败的日志上传到新的 Gist。"
+      ],
+      "option": [
+        {
+          "name": "--new-issue",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --new-issue"
+          ],
+          "tip": [
+            "创建 Gist 后自动新建 issue。"
+          ]
+        },
+        {
+          "name": "--private",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --private"
+          ],
+          "tip": [
+            "将 Gist 标记为私有。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<COMMAND>]"
+      ],
+      "tip": [
+        "显示 Homebrew 命令的帮助。"
+      ]
+    },
+    {
+      "name": "homepage",
+      "alias": [
+        "home"
+      ],
+      "usage": [
+        "home|homepage [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "在浏览器中打开 formula 或 cask 的主页。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "alias": [
+        "abv"
+      ],
+      "usage": [
+        "abv|info [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "显示 Homebrew 安装的简要统计。"
+      ],
+      "option": [
+        {
+          "name": "--analytics",
+          "tip": [
+            "列出全局 Homebrew 统计数据，或指定 formula 的安装与构建错误数据。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--category",
+          "usage": [
+            "--category <CATEGORY>"
+          ],
+          "tip": [
+            "获取哪类统计数据。"
+          ],
+          "next": [
+            {
+              "name": "build-error"
+            },
+            {
+              "name": "cask-install"
+            },
+            {
+              "name": "install"
+            },
+            {
+              "name": "install-on-request"
+            },
+            {
+              "name": "os-version"
+            }
+          ]
+        },
+        {
+          "name": "--days",
+          "usage": [
+            "--days <DAYS>"
+          ],
+          "tip": [
+            "获取多少天的统计数据：30、90 或 365。"
+          ],
+          "next": [
+            {
+              "name": "30"
+            },
+            {
+              "name": "365"
+            },
+            {
+              "name": "90"
+            }
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--github",
+          "tip": [
+            "在浏览器中打开 formula 或 cask 的 GitHub 源码页。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "输出已安装 formula 与 cask 的人类可读清单。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "打印 formula 或 cask 的 JSON 表示。"
+          ]
+        },
+        {
+          "name": "--sizes",
+          "tip": [
+            "显示已安装 formula 与 cask 的大小。"
+          ]
+        },
+        {
+          "name": "--variations",
+          "tip": [
+            "在每个 formula 的 JSON 输出中包含 variations 哈希。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "安装 formula 或 cask。"
+      ],
+      "option": [
+        {
+          "name": "--adopt",
+          "tip": [
+            "认领目标位置中与待安装内容完全相同的已有文件。",
+            "不能与 --force 联用。"
+          ]
+        },
+        {
+          "name": "--appdir",
+          "usage": [
+            "--appdir <DIR>"
+          ],
+          "tip": [
+            "Applications 的目标位置（默认：/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--appimagedir",
+          "usage": [
+            "--appimagedir <DIR>"
+          ],
+          "tip": [
+            "AppImages 的目标位置（默认：~/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--as-dependency",
+          "tip": [
+            "安装但标记为作为依赖安装，而非按请求安装。"
+          ]
+        },
+        {
+          "name": "--audio-unit-plugindir",
+          "usage": [
+            "--audio-unit-plugindir <DIR>"
+          ],
+          "tip": [
+            "Audio Unit Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/Components）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--binaries",
+          "tip": [
+            "启用辅助可执行文件的链接（默认启用）。"
+          ]
+        },
+        {
+          "name": "--bottle-arch",
+          "usage": [
+            "--bottle-arch <ARCH>"
+          ],
+          "tip": [
+            "针对指定架构优化 bottle。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-bottle",
+          "tip": [
+            "在安装时为 formula 将来的 bottling 做准备。"
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --build-from-source"
+          ],
+          "tip": [
+            "即使提供了 bottle 也从源码编译 formula。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--cc",
+          "usage": [
+            "--cc <COMPILER>"
+          ],
+          "tip": [
+            "尝试使用指定的编译器编译（例如 gcc-9、llvm_clang、clang）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--colorpickerdir",
+          "usage": [
+            "--colorpickerdir <DIR>"
+          ],
+          "tip": [
+            "Color Pickers 的目标位置（默认：~/Library/ColorPickers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "若 brewing 失败，在临时构建目录中打开交互式调试会话。"
+          ]
+        },
+        {
+          "name": "--debug-symbols",
+          "tip": [
+            "构建时生成调试符号。",
+            "源码将保留在缓存目录中。"
+          ]
+        },
+        {
+          "name": "--dictionarydir",
+          "usage": [
+            "--dictionarydir <DIR>"
+          ],
+          "tip": [
+            "Dictionaries 的目标位置（默认：~/Library/Dictionaries）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--display-times",
+          "tip": [
+            "在运行结束时打印每个包的安装耗时。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "展示将被安装的内容，但实际不安装。"
+          ]
+        },
+        {
+          "name": "--fetch-HEAD",
+          "tip": [
+            "拉取上游仓库以检测 HEAD 安装是否过时。"
+          ]
+        },
+        {
+          "name": "--fontdir",
+          "usage": [
+            "--fontdir <DIR>"
+          ],
+          "tip": [
+            "Fonts 的目标位置（默认：~/Library/Fonts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "安装 formula 时不检查先前安装的 keg-only 版本。",
+            "安装 cask 时覆盖已存在的文件。"
+          ]
+        },
+        {
+          "name": "--force-bottle",
+          "tip": [
+            "即使 bottle 通常不会用于安装也从它安装。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--git",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --git"
+          ],
+          "tip": [
+            "创建 Git 仓库，便于为软件制作补丁。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "若 formula 定义了 HEAD 版本则安装它（main、trunk、unstable、master）。"
+          ]
+        },
+        {
+          "name": "--ignore-dependencies",
+          "tip": [
+            "跳过安装任何种类的依赖。",
+            "不受支持的 Homebrew 开发选项。"
+          ]
+        },
+        {
+          "name": "--include-test",
+          "tip": [
+            "安装运行 brew test formula 所需的测试依赖。"
+          ]
+        },
+        {
+          "name": "--input-methoddir",
+          "usage": [
+            "--input-methoddir <DIR>"
+          ],
+          "tip": [
+            "Input Methods 的目标位置（默认：~/Library/Input Methods）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "下载并打补丁后打开一个 shell。"
+          ]
+        },
+        {
+          "name": "--internet-plugindir",
+          "usage": [
+            "--internet-plugindir <DIR>"
+          ],
+          "tip": [
+            "Internet Plugins 的目标位置（默认：~/Library/Internet Plug-Ins）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "保留安装过程中创建的临时文件。"
+          ]
+        },
+        {
+          "name": "--keyboard-layoutdir",
+          "usage": [
+            "--keyboard-layoutdir <DIR>"
+          ],
+          "tip": [
+            "Keyboard Layouts 的目标位置（默认：/Library/Keyboard Layouts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--language",
+          "usage": [
+            "--language <LANG>,..."
+          ],
+          "tip": [
+            "cask 安装时优先使用的逗号分隔语言代码列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdimporterdir",
+          "usage": [
+            "--mdimporterdir <DIR>"
+          ],
+          "tip": [
+            "Spotlight Plugins 的目标位置（默认：~/Library/Spotlight）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-ask",
+          "alias": [
+            "--yes",
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes, --no-ask"
+          ],
+          "tip": [
+            "下载并安装前不请求确认。"
+          ]
+        },
+        {
+          "name": "--no-binaries",
+          "tip": [
+            "禁用辅助可执行文件的链接。"
+          ]
+        },
+        {
+          "name": "--only-dependencies",
+          "tip": [
+            "按指定选项安装依赖，但不安装 formula 本体。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "链接时删除 prefix 中已存在的文件。"
+          ]
+        },
+        {
+          "name": "--prefpanedir",
+          "usage": [
+            "--prefpanedir <DIR>"
+          ],
+          "tip": [
+            "Preference Panes 的目标位置（默认：~/Library/PreferencePanes）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--qlplugindir",
+          "usage": [
+            "--qlplugindir <DIR>"
+          ],
+          "tip": [
+            "Quick Look Plugins 的目标位置（默认：~/Library/QuickLook）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--require-sha",
+          "tip": [
+            "要求所有 cask 都有校验和。"
+          ]
+        },
+        {
+          "name": "--screen-saverdir",
+          "usage": [
+            "--screen-saverdir <DIR>"
+          ],
+          "tip": [
+            "Screen Savers 的目标位置（默认：~/Library/Screen Savers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--servicedir",
+          "usage": [
+            "--servicedir <DIR>"
+          ],
+          "tip": [
+            "Services 的目标位置（默认：~/Library/Services）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-cask-deps",
+          "tip": [
+            "跳过安装 cask 依赖。"
+          ]
+        },
+        {
+          "name": "--skip-link",
+          "tip": [
+            "安装但跳过将 keg 链接入 prefix。"
+          ]
+        },
+        {
+          "name": "--skip-post-install",
+          "tip": [
+            "安装但跳过 post-install 步骤。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印验证与 post-install 步骤。"
+          ]
+        },
+        {
+          "name": "--vst-plugindir",
+          "usage": [
+            "--vst-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vst3-plugindir",
+          "usage": [
+            "--vst3-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST3 Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST3）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--zap",
+          "tip": [
+            "删除与 cask 关联的全部文件。",
+            "可能删除应用间共享的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install-bundler-gems",
+      "tip": [
+        "安装 Homebrew 的 Bundler gem。"
+      ],
+      "option": [
+        {
+          "name": "--add-groups",
+          "usage": [
+            "--add-groups <GROUPS>"
+          ],
+          "tip": [
+            "在已安装分组之外，再安装指定的逗号分隔 gem 分组。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--groups",
+          "usage": [
+            "--groups <GROUPS>"
+          ],
+          "tip": [
+            "安装指定的逗号分隔 gem 分组，替换之前安装的分组。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "irb",
+      "tip": [
+        "进入交互式 Homebrew Ruby shell。"
+      ],
+      "option": [
+        {
+          "name": "--examples",
+          "tip": [
+            "显示几个示例。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "tip": [
+        "列出不被其他已安装 formula 或 cask 依赖的已安装 formula。"
+      ],
+      "option": [
+        {
+          "name": "--installed-as-dependency",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --installed-as-dependency"
+          ],
+          "tip": [
+            "仅列出作为依赖安装的 leaves。"
+          ]
+        },
+        {
+          "name": "--installed-on-request",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --installed-on-request"
+          ],
+          "tip": [
+            "仅列出手动安装的 leaves。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "lgtm",
+      "tip": [
+        "一次性运行类型检查、风格、测试与审计。"
+      ],
+      "option": [
+        {
+          "name": "--online",
+          "tip": [
+            "运行额外的、较慢的、需要网络的检查。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "link",
+      "alias": [
+        "ln"
+      ],
+      "usage": [
+        "ln|link <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "将 formula 的安装文件或 cask 的二进制符号链接到 Homebrew prefix。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "列出将被链接或删除的文件，但实际不链接也不删除。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "允许链接 keg-only 的 formula。",
+            "链接 cask 时覆盖来自同一 cask 的已有符号链接。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "若安装了 HEAD 版本则链接它。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "链接时删除 prefix 中已存在的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "linkage",
+      "usage": [
+        "linkage [<FORMULA> ...]"
+      ],
+      "tip": [
+        "检查指定 formula keg 的库链接。"
+      ],
+      "option": [
+        {
+          "name": "--cached",
+          "tip": [
+            "打印缓存在 $HOMEBREW_CACHE 中的 linkage 值。"
+          ]
+        },
+        {
+          "name": "--reverse",
+          "tip": [
+            "对 keg 引用的每个库，打印其 dylib 路径及链接它的二进制文件。"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "若发现有链接关系的未声明依赖则以非零状态退出。"
+          ]
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "仅显示缺失的库，若有缺失则以非零状态退出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "列出所有已安装的 formula 与 cask。"
+      ],
+      "option": [
+        {
+          "name": "--built-from-source",
+          "tip": [
+            "列出从源码编译的 formula。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅列出 cask，或将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅列出 formula，或将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--full-name",
+          "tip": [
+            "打印全限定名的 formula。"
+          ]
+        },
+        {
+          "name": "--installed-on-request",
+          "tip": [
+            "列出按请求安装的 formula。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 输出已安装的 formula 与 cask。"
+          ]
+        },
+        {
+          "name": "--multiple",
+          "tip": [
+            "仅显示安装了多个版本的 formula。",
+            "隐含 --versions。"
+          ]
+        },
+        {
+          "name": "--no-installed-on-request",
+          "tip": [
+            "列出作为依赖安装的 formula。"
+          ]
+        },
+        {
+          "name": "--pinned",
+          "tip": [
+            "仅列出 pinned 的包。"
+          ]
+        },
+        {
+          "name": "--poured-from-bottle",
+          "tip": [
+            "列出从 bottle 安装的 formula。"
+          ]
+        },
+        {
+          "name": "--versions",
+          "tip": [
+            "显示已安装 formula 的版本号。"
+          ]
+        },
+        {
+          "name": "-1",
+          "tip": [
+            "强制每行输出一个条目。"
+          ]
+        },
+        {
+          "name": "-l",
+          "tip": [
+            "以长格式列出 formula / cask。"
+          ]
+        },
+        {
+          "name": "-r",
+          "tip": [
+            "反转排序，最旧的排在前面。"
+          ]
+        },
+        {
+          "name": "-t",
+          "tip": [
+            "按修改时间排序，最近修改的排在前面。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "log",
+      "usage": [
+        "log [<FORMULA>|<CASK>]"
+      ],
+      "tip": [
+        "显示 formula / cask 或 Homebrew 仓库的 git log。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--max-count",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --max-count <COUNT>"
+          ],
+          "tip": [
+            "仅打印指定数量的提交。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--oneline",
+          "tip": [
+            "每个提交仅打印一行。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-u",
+            "-p"
+          ],
+          "usage": [
+            "-p, -u, --patch"
+          ],
+          "tip": [
+            "同时打印每个提交的 patch。"
+          ]
+        },
+        {
+          "name": "--stat",
+          "tip": [
+            "同时打印每个提交的 diffstat。"
+          ]
+        },
+        {
+          "name": "-1",
+          "tip": [
+            "仅打印一个提交。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mcp-server",
+      "tip": [
+        "启动 Homebrew MCP（Model Context Protocol）服务。"
+      ],
+      "option": [
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "启用输出到 stderr 的调试日志。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "migrate",
+      "usage": [
+        "migrate [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "将改名的包迁移到新名称。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅迁移 cask。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "展示将被迁移的内容，但实际不迁移。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "视已安装与提供的 formula 来自同一 tap。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅迁移 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "missing",
+      "usage": [
+        "missing [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "检查 keg 与 cask 安装是否缺失依赖。"
+      ],
+      "option": [
+        {
+          "name": "--hide",
+          "usage": [
+            "--hide <FORMULA>|<CASK>,..."
+          ],
+          "tip": [
+            "视作指定的逗号分隔 formula 或 cask 均未安装。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "nodenv-sync",
+      "tip": [
+        "在 ~/.nodenv/versions 中为 Homebrew 安装的 NodeJS 版本创建符号链接。"
+      ]
+    },
+    {
+      "name": "options",
+      "usage": [
+        "options [<FORMULA> ...]"
+      ],
+      "tip": [
+        "显示 formula 特有的安装选项。"
+      ],
+      "option": [
+        {
+          "name": "--compact",
+          "tip": [
+            "将所有选项显示在同一行，以空格分隔。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "显示当前已安装 formula 的选项。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "outdated",
+      "usage": [
+        "outdated [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "列出有可用更新的已安装 cask 与 formula。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅列出过时的 cask。"
+          ]
+        },
+        {
+          "name": "--fetch-HEAD",
+          "tip": [
+            "拉取上游仓库以检测 HEAD 安装是否过时。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅列出过时的 formula。"
+          ]
+        },
+        {
+          "name": "--greedy",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --greedy"
+          ],
+          "tip": [
+            "同时包含 version 为 :latest 和 auto_updates 的过时 cask。"
+          ]
+        },
+        {
+          "name": "--greedy-auto-updates",
+          "tip": [
+            "同时包含原本会被跳过的过时 auto_updates cask。"
+          ]
+        },
+        {
+          "name": "--greedy-latest",
+          "tip": [
+            "同时包含过时的 cask，包括 version 为 :latest 的。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式打印输出（v1 或 v2）。"
+          ]
+        },
+        {
+          "name": "--minimum-version",
+          "alias": [
+            "--min-version"
+          ],
+          "usage": [
+            "--min-version, --minimum-version <VERSION>"
+          ],
+          "tip": [
+            "仅列出版本低于给定最小版本的指定 formula 或 cask。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "pin",
+      "usage": [
+        "pin <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "pin 指定包，阻止其被升级。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "post_install",
+      "alias": [
+        "postinstall"
+      ],
+      "usage": [
+        "postinstall|post_install <FORMULA> ..."
+      ],
+      "tip": [
+        "重新运行 formula 的 post-install 步骤。"
+      ]
+    },
+    {
+      "name": "pyenv-sync",
+      "tip": [
+        "在 ~/.pyenv/versions 中为 Homebrew 安装的 Python 版本创建符号链接。"
+      ]
+    },
+    {
+      "name": "rbenv-sync",
+      "tip": [
+        "在 ~/.rbenv/versions 中为 Homebrew 安装的 Ruby 版本创建符号链接。"
+      ]
+    },
+    {
+      "name": "readall",
+      "usage": [
+        "readall [<TAP> ...]"
+      ],
+      "tip": [
+        "从指定 tap（或所有已安装 tap）导入全部条目。"
+      ],
+      "option": [
+        {
+          "name": "--aliases",
+          "tip": [
+            "验证每个 tap 中的别名符号链接。"
+          ]
+        },
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "使用指定的 CPU 架构读取。",
+            "传入 all 表示模拟全部架构。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-simulate",
+          "tip": [
+            "检查 formula 与 cask 时不模拟其他系统配置。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "使用指定的操作系统读取。",
+            "传入 all 表示模拟全部操作系统。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--syntax",
+          "tip": [
+            "对 Homebrew 的全部 Ruby 文件做语法检查。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "先卸载再重装 formula 或 cask。"
+      ],
+      "option": [
+        {
+          "name": "--adopt",
+          "tip": [
+            "认领目标位置中与待安装内容完全相同的已有文件。",
+            "不能与 --force 联用。"
+          ]
+        },
+        {
+          "name": "--appdir",
+          "usage": [
+            "--appdir <DIR>"
+          ],
+          "tip": [
+            "Applications 的目标位置（默认：/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--appimagedir",
+          "usage": [
+            "--appimagedir <DIR>"
+          ],
+          "tip": [
+            "AppImages 的目标位置（默认：~/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audio-unit-plugindir",
+          "usage": [
+            "--audio-unit-plugindir <DIR>"
+          ],
+          "tip": [
+            "Audio Unit Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/Components）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--binaries",
+          "tip": [
+            "启用辅助可执行文件的链接（默认启用）。"
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --build-from-source"
+          ],
+          "tip": [
+            "即使有 bottle 也从源码编译 formula。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--colorpickerdir",
+          "usage": [
+            "--colorpickerdir <DIR>"
+          ],
+          "tip": [
+            "Color Pickers 的目标位置（默认：~/Library/ColorPickers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "若 brewing 失败，在临时构建目录中打开交互式调试会话。"
+          ]
+        },
+        {
+          "name": "--debug-symbols",
+          "tip": [
+            "构建时生成调试符号。",
+            "源码将保留在缓存目录中。"
+          ]
+        },
+        {
+          "name": "--dictionarydir",
+          "usage": [
+            "--dictionarydir <DIR>"
+          ],
+          "tip": [
+            "Dictionaries 的目标位置（默认：~/Library/Dictionaries）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--display-times",
+          "tip": [
+            "在运行结束时打印每个包的安装耗时。"
+          ]
+        },
+        {
+          "name": "--fontdir",
+          "usage": [
+            "--fontdir <DIR>"
+          ],
+          "tip": [
+            "Fonts 的目标位置（默认：~/Library/Fonts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "安装时不检查先前安装的 keg-only 或未迁移版本。"
+          ]
+        },
+        {
+          "name": "--force-bottle",
+          "tip": [
+            "即使 bottle 通常不会用于安装也从它安装。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--git",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --git"
+          ],
+          "tip": [
+            "创建 Git 仓库，便于为软件制作补丁。"
+          ]
+        },
+        {
+          "name": "--input-methoddir",
+          "usage": [
+            "--input-methoddir <DIR>"
+          ],
+          "tip": [
+            "Input Methods 的目标位置（默认：~/Library/Input Methods）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "下载并打补丁后打开一个 shell。"
+          ]
+        },
+        {
+          "name": "--internet-plugindir",
+          "usage": [
+            "--internet-plugindir <DIR>"
+          ],
+          "tip": [
+            "Internet Plugins 的目标位置（默认：~/Library/Internet Plug-Ins）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "保留安装过程中创建的临时文件。"
+          ]
+        },
+        {
+          "name": "--keyboard-layoutdir",
+          "usage": [
+            "--keyboard-layoutdir <DIR>"
+          ],
+          "tip": [
+            "Keyboard Layouts 的目标位置（默认：/Library/Keyboard Layouts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--language",
+          "usage": [
+            "--language <LANG>,..."
+          ],
+          "tip": [
+            "cask 安装时优先使用的逗号分隔语言代码列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdimporterdir",
+          "usage": [
+            "--mdimporterdir <DIR>"
+          ],
+          "tip": [
+            "Spotlight Plugins 的目标位置（默认：~/Library/Spotlight）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-ask",
+          "alias": [
+            "--yes",
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes, --no-ask"
+          ],
+          "tip": [
+            "下载并重装前不请求确认。"
+          ]
+        },
+        {
+          "name": "--no-binaries",
+          "tip": [
+            "禁用辅助可执行文件的链接。"
+          ]
+        },
+        {
+          "name": "--prefpanedir",
+          "usage": [
+            "--prefpanedir <DIR>"
+          ],
+          "tip": [
+            "Preference Panes 的目标位置（默认：~/Library/PreferencePanes）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--qlplugindir",
+          "usage": [
+            "--qlplugindir <DIR>"
+          ],
+          "tip": [
+            "Quick Look Plugins 的目标位置（默认：~/Library/QuickLook）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--require-sha",
+          "tip": [
+            "要求所有 cask 都有校验和。"
+          ]
+        },
+        {
+          "name": "--screen-saverdir",
+          "usage": [
+            "--screen-saverdir <DIR>"
+          ],
+          "tip": [
+            "Screen Savers 的目标位置（默认：~/Library/Screen Savers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--servicedir",
+          "usage": [
+            "--servicedir <DIR>"
+          ],
+          "tip": [
+            "Services 的目标位置（默认：~/Library/Services）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-cask-deps",
+          "tip": [
+            "跳过安装 cask 依赖。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印验证与 post-install 步骤。"
+          ]
+        },
+        {
+          "name": "--vst-plugindir",
+          "usage": [
+            "--vst-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vst3-plugindir",
+          "usage": [
+            "--vst3-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST3 Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST3）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--zap",
+          "tip": [
+            "删除与 cask 关联的全部文件。",
+            "可能删除应用间共享的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sandbox-exec",
+      "usage": [
+        "sandbox-exec <PATH> <COMMAND> ..."
+      ],
+      "tip": [
+        "在 Homebrew 沙盒中运行命令，允许写入给定路径。"
+      ],
+      "option": [
+        {
+          "name": "--deny-network",
+          "tip": [
+            "拒绝沙盒内的网络访问。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S|search <TEXT> ..."
+      ],
+      "tip": [
+        "对 cask token 与 formula 名做子串搜索。"
+      ],
+      "option": [
+        {
+          "name": "--alpine",
+          "tip": [
+            "在 Alpine 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--archlinux",
+          "tip": [
+            "在 Arch Linux 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "搜索 cask。"
+          ]
+        },
+        {
+          "name": "--closed",
+          "tip": [
+            "仅搜索已关闭的 GitHub PR。"
+          ]
+        },
+        {
+          "name": "--debian",
+          "tip": [
+            "在 Debian 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--desc",
+          "tip": [
+            "搜索描述匹配文本的 formula。"
+          ]
+        },
+        {
+          "name": "--fedora",
+          "tip": [
+            "在 Fedora 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--fink",
+          "tip": [
+            "在 Fink 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "搜索 formula。"
+          ]
+        },
+        {
+          "name": "--macports",
+          "tip": [
+            "在 MacPorts 数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "仅搜索未关闭的 GitHub PR。"
+          ]
+        },
+        {
+          "name": "--opensuse",
+          "tip": [
+            "在 openSUSE 包数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--pull-request",
+          "tip": [
+            "搜索包含文本的 GitHub PR。"
+          ]
+        },
+        {
+          "name": "--repology",
+          "tip": [
+            "在 Repology 数据库中搜索文本。"
+          ]
+        },
+        {
+          "name": "--ubuntu",
+          "tip": [
+            "在 Ubuntu 包数据库中搜索文本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "services",
+      "tip": [
+        "用 launchctl 或 systemctl 管理后台服务。"
+      ],
+      "option": [
+        {
+          "name": "--sudo-service-user",
+          "usage": [
+            "--sudo-service-user <USER>"
+          ],
+          "tip": [
+            "在 macOS 以 root 运行时，以该用户运行服务。"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "cleanup",
+          "tip": [
+            "删除全部未使用的服务。"
+          ]
+        },
+        {
+          "name": "info",
+          "tip": [
+            "列出当前用户（或 root）的全部托管服务。"
+          ]
+        },
+        {
+          "name": "kill",
+          "usage": [
+            "kill <FORMULA> ..."
+          ],
+          "tip": [
+            "立即停止服务但保留登录启动注册。"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出全部托管服务的信息。"
+          ]
+        },
+        {
+          "name": "restart",
+          "usage": [
+            "restart <FORMULA> ..."
+          ],
+          "tip": [
+            "立即停止并启动服务，同时注册为登录启动。"
+          ]
+        },
+        {
+          "name": "run",
+          "usage": [
+            "run <FORMULA> ..."
+          ],
+          "tip": [
+            "运行服务但不注册为登录启动。"
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start <FORMULA> ..."
+          ],
+          "tip": [
+            "立即启动服务并注册为登录启动。"
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop <FORMULA> ..."
+          ],
+          "tip": [
+            "立即停止服务并取消登录启动注册。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "setup-ruby",
+      "usage": [
+        "setup-ruby [<COMMAND> ...]"
+      ],
+      "tip": [
+        "安装并配置 Homebrew 的 Ruby。"
+      ]
+    },
+    {
+      "name": "shellenv",
+      "usage": [
+        "shellenv [<SHELL>]"
+      ],
+      "tip": [
+        "打印 export 语句，将 Homebrew 加入 PATH、MANPATH 与 INFOPATH。"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "csh"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "pwsh"
+        },
+        {
+          "name": "sh"
+        },
+        {
+          "name": "tcsh"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "source",
+      "usage": [
+        "source [<FORMULA> ...]"
+      ],
+      "tip": [
+        "在浏览器中打开 formula 的源码仓库。"
+      ]
+    },
+    {
+      "name": "tab",
+      "usage": [
+        "tab <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "编辑已安装 formula 或 cask 的 tab 信息。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅标记 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅标记 formula。"
+          ]
+        },
+        {
+          "name": "--installed-on-request",
+          "tip": [
+            "将包标记为按请求安装。"
+          ]
+        },
+        {
+          "name": "--no-installed-on-request",
+          "tip": [
+            "将包标记为非按请求安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tap",
+      "usage": [
+        "tap [<USER>/<REPO> [<URL>]]"
+      ],
+      "tip": [
+        "tap 包含 formula、cask 或外部命令的仓库。",
+        "无参数时列出所有已安装的 tap。"
+      ],
+      "option": [
+        {
+          "name": "--custom-remote",
+          "tip": [
+            "用自定义远端安装或切换 tap，适用于镜像。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "即使在 API 模式下也强制安装 core tap。"
+          ]
+        },
+        {
+          "name": "--repair",
+          "tip": [
+            "补齐缺失的符号链接并修正 tap 的 git 远端引用。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tap-info",
+      "usage": [
+        "tap-info [<TAP> ...]"
+      ],
+      "tip": [
+        "显示一个或多个 tap 的详细信息。"
+      ],
+      "option": [
+        {
+          "name": "--installed",
+          "tip": [
+            "显示每个已安装 tap 的信息。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "打印 tap 的 JSON 表示。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "trust",
+      "usage": [
+        "trust [<TARGET> ...]"
+      ],
+      "tip": [
+        "信任非官方 tap 的 formula、cask 或命令以便 Homebrew 加载。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "信任指定的 cask。"
+          ]
+        },
+        {
+          "name": "--commands",
+          "alias": [
+            "--command"
+          ],
+          "usage": [
+            "--command, --commands"
+          ],
+          "tip": [
+            "信任指定的外部命令。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "信任指定的 formula。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 打印受信任条目（版本 v1）。"
+          ]
+        },
+        {
+          "name": "--taps",
+          "alias": [
+            "--tap"
+          ],
+          "usage": [
+            "--tap, --taps"
+          ],
+          "tip": [
+            "信任指定的 tap。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unalias",
+      "usage": [
+        "unalias <ALIAS> ..."
+      ],
+      "tip": [
+        "删除别名。"
+      ]
+    },
+    {
+      "name": "uninstall",
+      "alias": [
+        "remove",
+        "rm"
+      ],
+      "usage": [
+        "rm|remove|uninstall <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "卸载 formula 或 cask。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "删除 formula 的所有已安装版本。",
+            "即使 cask 未安装也卸载。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        },
+        {
+          "name": "--ignore-dependencies",
+          "tip": [
+            "即使 formula 是已安装 formula 的依赖，卸载也不失败。"
+          ]
+        },
+        {
+          "name": "--zap",
+          "tip": [
+            "删除与 cask 关联的全部文件。",
+            "可能删除应用间共享的文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlink",
+      "usage": [
+        "unlink <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "从 Homebrew prefix 删除 formula 或 cask 的符号链接。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "列出将被取消链接的文件，但实际不操作。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpin",
+      "usage": [
+        "unpin <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "取消 pin 指定包，允许其升级。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untap",
+      "usage": [
+        "untap <TAP> ..."
+      ],
+      "tip": [
+        "移除已 tap 的 formula 仓库。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "untap 前先卸载该 tap 的全部 formula 与 cask。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untrust",
+      "usage": [
+        "untrust [<TARGET> ...]"
+      ],
+      "tip": [
+        "停止信任非官方 tap 的 formula、cask 或命令。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "取消信任指定的 cask。"
+          ]
+        },
+        {
+          "name": "--commands",
+          "alias": [
+            "--command"
+          ],
+          "usage": [
+            "--command, --commands"
+          ],
+          "tip": [
+            "取消信任指定的外部命令。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "取消信任指定的 formula。"
+          ]
+        },
+        {
+          "name": "--tap",
+          "tip": [
+            "取消信任指定的 tap。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update"
+      ],
+      "tip": [
+        "从 GitHub 拉取最新版 Homebrew 及所有 formula。"
+      ],
+      "option": [
+        {
+          "name": "--auto-update",
+          "tip": [
+            "在自动更新时运行（如 brew install 前），跳过较慢的步骤。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "始终执行较慢的完整更新检查，即使没有必要。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update-if-needed",
+      "tip": [
+        "仅在需要时运行 brew update --auto-update。",
+        "脚本中 brew update 的快速无操作替代。"
+      ]
+    },
+    {
+      "name": "update-reset",
+      "usage": [
+        "update-reset [<REPOSITORY> ...]"
+      ],
+      "tip": [
+        "拉取并重置 Homebrew 及所有 tap 仓库到最新的 origin/HEAD。",
+        "这将销毁你所有未提交或已提交的修改。"
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "升级过时且未 pin 的包。"
+      ],
+      "option": [
+        {
+          "name": "--appdir",
+          "usage": [
+            "--appdir <DIR>"
+          ],
+          "tip": [
+            "Applications 的目标位置（默认：/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--appimagedir",
+          "usage": [
+            "--appimagedir <DIR>"
+          ],
+          "tip": [
+            "AppImages 的目标位置（默认：~/Applications）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--audio-unit-plugindir",
+          "usage": [
+            "--audio-unit-plugindir <DIR>"
+          ],
+          "tip": [
+            "Audio Unit Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/Components）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--binaries",
+          "tip": [
+            "启用辅助可执行文件的链接（默认启用）。"
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --build-from-source"
+          ],
+          "tip": [
+            "即使有 bottle 也从源码编译 formula。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有命名参数视为 cask。",
+            "若未指定命名参数，仅升级过时的 cask。"
+          ]
+        },
+        {
+          "name": "--colorpickerdir",
+          "usage": [
+            "--colorpickerdir <DIR>"
+          ],
+          "tip": [
+            "Color Pickers 的目标位置（默认：~/Library/ColorPickers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --debug"
+          ],
+          "tip": [
+            "若 brewing 失败，在临时构建目录中打开交互式调试会话。"
+          ]
+        },
+        {
+          "name": "--debug-symbols",
+          "tip": [
+            "构建时生成调试符号。",
+            "源码将保留在缓存目录中。"
+          ]
+        },
+        {
+          "name": "--dictionarydir",
+          "usage": [
+            "--dictionarydir <DIR>"
+          ],
+          "tip": [
+            "Dictionaries 的目标位置（默认：~/Library/Dictionaries）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--display-times",
+          "tip": [
+            "在运行结束时打印每个包的安装耗时。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "展示将被升级的内容，但实际不升级。"
+          ]
+        },
+        {
+          "name": "--fetch-HEAD",
+          "tip": [
+            "拉取上游仓库以检测 HEAD 安装是否过时。"
+          ]
+        },
+        {
+          "name": "--fontdir",
+          "usage": [
+            "--fontdir <DIR>"
+          ],
+          "tip": [
+            "Fonts 的目标位置（默认：~/Library/Fonts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "安装 formula 时不检查先前安装的 keg-only 版本。",
+            "安装 cask 时覆盖已存在的文件。"
+          ]
+        },
+        {
+          "name": "--force-bottle",
+          "tip": [
+            "即使 bottle 通常不会用于安装也从它安装。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有命名参数视为 formula。",
+            "若未指定命名参数，仅升级过时的 formula。"
+          ]
+        },
+        {
+          "name": "--greedy",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --greedy"
+          ],
+          "tip": [
+            "同时包含 version 为 :latest 和 auto_updates 的 cask。"
+          ]
+        },
+        {
+          "name": "--greedy-auto-updates",
+          "tip": [
+            "同时包含原本会被跳过的过时 auto_updates cask。"
+          ]
+        },
+        {
+          "name": "--greedy-latest",
+          "tip": [
+            "同时包含过时的 cask，包括 version 为 :latest 的。"
+          ]
+        },
+        {
+          "name": "--input-methoddir",
+          "usage": [
+            "--input-methoddir <DIR>"
+          ],
+          "tip": [
+            "Input Methods 的目标位置（默认：~/Library/Input Methods）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "下载并打补丁后打开一个 shell。"
+          ]
+        },
+        {
+          "name": "--internet-plugindir",
+          "usage": [
+            "--internet-plugindir <DIR>"
+          ],
+          "tip": [
+            "Internet Plugins 的目标位置（默认：~/Library/Internet Plug-Ins）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "保留安装过程中创建的临时文件。"
+          ]
+        },
+        {
+          "name": "--keyboard-layoutdir",
+          "usage": [
+            "--keyboard-layoutdir <DIR>"
+          ],
+          "tip": [
+            "Keyboard Layouts 的目标位置（默认：/Library/Keyboard Layouts）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--language",
+          "usage": [
+            "--language <LANG>,..."
+          ],
+          "tip": [
+            "cask 安装时优先使用的逗号分隔语言代码列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mdimporterdir",
+          "usage": [
+            "--mdimporterdir <DIR>"
+          ],
+          "tip": [
+            "Spotlight Plugins 的目标位置（默认：~/Library/Spotlight）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--minimum-version",
+          "alias": [
+            "--min-version"
+          ],
+          "usage": [
+            "--min-version, --minimum-version <VERSION>"
+          ],
+          "tip": [
+            "仅升级版本低于给定最小版本的指定 formula 或 cask。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-ask",
+          "alias": [
+            "--yes",
+            "-y"
+          ],
+          "usage": [
+            "-y, --yes, --no-ask"
+          ],
+          "tip": [
+            "下载并升级前不请求确认。"
+          ]
+        },
+        {
+          "name": "--no-binaries",
+          "tip": [
+            "禁用辅助可执行文件的链接。"
+          ]
+        },
+        {
+          "name": "--no-quit",
+          "tip": [
+            "升级时阻止正在运行的 cask 应用被退出。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "链接时删除 prefix 中已存在的文件。"
+          ]
+        },
+        {
+          "name": "--prefpanedir",
+          "usage": [
+            "--prefpanedir <DIR>"
+          ],
+          "tip": [
+            "Preference Panes 的目标位置（默认：~/Library/PreferencePanes）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--qlplugindir",
+          "usage": [
+            "--qlplugindir <DIR>"
+          ],
+          "tip": [
+            "Quick Look Plugins 的目标位置（默认：~/Library/QuickLook）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--require-sha",
+          "tip": [
+            "要求所有 cask 都有校验和。"
+          ]
+        },
+        {
+          "name": "--screen-saverdir",
+          "usage": [
+            "--screen-saverdir <DIR>"
+          ],
+          "tip": [
+            "Screen Savers 的目标位置（默认：~/Library/Screen Savers）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--servicedir",
+          "usage": [
+            "--servicedir <DIR>"
+          ],
+          "tip": [
+            "Services 的目标位置（默认：~/Library/Services）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-cask-deps",
+          "tip": [
+            "跳过安装 cask 依赖。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印验证与 post-install 步骤。"
+          ]
+        },
+        {
+          "name": "--vst-plugindir",
+          "usage": [
+            "--vst-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vst3-plugindir",
+          "usage": [
+            "--vst3-plugindir <DIR>"
+          ],
+          "tip": [
+            "VST3 Plugins 的目标位置（默认：~/Library/Audio/Plug-Ins/VST3）。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uses",
+      "usage": [
+        "uses <FORMULA> ..."
+      ],
+      "tip": [
+        "显示将某 formula 作为依赖的 formula 与 cask。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅包含 cask。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅包含 formula。"
+          ]
+        },
+        {
+          "name": "--include-build",
+          "tip": [
+            "包含将 formula 作为 :build 依赖的 formula。"
+          ]
+        },
+        {
+          "name": "--include-implicit",
+          "tip": [
+            "包含将 formula 作为隐式依赖的 formula。"
+          ]
+        },
+        {
+          "name": "--include-optional",
+          "tip": [
+            "包含将 formula 作为 :optional 依赖的 formula。"
+          ]
+        },
+        {
+          "name": "--include-test",
+          "tip": [
+            "包含将 formula 作为 :test 依赖的 formula。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "仅列出当前已安装的 formula 与 cask。"
+          ]
+        },
+        {
+          "name": "--missing",
+          "tip": [
+            "仅列出当前未安装的 formula 与 cask。"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "tip": [
+            "解析多层依赖。"
+          ]
+        },
+        {
+          "name": "--skip-recommended",
+          "tip": [
+            "跳过所有将 formula 作为 :recommended 依赖的 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "version-install",
+      "usage": [
+        "version-install <FORMULA> [<VERSION>]"
+      ],
+      "tip": [
+        "将 formula 的指定版本提取到个人 tap 并安装。"
+      ]
+    },
+    {
+      "name": "vulns",
+      "usage": [
+        "vulns [<FORMULA> ...]"
+      ],
+      "tip": [
+        "用 OSV.dev 数据库检查 formula 的已知安全漏洞。"
+      ],
+      "option": [
+        {
+          "name": "--brewfile",
+          "usage": [
+            "--brewfile <FILE>"
+          ],
+          "tip": [
+            "检查 Brewfile 中列出的 formula。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--deps",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --deps"
+          ],
+          "tip": [
+            "同时检查指定 formula 的依赖。"
+          ]
+        },
+        {
+          "name": "--fix-available",
+          "tip": [
+            "仅报告有已发布版本修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--fix-type",
+          "usage": [
+            "--fix-type <TYPE>"
+          ],
+          "tip": [
+            "按修复类型过滤结果：released 或 unreleased。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-fix-available",
+          "tip": [
+            "仅报告没有已发布版本修复的漏洞。"
+          ]
+        },
+        {
+          "name": "--no-ignore-patches",
+          "tip": [
+            "即使 formula 补丁已修复漏洞也报告。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "which-formula",
+      "usage": [
+        "which-formula <COMMAND> ..."
+      ],
+      "tip": [
+        "显示哪些 formula 提供给定命令。"
+      ],
+      "option": [
+        {
+          "name": "--explain",
+          "tip": [
+            "输出如何通过安装提供该命令的 formula 来获取它的说明。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "打印 Homebrew、homebrew-core 与 homebrew-cask 的版本号。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--debug",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --debug"
+      ],
+      "tip": [
+        "显示调试信息。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示此信息。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "让部分输出更简洁。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "让部分输出更详细。"
+      ]
+    }
+  ]
+}
