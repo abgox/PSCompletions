@@ -288,22 +288,18 @@ fn json_alias_add_success_stdout_is_only_json() {
 }
 
 #[test]
-fn json_add_no_args_param_err() {
-    let d = make_data("json-add-noargs", "http://127.0.0.1:9");
-    let (code, out) = psc(&d, &["--json", "add"]);
-    assert_eq!(code, 0);
-    let v = parse_json(&out);
-    assert!(!((v["ok"]).as_bool().unwrap_or(false)));
-    assert_eq!(v["error"], "Too few parameters.");
-}
-
-#[test]
-fn json_rm_no_args_param_err() {
-    let d = make_data("json-rm-noargs", "http://127.0.0.1:9");
-    let (code, out) = psc(&d, &["--json", "rm"]);
-    assert_eq!(code, 0);
-    let v = parse_json(&out);
-    assert!(!((v["ok"]).as_bool().unwrap_or(false)));
+fn json_add_and_rm_no_args_report_param_err() {
+    // Both commands route an empty argv through the same param_err, so both must report the
+    // identical contract: exit 0, ok=false, and the message itself. (The rm half used to
+    // assert only ok=false, so a wrong or missing message would have passed.)
+    for cmd in ["add", "rm"] {
+        let d = make_data(&format!("json-{cmd}-noargs"), "http://127.0.0.1:9");
+        let (code, out) = psc(&d, &["--json", cmd]);
+        assert_eq!(code, 0, "{cmd}: {out}");
+        let v = parse_json(&out);
+        assert!(!((v["ok"]).as_bool().unwrap_or(false)), "{cmd}: {out}");
+        assert_eq!(v["error"], "Too few parameters.", "{cmd}: {out}");
+    }
 }
 
 // ---------- add/rm flows over the local HTTP source ----------
@@ -337,25 +333,20 @@ fn json_rm_removes_installed_completion() {
 }
 
 #[test]
-fn json_add_unknown_name_reports_in_band() {
+fn json_add_and_rm_unknown_name_report_in_band() {
+    // An unknown name is a per-completion failure, not a whole-command abort: both commands
+    // exit 0 and report the name back inside the array. (The rm half used to assert only
+    // ok=false, so a response missing the `completion` field would have passed.)
     let srv = spawn_server(demo_routes());
-    let d = make_data("flow-add-unknown", &srv);
-    let (code, out) = psc(&d, &["--json", "add", "zzz-nope"]);
-    assert_eq!(code, 0);
-    let v = parse_json(&out);
-    let e = v.as_array().unwrap()[0].clone();
-    assert_eq!(e["completion"], "zzz-nope");
-    assert!(!((e["ok"]).as_bool().unwrap_or(false)));
-}
-
-#[test]
-fn json_rm_unknown_name_reports_in_band() {
-    let srv = spawn_server(demo_routes());
-    let d = make_data("flow-rm-unknown", &srv);
-    let (code, out) = psc(&d, &["--json", "rm", "zzz-nope"]);
-    assert_eq!(code, 0);
-    let v = parse_json(&out);
-    assert!(!((v.as_array().unwrap()[0]["ok"]).as_bool().unwrap_or(false)));
+    for cmd in ["add", "rm"] {
+        let d = make_data(&format!("flow-{cmd}-unknown"), &srv);
+        let (code, out) = psc(&d, &["--json", cmd, "zzz-nope"]);
+        assert_eq!(code, 0, "{cmd}: {out}");
+        let v = parse_json(&out);
+        let e = v.as_array().unwrap()[0].clone();
+        assert_eq!(e["completion"], "zzz-nope", "{cmd}: {out}");
+        assert!(!((e["ok"]).as_bool().unwrap_or(false)), "{cmd}: {out}");
+    }
 }
 
 // ---------- update flows ----------

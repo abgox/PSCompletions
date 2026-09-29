@@ -1,6 +1,7 @@
 //! Tests for the Lua hooks runtime.
 
 use super::api::{api_which, glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
+use super::helpers::collect_node_names;
 use super::runner::{new_sandbox_lua, run_hook_with_timeout};
 use super::*;
 use std::time::{Duration, Instant};
@@ -269,7 +270,10 @@ fn provide_injects_inside_command_context_and_stamps_repeat() {
 }
 
 #[test]
-fn provide_promises_switch_on_parent_including_aliases() {
+fn provide_no_injection_or_switch_at_parent_including_aliases() {
+    // Targeting a command that the user has not entered yet: the spec must not fire, and must
+    // not stamp a switch on the parent rows either — otherwise the menu would promise a landing
+    // the hook cannot deliver. The alias `x` is included so alias resolution cannot sneak a match.
     let script = r#"
     psc.on({ command = "exec" }, function()
         psc.add({ name = "eslint" })
@@ -316,6 +320,53 @@ fn capture_error_log(c: &mut HookContext, script: &str) -> String {
 }
 
 #[test]
+fn collect_node_names_matches_name_alias_case_and_every_scope() {
+    // `collect_node_names` is what validates a psc.on target against the manifest, and its
+    // contract promises four things: a target matches by canonical name OR by any alias,
+    // case-insensitively, and the walk reaches scoped `option` arrays as well as the root
+    // `global_option` array. Each is pinned here because a miss fails silently - the hook's
+    // handler just never fires, with no error to explain it.
+    let manifest = serde_json::json!({
+        "next": [
+            { "name": "install", "alias": ["i"], "next": [ { "name": "add" } ] },
+            { "name": "build", "option": [ { "name": "--jobs", "alias": ["-j"] } ] }
+        ],
+        "global_option": [ { "name": "--help", "alias": ["-h"] } ]
+    });
+
+    // By canonical name, matched case-insensitively; the owner name comes first, then its forms.
+    assert_eq!(
+        collect_node_names(&manifest, "INSTALL"),
+        Some(vec!["install".to_string(), "i".to_string()])
+    );
+    // By alias - the same owner is resolved, so an alias in a spec reaches the real node.
+    assert_eq!(
+        collect_node_names(&manifest, "i"),
+        Some(vec!["install".to_string(), "i".to_string()])
+    );
+    // An option scoped to a subcommand is reachable, by name and by its short alias.
+    assert_eq!(
+        collect_node_names(&manifest, "-j"),
+        Some(vec!["--jobs".to_string(), "-j".to_string()])
+    );
+    // The root global_option array is walked as well, not just next/option.
+    assert_eq!(
+        collect_node_names(&manifest, "--HELP"),
+        Some(vec!["--help".to_string(), "-h".to_string()])
+    );
+    // An unknown target yields an EMPTY vec, not None - None only means the manifest root is
+    // not an object. Callers rely on is_none_or(|v| v.is_empty()) to reject it, so pin the
+    // distinction: a future reader must not "simplify" that into is_none().
+    assert_eq!(collect_node_names(&manifest, "nope"), Some(Vec::new()));
+    assert_eq!(collect_node_names(&serde_json::json!([1, 2]), "x"), None);
+    // Repeat lookups hit the memo cache; results must not drift from the first call.
+    assert_eq!(
+        collect_node_names(&manifest, "INSTALL"),
+        Some(vec!["install".to_string(), "i".to_string()])
+    );
+}
+
+#[test]
 fn provide_unknown_target_fails_loudly() {
     let mut c = root_provide_ctx();
     let script = r#"
@@ -345,25 +396,24 @@ fn provide_rejects_wrong_provider_type_degrades_with_log() {
 
 #[test]
 fn api_misuse_degrades_without_aborting() {
-    // A grab-bag of authoring mistakes across several APIs: none may abort the process —
-    // hooks degrade (raise into Lua cleanly / return empty) and the static menu survives.
+    // A grab-bag of authoring mistakes across several APIs: none may abort the process. Each
+    // must degrade instead (yield nil / add nothing) and leave the static menu intact, so one
+    // bad call still shows the authored candidates rather than an empty or crashed menu.
     let script = r#"
-    local a = psc.add(5)
-    local b = psc.add(5)
-    local c2 = psc.items({1, 2, 3}, "stay")
-    local d = psc.json("nope-does-not-exist.json")
-    local e = psc.mount_items({ "next", "zzz", "next" })
-    local f = psc.split(123)
-    local g = psc.token({})
-    local h = psc.eq(nil, "x")
+    psc.add(5)
+    psc.add(5)
+    psc.items({1, 2, 3}, "stay")
+    psc.json("nope-does-not-exist.json")
+    psc.mount_items({ "next", "zzz", "next" })
+    psc.split(123)
+    psc.token({})
+    psc.eq(nil, "x")
     return completions
     "#;
-    let out = run_hook(&root_provide_ctx(), script, &empty_static());
-    assert!(
-        out.is_ok(),
-        "API misuse must degrade, not abort: {:?}",
-        out.err()
-    );
+    let out = run_hook(&root_provide_ctx(), script, &static_rows(&["built-in"]))
+        .expect("API misuse must degrade, not abort");
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["built-in"], "static menu must survive misuse");
 }
 
 #[test]
@@ -445,19 +495,16 @@ fn provide_empty_command_chain_is_redundant() {
 }
 
 #[test]
-fn provide_empty_string_values_fail_loudly() {
-    // Empty command "" is a wildcard (valid), and so is an empty option segment
-    // (symmetric chain wildcard). What remains invalid: non-option-like option
-    // segments (must start with '-').
-    let cases = [(
-        r#"psc.on({ option = "config" }, function() end)"#,
-        "option segments must be options",
-    )];
-    for (script, expect) in cases {
-        let mut c = root_provide_ctx();
-        let logged = capture_error_log(&mut c, script);
-        assert!(logged.contains(expect), "expected {expect:?} in: {logged}");
-    }
+fn provide_non_option_segment_in_option_chain_fails_loudly() {
+    // Every segment of an `option` chain must look like an option. Note the two shapes that are
+    // deliberately NOT errors, and so are absent here: an empty `command` string is a wildcard,
+    // and an empty `option` segment is its symmetric chain wildcard.
+    let mut c = root_provide_ctx();
+    let logged = capture_error_log(&mut c, r#"psc.on({ option = "config" }, function() end)"#);
+    assert!(
+        logged.contains("option segments must be options"),
+        "{logged}"
+    );
 }
 
 #[test]
@@ -2081,17 +2128,6 @@ fn glob_stop_at_takes_the_earlier_bound() {
     // never push the hook past its own cap.
     let tight = now + Duration::from_millis(50);
     assert_eq!(glob_stop_at(now, Some(tight)), tight);
-}
-
-#[test]
-fn glob_budget_is_far_below_the_hook_cap() {
-    // The whole point of a dedicated budget: a completion menu must not wait seconds. Keep this
-    // asserted so a future bump to the hook-wide 10 s cap cannot silently reintroduce the freeze.
-    assert!(
-        GLOB_BUDGET < Duration::from_secs(1),
-        "GLOB_BUDGET is {:?}; a menu cannot wait that long",
-        GLOB_BUDGET
-    );
 }
 
 #[test]

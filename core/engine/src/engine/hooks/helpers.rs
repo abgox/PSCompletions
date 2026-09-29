@@ -7,7 +7,11 @@ use super::Token;
 /// Collect every form (canonical name + aliases) of the manifest nodes whose name or an
 /// alias matches `target` (ASCII case-insensitive). Walks the whole tree — `next`, `option`
 /// and root `global_option` arrays — so scoped option definitions are covered wherever they
-/// live. `None` (unknown target) lets callers fail loudly instead of silently dying.
+/// live.
+///
+/// Not-found is an **empty vec**, not `None` — `None` only means the manifest root is not a
+/// JSON object. Callers must therefore fail loudly on `is_none_or(|v| v.is_empty())`, which is
+/// what lets a bad `psc.on` target be reported instead of the handler silently never firing.
 pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Option<Vec<String>> {
     use std::collections::hash_map::DefaultHasher;
     use std::hash::{Hash, Hasher};
