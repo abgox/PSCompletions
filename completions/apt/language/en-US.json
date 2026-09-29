@@ -1,0 +1,746 @@
+{
+  "meta": {
+    "url": "https://wiki.debian.org/Apt",
+    "description": [
+      "A command-line package manager for Debian and derivatives."
+    ]
+  },
+  "next": [
+    {
+      "name": "autoclean",
+      "tip": [
+        "Clear out only package files that can no longer be downloaded."
+      ]
+    },
+    {
+      "name": "autopurge",
+      "tip": [
+        "Automatically remove unused packages including configuration files."
+      ]
+    },
+    {
+      "name": "autoremove",
+      "tip": [
+        "Automatically remove all unused packages."
+      ]
+    },
+    {
+      "name": "build-dep",
+      "usage": [
+        "build-dep <PACKAGE> ..."
+      ],
+      "tip": [
+        "Install/remove packages to satisfy build dependencies."
+      ],
+      "option": [
+        {
+          "name": "--arch-only",
+          "tip": [
+            "Only process architecture-dependent build dependencies."
+          ]
+        },
+        {
+          "name": "--build-profiles",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --build-profiles <PROFILES>"
+          ],
+          "tip": [
+            "Control the activated build profiles for build dependencies."
+          ],
+          "next": []
+        },
+        {
+          "name": "--host-architecture",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --host-architecture <ARCH>"
+          ],
+          "tip": [
+            "Control the architecture build dependencies are satisfied for."
+          ],
+          "next": []
+        },
+        {
+          "name": "--indep-only",
+          "tip": [
+            "Only process architecture-independent build dependencies."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "changelog",
+      "usage": [
+        "changelog <PACKAGE> ..."
+      ],
+      "tip": [
+        "Download and display the changelog of a package."
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "Clear out the local repository of retrieved package files."
+      ]
+    },
+    {
+      "name": "depends",
+      "usage": [
+        "depends <PACKAGE> ..."
+      ],
+      "tip": [
+        "Show dependency information for a package."
+      ]
+    },
+    {
+      "name": "distclean",
+      "tip": [
+        "Remove all files under /var/lib/apt/lists except release files."
+      ]
+    },
+    {
+      "name": "download",
+      "usage": [
+        "download <PACKAGE> ..."
+      ],
+      "tip": [
+        "Download binary packages into the current directory."
+      ]
+    },
+    {
+      "name": "edit-sources",
+      "tip": [
+        "Edit the source information file."
+      ]
+    },
+    {
+      "name": "full-upgrade",
+      "alias": [
+        "dist-upgrade"
+      ],
+      "usage": [
+        "dist-upgrade|full-upgrade [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "Upgrade the system by removing/installing/upgrading packages."
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Display help information."
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <PACKAGE> ..."
+      ],
+      "tip": [
+        "Install packages."
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [PATTERN] ..."
+      ],
+      "tip": [
+        "List packages based on package names."
+      ],
+      "option": [
+        {
+          "name": "--all-versions",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all-versions"
+          ],
+          "tip": [
+            "List all available versions."
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "List installed packages only."
+          ]
+        },
+        {
+          "name": "--manual-installed",
+          "tip": [
+            "List manually installed packages only."
+          ]
+        },
+        {
+          "name": "--upgradeable",
+          "alias": [
+            "--upgradable"
+          ],
+          "usage": [
+            "--upgradable, --upgradeable"
+          ],
+          "tip": [
+            "List upgradeable packages only."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "moo",
+      "tip": [
+        "Have you mooed today?",
+        "This APT has Super Cow Powers."
+      ]
+    },
+    {
+      "name": "policy",
+      "usage": [
+        "policy [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "Show policy settings and priority selection."
+      ]
+    },
+    {
+      "name": "purge",
+      "usage": [
+        "purge <PACKAGE> ..."
+      ],
+      "tip": [
+        "Remove packages including their configuration files."
+      ]
+    },
+    {
+      "name": "rdepends",
+      "usage": [
+        "rdepends <PACKAGE> ..."
+      ],
+      "tip": [
+        "Show reverse dependency information for a package."
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall <PACKAGE> ..."
+      ],
+      "tip": [
+        "Reinstall packages.",
+        "An alias for install --reinstall."
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove <PACKAGE> ..."
+      ],
+      "tip": [
+        "Remove packages, leaving configuration files behind."
+      ]
+    },
+    {
+      "name": "satisfy",
+      "usage": [
+        "satisfy <DEPENDENCY> ..."
+      ],
+      "tip": [
+        "Satisfy dependency strings, as used in Build-Depends."
+      ],
+      "example": [
+        {
+          "cmd": "satisfy \"foo, bar (>= 1.0)\" \"Conflicts: baz\"",
+          "desc": "Satisfy dependencies, handling conflicts prefixed with Conflicts:"
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <PATTERN> ..."
+      ],
+      "tip": [
+        "Search in package descriptions."
+      ],
+      "option": [
+        {
+          "name": "--full",
+          "tip": [
+            "Show full package records for each match."
+          ]
+        },
+        {
+          "name": "--names-only",
+          "tip": [
+            "Search package names only, not descriptions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show <PACKAGE> ..."
+      ],
+      "tip": [
+        "Show package details."
+      ],
+      "option": [
+        {
+          "name": "--all-versions",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all-versions"
+          ],
+          "tip": [
+            "Show records for all available versions."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "showsrc",
+      "usage": [
+        "showsrc <PACKAGE> ..."
+      ],
+      "tip": [
+        "Show source package records."
+      ]
+    },
+    {
+      "name": "source",
+      "usage": [
+        "source <PACKAGE> ..."
+      ],
+      "tip": [
+        "Fetch source packages into the current directory."
+      ],
+      "option": [
+        {
+          "name": "--build-profiles",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --build-profiles <PROFILES>"
+          ],
+          "tip": [
+            "Control the activated build profiles for source builds."
+          ],
+          "next": []
+        },
+        {
+          "name": "--compile",
+          "alias": [
+            "--build",
+            "-b"
+          ],
+          "usage": [
+            "-b, --build, --compile"
+          ],
+          "tip": [
+            "Compile source packages after downloading them."
+          ]
+        },
+        {
+          "name": "--diff-only",
+          "tip": [
+            "Download only the diff file of a source archive."
+          ]
+        },
+        {
+          "name": "--dsc-only",
+          "tip": [
+            "Download only the dsc file of a source archive."
+          ]
+        },
+        {
+          "name": "--host-architecture",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --host-architecture <ARCH>"
+          ],
+          "tip": [
+            "Control the architecture packages are built for."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tar-only",
+          "tip": [
+            "Download only the tar file of a source archive."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "Update list of available packages."
+      ],
+      "option": [
+        {
+          "name": "--allow-insecure-repositories",
+          "tip": [
+            "Allow acquiring unverifiable data from configured sources."
+          ]
+        },
+        {
+          "name": "--allow-releaseinfo-change",
+          "tip": [
+            "Allow continuing to download from a repository whose release info changed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "Upgrade the system by installing/upgrading packages.",
+        "Never removes installed packages."
+      ],
+      "option": [
+        {
+          "name": "--with-new-pkgs",
+          "tip": [
+            "Allow installing new packages to satisfy dependencies.",
+            "Never removes packages, only adds new ones."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "Show the program version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--allow-change-held-packages",
+      "tip": [
+        "Continue without prompting when changing held packages."
+      ]
+    },
+    {
+      "name": "--allow-downgrades",
+      "tip": [
+        "Continue without prompting when doing downgrades."
+      ]
+    },
+    {
+      "name": "--allow-remove-essential",
+      "tip": [
+        "Continue without prompting when removing essential packages."
+      ]
+    },
+    {
+      "name": "--allow-unauthenticated",
+      "tip": [
+        "Ignore packages that cannot be authenticated without prompting."
+      ]
+    },
+    {
+      "name": "--assume-no",
+      "tip": [
+        "Automatically answer no to all prompts."
+      ]
+    },
+    {
+      "name": "--assume-yes",
+      "alias": [
+        "--yes",
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes, --assume-yes"
+      ],
+      "tip": [
+        "Automatically answer yes to prompts.",
+        "Run non-interactively."
+      ]
+    },
+    {
+      "name": "--auto-remove",
+      "alias": [
+        "--autoremove"
+      ],
+      "usage": [
+        "--autoremove, --auto-remove"
+      ],
+      "tip": [
+        "Remove unused dependency packages, like running autoremove."
+      ]
+    },
+    {
+      "name": "--config-file",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config-file <FILE>"
+      ],
+      "tip": [
+        "Specify a configuration file to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--default-release",
+      "alias": [
+        "--target-release",
+        "-t"
+      ],
+      "usage": [
+        "-t, --target-release, --default-release <RELEASE>"
+      ],
+      "tip": [
+        "Set the default release for version selection.",
+        "Creates a default pin at priority 990."
+      ],
+      "next": []
+    },
+    {
+      "name": "--download-only",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --download-only"
+      ],
+      "tip": [
+        "Download package files without unpacking or installing them."
+      ]
+    },
+    {
+      "name": "--fix-broken",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --fix-broken"
+      ],
+      "tip": [
+        "Attempt to correct a system with broken dependencies."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show a short usage summary."
+      ]
+    },
+    {
+      "name": "--ignore-hold",
+      "tip": [
+        "Ignore package holds placed on a package."
+      ]
+    },
+    {
+      "name": "--ignore-missing",
+      "alias": [
+        "--fix-missing",
+        "-m"
+      ],
+      "usage": [
+        "-m, --fix-missing, --ignore-missing"
+      ],
+      "tip": [
+        "Ignore missing packages, holding back packages that cannot be retrieved."
+      ]
+    },
+    {
+      "name": "--install-suggests",
+      "tip": [
+        "Consider suggested packages as dependencies for installing."
+      ]
+    },
+    {
+      "name": "--just-print",
+      "alias": [
+        "--simulate",
+        "--dry-run",
+        "--no-act",
+        "--recon",
+        "-s"
+      ],
+      "usage": [
+        "-s, --recon, --no-act, --dry-run, --simulate, --just-print"
+      ],
+      "tip": [
+        "Perform a simulation without changing the system."
+      ]
+    },
+    {
+      "name": "--mark-auto",
+      "tip": [
+        "Mark freshly installed packages as automatically installed."
+      ]
+    },
+    {
+      "name": "--no-download",
+      "tip": [
+        "Disable downloading of packages.",
+        "Best used with --ignore-missing to use only downloaded .debs."
+      ]
+    },
+    {
+      "name": "--no-install-recommends",
+      "tip": [
+        "Do not consider recommended packages as dependencies for installing."
+      ]
+    },
+    {
+      "name": "--no-remove",
+      "tip": [
+        "Abort immediately without prompting if any packages are to be removed."
+      ]
+    },
+    {
+      "name": "--no-show-upgraded",
+      "tip": [
+        "Do not show a list of all packages to be upgraded."
+      ]
+    },
+    {
+      "name": "--no-upgrade",
+      "tip": [
+        "Prevent packages on the command line from being upgraded."
+      ]
+    },
+    {
+      "name": "--only-source",
+      "tip": [
+        "Accept source package names only, skipping binary table lookup."
+      ]
+    },
+    {
+      "name": "--only-upgrade",
+      "tip": [
+        "Install upgrades for already installed packages only.",
+        "Ignore requests to install new packages."
+      ]
+    },
+    {
+      "name": "--option",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --option <OPTION>"
+      ],
+      "tip": [
+        "Set an arbitrary configuration option.",
+        "Syntax: -o Foo::Bar=bar. Can be used multiple times."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--print-uris",
+      "tip": [
+        "Print file URIs for fetching instead of fetching them."
+      ]
+    },
+    {
+      "name": "--purge",
+      "tip": [
+        "Use purge instead of remove for anything that would be removed."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Produce output suitable for logging, omitting progress indicators."
+      ]
+    },
+    {
+      "name": "--reinstall",
+      "tip": [
+        "Reinstall packages already installed at the newest version."
+      ]
+    },
+    {
+      "name": "--show-progress",
+      "tip": [
+        "Show user friendly progress information in the terminal."
+      ]
+    },
+    {
+      "name": "--trivial-only",
+      "tip": [
+        "Only perform trivial operations, answering no to prompts."
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --update"
+      ],
+      "tip": [
+        "Run the update command before the specified command."
+      ]
+    },
+    {
+      "name": "--verbose-versions",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --verbose-versions"
+      ],
+      "tip": [
+        "Show full versions for upgraded and installed packages."
+      ]
+    },
+    {
+      "name": "--with-source",
+      "usage": [
+        "--with-source <FILE>"
+      ],
+      "tip": [
+        "Add the given file as a source for metadata.",
+        "Can be repeated."
+      ],
+      "repeat": 99,
+      "next": []
+    }
+  ]
+}

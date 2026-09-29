@@ -1,0 +1,746 @@
+{
+  "meta": {
+    "url": "https://wiki.debian.org/Apt",
+    "description": [
+      "Debian 及衍生系统的命令行包管理器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "autoclean",
+      "tip": [
+        "仅清理已无法再下载的包文件。"
+      ]
+    },
+    {
+      "name": "autopurge",
+      "tip": [
+        "自动删除无用的包，包括其配置文件。"
+      ]
+    },
+    {
+      "name": "autoremove",
+      "tip": [
+        "自动删除所有无用的包。"
+      ]
+    },
+    {
+      "name": "build-dep",
+      "usage": [
+        "build-dep <PACKAGE> ..."
+      ],
+      "tip": [
+        "安装 / 删除包以满足构建依赖。"
+      ],
+      "option": [
+        {
+          "name": "--arch-only",
+          "tip": [
+            "仅处理与架构相关的构建依赖。"
+          ]
+        },
+        {
+          "name": "--build-profiles",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --build-profiles <PROFILES>"
+          ],
+          "tip": [
+            "控制构建依赖启用的构建 profile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--host-architecture",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --host-architecture <ARCH>"
+          ],
+          "tip": [
+            "控制满足构建依赖的目标架构。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--indep-only",
+          "tip": [
+            "仅处理与架构无关的构建依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "changelog",
+      "usage": [
+        "changelog <PACKAGE> ..."
+      ],
+      "tip": [
+        "下载并显示包的 changelog。"
+      ]
+    },
+    {
+      "name": "clean",
+      "tip": [
+        "清空本地已下载包文件的仓库。"
+      ]
+    },
+    {
+      "name": "depends",
+      "usage": [
+        "depends <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示包的依赖信息。"
+      ]
+    },
+    {
+      "name": "distclean",
+      "tip": [
+        "删除 /var/lib/apt/lists 下除 release 文件外的所有文件。"
+      ]
+    },
+    {
+      "name": "download",
+      "usage": [
+        "download <PACKAGE> ..."
+      ],
+      "tip": [
+        "下载二进制包到当前目录。"
+      ]
+    },
+    {
+      "name": "edit-sources",
+      "tip": [
+        "编辑软件源信息文件。"
+      ]
+    },
+    {
+      "name": "full-upgrade",
+      "alias": [
+        "dist-upgrade"
+      ],
+      "usage": [
+        "dist-upgrade|full-upgrade [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "通过删除 / 安装 / 升级包来升级系统。"
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <PACKAGE> ..."
+      ],
+      "tip": [
+        "安装包。"
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [PATTERN] ..."
+      ],
+      "tip": [
+        "按包名列出包。"
+      ],
+      "option": [
+        {
+          "name": "--all-versions",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all-versions"
+          ],
+          "tip": [
+            "列出所有可用版本。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "仅列出已安装的包。"
+          ]
+        },
+        {
+          "name": "--manual-installed",
+          "tip": [
+            "仅列出手动安装的包。"
+          ]
+        },
+        {
+          "name": "--upgradeable",
+          "alias": [
+            "--upgradable"
+          ],
+          "usage": [
+            "--upgradable, --upgradeable"
+          ],
+          "tip": [
+            "仅列出可升级的包。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "moo",
+      "tip": [
+        "你今天 moo 了吗？",
+        "这个 APT 有超级牛力。"
+      ]
+    },
+    {
+      "name": "policy",
+      "usage": [
+        "policy [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "显示策略设置与优先级选择。"
+      ]
+    },
+    {
+      "name": "purge",
+      "usage": [
+        "purge <PACKAGE> ..."
+      ],
+      "tip": [
+        "删除包，包括其配置文件。"
+      ]
+    },
+    {
+      "name": "rdepends",
+      "usage": [
+        "rdepends <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示包的反向依赖信息。"
+      ]
+    },
+    {
+      "name": "reinstall",
+      "usage": [
+        "reinstall <PACKAGE> ..."
+      ],
+      "tip": [
+        "重装包。",
+        "等价于 install --reinstall。"
+      ]
+    },
+    {
+      "name": "remove",
+      "usage": [
+        "remove <PACKAGE> ..."
+      ],
+      "tip": [
+        "删除包，保留配置文件。"
+      ]
+    },
+    {
+      "name": "satisfy",
+      "usage": [
+        "satisfy <DEPENDENCY> ..."
+      ],
+      "tip": [
+        "满足依赖字符串，如 Build-Depends 中的写法。"
+      ],
+      "example": [
+        {
+          "cmd": "satisfy \"foo, bar (>= 1.0)\" \"Conflicts: baz\"",
+          "desc": "满足依赖，并处理以 Conflicts: 开头的冲突项"
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <PATTERN> ..."
+      ],
+      "tip": [
+        "在包描述中搜索。"
+      ],
+      "option": [
+        {
+          "name": "--full",
+          "tip": [
+            "为每个匹配项显示完整包记录。"
+          ]
+        },
+        {
+          "name": "--names-only",
+          "tip": [
+            "仅搜索包名，不搜索描述。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示包的详细信息。"
+      ],
+      "option": [
+        {
+          "name": "--all-versions",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all-versions"
+          ],
+          "tip": [
+            "显示所有可用版本的记录。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "showsrc",
+      "usage": [
+        "showsrc <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示源码包记录。"
+      ]
+    },
+    {
+      "name": "source",
+      "usage": [
+        "source <PACKAGE> ..."
+      ],
+      "tip": [
+        "下载源码包到当前目录。"
+      ],
+      "option": [
+        {
+          "name": "--build-profiles",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --build-profiles <PROFILES>"
+          ],
+          "tip": [
+            "控制源码构建启用的构建 profile。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--compile",
+          "alias": [
+            "--build",
+            "-b"
+          ],
+          "usage": [
+            "-b, --build, --compile"
+          ],
+          "tip": [
+            "下载源码包后进行编译。"
+          ]
+        },
+        {
+          "name": "--diff-only",
+          "tip": [
+            "仅下载源码归档中的 diff 文件。"
+          ]
+        },
+        {
+          "name": "--dsc-only",
+          "tip": [
+            "仅下载源码归档中的 dsc 文件。"
+          ]
+        },
+        {
+          "name": "--host-architecture",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --host-architecture <ARCH>"
+          ],
+          "tip": [
+            "控制包构建的目标架构。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tar-only",
+          "tip": [
+            "仅下载源码归档中的 tar 文件。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "tip": [
+        "更新可用包列表。"
+      ],
+      "option": [
+        {
+          "name": "--allow-insecure-repositories",
+          "tip": [
+            "允许从已配置的软件源获取无法验证的数据。"
+          ]
+        },
+        {
+          "name": "--allow-releaseinfo-change",
+          "tip": [
+            "允许从 release 信息已变更的仓库继续下载。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "通过安装 / 升级包来升级系统。",
+        "从不删除已安装的包。"
+      ],
+      "option": [
+        {
+          "name": "--with-new-pkgs",
+          "tip": [
+            "允许安装新包以满足依赖。",
+            "从不删除包，只新增。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示程序版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--allow-change-held-packages",
+      "tip": [
+        "更改被 hold 的包时不提示直接继续。"
+      ]
+    },
+    {
+      "name": "--allow-downgrades",
+      "tip": [
+        "降级包时不提示直接继续。"
+      ]
+    },
+    {
+      "name": "--allow-remove-essential",
+      "tip": [
+        "删除关键包时不提示直接继续。"
+      ]
+    },
+    {
+      "name": "--allow-unauthenticated",
+      "tip": [
+        "忽略无法验证的包，不提示直接继续。"
+      ]
+    },
+    {
+      "name": "--assume-no",
+      "tip": [
+        "对所有提示自动回答 no。"
+      ]
+    },
+    {
+      "name": "--assume-yes",
+      "alias": [
+        "--yes",
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes, --assume-yes"
+      ],
+      "tip": [
+        "对提示自动回答 yes。",
+        "以非交互方式运行。"
+      ]
+    },
+    {
+      "name": "--auto-remove",
+      "alias": [
+        "--autoremove"
+      ],
+      "usage": [
+        "--autoremove, --auto-remove"
+      ],
+      "tip": [
+        "删除无用的依赖包，相当于执行 autoremove。"
+      ]
+    },
+    {
+      "name": "--config-file",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config-file <FILE>"
+      ],
+      "tip": [
+        "指定要使用的配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--default-release",
+      "alias": [
+        "--target-release",
+        "-t"
+      ],
+      "usage": [
+        "-t, --target-release, --default-release <RELEASE>"
+      ],
+      "tip": [
+        "设置版本选择的默认 release。",
+        "创建一个优先级为 990 的默认 pin。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--download-only",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --download-only"
+      ],
+      "tip": [
+        "仅下载包文件，不解包也不安装。"
+      ]
+    },
+    {
+      "name": "--fix-broken",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --fix-broken"
+      ],
+      "tip": [
+        "尝试修复依赖损坏的系统。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示简短的用法摘要。"
+      ]
+    },
+    {
+      "name": "--ignore-hold",
+      "tip": [
+        "忽略包上设置的 hold。"
+      ]
+    },
+    {
+      "name": "--ignore-missing",
+      "alias": [
+        "--fix-missing",
+        "-m"
+      ],
+      "usage": [
+        "-m, --fix-missing, --ignore-missing"
+      ],
+      "tip": [
+        "忽略缺失的包，暂缓处理无法下载的包。"
+      ]
+    },
+    {
+      "name": "--install-suggests",
+      "tip": [
+        "将建议的包也视为安装依赖。"
+      ]
+    },
+    {
+      "name": "--just-print",
+      "alias": [
+        "--simulate",
+        "--dry-run",
+        "--no-act",
+        "--recon",
+        "-s"
+      ],
+      "usage": [
+        "-s, --recon, --no-act, --dry-run, --simulate, --just-print"
+      ],
+      "tip": [
+        "仅模拟执行，不改变系统。"
+      ]
+    },
+    {
+      "name": "--mark-auto",
+      "tip": [
+        "将新安装的包标记为自动安装。"
+      ]
+    },
+    {
+      "name": "--no-download",
+      "tip": [
+        "禁用包下载。",
+        "建议配合 --ignore-missing，只使用已下载的 .deb。"
+      ]
+    },
+    {
+      "name": "--no-install-recommends",
+      "tip": [
+        "不将推荐的包视为安装依赖。"
+      ]
+    },
+    {
+      "name": "--no-remove",
+      "tip": [
+        "若有包将被删除则立即中止，不提示。"
+      ]
+    },
+    {
+      "name": "--no-show-upgraded",
+      "tip": [
+        "不显示待升级包列表。"
+      ]
+    },
+    {
+      "name": "--no-upgrade",
+      "tip": [
+        "命令行上的包若已安装则不升级。"
+      ]
+    },
+    {
+      "name": "--only-source",
+      "tip": [
+        "仅接受源码包名，跳过二进制表查找。"
+      ]
+    },
+    {
+      "name": "--only-upgrade",
+      "tip": [
+        "仅为已安装的包安装升级。",
+        "忽略安装新包的请求。"
+      ]
+    },
+    {
+      "name": "--option",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --option <OPTION>"
+      ],
+      "tip": [
+        "设置任意配置项。",
+        "语法：-o Foo::Bar=bar，可多次使用。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--print-uris",
+      "tip": [
+        "打印待下载文件的 URI 而不是下载它们。"
+      ]
+    },
+    {
+      "name": "--purge",
+      "tip": [
+        "将被删除的包改用 purge 方式删除。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "输出适合日志记录的简洁信息，省略进度指示。"
+      ]
+    },
+    {
+      "name": "--reinstall",
+      "tip": [
+        "重装已是最新版本的包。"
+      ]
+    },
+    {
+      "name": "--show-progress",
+      "tip": [
+        "在终端显示友好的进度信息。"
+      ]
+    },
+    {
+      "name": "--trivial-only",
+      "tip": [
+        "仅执行无害操作，对提示回答 no。"
+      ]
+    },
+    {
+      "name": "--update",
+      "alias": [
+        "-U"
+      ],
+      "usage": [
+        "-U, --update"
+      ],
+      "tip": [
+        "在指定命令之前先执行 update。"
+      ]
+    },
+    {
+      "name": "--verbose-versions",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --verbose-versions"
+      ],
+      "tip": [
+        "显示升级与安装包的完整版本号。"
+      ]
+    },
+    {
+      "name": "--with-source",
+      "usage": [
+        "--with-source <FILE>"
+      ],
+      "tip": [
+        "将给定文件添加为元数据源。",
+        "可重复使用。"
+      ],
+      "repeat": 99,
+      "next": []
+    }
+  ]
+}
