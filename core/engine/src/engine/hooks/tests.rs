@@ -1527,24 +1527,52 @@ fn add_skips_empty_names() {
 }
 
 #[test]
-fn add_without_tip_keeps_tip_absent() {
+fn add_without_tip_falls_back_to_the_name() {
     let script = r#"
-        psc.add({ name = "branch" })
+        psc.add({ name = "src/deep/nested/module.rs" })
 "#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();
-    assert_eq!(out[0].text, "branch");
-    assert!(out[0].tip.is_none());
+    assert_eq!(out[0].text, "src/deep/nested/module.rs");
+    assert_eq!(out[0].tip.as_deref(), Some("src/deep/nested/module.rs"));
 }
 
 #[test]
-fn run_items_adds_each_line_without_tip() {
+fn add_tip_empty_string_opts_out_of_the_default() {
+    // `tip = ""` is the per-item escape hatch: an explicitly empty tip means "no description",
+    // and must not be replaced by the name. `enable_tip = false` remains the global opt-out.
+    let script = r#"
+        psc.add({ name = "kept", tip = "" })
+        psc.add({ name = "defaulted" })
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    let kept = out.iter().find(|i| i.text == "kept").unwrap();
+    let defaulted = out.iter().find(|i| i.text == "defaulted").unwrap();
+    assert_eq!(
+        kept.tip.as_deref(),
+        Some(""),
+        "explicit empty tip must survive"
+    );
+    assert_eq!(defaulted.tip.as_deref(), Some("defaulted"));
+}
+
+#[test]
+fn add_explicit_tip_still_wins_over_the_name() {
+    let script = r#"
+        psc.add({ name = "git", tip = "version control --- git" })
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out[0].tip.as_deref(), Some("version control --- git"));
+}
+
+#[test]
+fn run_items_adds_each_line_tipped_with_its_own_line() {
     let script = r#"
         psc.add(psc.items(psc.run({ "echo", "alpha" }, { shell = true })))
 "#;
     let out = run_hook(&ctx(), script, &empty_static()).unwrap();
     assert_eq!(out.len(), 1);
     assert_eq!(out[0].text, "alpha");
-    assert!(out[0].tip.is_none());
+    assert_eq!(out[0].tip.as_deref(), Some("alpha"));
 }
 
 #[test]
@@ -1602,13 +1630,14 @@ fn dynamic_items_carry_usage_and_example() {
         out[0].example.as_deref(),
         Some("a out.7z  # create an archive")
     );
-    // psc.add without a tip leaves the tip absent (no implicit name-as-tip)
+    // psc.add without a tip falls back to the name
     assert_eq!(out[1].text, "extract");
     assert_eq!(out[1].usage.as_deref(), Some("extract|e"));
     assert_eq!(out[1].example.as_deref(), Some("e demo.7z  # extract"));
-    assert!(out[1].tip.is_none());
-    // Static items are unaffected (renamed to avoid colliding with used tokens and repeat-filtering)
+    assert_eq!(out[1].tip.as_deref(), Some("extract"));
+    // Static items are unaffected (renamed to avoid colliding with used tokens and repeat-filtering).
     assert_eq!(out[2].text, "help");
+    assert!(out[2].tip.is_none(), "static items must keep their own tip");
     assert!(out[2].usage.is_none());
     assert!(out[2].example.is_none());
 }

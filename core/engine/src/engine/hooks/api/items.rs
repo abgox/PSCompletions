@@ -14,8 +14,10 @@ use super::{coerce_string_opt, resolve_localized};
 fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Table> {
     let name: String = item.get("name")?;
     let t = lua.create_table()?;
-    t.set("name", name)?;
-    if let Some(tip) = resolve_localized(lua, item.get::<Option<Value>>("tip")?, language)? {
+    t.set("name", name.clone())?;
+    // An absent `tip` falls back to the item's own name.
+    let tip = resolve_localized(lua, item.get::<Option<Value>>("tip")?, language)?.or(Some(name));
+    if let Some(tip) = tip {
         t.set("tip", tip)?;
     }
     if let Some(u) = item.get::<Option<String>>("usage")? {

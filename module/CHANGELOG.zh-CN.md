@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- `psc.add` 使用 `name` 作为 `tip` 的默认值
 - 修复了 hook 在超大或层级很深的目录树中执行 glob 时菜单卡死的问题
 
 ## 7.6.0

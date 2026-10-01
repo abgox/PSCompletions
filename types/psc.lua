@@ -6,9 +6,6 @@
 
 
 
---- 多语言文本表：键为语言代码，值为对应语言的文本。
----
---- Localized text table: keys are language codes, values are the text.
 ---@class psc_localized
 --- 英文提示（回退目标：当前语言缺失时使用）。
 ---
@@ -33,17 +30,23 @@
 ---
 --- Completion item name.
 ---@field name string
---- 提示文本：字符串或本地化表（键为语言代码，值对应该语言文本）。
+--- `[Description]`: 提示文本。
 ---
---- Tip (Description) text: a plain string or a localized table (keys are language codes).
+--- - 接受字符串或本地化表（键为语言代码，值对应该语言文本）。
+--- - 不传时默认为 `name`。传入空字符串 `""` 表示明确不要描述。
+---
+--- `[Description]`: Tip text.
+---
+--- - Accepts a plain string or a localized table (keys are language codes).
+--- - Defaults to `name` when omitted. Pass `""` to opt out explicitly.
 ---@field tip? string|psc_localized
---- 用法文本。
+--- `[Usage]`: 用法文本。
 ---
---- Usage text.
+--- `[Usage]`: Usage text.
 ---@field usage? string
---- 示例文本。
+--- `[Example]`: 示例文本。
 ---
---- Example text.
+--- `[Example]`: Example text.
 ---@field example? string
 --- 可重复使用次数。
 ---
@@ -57,10 +60,12 @@
 --- A completed input token.
 ---@class psc_token
 --- 规范名。
+---
 --- - 它会对用户的输入进行规范化
 --- - 它会将别名转换成清单中定义的 `name`
 ---
 --- Canonical name.
+---
 --- - It normalizes user input
 --- - It converts aliases to the `name` defined in the list
 ---@field name string
