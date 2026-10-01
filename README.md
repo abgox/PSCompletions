@@ -5,7 +5,7 @@
     <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">GitHub</a> |
     <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
-    <a href="https://gitcode.com/abgox/PSCompletions">GitCode</a>
+    <a href="https://atomgit.com/abgox/PSCompletions">AtomGit</a>
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@ A tab-completion manager for [PowerShell](https://microsoft.com/powershell), bui
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
-## How to install
+## How to get
 
 1. Install the module.
 
