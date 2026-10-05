@@ -1,0 +1,443 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY."
+    ]
+  },
+  "option": [
+    {
+      "name": "--archive",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --archive"
+      ],
+      "tip": [
+        "Same as -dR --preserve=all"
+      ]
+    },
+    {
+      "name": "--attributes-only",
+      "tip": [
+        "Don't copy the file data, just the attributes"
+      ]
+    },
+    {
+      "name": "--backup",
+      "usage": [
+        "--backup[=<CONTROL>]"
+      ],
+      "tip": [
+        "make a backup of each existing destination file"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context[=<CTX>]"
+      ],
+      "tip": [
+        "like -Z, or if CTX is specified then set the SELinux or SMACK security context to CTX"
+      ],
+      "next": []
+    },
+    {
+      "name": "--copy-contents",
+      "tip": [
+        "NotImplemented: copy contents of special files when recursive"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "explain how a file is copied. Implies -v"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "always follow symbolic links in SOURCE"
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "if an existing destination file cannot be opened, remove it and try again (this option is ignored when the -n option is also used). Currently not implemented for Windows"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "ask before overwriting files"
+      ]
+    },
+    {
+      "name": "--link",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --link"
+      ],
+      "tip": [
+        "hard-link files instead of copying"
+      ]
+    },
+    {
+      "name": "--no-clobber",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-clobber"
+      ],
+      "tip": [
+        "don't overwrite a file that already exists"
+      ]
+    },
+    {
+      "name": "--no-dereference",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-dereference"
+      ],
+      "tip": [
+        "never follow symbolic links in SOURCE"
+      ]
+    },
+    {
+      "name": "--no-preserve",
+      "usage": [
+        "--no-preserve[=<ATTR_LIST>]"
+      ],
+      "tip": [
+        "don't preserve the specified attributes"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "context"
+        },
+        {
+          "name": "links"
+        },
+        {
+          "name": "mode"
+        },
+        {
+          "name": "ownership"
+        },
+        {
+          "name": "timestamps"
+        },
+        {
+          "name": "xattr"
+        }
+      ]
+    },
+    {
+      "name": "--no-target-directory",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --no-target-directory"
+      ],
+      "tip": [
+        "Treat DEST as a regular file and not a directory"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --one-file-system"
+      ],
+      "tip": [
+        "stay on this file system"
+      ]
+    },
+    {
+      "name": "--parents",
+      "tip": [
+        "use full source file name under DIRECTORY"
+      ]
+    },
+    {
+      "name": "--preserve",
+      "usage": [
+        "--preserve[=<ATTR_LIST>]"
+      ],
+      "tip": [
+        "Preserve the specified attributes (default: mode, ownership (unix only), timestamps), if possible additional attributes: context, links, xattr, all"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "context"
+        },
+        {
+          "name": "links"
+        },
+        {
+          "name": "mode"
+        },
+        {
+          "name": "ownership"
+        },
+        {
+          "name": "timestamps"
+        },
+        {
+          "name": "xattr"
+        }
+      ]
+    },
+    {
+      "name": "--preserve-default-attributes",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --preserve-default-attributes"
+      ],
+      "tip": [
+        "same as --preserve=mode,ownership(unix only),timestamps"
+      ]
+    },
+    {
+      "name": "--progress",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --progress"
+      ],
+      "tip": [
+        "Display a progress bar. Note: this feature is not supported by GNU coreutils"
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "copy directories recursively"
+      ]
+    },
+    {
+      "name": "--reflink",
+      "usage": [
+        "--reflink[=<WHEN>]"
+      ],
+      "tip": [
+        "control clone/CoW copies. See below"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--remove-destination",
+      "tip": [
+        "remove each existing destination file before attempting to open it (contrast with --force). On Windows, currently only works for writeable files"
+      ]
+    },
+    {
+      "name": "--sparse",
+      "usage": [
+        "--sparse <WHEN>"
+      ],
+      "tip": [
+        "control creation of sparse files. See below"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--strip-trailing-slashes",
+      "tip": [
+        "remove any trailing slashes from each SOURCE argument"
+      ]
+    },
+    {
+      "name": "--suffix",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --suffix <SUFFIX>"
+      ],
+      "tip": [
+        "override the usual backup suffix"
+      ],
+      "next": []
+    },
+    {
+      "name": "--symbolic-link",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --symbolic-link"
+      ],
+      "tip": [
+        "make symbolic links instead of copying"
+      ]
+    },
+    {
+      "name": "--target-directory",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --target-directory <TARGET-DIRECTORY>"
+      ],
+      "tip": [
+        "copy all SOURCE arguments into target-directory"
+      ],
+      "next": []
+    },
+    {
+      "name": "--update",
+      "usage": [
+        "--update[=<UPDATE>]"
+      ],
+      "tip": [
+        "move only when the SOURCE file is newer than the destination file or when the destination file is missing"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "none-fail"
+        },
+        {
+          "name": "older"
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "explicitly state what is being done"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version"
+      ]
+    },
+    {
+      "name": "-b",
+      "tip": [
+        "like --backup but does not accept an argument"
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "same as --no-dereference --preserve=links"
+      ]
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "follow command-line symbolic links in SOURCE"
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "like --update but does not accept an argument"
+      ]
+    },
+    {
+      "name": "-Z",
+      "tip": [
+        "set SELinux security context of destination file to default type"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help"
+      ]
+    }
+  ]
+}

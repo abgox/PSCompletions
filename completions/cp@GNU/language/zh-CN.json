@@ -1,0 +1,378 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/coreutils/",
+    "description": [
+      "把 SOURCE 复制为 DEST，或把多个 SOURCE 复制到 DIRECTORY 中。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--archive",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --archive"
+      ],
+      "tip": [
+        "等同于 -dR --preserve=all"
+      ]
+    },
+    {
+      "name": "--attributes-only",
+      "tip": [
+        "不复制文件数据，只复制属性"
+      ]
+    },
+    {
+      "name": "--backup",
+      "usage": [
+        "--backup[=CONTROL]"
+      ],
+      "tip": [
+        "为每个已存在的目标文件创建备份"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context[=CTX]"
+      ],
+      "tip": [
+        "与 -Z 相同；如果指定了 CTX，则把 SELinux 或 SMACK 安全上下文设为 CTX"
+      ],
+      "next": []
+    },
+    {
+      "name": "--copy-contents",
+      "tip": [
+        "递归时复制特殊文件的内容"
+      ]
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "解释文件是如何被复制的。隐含 -v"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "总是跟随 SOURCE 中的符号链接"
+      ]
+    },
+    {
+      "name": "--force",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --force"
+      ],
+      "tip": [
+        "如果已存在的目标文件无法打开，则删除后重试（同时使用 -n 选项时忽略本选项）"
+      ]
+    },
+    {
+      "name": "--interactive",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --interactive"
+      ],
+      "tip": [
+        "覆盖前询问（覆盖之前给出的 -n 选项）"
+      ]
+    },
+    {
+      "name": "--keep-directory-symlink",
+      "tip": [
+        "跟随已存在的指向目录的符号链接"
+      ]
+    },
+    {
+      "name": "--link",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --link"
+      ],
+      "tip": [
+        "创建硬链接而不复制文件"
+      ]
+    },
+    {
+      "name": "--no-clobber",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --no-clobber"
+      ],
+      "tip": [
+        "（已弃用）不覆盖已存在的文件，也不因此失败"
+      ]
+    },
+    {
+      "name": "--no-dereference",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-dereference"
+      ],
+      "tip": [
+        "从不跟随 SOURCE 中的符号链接"
+      ]
+    },
+    {
+      "name": "--no-preserve",
+      "usage": [
+        "--no-preserve <ATTR_LIST>"
+      ],
+      "tip": [
+        "不保留指定的属性"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--no-target-directory",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --no-target-directory"
+      ],
+      "tip": [
+        "把 DEST 当作普通文件处理"
+      ]
+    },
+    {
+      "name": "--one-file-system",
+      "alias": [
+        "-x"
+      ],
+      "usage": [
+        "-x, --one-file-system"
+      ],
+      "tip": [
+        "只在这个文件系统上操作"
+      ]
+    },
+    {
+      "name": "--parents",
+      "tip": [
+        "在 DIRECTORY 下使用完整的源文件名"
+      ]
+    },
+    {
+      "name": "--preserve",
+      "usage": [
+        "--preserve[=ATTR_LIST]"
+      ],
+      "tip": [
+        "保留指定的属性"
+      ],
+      "separator": ",",
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R",
+        "-r"
+      ],
+      "usage": [
+        "-R, -r, --recursive"
+      ],
+      "tip": [
+        "递归复制目录"
+      ]
+    },
+    {
+      "name": "--reflink",
+      "usage": [
+        "--reflink[=WHEN]"
+      ],
+      "tip": [
+        "控制克隆/写时复制副本。详见下方"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--remove-destination",
+      "tip": [
+        "在尝试打开之前删除每个已存在的目标文件（与 --force 相对）"
+      ]
+    },
+    {
+      "name": "--sparse",
+      "usage": [
+        "--sparse <WHEN>"
+      ],
+      "tip": [
+        "控制稀疏文件的创建。详见下方"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--strip-trailing-slashes",
+      "tip": [
+        "去掉每个 SOURCE 参数末尾的斜杠"
+      ]
+    },
+    {
+      "name": "--suffix",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --suffix <SUFFIX>"
+      ],
+      "tip": [
+        "覆盖通常使用的备份后缀"
+      ],
+      "next": []
+    },
+    {
+      "name": "--symbolic-link",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --symbolic-link"
+      ],
+      "tip": [
+        "创建符号链接而不复制文件"
+      ]
+    },
+    {
+      "name": "--target-directory",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --target-directory <DIRECTORY>"
+      ],
+      "tip": [
+        "把所有 SOURCE 参数复制进 DIRECTORY"
+      ],
+      "next": []
+    },
+    {
+      "name": "--update",
+      "usage": [
+        "--update[=UPDATE]"
+      ],
+      "tip": [
+        "控制更新哪些已存在的文件；UPDATE 取值为 {all, none, none-fail, older(默认)}"
+      ],
+      "next": [
+        {
+          "name": "all"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "none-fail"
+        },
+        {
+          "name": "older"
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "解释正在做什么"
+      ]
+    },
+    {
+      "name": "-b",
+      "tip": [
+        "与 --backup 相同，但不接受参数"
+      ]
+    },
+    {
+      "name": "-d",
+      "tip": [
+        "等同于 --no-dereference --preserve=links"
+      ]
+    },
+    {
+      "name": "-H",
+      "tip": [
+        "跟随 SOURCE 中的命令行符号链接"
+      ]
+    },
+    {
+      "name": "-p",
+      "tip": [
+        "等同于 --preserve=mode,ownership,timestamps"
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "等同于 --update[=older]。详见下方"
+      ]
+    },
+    {
+      "name": "-Z",
+      "tip": [
+        "把目标文件的 SELinux 安全上下文设为默认类型"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本信息并退出"
+      ]
+    }
+  ]
+}

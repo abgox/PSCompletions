@@ -1,0 +1,665 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "List directory contents."
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "Do not ignore hidden files (files with names that start with '.')"
+      ]
+    },
+    {
+      "name": "--almost-all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --almost-all"
+      ],
+      "tip": [
+        "In a directory, do not ignore all file names that start with '.', only ignore '.' and '..'"
+      ]
+    },
+    {
+      "name": "--author",
+      "tip": [
+        "Show author in long format. On the supported platforms, the author always matches the file owner"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size <BLOCK_SIZE>"
+      ],
+      "tip": [
+        "scale sizes by BLOCK_SIZE when printing them"
+      ],
+      "next": []
+    },
+    {
+      "name": "--classify",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --classify[=<WHEN>]"
+      ],
+      "tip": [
+        "Append a character to each file name indicating the file type. Also, for regular files that are executable, append '*'. The file type indicators are '/' for directories, '@' for symbolic links, '|' for FIFOs, '=' for sockets, '>' for doors, and nothing for regular files. when may be omitted, or one of: none - Do not classify. This is the default. auto - Only classify if standard output is a terminal. always - Always classify. Specifying --classify and no when is equivalent to --classify=always. This will not follow symbolic links listed on the command line unless the --dereference-command-line (-H), --dereference (-L), or --dereference-command-line-symlink-to-dir options are specified"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "Color output based on file type"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --context"
+      ],
+      "tip": [
+        "print any security context of each file"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "When showing file information for a symbolic link, show information for the file the link references rather than the link itself"
+      ]
+    },
+    {
+      "name": "--dereference-command-line",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --dereference-command-line"
+      ],
+      "tip": [
+        "Do not follow symlinks except when given as command line arguments"
+      ]
+    },
+    {
+      "name": "--dereference-command-line-symlink-to-dir",
+      "tip": [
+        "Do not follow symlinks except when they link to directories and are given as command line arguments"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directory"
+      ],
+      "tip": [
+        "Only list the names of directories, rather than listing directory contents. This will not follow symbolic links unless one of `--dereference-command-line (-H)`, `--dereference (-L)`, or `--dereference-command-line-symlink-to-dir` is specified"
+      ]
+    },
+    {
+      "name": "--dired",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dired"
+      ],
+      "tip": [
+        "generate output designed for Emacs' dired (Directory Editor) mode"
+      ]
+    },
+    {
+      "name": "--escape",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --escape"
+      ],
+      "tip": [
+        "Use escape quoting style. Equivalent to `--quoting-style=escape`"
+      ]
+    },
+    {
+      "name": "--file-type",
+      "tip": [
+        "Same as --classify, but do not append '*'"
+      ]
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <FORMAT>"
+      ],
+      "tip": [
+        "Set the display format"
+      ],
+      "next": []
+    },
+    {
+      "name": "--full-time",
+      "tip": [
+        "like -l --time-style=full-iso"
+      ]
+    },
+    {
+      "name": "--group-directories-first",
+      "tip": [
+        "group directories before files; can be augmented with a --sort option, but any use of --sort=none (-U) disables grouping"
+      ]
+    },
+    {
+      "name": "--hide",
+      "usage": [
+        "--hide <PATTERN>"
+      ],
+      "tip": [
+        "do not list implied entries matching shell PATTERN (overridden by -a or -A)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hide-control-chars",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --hide-control-chars"
+      ],
+      "tip": [
+        "Replace control characters with '?' if they are not escaped"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --human-readable"
+      ],
+      "tip": [
+        "Print human readable file sizes (e.g. 1K 234M 56G)"
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "usage": [
+        "--hyperlink[=<WHEN>]"
+      ],
+      "tip": [
+        "hyperlink file names WHEN"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore <PATTERN>"
+      ],
+      "tip": [
+        "do not list implied entries matching shell PATTERN"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-backups",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --ignore-backups"
+      ],
+      "tip": [
+        "Ignore entries which end with ~"
+      ]
+    },
+    {
+      "name": "--indicator-style",
+      "usage": [
+        "--indicator-style <INDICATOR-STYLE>"
+      ],
+      "tip": [
+        "Append indicator with style WORD to entry names: none (default), slash (-p), file-type (--file-type), classify (-F)"
+      ],
+      "next": [
+        {
+          "name": "classify"
+        },
+        {
+          "name": "file-type"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "slash"
+        }
+      ]
+    },
+    {
+      "name": "--inode",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --inode"
+      ],
+      "tip": [
+        "print the index number of each file"
+      ]
+    },
+    {
+      "name": "--kibibytes",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kibibytes"
+      ],
+      "tip": [
+        "default to 1024-byte blocks for file system usage; used only with -s and per directory totals"
+      ]
+    },
+    {
+      "name": "--literal",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --literal"
+      ],
+      "tip": [
+        "Use literal quoting style. Equivalent to `--quoting-style=literal`"
+      ]
+    },
+    {
+      "name": "--long",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --long"
+      ],
+      "tip": [
+        "Display detailed information"
+      ]
+    },
+    {
+      "name": "--no-group",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --no-group"
+      ],
+      "tip": [
+        "Do not show group in long format"
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-uid-gid"
+      ],
+      "tip": [
+        "-l with numeric UIDs and GIDs"
+      ]
+    },
+    {
+      "name": "--quote-name",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --quote-name"
+      ],
+      "tip": [
+        "Use C quoting style. Equivalent to `--quoting-style=c`"
+      ]
+    },
+    {
+      "name": "--quoting-style",
+      "usage": [
+        "--quoting-style <QUOTING-STYLE>"
+      ],
+      "tip": [
+        "Set quoting style"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "clocale"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        },
+        {
+          "name": "shell-escape"
+        },
+        {
+          "name": "shell-escape-always"
+        }
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "List the contents of all directories recursively"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "Reverse whatever the sorting method is e.g., list files in reverse alphabetical order, youngest first, smallest first, or whatever"
+      ]
+    },
+    {
+      "name": "--show-control-chars",
+      "tip": [
+        "Show control characters 'as is' if they are not escaped"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "Print human readable file sizes using powers of 1000 instead of 1024"
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --size"
+      ],
+      "tip": [
+        "print the allocated size of each file, in blocks"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <FIELD>"
+      ],
+      "tip": [
+        "Sort by `<field>`: name, none (-U), time (-t), size (-S), extension (-X) or width"
+      ],
+      "next": [
+        {
+          "name": "extension"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "version"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tabsize <COLS>"
+      ],
+      "tip": [
+        "Assume tab stops at each COLS instead of 8"
+      ],
+      "next": []
+    },
+    {
+      "name": "--time",
+      "usage": [
+        "--time <FIELD>"
+      ],
+      "tip": [
+        "Show time in `<field>`: access time (-u): atime, access, use; change time (-t): ctime, status. modification time: mtime, modification. birth time: birth, creation;"
+      ],
+      "next": []
+    },
+    {
+      "name": "--time-style",
+      "usage": [
+        "--time-style <TIME_STYLE>"
+      ],
+      "tip": [
+        "time/date format with -l; see TIME_STYLE below"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version"
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --width <COLS>"
+      ],
+      "tip": [
+        "Assume that the terminal is COLS columns wide"
+      ],
+      "next": []
+    },
+    {
+      "name": "--zero",
+      "tip": [
+        "List entries separated by ASCII NUL characters"
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "List one file per line"
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "If the long listing format (e.g., -l, -o) is being used, print the status change time (the 'ctime' in the inode) instead of the modification time. When explicitly sorting by time (--sort=time or -t) or when not using a long listing format, sort according to the status change time"
+      ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "Display the files in columns"
+      ]
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "List all files in directory order, unsorted. Equivalent to -aU. Disables --color unless explicitly specified"
+      ]
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "Long format without owner information"
+      ]
+    },
+    {
+      "name": "-m",
+      "tip": [
+        "List entries separated by commas"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "Long format without group information. Identical to --format=long with --no-group"
+      ]
+    },
+    {
+      "name": "-p",
+      "tip": [
+        "Append / indicator to directories"
+      ]
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "Sort by file size, largest first"
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "Sort by modification time (the 'mtime' in the inode), newest first"
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "If the long listing format (e.g., -l, -o) is being used, print the status access time instead of the modification time. When explicitly sorting by time (--sort=time or -t) or when not using a long listing format, sort according to the access time"
+      ]
+    },
+    {
+      "name": "-U",
+      "tip": [
+        "Do not sort; list the files in whatever order they are stored in the directory. This is especially useful when listing very large directories, since not doing any sorting can be noticeably faster"
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "Natural sort of (version) numbers in the filenames"
+      ]
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "List entries in rows instead of in columns"
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "Sort alphabetically by entry extension"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "Print help information"
+      ]
+    }
+  ]
+}

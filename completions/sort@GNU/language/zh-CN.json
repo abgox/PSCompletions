@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/coreutils/",
+    "description": [
+      "把所有文件排序后拼接写入标准输出。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--batch-size",
+      "usage": [
+        "--batch-size <NMERGE>"
+      ],
+      "tip": [
+        "每次最多归并 NMERGE 个输入；更多时使用临时文件"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "2"
+        },
+        {
+          "name": "4"
+        }
+      ]
+    },
+    {
+      "name": "--buffer-size",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --buffer-size <SIZE>"
+      ],
+      "tip": [
+        "用 SIZE 作为主内存缓冲区大小"
+      ],
+      "next": [
+        {
+          "name": "1K"
+        },
+        {
+          "name": "1M"
+        },
+        {
+          "name": "50%"
+        }
+      ]
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-C",
+        "-c"
+      ],
+      "usage": [
+        "-c, --check, --check=diagnose-first",
+        "-C, --check=quiet, --check=silent"
+      ],
+      "tip": [
+        "检查输入是否已排序；不做排序",
+        "与 -c 类似，但不报告第一处坏行"
+      ],
+      "next": [
+        {
+          "name": "diagnose-first"
+        },
+        {
+          "name": "quiet"
+        },
+        {
+          "name": "silent"
+        }
+      ]
+    },
+    {
+      "name": "--compress-program",
+      "usage": [
+        "--compress-program <PROG>"
+      ],
+      "tip": [
+        "用 PROG 压缩临时文件；用 PROG -d 解压它们"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "标注用于排序的那部分内容，并把可疑用法警告到标准错误"
+      ]
+    },
+    {
+      "name": "--dictionary-order",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dictionary-order"
+      ],
+      "tip": [
+        "只考虑空白符和字母数字字符"
+      ]
+    },
+    {
+      "name": "--field-separator",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --field-separator <SEP>"
+      ],
+      "tip": [
+        "用 SEP 而不是非空白到空白的跳变作为分隔"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files0-from",
+      "usage": [
+        "--files0-from <F>"
+      ],
+      "tip": [
+        "从文件 F 中以 NUL 结尾的名字所指定的那些文件读取输入；如果 F 是 -，则从标准输入读取名字"
+      ],
+      "next": []
+    },
+    {
+      "name": "--general-numeric-sort",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --general-numeric-sort"
+      ],
+      "tip": [
+        "按通用数值比较"
+      ]
+    },
+    {
+      "name": "--human-numeric-sort",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --human-numeric-sort"
+      ],
+      "tip": [
+        "按便于阅读的数字比较（例如 2K 1G）"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --ignore-case"
+      ],
+      "tip": [
+        "把字母折叠为小写转大写"
+      ]
+    },
+    {
+      "name": "--ignore-leading-blanks",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --ignore-leading-blanks"
+      ],
+      "tip": [
+        "忽略开头的空白符"
+      ]
+    },
+    {
+      "name": "--ignore-nonprinting",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-nonprinting"
+      ],
+      "tip": [
+        "只考虑可打印字符"
+      ]
+    },
+    {
+      "name": "--key",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --key <KEYDEF>"
+      ],
+      "tip": [
+        "通过键排序；KEYDEF 给出位置和类型"
+      ],
+      "next": []
+    },
+    {
+      "name": "--merge",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --merge"
+      ],
+      "tip": [
+        "归并已排序的文件；不做排序"
+      ]
+    },
+    {
+      "name": "--month-sort",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --month-sort"
+      ],
+      "tip": [
+        "把（未知）排在 'JAN' 之前，'JAN' < ... < 'DEC'"
+      ]
+    },
+    {
+      "name": "--numeric-sort",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-sort"
+      ],
+      "tip": [
+        "按字符串数值比较；支持的写法参见完整文档"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FILE>"
+      ],
+      "tip": [
+        "把结果写入 FILE 而不是标准输出"
+      ],
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "usage": [
+        "--parallel <N>"
+      ],
+      "tip": [
+        "把并发运行的排序进程数改为 N"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--random-sort",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --random-sort"
+      ],
+      "tip": [
+        "打乱顺序，但把键值相同的行分在一组。参见 shuf(1)"
+      ]
+    },
+    {
+      "name": "--random-source",
+      "usage": [
+        "--random-source <FILE>"
+      ],
+      "tip": [
+        "从 FILE 获取随机字节"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "反转比较结果"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <WORD>"
+      ],
+      "tip": [
+        "按 WORD 排序：general-numeric（-g）、human-numeric（-h）、month（-M）、numeric（-n）、random（-R）、version（-V）"
+      ],
+      "next": [
+        {
+          "name": "general-numeric"
+        },
+        {
+          "name": "human-numeric"
+        },
+        {
+          "name": "month"
+        },
+        {
+          "name": "numeric"
+        },
+        {
+          "name": "random"
+        },
+        {
+          "name": "version"
+        }
+      ]
+    },
+    {
+      "name": "--stable",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --stable"
+      ],
+      "tip": [
+        "禁用最后手段的比较，使排序结果稳定"
+      ]
+    },
+    {
+      "name": "--temporary-directory",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --temporary-directory <DIR>"
+      ],
+      "tip": [
+        "用 DIR 而不是 $TMPDIR 或 /tmp 存放临时文件；多次指定可指定多个目录"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unique",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unique"
+      ],
+      "tip": [
+        "键值相同的行只输出第一行；配合 -c 时检查是否严格有序"
+      ]
+    },
+    {
+      "name": "--version-sort",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version-sort"
+      ],
+      "tip": [
+        "对文本中的（版本）号做自然排序"
+      ]
+    },
+    {
+      "name": "--zero-terminated",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --zero-terminated"
+      ],
+      "tip": [
+        "行分隔符为 NUL，而不是换行符"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本信息并退出"
+      ]
+    }
+  ]
+}
