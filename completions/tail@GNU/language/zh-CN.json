@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/coreutils/",
+    "description": [
+      "把每个 FILE 的最后 10 行打印到标准输出。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--bytes",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --bytes <[+]NUM>"
+      ],
+      "tip": [
+        "输出最后 NUM 个字节；或者用 -c +NUM 从每个文件的第 NUM 个字节开始输出"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        },
+        {
+          "name": "1K"
+        }
+      ]
+    },
+    {
+      "name": "--follow",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --follow[={name|descriptor}]"
+      ],
+      "tip": [
+        "随着文件增长持续输出新追加的数据；不指定选项参数时表示按描述符跟随"
+      ],
+      "next": [
+        {
+          "name": "descriptor"
+        },
+        {
+          "name": "name"
+        }
+      ]
+    },
+    {
+      "name": "--lines",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --lines <[+]NUM>"
+      ],
+      "tip": [
+        "输出最后 NUM 行而不是最后 10 行；或者用 -n +NUM 跳过开头的 NUM-1 行"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "100"
+        }
+      ]
+    },
+    {
+      "name": "--max-unchanged-stats",
+      "usage": [
+        "--max-unchanged-stats <N>"
+      ],
+      "tip": [
+        "配合 --follow=name 时，若某个 FILE 经过 N（默认 5）次迭代后大小仍未变化，就重新打开它以查看它是否被删除或改名（日志轮转通常就是这种情况）；使用 inotify 时本选项很少有用"
+      ],
+      "next": [
+        {
+          "name": "10"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--pid",
+      "usage": [
+        "--pid <PID>"
+      ],
+      "tip": [
+        "配合 -f 时，在进程 ID 为 PID 的进程终止后退出；可重复使用以监视多个进程"
+      ],
+      "next": []
+    },
+    {
+      "name": "--retry",
+      "tip": [
+        "文件无法访问时持续尝试打开"
+      ]
+    },
+    {
+      "name": "--silent",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --silent"
+      ],
+      "tip": [
+        "从不打印给出文件名的表头"
+      ]
+    },
+    {
+      "name": "--sleep-interval",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --sleep-interval <N>"
+      ],
+      "tip": [
+        "配合 -f 时，两次迭代之间大约休眠 N 秒（默认 1.0）；使用 inotify 且指定 --pid=P 时，至少每 N 秒检查一次进程 P"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "5"
+        }
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "总是打印给出文件名的表头"
+      ]
+    },
+    {
+      "name": "--zero-terminated",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --zero-terminated"
+      ],
+      "tip": [
+        "行分隔符为 NUL，而不是换行符"
+      ]
+    },
+    {
+      "name": "-F",
+      "tip": [
+        "等同于 --follow=name --retry"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本信息并退出"
+      ]
+    }
+  ]
+}

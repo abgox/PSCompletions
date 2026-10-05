@@ -1,0 +1,665 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "列出目录内容"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "不忽略隐藏文件（以 . 开头的文件）"
+      ]
+    },
+    {
+      "name": "--almost-all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --almost-all"
+      ],
+      "tip": [
+        "在目录中不忽略所有以 . 开头的文件名，只忽略 . 和 .."
+      ]
+    },
+    {
+      "name": "--author",
+      "tip": [
+        "以长格式显示作者。在受支持的平台上，作者始终与文件属主一致"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size <BLOCK_SIZE>"
+      ],
+      "tip": [
+        "打印时按 BLOCK_SIZE 缩放大小"
+      ],
+      "next": []
+    },
+    {
+      "name": "--classify",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --classify[=<WHEN>]"
+      ],
+      "tip": [
+        "在每个文件名后附加表示文件类型的字符。目录为 /，符号链接为 @，FIFO 为 |，套接字为 =，门为 >，普通文件无。可省略 when，或取以下值之一：none 不分类（默认）；auto 仅在标准输出为终端时分类；always 始终分类。指定 --classify 而不带 when 等同于 --classify=always。除非指定 --dereference-command-line（-H）、--dereference（-L）或 --dereference-command-line-symlink-to-dir，否则不跟随命令行上列出的符号链接"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=<COLOR>]"
+      ],
+      "tip": [
+        "按文件类型着色输出"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --context"
+      ],
+      "tip": [
+        "打印每个文件的安全上下文"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "显示符号链接时，显示其指向文件的信息而不是链接本身"
+      ]
+    },
+    {
+      "name": "--dereference-command-line",
+      "alias": [
+        "-H"
+      ],
+      "usage": [
+        "-H, --dereference-command-line"
+      ],
+      "tip": [
+        "除作为命令行参数给出外，不跟随符号链接"
+      ]
+    },
+    {
+      "name": "--dereference-command-line-symlink-to-dir",
+      "tip": [
+        "除非符号链接指向目录且作为命令行参数给出，否则不跟随"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directory"
+      ],
+      "tip": [
+        "只列出目录名，而不列出目录内容。除非指定 --dereference-command-line（-H）、--dereference（-L）或 --dereference-command-line-symlink-to-dir 之一，否则不跟随符号链接"
+      ]
+    },
+    {
+      "name": "--dired",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dired"
+      ],
+      "tip": [
+        "生成为 Emacs dired（目录编辑器）模式设计的输出"
+      ]
+    },
+    {
+      "name": "--escape",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --escape"
+      ],
+      "tip": [
+        "使用 escape 引号风格。等同于 --quoting-style=escape"
+      ]
+    },
+    {
+      "name": "--file-type",
+      "tip": [
+        "等同于 --classify，但不附加 *"
+      ]
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <FORMAT>"
+      ],
+      "tip": [
+        "设置显示格式"
+      ],
+      "next": []
+    },
+    {
+      "name": "--full-time",
+      "tip": [
+        "类似 -l --time-style=full-iso"
+      ]
+    },
+    {
+      "name": "--group-directories-first",
+      "tip": [
+        "目录排在文件之前；可用 --sort 增强，但使用 --sort=none（-U）会禁用分组"
+      ]
+    },
+    {
+      "name": "--hide",
+      "usage": [
+        "--hide <PATTERN>"
+      ],
+      "tip": [
+        "不列出匹配 shell PATTERN 的隐含条目（被 -a 或 -A 覆盖）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hide-control-chars",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --hide-control-chars"
+      ],
+      "tip": [
+        "如果控制字符未被转义，将其替换为 ?"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --human-readable"
+      ],
+      "tip": [
+        "以人类可读格式打印文件大小（例如 1K 234M 56G）"
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "usage": [
+        "--hyperlink[=<WHEN>]"
+      ],
+      "tip": [
+        "将文件名超链接化"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore <PATTERN>"
+      ],
+      "tip": [
+        "不列出匹配 shell PATTERN 的隐含条目"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-backups",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --ignore-backups"
+      ],
+      "tip": [
+        "忽略以 ~ 结尾的条目"
+      ]
+    },
+    {
+      "name": "--indicator-style",
+      "usage": [
+        "--indicator-style <INDICATOR-STYLE>"
+      ],
+      "tip": [
+        "以 WORD 风格向条目名附加指示符：none（默认）、slash（-p）、file-type（--file-type）、classify（-F）"
+      ],
+      "next": [
+        {
+          "name": "classify"
+        },
+        {
+          "name": "file-type"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "slash"
+        }
+      ]
+    },
+    {
+      "name": "--inode",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --inode"
+      ],
+      "tip": [
+        "打印每个文件的索引号"
+      ]
+    },
+    {
+      "name": "--kibibytes",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kibibytes"
+      ],
+      "tip": [
+        "文件系统用量默认使用 1024 字节块；仅与 -s 及每目录总计合用"
+      ]
+    },
+    {
+      "name": "--literal",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --literal"
+      ],
+      "tip": [
+        "使用 literal 引号风格。等同于 --quoting-style=literal"
+      ]
+    },
+    {
+      "name": "--long",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --long"
+      ],
+      "tip": [
+        "显示详细信息"
+      ]
+    },
+    {
+      "name": "--no-group",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --no-group"
+      ],
+      "tip": [
+        "长格式中不显示组"
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-uid-gid"
+      ],
+      "tip": [
+        "-l，但 UID 和 GID 显示为数字"
+      ]
+    },
+    {
+      "name": "--quote-name",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --quote-name"
+      ],
+      "tip": [
+        "使用 C 引号风格。等同于 --quoting-style=c"
+      ]
+    },
+    {
+      "name": "--quoting-style",
+      "usage": [
+        "--quoting-style <QUOTING-STYLE>"
+      ],
+      "tip": [
+        "设置引号风格"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "clocale"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        },
+        {
+          "name": "shell-escape"
+        },
+        {
+          "name": "shell-escape-always"
+        }
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "递归列出所有目录的内容"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "反转排序方法，例如按字母逆序、最年轻优先、最小优先等列出文件"
+      ]
+    },
+    {
+      "name": "--show-control-chars",
+      "tip": [
+        "如果控制字符未被转义，按原样显示"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "以人类可读格式打印文件大小，使用 1000 而非 1024 的幂"
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --size"
+      ],
+      "tip": [
+        "以块为单位打印每个文件的已分配大小"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <FIELD>"
+      ],
+      "tip": [
+        "按 <field> 排序：name、none（-U）、time（-t）、size（-S）、extension（-X）或 width"
+      ],
+      "next": [
+        {
+          "name": "extension"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "version"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tabsize <COLS>"
+      ],
+      "tip": [
+        "假设制表位为每 COLS 而非 8"
+      ],
+      "next": []
+    },
+    {
+      "name": "--time",
+      "usage": [
+        "--time <FIELD>"
+      ],
+      "tip": [
+        "在 <field> 中显示时间：访问时间（-u）：atime、access、use；更改时间（-t）：ctime、status；修改时间：mtime、modification；诞生时间：birth、creation"
+      ],
+      "next": []
+    },
+    {
+      "name": "--time-style",
+      "usage": [
+        "--time-style <TIME_STYLE>"
+      ],
+      "tip": [
+        "与 -l 合用的时间 / 日期格式；见下文 TIME_STYLE"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本"
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --width <COLS>"
+      ],
+      "tip": [
+        "假设终端宽为 COLS 列"
+      ],
+      "next": []
+    },
+    {
+      "name": "--zero",
+      "tip": [
+        "条目之间以 ASCII NUL 分隔"
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "每行列出一个文件"
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "使用长列表格式（如 -l、-o）时，打印状态更改时间（inode 中的 ctime）而非修改时间。按时间显式排序（--sort=time 或 -t）或不使用长列表格式时，按状态更改时间排序"
+      ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "以列显示文件"
+      ]
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "按目录顺序列出所有文件，不排序。等同于 -aU。除非显式指定，否则禁用 --color"
+      ]
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "长格式但不含属主信息"
+      ]
+    },
+    {
+      "name": "-m",
+      "tip": [
+        "条目之间以逗号分隔"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "长格式但不含组信息。与 --format=long 加 --no-group 相同"
+      ]
+    },
+    {
+      "name": "-p",
+      "tip": [
+        "为目录附加 / 指示符"
+      ]
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "按文件大小排序，最大的在前"
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "按修改时间（inode 中的 mtime）排序，最新的在前"
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "使用长列表格式（如 -l、-o）时，打印状态访问时间而非修改时间。按时间显式排序（--sort=time 或 -t）或不使用长列表格式时，按访问时间排序"
+      ]
+    },
+    {
+      "name": "-U",
+      "tip": [
+        "不排序；按文件在目录中的存储顺序列出。列出超大目录时特别有用，因为不排序会明显更快"
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "按文件名中的（版本）数字自然排序"
+      ]
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "按行而非按列出条目"
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "按条目扩展名字母排序"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "打印帮助信息"
+      ]
+    }
+  ]
+}

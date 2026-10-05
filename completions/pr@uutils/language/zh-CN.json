@@ -1,0 +1,284 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "分页或分列 FILE 以供打印"
+    ]
+  },
+  "option": [
+    {
+      "name": "--across",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --across"
+      ],
+      "tip": [
+        "修改 - 列选项的效果，使各列按轮询顺序跨页填充（例如 column 为 2 时，第一输入行领第 1 列，第二行领第 2 列，第三行为第 1 列的第二行，依此类推）"
+      ]
+    },
+    {
+      "name": "--column",
+      "usage": [
+        "--column <COLUMN>"
+      ],
+      "tip": [
+        "生成按列排列的多列输出（默认应为 1），按从输入文件接收文本的顺序沿每列向下写。不应与 -m 合用。多文本列输出时假定使用 -e 和 -i 选项。文本列是否等长未指定，但文本列绝不超过页长（见 -l 选项）。与 -t 合用时，使用最少行数写输出"
+      ],
+      "next": []
+    },
+    {
+      "name": "--date-format",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --date-format <FORMAT>"
+      ],
+      "tip": [
+        "用 date 风格的 FORMAT 显示页眉日期"
+      ],
+      "next": []
+    },
+    {
+      "name": "--double-space",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --double-space"
+      ],
+      "tip": [
+        "生成双倍行距输出。输入中每个 <newline> 之后再输出一个 <newline> 字符"
+      ]
+    },
+    {
+      "name": "--expand-tabs",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --expand-tabs <[CHAR][WIDTH]>"
+      ],
+      "tip": [
+        "将输入的 CHAR（TAB）扩展为 WIDTH（8）个制表位"
+      ],
+      "next": []
+    },
+    {
+      "name": "--first-line-number",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --first-line-number <NUMBER>"
+      ],
+      "tip": [
+        "从打印的第一页的第一行开始以 NUMBER 计数"
+      ],
+      "next": []
+    },
+    {
+      "name": "--form-feed",
+      "alias": [
+        "-F",
+        "-f"
+      ],
+      "usage": [
+        "-F, --form-feed"
+      ],
+      "tip": [
+        "换页使用 <form-feed>，而非默认的连续 <newline> 序列行为"
+      ]
+    },
+    {
+      "name": "--header",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --header <STRING>"
+      ],
+      "tip": [
+        "用字符串 header 替换页眉行中的文件名"
+      ],
+      "next": []
+    },
+    {
+      "name": "--indent",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --indent <MARGIN>"
+      ],
+      "tip": [
+        "每行输出前置 offset 个 <space>。未指定 -o 时默认偏移为零。所占空格计入输出行宽之外（见下文 -w 选项）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--length",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --length <PAGE_LENGTH>"
+      ],
+      "tip": [
+        "覆盖 66 行的默认值（默认正文 56 行，与 -F 合用为 63 行），将页长重置为指定行数。如果行数不大于页眉和页脚深度之和（行数），pr 将隐藏页眉和页脚，如同使用了 -t 选项"
+      ],
+      "next": []
+    },
+    {
+      "name": "--merge",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --merge"
+      ],
+      "tip": [
+        "合并文件。标准输出的格式使 pr 将每个文件操作数各取一行并排写成等宽文本列。实现至少须支持合并九个文件操作数"
+      ]
+    },
+    {
+      "name": "--no-file-warnings",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --no-file-warnings"
+      ],
+      "tip": [
+        "文件无法打开时省略警告"
+      ]
+    },
+    {
+      "name": "--number-lines",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --number-lines <[CHAR][WIDTH]>"
+      ],
+      "tip": [
+        "提供宽度数字的行号。width 未指定时默认为 5。行号占据每个文本列或 -m 输出每行的前 width 列位置。如果给出 char（任何非数字字符），则附加到行号后以与后续内容分隔。char 默认为 <tab>。超过 width 列的行号会被截断"
+      ],
+      "next": []
+    },
+    {
+      "name": "--omit-header",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --omit-header"
+      ],
+      "tip": [
+        "不写通常每页都有的五行标识页眉和五行页脚。每文件最后一行之后即停止，不再补空到页尾"
+      ]
+    },
+    {
+      "name": "--omit-pagination",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --omit-pagination"
+      ],
+      "tip": [
+        "省略页眉和页脚，消除输入文件中换页符造成的任何分页"
+      ]
+    },
+    {
+      "name": "--page-width",
+      "alias": [
+        "-W"
+      ],
+      "usage": [
+        "-W, --page-width <WIDTH>"
+      ],
+      "tip": [
+        "将页宽设为 PAGE_WIDTH（72）字符并截断行，除非设置了 -J 选项；不干扰 -S 或 -s"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pages",
+      "usage": [
+        "--pages <FIRST_PAGE[:LAST_PAGE]>"
+      ],
+      "tip": [
+        "从 FIRST_PAGE 页开始打印，到 LAST_PAGE 页停止"
+      ],
+      "next": []
+    },
+    {
+      "name": "--sep-string",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --sep-string[=<STRING>]"
+      ],
+      "tip": [
+        "以 STRING 分隔列，不带 -S 时：带 -J 默认分隔符为 <TAB>，否则为 <space>（等同于 -S\" \"），对列选项无效"
+      ],
+      "next": []
+    },
+    {
+      "name": "--separator",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "--separator[=<CHAR>]"
+      ],
+      "tip": [
+        "以单个字符 char 分隔文本列，而非适当数量的 <space>（char 默认为 <tab> 字符）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本"
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --width <WIDTH>"
+      ],
+      "tip": [
+        "仅对多文本列输出，将行宽设为 width 个列位置。未指定 -w 且未指定 -s 时默认宽度为 72。未指定 -w 但指定了 -s 时默认宽度为 512"
+      ],
+      "next": []
+    },
+    {
+      "name": "-J",
+      "tip": [
+        "合并完整行，关闭 -W 行截断，不做列对齐，--sep-string 设置分隔符"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "打印帮助"
+      ]
+    }
+  ]
+}

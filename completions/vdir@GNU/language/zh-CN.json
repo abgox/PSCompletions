@@ -1,0 +1,783 @@
+{
+  "meta": {
+    "url": "https://www.gnu.org/software/coreutils/",
+    "description": [
+      "列出这些文件的信息（默认为当前目录）。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--all",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --all"
+      ],
+      "tip": [
+        "不忽略以 . 开头的条目"
+      ]
+    },
+    {
+      "name": "--almost-all",
+      "alias": [
+        "-A"
+      ],
+      "usage": [
+        "-A, --almost-all"
+      ],
+      "tip": [
+        "不列出隐含的 . 和 .."
+      ]
+    },
+    {
+      "name": "--author",
+      "tip": [
+        "配合 -l，打印每个文件的作者"
+      ]
+    },
+    {
+      "name": "--block-size",
+      "usage": [
+        "--block-size <SIZE>"
+      ],
+      "tip": [
+        "配合 -l，打印时按 SIZE 缩放大小，例如 '--block-size=M'；SIZE 的格式参见下方"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "E"
+        },
+        {
+          "name": "EB"
+        },
+        {
+          "name": "G"
+        },
+        {
+          "name": "GB"
+        },
+        {
+          "name": "GiB"
+        },
+        {
+          "name": "K"
+        },
+        {
+          "name": "KB"
+        },
+        {
+          "name": "KiB"
+        },
+        {
+          "name": "M"
+        },
+        {
+          "name": "MB"
+        },
+        {
+          "name": "MiB"
+        },
+        {
+          "name": "P"
+        },
+        {
+          "name": "PB"
+        },
+        {
+          "name": "T"
+        },
+        {
+          "name": "TB"
+        },
+        {
+          "name": "Y"
+        },
+        {
+          "name": "YB"
+        },
+        {
+          "name": "Z"
+        },
+        {
+          "name": "ZB"
+        }
+      ]
+    },
+    {
+      "name": "--classify",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --classify[=WHEN]"
+      ],
+      "tip": [
+        "在 WHEN 时给条目附加指示符（*/=>@| 之一）"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--color",
+      "usage": [
+        "--color[=WHEN]"
+      ],
+      "tip": [
+        "在 WHEN 时为输出着色；详见下方"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--context",
+      "alias": [
+        "-Z"
+      ],
+      "usage": [
+        "-Z, --context"
+      ],
+      "tip": [
+        "打印每个文件的安全上下文"
+      ]
+    },
+    {
+      "name": "--dereference",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --dereference"
+      ],
+      "tip": [
+        "显示符号链接的文件信息时，显示链接所指文件的信息，而不是链接本身"
+      ]
+    },
+    {
+      "name": "--dereference-command-line-symlink-to-dir",
+      "alias": [
+        "--dereference-command-line",
+        "-H"
+      ],
+      "usage": [
+        "-H, --dereference-command-line, --dereference-command-line-symlink-to-dir"
+      ],
+      "tip": [
+        "跟随命令行上每个指向目录的符号链接",
+        "跟随命令行上列出的符号链接"
+      ]
+    },
+    {
+      "name": "--directory",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --directory"
+      ],
+      "tip": [
+        "列出目录本身，而不是其内容"
+      ]
+    },
+    {
+      "name": "--dired",
+      "alias": [
+        "-D"
+      ],
+      "usage": [
+        "-D, --dired"
+      ],
+      "tip": [
+        "生成适用于 Emacs dired 模式的输出"
+      ]
+    },
+    {
+      "name": "--escape",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --escape"
+      ],
+      "tip": [
+        "用 C 风格转义表示非图形字符"
+      ]
+    },
+    {
+      "name": "--file-type",
+      "tip": [
+        "同上，但不附加 '*'"
+      ]
+    },
+    {
+      "name": "--format",
+      "usage": [
+        "--format <WORD>"
+      ],
+      "tip": [
+        "across 与 horizontal 对应 -x，commas 对应 -m，long 与 verbose 对应 -l，single-column 对应 -1，vertical 对应 -C"
+      ],
+      "next": [
+        {
+          "name": "across"
+        },
+        {
+          "name": "commas"
+        },
+        {
+          "name": "horizontal"
+        },
+        {
+          "name": "long"
+        },
+        {
+          "name": "single-column"
+        },
+        {
+          "name": "verbose"
+        },
+        {
+          "name": "vertical"
+        }
+      ]
+    },
+    {
+      "name": "--full-time",
+      "tip": [
+        "等同于 -l --time-style=full-iso"
+      ]
+    },
+    {
+      "name": "--group-directories-first",
+      "tip": [
+        "把目录排在文件之前"
+      ]
+    },
+    {
+      "name": "--hide",
+      "usage": [
+        "--hide <PATTERN>"
+      ],
+      "tip": [
+        "不列出匹配 shell PATTERN 的隐含条目（可被 -a 或 -A 覆盖）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hide-control-chars",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --hide-control-chars"
+      ],
+      "tip": [
+        "用 ? 代替非图形字符"
+      ]
+    },
+    {
+      "name": "--human-readable",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --human-readable"
+      ],
+      "tip": [
+        "配合 -l 和 -s，以 1K 234M 2G 之类的方式打印大小"
+      ]
+    },
+    {
+      "name": "--hyperlink",
+      "usage": [
+        "--hyperlink[=WHEN]"
+      ],
+      "tip": [
+        "在 WHEN 时把文件名变成超链接"
+      ],
+      "next": [
+        {
+          "name": "always"
+        },
+        {
+          "name": "auto"
+        },
+        {
+          "name": "never"
+        }
+      ]
+    },
+    {
+      "name": "--ignore",
+      "alias": [
+        "-I"
+      ],
+      "usage": [
+        "-I, --ignore <PATTERN>"
+      ],
+      "tip": [
+        "不列出匹配 shell PATTERN 的隐含条目"
+      ],
+      "next": []
+    },
+    {
+      "name": "--ignore-backups",
+      "alias": [
+        "-B"
+      ],
+      "usage": [
+        "-B, --ignore-backups"
+      ],
+      "tip": [
+        "不列出以 ~ 结尾的隐含条目"
+      ]
+    },
+    {
+      "name": "--indicator-style",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "--indicator-style=WORD",
+        "-p, --indicator-style=slash"
+      ],
+      "tip": [
+        "以 WORD 风格给条目名附加指示符：none（默认）、slash（-p）、file-type（--file-type）、classify（-F）",
+        "给目录附加 / 指示符"
+      ],
+      "next": [
+        {
+          "name": "classify"
+        },
+        {
+          "name": "file-type"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "slash"
+        }
+      ]
+    },
+    {
+      "name": "--inode",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --inode"
+      ],
+      "tip": [
+        "打印每个文件的索引号"
+      ]
+    },
+    {
+      "name": "--kibibytes",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kibibytes"
+      ],
+      "tip": [
+        "文件系统使用量默认以 1024 字节块计；仅在 -s 以及按目录统计时生效"
+      ]
+    },
+    {
+      "name": "--literal",
+      "alias": [
+        "-N"
+      ],
+      "usage": [
+        "-N, --literal"
+      ],
+      "tip": [
+        "不加引号地打印条目名"
+      ]
+    },
+    {
+      "name": "--no-group",
+      "alias": [
+        "-G"
+      ],
+      "usage": [
+        "-G, --no-group"
+      ],
+      "tip": [
+        "在长格式列表中不打印组名"
+      ]
+    },
+    {
+      "name": "--numeric-uid-gid",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-uid-gid"
+      ],
+      "tip": [
+        "与 -l 类似，但列出数字形式的用户和组 ID"
+      ]
+    },
+    {
+      "name": "--quote-name",
+      "alias": [
+        "-Q"
+      ],
+      "usage": [
+        "-Q, --quote-name"
+      ],
+      "tip": [
+        "用双引号括起条目名"
+      ]
+    },
+    {
+      "name": "--quoting-style",
+      "usage": [
+        "--quoting-style <WORD>"
+      ],
+      "tip": [
+        "条目名使用 WORD 引用样式：literal、locale、shell、shell-always、shell-escape、shell-escape-always、c、escape（覆盖 QUOTING_STYLE 环境变量）"
+      ],
+      "next": [
+        {
+          "name": "c"
+        },
+        {
+          "name": "escape"
+        },
+        {
+          "name": "literal"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "shell"
+        },
+        {
+          "name": "shell-always"
+        },
+        {
+          "name": "shell-escape"
+        },
+        {
+          "name": "shell-escape-always"
+        }
+      ]
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "递归列出子目录"
+      ]
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "排序时反序"
+      ]
+    },
+    {
+      "name": "--show-control-chars",
+      "tip": [
+        "原样显示非图形字符（默认行为，除非程序是 'ls' 且输出是终端）"
+      ]
+    },
+    {
+      "name": "--si",
+      "tip": [
+        "同上，但使用 1000 的幂而不是 1024"
+      ]
+    },
+    {
+      "name": "--size",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --size"
+      ],
+      "tip": [
+        "以块为单位打印每个文件占用的空间"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <WORD>"
+      ],
+      "tip": [
+        "把默认的 'name' 排序改为 WORD：none（-U）、size（-S）、time（-t）、version（-v）、extension（-X）、name、width"
+      ],
+      "next": [
+        {
+          "name": "extension"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "time"
+        },
+        {
+          "name": "version"
+        },
+        {
+          "name": "width"
+        }
+      ]
+    },
+    {
+      "name": "--tabsize",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --tabsize <COLS>"
+      ],
+      "tip": [
+        "假定制表位每隔 COLS 列，而不是 8"
+      ],
+      "next": [
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--time",
+      "usage": [
+        "--time <WORD>"
+      ],
+      "tip": [
+        "选择用于显示或排序的时间戳：访问时间（-u）为 atime、access、use；元数据变更时间（-c）为 ctime、status；修改时间（默认）为 mtime、modification；创建时间为 birth、creation。配合 -l 时 WORD 决定显示哪个时间；配合 --sort=time 时按 WORD 排序，最新的在前"
+      ],
+      "next": [
+        {
+          "name": "access"
+        },
+        {
+          "name": "atime"
+        },
+        {
+          "name": "birth"
+        },
+        {
+          "name": "creation"
+        },
+        {
+          "name": "ctime"
+        },
+        {
+          "name": "modification"
+        },
+        {
+          "name": "mtime"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "use"
+        }
+      ]
+    },
+    {
+      "name": "--time-style",
+      "usage": [
+        "--time-style <TIME_STYLE>"
+      ],
+      "tip": [
+        "配合 -l 使用的时间/日期格式；TIME_STYLE 的取值参见下方"
+      ],
+      "next": [
+        {
+          "name": "full-iso"
+        },
+        {
+          "name": "iso"
+        },
+        {
+          "name": "locale"
+        },
+        {
+          "name": "long-iso"
+        }
+      ]
+    },
+    {
+      "name": "--width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --width <COLS>"
+      ],
+      "tip": [
+        "把输出宽度设为 COLS。0 表示不限制"
+      ],
+      "next": [
+        {
+          "name": "120"
+        },
+        {
+          "name": "80"
+        }
+      ]
+    },
+    {
+      "name": "--zero",
+      "tip": [
+        "每行输出以 NUL 结尾，而不是换行符"
+      ]
+    },
+    {
+      "name": "-1",
+      "tip": [
+        "每行列出一个文件"
+      ]
+    },
+    {
+      "name": "-c",
+      "tip": [
+        "配合 -lt：按 ctime（文件状态信息最后变更的时间）排序并显示；配合 -l：显示 ctime 并按名字排序；其他情况：按 ctime 排序，最新的在前"
+      ]
+    },
+    {
+      "name": "-C",
+      "tip": [
+        "按列列出条目"
+      ]
+    },
+    {
+      "name": "-f",
+      "tip": [
+        "等同于 -a -U"
+      ]
+    },
+    {
+      "name": "-g",
+      "tip": [
+        "与 -l 类似，但不打印属主"
+      ]
+    },
+    {
+      "name": "-l",
+      "tip": [
+        "使用长格式列表"
+      ]
+    },
+    {
+      "name": "-m",
+      "tip": [
+        "用以逗号分隔的条目列表填满宽度"
+      ]
+    },
+    {
+      "name": "-o",
+      "tip": [
+        "与 -l 类似，但不列出组信息"
+      ]
+    },
+    {
+      "name": "-S",
+      "tip": [
+        "按文件大小排序，最大的在前"
+      ]
+    },
+    {
+      "name": "-t",
+      "tip": [
+        "按时间排序，最新的在前；参见 --time"
+      ]
+    },
+    {
+      "name": "-u",
+      "tip": [
+        "配合 -lt：按访问时间排序并显示；配合 -l：显示访问时间并按名字排序；其他情况：按访问时间排序，最新的在前"
+      ]
+    },
+    {
+      "name": "-U",
+      "tip": [
+        "不对目录条目排序"
+      ]
+    },
+    {
+      "name": "-v",
+      "tip": [
+        "对文本中的（版本）号做自然排序"
+      ]
+    },
+    {
+      "name": "-x",
+      "tip": [
+        "按行而不是按列列出条目"
+      ]
+    },
+    {
+      "name": "-X",
+      "tip": [
+        "按条目扩展名做字母排序"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "显示此帮助并退出"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "输出版本信息并退出"
+      ]
+    }
+  ]
+}

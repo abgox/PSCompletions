@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "url": "https://uutils.org",
+    "description": [
+      "显示所有 FILE 排序后的连接。无 FILE 或 FILE 为 - 时读取标准输入"
+    ]
+  },
+  "option": [
+    {
+      "name": "--batch-size",
+      "usage": [
+        "--batch-size <N_MERGE>"
+      ],
+      "tip": [
+        "一次最多合并 N_MERGE 个输入"
+      ],
+      "next": []
+    },
+    {
+      "name": "--buffer-size",
+      "alias": [
+        "-S"
+      ],
+      "usage": [
+        "-S, --buffer-size <SIZE>"
+      ],
+      "tip": [
+        "设置每个片段的最大 SIZE（以排序项数计）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--check",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "--check[=<CHECK>]"
+      ],
+      "tip": [
+        "检查输入是否已排序；不排序"
+      ],
+      "next": [
+        {
+          "name": "diagnose-first"
+        },
+        {
+          "name": "quiet"
+        },
+        {
+          "name": "silent"
+        }
+      ]
+    },
+    {
+      "name": "--check-silent",
+      "alias": [
+        "-C"
+      ],
+      "usage": [
+        "-C, --check-silent"
+      ],
+      "tip": [
+        "如果给定文件已排序则成功退出，否则以状态 1 退出"
+      ]
+    },
+    {
+      "name": "--compress-program",
+      "usage": [
+        "--compress-program <PROG>"
+      ],
+      "tip": [
+        "用 PROG 压缩临时文件，用 PROG -d 解压；PROG 须从 stdin 读取并向 stdout 输出"
+      ],
+      "next": []
+    },
+    {
+      "name": "--debug",
+      "tip": [
+        "给实际用于排序的行部分加下划线"
+      ]
+    },
+    {
+      "name": "--dictionary-order",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --dictionary-order"
+      ],
+      "tip": [
+        "只考虑空白和字母数字字符"
+      ]
+    },
+    {
+      "name": "--field-separator",
+      "alias": [
+        "-t"
+      ],
+      "usage": [
+        "-t, --field-separator <FIELD-SEPARATOR>"
+      ],
+      "tip": [
+        "-k 的自定义分隔符"
+      ],
+      "next": []
+    },
+    {
+      "name": "--files0-from",
+      "usage": [
+        "--files0-from <NUL_FILE>"
+      ],
+      "tip": [
+        "从 NUL 分隔的 NUL_FILE 指定的文件读取输入"
+      ],
+      "next": []
+    },
+    {
+      "name": "--general-numeric-sort",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --general-numeric-sort"
+      ],
+      "tip": [
+        "按通用数值比较"
+      ]
+    },
+    {
+      "name": "--human-numeric-sort",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --human-numeric-sort"
+      ],
+      "tip": [
+        "按人类可读大小比较，如 1M > 100k"
+      ]
+    },
+    {
+      "name": "--ignore-case",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --ignore-case"
+      ],
+      "tip": [
+        "将小写折叠为大写字符"
+      ]
+    },
+    {
+      "name": "--ignore-leading-blanks",
+      "alias": [
+        "-b"
+      ],
+      "usage": [
+        "-b, --ignore-leading-blanks"
+      ],
+      "tip": [
+        "在每行中查找排序键时忽略前导空白"
+      ]
+    },
+    {
+      "name": "--ignore-nonprinting",
+      "alias": [
+        "-i"
+      ],
+      "usage": [
+        "-i, --ignore-nonprinting"
+      ],
+      "tip": [
+        "忽略非打印字符"
+      ]
+    },
+    {
+      "name": "--key",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --key <KEY>"
+      ],
+      "tip": [
+        "按键排序"
+      ],
+      "next": []
+    },
+    {
+      "name": "--merge",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --merge"
+      ],
+      "tip": [
+        "合并已排序的文件；不排序"
+      ]
+    },
+    {
+      "name": "--month-sort",
+      "alias": [
+        "-M"
+      ],
+      "usage": [
+        "-M, --month-sort"
+      ],
+      "tip": [
+        "按月份名缩写比较"
+      ]
+    },
+    {
+      "name": "--numeric-sort",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --numeric-sort"
+      ],
+      "tip": [
+        "按数值比较"
+      ]
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FILENAME>"
+      ],
+      "tip": [
+        "将输出写入 FILENAME 而非 stdout"
+      ],
+      "next": []
+    },
+    {
+      "name": "--parallel",
+      "usage": [
+        "--parallel <NUM_THREADS>"
+      ],
+      "tip": [
+        "将并发运行的线程数改为 NUM_THREADS"
+      ],
+      "next": []
+    },
+    {
+      "name": "--random-sort",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --random-sort"
+      ],
+      "tip": [
+        "随机打乱顺序"
+      ]
+    },
+    {
+      "name": "--random-source",
+      "usage": [
+        "--random-source <FILE>"
+      ],
+      "tip": [
+        "用 FILE 作为随机数据源"
+      ],
+      "next": []
+    },
+    {
+      "name": "--reverse",
+      "alias": [
+        "-r"
+      ],
+      "usage": [
+        "-r, --reverse"
+      ],
+      "tip": [
+        "反转输出"
+      ]
+    },
+    {
+      "name": "--sort",
+      "usage": [
+        "--sort <SORT>"
+      ],
+      "tip": [
+        "设置排序模式"
+      ],
+      "next": [
+        {
+          "name": "general-numeric"
+        },
+        {
+          "name": "human-numeric"
+        },
+        {
+          "name": "month"
+        },
+        {
+          "name": "numeric"
+        },
+        {
+          "name": "random"
+        },
+        {
+          "name": "version"
+        }
+      ]
+    },
+    {
+      "name": "--stable",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --stable"
+      ],
+      "tip": [
+        "禁用最终兜底比较以稳定排序"
+      ]
+    },
+    {
+      "name": "--temporary-directory",
+      "alias": [
+        "-T"
+      ],
+      "usage": [
+        "-T, --temporary-directory <DIR>"
+      ],
+      "tip": [
+        "临时文件使用 DIR，而非 $TMPDIR 或 /tmp"
+      ],
+      "next": []
+    },
+    {
+      "name": "--unique",
+      "alias": [
+        "-u"
+      ],
+      "usage": [
+        "-u, --unique"
+      ],
+      "tip": [
+        "只输出相等序列中的第一个"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印版本信息"
+      ]
+    },
+    {
+      "name": "--version-sort",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version-sort"
+      ],
+      "tip": [
+        "按 SemVer 版本号排序，如 1.12.2 > 1.1.2"
+      ]
+    },
+    {
+      "name": "--zero-terminated",
+      "alias": [
+        "-z"
+      ],
+      "usage": [
+        "-z, --zero-terminated"
+      ],
+      "tip": [
+        "行分隔符为 NUL 而非换行"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "tip": [
+        "打印帮助信息"
+      ]
+    }
+  ]
+}
