@@ -102,12 +102,12 @@
 |[gradle](https://gradle.org)|JVM 的强大构建系统。|
 |[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
 |[head](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
-|[helix](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
 |[hugo](https://gohugo.io)|一个用 Go 构建的快速灵活的静态站点生成器。|
 |[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
+|[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - Ionic 的命令行界面|
 |[istioctl](https://istio.io/)|Istio 命令行界面|
@@ -196,7 +196,7 @@
 |[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
 |[pytest](https://docs.pytest.org)|Python 测试框架。|
-|[python](https://www.python.org)|Python 解释器命令行。|
+|[python3](https://www.python.org)|Python 解释器命令行。|
 |[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
 |[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
 |[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|

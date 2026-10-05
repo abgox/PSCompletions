@@ -102,12 +102,12 @@
 |[gradle](https://gradle.org)|Powerful build system for the JVM.|
 |[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
 |[head](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
-|[helix](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
 |[hugo](https://gohugo.io)|A fast and flexible static site generator built with Go.|
 |[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
+|[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
 |[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
 |[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - The command-line interface for Ionic|
 |[istioctl](https://istio.io/)|The Istio command-line interface|
@@ -196,7 +196,7 @@
 |[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
 |[pytest](https://docs.pytest.org)|Python testing framework.|
-|[python](https://www.python.org)|Python interpreter command-line.|
+|[python3](https://www.python.org)|Python interpreter command-line.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
 |[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
 |[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
