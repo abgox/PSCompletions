@@ -63,7 +63,7 @@ local function add_bins()
     end
 end
 
-psc.on({ command = "exec" }, function()
+psc.on({ command = "run" }, function()
     add_scripts()
     add_bins()
 end)

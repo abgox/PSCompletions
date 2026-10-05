@@ -659,9 +659,7 @@
               "name": "enable_path_trailing_separator",
               "tip": [
                 "默认值: 1",
-                "使用带有末尾分隔符的路径补全",
-                "C:\\Users\\abgox\\     (有)",
-                "C:\\Users\\abgox      (无)"
+                "使用带有末尾分隔符的路径补全"
               ],
               "next": [
                 {
@@ -1924,17 +1922,20 @@
       "\n",
       "<@Cyan>PSCompletions 更新了补全库:\n",
       "{{",
+      "$LIM = 100;",
+      "$cap = { param($l) $c = @($l); if($c.Count -gt $LIM){ (@($c[0..($LIM - 1)]) + \"... (+$($c.Count - $LIM))\") } else { $c } };",
       "if($PSCompletions.added){",
       "\"<@Cyan>[新增]<@Cyan>`n\";",
-      "\"<@Magenta>$($PSCompletions.added -join ' ')<@Cyan>`n\";",
+      "\"<@Magenta>$((& $cap $PSCompletions.added) -join ' ')<@Cyan>`n\";",
       "};",
       "if($PSCompletions.removed){",
       "\"<@Cyan>[移除]<@Cyan>`n\";",
-      "\"<@Magenta>$($PSCompletions.removed -join ' ')<@Cyan>`n\";",
+      "\"<@Magenta>$((& $cap $PSCompletions.removed) -join ' ')<@Cyan>`n\";",
       "};",
-      "$updList = @($PSCompletions.update);",
+      "$updList = @(& $cap @($PSCompletions.update));",
       "$renameList = @();",
       "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
+      "$renameList = @(& $cap $renameList);",
       "if($updList -or $renameList){",
       "\"<@Cyan>[更新]<@Cyan>`n\";",
       "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",

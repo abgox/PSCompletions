@@ -7,6 +7,409 @@
   },
   "next": [
     {
+      "name": "artifact",
+      "tip": [
+        "Manage OCI artifacts"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add an OCI artifact to the local store from the local filesystem"
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "set an annotation for the specified files of artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--append",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --append"
+              ],
+              "tip": [
+                "Append files to an existing artifact"
+              ]
+            },
+            {
+              "name": "--file-type",
+              "usage": [
+                "--file-type <STRING>"
+              ],
+              "tip": [
+                "Set file type to use for the artifact (layer)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "Replace an existing artifact"
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <STRING>"
+              ],
+              "tip": [
+                "Use type to describe an artifact"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "extract",
+          "tip": [
+            "Extract the blobs of an OCI artifact to a local file or directory"
+          ],
+          "option": [
+            {
+              "name": "--digest",
+              "usage": [
+                "--digest <STRING>"
+              ],
+              "tip": [
+                "Only extract blob with the given digest"
+              ],
+              "next": []
+            },
+            {
+              "name": "--title",
+              "usage": [
+                "--title <STRING>"
+              ],
+              "tip": [
+                "Only extract blob with the given title"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "Provide details on an OCI artifact"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "Format volume output using JSON or a Go template (default \"json\")"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "List OCI artifacts in local store"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Format volume output using JSON or a Go template (default \"{{range .}}{{.Repository}}\\t{{.Tag}}\\t{{.Digest}}\\t"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "Do not truncate output"
+              ]
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "Do not print column headings"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Pulls an artifact from a registry and stores it locally."
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "Pathname of a directory containing TLS certificates and keys"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "Credentials (USERNAME:PASSWORD) to use for authenticating to a registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--decryption-key",
+              "usage": [
+                "--decryption-key <STRINGARRAY>"
+              ],
+              "tip": [
+                "Key needed to decrypt the image (e.g. /path/to/key.pem)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress output information when pulling images"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "number of times to retry in case of failure when performing pull (default 3)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "delay between retries in case of pull failures"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "Require HTTPS and verify certificates when contacting registries (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Push an OCI artifact from local storage to an image registry"
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "Path to a directory containing TLS certificates and keys"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "Credentials (USERNAME:PASSWORD) to use for authenticating to a registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--digestfile",
+              "usage": [
+                "--digestfile <STRING>"
+              ],
+              "tip": [
+                "Write the digest of the pushed image to the specified file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress output information when pushing images"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "number of times to retry in case of failure when performing push (default 3)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "delay between retries in case of push failures"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "Add a signature at the destination using the specified key"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore",
+              "usage": [
+                "--sign-by-sigstore <PATH>"
+              ],
+              "tip": [
+                "Sign the image using a sigstore parameter file at PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore-private-key",
+              "usage": [
+                "--sign-by-sigstore-private-key <PATH>"
+              ],
+              "tip": [
+                "Sign the image using a sigstore private key at PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sq-fingerprint",
+              "usage": [
+                "--sign-by-sq-fingerprint <FINGERPRINT>"
+              ],
+              "tip": [
+                "Sign the image using a Sequoia-PGP key with the specified FINGERPRINT"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-passphrase-file",
+              "usage": [
+                "--sign-passphrase-file <PATH>"
+              ],
+              "tip": [
+                "Read a passphrase for signing an image from PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "Require HTTPS and verify certificates when contacting registries (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove one or more OCI artifacts from local storage"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Remove all artifacts"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "Ignore error if artifact does not exist"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "attach",
       "usage": [
         "attach <container>"
@@ -31,6 +434,52 @@
           "name": "--sig-proxy",
           "tip": [
             "Proxy received signals to the process (default true)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auto-update",
+      "tip": [
+        "Auto update containers according to their auto-update policy."
+      ],
+      "option": [
+        {
+          "name": "--authfile",
+          "usage": [
+            "--authfile <STRING>"
+          ],
+          "tip": [
+            "Path to the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Check for pending updates"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <STRING>"
+          ],
+          "tip": [
+            "Change the output format to JSON or a Go template"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rollback",
+          "tip": [
+            "Rollback to previous image if update fails (default true)"
+          ]
+        },
+        {
+          "name": "--tls-verify",
+          "tip": [
+            "Require HTTPS and verify certificates when contacting registries (default true)"
           ]
         }
       ]
@@ -872,98 +1321,230 @@
         "compose [COMMAND]"
       ],
       "tip": [
-        "Run compose workloads via an external provider."
+        "Run compose workloads via an external provider such as docker-compose or podman-compose. The subcommands below belong to that provider, not to podman."
       ],
       "next": [
         {
-          "name": "build"
+          "name": "attach",
+          "tip": [
+            "Attach local standard input, output, and error streams to a service's running container."
+          ]
         },
         {
-          "name": "config"
+          "name": "bridge",
+          "tip": [
+            "Convert compose files into another model."
+          ]
         },
         {
-          "name": "cp"
+          "name": "build",
+          "tip": [
+            "Build or rebuild services."
+          ]
         },
         {
-          "name": "create"
+          "name": "commit",
+          "tip": [
+            "Create a new image from a service container's changes."
+          ]
         },
         {
-          "name": "diff"
+          "name": "config",
+          "tip": [
+            "Parse, resolve and render the compose file in canonical format."
+          ]
         },
         {
-          "name": "down"
+          "name": "cp",
+          "tip": [
+            "Copy files/folders between a service container and the local filesystem."
+          ]
         },
         {
-          "name": "events"
+          "name": "create",
+          "tip": [
+            "Create containers for a service."
+          ]
         },
         {
-          "name": "exec"
+          "name": "down",
+          "tip": [
+            "Stop and remove containers, networks and volumes."
+          ]
         },
         {
-          "name": "images"
+          "name": "events",
+          "tip": [
+            "Receive real time events from containers."
+          ]
         },
         {
-          "name": "inspect"
+          "name": "exec",
+          "tip": [
+            "Execute a command in a running container."
+          ]
         },
         {
-          "name": "kill"
+          "name": "export",
+          "tip": [
+            "Export a service container's filesystem as a tar archive."
+          ]
         },
         {
-          "name": "list"
+          "name": "images",
+          "tip": [
+            "List images used by the created containers."
+          ]
         },
         {
-          "name": "logs"
+          "name": "inspect",
+          "tip": [
+            "Show the configuration of a service container (podman-compose only)."
+          ]
         },
         {
-          "name": "ls"
+          "name": "kill",
+          "tip": [
+            "Force stop service containers."
+          ]
         },
         {
-          "name": "pause"
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List running compose projects."
+          ]
         },
         {
-          "name": "plugins"
+          "name": "logs",
+          "tip": [
+            "View output from containers."
+          ]
         },
         {
-          "name": "port"
+          "name": "pause",
+          "tip": [
+            "Pause services."
+          ]
         },
         {
-          "name": "ps"
+          "name": "port",
+          "tip": [
+            "Print the public port for a port binding."
+          ]
         },
         {
-          "name": "pull"
+          "name": "ps",
+          "tip": [
+            "List containers."
+          ]
         },
         {
-          "name": "push"
+          "name": "publish",
+          "tip": [
+            "Publish a compose application."
+          ]
         },
         {
-          "name": "restart"
+          "name": "pull",
+          "tip": [
+            "Pull service images."
+          ]
         },
         {
-          "name": "rm"
+          "name": "push",
+          "tip": [
+            "Push service images."
+          ]
         },
         {
-          "name": "run"
+          "name": "restart",
+          "tip": [
+            "Restart service containers."
+          ]
         },
         {
-          "name": "start"
+          "name": "rm",
+          "tip": [
+            "Remove stopped service containers."
+          ]
         },
         {
-          "name": "stats"
+          "name": "run",
+          "tip": [
+            "Run a one-off command on a service."
+          ]
         },
         {
-          "name": "stop"
+          "name": "scale",
+          "tip": [
+            "Scale services."
+          ]
         },
         {
-          "name": "top"
+          "name": "start",
+          "tip": [
+            "Start services."
+          ]
         },
         {
-          "name": "unpause"
+          "name": "stats",
+          "tip": [
+            "Display a live stream of container resource usage statistics."
+          ]
         },
         {
-          "name": "up"
+          "name": "stop",
+          "tip": [
+            "Stop services."
+          ]
         },
         {
-          "name": "wait"
+          "name": "top",
+          "tip": [
+            "Display the running processes."
+          ]
+        },
+        {
+          "name": "unpause",
+          "tip": [
+            "Unpause services."
+          ]
+        },
+        {
+          "name": "up",
+          "tip": [
+            "Create and start containers."
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "Show the compose provider version."
+          ]
+        },
+        {
+          "name": "volumes",
+          "tip": [
+            "List volumes."
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "Block until containers of all (or specified) services stop."
+          ]
+        },
+        {
+          "name": "watch",
+          "tip": [
+            "Watch the build context and rebuild or refresh containers when files change."
+          ]
         }
       ]
     },
@@ -981,6 +1562,60 @@
         },
         {
           "name": "checkpoint"
+        },
+        {
+          "name": "cleanup",
+          "tip": [
+            "podman container cleanup"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Cleans up all containers"
+              ]
+            },
+            {
+              "name": "--exec",
+              "usage": [
+                "--exec <STRING>"
+              ],
+              "tip": [
+                "Clean up the given exec session instead of the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "Act on the latest container podman is aware of"
+              ]
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "After cleanup, remove the container entirely"
+              ]
+            },
+            {
+              "name": "--rmi",
+              "tip": [
+                "After cleanup, remove the image entirely"
+              ]
+            }
+          ]
         },
         {
           "name": "clone"
@@ -1016,10 +1651,64 @@
           "name": "kill"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|list"
+          ]
         },
         {
           "name": "logs"
+        },
+        {
+          "name": "mount",
+          "tip": [
+            "podman mount"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Mount all containers"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Print the mounted containers in specified format (json)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "Act on the latest container podman is aware of"
+              ]
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "Do not truncate output"
+              ]
+            }
+          ]
         },
         {
           "name": "pause"
@@ -1029,9 +1718,6 @@
         },
         {
           "name": "prune"
-        },
-        {
-          "name": "ps"
         },
         {
           "name": "rename"
@@ -1049,6 +1735,87 @@
           "name": "run"
         },
         {
+          "name": "runlabel",
+          "tip": [
+            "Executes a command as described by a container image label."
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "Pathname of a directory containing TLS certificates and keys"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "Credentials (USERNAME:PASSWORD) to use for authenticating to a registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--display",
+              "tip": [
+                "Preview the command that the label would run"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <STRING>"
+              ],
+              "tip": [
+                "Assign a name to the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress output information when installing images"
+              ]
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "Replace existing container with a new one from the image"
+              ]
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "Require HTTPS and verify certificates when contacting registries (default true)"
+              ]
+            }
+          ]
+        },
+        {
           "name": "start"
         },
         {
@@ -1059,6 +1826,50 @@
         },
         {
           "name": "top"
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "Container storage increments a mount counter each time a container is mounted."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Unmount all of the currently mounted containers"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force the complete unmount of the specified mounted containers"
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "Act on the latest container podman is aware of"
+              ]
+            }
+          ]
         },
         {
           "name": "unpause"
@@ -2361,6 +3172,1453 @@
       ]
     },
     {
+      "name": "farm",
+      "tip": [
+        "Farm out builds to remote machines that podman can connect to via podman system connection"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "Build images on farm nodes, then bundle them into a manifest list"
+          ],
+          "option": [
+            {
+              "name": "--add-host",
+              "usage": [
+                "--add-host <HOST:IP>"
+              ],
+              "tip": [
+                "add a custom host-to-IP mapping (host:ip) (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <STRINGARRAY>"
+              ],
+              "tip": [
+                "set metadata for an image (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "path of the authentication file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-arg",
+              "usage": [
+                "--build-arg <ARGUMENT=VALUE>"
+              ],
+              "tip": [
+                "argument=value to supply to the builder"
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-arg-file",
+              "usage": [
+                "--build-arg-file <ARGFILE.CONF>"
+              ],
+              "tip": [
+                "argfile.conf containing lines of argument=value to supply to the builder"
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-context",
+              "usage": [
+                "--build-context <ARGUMENT=VALUE>"
+              ],
+              "tip": [
+                "argument=value to supply additional build context to the builder"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-from",
+              "usage": [
+                "--cache-from <STRINGARRAY>"
+              ],
+              "tip": [
+                "remote repository list to utilise as potential cache source."
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-to",
+              "usage": [
+                "--cache-to <STRINGARRAY>"
+              ],
+              "tip": [
+                "remote repository list to utilise as potential cache destination."
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-ttl",
+              "usage": [
+                "--cache-ttl <STRING>"
+              ],
+              "tip": [
+                "only consider cache images under specified duration."
+              ],
+              "next": []
+            },
+            {
+              "name": "--cap-add",
+              "usage": [
+                "--cap-add <STRINGS>"
+              ],
+              "tip": [
+                "add the specified capability when running (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cap-drop",
+              "usage": [
+                "--cap-drop <STRINGS>"
+              ],
+              "tip": [
+                "drop the specified capability when running (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "use certificates at the specified path to access the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroup-parent",
+              "usage": [
+                "--cgroup-parent <STRING>"
+              ],
+              "tip": [
+                "optional parent cgroup for the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroupns",
+              "usage": [
+                "--cgroupns <STRING>"
+              ],
+              "tip": [
+                "'private', or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cleanup",
+              "tip": [
+                "Remove built images from farm nodes on success"
+              ]
+            },
+            {
+              "name": "--compat-volumes",
+              "tip": [
+                "preserve the contents of VOLUMEs during RUN instructions"
+              ]
+            },
+            {
+              "name": "--compression-format",
+              "usage": [
+                "--compression-format <STRING>"
+              ],
+              "tip": [
+                "compression format to use for layers and cache"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-level",
+              "usage": [
+                "--compression-level <INT>"
+              ],
+              "tip": [
+                "compression level to use for layers and cache"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpp-flag",
+              "usage": [
+                "--cpp-flag <STRINGARRAY>"
+              ],
+              "tip": [
+                "set additional flag to pass to C preprocessor (cpp)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-period",
+              "usage": [
+                "--cpu-period <UINT>"
+              ],
+              "tip": [
+                "limit the CPU CFS (Completely Fair Scheduler) period"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-quota",
+              "usage": [
+                "--cpu-quota <INT>"
+              ],
+              "tip": [
+                "limit the CPU CFS (Completely Fair Scheduler) quota"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-shares",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cpu-shares <UINT>"
+              ],
+              "tip": [
+                "CPU shares (relative weight)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-cpus",
+              "usage": [
+                "--cpuset-cpus <STRING>"
+              ],
+              "tip": [
+                "CPUs in which to allow execution (0-3, 0,1)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-mems",
+              "usage": [
+                "--cpuset-mems <STRING>"
+              ],
+              "tip": [
+                "memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--created-annotation",
+              "tip": [
+                "set an \"org.opencontainers.image.created\" annotation in the image (default true)"
+              ]
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "use [username[:password]] for accessing the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--decryption-key",
+              "usage": [
+                "--decryption-key <STRINGS>"
+              ],
+              "tip": [
+                "key needed to decrypt the image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device <STRINGARRAY>"
+              ],
+              "tip": [
+                "additional devices to provide"
+              ],
+              "next": []
+            },
+            {
+              "name": "--disable-compression",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --disable-compression"
+              ],
+              "tip": [
+                "don't compress layers by default (default true)"
+              ]
+            },
+            {
+              "name": "--dns",
+              "usage": [
+                "--dns </ETC/RESOLV.CONF>"
+              ],
+              "tip": [
+                "set custom DNS servers or disable it completely by setting it to 'none', which prevents the automatic creation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dns-option",
+              "usage": [
+                "--dns-option <STRINGS>"
+              ],
+              "tip": [
+                "set custom DNS options"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dns-search",
+              "usage": [
+                "--dns-search <STRINGS>"
+              ],
+              "tip": [
+                "set custom DNS search domains"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "usage": [
+                "--env <STRINGARRAY>"
+              ],
+              "tip": [
+                "set environment variable for the image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--farm",
+              "usage": [
+                "--farm <STRING>"
+              ],
+              "tip": [
+                "Farm to use for builds"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file"
+              ],
+              "tip": [
+                "pathname or URL                         pathname or URL of a Dockerfile"
+              ]
+            },
+            {
+              "name": "--force-compression",
+              "tip": [
+                "use the specified compression algorithm even if the destination contains a differently-compressed variant alre"
+              ]
+            },
+            {
+              "name": "--force-rm",
+              "tip": [
+                "always remove intermediate containers after a build, even if the build is unsuccessful. (default true)"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "format of the built image's manifest and metadata. Use BUILDAH_FORMAT environment variable to override. (defau"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <STRING>"
+              ],
+              "tip": [
+                "image name used to replace the value in the first FROM instruction in the Containerfile"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group-add",
+              "usage": [
+                "--group-add <STRINGS>"
+              ],
+              "tip": [
+                "add additional groups to the primary container process. 'keep-groups' allows container processes to use supple"
+              ],
+              "next": []
+            },
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <STRINGARRAY>"
+              ],
+              "tip": [
+                "set the OCI hooks directory path (may be set multiple times)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--http-proxy",
+              "tip": [
+                "pass through HTTP Proxy environment variables (default true)"
+              ]
+            },
+            {
+              "name": "--identity-label",
+              "tip": [
+                "add default identity label (default true)"
+              ]
+            },
+            {
+              "name": "--ignorefile",
+              "usage": [
+                "--ignorefile <STRING>"
+              ],
+              "tip": [
+                "path to an alternate .dockerignore file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--iidfile",
+              "usage": [
+                "--iidfile <FILE>"
+              ],
+              "tip": [
+                "file to write the image ID to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--iidfile-raw",
+              "usage": [
+                "--iidfile-raw <FILE>"
+              ],
+              "tip": [
+                "file to write the image ID to (without algorithm prefix)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--inherit-annotations",
+              "tip": [
+                "inherit the annotations from the base image or base stages. (default true)"
+              ]
+            },
+            {
+              "name": "--inherit-labels",
+              "tip": [
+                "inherit the labels from the base image or base stages. (default true)"
+              ]
+            },
+            {
+              "name": "--ipc",
+              "usage": [
+                "--ipc <PATH>"
+              ],
+              "tip": [
+                "'private', path of IPC namespace to join, or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--isolation",
+              "usage": [
+                "--isolation <TYPE>"
+              ],
+              "tip": [
+                "type of process isolation to use. Use BUILDAH_ISOLATION environment variable to override. (default \"rootless\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--jobs",
+              "usage": [
+                "--jobs <INT>"
+              ],
+              "tip": [
+                "how many stages to run in parallel (default 1)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label",
+              "usage": [
+                "--label <STRINGARRAY>"
+              ],
+              "tip": [
+                "set metadata for an image (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-label",
+              "usage": [
+                "--layer-label <STRINGARRAY>"
+              ],
+              "tip": [
+                "set metadata for an intermediate image (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layers",
+              "tip": [
+                "use intermediate layers during build. Use BUILDAH_LAYERS environment variable to override. (default true)"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "Build image on local machine as well as on farm nodes (default true)"
+              ]
+            },
+            {
+              "name": "--logfile",
+              "usage": [
+                "--logfile <FILE>"
+              ],
+              "tip": [
+                "log to file instead of stdout/stderr"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --memory <STRING>"
+              ],
+              "tip": [
+                "memory limit (format: <number>[<unit>], where unit = b, k, m or g)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory-swap",
+              "usage": [
+                "--memory-swap <STRING>"
+              ],
+              "tip": [
+                "swap limit equal to memory plus swap: '-1' to enable unlimited swap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mount",
+              "usage": [
+                "--mount <STRINGARRAY>"
+              ],
+              "tip": [
+                "set transient mounts for each RUN instruction, e.g. type=secret,id=mysecret"
+              ],
+              "next": []
+            },
+            {
+              "name": "--network",
+              "usage": [
+                "--network <STRING>"
+              ],
+              "tip": [
+                "'private', 'none', 'ns:path' of network namespace to join, or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "do not use existing cached images for the container build. Build from the start with a new set of cached layer"
+              ]
+            },
+            {
+              "name": "--no-hostname",
+              "tip": [
+                "do not create new /etc/hostname file for RUN instructions, use the one from the base image."
+              ]
+            },
+            {
+              "name": "--no-hosts",
+              "tip": [
+                "do not create new /etc/hosts file for RUN instructions, use the one from the base image."
+              ]
+            },
+            {
+              "name": "--omit-history",
+              "tip": [
+                "omit build history information from built image"
+              ]
+            },
+            {
+              "name": "--os-feature",
+              "usage": [
+                "--os-feature <FEATURE>"
+              ],
+              "tip": [
+                "set required OS feature for the target image in addition to values from the base image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "set required OS version for the target image instead of the value from the base image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid <PATH>"
+              ],
+              "tip": [
+                "private, path of PID namespace to join, or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--platforms",
+              "usage": [
+                "--platforms <STRINGS>"
+              ],
+              "tip": [
+                "Build only on farm nodes that match the given platforms"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pull",
+              "usage": [
+                "--pull <STRING[=\"ALWAYS\"]>"
+              ],
+              "tip": [
+                "Pull image policy (\"always\"|\"missing\"|\"never\"|\"newer\") (default \"missing\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "refrain from announcing build instructions and image read/write progress"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <INT>"
+              ],
+              "tip": [
+                "number of times to retry in case of failure when performing push/pull (default 3)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "delay between retries in case of push/pull failures"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rewrite-timestamp",
+              "tip": [
+                "set timestamps in layers to no later than the value for --source-date-epoch"
+              ]
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "remove intermediate containers after a successful build (default true)"
+              ]
+            },
+            {
+              "name": "--runtime-flag",
+              "usage": [
+                "--runtime-flag <STRINGS>"
+              ],
+              "tip": [
+                "add global flags for the container runtime"
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-stages",
+              "tip": [
+                "save intermediate stage images."
+              ]
+            },
+            {
+              "name": "--sbom",
+              "usage": [
+                "--sbom <PRESET>"
+              ],
+              "tip": [
+                "scan working container using preset configuration"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-image-output",
+              "usage": [
+                "--sbom-image-output <PATH>"
+              ],
+              "tip": [
+                "add scan results to image as path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-image-purl-output",
+              "usage": [
+                "--sbom-image-purl-output <PATH>"
+              ],
+              "tip": [
+                "add scan results to image as path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-merge-strategy",
+              "usage": [
+                "--sbom-merge-strategy <STRATEGY>"
+              ],
+              "tip": [
+                "merge scan results using strategy"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-output",
+              "usage": [
+                "--sbom-output <FILE>"
+              ],
+              "tip": [
+                "save scan results to file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-purl-output",
+              "usage": [
+                "--sbom-purl-output <FILE>"
+              ],
+              "tip": [
+                "save scan results to file`"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-scanner-command",
+              "usage": [
+                "--sbom-scanner-command <COMMAND>"
+              ],
+              "tip": [
+                "scan working container using command in scanner image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-scanner-image",
+              "usage": [
+                "--sbom-scanner-image <IMAGE>"
+              ],
+              "tip": [
+                "scan working container using scanner command from image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--secret",
+              "usage": [
+                "--secret <STRINGARRAY>"
+              ],
+              "tip": [
+                "secret file to expose to the build"
+              ],
+              "next": []
+            },
+            {
+              "name": "--security-opt",
+              "usage": [
+                "--security-opt <STRINGARRAY>"
+              ],
+              "tip": [
+                "security options (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size",
+              "usage": [
+                "--shm-size <<NUMBER><UNIT>>"
+              ],
+              "tip": [
+                "size of '/dev/shm'. The format is <number><unit>. (default \"65536k\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-unused-stages",
+              "tip": [
+                "skips stages in multi-stage builds which do not affect the final target (default true)"
+              ]
+            },
+            {
+              "name": "--source-date-epoch",
+              "usage": [
+                "--source-date-epoch <SECONDS>"
+              ],
+              "tip": [
+                "set new timestamps in image info to seconds after the epoch, defaults to current time"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source-policy-file",
+              "usage": [
+                "--source-policy-file <PATHNAME>"
+              ],
+              "tip": [
+                "pathname of source policy file for controlling source references during build"
+              ],
+              "next": []
+            },
+            {
+              "name": "--squash",
+              "tip": [
+                "squash all image layers into a single layer"
+              ]
+            },
+            {
+              "name": "--squash-all",
+              "tip": [
+                "Squash all layers into a single layer"
+              ]
+            },
+            {
+              "name": "--ssh",
+              "usage": [
+                "--ssh <STRINGARRAY>"
+              ],
+              "tip": [
+                "SSH agent socket or keys to expose to the build. (format: default|<id>[=<socket>|<key>[,<key>]])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stage-labels",
+              "tip": [
+                "add metadata labels to intermediate stage images (requires --save-stages)."
+              ]
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <NAME>"
+              ],
+              "tip": [
+                "tagged name to apply to the built image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <STRING>"
+              ],
+              "tip": [
+                "set the target build stage to build"
+              ],
+              "next": []
+            },
+            {
+              "name": "--timestamp",
+              "usage": [
+                "--timestamp <SECONDS>"
+              ],
+              "tip": [
+                "set new timestamps in image info and layer to seconds after the epoch, defaults to current times"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "require HTTPS and verify certificates when accessing the registry (default true)"
+              ]
+            },
+            {
+              "name": "--ulimit",
+              "usage": [
+                "--ulimit <STRINGS>"
+              ],
+              "tip": [
+                "ulimit options"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetannotation",
+              "usage": [
+                "--unsetannotation <STRINGS>"
+              ],
+              "tip": [
+                "unset annotation when inheriting annotations from base image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetenv",
+              "usage": [
+                "--unsetenv <STRINGS>"
+              ],
+              "tip": [
+                "unset environment variable from final image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetlabel",
+              "usage": [
+                "--unsetlabel <STRINGS>"
+              ],
+              "tip": [
+                "unset label when inheriting labels from base image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns",
+              "usage": [
+                "--userns <PATH>"
+              ],
+              "tip": [
+                "'container', path of user namespace to join, or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-gid-map",
+              "usage": [
+                "--userns-gid-map <CONTAINERGID:HOSTGID:LENGTH>"
+              ],
+              "tip": [
+                "containerGID:hostGID:length GID mapping to use in user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-gid-map-group",
+              "usage": [
+                "--userns-gid-map-group <NAME>"
+              ],
+              "tip": [
+                "name of entries from /etc/subgid to use to set user namespace GID mapping"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-uid-map",
+              "usage": [
+                "--userns-uid-map <CONTAINERUID:HOSTUID:LENGTH>"
+              ],
+              "tip": [
+                "containerUID:hostUID:length UID mapping to use in user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-uid-map-user",
+              "usage": [
+                "--userns-uid-map-user <NAME>"
+              ],
+              "tip": [
+                "name of entries from /etc/subuid to use to set user namespace UID mapping"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uts",
+              "usage": [
+                "--uts <PATH>"
+              ],
+              "tip": [
+                "private, :path of UTS namespace to join, or 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <STRINGARRAY>"
+              ],
+              "tip": [
+                "bind mount a volume into the container"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "Create a new farm with connections added via podman system connection add."
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "podman farm ls"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Format farm output using Go template"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove one or more existing farms."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Remove all farms"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Update an existing farm by adding a connection, removing a connection, or changing it to the default farm."
+          ],
+          "option": [
+            {
+              "name": "--add",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --add <STRINGS>"
+              ],
+              "tip": [
+                "add system connection(s) to farm"
+              ],
+              "next": []
+            },
+            {
+              "name": "--default",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --default"
+              ],
+              "tip": [
+                "set the given farm as the default farm"
+              ]
+            },
+            {
+              "name": "--remove",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remove <STRINGS>"
+              ],
+              "tip": [
+                "remove system connection(s) from farm"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "tip": [
+        "Generate structured data (e.g., Kubernetes YAML or systemd units) based on containers, pods or volumes."
+      ],
+      "next": [
+        {
+          "name": "kube",
+          "tip": [
+            "Command generates Kubernetes Pod, Service or PersistentVolumeClaim YAML (v1 specification) from Podman containers, pods or volumes."
+          ],
+          "option": [
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <STRING>"
+              ],
+              "tip": [
+                "Write output to the specified path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--podman-only",
+              "tip": [
+                "Add podman-only reserved annotations to the generated YAML file (Cannot be used by Kubernetes)"
+              ]
+            },
+            {
+              "name": "--replicas",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replicas <INT32>"
+              ],
+              "tip": [
+                "Set the replicas number for Deployment kind (default 1)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--service",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --service"
+              ],
+              "tip": [
+                "Generate YAML for a Kubernetes service object"
+              ]
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --type <STRING>"
+              ],
+              "tip": [
+                "Generate YAML for the given Kubernetes kind (default \"pod\")"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "spec",
+          "tip": [
+            "Generate Specgen JSON based on containers or pods"
+          ],
+          "option": [
+            {
+              "name": "--compact",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --compact"
+              ],
+              "tip": [
+                "Print the json in a compact format for consumption"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <STRING>"
+              ],
+              "tip": [
+                "Write output to the specified path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name"
+              ],
+              "tip": [
+                "Specify a new name for the generated spec (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "systemd",
+          "tip": [
+            "Generate systemd units for a pod or container."
+          ],
+          "option": [
+            {
+              "name": "--after",
+              "usage": [
+                "--after <STRINGARRAY>"
+              ],
+              "tip": [
+                "Add dependencies order to the generated unit file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--container-prefix",
+              "usage": [
+                "--container-prefix <STRING>"
+              ],
+              "tip": [
+                "Systemd unit name prefix for containers (default \"container\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <STRINGARRAY>"
+              ],
+              "tip": [
+                "Set environment variables to the systemd unit files"
+              ],
+              "next": []
+            },
+            {
+              "name": "--files",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --files"
+              ],
+              "tip": [
+                "Generate .service files instead of printing to stdout"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Print the created units in specified format (json)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name"
+              ],
+              "tip": [
+                "Use container/pod names instead of IDs"
+              ]
+            },
+            {
+              "name": "--new",
+              "tip": [
+                "Create a new container or pod instead of starting an existing one"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "Skip header generation"
+              ]
+            },
+            {
+              "name": "--pod-prefix",
+              "usage": [
+                "--pod-prefix <STRING>"
+              ],
+              "tip": [
+                "Systemd unit name prefix for pods (default \"pod\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--requires",
+              "usage": [
+                "--requires <STRINGARRAY>"
+              ],
+              "tip": [
+                "Similar to wants, but declares stronger requirement dependencies"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart-policy",
+              "usage": [
+                "--restart-policy <STRING>"
+              ],
+              "tip": [
+                "Systemd restart-policy (default \"on-failure\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart-sec",
+              "usage": [
+                "--restart-sec <UINT>"
+              ],
+              "tip": [
+                "Systemd restart-sec"
+              ],
+              "next": []
+            },
+            {
+              "name": "--separator",
+              "usage": [
+                "--separator <STRING>"
+              ],
+              "tip": [
+                "Systemd unit name separator between name/id and prefix (default \"-\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--start-timeout",
+              "usage": [
+                "--start-timeout <UINT>"
+              ],
+              "tip": [
+                "Start timeout override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stop-timeout",
+              "usage": [
+                "--stop-timeout <UINT>"
+              ],
+              "tip": [
+                "Stop timeout override (default 10)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "tip": [
+                "Make it a template file and use %i and %I specifiers. Working only for containers"
+              ]
+            },
+            {
+              "name": "--wants",
+              "usage": [
+                "--wants <STRINGARRAY>"
+              ],
+              "tip": [
+                "Add (weak) requirement dependencies to the generated unit file"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "healthcheck",
+      "tip": [
+        "Run health checks on containers"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "Run the health check of a container"
+          ],
+          "option": [
+            {
+              "name": "--ignore-result",
+              "tip": [
+                "Exit with code 0 regardless of healthcheck result or if the container is still in startup period"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "See `podman help --help`."
+      ]
+    },
+    {
       "name": "history",
       "usage": [
         "history <image>"
@@ -2443,6 +4701,36 @@
           "name": "load"
         },
         {
+          "name": "mount",
+          "tip": [
+            "podman image mount"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Mount all images"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Print the mounted images in specified format (json)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "prune"
         },
         {
@@ -2464,10 +4752,205 @@
           "name": "search"
         },
         {
+          "name": "sign",
+          "tip": [
+            "Create a signature file that can be used later to verify the image."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Sign all the manifests of the multi-architecture image"
+              ]
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "Path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "Pathname of a directory containing TLS certificates and keys"
+              ],
+              "next": []
+            },
+            {
+              "name": "--directory",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --directory <STRING>"
+              ],
+              "tip": [
+                "Define an alternate directory to store signatures"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "Name of the signing key"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "tag"
         },
         {
           "name": "tree"
+        },
+        {
+          "name": "trust",
+          "tip": [
+            "Manages which registries you trust as a source of container images based on their location."
+          ],
+          "next": [
+            {
+              "name": "set",
+              "tip": [
+                "Set default trust policy or add a new trust policy for a registry"
+              ],
+              "option": [
+                {
+                  "name": "--pubkeysfile",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --pubkeysfile <STRINGARRAY>"
+                  ],
+                  "tip": [
+                    "Path of installed public key(s) to trust for TARGET."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--signature-policy",
+                  "usage": [
+                    "--signature-policy <STRING>"
+                  ],
+                  "tip": [
+                    "Path to a signature-policy file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --type <STRING>"
+                  ],
+                  "tip": [
+                    "Trust type, accept values: signedBy(default), accept, reject (default \"signedBy\")"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Display trust policy for the system"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "alias": [
+                    "-j"
+                  ],
+                  "usage": [
+                    "-j, --json"
+                  ],
+                  "tip": [
+                    "Output as json"
+                  ]
+                },
+                {
+                  "name": "--noheading",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --noheading"
+                  ],
+                  "tip": [
+                    "Do not print column headings"
+                  ]
+                },
+                {
+                  "name": "--raw",
+                  "tip": [
+                    "Output raw policy file"
+                  ]
+                },
+                {
+                  "name": "--signature-policy",
+                  "usage": [
+                    "--signature-policy <STRING>"
+                  ],
+                  "tip": [
+                    "Path to a signature-policy file"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "Image storage increments a mount counter each time an image is mounted."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Unmount all of the currently mounted images"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force the complete unmount of the specified mounted images"
+              ]
+            }
+          ]
         },
         {
           "name": "untag"
@@ -2652,6 +5135,38 @@
       ]
     },
     {
+      "name": "init",
+      "tip": [
+        "Initialize one or more containers, creating the OCI spec and mounts for inspection. Container names or IDs can be used."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Initialize all containers"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "Act on the latest container podman is aware of"
+          ]
+        }
+      ]
+    },
+    {
       "name": "inspect",
       "usage": [
         "inspect <object>"
@@ -2753,6 +5268,72 @@
         "Play containers, pods or volumes from a structured file."
       ],
       "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "Command applies a podman container, pod, volume, or kube yaml to a Kubernetes cluster when a kubeconfig file is given."
+          ],
+          "option": [
+            {
+              "name": "--ca-cert-file",
+              "usage": [
+                "--ca-cert-file <STRING>"
+              ],
+              "tip": [
+                "Path to the CA cert file for the Kubernetes cluster."
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <STRING>"
+              ],
+              "tip": [
+                "Path to the Kubernetes yaml file to deploy."
+              ],
+              "next": []
+            },
+            {
+              "name": "--kubeconfig",
+              "alias": [
+                "-k"
+              ],
+              "usage": [
+                "-k, --kubeconfig <STRING>"
+              ],
+              "tip": [
+                "Path to the kubeconfig file for the Kubernetes cluster"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ns",
+              "usage": [
+                "--ns <STRING>"
+              ],
+              "tip": [
+                "The namespace to deploy the workload to on the Kubernetes cluster"
+              ],
+              "next": []
+            },
+            {
+              "name": "--service",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --service"
+              ],
+              "tip": [
+                "Create a service object for the container being deployed."
+              ]
+            }
+          ]
+        },
         {
           "name": "down"
         },
@@ -3019,6 +5600,26 @@
       ],
       "next": [
         {
+          "name": "cp",
+          "tip": [
+            "Securely copy files or directories between the virtual machine and your host"
+          ],
+          "option": [
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress copy status output"
+              ]
+            }
+          ]
+        },
+        {
           "name": "info"
         },
         {
@@ -3031,16 +5632,94 @@
           "name": "list"
         },
         {
-          "name": "mount"
-        },
-        {
-          "name": "pull"
-        },
-        {
-          "name": "push"
+          "name": "os",
+          "tip": [
+            "Manage a Podman virtual machine's operating system"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "Apply custom layers from a containerized Fedora CoreOS OCI image on top of an existing VM"
+              ],
+              "option": [
+                {
+                  "name": "--restart",
+                  "tip": [
+                    "Restart VM to apply changes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "upgrade",
+              "tip": [
+                "Upgrade the machine operating system to a newer version"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "Only check if an upgrade is available"
+                  ]
+                },
+                {
+                  "name": "--format",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --format <STRING>"
+                  ],
+                  "tip": [
+                    "suppress output except for specified format. Implies -n"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--restart",
+                  "tip": [
+                    "Restart VM to upgrade"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "reset"
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Restart a managed virtual machine"
+          ],
+          "option": [
+            {
+              "name": "--no-info",
+              "tip": [
+                "Suppress informational tips"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress machine restarting status output"
+              ]
+            }
+          ]
         },
         {
           "name": "rm"
@@ -3056,12 +5735,629 @@
         },
         {
           "name": "stop"
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "Creates, modifies, and pushes manifest lists and image indexes."
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Adds an image or artifact to a manifest list or image index."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "add all of the list's images if the image is a list"
+              ]
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "set an annotation for the specified image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <ARCHITECTURE>"
+              ],
+              "tip": [
+                "override the architecture of the specified image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact",
+              "tip": [
+                "add all arguments as artifact files rather than as images"
+              ]
+            },
+            {
+              "name": "--artifact-config",
+              "usage": [
+                "--artifact-config <STRING>"
+              ],
+              "tip": [
+                "artifact configuration file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-config-type",
+              "usage": [
+                "--artifact-config-type <STRING>"
+              ],
+              "tip": [
+                "artifact configuration media type"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-exclude-titles",
+              "tip": [
+                "refrain from setting \"org.opencontainers.image.title\" annotations on \"layers\""
+              ]
+            },
+            {
+              "name": "--artifact-layer-type",
+              "usage": [
+                "--artifact-layer-type <STRING>"
+              ],
+              "tip": [
+                "artifact layer media type"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-subject",
+              "usage": [
+                "--artifact-subject <STRING>"
+              ],
+              "tip": [
+                "artifact subject reference"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-type",
+              "usage": [
+                "--artifact-type <STRING>"
+              ],
+              "tip": [
+                "override the artifactType value"
+              ],
+              "next": []
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "use certificates at the specified path to access the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "use [username[:password]] for accessing the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features <FEATURES>"
+              ],
+              "tip": [
+                "override the features of the specified image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os",
+              "usage": [
+                "--os <OS>"
+              ],
+              "tip": [
+                "override the OS of the specified image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "override the OS version of the specified image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "require HTTPS and verify certificates when accessing the registry (default true)"
+              ]
+            },
+            {
+              "name": "--variant",
+              "usage": [
+                "--variant <VARIANT>"
+              ],
+              "tip": [
+                "override the Variant of the specified image"
+              ],
+              "next": []
+            }
+          ]
         },
         {
-          "name": "unmount"
+          "name": "annotate",
+          "tip": [
+            "Adds or updates information about an entry in a manifest list or image index."
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "set an annotation for the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <ARCHITECTURE>"
+              ],
+              "tip": [
+                "override the architecture of the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features <FEATURES>"
+              ],
+              "tip": [
+                "override the features of the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--index",
+              "tip": [
+                "apply --annotation values to the image index itself"
+              ]
+            },
+            {
+              "name": "--os",
+              "usage": [
+                "--os <OS>"
+              ],
+              "tip": [
+                "override the OS of the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-features",
+              "usage": [
+                "--os-features <FEATURES>"
+              ],
+              "tip": [
+                "override the OS features of the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "override the OS version of the specified image or artifact"
+              ],
+              "next": []
+            },
+            {
+              "name": "--subject",
+              "usage": [
+                "--subject <SUBJECT>"
+              ],
+              "tip": [
+                "set the subject to which the image index refers"
+              ],
+              "next": []
+            },
+            {
+              "name": "--variant",
+              "usage": [
+                "--variant <VARIANT>"
+              ],
+              "tip": [
+                "override the Variant of the specified image or artifact"
+              ],
+              "next": []
+            }
+          ]
         },
         {
-          "name": "update"
+          "name": "create",
+          "tip": [
+            "Creates manifest lists or image indexes."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "add all of the lists' images if the images to add are lists"
+              ]
+            },
+            {
+              "name": "--amend",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --amend"
+              ],
+              "tip": [
+                "modify an existing list if one with the desired name already exists"
+              ]
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <STRINGARRAY>"
+              ],
+              "tip": [
+                "set annotations on the new list"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "require HTTPS and verify certificates when accessing the registry (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exists",
+          "tip": [
+            "If the manifest list exists in local storage, podman manifest exists exits with 0, otherwise the exit code will be 1."
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "Display the contents of a manifest list or image index."
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "require HTTPS and verify certificates when accessing the registry (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "Pushes manifest lists and image indexes to registries."
+          ],
+          "option": [
+            {
+              "name": "--add-compression",
+              "usage": [
+                "--add-compression <STRINGS>"
+              ],
+              "tip": [
+                "add instances with selected compression while pushing"
+              ],
+              "next": []
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "also push the images in the list (default true)"
+              ]
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "path of the authentication file. Use REGISTRY_AUTH_FILE environment variable to override"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "use certificates at the specified path to access the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-format",
+              "usage": [
+                "--compression-format <STRING>"
+              ],
+              "tip": [
+                "compression format to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-level",
+              "usage": [
+                "--compression-level <INT>"
+              ],
+              "tip": [
+                "compression level to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "use [username[:password]] for accessing the registry"
+              ],
+              "next": []
+            },
+            {
+              "name": "--digestfile",
+              "usage": [
+                "--digestfile <STRING>"
+              ],
+              "tip": [
+                "after copying the image, write the digest of the resulting digest to the file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--force-compression",
+              "tip": [
+                "Use the specified compression algorithm even if the destination contains a differently-compressed variant alre"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "manifest type (oci or v2s2) to attempt to use when pushing the manifest list (default is manifest type of sour"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "don't output progress information when pushing lists"
+              ]
+            },
+            {
+              "name": "--remove-signatures",
+              "tip": [
+                "don't copy signatures when pushing images"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "number of times to retry in case of failure when performing push (default 3)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "delay between retries in case of push failures"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "remove the manifest list if push succeeds"
+              ]
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "Add a signature at the destination using the specified key"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore",
+              "usage": [
+                "--sign-by-sigstore <PATH>"
+              ],
+              "tip": [
+                "Sign the image using a sigstore parameter file at PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore-private-key",
+              "usage": [
+                "--sign-by-sigstore-private-key <PATH>"
+              ],
+              "tip": [
+                "Sign the image using a sigstore private key at PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sq-fingerprint",
+              "usage": [
+                "--sign-by-sq-fingerprint <FINGERPRINT>"
+              ],
+              "tip": [
+                "Sign the image using a Sequoia-PGP key with the specified FINGERPRINT"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-passphrase-file",
+              "usage": [
+                "--sign-passphrase-file <PATH>"
+              ],
+              "tip": [
+                "Read a passphrase for signing an image from PATH"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "require HTTPS and verify certificates when accessing the registry (default true)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Removes an item from a manifest list or image index."
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove manifest list or image index from local storage."
+          ],
+          "option": [
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "Ignore errors when a specified manifest is missing"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mount",
+      "tip": [
+        "podman mount"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Mount all containers"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <STRING>"
+          ],
+          "tip": [
+            "Print the mounted containers in specified format (json)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "Act on the latest container podman is aware of"
+          ]
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "Do not truncate output"
+          ]
         }
       ]
     },
@@ -3084,6 +6380,12 @@
           "name": "disconnect"
         },
         {
+          "name": "exists",
+          "tip": [
+            "If the named network exists, podman network exists exits with 0, otherwise the exit code will be 1."
+          ]
+        },
+        {
           "name": "inspect"
         },
         {
@@ -3091,6 +6393,38 @@
         },
         {
           "name": "prune"
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "Reload container networks, recreating firewall rules"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Reload network configuration of all containers"
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "Act on the latest container podman is aware of"
+              ]
+            }
+          ]
         },
         {
           "name": "rm"
@@ -3146,6 +6480,390 @@
       ],
       "next": [
         {
+          "name": "clone",
+          "tip": [
+            "Create an exact copy of a pod and the containers within it"
+          ],
+          "option": [
+            {
+              "name": "--blkio-weight",
+              "usage": [
+                "--blkio-weight <STRING>"
+              ],
+              "tip": [
+                "Block IO weight (relative weight) accepts a weight value between 10 and 1000."
+              ],
+              "next": []
+            },
+            {
+              "name": "--blkio-weight-device",
+              "usage": [
+                "--blkio-weight-device <DEVICE_NAME:WEIGHT>"
+              ],
+              "tip": [
+                "Block IO weight (relative device weight, format: DEVICE_NAME:WEIGHT)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroup-parent",
+              "usage": [
+                "--cgroup-parent <STRING>"
+              ],
+              "tip": [
+                "Optional parent cgroup for the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-shares",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cpu-shares <UINT>"
+              ],
+              "tip": [
+                "CPU shares (relative weight)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpus",
+              "usage": [
+                "--cpus <FLOAT>"
+              ],
+              "tip": [
+                "Number of CPUs. The default is 0.000 which means no limit"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-cpus",
+              "usage": [
+                "--cpuset-cpus <STRING>"
+              ],
+              "tip": [
+                "CPUs in which to allow execution (0-3, 0,1)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-mems",
+              "usage": [
+                "--cpuset-mems <STRING>"
+              ],
+              "tip": [
+                "Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--destroy",
+              "tip": [
+                "destroy the original pod"
+              ]
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device <STRINGARRAY>"
+              ],
+              "tip": [
+                "Add a host device to the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device-read-bps",
+              "usage": [
+                "--device-read-bps <STRINGARRAY>"
+              ],
+              "tip": [
+                "Limit read rate (bytes per second) from a device (e.g. --device-read-bps=/dev/sda:1mb)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device-write-bps",
+              "usage": [
+                "--device-write-bps <STRINGARRAY>"
+              ],
+              "tip": [
+                "Limit write rate (bytes per second) to a device (e.g. --device-write-bps=/dev/sda:1mb)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--gidmap",
+              "usage": [
+                "--gidmap <STRINGS>"
+              ],
+              "tip": [
+                "GID map to use for the user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--gpus",
+              "usage": [
+                "--gpus <STRINGS>"
+              ],
+              "tip": [
+                "GPU devices to add to the container ('all' to pass all GPUs)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--help",
+              "tip": [
+                "Show help."
+              ]
+            },
+            {
+              "name": "--hostname",
+              "alias": [
+                "-h"
+              ],
+              "usage": [
+                "-h, --hostname <STRING>"
+              ],
+              "tip": [
+                "Set container hostname"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-command",
+              "usage": [
+                "--infra-command <STRING>"
+              ],
+              "tip": [
+                "Overwrite the default ENTRYPOINT of the image"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-conmon-pidfile",
+              "usage": [
+                "--infra-conmon-pidfile <STRING>"
+              ],
+              "tip": [
+                "Path to the file that will receive the PID of conmon"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-name",
+              "usage": [
+                "--infra-name <STRING>"
+              ],
+              "tip": [
+                "Assign a name to the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --label <STRINGARRAY>"
+              ],
+              "tip": [
+                "Set metadata on container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label-file",
+              "usage": [
+                "--label-file <STRINGARRAY>"
+              ],
+              "tip": [
+                "Read in a line delimited file of labels"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --memory <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "Memory limit (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibibytes)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory-swap",
+              "usage": [
+                "--memory-swap <STRING>"
+              ],
+              "tip": [
+                "Swap limit equal to memory plus swap: '-1' to enable unlimited swap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <STRING>"
+              ],
+              "tip": [
+                "name the new pod"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid <STRING>"
+              ],
+              "tip": [
+                "PID namespace to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart",
+              "usage": [
+                "--restart <STRING>"
+              ],
+              "tip": [
+                "Restart policy to apply when a container exits (\"always\"|\"no\"|\"never\"|\"on-failure\"|\"unless-stopped\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--security-opt",
+              "usage": [
+                "--security-opt <STRINGARRAY>"
+              ],
+              "tip": [
+                "Security Options"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size",
+              "usage": [
+                "--shm-size <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "Size of /dev/shm (format: <number>[<unit>], where unit = b (bytes), k (kibibytes), m (mebibytes), or g (gibiby"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size-systemd",
+              "usage": [
+                "--shm-size-systemd <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "Size of systemd specific tmpfs mounts (/run, /run/lock) (format: <number>[<unit>], where unit = b (bytes), k ("
+              ],
+              "next": []
+            },
+            {
+              "name": "--start",
+              "tip": [
+                "start the new pod"
+              ]
+            },
+            {
+              "name": "--subgidname",
+              "usage": [
+                "--subgidname <STRING>"
+              ],
+              "tip": [
+                "Name of range listed in /etc/subgid for use in user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--subuidname",
+              "usage": [
+                "--subuidname <STRING>"
+              ],
+              "tip": [
+                "Name of range listed in /etc/subuid for use in user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sysctl",
+              "usage": [
+                "--sysctl <STRINGS>"
+              ],
+              "tip": [
+                "Sysctl options"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uidmap",
+              "usage": [
+                "--uidmap <STRINGS>"
+              ],
+              "tip": [
+                "UID map to use for the user namespace"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns",
+              "usage": [
+                "--userns <STRING>"
+              ],
+              "tip": [
+                "User namespace to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uts",
+              "usage": [
+                "--uts <STRING>"
+              ],
+              "tip": [
+                "UTS namespace to use"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <STRINGARRAY>"
+              ],
+              "tip": [
+                "Bind mount a volume into the container"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volumes-from",
+              "usage": [
+                "--volumes-from <STRINGARRAY>"
+              ],
+              "tip": [
+                "Mount volumes from the specified container(s)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "create"
         },
         {
@@ -3158,7 +6876,13 @@
           "name": "kill"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|list"
+          ]
         },
         {
           "name": "logs"
@@ -3168,9 +6892,6 @@
         },
         {
           "name": "prune"
-        },
-        {
-          "name": "ps"
         },
         {
           "name": "restart"
@@ -3567,6 +7288,155 @@
           "name": "--tls-verify",
           "tip": [
             "Require HTTPS and verify certificates when contacting registries (default true)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "quadlet",
+      "tip": [
+        "Allows users to manage Quadlets"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "Install a quadlet file or quadlet application. Quadlets may be specified as local files, Web URLs, and OCI artifacts."
+          ],
+          "option": [
+            {
+              "name": "--application",
+              "usage": [
+                "--application <STRING>"
+              ],
+              "tip": [
+                "Group quadlets and associated file in a directory named after the application"
+              ],
+              "next": []
+            },
+            {
+              "name": "--reload-systemd",
+              "tip": [
+                "Reload systemd after installing Quadlets (default true)"
+              ]
+            },
+            {
+              "name": "--replace",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replace"
+              ],
+              "tip": [
+                "Replace the installation even if the quadlet already exists"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "List all Quadlets configured for the current user."
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "Filter output based on conditions given"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Pretty-print output to JSON or using a Go template (default \"{{range .}}{{.Name}}\\t{{.UnitName}}\\t{{.Path}}\\t{"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "Do not print headers"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "tip": [
+            "Print the contents of a Quadlet, displaying the file including all comments"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "Remove one or more installed Quadlets from the current user"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Remove all Quadlets for the current user"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Remove running quadlets"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "Do not error for Quadlets that do not exist"
+              ]
+            },
+            {
+              "name": "--recursive",
+              "tip": [
+                "Remove all Quadlets belonging to the specified application and its directory"
+              ]
+            },
+            {
+              "name": "--reload-systemd",
+              "tip": [
+                "Reload systemd after removal (default true)"
+              ]
+            }
           ]
         }
       ]
@@ -4997,6 +8867,202 @@
       ]
     },
     {
+      "name": "secret",
+      "tip": [
+        "Manage secrets"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "Create a secret. Input can be a path to a file or \"-\" (read from stdin). Secret drivers \"file\" (default), \"pass\", and \"shell\" are available."
+          ],
+          "option": [
+            {
+              "name": "--driver",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --driver <STRING>"
+              ],
+              "tip": [
+                "Specify secret driver (default \"file\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--driver-opts",
+              "usage": [
+                "--driver-opts <STRINGTOSTRING>"
+              ],
+              "tip": [
+                "Specify driver specific options (default [])"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "tip": [
+                "Read secret data from environment variable"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "tip": [
+                "If a secret with the same name exists, ignore and do not create a new secret"
+              ]
+            },
+            {
+              "name": "--label",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --label <STRINGARRAY>"
+              ],
+              "tip": [
+                "Specify labels on the secret"
+              ],
+              "next": []
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "If a secret with the same name exists, replace it"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exists",
+          "tip": [
+            "If the named secret exists in local storage, podman secret exists exits with 0, otherwise the exit code will be 1."
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "Display detail information on one or more secrets"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "Format inspect output using Go template"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pretty",
+              "tip": [
+                "Print inspect output in human-readable format"
+              ]
+            },
+            {
+              "name": "--showsecret",
+              "tip": [
+                "Display the secret"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "ls, list"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "Filter secret output"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Format secret output using Go template (default \"{{range .}}{{.ID}}\\t{{.Name}}\\t{{.Driver}}\\t{{.CreatedAt}}\\t{"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "Do not print headers"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Print secret IDs only"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "See `podman secret rm --help`."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "Remove all secrets"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "Ignore errors when a specified secret is missing"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "start",
       "usage": [
         "start <container>"
@@ -5177,6 +9243,312 @@
       ],
       "next": [
         {
+          "name": "check",
+          "tip": [
+            "Check storage for consistency and remove anything that looks damaged"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Remove inconsistent images and containers"
+              ]
+            },
+            {
+              "name": "--max",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --max <DURATION>"
+              ],
+              "tip": [
+                "Maximum allowed age of unreferenced layers (default 24h0m0s)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quick",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quick"
+              ],
+              "tip": [
+                "Skip time-consuming checks. The default is to include time-consuming checks"
+              ]
+            },
+            {
+              "name": "--repair",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --repair"
+              ],
+              "tip": [
+                "Remove inconsistent images"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "Manage remote API service destination information in podman configuration"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "Add destination to podman configuration."
+              ],
+              "option": [
+                {
+                  "name": "--default",
+                  "alias": [
+                    "-d"
+                  ],
+                  "usage": [
+                    "-d, --default"
+                  ],
+                  "tip": [
+                    "Set connection to be default"
+                  ]
+                },
+                {
+                  "name": "--identity",
+                  "usage": [
+                    "--identity <STRING>"
+                  ],
+                  "tip": [
+                    "path to SSH identity file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--port",
+                  "alias": [
+                    "-p"
+                  ],
+                  "usage": [
+                    "-p, --port <INT>"
+                  ],
+                  "tip": [
+                    "SSH port number for destination (default 22)"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--socket-path",
+                  "usage": [
+                    "--socket-path <STRING>"
+                  ],
+                  "tip": [
+                    "path to podman socket on remote host. (default '/run/podman/podman.sock' or '/run/user/{uid}/podman/podman.soc"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-ca",
+                  "usage": [
+                    "--tls-ca <STRING>"
+                  ],
+                  "tip": [
+                    "path to TLS certificate Authority PEM file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-cert",
+                  "usage": [
+                    "--tls-cert <STRING>"
+                  ],
+                  "tip": [
+                    "path to TLS client certificate PEM file"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-key",
+                  "usage": [
+                    "--tls-key <STRING>"
+                  ],
+                  "tip": [
+                    "path to TLS client certificate private key PEM file"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "Set named destination as default for the Podman service"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List destination information for the Podman service(s) in podman configuration"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --format <STRING>"
+                  ],
+                  "tip": [
+                    "Custom Go template for printing connections"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--quiet",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --quiet"
+                  ],
+                  "tip": [
+                    "Custom Go template for printing connections"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "tip": [
+                "Delete named destination from podman configuration"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "alias": [
+                    "-a"
+                  ],
+                  "usage": [
+                    "-a, --all"
+                  ],
+                  "tip": [
+                    "Remove all connections"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rename",
+              "tip": [
+                "Rename destination for the Podman service from \"old\" to \"new\""
+              ]
+            }
+          ]
+        },
+        {
+          "name": "df",
+          "tip": [
+            "See `podman system df --help`."
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Pretty-print images using a Go template"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Show detailed information on disk usage"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "events",
+          "tip": [
+            "Monitor podman system events."
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "filter output"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "format the output using a Go template"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "do not truncate the output (default true)"
+              ]
+            },
+            {
+              "name": "--since",
+              "usage": [
+                "--since <STRING>"
+              ],
+              "tip": [
+                "show all events created since timestamp"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stream",
+              "tip": [
+                "stream events and do not exit when returning the last known event (default true)"
+              ]
+            },
+            {
+              "name": "--until",
+              "usage": [
+                "--until <STRING>"
+              ],
+              "tip": [
+                "show all events until timestamp"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "info"
         },
         {
@@ -5186,7 +9558,74 @@
           "name": "prune"
         },
         {
+          "name": "renumber",
+          "tip": [
+            "podman system renumber"
+          ]
+        },
+        {
           "name": "reset"
+        },
+        {
+          "name": "service",
+          "tip": [
+            "Run an API service"
+          ],
+          "option": [
+            {
+              "name": "--cors",
+              "usage": [
+                "--cors <STRING>"
+              ],
+              "tip": [
+                "Set CORS Headers"
+              ],
+              "next": []
+            },
+            {
+              "name": "--time",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --time <UINT>"
+              ],
+              "tip": [
+                "Time until the service session expires in seconds.  Use 0 to disable the timeout (default 5)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-cert",
+              "usage": [
+                "--tls-cert <STRING>"
+              ],
+              "tip": [
+                "PEM file containing TLS serving certificate."
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-client-ca",
+              "usage": [
+                "--tls-client-ca <STRING>"
+              ],
+              "tip": [
+                "Only trust client connections with certificates signed by this CA PEM file"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-key",
+              "usage": [
+                "--tls-key <STRING>"
+              ],
+              "tip": [
+                "PEM file containing TLS serving certificate private key"
+              ],
+              "next": []
+            }
+          ]
         }
       ]
     },
@@ -5206,6 +9645,50 @@
       ],
       "tip": [
         "Display the running processes of a container."
+      ]
+    },
+    {
+      "name": "unmount",
+      "tip": [
+        "Container storage increments a mount counter each time a container is mounted."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Unmount all of the currently mounted containers"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Force the complete unmount of the specified mounted containers"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "Act on the latest container podman is aware of"
+          ]
+        }
       ]
     },
     {
@@ -5242,6 +9725,26 @@
           ],
           "next": []
         }
+      ]
+    },
+    {
+      "name": "unshare",
+      "tip": [
+        "Runs a command in a modified user namespace."
+      ],
+      "option": [
+        {
+          "name": "--rootless-netns",
+          "tip": [
+            "Join the rootless network namespace used for netavark networking"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untag",
+      "tip": [
+        "Removes one or more names from a locally-stored image."
       ]
     },
     {
@@ -5562,16 +10065,125 @@
           "name": "exists"
         },
         {
+          "name": "export",
+          "tip": [
+            "See `podman volume export --help`."
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <STRING>"
+              ],
+              "tip": [
+                "Write to a specified file (default: stdout, which must be redirected)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "Imports contents into a podman volume from specified tarball (.tar, .tar.gz, .tgz, .bzip, .tar.xz, .txz, .tar.zst)."
+          ]
+        },
+        {
           "name": "inspect"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "ls, list"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "Filter volume output"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "Format volume output using Go template (default \"{{range .}}{{.Driver}}\\t{{.Name}}\\n{{end -}}\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "Do not print headers"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Print volume output in quiet mode"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mount",
+          "tip": [
+            "Mount a volume and return the mountpoint"
+          ]
         },
         {
           "name": "prune"
         },
         {
+          "name": "reload",
+          "tip": [
+            "Check all configured volume plugins and update the libpod database with all available volumes."
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "Rename an existing volume. The volume must not be in use by any containers."
+          ]
+        },
+        {
           "name": "rm"
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "Unmount a volume"
+          ]
         }
       ]
     },

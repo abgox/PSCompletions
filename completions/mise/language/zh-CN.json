@@ -43,6 +43,12 @@
           "tip": [
             "列出内置后端"
           ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "把工具切换到 registry 当前安装所用的 backend"
+          ]
         }
       ]
     },
@@ -169,9 +175,81 @@
               ]
             },
             {
+              "name": "capture",
+              "tip": [
+                "在外部命令执行前后记录被跟踪的文件"
+              ]
+            },
+            {
+              "name": "conflicts",
+              "tip": [
+                "查看共享冲突的本地与远端两侧"
+              ]
+            },
+            {
+              "name": "diff",
+              "tip": [
+                "显示 the changes needed to apply dotfiles from `[dotfiles]`"
+              ]
+            },
+            {
               "name": "edit",
               "tip": [
                 "编辑托管的 dotfile 源"
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "永不捕获匹配某个 glob 的路径"
+              ]
+            },
+            {
+              "name": "history",
+              "tip": [
+                "浏览 dotfiles 的各个检查点"
+              ]
+            },
+            {
+              "name": "include",
+              "tip": [
+                "停止排除匹配某个 glob 的路径"
+              ]
+            },
+            {
+              "name": "origin",
+              "tip": [
+                "连接或断开 setup 仓库"
+              ]
+            },
+            {
+              "name": "paths",
+              "tip": [
+                "显示 what history tracks and under which policies"
+              ]
+            },
+            {
+              "name": "pull",
+              "tip": [
+                "拉取 incoming shared changes into the live files"
+              ]
+            },
+            {
+              "name": "recover",
+              "tip": [
+                "恢复 an interrupted dotfile operation"
+              ]
+            },
+            {
+              "name": "rollback",
+              "tip": [
+                "把文件恢复到某个检查点所记录的版本"
+              ]
+            },
+            {
+              "name": "save",
+              "tip": [
+                "保存 a checkpoint of the tracked files now"
               ]
             },
             {
@@ -187,9 +265,39 @@
               ]
             },
             {
+              "name": "sync",
+              "tip": [
+                "发布、拉取，并记录当前待处理的内容"
+              ]
+            },
+            {
+              "name": "track",
+              "tip": [
+                "跟踪 a file or directory in place"
+              ]
+            },
+            {
               "name": "unapply",
               "tip": [
                 "移除已应用的 dotfiles"
+              ]
+            },
+            {
+              "name": "undo",
+              "tip": [
+                "撤销某次操作带来的被跟踪文件变更"
+              ]
+            },
+            {
+              "name": "untrack",
+              "tip": [
+                "停止跟踪某个文件或目录"
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "保存 tracked files as they change"
               ]
             }
           ]
@@ -349,6 +457,18 @@
               ]
             },
             {
+              "name": "brew",
+              "tip": [
+                "管理 Homebrew taps used by bootstrap packages"
+              ]
+            },
+            {
+              "name": "export",
+              "tip": [
+                "导出 active Nix bootstrap packages as a NixOS module"
+              ]
+            },
+            {
               "name": "import",
               "tip": [
                 "导入已安装的系统包"
@@ -394,6 +514,12 @@
               ],
               "tip": [
                 "添加引导系统包并安装"
+              ]
+            },
+            {
+              "name": "where",
+              "tip": [
+                "打印 the stable root of an installed Homebrew formula"
               ]
             }
           ]
@@ -694,6 +820,12 @@
               ]
             },
             {
+              "name": "remove",
+              "tip": [
+                "移除 an installed user-scope service, declared or not"
+              ]
+            },
+            {
               "name": "status",
               "tip": [
                 "显示配置的 Linux 系统服务状态"
@@ -731,6 +863,12 @@
                 "提示输入密钥值而不是跳过"
               ]
             }
+          ]
+        },
+        {
+          "name": "unapply",
+          "tip": [
+            "移除 the resources a config environment contributes"
           ]
         },
         {
@@ -971,183 +1109,95 @@
       ]
     },
     {
-      "name": "deactivate",
-      "tip": [
-        "在当前 shell 会话中禁用 mise"
-      ]
-    },
-    {
-      "name": "deps",
+      "name": "daemons",
       "alias": [
-        "dep"
+        "daemon"
       ],
       "usage": [
-        "dep|deps"
+        "daemon|daemons"
       ],
       "tip": [
-        "[experimental] 管理项目依赖"
-      ],
-      "option": [
-        {
-          "name": "--dry-run",
-          "alias": [
-            "-n"
-          ],
-          "usage": [
-            "-n, --dry-run"
-          ],
-          "tip": [
-            "只检查是否需要安装依赖，不运行命令"
-          ]
-        },
-        {
-          "name": "--explain",
-          "tip": [
-            "显示提供者为何是新鲜或过时的"
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
-          "tip": [
-            "即使输出是最新的也强制运行所有依赖步骤"
-          ]
-        },
-        {
-          "name": "--list",
-          "tip": [
-            "显示可用的依赖提供者"
-          ]
-        },
-        {
-          "name": "--monorepo",
-          "tip": [
-            "从每个 [monorepo].config_roots 配置根目录安装依赖"
-          ]
-        },
-        {
-          "name": "--only",
-          "usage": [
-            "--only <ONLY>"
-          ],
-          "tip": [
-            "只运行指定的依赖规则"
-          ],
-          "next": []
-        },
-        {
-          "name": "--skip",
-          "usage": [
-            "--skip <SKIP>"
-          ],
-          "tip": [
-            "跳过指定的依赖规则"
-          ],
-          "next": []
-        }
+        "管理项目的 daemons（实验性）"
       ],
       "next": [
         {
-          "name": "add",
-          "tip": [
-            "添加依赖"
+          "name": "list",
+          "alias": [
+            "ls"
           ],
-          "option": [
-            {
-              "name": "--dev",
-              "alias": [
-                "-D"
-              ],
-              "usage": [
-                "-D, --dev"
-              ],
-              "tip": [
-                "添加为开发依赖"
-              ]
-            }
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出 project daemons without starting a supervisor or registering configuration."
           ]
         },
         {
-          "name": "install",
+          "name": "logs",
           "tip": [
-            "安装所有项目依赖"
-          ],
-          "option": [
-            {
-              "name": "--dry-run",
-              "alias": [
-                "-n"
-              ],
-              "usage": [
-                "-n, --dry-run"
-              ],
-              "tip": [
-                "只检查是否需要安装依赖，不运行命令"
-              ]
-            },
-            {
-              "name": "--explain",
-              "tip": [
-                "显示提供者为何是新鲜或过时的"
-              ]
-            },
-            {
-              "name": "--force",
-              "alias": [
-                "-f"
-              ],
-              "usage": [
-                "-f, --force"
-              ],
-              "tip": [
-                "即使输出是最新的也强制运行所有依赖步骤"
-              ]
-            },
-            {
-              "name": "--list",
-              "tip": [
-                "显示可用的依赖提供者"
-              ]
-            },
-            {
-              "name": "--monorepo",
-              "tip": [
-                "从每个 [monorepo].config_roots 配置根目录安装依赖"
-              ]
-            },
-            {
-              "name": "--only",
-              "usage": [
-                "--only <ONLY>"
-              ],
-              "tip": [
-                "只运行指定的依赖规则"
-              ],
-              "next": []
-            },
-            {
-              "name": "--skip",
-              "usage": [
-                "--skip <SKIP>"
-              ],
-              "tip": [
-                "跳过指定的依赖规则"
-              ],
-              "next": []
-            }
+            "传递给 pitchfork 的参数；daemon 名称可简写或全限定"
           ]
         },
         {
-          "name": "remove",
+          "name": "providers",
           "tip": [
-            "移除依赖"
+            "管理全局 [daemon_providers] 中定义的共享服务"
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "清理已删除项目目录遗留的 daemon 状态"
+          ]
+        },
+        {
+          "name": "register",
+          "tip": [
+            "预先准备好所有项目 daemons 以按需启动，而不立即启动"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "传递给 pitchfork 的参数；daemon 名称可简写或全限定"
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "传递给 pitchfork 的参数；daemon 名称可简写或全限定"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "传递给 pitchfork 的参数；daemon 名称可简写或全限定"
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "传递给 pitchfork 的参数；daemon 名称可简写或全限定"
+          ]
+        },
+        {
+          "name": "tui",
+          "tip": [
+            "在终端界面中浏览项目 daemons"
+          ]
+        },
+        {
+          "name": "urls",
+          "tip": [
+            "打印项目 daemons 的 URL"
           ]
         }
+      ]
+    },
+    {
+      "name": "deactivate",
+      "tip": [
+        "在当前 shell 会话中禁用 mise"
       ]
     },
     {
@@ -1167,6 +1217,12 @@
           "tip": [
             "打印 mise 提供的当前 PATH 条目"
           ]
+        },
+        {
+          "name": "project",
+          "tip": [
+            "运行 the project's diagnostic checks"
+          ]
         }
       ]
     },
@@ -1174,6 +1230,146 @@
       "name": "dotfiles",
       "tip": [
         "(deprecated) 管理 `[dotfiles]` 中的 dotfiles"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加或更新 dotfiles in `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "apply",
+          "tip": [
+            "应用 dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "capture",
+          "tip": [
+            "在外部命令执行前后记录被跟踪的文件"
+          ]
+        },
+        {
+          "name": "conflicts",
+          "tip": [
+            "查看共享冲突的本地与远端两侧"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "显示 the changes needed to apply dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "编辑 a managed dotfile source"
+          ]
+        },
+        {
+          "name": "exclude",
+          "tip": [
+            "永不捕获匹配某个 glob 的路径"
+          ]
+        },
+        {
+          "name": "history",
+          "tip": [
+            "浏览 dotfiles 的各个检查点"
+          ]
+        },
+        {
+          "name": "include",
+          "tip": [
+            "停止排除匹配某个 glob 的路径"
+          ]
+        },
+        {
+          "name": "origin",
+          "tip": [
+            "连接或断开 setup 仓库"
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "显示 what history tracks and under which policies"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "拉取 incoming shared changes into the live files"
+          ]
+        },
+        {
+          "name": "recover",
+          "tip": [
+            "恢复 an interrupted dotfile operation"
+          ]
+        },
+        {
+          "name": "rollback",
+          "tip": [
+            "把文件恢复到某个检查点所记录的版本"
+          ]
+        },
+        {
+          "name": "save",
+          "tip": [
+            "保存 a checkpoint of the tracked files now"
+          ]
+        },
+        {
+          "name": "status",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|status"
+          ],
+          "tip": [
+            "显示状态 of dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "发布、拉取，并记录当前待处理的内容"
+          ]
+        },
+        {
+          "name": "track",
+          "tip": [
+            "跟踪 a file or directory in place"
+          ]
+        },
+        {
+          "name": "unapply",
+          "tip": [
+            "移除 dotfiles applied from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "undo",
+          "tip": [
+            "撤销某次操作带来的被跟踪文件变更"
+          ]
+        },
+        {
+          "name": "untrack",
+          "tip": [
+            "停止跟踪某个文件或目录"
+          ]
+        },
+        {
+          "name": "watch",
+          "tip": [
+            "保存 tracked files as they change"
+          ]
+        }
       ]
     },
     {
@@ -1649,6 +1845,12 @@
                 "写入 .github/workflows/$name.yml"
               ]
             }
+          ]
+        },
+        {
+          "name": "install-script",
+          "tip": [
+            "生成用于下载并执行 mise 的脚本"
           ]
         },
         {
@@ -2630,6 +2832,32 @@
       ]
     },
     {
+      "name": "packslip",
+      "tip": [
+        "mise 接受 packslip 签名者的列表"
+      ],
+      "next": [
+        {
+          "name": "forget",
+          "tip": [
+            "移除一个已固定的 packslip 信任项"
+          ]
+        },
+        {
+          "name": "pins",
+          "alias": [
+            "list"
+          ],
+          "usage": [
+            "list|pins"
+          ],
+          "tip": [
+            "列出 mise 信任的 packslip 签名者"
+          ]
+        }
+      ]
+    },
+    {
       "name": "patrons",
       "tip": [
         "显示支持 mise 的 Patron 级别成员"
@@ -2913,13 +3141,14 @@
     {
       "name": "prepare",
       "alias": [
-        "prep"
+        "deps",
+        "dep"
       ],
       "usage": [
-        "prep|prepare"
+        "dep|deps|prepare"
       ],
       "tip": [
-        "[experimental] 确保项目依赖已就绪"
+        "[experimental] 管理项目依赖"
       ],
       "option": [
         {
@@ -2931,7 +3160,13 @@
             "-n, --dry-run"
           ],
           "tip": [
-            "不实际准备任何内容"
+            "只检查是否需要安装依赖，不运行命令"
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "显示提供者为何是新鲜或过时的"
           ]
         },
         {
@@ -2943,7 +3178,137 @@
             "-f, --force"
           ],
           "tip": [
-            "强制重新准备"
+            "即使输出是最新的也强制运行所有依赖步骤"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "显示可用的依赖提供者"
+          ]
+        },
+        {
+          "name": "--monorepo",
+          "tip": [
+            "从每个 [monorepo].config_roots 配置根目录安装依赖"
+          ]
+        },
+        {
+          "name": "--only",
+          "usage": [
+            "--only <ONLY>"
+          ],
+          "tip": [
+            "只运行指定的依赖规则"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <SKIP>"
+          ],
+          "tip": [
+            "跳过指定的依赖规则"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "添加依赖"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "添加为开发依赖"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "安装所有项目依赖"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "只检查是否需要安装依赖，不运行命令"
+              ]
+            },
+            {
+              "name": "--explain",
+              "tip": [
+                "显示提供者为何是新鲜或过时的"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使输出是最新的也强制运行所有依赖步骤"
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "显示可用的依赖提供者"
+              ]
+            },
+            {
+              "name": "--monorepo",
+              "tip": [
+                "从每个 [monorepo].config_roots 配置根目录安装依赖"
+              ]
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "只运行指定的依赖规则"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "跳过指定的依赖规则"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除依赖"
           ]
         }
       ]
@@ -3711,9 +4076,47 @@
       ]
     },
     {
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "usage": [
+        "skill|skills"
+      ],
+      "tip": [
+        "活动工具随其 packslip 提供的 agent skills"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出 the skills the active tools declare"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "把活动工具的 skills 链接到 agent 查找它们的位置"
+          ]
+        }
+      ]
+    },
+    {
       "name": "sponsors",
       "tip": [
         "显示赞助 mise 和 en.dev 项目系列的公司"
+      ]
+    },
+    {
+      "name": "ssh",
+      "tip": [
+        "打开一个 SSH 会话，可选地只读借用 GitHub 凭据"
       ]
     },
     {

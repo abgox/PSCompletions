@@ -62,6 +62,17 @@ local function add_tag()
     end))
 end
 
+-- Only offered where a remote branch is what the user is actually reaching for.
+-- `%(symref)` is empty for a real ref, which drops the origin/HEAD pseudo-ref.
+local function add_remote_branch()
+    for _, line in ipairs(psc.run({ "git", "for-each-ref", "--format=%(refname:short)|%(symref)", "refs/remotes" }) or {}) do
+        local name, symref = line:match("^([^|]*)|(.*)$")
+        if name and name ~= "" and symref == "" then
+            psc.add({ name = name, tip = "remote branch --- " .. name })
+        end
+    end
+end
+
 -- Stash entries are addressed by their numeric index (e.g. `git stash apply 0`).
 local function add_stash()
     for _, line in ipairs(psc.run({ "git", "stash", "list" }) or {}) do
@@ -219,16 +230,50 @@ psc.on({
     { command = "commit",              option = "--reedit-message" }
 }, add_commit)
 
+-- A tag is a ref, so every slot that already takes a branch takes a tag too;
+-- describe in particular resolves a tag and nothing else by default.
 psc.on({
+    { command = "merge" },
+    { command = "branch" },
+    { command = "switch" },
+    { command = "checkout" },
+    { command = "rebase" },
+    { command = "cherry-pick" },
+    { command = "cherry" },
+    { command = "log" },
+    { command = "describe" },
+    { command = "shortlog" },
+    { command = "show-branch" },
+    { command = "merge-base" },
+    { command = "format-patch" },
+    { command = "archive" },
     { command = "tag" },
     { command = "verify-tag" },
-    { command = "archive" },
-    { command = "tag",       option = "--delete" },
-    { command = "tag",       option = "--verify" },
-    { command = "tag",       option = "--points-at" },
-    { command = "branch",    option = "--points-at" },
-    { command = "fetch",     option = "--shallow-exclude" }
+    { command = { "bisect", "start" }, multiple = true },
+    { command = "switch",              option = "--create" },
+    { command = "switch",              option = "--force-create" },
+    { command = "switch",              option = "--orphan" },
+    { command = "checkout",            option = "--orphan" },
+    { command = "checkout",            option = "-b" },
+    { command = "branch",              option = "--move" },
+    { command = "branch",              option = "-M" },
+    { command = "branch",              option = "--copy" },
+    { command = "branch",              option = "-C" },
+    { command = "branch",              option = "-d" },
+    { command = "branch",              option = "--set-upstream-to" },
+    { command = "branch",              option = "--points-at" },
+    { command = "tag",                 option = "--points-at" },
+    { command = "rebase",              option = "--onto" },
+    { command = "restore",             option = "--source" },
+    { command = "fetch",               option = "--shallow-exclude" },
+    { command = "tag",                 option = "--delete" },
+    { command = "tag",                 option = "--verify" }
 }, add_tag)
+
+psc.on({
+    { command = "checkout" },
+    { command = "switch" }
+}, add_remote_branch)
 
 psc.on({
     { command = { "stash", "show" } },
@@ -256,7 +301,7 @@ psc.on({
 }, add_remote)
 
 psc.on({
-    { command = "add",              multiple = true },
+    { command = "stage",            multiple = true },
     { command = "clean" },
     { command = "restore" },
     { command = "difftool" },
@@ -268,7 +313,6 @@ psc.on({
     { command = "rm" },
     { command = "mv" },
     { command = "ls-files" },
-    { command = "blame" },
     { command = "annotate" }
 }, add_tracked_files)
 

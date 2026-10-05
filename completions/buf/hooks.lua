@@ -34,23 +34,20 @@ psc.on({
     { command = { "source", "edit", "deprecate" } },
     { option = "--against" },
     { option = "--schema", multiple = true },
+    { option = "--path", multiple = true },
+    { option = "--exclude-path", multiple = true }
 }, add_protos)
 
 psc.on({
     { option = "--config" },
-    { option = "--against-config" },
+    { option = "--against-config" }
 }, add_buf_yaml)
 
 psc.on({
     { option = "--template" },
-    { option = "--buf-gen-yaml" },
+    { option = "--buf-gen-yaml" }
 }, add_gen_yaml)
 
 psc.on({ option = "--binary" }, add_wasm)
 
 psc.on({ option = "--netrc-file" }, add_netrc)
-
-psc.on({
-    { option = "--path", multiple = true },
-    { option = "--exclude-path", multiple = true },
-}, add_protos)

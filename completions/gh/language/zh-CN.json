@@ -33,7 +33,15 @@
       ]
     },
     {
-      "name": "agent-task",
+      "name": "agent-tasks",
+      "alias": [
+        "agent-task",
+        "agents",
+        "agent"
+      ],
+      "usage": [
+        "agent|agents|agent-task|agent-tasks"
+      ],
       "tip": [
         "处理代理任务 (预览版)"
       ],
@@ -66,7 +74,7 @@
                 "-a, --custom-agent"
               ],
               "tip": [
-                "用于任务的自定义代理, 例如使用 'my-agent' 对应 'my-agent.md' 代理"
+                "为任务使用自定义 agent。例如对 'my-agent.md' agent 使用 'my-agent'"
               ],
               "next": []
             },
@@ -97,11 +105,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -122,7 +141,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -155,11 +174,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -167,7 +197,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -286,6 +316,16 @@
           ]
         },
         {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <HOST>"
+          ],
+          "tip": [
+            "请求的 GitHub 主机名（默认为 \"github.com\"）"
+          ],
+          "next": []
+        },
+        {
           "name": "--include",
           "alias": [
             "-i"
@@ -362,122 +402,16 @@
           ],
           "next": []
         }
-      ],
-      "next": [
-        {
-          "name": "GH_HOST",
-          "tip": [
-            "向 `github.com` 以外的 GitHub 主机发起请求"
-          ],
-          "option": [
-            {
-              "name": "--field",
-              "alias": [
-                "-F"
-              ],
-              "usage": [
-                "-F, --field"
-              ],
-              "tip": [
-                "以 key=value 格式添加类型化参数 (使用 \"@<path>\" 或 \"@-\" 从文件或标准输入读取值)"
-              ],
-              "next": []
-            },
-            {
-              "name": "--header",
-              "alias": [
-                "-H"
-              ],
-              "usage": [
-                "-H, --header"
-              ],
-              "tip": [
-                "以 key:value 格式添加 HTTP 请求头"
-              ]
-            },
-            {
-              "name": "--include",
-              "alias": [
-                "-i"
-              ],
-              "usage": [
-                "-i, --include"
-              ],
-              "tip": [
-                "在输出中包含 HTTP 响应状态行和请求头"
-              ]
-            },
-            {
-              "name": "--jq",
-              "alias": [
-                "-q"
-              ],
-              "usage": [
-                "-q, --jq"
-              ],
-              "tip": [
-                "使用 jq 语法从响应中选择值"
-              ],
-              "next": []
-            },
-            {
-              "name": "--method",
-              "alias": [
-                "-X"
-              ],
-              "usage": [
-                "-X, --method"
-              ],
-              "tip": [
-                "请求的 HTTP 方法 (默认 \"GET\")"
-              ],
-              "next": []
-            },
-            {
-              "name": "--preview",
-              "alias": [
-                "-p"
-              ],
-              "usage": [
-                "-p, --preview"
-              ],
-              "tip": [
-                "启用 GitHub API 预览 (名称应省略 \"-preview\")"
-              ],
-              "next": []
-            },
-            {
-              "name": "--raw-field",
-              "alias": [
-                "-f"
-              ],
-              "usage": [
-                "-f, --raw-field"
-              ],
-              "tip": [
-                "以 key=value 格式添加字符串参数"
-              ],
-              "next": []
-            },
-            {
-              "name": "--template",
-              "alias": [
-                "-t"
-              ],
-              "usage": [
-                "-t, --template"
-              ],
-              "tip": [
-                "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
-              ],
-              "next": []
-            }
-          ]
-        }
       ]
     },
     {
       "name": "attestation",
+      "alias": [
+        "at"
+      ],
+      "usage": [
+        "at|attestation"
+      ],
       "tip": [
         "处理构件证明"
       ],
@@ -869,6 +803,44 @@
           "name": "status",
           "tip": [
             "显示每个已知 GitHub 主机上的活动账户和身份验证状态"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -1043,11 +1015,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--key",
@@ -1120,7 +1103,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -1166,6 +1149,12 @@
     },
     {
       "name": "codespace",
+      "alias": [
+        "cs"
+      ],
+      "usage": [
+        "cs|codespace"
+      ],
       "tip": [
         "连接和管理 codespaces"
       ],
@@ -1486,11 +1475,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -1524,7 +1524,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -1617,11 +1617,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -1629,12 +1640,26 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
               ],
               "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "forward",
+              "tip": [
+                "转发端口"
+              ]
+            },
+            {
+              "name": "visibility",
+              "tip": [
+                "更改已转发端口的可见性"
+              ]
             }
           ]
         },
@@ -1763,11 +1788,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -1775,7 +1811,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -1926,12 +1962,88 @@
           "name": "list",
           "tip": [
             "列出仓库中的讨论 (预览版)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "view",
           "tip": [
             "查看讨论 (预览版)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -1949,7 +2061,14 @@
       ]
     },
     {
-      "name": "extension",
+      "name": "extensions",
+      "alias": [
+        "extension",
+        "ext"
+      ],
+      "usage": [
+        "ext|extension|extensions"
+      ],
       "tip": [
         "管理 gh 扩展"
       ],
@@ -1957,7 +2076,7 @@
         {
           "name": "browse",
           "tip": [
-            "进入用于浏览、添加和删除扩展的界面"
+            "进入用于浏览、添加和移除扩展的界面"
           ],
           "option": [
             {
@@ -1969,7 +2088,7 @@
                 "-s, --single-column"
               ],
               "tip": [
-                "仅以单列文本渲染 TUI"
+                "仅用一列文本渲染 TUI"
               ]
             }
           ]
@@ -1983,7 +2102,7 @@
             {
               "name": "--precompiled",
               "tip": [
-                "创建预编译扩展, 可选值: go, other"
+                "创建预编译扩展。可能的值: go, other"
               ],
               "next": []
             }
@@ -2004,13 +2123,13 @@
             {
               "name": "--force",
               "tip": [
-                "强制升级扩展, 若已安装最新版则忽略"
+                "强制升级扩展，若已是最新则忽略"
               ]
             },
             {
               "name": "--pin",
               "tip": [
-                "将扩展固定到某个发布标签或 commit ref"
+                "将扩展固定到发布标签或提交引用"
               ],
               "next": []
             }
@@ -2031,7 +2150,7 @@
         {
           "name": "search",
           "tip": [
-            "搜索 GitHub CLI 的扩展"
+            "在 GitHub CLI 中搜索扩展"
           ],
           "option": [
             {
@@ -2040,11 +2159,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -2065,7 +2195,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -2101,7 +2231,7 @@
             {
               "name": "--dry-run",
               "tip": [
-                "仅显示可升级项"
+                "仅显示升级项"
               ]
             },
             {
@@ -2134,6 +2264,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "创建新 gist"
           ],
@@ -2495,6 +2631,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "创建新问题"
           ],
@@ -2707,6 +2849,16 @@
           ],
           "option": [
             {
+              "name": "--add-label",
+              "usage": [
+                "--add-label <name>"
+              ],
+              "tip": [
+                "按名称添加标签"
+              ],
+              "next": []
+            },
+            {
               "name": "--body",
               "alias": [
                 "-b"
@@ -2745,6 +2897,16 @@
               "next": []
             },
             {
+              "name": "--remove-label",
+              "usage": [
+                "--remove-label <name>"
+              ],
+              "tip": [
+                "按名称移除标签"
+              ],
+              "next": []
+            },
+            {
               "name": "--title",
               "alias": [
                 "-t"
@@ -2761,10 +2923,26 @@
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "列出仓库中的问题"
           ],
           "option": [
+            {
+              "name": "--app",
+              "usage": [
+                "--app <app>"
+              ],
+              "tip": [
+                "按 GitHub App 作者过滤"
+              ],
+              "next": []
+            },
             {
               "name": "--assignee",
               "alias": [
@@ -2797,11 +2975,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "用指定字段输出 JSON"
+              ],
+              "next": []
             },
             {
               "name": "--label",
@@ -2826,6 +3015,16 @@
               ],
               "tip": [
                 "要获取的最大问题数 (默认 30)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mention",
+              "usage": [
+                "--mention <user>"
+              ],
+              "tip": [
+                "按提及过滤"
               ],
               "next": []
             },
@@ -2873,10 +3072,20 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
+              ],
+              "next": []
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <name>"
+              ],
+              "tip": [
+                "按问题类型名称过滤"
               ],
               "next": []
             },
@@ -2955,11 +3164,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -2967,7 +3187,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -3018,11 +3238,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -3030,7 +3261,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -3200,11 +3431,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -3238,7 +3480,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -3271,15 +3513,7 @@
     {
       "name": "mintty",
       "tip": [
-        "关于在 MinTTY 中使用 gh 的信息"
-      ],
-      "next": [
-        {
-          "name": "NOTE",
-          "tip": [
-            "这可能导致一些界面问题"
-          ]
-        }
+        "关于在 MinTTY 中使用 gh 的信息 (仅限 Windows)"
       ]
     },
     {
@@ -3375,11 +3609,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -3387,7 +3632,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -3500,6 +3745,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "创建拉取请求"
           ],
@@ -3515,6 +3766,16 @@
               "tip": [
                 "按登录名分配人员。使用 \"@me\" 分配给自己。"
               ]
+            },
+            {
+              "name": "--attach",
+              "usage": [
+                "--attach <file>"
+              ],
+              "tip": [
+                "附加图片或视频文件，格式为 '<file>#<image alt text>'"
+              ],
+              "next": []
             },
             {
               "name": "--base",
@@ -3567,6 +3828,12 @@
               ]
             },
             {
+              "name": "--dry-run",
+              "tip": [
+                "只打印详情而不创建 PR。仍可能推送 git 更改。"
+              ]
+            },
+            {
               "name": "--editor",
               "alias": [
                 "-e"
@@ -3589,6 +3856,18 @@
               ],
               "tip": [
                 "使用提交信息作为标题和正文"
+              ]
+            },
+            {
+              "name": "--fill-first",
+              "tip": [
+                "使用首次提交信息作为标题和正文"
+              ]
+            },
+            {
+              "name": "--fill-verbose",
+              "tip": [
+                "使用提交信息+正文作为描述"
               ]
             },
             {
@@ -3630,6 +3909,12 @@
               "next": []
             },
             {
+              "name": "--no-maintainer-edit",
+              "tip": [
+                "禁止维护者修改拉取请求"
+              ]
+            },
+            {
               "name": "--project",
               "alias": [
                 "-p"
@@ -3640,6 +3925,16 @@
               "tip": [
                 "按标题将拉取请求添加到项目"
               ]
+            },
+            {
+              "name": "--recover",
+              "usage": [
+                "--recover <string>"
+              ],
+              "tip": [
+                "从失败的 create 运行中恢复输入"
+              ],
+              "next": []
             },
             {
               "name": "--reviewer",
@@ -3731,6 +4026,16 @@
           ],
           "option": [
             {
+              "name": "--add-label",
+              "usage": [
+                "--add-label <name>"
+              ],
+              "tip": [
+                "按名称添加标签"
+              ],
+              "next": []
+            },
+            {
               "name": "--base",
               "alias": [
                 "-B"
@@ -3781,6 +4086,16 @@
               "next": []
             },
             {
+              "name": "--remove-label",
+              "usage": [
+                "--remove-label <name>"
+              ],
+              "tip": [
+                "按名称移除标签"
+              ],
+              "next": []
+            },
+            {
               "name": "--title",
               "alias": [
                 "-t"
@@ -3797,6 +4112,12 @@
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "列出仓库中的拉取请求"
           ],
@@ -3871,11 +4192,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--label",
@@ -3934,7 +4266,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -4268,11 +4600,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -4280,7 +4623,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -4333,11 +4676,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -4345,7 +4699,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -5311,11 +5665,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -5349,7 +5714,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -5451,11 +5816,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -5463,7 +5839,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -5517,6 +5893,108 @@
           "name": "autolink",
           "tip": [
             "管理自动链接引用"
+          ],
+          "next": [
+            {
+              "name": "create",
+              "tip": [
+                "创建新的自动链接引用"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "删除自动链接引用"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 GitHub 仓库的自动链接引用"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "用 jq 表达式过滤 JSON 输出。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "以 JSON 输出指定字段。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "查看自动链接引用"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "用 jq 表达式过滤 JSON 输出。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "以 JSON 输出指定字段。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -5525,6 +6003,12 @@
             "在本地克隆仓库"
           ],
           "option": [
+            {
+              "name": "--no-upstream",
+              "tip": [
+                "克隆 fork 时不添加上游远程"
+              ]
+            },
             {
               "name": "--upstream-remote-name",
               "alias": [
@@ -5542,6 +6026,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "创建新仓库"
           ],
@@ -5683,6 +6173,64 @@
           "name": "deploy-key",
           "tip": [
             "管理仓库中的部署密钥"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "向 GitHub 仓库添加部署密钥"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "从 GitHub 仓库删除部署密钥"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 GitHub 仓库中的部署密钥"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "用 jq 表达式过滤 JSON 输出。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "以 JSON 输出指定字段。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -5770,16 +6318,50 @@
           "name": "gitignore",
           "tip": [
             "列出并查看可用的仓库 gitignore 模板"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出可用的仓库 gitignore 模板"
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "查看可用的仓库 gitignore 模板"
+              ]
+            }
           ]
         },
         {
           "name": "license",
           "tip": [
             "浏览仓库许可证"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出常用仓库许可证"
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "查看指定的仓库许可证"
+              ]
+            }
           ]
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "列出用户或组织拥有的仓库"
           ],
@@ -5790,11 +6372,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--language",
@@ -5828,7 +6421,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -5849,11 +6442,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -5861,7 +6465,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -5882,11 +6486,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--output",
@@ -5907,7 +6522,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6038,11 +6653,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -6050,7 +6676,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6076,6 +6702,12 @@
     },
     {
       "name": "ruleset",
+      "alias": [
+        "rs"
+      ],
+      "usage": [
+        "rs|ruleset"
+      ],
       "tip": [
         "查看仓库规则集的信息"
       ],
@@ -6340,11 +6972,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6378,7 +7021,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6484,11 +7127,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -6496,7 +7150,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6558,11 +7212,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6583,7 +7248,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6616,11 +7281,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6641,7 +7317,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6674,11 +7350,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6699,7 +7386,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6758,11 +7445,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6783,7 +7481,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6816,11 +7514,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6841,7 +7550,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -6967,11 +7676,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -6992,7 +7712,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -7113,7 +7833,13 @@
       ]
     },
     {
-      "name": "skill",
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "usage": [
+        "skill|skills"
+      ],
       "tip": [
         "安装和管理 agent skills (预览版)"
       ],
@@ -7128,6 +7854,44 @@
           "name": "list",
           "tip": [
             "列出已安装的 skills (预览版)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -7145,7 +7909,45 @@
         {
           "name": "search",
           "tip": [
-            "在 GitHub 上搜索 skills (预览版)"
+            "在 GitHub 中搜索 skills (预览版)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -7317,11 +8119,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -7342,7 +8155,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -7376,11 +8189,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -7401,7 +8225,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -7525,11 +8349,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "使用 jq 表达式过滤 JSON 输出"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -7550,7 +8385,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "使用 Go 模板格式化 JSON 输出; 参见 \"gh help formatting\""
@@ -7579,6 +8414,29 @@
               "next": []
             },
             {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "用 jq 表达式过滤 JSON 输出。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "以 JSON 输出指定字段。"
+              ],
+              "next": []
+            },
+            {
               "name": "--raw-field",
               "alias": [
                 "-f"
@@ -7601,6 +8459,19 @@
               ],
               "tip": [
                 "包含要运行的工作流文件版本的分支或标签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "用 Go 模板格式化 JSON 输出；参见 \"gh help formatting\"。"
               ],
               "next": []
             }
@@ -7663,6 +8534,12 @@
     }
   ],
   "global_option": [
+    {
+      "name": "--codespace",
+      "tip": [
+        "交互式选择 codespace，而不是在本地运行该命令"
+      ]
+    },
     {
       "name": "--help",
       "tip": [

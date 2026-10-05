@@ -20,21 +20,19 @@ local function add_resources()
     end
 end
 
+-- `terraform output -json` yields {name: {value: ..., type: ...}}, so the value
+-- can go straight into the tip. Single path: -json has been accepted since 0.12,
+-- and when the command fails (no init, no state) the plain form fails too, so a
+-- retry would only produce items the first call had already ruled out.
 local function add_outputs()
     local data = psc.run({ "terraform", "output", "-json" }, { format = "json" })
-    if data and type(data) == "table" then
-        for k, v in pairs(data) do
-            local tip = ""
-            if type(v) == "table" and v.value ~= nil then
-                tip = tostring(v.value)
-            end
-            psc.add({ name = k, tip = tip })
+    if not data or type(data) ~= "table" then return end
+    for k, v in pairs(data) do
+        local tip = ""
+        if type(v) == "table" and v.value ~= nil then
+            tip = tostring(v.value)
         end
-        return
-    end
-    for _, l in ipairs(psc.run({ "terraform", "output" }) or {}) do
-        local name = l:match("^(%S+)%s*=")
-        if name then psc.add({ name = name, tip = l }) end
+        psc.add({ name = k, tip = tip })
     end
 end
 
@@ -59,6 +57,5 @@ psc.on({
 }, add_resources)
 
 psc.on({
-    { command = "output", multiple = true },
-    { command = "output" }
+    { command = "output", multiple = true }
 }, add_outputs)

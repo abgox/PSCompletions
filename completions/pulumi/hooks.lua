@@ -75,7 +75,6 @@ psc.on({
 psc.on({
     { command = { "config", "get" } },
     { command = { "config", "set" } },
-    { command = { "config", "rm" } },
     { command = { "config", "remove" } },
     { command = { "config", "copy" } }
 }, add_configs)

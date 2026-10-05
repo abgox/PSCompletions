@@ -7,6 +7,409 @@
   },
   "next": [
     {
+      "name": "artifact",
+      "tip": [
+        "管理 OCI artifact"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "从 registry 把 OCI artifact 加入本地存储"
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "为 artifact 指定文件的某个键设置 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--append",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --append"
+              ],
+              "tip": [
+                "把文件追加到已存在的 artifact"
+              ]
+            },
+            {
+              "name": "--file-type",
+              "usage": [
+                "--file-type <STRING>"
+              ],
+              "tip": [
+                "设置 artifact 使用的文件类型（layer）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "替换已存在的 artifact"
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <STRING>"
+              ],
+              "tip": [
+                "使用指定类型描述 artifact"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "extract",
+          "tip": [
+            "把 OCI artifact 的 blob 导出到本地目录"
+          ],
+          "option": [
+            {
+              "name": "--digest",
+              "usage": [
+                "--digest <STRING>"
+              ],
+              "tip": [
+                "只导出具有指定 digest 的 blob"
+              ],
+              "next": []
+            },
+            {
+              "name": "--title",
+              "usage": [
+                "--title <STRING>"
+              ],
+              "tip": [
+                "只导出具有指定 title 的 blob"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "显示 OCI artifact 的详细信息"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出本地存储中的 OCI artifact"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "不截断输出"
+              ]
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "不打印列标题"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "从 registry 拉取 artifact 并存入本地存储"
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--decryption-key",
+              "usage": [
+                "--decryption-key <STRINGARRAY>"
+              ],
+              "tip": [
+                "解密镜像所需的密钥（例如 /path/to/key.pem）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "失败时的重试次数（默认为 3）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "失败时两次重试之间的延迟"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "把 OCI artifact 从本地存储推送到镜像仓库"
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--digestfile",
+              "usage": [
+                "--digestfile <STRING>"
+              ],
+              "tip": [
+                "把已推送镜像的 digest 写入指定文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "失败时的重试次数（默认为 3）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "失败时两次重试之间的延迟"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "使用指定密钥在目标位置添加签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore",
+              "usage": [
+                "--sign-by-sigstore <PATH>"
+              ],
+              "tip": [
+                "使用 PATH 处的 sigstore 参数文件对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore-private-key",
+              "usage": [
+                "--sign-by-sigstore-private-key <PATH>"
+              ],
+              "tip": [
+                "使用 PATH 处的 sigstore 私钥对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sq-fingerprint",
+              "usage": [
+                "--sign-by-sq-fingerprint <FINGERPRINT>"
+              ],
+              "tip": [
+                "使用指定 FINGERPRINT 的 Sequoia-PGP 密钥对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-passphrase-file",
+              "usage": [
+                "--sign-passphrase-file <PATH>"
+              ],
+              "tip": [
+                "从 PATH 处的文件读取镜像签名口令"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "从本地存储移除一个或多个 OCI artifact"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "若 artifact 不存在则忽略错误"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "attach",
       "usage": [
         "attach <container>"
@@ -31,6 +434,52 @@
           "name": "--sig-proxy",
           "tip": [
             "将接收到的信号代理给进程（默认 true）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auto-update",
+      "tip": [
+        "按 auto-update 策略自动更新容器"
+      ],
+      "option": [
+        {
+          "name": "--authfile",
+          "usage": [
+            "--authfile <STRING>"
+          ],
+          "tip": [
+            "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "只检查是否有待更新的内容"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <STRING>"
+          ],
+          "tip": [
+            "使用 JSON 或 Go 模板格式化输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--rollback",
+          "tip": [
+            "更新失败时回滚到上一个镜像（默认为 true）"
+          ]
+        },
+        {
+          "name": "--tls-verify",
+          "tip": [
+            "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
           ]
         }
       ]
@@ -872,98 +1321,230 @@
         "compose [COMMAND]"
       ],
       "tip": [
-        "通过外部提供程序运行 compose 工作负载。"
+        "通过 docker-compose 或 podman-compose 等外部 provider 运行 compose 工作负载。下列子命令属于该 provider，而非 podman 本身。"
       ],
       "next": [
         {
-          "name": "build"
+          "name": "attach",
+          "tip": [
+            "把本地标准输入、输出和错误流接到服务正在运行的容器上。"
+          ]
         },
         {
-          "name": "config"
+          "name": "bridge",
+          "tip": [
+            "把 compose 文件转换成另一种模型。"
+          ]
         },
         {
-          "name": "cp"
+          "name": "build",
+          "tip": [
+            "构建或重新构建服务。"
+          ]
         },
         {
-          "name": "create"
+          "name": "commit",
+          "tip": [
+            "基于服务容器的改动创建新镜像。"
+          ]
         },
         {
-          "name": "diff"
+          "name": "config",
+          "tip": [
+            "解析并以规范格式渲染 compose 文件。"
+          ]
         },
         {
-          "name": "down"
+          "name": "cp",
+          "tip": [
+            "在服务容器与本地文件系统之间复制文件或目录。"
+          ]
         },
         {
-          "name": "events"
+          "name": "create",
+          "tip": [
+            "为服务创建容器。"
+          ]
         },
         {
-          "name": "exec"
+          "name": "down",
+          "tip": [
+            "停止并移除容器、网络和卷。"
+          ]
         },
         {
-          "name": "images"
+          "name": "events",
+          "tip": [
+            "接收容器的实时事件。"
+          ]
         },
         {
-          "name": "inspect"
+          "name": "exec",
+          "tip": [
+            "在正在运行的容器中执行命令。"
+          ]
         },
         {
-          "name": "kill"
+          "name": "export",
+          "tip": [
+            "把服务容器的文件系统导出为 tar 归档。"
+          ]
         },
         {
-          "name": "list"
+          "name": "images",
+          "tip": [
+            "列出已创建容器所使用的镜像。"
+          ]
         },
         {
-          "name": "logs"
+          "name": "inspect",
+          "tip": [
+            "显示服务容器的配置（仅 podman-compose 提供）。"
+          ]
         },
         {
-          "name": "ls"
+          "name": "kill",
+          "tip": [
+            "强制停止服务容器。"
+          ]
         },
         {
-          "name": "pause"
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出正在运行的 compose 项目。"
+          ]
         },
         {
-          "name": "plugins"
+          "name": "logs",
+          "tip": [
+            "查看容器输出。"
+          ]
         },
         {
-          "name": "port"
+          "name": "pause",
+          "tip": [
+            "暂停服务。"
+          ]
         },
         {
-          "name": "ps"
+          "name": "port",
+          "tip": [
+            "打印端口映射的公共端口。"
+          ]
         },
         {
-          "name": "pull"
+          "name": "ps",
+          "tip": [
+            "列出容器。"
+          ]
         },
         {
-          "name": "push"
+          "name": "publish",
+          "tip": [
+            "发布 compose 应用。"
+          ]
         },
         {
-          "name": "restart"
+          "name": "pull",
+          "tip": [
+            "拉取服务镜像。"
+          ]
         },
         {
-          "name": "rm"
+          "name": "push",
+          "tip": [
+            "推送服务镜像。"
+          ]
         },
         {
-          "name": "run"
+          "name": "restart",
+          "tip": [
+            "重启服务容器。"
+          ]
         },
         {
-          "name": "start"
+          "name": "rm",
+          "tip": [
+            "移除已停止的服务容器。"
+          ]
         },
         {
-          "name": "stats"
+          "name": "run",
+          "tip": [
+            "在服务上运行一次性命令。"
+          ]
         },
         {
-          "name": "stop"
+          "name": "scale",
+          "tip": [
+            "扩缩服务实例数量。"
+          ]
         },
         {
-          "name": "top"
+          "name": "start",
+          "tip": [
+            "启动服务。"
+          ]
         },
         {
-          "name": "unpause"
+          "name": "stats",
+          "tip": [
+            "以数据流方式显示容器资源占用统计。"
+          ]
         },
         {
-          "name": "up"
+          "name": "stop",
+          "tip": [
+            "停止服务。"
+          ]
         },
         {
-          "name": "wait"
+          "name": "top",
+          "tip": [
+            "显示正在运行的进程。"
+          ]
+        },
+        {
+          "name": "unpause",
+          "tip": [
+            "恢复已暂停的服务。"
+          ]
+        },
+        {
+          "name": "up",
+          "tip": [
+            "创建并启动容器。"
+          ]
+        },
+        {
+          "name": "version",
+          "tip": [
+            "显示 compose provider 的版本。"
+          ]
+        },
+        {
+          "name": "volumes",
+          "tip": [
+            "列出卷。"
+          ]
+        },
+        {
+          "name": "wait",
+          "tip": [
+            "阻塞直到全部（或指定）服务的容器停止。"
+          ]
+        },
+        {
+          "name": "watch",
+          "tip": [
+            "监听构建上下文，文件变化时重建或刷新容器。"
+          ]
         }
       ]
     },
@@ -981,6 +1562,60 @@
         },
         {
           "name": "checkpoint"
+        },
+        {
+          "name": "cleanup",
+          "tip": [
+            "清理已退出的容器并移除其存储"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--exec",
+              "usage": [
+                "--exec <STRING>"
+              ],
+              "tip": [
+                "清理给定的 exec 会话而不是容器"
+              ],
+              "next": []
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "作用于 podman 已知的最新容器"
+              ]
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "清理后彻底移除该容器"
+              ]
+            },
+            {
+              "name": "--rmi",
+              "tip": [
+                "清理后彻底移除该镜像"
+              ]
+            }
+          ]
         },
         {
           "name": "clone"
@@ -1016,10 +1651,64 @@
           "name": "kill"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|list"
+          ]
         },
         {
           "name": "logs"
+        },
+        {
+          "name": "mount",
+          "tip": [
+            "把容器的根文件系统挂载到指定位置"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "作用于 podman 已知的最新容器"
+              ]
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "不截断输出"
+              ]
+            }
+          ]
         },
         {
           "name": "pause"
@@ -1029,9 +1718,6 @@
         },
         {
           "name": "prune"
-        },
-        {
-          "name": "ps"
         },
         {
           "name": "rename"
@@ -1049,6 +1735,87 @@
           "name": "run"
         },
         {
+          "name": "runlabel",
+          "tip": [
+            "按容器镜像中描述的方式执行命令"
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <CREDENTIALS>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--display",
+              "tip": [
+                "预览该 label 将会运行的命令"
+              ]
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <STRING>"
+              ],
+              "tip": [
+                "为容器指定名字"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "替换已存在的 artifact"
+              ]
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
           "name": "start"
         },
         {
@@ -1059,6 +1826,50 @@
         },
         {
           "name": "top"
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "卸载容器存储"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制完整卸载指定的已挂载容器"
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "作用于 podman 已知的最新容器"
+              ]
+            }
+          ]
         },
         {
           "name": "unpause"
@@ -2361,6 +3172,1453 @@
       ]
     },
     {
+      "name": "farm",
+      "tip": [
+        "把构建分发到 podman 可驱动的远程机器"
+      ],
+      "next": [
+        {
+          "name": "build",
+          "tip": [
+            "在 farm 节点上构建镜像，然后打包为单一镜像"
+          ],
+          "option": [
+            {
+              "name": "--add-host",
+              "usage": [
+                "--add-host <HOST:IP>"
+              ],
+              "tip": [
+                "添加自定义的 host 到 IP 映射（host:ip）（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <STRINGARRAY>"
+              ],
+              "tip": [
+                "为 artifact 指定文件的某个键设置 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-arg",
+              "usage": [
+                "--build-arg <ARGUMENT=VALUE>"
+              ],
+              "tip": [
+                "传给构建器的 argument=value"
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-arg-file",
+              "usage": [
+                "--build-arg-file <ARGFILE.CONF>"
+              ],
+              "tip": [
+                "包含 argument=value 行的 argfile.conf，传给构建器"
+              ],
+              "next": []
+            },
+            {
+              "name": "--build-context",
+              "usage": [
+                "--build-context <ARGUMENT=VALUE>"
+              ],
+              "tip": [
+                "传给构建器的额外构建上下文 argument=value"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-from",
+              "usage": [
+                "--cache-from <STRINGARRAY>"
+              ],
+              "tip": [
+                "可作为缓存来源的远程仓库列表。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-to",
+              "usage": [
+                "--cache-to <STRINGARRAY>"
+              ],
+              "tip": [
+                "可作为缓存目标的远程仓库列表。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cache-ttl",
+              "usage": [
+                "--cache-ttl <STRING>"
+              ],
+              "tip": [
+                "只考虑指定时长之内的缓存镜像。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cap-add",
+              "usage": [
+                "--cap-add <STRINGS>"
+              ],
+              "tip": [
+                "运行时添加指定的 capability（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cap-drop",
+              "usage": [
+                "--cap-drop <STRINGS>"
+              ],
+              "tip": [
+                "运行时移除指定的 capability（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroup-parent",
+              "usage": [
+                "--cgroup-parent <STRING>"
+              ],
+              "tip": [
+                "容器可选的父 cgroup"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroupns",
+              "usage": [
+                "--cgroupns <STRING>"
+              ],
+              "tip": [
+                "'private' 或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cleanup",
+              "tip": [
+                "成功后从 farm 节点移除已构建的镜像"
+              ]
+            },
+            {
+              "name": "--compat-volumes",
+              "tip": [
+                "在 RUN 指令期间保留 VOLUME 的内容"
+              ]
+            },
+            {
+              "name": "--compression-format",
+              "usage": [
+                "--compression-format <STRING>"
+              ],
+              "tip": [
+                "layer 与缓存使用的压缩格式"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-level",
+              "usage": [
+                "--compression-level <INT>"
+              ],
+              "tip": [
+                "layer 与缓存使用的压缩级别"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpp-flag",
+              "usage": [
+                "--cpp-flag <STRINGARRAY>"
+              ],
+              "tip": [
+                "设置要传给 C 预处理器（cpp）的额外参数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-period",
+              "usage": [
+                "--cpu-period <UINT>"
+              ],
+              "tip": [
+                "限制 CPU CFS（完全公平调度器）周期"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-quota",
+              "usage": [
+                "--cpu-quota <INT>"
+              ],
+              "tip": [
+                "限制 CPU CFS（完全公平调度器）配额"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-shares",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cpu-shares <UINT>"
+              ],
+              "tip": [
+                "CPU shares（相对权重）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-cpus",
+              "usage": [
+                "--cpuset-cpus <STRING>"
+              ],
+              "tip": [
+                "允许执行的 CPU（0-3, 0,1）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-mems",
+              "usage": [
+                "--cpuset-mems <STRING>"
+              ],
+              "tip": [
+                "允许执行的内存节点（MEMs）（0-3, 0,1）。仅在 NUMA 系统上有效。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--created-annotation",
+              "tip": [
+                "在镜像中设置 \"org.opencontainers.image.created\" annotation（默认为 true）"
+              ]
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--decryption-key",
+              "usage": [
+                "--decryption-key <STRINGS>"
+              ],
+              "tip": [
+                "解密镜像所需的密钥（例如 /path/to/key.pem）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device <STRINGARRAY>"
+              ],
+              "tip": [
+                "要额外提供的设备"
+              ],
+              "next": []
+            },
+            {
+              "name": "--disable-compression",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --disable-compression"
+              ],
+              "tip": [
+                "默认不压缩 layer（默认为 true）"
+              ]
+            },
+            {
+              "name": "--dns",
+              "usage": [
+                "--dns </ETC/RESOLV.CONF>"
+              ],
+              "tip": [
+                "设置自定义 DNS 服务器；设为 'none' 可完全禁用，从而阻止自动生成的配置"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dns-option",
+              "usage": [
+                "--dns-option <STRINGS>"
+              ],
+              "tip": [
+                "设置自定义 DNS 选项"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dns-search",
+              "usage": [
+                "--dns-search <STRINGS>"
+              ],
+              "tip": [
+                "设置自定义 DNS 搜索域"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "usage": [
+                "--env <STRINGARRAY>"
+              ],
+              "tip": [
+                "为 systemd unit 文件设置环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--farm",
+              "usage": [
+                "--farm <STRING>"
+              ],
+              "tip": [
+                "用于构建的 farm"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file"
+              ],
+              "tip": [
+                "Dockerfile 的路径或 URL"
+              ]
+            },
+            {
+              "name": "--force-compression",
+              "tip": [
+                "即使目标中已有使用不同压缩算法的值，也使用指定的压缩算法"
+              ]
+            },
+            {
+              "name": "--force-rm",
+              "tip": [
+                "构建后总是移除中间容器，即使构建未成功。（默认为 true）"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <STRING>"
+              ],
+              "tip": [
+                "用于替换 Containerfile 中第一条 FROM 指令取值的镜像名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group-add",
+              "usage": [
+                "--group-add <STRINGS>"
+              ],
+              "tip": [
+                "为主容器进程添加额外的组。'keep-groups' 允许容器进程保持其所属组。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--hooks-dir",
+              "usage": [
+                "--hooks-dir <STRINGARRAY>"
+              ],
+              "tip": [
+                "设置 OCI hooks 目录路径（可多次设置）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--http-proxy",
+              "tip": [
+                "透传 HTTP 代理环境变量（默认为 true）"
+              ]
+            },
+            {
+              "name": "--identity-label",
+              "tip": [
+                "添加默认 identity label（默认为 true）"
+              ]
+            },
+            {
+              "name": "--ignorefile",
+              "usage": [
+                "--ignorefile <STRING>"
+              ],
+              "tip": [
+                "备选 .dockerignore 文件的路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--iidfile",
+              "usage": [
+                "--iidfile <FILE>"
+              ],
+              "tip": [
+                "写入镜像 ID 的文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--iidfile-raw",
+              "usage": [
+                "--iidfile-raw <FILE>"
+              ],
+              "tip": [
+                "写入镜像 ID 的文件（不带算法前缀）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--inherit-annotations",
+              "tip": [
+                "从基础镜像或基础 stage 继承 annotation。（默认为 true）"
+              ]
+            },
+            {
+              "name": "--inherit-labels",
+              "tip": [
+                "从基础镜像或基础 stage 继承 label。（默认为 true）"
+              ]
+            },
+            {
+              "name": "--ipc",
+              "usage": [
+                "--ipc <PATH>"
+              ],
+              "tip": [
+                "'private'、要加入的 IPC 命名空间路径，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--isolation",
+              "usage": [
+                "--isolation <TYPE>"
+              ],
+              "tip": [
+                "使用的进程隔离类型。可用 BUILDAH_ISOLATION 环境变量覆盖。（默认为 \"rootless\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--jobs",
+              "usage": [
+                "--jobs <INT>"
+              ],
+              "tip": [
+                "并行执行的 stage 数量（默认为 1）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label",
+              "usage": [
+                "--label <STRINGARRAY>"
+              ],
+              "tip": [
+                "为镜像设置元数据（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layer-label",
+              "usage": [
+                "--layer-label <STRINGARRAY>"
+              ],
+              "tip": [
+                "为中间镜像设置元数据（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--layers",
+              "tip": [
+                "构建时使用中间 layer。可用 BUILDAH_LAYERS 环境变量覆盖。（默认为 true）"
+              ]
+            },
+            {
+              "name": "--local",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --local"
+              ],
+              "tip": [
+                "同时在本地机器和 farm 节点上构建镜像（默认为 true）"
+              ]
+            },
+            {
+              "name": "--logfile",
+              "usage": [
+                "--logfile <FILE>"
+              ],
+              "tip": [
+                "把日志写入文件而不是 stdout/stderr"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --memory <STRING>"
+              ],
+              "tip": [
+                "内存上限（格式：<number>[<unit>]，unit 为 b、k、m 或 g）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory-swap",
+              "usage": [
+                "--memory-swap <STRING>"
+              ],
+              "tip": [
+                "swap 上限等于内存加 swap：'-1' 表示启用无限 swap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mount",
+              "usage": [
+                "--mount <STRINGARRAY>"
+              ],
+              "tip": [
+                "为每条 RUN 指令设置临时挂载，例如 type=secret,id=mysecret"
+              ],
+              "next": []
+            },
+            {
+              "name": "--network",
+              "usage": [
+                "--network <STRING>"
+              ],
+              "tip": [
+                "'private'、'none'、要加入的网络命名空间 'ns:path'，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-cache",
+              "tip": [
+                "不使用已有的缓存镜像构建容器。从头用一组新的缓存开始构建。"
+              ]
+            },
+            {
+              "name": "--no-hostname",
+              "tip": [
+                "不为 RUN 指令创建新的 /etc/hostname 文件，改用基础镜像中的文件。"
+              ]
+            },
+            {
+              "name": "--no-hosts",
+              "tip": [
+                "不为 RUN 指令创建新的 /etc/hosts 文件，改用基础镜像中的文件。"
+              ]
+            },
+            {
+              "name": "--omit-history",
+              "tip": [
+                "从构建出的镜像中省略构建历史信息"
+              ]
+            },
+            {
+              "name": "--os-feature",
+              "usage": [
+                "--os-feature <FEATURE>"
+              ],
+              "tip": [
+                "在基础镜像的取值之外，额外设置目标镜像所需的 OS feature"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "设置目标镜像所需的 OS 版本，而不是使用基础镜像中的值"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid <PATH>"
+              ],
+              "tip": [
+                "'private'、要加入的 PID 命名空间路径，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--platforms",
+              "usage": [
+                "--platforms <STRINGS>"
+              ],
+              "tip": [
+                "只在匹配给定平台的 farm 节点上构建"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pull",
+              "usage": [
+                "--pull <STRING[=\"ALWAYS\"]>"
+              ],
+              "tip": [
+                "镜像拉取策略（\"always\"|\"missing\"|\"never\"|\"newer\"）（默认为 \"missing\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <INT>"
+              ],
+              "tip": [
+                "失败时的重试次数（默认为 3）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "失败时两次重试之间的延迟"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rewrite-timestamp",
+              "tip": [
+                "把 layer 中的时间戳设为不晚于 --source-date-epoch 的值"
+              ]
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "清理后彻底移除该容器"
+              ]
+            },
+            {
+              "name": "--runtime-flag",
+              "usage": [
+                "--runtime-flag <STRINGS>"
+              ],
+              "tip": [
+                "为容器运行时添加全局参数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-stages",
+              "tip": [
+                "保存中间 stage 镜像。"
+              ]
+            },
+            {
+              "name": "--sbom",
+              "usage": [
+                "--sbom <PRESET>"
+              ],
+              "tip": [
+                "使用预设配置扫描工作容器"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-image-output",
+              "usage": [
+                "--sbom-image-output <PATH>"
+              ],
+              "tip": [
+                "把扫描结果作为路径添加到镜像中"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-image-purl-output",
+              "usage": [
+                "--sbom-image-purl-output <PATH>"
+              ],
+              "tip": [
+                "把扫描结果作为路径添加到镜像中"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-merge-strategy",
+              "usage": [
+                "--sbom-merge-strategy <STRATEGY>"
+              ],
+              "tip": [
+                "使用指定策略合并扫描结果"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-output",
+              "usage": [
+                "--sbom-output <FILE>"
+              ],
+              "tip": [
+                "把扫描结果保存到文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-purl-output",
+              "usage": [
+                "--sbom-purl-output <FILE>"
+              ],
+              "tip": [
+                "把扫描结果保存到文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-scanner-command",
+              "usage": [
+                "--sbom-scanner-command <COMMAND>"
+              ],
+              "tip": [
+                "使用扫描器镜像中的命令扫描工作容器"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sbom-scanner-image",
+              "usage": [
+                "--sbom-scanner-image <IMAGE>"
+              ],
+              "tip": [
+                "使用镜像中的扫描器命令扫描工作容器"
+              ],
+              "next": []
+            },
+            {
+              "name": "--secret",
+              "usage": [
+                "--secret <STRINGARRAY>"
+              ],
+              "tip": [
+                "要暴露给构建的 secret 文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--security-opt",
+              "usage": [
+                "--security-opt <STRINGARRAY>"
+              ],
+              "tip": [
+                "安全选项（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size",
+              "usage": [
+                "--shm-size <<NUMBER><UNIT>>"
+              ],
+              "tip": [
+                "'/dev/shm' 的大小。格式为 <number><unit>。（默认为 \"65536k\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip-unused-stages",
+              "tip": [
+                "跳过多阶段构建中不影响最终目标的 stage（默认为 true）"
+              ]
+            },
+            {
+              "name": "--source-date-epoch",
+              "usage": [
+                "--source-date-epoch <SECONDS>"
+              ],
+              "tip": [
+                "把镜像信息中的新时间戳设为 epoch 之后的秒数，默认为当前时间"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source-policy-file",
+              "usage": [
+                "--source-policy-file <PATHNAME>"
+              ],
+              "tip": [
+                "源策略文件路径，用于在构建期间控制源引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--squash",
+              "tip": [
+                "把所有镜像 layer 压缩为一个 layer"
+              ]
+            },
+            {
+              "name": "--squash-all",
+              "tip": [
+                "把所有 layer 压缩为一个 layer"
+              ]
+            },
+            {
+              "name": "--ssh",
+              "usage": [
+                "--ssh <STRINGARRAY>"
+              ],
+              "tip": [
+                "要暴露给构建的 SSH agent socket 或密钥。（格式：default|<id>[=<socket>|<key>[,<key>]]）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stage-labels",
+              "tip": [
+                "为中间 stage 镜像添加元数据 label（需要 --save-stages）。"
+              ]
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <NAME>"
+              ],
+              "tip": [
+                "应用到构建出的镜像上的 tag 名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target",
+              "usage": [
+                "--target <STRING>"
+              ],
+              "tip": [
+                "设置要构建的目标 stage"
+              ],
+              "next": []
+            },
+            {
+              "name": "--timestamp",
+              "usage": [
+                "--timestamp <SECONDS>"
+              ],
+              "tip": [
+                "把镜像信息和 layer 中的新时间戳设为 epoch 之后的秒数，默认为当前时间"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            },
+            {
+              "name": "--ulimit",
+              "usage": [
+                "--ulimit <STRINGS>"
+              ],
+              "tip": [
+                "ulimit 选项"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetannotation",
+              "usage": [
+                "--unsetannotation <STRINGS>"
+              ],
+              "tip": [
+                "从基础镜像继承 annotation 时取消该 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetenv",
+              "usage": [
+                "--unsetenv <STRINGS>"
+              ],
+              "tip": [
+                "从最终镜像中取消该环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--unsetlabel",
+              "usage": [
+                "--unsetlabel <STRINGS>"
+              ],
+              "tip": [
+                "从基础镜像继承 label 时取消该 label"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns",
+              "usage": [
+                "--userns <PATH>"
+              ],
+              "tip": [
+                "'container'、要加入的 user namespace 路径，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-gid-map",
+              "usage": [
+                "--userns-gid-map <CONTAINERGID:HOSTGID:LENGTH>"
+              ],
+              "tip": [
+                "user namespace 中使用的 containerGID:hostGID:length GID 映射"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-gid-map-group",
+              "usage": [
+                "--userns-gid-map-group <NAME>"
+              ],
+              "tip": [
+                "用于设置 user namespace GID 映射的 /etc/subgid 条目名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-uid-map",
+              "usage": [
+                "--userns-uid-map <CONTAINERUID:HOSTUID:LENGTH>"
+              ],
+              "tip": [
+                "user namespace 中使用的 containerUID:hostUID:length UID 映射"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns-uid-map-user",
+              "usage": [
+                "--userns-uid-map-user <NAME>"
+              ],
+              "tip": [
+                "用于设置 user namespace UID 映射的 /etc/subuid 条目名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uts",
+              "usage": [
+                "--uts <PATH>"
+              ],
+              "tip": [
+                "'private'、要加入的 UTS 命名空间 ':path'，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <STRINGARRAY>"
+              ],
+              "tip": [
+                "把卷绑定挂载到容器中"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "create",
+          "tip": [
+            "创建一个新的 farm"
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出所有已存在的 farm"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "移除一个或多个已存在的 farm"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "通过添加连接来更新已存在的 farm"
+          ],
+          "option": [
+            {
+              "name": "--add",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --add <STRINGS>"
+              ],
+              "tip": [
+                "把系统连接添加到 farm"
+              ],
+              "next": []
+            },
+            {
+              "name": "--default",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --default"
+              ],
+              "tip": [
+                "把指定 farm 设为默认 farm"
+              ]
+            },
+            {
+              "name": "--remove",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --remove <STRINGS>"
+              ],
+              "tip": [
+                "从 farm 移除系统连接"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "tip": [
+        "基于容器、pod 或卷生成结构化数据"
+      ],
+      "next": [
+        {
+          "name": "kube",
+          "tip": [
+            "生成 Kubernetes Pod、Service 或 PersistentVolume 的 YAML"
+          ],
+          "option": [
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <STRING>"
+              ],
+              "tip": [
+                "把输出写入指定路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--podman-only",
+              "tip": [
+                "在生成的 YAML 文件中添加 podman 专用的保留 annotation（Kubernetes 无法使用）"
+              ]
+            },
+            {
+              "name": "--replicas",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replicas <INT32>"
+              ],
+              "tip": [
+                "设置 Deployment 类型的副本数（默认为 1）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--service",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --service"
+              ],
+              "tip": [
+                "为 Kubernetes service 对象生成 YAML"
+              ]
+            },
+            {
+              "name": "--type",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --type <STRING>"
+              ],
+              "tip": [
+                "使用指定类型描述 artifact"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "spec",
+          "tip": [
+            "基于容器或 pod 生成 Specgen JSON"
+          ],
+          "option": [
+            {
+              "name": "--compact",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --compact"
+              ],
+              "tip": [
+                "以紧凑格式打印 json 供消费"
+              ]
+            },
+            {
+              "name": "--filename",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filename <STRING>"
+              ],
+              "tip": [
+                "把输出写入指定路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name"
+              ],
+              "tip": [
+                "为容器指定名字"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "systemd",
+          "tip": [
+            "为 pod 或容器生成 systemd unit"
+          ],
+          "option": [
+            {
+              "name": "--after",
+              "usage": [
+                "--after <STRINGARRAY>"
+              ],
+              "tip": [
+                "向生成的 unit 文件添加顺序依赖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--container-prefix",
+              "usage": [
+                "--container-prefix <STRING>"
+              ],
+              "tip": [
+                "容器的 systemd unit 名前缀（默认为 \"container\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <STRINGARRAY>"
+              ],
+              "tip": [
+                "为 systemd unit 文件设置环境变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--files",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --files"
+              ],
+              "tip": [
+                "生成 .service 文件而不是打印到 stdout"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name"
+              ],
+              "tip": [
+                "为容器指定名字"
+              ]
+            },
+            {
+              "name": "--new",
+              "tip": [
+                "创建新的容器或 pod，而不是启动已存在的"
+              ]
+            },
+            {
+              "name": "--no-header",
+              "tip": [
+                "跳过表头生成"
+              ]
+            },
+            {
+              "name": "--pod-prefix",
+              "usage": [
+                "--pod-prefix <STRING>"
+              ],
+              "tip": [
+                "pod 的 systemd unit 名前缀（默认为 \"pod\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--requires",
+              "usage": [
+                "--requires <STRINGARRAY>"
+              ],
+              "tip": [
+                "与 wants 类似，但声明更强的依赖关系"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart-policy",
+              "usage": [
+                "--restart-policy <STRING>"
+              ],
+              "tip": [
+                "systemd restart-policy（默认为 \"on-failure\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart-sec",
+              "usage": [
+                "--restart-sec <UINT>"
+              ],
+              "tip": [
+                "systemd 的 restart-sec"
+              ],
+              "next": []
+            },
+            {
+              "name": "--separator",
+              "usage": [
+                "--separator <STRING>"
+              ],
+              "tip": [
+                "unit 名称中 name/id 与前缀之间的分隔符（默认为 \"-\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--start-timeout",
+              "usage": [
+                "--start-timeout <UINT>"
+              ],
+              "tip": [
+                "覆盖启动超时时间"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stop-timeout",
+              "usage": [
+                "--stop-timeout <UINT>"
+              ],
+              "tip": [
+                "覆盖停止超时时间（默认为 10）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "tip": [
+                "生成模板文件并使用 %i 与 %I 占位符。仅对容器有效"
+              ]
+            },
+            {
+              "name": "--wants",
+              "usage": [
+                "--wants <STRINGARRAY>"
+              ],
+              "tip": [
+                "向生成的 unit 文件添加（弱）需求依赖"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "healthcheck",
+      "tip": [
+        "对容器运行健康检查"
+      ],
+      "next": [
+        {
+          "name": "run",
+          "tip": [
+            "运行容器的健康检查"
+          ],
+          "option": [
+            {
+              "name": "--ignore-result",
+              "tip": [
+                "无论健康检查结果如何，或容器是否仍处于启动期，都以 0 退出"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "查看任意命令的帮助"
+      ]
+    },
+    {
       "name": "history",
       "usage": [
         "history <image>"
@@ -2443,6 +4701,36 @@
           "name": "load"
         },
         {
+          "name": "mount",
+          "tip": [
+            "把镜像的根文件系统挂载到指定位置"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "prune"
         },
         {
@@ -2464,10 +4752,205 @@
           "name": "search"
         },
         {
+          "name": "sign",
+          "tip": [
+            "创建可用于验证镜像的签名文件"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <PATHNAME>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--directory",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --directory <STRING>"
+              ],
+              "tip": [
+                "定义用于存储签名的备选目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "使用指定密钥在目标位置添加签名"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "tag"
         },
         {
           "name": "tree"
+        },
+        {
+          "name": "trust",
+          "tip": [
+            "管理你信任哪些 registry 作为镜像来源"
+          ],
+          "next": [
+            {
+              "name": "set",
+              "tip": [
+                "设置默认信任策略或添加新的信任策略"
+              ],
+              "option": [
+                {
+                  "name": "--pubkeysfile",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --pubkeysfile <STRINGARRAY>"
+                  ],
+                  "tip": [
+                    "为 TARGET 信任的已安装公钥文件路径。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--signature-policy",
+                  "usage": [
+                    "--signature-policy <STRING>"
+                  ],
+                  "tip": [
+                    "签名策略文件路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --type <STRING>"
+                  ],
+                  "tip": [
+                    "使用指定类型描述 artifact"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "显示系统的信任策略"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "alias": [
+                    "-j"
+                  ],
+                  "usage": [
+                    "-j, --json"
+                  ],
+                  "tip": [
+                    "以 json 输出"
+                  ]
+                },
+                {
+                  "name": "--noheading",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --noheading"
+                  ],
+                  "tip": [
+                    "不打印列标题"
+                  ]
+                },
+                {
+                  "name": "--raw",
+                  "tip": [
+                    "输出原始策略文件"
+                  ]
+                },
+                {
+                  "name": "--signature-policy",
+                  "usage": [
+                    "--signature-policy <STRING>"
+                  ],
+                  "tip": [
+                    "签名策略文件路径"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "卸载镜像存储"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制完整卸载指定的已挂载容器"
+              ]
+            }
+          ]
         },
         {
           "name": "untag"
@@ -2652,6 +5135,38 @@
       ]
     },
     {
+      "name": "init",
+      "tip": [
+        "初始化一个或多个容器"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "全部"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "作用于 podman 已知的最新容器"
+          ]
+        }
+      ]
+    },
+    {
       "name": "inspect",
       "usage": [
         "inspect <object>"
@@ -2753,6 +5268,72 @@
         "从结构化文件播放容器、pods 或卷。"
       ],
       "next": [
+        {
+          "name": "apply",
+          "tip": [
+            "把 podman 容器、pod、卷或其他结构应用到集群"
+          ],
+          "option": [
+            {
+              "name": "--ca-cert-file",
+              "usage": [
+                "--ca-cert-file <STRING>"
+              ],
+              "tip": [
+                "Kubernetes 集群的 CA 证书文件路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --file <STRING>"
+              ],
+              "tip": [
+                "Dockerfile 的路径或 URL"
+              ],
+              "next": []
+            },
+            {
+              "name": "--kubeconfig",
+              "alias": [
+                "-k"
+              ],
+              "usage": [
+                "-k, --kubeconfig <STRING>"
+              ],
+              "tip": [
+                "Kubernetes 集群的 kubeconfig 文件路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--ns",
+              "usage": [
+                "--ns <STRING>"
+              ],
+              "tip": [
+                "在 Kubernetes 集群上部署工作负载所用的命名空间"
+              ],
+              "next": []
+            },
+            {
+              "name": "--service",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --service"
+              ],
+              "tip": [
+                "为 Kubernetes service 对象生成 YAML"
+              ]
+            }
+          ]
+        },
         {
           "name": "down"
         },
@@ -3019,6 +5600,26 @@
       ],
       "next": [
         {
+          "name": "cp",
+          "tip": [
+            "在虚拟机与本地系统之间安全地复制文件或目录"
+          ],
+          "option": [
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            }
+          ]
+        },
+        {
           "name": "info"
         },
         {
@@ -3031,16 +5632,94 @@
           "name": "list"
         },
         {
-          "name": "mount"
-        },
-        {
-          "name": "pull"
-        },
-        {
-          "name": "push"
+          "name": "os",
+          "tip": [
+            "管理 podman 虚拟机的操作系统"
+          ],
+          "next": [
+            {
+              "name": "apply",
+              "tip": [
+                "从容器化的 Fedora 镜像应用自定义层"
+              ],
+              "option": [
+                {
+                  "name": "--restart",
+                  "tip": [
+                    "重启虚拟机以应用更改"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "upgrade",
+              "tip": [
+                "把虚拟机操作系统升级到更新的 Fedora 版本"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "只检查是否有待更新的内容"
+                  ]
+                },
+                {
+                  "name": "--format",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --format <STRING>"
+                  ],
+                  "tip": [
+                    "使用 JSON 或 Go 模板格式化输出"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--restart",
+                  "tip": [
+                    "重启虚拟机以应用更改"
+                  ]
+                }
+              ]
+            }
+          ]
         },
         {
           "name": "reset"
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "重启一个受管理的虚拟机"
+          ],
+          "option": [
+            {
+              "name": "--no-info",
+              "tip": [
+                "不显示提示信息"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            }
+          ]
         },
         {
           "name": "rm"
@@ -3056,12 +5735,629 @@
         },
         {
           "name": "stop"
+        }
+      ]
+    },
+    {
+      "name": "manifest",
+      "tip": [
+        "创建、修改并推送 manifest list 与镜像索引"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "把镜像或 artifact 加入 manifest list 或镜像索引"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "为 artifact 指定文件的某个键设置 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <ARCHITECTURE>"
+              ],
+              "tip": [
+                "覆盖指定镜像的架构"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact",
+              "tip": [
+                "把所有参数作为 artifact 文件而非镜像添加"
+              ]
+            },
+            {
+              "name": "--artifact-config",
+              "usage": [
+                "--artifact-config <STRING>"
+              ],
+              "tip": [
+                "artifact 配置文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-config-type",
+              "usage": [
+                "--artifact-config-type <STRING>"
+              ],
+              "tip": [
+                "artifact 配置的 media type"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-exclude-titles",
+              "tip": [
+                "不要在 \"layers\" 上设置 \"org.opencontainers.image.title\" annotation"
+              ]
+            },
+            {
+              "name": "--artifact-layer-type",
+              "usage": [
+                "--artifact-layer-type <STRING>"
+              ],
+              "tip": [
+                "artifact layer 的 media type"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-subject",
+              "usage": [
+                "--artifact-subject <STRING>"
+              ],
+              "tip": [
+                "artifact 的 subject 引用"
+              ],
+              "next": []
+            },
+            {
+              "name": "--artifact-type",
+              "usage": [
+                "--artifact-type <STRING>"
+              ],
+              "tip": [
+                "覆盖 artifactType 的值"
+              ],
+              "next": []
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features <FEATURES>"
+              ],
+              "tip": [
+                "覆盖指定镜像的 features"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os",
+              "usage": [
+                "--os <OS>"
+              ],
+              "tip": [
+                "覆盖指定镜像的操作系统"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "设置目标镜像所需的 OS 版本，而不是使用基础镜像中的值"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            },
+            {
+              "name": "--variant",
+              "usage": [
+                "--variant <VARIANT>"
+              ],
+              "tip": [
+                "覆盖指定镜像的 variant"
+              ],
+              "next": []
+            }
+          ]
         },
         {
-          "name": "unmount"
+          "name": "annotate",
+          "tip": [
+            "为 manifest list 或镜像索引中的条目添加或更新信息"
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION>"
+              ],
+              "tip": [
+                "为 artifact 指定文件的某个键设置 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--arch",
+              "usage": [
+                "--arch <ARCHITECTURE>"
+              ],
+              "tip": [
+                "覆盖指定镜像的架构"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features <FEATURES>"
+              ],
+              "tip": [
+                "覆盖指定镜像的 features"
+              ],
+              "next": []
+            },
+            {
+              "name": "--index",
+              "tip": [
+                "把 --annotation 的值应用到镜像索引本身"
+              ]
+            },
+            {
+              "name": "--os",
+              "usage": [
+                "--os <OS>"
+              ],
+              "tip": [
+                "覆盖指定镜像的操作系统"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-features",
+              "usage": [
+                "--os-features <FEATURES>"
+              ],
+              "tip": [
+                "覆盖指定镜像或 artifact 的 OS features"
+              ],
+              "next": []
+            },
+            {
+              "name": "--os-version",
+              "usage": [
+                "--os-version <VERSION>"
+              ],
+              "tip": [
+                "设置目标镜像所需的 OS 版本，而不是使用基础镜像中的值"
+              ],
+              "next": []
+            },
+            {
+              "name": "--subject",
+              "usage": [
+                "--subject <SUBJECT>"
+              ],
+              "tip": [
+                "设置镜像索引所指向的 subject"
+              ],
+              "next": []
+            },
+            {
+              "name": "--variant",
+              "usage": [
+                "--variant <VARIANT>"
+              ],
+              "tip": [
+                "覆盖指定镜像的 variant"
+              ],
+              "next": []
+            }
+          ]
         },
         {
-          "name": "update"
+          "name": "create",
+          "tip": [
+            "创建 manifest list 或镜像索引"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--amend",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --amend"
+              ],
+              "tip": [
+                "若已存在同名列表则修改它"
+              ]
+            },
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <STRINGARRAY>"
+              ],
+              "tip": [
+                "为 artifact 指定文件的某个键设置 annotation"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exists",
+          "tip": [
+            "若 manifest list 存在于本地存储中则成功"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "显示 manifest list 或镜像索引的内容"
+          ],
+          "option": [
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "push",
+          "tip": [
+            "把 manifest list 与镜像索引推送到 registry"
+          ],
+          "option": [
+            {
+              "name": "--add-compression",
+              "usage": [
+                "--add-compression <STRINGS>"
+              ],
+              "tip": [
+                "推送时添加使用所选压缩算法的实例"
+              ],
+              "next": []
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--authfile",
+              "usage": [
+                "--authfile <STRING>"
+              ],
+              "tip": [
+                "认证文件路径。可用 REGISTRY_AUTH_FILE 环境变量覆盖"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cert-dir",
+              "usage": [
+                "--cert-dir <STRING>"
+              ],
+              "tip": [
+                "包含 TLS 证书和密钥的目录路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-format",
+              "usage": [
+                "--compression-format <STRING>"
+              ],
+              "tip": [
+                "layer 与缓存使用的压缩格式"
+              ],
+              "next": []
+            },
+            {
+              "name": "--compression-level",
+              "usage": [
+                "--compression-level <INT>"
+              ],
+              "tip": [
+                "layer 与缓存使用的压缩级别"
+              ],
+              "next": []
+            },
+            {
+              "name": "--creds",
+              "usage": [
+                "--creds <[USERNAME[:PASSWORD]]>"
+              ],
+              "tip": [
+                "用于向 registry 认证的凭据（USERNAME:PASSWORD）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--digestfile",
+              "usage": [
+                "--digestfile <STRING>"
+              ],
+              "tip": [
+                "把已推送镜像的 digest 写入指定文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--force-compression",
+              "tip": [
+                "即使目标中已有使用不同压缩算法的值，也使用指定的压缩算法"
+              ]
+            },
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            },
+            {
+              "name": "--remove-signatures",
+              "tip": [
+                "推送镜像时不复制签名"
+              ]
+            },
+            {
+              "name": "--retry",
+              "usage": [
+                "--retry <UINT>"
+              ],
+              "tip": [
+                "失败时的重试次数（默认为 3）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--retry-delay",
+              "usage": [
+                "--retry-delay <STRING>"
+              ],
+              "tip": [
+                "失败时两次重试之间的延迟"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rm",
+              "tip": [
+                "清理后彻底移除该容器"
+              ]
+            },
+            {
+              "name": "--sign-by",
+              "usage": [
+                "--sign-by <STRING>"
+              ],
+              "tip": [
+                "使用指定密钥在目标位置添加签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore",
+              "usage": [
+                "--sign-by-sigstore <PATH>"
+              ],
+              "tip": [
+                "使用 PATH 处的 sigstore 参数文件对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sigstore-private-key",
+              "usage": [
+                "--sign-by-sigstore-private-key <PATH>"
+              ],
+              "tip": [
+                "使用 PATH 处的 sigstore 私钥对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-by-sq-fingerprint",
+              "usage": [
+                "--sign-by-sq-fingerprint <FINGERPRINT>"
+              ],
+              "tip": [
+                "使用指定 FINGERPRINT 的 Sequoia-PGP 密钥对镜像签名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sign-passphrase-file",
+              "usage": [
+                "--sign-passphrase-file <PATH>"
+              ],
+              "tip": [
+                "从 PATH 处的文件读取镜像签名口令"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-verify",
+              "tip": [
+                "访问 registry 时要求 HTTPS 并校验证书（默认为 true）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "从 manifest list 或本地镜像索引中移除条目"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "从本地存储移除 manifest list 或镜像索引"
+          ],
+          "option": [
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "若 artifact 不存在则忽略错误"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mount",
+      "tip": [
+        "把容器或镜像的根文件系统挂载到指定位置"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "全部"
+          ]
+        },
+        {
+          "name": "--format",
+          "usage": [
+            "--format <STRING>"
+          ],
+          "tip": [
+            "使用 JSON 或 Go 模板格式化输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "作用于 podman 已知的最新容器"
+          ]
+        },
+        {
+          "name": "--no-trunc",
+          "tip": [
+            "不截断输出"
+          ]
         }
       ]
     },
@@ -3084,6 +6380,12 @@
           "name": "disconnect"
         },
         {
+          "name": "exists",
+          "tip": [
+            "若指定的网络存在则成功"
+          ]
+        },
+        {
           "name": "inspect"
         },
         {
@@ -3091,6 +6393,38 @@
         },
         {
           "name": "prune"
+        },
+        {
+          "name": "reload",
+          "tip": [
+            "重新加载容器网络并重建防火墙规则"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--latest",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --latest"
+              ],
+              "tip": [
+                "作用于 podman 已知的最新容器"
+              ]
+            }
+          ]
         },
         {
           "name": "rm"
@@ -3146,6 +6480,390 @@
       ],
       "next": [
         {
+          "name": "clone",
+          "tip": [
+            "创建一个 pod 及其容器的精确副本"
+          ],
+          "option": [
+            {
+              "name": "--blkio-weight",
+              "usage": [
+                "--blkio-weight <STRING>"
+              ],
+              "tip": [
+                "Block IO 权重（相对权重），取值范围 10 到 1000。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--blkio-weight-device",
+              "usage": [
+                "--blkio-weight-device <DEVICE_NAME:WEIGHT>"
+              ],
+              "tip": [
+                "Block IO 设备权重（格式：DEVICE_NAME:WEIGHT）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cgroup-parent",
+              "usage": [
+                "--cgroup-parent <STRING>"
+              ],
+              "tip": [
+                "容器可选的父 cgroup"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpu-shares",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --cpu-shares <UINT>"
+              ],
+              "tip": [
+                "CPU shares（相对权重）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpus",
+              "usage": [
+                "--cpus <FLOAT>"
+              ],
+              "tip": [
+                "CPU 数量。默认为 0.000，表示不限制"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-cpus",
+              "usage": [
+                "--cpuset-cpus <STRING>"
+              ],
+              "tip": [
+                "允许执行的 CPU（0-3, 0,1）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--cpuset-mems",
+              "usage": [
+                "--cpuset-mems <STRING>"
+              ],
+              "tip": [
+                "允许执行的内存节点（MEMs）（0-3, 0,1）。仅在 NUMA 系统上有效。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--destroy",
+              "tip": [
+                "销毁原来的 pod"
+              ]
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device <STRINGARRAY>"
+              ],
+              "tip": [
+                "要额外提供的设备"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device-read-bps",
+              "usage": [
+                "--device-read-bps <STRINGARRAY>"
+              ],
+              "tip": [
+                "限制从某设备读取的速率（字节/秒）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--device-write-bps",
+              "usage": [
+                "--device-write-bps <STRINGARRAY>"
+              ],
+              "tip": [
+                "限制写入某设备的速率（字节/秒）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--gidmap",
+              "usage": [
+                "--gidmap <STRINGS>"
+              ],
+              "tip": [
+                "user namespace 使用的 GID 映射"
+              ],
+              "next": []
+            },
+            {
+              "name": "--gpus",
+              "usage": [
+                "--gpus <STRINGS>"
+              ],
+              "tip": [
+                "要添加到容器的 GPU 设备（'all' 表示透传所有 GPU）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--help",
+              "tip": [
+                "显示帮助。"
+              ]
+            },
+            {
+              "name": "--hostname",
+              "alias": [
+                "-h"
+              ],
+              "usage": [
+                "-h, --hostname <STRING>"
+              ],
+              "tip": [
+                "设置容器主机名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-command",
+              "usage": [
+                "--infra-command <STRING>"
+              ],
+              "tip": [
+                "覆盖镜像默认的 ENTRYPOINT"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-conmon-pidfile",
+              "usage": [
+                "--infra-conmon-pidfile <STRING>"
+              ],
+              "tip": [
+                "接收 conmon PID 的文件路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--infra-name",
+              "usage": [
+                "--infra-name <STRING>"
+              ],
+              "tip": [
+                "为容器指定名字"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --label <STRINGARRAY>"
+              ],
+              "tip": [
+                "为镜像设置元数据（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--label-file",
+              "usage": [
+                "--label-file <STRINGARRAY>"
+              ],
+              "tip": [
+                "读入以行为分隔的 label 文件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --memory <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "内存上限（格式：<number>[<unit>]，unit 为 b、k、m 或 g）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--memory-swap",
+              "usage": [
+                "--memory-swap <STRING>"
+              ],
+              "tip": [
+                "swap 上限等于内存加 swap：'-1' 表示启用无限 swap"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --name <STRING>"
+              ],
+              "tip": [
+                "为容器指定名字"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid <STRING>"
+              ],
+              "tip": [
+                "'private'、要加入的 PID 命名空间路径，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart",
+              "usage": [
+                "--restart <STRING>"
+              ],
+              "tip": [
+                "重启虚拟机以应用更改"
+              ],
+              "next": []
+            },
+            {
+              "name": "--security-opt",
+              "usage": [
+                "--security-opt <STRINGARRAY>"
+              ],
+              "tip": [
+                "安全选项（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size",
+              "usage": [
+                "--shm-size <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "'/dev/shm' 的大小。格式为 <number><unit>。（默认为 \"65536k\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shm-size-systemd",
+              "usage": [
+                "--shm-size-systemd <<NUMBER>[<UNIT>]>"
+              ],
+              "tip": [
+                "systemd 专用 tmpfs 挂载（/run、/run/lock）的大小（格式：<number>[<unit>]）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--start",
+              "tip": [
+                "启动新的 pod"
+              ]
+            },
+            {
+              "name": "--subgidname",
+              "usage": [
+                "--subgidname <STRING>"
+              ],
+              "tip": [
+                "/etc/subgid 中用于 user namespace 的范围名称"
+              ],
+              "next": []
+            },
+            {
+              "name": "--subuidname",
+              "usage": [
+                "--subuidname <STRING>"
+              ],
+              "tip": [
+                "/etc/subuid 中用于 user namespace 的范围名称"
+              ],
+              "next": []
+            },
+            {
+              "name": "--sysctl",
+              "usage": [
+                "--sysctl <STRINGS>"
+              ],
+              "tip": [
+                "sysctl 选项"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uidmap",
+              "usage": [
+                "--uidmap <STRINGS>"
+              ],
+              "tip": [
+                "user namespace 使用的 UID 映射"
+              ],
+              "next": []
+            },
+            {
+              "name": "--userns",
+              "usage": [
+                "--userns <STRING>"
+              ],
+              "tip": [
+                "'container'、要加入的 user namespace 路径，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--uts",
+              "usage": [
+                "--uts <STRING>"
+              ],
+              "tip": [
+                "'private'、要加入的 UTS 命名空间 ':path'，或 'host'"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volume",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --volume <STRINGARRAY>"
+              ],
+              "tip": [
+                "把卷绑定挂载到容器中"
+              ],
+              "next": []
+            },
+            {
+              "name": "--volumes-from",
+              "usage": [
+                "--volumes-from <STRINGARRAY>"
+              ],
+              "tip": [
+                "从指定容器挂载卷"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "create"
         },
         {
@@ -3158,7 +6876,13 @@
           "name": "kill"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ps"
+          ],
+          "usage": [
+            "ps|list"
+          ]
         },
         {
           "name": "logs"
@@ -3168,9 +6892,6 @@
         },
         {
           "name": "prune"
-        },
-        {
-          "name": "ps"
         },
         {
           "name": "restart"
@@ -3567,6 +7288,155 @@
           "name": "--tls-verify",
           "tip": [
             "联系注册表时要求 HTTPS 并验证证书（默认 true）。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "quadlet",
+      "tip": [
+        "管理 Quadlet"
+      ],
+      "next": [
+        {
+          "name": "install",
+          "tip": [
+            "安装 quadlet 文件或 quadlet 应用"
+          ],
+          "option": [
+            {
+              "name": "--application",
+              "usage": [
+                "--application <STRING>"
+              ],
+              "tip": [
+                "按应用名分组 quadlet 及其关联文件到同一个目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--reload-systemd",
+              "tip": [
+                "安装 Quadlet 后重新加载 systemd（默认为 true）"
+              ]
+            },
+            {
+              "name": "--replace",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replace"
+              ],
+              "tip": [
+                "替换已存在的 artifact"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "tip": [
+            "列出当前用户配置的所有 Quadlet"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "按给定条件过滤输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "不打印列标题"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "print",
+          "tip": [
+            "打印 Quadlet 的内容"
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "从当前用户配置中移除一个或多个已安装的 Quadlet"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制完整卸载指定的已挂载容器"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "若 artifact 不存在则忽略错误"
+              ]
+            },
+            {
+              "name": "--recursive",
+              "tip": [
+                "移除指定应用及其目录下所有的 Quadlet"
+              ]
+            },
+            {
+              "name": "--reload-systemd",
+              "tip": [
+                "安装 Quadlet 后重新加载 systemd（默认为 true）"
+              ]
+            }
           ]
         }
       ]
@@ -4997,6 +8867,202 @@
       ]
     },
     {
+      "name": "secret",
+      "tip": [
+        "管理 secret"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "tip": [
+            "创建 secret，输入可以是文件路径或直接给出的值"
+          ],
+          "option": [
+            {
+              "name": "--driver",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --driver <STRING>"
+              ],
+              "tip": [
+                "指定 secret driver（默认为 \"file\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--driver-opts",
+              "usage": [
+                "--driver-opts <STRINGTOSTRING>"
+              ],
+              "tip": [
+                "指定驱动特有的选项（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "tip": [
+                "为 systemd unit 文件设置环境变量"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "tip": [
+                "若 artifact 不存在则忽略错误"
+              ]
+            },
+            {
+              "name": "--label",
+              "alias": [
+                "-l"
+              ],
+              "usage": [
+                "-l, --label <STRINGARRAY>"
+              ],
+              "tip": [
+                "为镜像设置元数据（默认为 []）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--replace",
+              "tip": [
+                "替换已存在的 artifact"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exists",
+          "tip": [
+            "若指定的 secret 存在于本地存储中则成功"
+          ]
+        },
+        {
+          "name": "inspect",
+          "tip": [
+            "显示一个或多个 secret 的详细信息"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pretty",
+              "tip": [
+                "以人类可读的格式输出 inspect 结果"
+              ]
+            },
+            {
+              "name": "--showsecret",
+              "tip": [
+                "显示 secret 的值"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "ls",
+          "tip": [
+            "列出所有已存在的 secret"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "按给定条件过滤输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "不打印列标题"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rm",
+          "tip": [
+            "移除一个或多个 secret"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --all"
+              ],
+              "tip": [
+                "全部"
+              ]
+            },
+            {
+              "name": "--ignore",
+              "alias": [
+                "-i"
+              ],
+              "usage": [
+                "-i, --ignore"
+              ],
+              "tip": [
+                "若 artifact 不存在则忽略错误"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "start",
       "usage": [
         "start <container>"
@@ -5177,6 +9243,312 @@
       ],
       "next": [
         {
+          "name": "check",
+          "tip": [
+            "检查存储一致性并移除残留内容"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "强制完整卸载指定的已挂载容器"
+              ]
+            },
+            {
+              "name": "--max",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --max <DURATION>"
+              ],
+              "tip": [
+                "未被引用的 layer 的最大保留时长（默认为 24h0m0s）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quick",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quick"
+              ],
+              "tip": [
+                "跳过耗时的检查。默认包含耗时检查"
+              ]
+            },
+            {
+              "name": "--repair",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --repair"
+              ],
+              "tip": [
+                "移除不一致的镜像"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "connection",
+          "tip": [
+            "管理远程 API 服务的目标连接信息"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "向 podman 配置添加一个目标"
+              ],
+              "option": [
+                {
+                  "name": "--default",
+                  "alias": [
+                    "-d"
+                  ],
+                  "usage": [
+                    "-d, --default"
+                  ],
+                  "tip": [
+                    "把指定 farm 设为默认 farm"
+                  ]
+                },
+                {
+                  "name": "--identity",
+                  "usage": [
+                    "--identity <STRING>"
+                  ],
+                  "tip": [
+                    "SSH identity 文件路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--port",
+                  "alias": [
+                    "-p"
+                  ],
+                  "usage": [
+                    "-p, --port <INT>"
+                  ],
+                  "tip": [
+                    "目标的 SSH 端口号（默认为 22）"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--socket-path",
+                  "usage": [
+                    "--socket-path <STRING>"
+                  ],
+                  "tip": [
+                    "远程主机上 podman socket 的路径。（默认为 '/run/podman/podman.sock'）"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-ca",
+                  "usage": [
+                    "--tls-ca <STRING>"
+                  ],
+                  "tip": [
+                    "TLS 证书颁发机构 PEM 文件路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-cert",
+                  "usage": [
+                    "--tls-cert <STRING>"
+                  ],
+                  "tip": [
+                    "TLS 客户端证书 PEM 文件路径"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tls-key",
+                  "usage": [
+                    "--tls-key <STRING>"
+                  ],
+                  "tip": [
+                    "TLS 客户端证书私钥 PEM 文件路径"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "default",
+              "tip": [
+                "把指定目标设为 podman 服务的默认目标"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出 podman 服务的目标连接信息"
+              ],
+              "option": [
+                {
+                  "name": "--format",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --format <STRING>"
+                  ],
+                  "tip": [
+                    "使用 JSON 或 Go 模板格式化输出"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--quiet",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --quiet"
+                  ],
+                  "tip": [
+                    "抑制输出信息"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "tip": [
+                "从 podman 配置中删除指定目标"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "alias": [
+                    "-a"
+                  ],
+                  "usage": [
+                    "-a, --all"
+                  ],
+                  "tip": [
+                    "全部"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rename",
+              "tip": [
+                "重命名 podman 服务的目标连接"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "df",
+          "tip": [
+            "显示镜像、容器和卷的 podman 磁盘占用"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "显示磁盘占用的详细信息"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "events",
+          "tip": [
+            "监控 podman 系统事件"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "按给定条件过滤输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-trunc",
+              "tip": [
+                "不截断输出"
+              ]
+            },
+            {
+              "name": "--since",
+              "usage": [
+                "--since <STRING>"
+              ],
+              "tip": [
+                "显示自该时间戳以来创建的所有事件"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stream",
+              "tip": [
+                "流式输出事件，返回最后一个已知事件时不退出（默认为 true）"
+              ]
+            },
+            {
+              "name": "--until",
+              "usage": [
+                "--until <STRING>"
+              ],
+              "tip": [
+                "显示截至该时间戳的所有事件"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "info"
         },
         {
@@ -5186,7 +9558,74 @@
           "name": "prune"
         },
         {
+          "name": "renumber",
+          "tip": [
+            "重新编号容器和 pod 使用的锁"
+          ]
+        },
+        {
           "name": "reset"
+        },
+        {
+          "name": "service",
+          "tip": [
+            "运行 API 服务"
+          ],
+          "option": [
+            {
+              "name": "--cors",
+              "usage": [
+                "--cors <STRING>"
+              ],
+              "tip": [
+                "设置 CORS 头"
+              ],
+              "next": []
+            },
+            {
+              "name": "--time",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --time <UINT>"
+              ],
+              "tip": [
+                "服务会话到期前的秒数。用 0 禁用超时"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-cert",
+              "usage": [
+                "--tls-cert <STRING>"
+              ],
+              "tip": [
+                "TLS 客户端证书 PEM 文件路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-client-ca",
+              "usage": [
+                "--tls-client-ca <STRING>"
+              ],
+              "tip": [
+                "只信任使用该 CA PEM 文件签发的证书的客户端连接"
+              ],
+              "next": []
+            },
+            {
+              "name": "--tls-key",
+              "usage": [
+                "--tls-key <STRING>"
+              ],
+              "tip": [
+                "TLS 客户端证书私钥 PEM 文件路径"
+              ],
+              "next": []
+            }
+          ]
         }
       ]
     },
@@ -5206,6 +9645,50 @@
       ],
       "tip": [
         "显示容器的运行进程。"
+      ]
+    },
+    {
+      "name": "unmount",
+      "tip": [
+        "卸载容器存储"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "全部"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制完整卸载指定的已挂载容器"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --latest"
+          ],
+          "tip": [
+            "作用于 podman 已知的最新容器"
+          ]
+        }
       ]
     },
     {
@@ -5242,6 +9725,26 @@
           ],
           "next": []
         }
+      ]
+    },
+    {
+      "name": "unshare",
+      "tip": [
+        "在修改过的 user namespace 中运行命令"
+      ],
+      "option": [
+        {
+          "name": "--rootless-netns",
+          "tip": [
+            "加入 netavark 网络使用的 rootless 网络命名空间"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "untag",
+      "tip": [
+        "从本地存储的镜像上移除一个或多个名字"
       ]
     },
     {
@@ -5562,16 +10065,125 @@
           "name": "exists"
         },
         {
+          "name": "export",
+          "tip": [
+            "把卷的内容导出为 tar 归档"
+          ],
+          "option": [
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <STRING>"
+              ],
+              "tip": [
+                "写入指定文件（默认为 stdout，必须重定向）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "import",
+          "tip": [
+            "从指定归档导入内容到 podman 卷"
+          ]
+        },
+        {
           "name": "inspect"
         },
         {
-          "name": "list"
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "列出所有已存在的卷"
+          ],
+          "option": [
+            {
+              "name": "--filter",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --filter <STRINGARRAY>"
+              ],
+              "tip": [
+                "按给定条件过滤输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--format",
+              "usage": [
+                "--format <STRING>"
+              ],
+              "tip": [
+                "使用 JSON 或 Go 模板格式化输出"
+              ],
+              "next": []
+            },
+            {
+              "name": "--noheading",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --noheading"
+              ],
+              "tip": [
+                "不打印列标题"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "抑制输出信息"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "mount",
+          "tip": [
+            "挂载卷并返回挂载点"
+          ]
         },
         {
           "name": "prune"
         },
         {
+          "name": "reload",
+          "tip": [
+            "检查所有已配置的卷插件并更新其状态"
+          ]
+        },
+        {
+          "name": "rename",
+          "tip": [
+            "重命名一个已存在的卷，该卷必须未被使用"
+          ]
+        },
+        {
           "name": "rm"
+        },
+        {
+          "name": "unmount",
+          "tip": [
+            "卸载一个卷"
+          ]
         }
       ]
     },

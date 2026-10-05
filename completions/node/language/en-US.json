@@ -10,20 +10,6 @@
       "name": "inspect"
     }
   ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-v"
-      ],
-      "usage": [
-        "-v, --version"
-      ],
-      "tip": [
-        "Show the version."
-      ]
-    }
-  ],
   "global_option": [
     {
       "name": "-",
@@ -68,6 +54,12 @@
       ]
     },
     {
+      "name": "--allow-fs-vfs",
+      "tip": [
+        "allow mounting a virtual file system when any permissions are set"
+      ]
+    },
+    {
       "name": "--allow-fs-write",
       "tip": [
         "Allow permissions to write in the filesystem"
@@ -86,6 +78,12 @@
       ]
     },
     {
+      "name": "--allow-openssl-store",
+      "tip": [
+        "allow use of OpenSSL STORE loaders when any permissions are set"
+      ]
+    },
+    {
       "name": "--allow-wasi",
       "tip": [
         "Allow wasi when any permissions are set"
@@ -96,6 +94,82 @@
       "tip": [
         "Allow worker threads when any permissions are set"
       ]
+    },
+    {
+      "name": "--bench",
+      "tip": [
+        "launch benchmark runner on startup"
+      ]
+    },
+    {
+      "name": "--bench-isolation",
+      "usage": [
+        "--bench-isolation <VALUE>"
+      ],
+      "tip": [
+        "configures the type of benchmark isolation used in the benchmark runner"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-name-pattern",
+      "usage": [
+        "--bench-name-pattern <VALUE>"
+      ],
+      "tip": [
+        "run benchmarks whose name matches this regular expression"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-reporter",
+      "usage": [
+        "--bench-reporter <VALUE>"
+      ],
+      "tip": [
+        "report benchmark output using the given reporter"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-reporter-destination",
+      "usage": [
+        "--bench-reporter-destination <VALUE>"
+      ],
+      "tip": [
+        "report the given benchmark reporter to the given destination"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-samples",
+      "usage": [
+        "--bench-samples <VALUE>"
+      ],
+      "tip": [
+        "specify the number of measured benchmark samples"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-warmup",
+      "usage": [
+        "--bench-warmup <VALUE>"
+      ],
+      "tip": [
+        "specify the number of unreported benchmark warmup samples"
+      ],
+      "next": []
+    },
+    {
+      "name": "--build-sea",
+      "usage": [
+        "--build-sea <VALUE>"
+      ],
+      "tip": [
+        "Build a Node.js single executable application"
+      ],
+      "next": []
     },
     {
       "name": "--build-snapshot",
@@ -219,6 +293,18 @@
       ]
     },
     {
+      "name": "--enable-fips-indicator-events",
+      "tip": [
+        "publish FIPS indicator results to the crypto.fips.indicator diagnostics channel"
+      ]
+    },
+    {
+      "name": "--enable-network-family-autoselection",
+      "tip": [
+        "Disable network address family autodetection algorithm"
+      ]
+    },
+    {
       "name": "--enable-source-maps",
       "tip": [
         "Source Map V3 support for stack traces"
@@ -262,21 +348,40 @@
       ]
     },
     {
+      "name": "--experimental-bench",
+      "tip": [
+        "experimental node:bench module and benchmark runner"
+      ]
+    },
+    {
+      "name": "--experimental-default-config-file",
+      "alias": [
+        "--experimental-config-file"
+      ],
+      "usage": [
+        "--experimental-default-config-file <VALUE>"
+      ],
+      "tip": [
+        "set config file path"
+      ],
+      "next": []
+    },
+    {
       "name": "--experimental-eventsource",
       "tip": [
         "Experimental EventSource API"
       ]
     },
     {
-      "name": "--experimental-ffi",
-      "tip": [
-        "Experimental node:ffi module"
-      ]
-    },
-    {
       "name": "--experimental-import-meta-resolve",
       "tip": [
         "Experimental ES Module import.meta.resolve() parentURL support"
+      ]
+    },
+    {
+      "name": "--experimental-import-text",
+      "tip": [
+        "experimental support for importing source as text with import attributes"
       ]
     },
     {
@@ -287,15 +392,32 @@
     },
     {
       "name": "--experimental-loader",
+      "alias": [
+        "--loader"
+      ],
+      "usage": [
+        "--loader, --experimental-loader <VALUE>"
+      ],
       "tip": [
-        "Use the specified module as a custom loader"
-      ]
+        "use the specified module as a custom loader"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-network-inspection",
       "tip": [
         "Experimental network inspection support"
       ]
+    },
+    {
+      "name": "--experimental-package-map",
+      "usage": [
+        "--experimental-package-map <VALUE>"
+      ],
+      "tip": [
+        "use the specified file for package map resolution"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-print-required-tla",
@@ -322,10 +444,29 @@
       ]
     },
     {
+      "name": "--experimental-strip-types",
+      "tip": [
+        "Type-stripping for TypeScript files."
+      ]
+    },
+    {
       "name": "--experimental-test-coverage",
       "tip": [
         "Enable code coverage in the test runner"
       ]
+    },
+    {
+      "name": "--experimental-test-isolation",
+      "alias": [
+        "--test-isolation"
+      ],
+      "usage": [
+        "--experimental-test-isolation <VALUE>"
+      ],
+      "tip": [
+        "configures the type of test isolation used in the test runner"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-test-module-mocks",
@@ -340,9 +481,21 @@
       ]
     },
     {
+      "name": "--experimental-vfs",
+      "tip": [
+        "experimental node:vfs module"
+      ]
+    },
+    {
       "name": "--experimental-vm-modules",
       "tip": [
         "Experimental ES Module support in vm module"
+      ]
+    },
+    {
+      "name": "--experimental-web-worker",
+      "tip": [
+        "experimental Web Worker API"
       ]
     },
     {
@@ -430,6 +583,16 @@
       ]
     },
     {
+      "name": "--icu-data-dir",
+      "usage": [
+        "--icu-data-dir <VALUE>"
+      ],
+      "tip": [
+        "set ICU data load path to dir (overrides NODE_ICU_DATA) (note: linked-in ICU data is present)"
+      ],
+      "next": []
+    },
+    {
       "name": "--import",
       "tip": [
         "ES module to preload (option can be repeated)"
@@ -448,6 +611,26 @@
       ]
     },
     {
+      "name": "--inspect",
+      "usage": [
+        "--inspect <VALUE>"
+      ],
+      "tip": [
+        "activate inspector on host:port (default: 127.0.0.1:9229)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-brk",
+      "usage": [
+        "--inspect-brk <VALUE>"
+      ],
+      "tip": [
+        "activate inspector on host:port and break at start of user script"
+      ],
+      "next": []
+    },
+    {
       "name": "--inspect-brk=",
       "usage": [
         "--inspect-brk[=<HOST:PORT>]"
@@ -462,6 +645,19 @@
       ]
     },
     {
+      "name": "--inspect-port",
+      "alias": [
+        "--debug-port"
+      ],
+      "usage": [
+        "--debug-port <VALUE>"
+      ],
+      "tip": [
+        "[host:]port set host:port for inspector"
+      ],
+      "next": []
+    },
+    {
       "name": "--inspect-port=",
       "usage": [
         "--inspect-port=<HOST:PORT>"
@@ -474,6 +670,16 @@
           "name": "9229"
         }
       ]
+    },
+    {
+      "name": "--inspect-publish-uid",
+      "usage": [
+        "--inspect-publish-uid <VALUE>"
+      ],
+      "tip": [
+        "comma separated list of destinations for inspector uid(default: stderr,http)"
+      ],
+      "next": []
     },
     {
       "name": "--inspect-publish-uid=",
@@ -492,6 +698,16 @@
           "name": "stderr"
         }
       ]
+    },
+    {
+      "name": "--inspect-wait",
+      "usage": [
+        "--inspect-wait <VALUE>"
+      ],
+      "tip": [
+        "activate inspector on host:port and wait for debugger to be attached"
+      ],
+      "next": []
     },
     {
       "name": "--inspect-wait=",
@@ -546,10 +762,40 @@
       ]
     },
     {
+      "name": "--localstorage-file",
+      "usage": [
+        "--localstorage-file <VALUE>"
+      ],
+      "tip": [
+        "file used to persist localStorage data"
+      ],
+      "next": []
+    },
+    {
       "name": "--max-http-header-size",
       "tip": [
         "Set the maximum size of HTTP headers (default: 16384 (16KB))"
       ]
+    },
+    {
+      "name": "--max-old-space-size-percentage",
+      "usage": [
+        "--max-old-space-size-percentage <VALUE>"
+      ],
+      "tip": [
+        "set V8's max old space size as a percentage of available memory (e.g., '50%'). Takes precedence over --max-old-space-size."
+      ],
+      "next": []
+    },
+    {
+      "name": "--network-family-autoselection-attempt-timeout",
+      "usage": [
+        "--network-family-autoselection-attempt-timeout <VALUE>"
+      ],
+      "tip": [
+        "Sets the default value for the network family autoselection attempt timeout."
+      ],
+      "next": []
     },
     {
       "name": "--no-addons",
@@ -573,6 +819,12 @@
       "name": "--no-experimental-detect-module",
       "tip": [
         "When ambiguous modules fail to evaluate because they contain ES module syntax, try again to evaluate them as ES modules"
+      ]
+    },
+    {
+      "name": "--no-experimental-ffi",
+      "tip": [
+        "experimental node:ffi module"
       ]
     },
     {
@@ -651,6 +903,12 @@
       "name": "--no-warnings",
       "tip": [
         "Silence all process warnings"
+      ]
+    },
+    {
+      "name": "--no-worker-snapshot",
+      "tip": [
+        "start worker threads from the bootstrapped context in the built-in startup snapshot"
       ]
     },
     {
@@ -745,6 +1003,12 @@
     },
     {
       "name": "--report-directory",
+      "alias": [
+        "--report-dir"
+      ],
+      "usage": [
+        "--report-dir, --report-directory"
+      ],
       "tip": [
         "Define custom report pathname (default: current working directory)"
       ]
@@ -811,6 +1075,26 @@
       ]
     },
     {
+      "name": "--secure-heap",
+      "usage": [
+        "--secure-heap <VALUE>"
+      ],
+      "tip": [
+        "total size of the OpenSSL secure heap"
+      ],
+      "next": []
+    },
+    {
+      "name": "--secure-heap-min",
+      "usage": [
+        "--secure-heap-min <VALUE>"
+      ],
+      "tip": [
+        "minimum allocation size from the OpenSSL secure heap"
+      ],
+      "next": []
+    },
+    {
       "name": "--snapshot-blob",
       "tip": [
         "Path to the snapshot blob that's either the result of snapshotbuilding, or the blob that is used to restore the application state"
@@ -829,10 +1113,76 @@
       ]
     },
     {
+      "name": "--test-coverage-branches",
+      "usage": [
+        "--test-coverage-branches <VALUE>"
+      ],
+      "tip": [
+        "the branch coverage minimum threshold"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-exclude",
+      "usage": [
+        "--test-coverage-exclude <VALUE>"
+      ],
+      "tip": [
+        "exclude files from coverage report that match this glob pattern"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-functions",
+      "usage": [
+        "--test-coverage-functions <VALUE>"
+      ],
+      "tip": [
+        "the function coverage minimum threshold"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-include",
+      "usage": [
+        "--test-coverage-include <VALUE>"
+      ],
+      "tip": [
+        "include files in coverage report that match this glob pattern"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-include-all",
+      "tip": [
+        "include source files that were never loaded in the coverage report"
+      ]
+    },
+    {
+      "name": "--test-coverage-lines",
+      "usage": [
+        "--test-coverage-lines <VALUE>"
+      ],
+      "tip": [
+        "the line coverage minimum threshold"
+      ],
+      "next": []
+    },
+    {
       "name": "--test-force-exit",
       "tip": [
         "Force test runner to exit upon completion"
       ]
+    },
+    {
+      "name": "--test-global-setup",
+      "usage": [
+        "--test-global-setup <VALUE>"
+      ],
+      "tip": [
+        "specifies the path to the global setup file"
+      ],
+      "next": []
     },
     {
       "name": "--test-name-pattern",
@@ -845,6 +1195,16 @@
       "tip": [
         "Run tests with 'only' option set"
       ]
+    },
+    {
+      "name": "--test-random-seed",
+      "usage": [
+        "--test-random-seed <VALUE>"
+      ],
+      "tip": [
+        "seed used to randomize test execution order"
+      ],
+      "next": []
     },
     {
       "name": "--test-randomize",
@@ -865,10 +1225,30 @@
       ]
     },
     {
+      "name": "--test-rerun-failures",
+      "usage": [
+        "--test-rerun-failures <VALUE>"
+      ],
+      "tip": [
+        "specifies the path to the rerun state file"
+      ],
+      "next": []
+    },
+    {
       "name": "--test-shard",
       "tip": [
         "Run test at specific shard"
       ]
+    },
+    {
+      "name": "--test-skip-pattern",
+      "usage": [
+        "--test-skip-pattern <VALUE>"
+      ],
+      "tip": [
+        "run tests whose name do not match this regular expression"
+      ],
+      "next": []
     },
     {
       "name": "--test-timeout",
@@ -907,6 +1287,42 @@
       ]
     },
     {
+      "name": "--tls-max-v1.2",
+      "tip": [
+        "set default TLS maximum to TLSv1.2 (default: TLSv1.3)"
+      ]
+    },
+    {
+      "name": "--tls-max-v1.3",
+      "tip": [
+        "set default TLS maximum to TLSv1.3 (default: TLSv1.3)"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.0",
+      "tip": [
+        "set default TLS minimum to TLSv1.0 (default: TLSv1.2)"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.1",
+      "tip": [
+        "set default TLS minimum to TLSv1.1 (default: TLSv1.2)"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.2",
+      "tip": [
+        "set default TLS minimum to TLSv1.2 (default: TLSv1.2)"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.3",
+      "tip": [
+        "set default TLS minimum to TLSv1.3 (default: TLSv1.2)"
+      ]
+    },
+    {
       "name": "--trace-deprecation",
       "tip": [
         "Show stack traces on deprecations"
@@ -931,6 +1347,26 @@
       ]
     },
     {
+      "name": "--trace-event-categories",
+      "usage": [
+        "--trace-event-categories <VALUE>"
+      ],
+      "tip": [
+        "comma separated list of trace event categories to record"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace-event-file-pattern",
+      "usage": [
+        "--trace-event-file-pattern <VALUE>"
+      ],
+      "tip": [
+        "Template string specifying the filepath for the trace-events data, it supports ${rotation} and ${pid}."
+      ],
+      "next": []
+    },
+    {
       "name": "--trace-exit",
       "tip": [
         "Show stack trace when an environment exits"
@@ -941,6 +1377,16 @@
       "tip": [
         "Show stack traces on promise initialization and resolution"
       ]
+    },
+    {
+      "name": "--trace-require-module",
+      "usage": [
+        "--trace-require-module <VALUE>"
+      ],
+      "tip": [
+        "Print access to require(esm). Options are 'all' (print all usage) and 'no-node-modules' (excluding usage from the node_modules folder)"
+      ],
+      "next": []
     },
     {
       "name": "--trace-sigint",
@@ -1025,6 +1471,38 @@
       "tip": [
         "Set V8's thread pool size"
       ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "print Node.js version"
+      ]
+    },
+    {
+      "name": "--vfs-load",
+      "usage": [
+        "--vfs-load <VALUE>"
+      ],
+      "tip": [
+        "mount a directory or archive as a virtual file system and run the entry point and module resolution against it instead of the real file system (may be given once; requires --experimental-vfs)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--vfs-mount",
+      "usage": [
+        "--vfs-mount <VALUE>"
+      ],
+      "tip": [
+        "mount a directory or archive as a virtual file system (option can be repeated; requires --experimental-vfs)"
+      ],
+      "next": []
     },
     {
       "name": "--watch",

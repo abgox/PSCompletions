@@ -10,20 +10,6 @@
       "name": "inspect"
     }
   ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-v"
-      ],
-      "usage": [
-        "-v, --version"
-      ],
-      "tip": [
-        "显示版本信息。"
-      ]
-    }
-  ],
   "global_option": [
     {
       "name": "-",
@@ -68,6 +54,12 @@
       ]
     },
     {
+      "name": "--allow-fs-vfs",
+      "tip": [
+        "设置任一 permission 时允许挂载虚拟文件系统"
+      ]
+    },
+    {
       "name": "--allow-fs-write",
       "tip": [
         "允许写入文件系统的权限"
@@ -86,6 +78,12 @@
       ]
     },
     {
+      "name": "--allow-openssl-store",
+      "tip": [
+        "设置任一 permission 时允许使用 OpenSSL STORE 加载器"
+      ]
+    },
+    {
       "name": "--allow-wasi",
       "tip": [
         "在设置任何权限时允许使用 wasi"
@@ -96,6 +94,82 @@
       "tip": [
         "在设置任何权限时允许使用 worker 线程"
       ]
+    },
+    {
+      "name": "--bench",
+      "tip": [
+        "启动时运行 benchmark 测试器"
+      ]
+    },
+    {
+      "name": "--bench-isolation",
+      "usage": [
+        "--bench-isolation <VALUE>"
+      ],
+      "tip": [
+        "配置 benchmark 测试器使用的隔离类型"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-name-pattern",
+      "usage": [
+        "--bench-name-pattern <VALUE>"
+      ],
+      "tip": [
+        "运行名称匹配此正则表达式的 benchmark"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-reporter",
+      "usage": [
+        "--bench-reporter <VALUE>"
+      ],
+      "tip": [
+        "使用指定的 reporter 输出 benchmark 结果"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-reporter-destination",
+      "usage": [
+        "--bench-reporter-destination <VALUE>"
+      ],
+      "tip": [
+        "将指定的 benchmark reporter 输出到指定的目标位置"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-samples",
+      "usage": [
+        "--bench-samples <VALUE>"
+      ],
+      "tip": [
+        "指定 benchmark 测量样本的数量"
+      ],
+      "next": []
+    },
+    {
+      "name": "--bench-warmup",
+      "usage": [
+        "--bench-warmup <VALUE>"
+      ],
+      "tip": [
+        "指定 benchmark 预热样本的数量（不计入报告）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--build-sea",
+      "usage": [
+        "--build-sea <VALUE>"
+      ],
+      "tip": [
+        "构建 Node.js 单文件可执行应用程序"
+      ],
+      "next": []
     },
     {
       "name": "--build-snapshot",
@@ -219,6 +293,18 @@
       ]
     },
     {
+      "name": "--enable-fips-indicator-events",
+      "tip": [
+        "将 FIPS 指示器结果发布到 crypto.fips.indicator 诊断通道"
+      ]
+    },
+    {
+      "name": "--enable-network-family-autoselection",
+      "tip": [
+        "禁用网络地址族自动检测算法"
+      ]
+    },
+    {
       "name": "--enable-source-maps",
       "tip": [
         "堆栈跟踪的 Source Map V3 支持"
@@ -262,21 +348,40 @@
       ]
     },
     {
+      "name": "--experimental-bench",
+      "tip": [
+        "实验性：node:bench 模块与基准测试运行器"
+      ]
+    },
+    {
+      "name": "--experimental-default-config-file",
+      "alias": [
+        "--experimental-config-file"
+      ],
+      "usage": [
+        "--experimental-default-config-file <VALUE>"
+      ],
+      "tip": [
+        "设置配置文件路径"
+      ],
+      "next": []
+    },
+    {
       "name": "--experimental-eventsource",
       "tip": [
         "实验性 EventSource API"
       ]
     },
     {
-      "name": "--experimental-ffi",
-      "tip": [
-        "实验性 node:ffi 模块"
-      ]
-    },
-    {
       "name": "--experimental-import-meta-resolve",
       "tip": [
         "实验性 ES Module import.meta.resolve() parentURL 支持"
+      ]
+    },
+    {
+      "name": "--experimental-import-text",
+      "tip": [
+        "实验性：支持通过 import attributes 将源码作为文本导入"
       ]
     },
     {
@@ -287,15 +392,32 @@
     },
     {
       "name": "--experimental-loader",
+      "alias": [
+        "--loader"
+      ],
+      "usage": [
+        "--loader, --experimental-loader <VALUE>"
+      ],
       "tip": [
-        "使用指定的模块作为自定义加载器"
-      ]
+        "将指定模块用作自定义 loader"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-network-inspection",
       "tip": [
         "实验性网络检查支持"
       ]
+    },
+    {
+      "name": "--experimental-package-map",
+      "usage": [
+        "--experimental-package-map <VALUE>"
+      ],
+      "tip": [
+        "使用指定文件进行 package map 解析"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-print-required-tla",
@@ -322,10 +444,29 @@
       ]
     },
     {
+      "name": "--experimental-strip-types",
+      "tip": [
+        "对 TypeScript 文件进行类型剥离。"
+      ]
+    },
+    {
       "name": "--experimental-test-coverage",
       "tip": [
         "在测试运行器中启用代码覆盖率"
       ]
+    },
+    {
+      "name": "--experimental-test-isolation",
+      "alias": [
+        "--test-isolation"
+      ],
+      "usage": [
+        "--experimental-test-isolation <VALUE>"
+      ],
+      "tip": [
+        "配置测试运行器使用的测试隔离类型"
+      ],
+      "next": []
     },
     {
       "name": "--experimental-test-module-mocks",
@@ -340,9 +481,21 @@
       ]
     },
     {
+      "name": "--experimental-vfs",
+      "tip": [
+        "实验性：node:vfs 模块"
+      ]
+    },
+    {
       "name": "--experimental-vm-modules",
       "tip": [
         "实验性 vm 模块中的 ES Module 支持"
+      ]
+    },
+    {
+      "name": "--experimental-web-worker",
+      "tip": [
+        "实验性：Web Worker API"
       ]
     },
     {
@@ -430,6 +583,16 @@
       ]
     },
     {
+      "name": "--icu-data-dir",
+      "usage": [
+        "--icu-data-dir <VALUE>"
+      ],
+      "tip": [
+        "将 ICU 数据加载路径设置为指定目录（覆盖 NODE_ICU_DATA）（注意：已内置链接的 ICU 数据）"
+      ],
+      "next": []
+    },
+    {
       "name": "--import",
       "tip": [
         "要预加载的 ES 模块 (选项可以重复)"
@@ -448,6 +611,26 @@
       ]
     },
     {
+      "name": "--inspect",
+      "usage": [
+        "--inspect <VALUE>"
+      ],
+      "tip": [
+        "在 host:port 上激活 inspector（默认值：127.0.0.1:9229）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--inspect-brk",
+      "usage": [
+        "--inspect-brk <VALUE>"
+      ],
+      "tip": [
+        "在 host:port 上激活 inspector，并在用户脚本开始处中断"
+      ],
+      "next": []
+    },
+    {
       "name": "--inspect-brk=",
       "usage": [
         "--inspect-brk[=<HOST:PORT>]"
@@ -462,6 +645,19 @@
       ]
     },
     {
+      "name": "--inspect-port",
+      "alias": [
+        "--debug-port"
+      ],
+      "usage": [
+        "--debug-port <VALUE>"
+      ],
+      "tip": [
+        "为 inspector 设置 [host:]port 格式的主机端口"
+      ],
+      "next": []
+    },
+    {
       "name": "--inspect-port=",
       "usage": [
         "--inspect-port=<HOST:PORT>"
@@ -474,6 +670,16 @@
           "name": "9229"
         }
       ]
+    },
+    {
+      "name": "--inspect-publish-uid",
+      "usage": [
+        "--inspect-publish-uid <VALUE>"
+      ],
+      "tip": [
+        "inspector uid 的发布目标列表，以逗号分隔（默认值：stderr,http）"
+      ],
+      "next": []
     },
     {
       "name": "--inspect-publish-uid=",
@@ -492,6 +698,16 @@
           "name": "stderr"
         }
       ]
+    },
+    {
+      "name": "--inspect-wait",
+      "usage": [
+        "--inspect-wait <VALUE>"
+      ],
+      "tip": [
+        "在 host:port 上激活 inspector，并等待调试器附加"
+      ],
+      "next": []
     },
     {
       "name": "--inspect-wait=",
@@ -546,10 +762,40 @@
       ]
     },
     {
+      "name": "--localstorage-file",
+      "usage": [
+        "--localstorage-file <VALUE>"
+      ],
+      "tip": [
+        "用于持久化 localStorage 数据的文件"
+      ],
+      "next": []
+    },
+    {
       "name": "--max-http-header-size",
       "tip": [
         "设置 HTTP 头的最大大小 (默认: 16384 (16KB))"
       ]
+    },
+    {
+      "name": "--max-old-space-size-percentage",
+      "usage": [
+        "--max-old-space-size-percentage <VALUE>"
+      ],
+      "tip": [
+        "以可用内存的百分比设置 V8 的最大老生代空间大小（例如 '50%'）。优先级高于 --max-old-space-size。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--network-family-autoselection-attempt-timeout",
+      "usage": [
+        "--network-family-autoselection-attempt-timeout <VALUE>"
+      ],
+      "tip": [
+        "设置网络协议族自动选择尝试超时的默认值。"
+      ],
+      "next": []
     },
     {
       "name": "--no-addons",
@@ -573,6 +819,12 @@
       "name": "--no-experimental-detect-module",
       "tip": [
         "当包含 ES 模块语法的模糊模块无法评估时, 尝试再次将它们作为 ES 模块评估"
+      ]
+    },
+    {
+      "name": "--no-experimental-ffi",
+      "tip": [
+        "实验性 node:ffi 模块"
       ]
     },
     {
@@ -651,6 +903,12 @@
       "name": "--no-warnings",
       "tip": [
         "静默所有进程警告"
+      ]
+    },
+    {
+      "name": "--no-worker-snapshot",
+      "tip": [
+        "从内置启动 snapshot 中引导的上下文启动 worker 线程"
       ]
     },
     {
@@ -745,6 +1003,12 @@
     },
     {
       "name": "--report-directory",
+      "alias": [
+        "--report-dir"
+      ],
+      "usage": [
+        "--report-dir, --report-directory"
+      ],
       "tip": [
         "定义自定义报告路径名 (默认: 当前工作目录)"
       ]
@@ -811,6 +1075,26 @@
       ]
     },
     {
+      "name": "--secure-heap",
+      "usage": [
+        "--secure-heap <VALUE>"
+      ],
+      "tip": [
+        "OpenSSL 安全堆的总大小"
+      ],
+      "next": []
+    },
+    {
+      "name": "--secure-heap-min",
+      "usage": [
+        "--secure-heap-min <VALUE>"
+      ],
+      "tip": [
+        "OpenSSL 安全堆的最小分配大小"
+      ],
+      "next": []
+    },
+    {
       "name": "--snapshot-blob",
       "tip": [
         "快照 blob 的路径, 可以是快照构建的结果, 也可以是用于恢复应用程序状态的 blob"
@@ -829,10 +1113,76 @@
       ]
     },
     {
+      "name": "--test-coverage-branches",
+      "usage": [
+        "--test-coverage-branches <VALUE>"
+      ],
+      "tip": [
+        "分支 coverage 的最低阈值"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-exclude",
+      "usage": [
+        "--test-coverage-exclude <VALUE>"
+      ],
+      "tip": [
+        "从 coverage 报告中排除匹配此 glob 模式的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-functions",
+      "usage": [
+        "--test-coverage-functions <VALUE>"
+      ],
+      "tip": [
+        "函数 coverage 的最低阈值"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-include",
+      "usage": [
+        "--test-coverage-include <VALUE>"
+      ],
+      "tip": [
+        "在 coverage 报告中包含匹配此 glob 模式的文件"
+      ],
+      "next": []
+    },
+    {
+      "name": "--test-coverage-include-all",
+      "tip": [
+        "在 coverage 报告中包含从未加载过的源文件"
+      ]
+    },
+    {
+      "name": "--test-coverage-lines",
+      "usage": [
+        "--test-coverage-lines <VALUE>"
+      ],
+      "tip": [
+        "行 coverage 的最低阈值"
+      ],
+      "next": []
+    },
+    {
       "name": "--test-force-exit",
       "tip": [
         "强制测试运行器在完成后退出"
       ]
+    },
+    {
+      "name": "--test-global-setup",
+      "usage": [
+        "--test-global-setup <VALUE>"
+      ],
+      "tip": [
+        "指定全局 setup 文件的路径"
+      ],
+      "next": []
     },
     {
       "name": "--test-name-pattern",
@@ -845,6 +1195,16 @@
       "tip": [
         "运行设置了 'only' 选项的测试"
       ]
+    },
+    {
+      "name": "--test-random-seed",
+      "usage": [
+        "--test-random-seed <VALUE>"
+      ],
+      "tip": [
+        "用于随机化测试执行顺序的种子"
+      ],
+      "next": []
     },
     {
       "name": "--test-randomize",
@@ -865,10 +1225,30 @@
       ]
     },
     {
+      "name": "--test-rerun-failures",
+      "usage": [
+        "--test-rerun-failures <VALUE>"
+      ],
+      "tip": [
+        "指定重跑状态文件的路径"
+      ],
+      "next": []
+    },
+    {
       "name": "--test-shard",
       "tip": [
         "在特定分片上运行测试"
       ]
+    },
+    {
+      "name": "--test-skip-pattern",
+      "usage": [
+        "--test-skip-pattern <VALUE>"
+      ],
+      "tip": [
+        "运行名称不匹配此正则表达式的测试"
+      ],
+      "next": []
     },
     {
       "name": "--test-timeout",
@@ -907,6 +1287,42 @@
       ]
     },
     {
+      "name": "--tls-max-v1.2",
+      "tip": [
+        "将默认 TLS 最高版本设为 TLSv1.2（默认：TLSv1.3）"
+      ]
+    },
+    {
+      "name": "--tls-max-v1.3",
+      "tip": [
+        "将默认 TLS 最高版本设为 TLSv1.3（默认：TLSv1.3）"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.0",
+      "tip": [
+        "将默认 TLS 最低版本设为 TLSv1.0（默认：TLSv1.2）"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.1",
+      "tip": [
+        "将默认 TLS 最低版本设为 TLSv1.1（默认：TLSv1.2）"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.2",
+      "tip": [
+        "将默认 TLS 最低版本设为 TLSv1.2（默认：TLSv1.2）"
+      ]
+    },
+    {
+      "name": "--tls-min-v1.3",
+      "tip": [
+        "将默认 TLS 最低版本设为 TLSv1.3（默认：TLSv1.2）"
+      ]
+    },
+    {
       "name": "--trace-deprecation",
       "tip": [
         "在弃用时显示堆栈跟踪"
@@ -931,6 +1347,26 @@
       ]
     },
     {
+      "name": "--trace-event-categories",
+      "usage": [
+        "--trace-event-categories <VALUE>"
+      ],
+      "tip": [
+        "以逗号分隔的待记录 trace event 类别列表"
+      ],
+      "next": []
+    },
+    {
+      "name": "--trace-event-file-pattern",
+      "usage": [
+        "--trace-event-file-pattern <VALUE>"
+      ],
+      "tip": [
+        "指定 trace-events 数据文件路径的模板字符串，支持 ${rotation} 和 ${pid}。"
+      ],
+      "next": []
+    },
+    {
       "name": "--trace-exit",
       "tip": [
         "当环境退出时显示堆栈跟踪"
@@ -941,6 +1377,16 @@
       "tip": [
         "在 Promise 初始化和解决时显示堆栈跟踪"
       ]
+    },
+    {
+      "name": "--trace-require-module",
+      "usage": [
+        "--trace-require-module <VALUE>"
+      ],
+      "tip": [
+        "打印对 require(esm) 的访问。可选值为 'all'（打印所有使用）和 'no-node-modules'（排除来自 node_modules 目录的使用）"
+      ],
+      "next": []
     },
     {
       "name": "--trace-sigint",
@@ -1025,6 +1471,38 @@
       "tip": [
         "设置 V8 的线程池大小"
       ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "打印 Node.js 版本"
+      ]
+    },
+    {
+      "name": "--vfs-load",
+      "usage": [
+        "--vfs-load <VALUE>"
+      ],
+      "tip": [
+        "将目录或归档挂载为虚拟文件系统，入口点和模块解析都基于它而非真实文件系统运行（只能指定一次；需要 --experimental-vfs）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--vfs-mount",
+      "usage": [
+        "--vfs-mount <VALUE>"
+      ],
+      "tip": [
+        "将目录或归档挂载为虚拟文件系统（该选项可重复使用；需要 --experimental-vfs）"
+      ],
+      "next": []
     },
     {
       "name": "--watch",

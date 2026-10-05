@@ -7,152 +7,6 @@
   },
   "next": [
     {
-      "name": "add",
-      "usage": [
-        "add [OPTIONS] [<PATHSPEC>...]"
-      ],
-      "tip": [
-        "将文件更改添加到索引中。"
-      ],
-      "option": [
-        {
-          "name": "--all",
-          "alias": [
-            "-A"
-          ],
-          "usage": [
-            "-A, --all"
-          ],
-          "tip": [
-            "将当前工作树中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "alias": [
-            "-n"
-          ],
-          "usage": [
-            "-n, --dry-run"
-          ],
-          "tip": [
-            "不实际将文件添加到索引中，只显示将要添加的内容。"
-          ]
-        },
-        {
-          "name": "--edit",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --edit"
-          ],
-          "tip": [
-            "打开差异和索引在编辑器中进行进一步编辑"
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
-          "tip": [
-            "允许添加被忽略的文件"
-          ]
-        },
-        {
-          "name": "--ignore-errors",
-          "tip": [
-            "如果在索引某些文件时出现错误，导致无法添加这些文件，不要中止操作，而是继续尝试添加其他文件。",
-            "命令仍应以非零状态退出。",
-            "可以通过设置配置变量 add.ignoreErrors 为 true 来使此行为成为默认设置。"
-          ]
-        },
-        {
-          "name": "--ignore-removal",
-          "tip": [
-            "忽略工作树中已删除的路径（等同于 --no-all）。"
-          ]
-        },
-        {
-          "name": "--intent-to-add",
-          "alias": [
-            "-N"
-          ],
-          "usage": [
-            "-N, --intent-to-add"
-          ],
-          "tip": [
-            "仅记录该路径稍后将被添加的事实。"
-          ]
-        },
-        {
-          "name": "--interactive",
-          "alias": [
-            "-i"
-          ],
-          "usage": [
-            "-i, --interactive"
-          ],
-          "tip": [
-            "交互式地将工作树中修改的内容添加到索引中"
-          ]
-        },
-        {
-          "name": "--patch",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --patch"
-          ],
-          "tip": [
-            "交互式地在索引和工作树之间选择内容块添加到索引中",
-            "类似于 git add -i, 但跳过初始命令菜单, 直接进入补丁子命令"
-          ]
-        },
-        {
-          "name": "--refresh",
-          "tip": [
-            "不要添加文件，只是在索引中刷新它们的 stat() 信息。"
-          ]
-        },
-        {
-          "name": "--renormalize",
-          "tip": [
-            "将跟踪的文件的行尾符（EOL）标准化（implies -u）"
-          ]
-        },
-        {
-          "name": "--sparse",
-          "tip": [
-            "允许更新 sparse-checkout 范围之外的条目。"
-          ]
-        },
-        {
-          "name": "--update",
-          "alias": [
-            "-u"
-          ],
-          "usage": [
-            "-u, --update"
-          ],
-          "tip": [
-            "将工作区中已追踪的文件（已存在于 Git 仓库中的文件）的修改和删除操作添加到暂存区，但不会添加新文件。"
-          ]
-        },
-        {
-          "name": ".",
-          "tip": [
-            "将当前目录及其子目录中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
-          ]
-        }
-      ]
-    },
-    {
       "name": "am",
       "tip": [
         "应用补丁。"
@@ -1098,6 +952,12 @@
       ]
     },
     {
+      "name": "checkout--worker",
+      "tip": [
+        "`git checkout` 派生的后台工作进程。"
+      ]
+    },
+    {
       "name": "checkout-index",
       "tip": [
         "将索引中的文件复制到工作目录。"
@@ -1155,12 +1015,6 @@
             "保留当前的冲突并退出 cherry-pick。"
           ]
         }
-      ]
-    },
-    {
-      "name": "citool",
-      "tip": [
-        "Git 提交命令的图形化替代品。"
       ]
     },
     {
@@ -2056,9 +1910,9 @@
       ],
       "option": [
         {
-          "name": "--all",
+          "name": "--add",
           "tip": [
-            "对于 get/set/unset: 返回所有匹配的值(不仅仅是第一个)。"
+            "添加取值（`set` 的旧式写法）。"
           ]
         },
         {
@@ -2072,9 +1926,55 @@
           "next": []
         },
         {
+          "name": "--file",
+          "usage": [
+            "--file <file>"
+          ],
+          "tip": [
+            "读写指定的配置文件。"
+          ],
+          "next": []
+        },
+        {
           "name": "--fixed-value",
           "tip": [
             "对于 get/unset: 精确匹配值, 而不是将其视为正则表达式。"
+          ]
+        },
+        {
+          "name": "--get",
+          "tip": [
+            "读取一个取值（`get` 的旧式写法）。"
+          ]
+        },
+        {
+          "name": "--get-all",
+          "tip": [
+            "读取该键的全部取值。"
+          ]
+        },
+        {
+          "name": "--get-color",
+          "tip": [
+            "读取颜色配置项。"
+          ]
+        },
+        {
+          "name": "--get-colorbool",
+          "tip": [
+            "报告颜色配置项是否已设置。"
+          ]
+        },
+        {
+          "name": "--get-regexp",
+          "tip": [
+            "读取匹配该模式的所有键。"
+          ]
+        },
+        {
+          "name": "--get-urlmatch",
+          "tip": [
+            "读取某个 URL 的专属配置。"
           ]
         },
         {
@@ -2087,6 +1987,12 @@
           "name": "--includes",
           "tip": [
             "对于 list/get: 在查找值时展开配置文件中的 include 指令。"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "列出配置文件中的全部配置项。"
           ]
         },
         {
@@ -2108,9 +2014,9 @@
           ]
         },
         {
-          "name": "--regexp",
+          "name": "--replace-all",
           "tip": [
-            "对于 get: 将名称视为正则表达式。"
+            "替换所有文本匹配的取值。"
           ]
         },
         {
@@ -2132,42 +2038,21 @@
           ]
         },
         {
-          "name": "--type",
-          "usage": [
-            "--type <type>"
-          ],
+          "name": "--unset",
           "tip": [
-            "对于 set: 强制执行特定的值类型。",
-            "类型: bool, int, bool-or-int, path, expiry-date, color。"
-          ],
-          "next": [
-            {
-              "name": "bool"
-            },
-            {
-              "name": "bool-or-int"
-            },
-            {
-              "name": "color"
-            },
-            {
-              "name": "expiry-date"
-            },
-            {
-              "name": "int"
-            },
-            {
-              "name": "path"
-            }
+            "删除取值（`unset` 的旧式写法）。"
           ]
         },
         {
-          "name": "--work-tree",
-          "usage": [
-            "--work-tree <path>"
-          ],
+          "name": "--unset-all",
           "tip": [
-            "对于写入选项: 设置工作树的路径。"
+            "删除该键的全部取值。"
+          ]
+        },
+        {
+          "name": "--worktree",
+          "tip": [
+            "读写按工作区隔离的配置文件。"
           ],
           "next": []
         }
@@ -2177,6 +2062,42 @@
           "name": "edit",
           "tip": [
             "打开编辑器修改配置文件。"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            }
           ]
         },
         {
@@ -2186,12 +2107,240 @@
           ],
           "tip": [
             "获取给定配置键的值。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "当键为多值时输出全部取值。"
+              ]
+            },
+            {
+              "name": "--default",
+              "usage": [
+                "--default <default>"
+              ],
+              "tip": [
+                "键不存在时使用该默认值。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "把 --value 的模式当作字面量。"
+              ]
+            },
+            {
+              "name": "--get-color",
+              "tip": [
+                "当取值为颜色配置项时着色输出。"
+              ]
+            },
+            {
+              "name": "--get-colorbool",
+              "tip": [
+                "报告颜色配置项是否已设置。"
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--includes",
+              "tip": [
+                "遵循 include 指令。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "只显示变量名。"
+              ]
+            },
+            {
+              "name": "--no-includes",
+              "tip": [
+                "忽略 include 指令。"
+              ]
+            },
+            {
+              "name": "--null",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--regexp",
+              "tip": [
+                "把键名当作正则表达式。"
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "显示取值的来源。"
+              ]
+            },
+            {
+              "name": "--show-scope",
+              "tip": [
+                "显示配置文件的作用域。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--url",
+              "usage": [
+                "--url <url>"
+              ],
+              "tip": [
+                "按键解析 URL 相关的配置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "仅更新或取消匹配该模式的取值。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "用 NUL 字符终止取值。"
+              ]
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "列出所有变量及其值。"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--get-color",
+              "tip": [
+                "当取值为颜色配置项时着色输出。"
+              ]
+            },
+            {
+              "name": "--get-colorbool",
+              "tip": [
+                "报告颜色配置项是否已设置。"
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--includes",
+              "tip": [
+                "遵循 include 指令。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "只显示变量名。"
+              ]
+            },
+            {
+              "name": "--no-includes",
+              "tip": [
+                "忽略 include 指令。"
+              ]
+            },
+            {
+              "name": "--null",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "显示取值的来源。"
+              ]
+            },
+            {
+              "name": "--show-scope",
+              "tip": [
+                "显示配置文件的作用域。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "用 NUL 字符终止取值。"
+              ]
+            }
           ]
         },
         {
@@ -2201,6 +2350,42 @@
           ],
           "tip": [
             "删除配置节及其所有条目。"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            }
           ]
         },
         {
@@ -2210,6 +2395,42 @@
           ],
           "tip": [
             "将配置节重命名为新名称。"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            }
           ]
         },
         {
@@ -2219,6 +2440,116 @@
           ],
           "tip": [
             "设置给定配置键的值。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "替换多值键的全部取值。"
+              ]
+            },
+            {
+              "name": "--append",
+              "tip": [
+                "追加取值而不是替换已有值。"
+              ]
+            },
+            {
+              "name": "--bool",
+              "tip": [
+                "按布尔值解释取值。"
+              ]
+            },
+            {
+              "name": "--bool-or-int",
+              "tip": [
+                "按布尔值或整数解释取值。"
+              ]
+            },
+            {
+              "name": "--expiry-date",
+              "tip": [
+                "按过期时间戳解释取值。"
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "把 --value 的模式当作字面量而非正则。"
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--int",
+              "tip": [
+                "按整数解释取值。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--no-type",
+              "tip": [
+                "取消该键上的类型限定。"
+              ]
+            },
+            {
+              "name": "--path",
+              "tip": [
+                "按路径解释取值。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <type>"
+              ],
+              "tip": [
+                "按该类型规范化取值。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "仅更新或取消匹配该模式的取值。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            }
           ],
           "next": [
             {
@@ -3434,6 +3765,64 @@
           ],
           "tip": [
             "删除配置条目。"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "取消该键的全部取值。"
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "读写指定的配置文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "把 --value 的模式当作字面量而非正则。"
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "读写仓库级配置文件。"
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "读写系统级配置文件。"
+              ]
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "仅更新或取消匹配该模式的取值。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "读写按工作区隔离的配置文件。"
+              ]
+            }
           ]
         }
       ]
@@ -3480,6 +3869,18 @@
       "name": "credential-cache",
       "tip": [
         "临时在内存中存储密码的辅助工具。"
+      ]
+    },
+    {
+      "name": "credential-cache--daemon",
+      "tip": [
+        "为 credential cache 助手提供服务的守护进程。"
+      ]
+    },
+    {
+      "name": "credential-netrc",
+      "tip": [
+        "从 .netrc 文件读取凭据的凭据助手。"
       ]
     },
     {
@@ -3793,6 +4194,12 @@
       "name": "difftool",
       "tip": [
         "使用常见的 diff 工具显示更改。"
+      ]
+    },
+    {
+      "name": "difftool--helper",
+      "tip": [
+        "用于把 diff 工具结果呈现给用户的助手。"
       ]
     },
     {
@@ -4124,68 +4531,6 @@
       ]
     },
     {
-      "name": "flow",
-      "tip": [
-        "管理分支和开发工作流程。"
-      ],
-      "next": [
-        {
-          "name": "bugfix",
-          "tip": [
-            "管理修复分支。"
-          ]
-        },
-        {
-          "name": "config",
-          "tip": [
-            "管理 Git-flow 配置。"
-          ]
-        },
-        {
-          "name": "feature",
-          "tip": [
-            "管理特性分支。"
-          ]
-        },
-        {
-          "name": "hotfix",
-          "tip": [
-            "管理热修复分支。"
-          ]
-        },
-        {
-          "name": "init",
-          "tip": [
-            "初始化一个新的 Git 仓库, 并指定分支模型。"
-          ]
-        },
-        {
-          "name": "log",
-          "tip": [
-            "显示不匹配基础分支的日志。"
-          ]
-        },
-        {
-          "name": "release",
-          "tip": [
-            "管理发布分支。"
-          ]
-        },
-        {
-          "name": "support",
-          "tip": [
-            "管理支持分支。"
-          ]
-        },
-        {
-          "name": "version",
-          "tip": [
-            "显示版本信息。"
-          ]
-        }
-      ]
-    },
-    {
       "name": "fmt-merge-msg",
       "tip": [
         "生成合并提交消息。"
@@ -4225,6 +4570,18 @@
       "name": "fsck",
       "tip": [
         "验证数据库中对象的连通性和有效性。"
+      ]
+    },
+    {
+      "name": "fsck-objects",
+      "tip": [
+        "校验数据库中对象的连通性与有效性。"
+      ]
+    },
+    {
+      "name": "fsmonitor--daemon",
+      "tip": [
+        "内置的文件系统监视器。"
       ]
     },
     {
@@ -4801,6 +5158,12 @@
       ]
     },
     {
+      "name": "init-db",
+      "tip": [
+        "创建一个空的 Git 仓库。`init` 的已弃用同义命令。"
+      ]
+    },
+    {
       "name": "instaweb",
       "tip": [
         "立即浏览工作仓库的 gitweb 界面。"
@@ -4813,9 +5176,60 @@
       ]
     },
     {
+      "name": "jump",
+      "tip": [
+        "在编辑器中跳转到感兴趣的位置。"
+      ]
+    },
+    {
       "name": "last-modified",
+      "usage": [
+        "last-modified [<revision-range>] [[--] <pathspec>...]"
+      ],
       "tip": [
         "实验性功能: 显示文件最后修改的时间。"
+      ],
+      "option": [
+        {
+          "name": "--max-depth",
+          "usage": [
+            "--max-depth <depth>"
+          ],
+          "tip": [
+            "最多向下遍历 <depth> 层子目录树。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "递归遍历所有子目录树。"
+          ]
+        },
+        {
+          "name": "--show-trees",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --show-trees"
+          ],
+          "tip": [
+            "即使在递归进入目录树时也显示目录树条目。"
+          ]
+        },
+        {
+          "name": "-z",
+          "tip": [
+            "每行以 NUL 字符结尾，而不是换行符。"
+          ]
+        }
       ]
     },
     {
@@ -5599,9 +6013,51 @@
       ]
     },
     {
+      "name": "merge-octopus",
+      "tip": [
+        "能处理两个以上分支的内部合并策略驱动。"
+      ]
+    },
+    {
       "name": "merge-one-file",
       "tip": [
         "'git merge-index' 和标准辅助程序的常见核心, 用于与 git merge-index 一起使用。"
+      ]
+    },
+    {
+      "name": "merge-ours",
+      "tip": [
+        "保留当前分支版本的内部合并策略驱动。"
+      ]
+    },
+    {
+      "name": "merge-recursive",
+      "tip": [
+        "内部递归合并策略驱动。"
+      ]
+    },
+    {
+      "name": "merge-recursive-ours",
+      "tip": [
+        "保留当前分支版本的递归合并策略驱动。"
+      ]
+    },
+    {
+      "name": "merge-recursive-theirs",
+      "tip": [
+        "保留对方分支版本的递归合并策略驱动。"
+      ]
+    },
+    {
+      "name": "merge-resolve",
+      "tip": [
+        "使用临时树的内部合并策略驱动。"
+      ]
+    },
+    {
+      "name": "merge-subtree",
+      "tip": [
+        "执行子树合并的内部合并策略驱动。"
       ]
     },
     {
@@ -5783,15 +6239,15 @@
       ]
     },
     {
-      "name": "parse-remote",
-      "tip": [
-        "帮助解析远程仓库访问参数的常规操作。"
-      ]
-    },
-    {
       "name": "patch-id",
       "tip": [
         "计算补丁的唯一 ID。"
+      ]
+    },
+    {
+      "name": "pickaxe",
+      "tip": [
+        "`blame` 的别名。"
       ]
     },
     {
@@ -6745,6 +7201,42 @@
       ]
     },
     {
+      "name": "remote-ext",
+      "tip": [
+        "将 smart 传输桥接到外部命令。"
+      ]
+    },
+    {
+      "name": "remote-fd",
+      "tip": [
+        "将 smart 传输流回传给调用方。"
+      ]
+    },
+    {
+      "name": "remote-ftp",
+      "tip": [
+        "FTP 的内部远程传输助手。"
+      ]
+    },
+    {
+      "name": "remote-ftps",
+      "tip": [
+        "FTPS 的内部远程传输助手。"
+      ]
+    },
+    {
+      "name": "remote-http",
+      "tip": [
+        "HTTP 的内部远程传输助手。"
+      ]
+    },
+    {
+      "name": "remote-https",
+      "tip": [
+        "HTTPS 的内部远程传输助手。"
+      ]
+    },
+    {
       "name": "repack",
       "tip": [
         "将仓库中的未打包对象打包。"
@@ -7209,15 +7701,9 @@
       ]
     },
     {
-      "name": "sh-i18n",
+      "name": "sh-i18n--envsubst",
       "tip": [
-        "Git 的 shell 脚本国际化设置代码。"
-      ]
-    },
-    {
-      "name": "sh-setup",
-      "tip": [
-        "通用的 Git shell 脚本设置代码。"
+        "Git 自带的 envsubst，用于国际化回退。"
       ]
     },
     {
@@ -7398,6 +7884,247 @@
       ]
     },
     {
+      "name": "stage",
+      "alias": [
+        "add"
+      ],
+      "usage": [
+        "add|stage [OPTIONS] [<PATHSPEC>...]"
+      ],
+      "tip": [
+        "将文件更改添加到索引中。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all"
+          ],
+          "tip": [
+            "将当前工作树中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
+          ]
+        },
+        {
+          "name": "--chmod",
+          "usage": [
+            "--chmod=(+|-)x"
+          ],
+          "tip": [
+            "覆盖所列文件的可执行位。"
+          ],
+          "next": [
+            {
+              "name": "-x",
+              "tip": [
+                "清除可执行位。"
+              ]
+            },
+            {
+              "name": "+x",
+              "tip": [
+                "设置可执行位。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "不实际将文件添加到索引中，只显示将要添加的内容。"
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --edit"
+          ],
+          "tip": [
+            "打开差异和索引在编辑器中进行进一步编辑"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "允许添加被忽略的文件"
+          ]
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "如果在索引某些文件时出现错误，导致无法添加这些文件，不要中止操作，而是继续尝试添加其他文件。",
+            "命令仍应以非零状态退出。",
+            "可以通过设置配置变量 add.ignoreErrors 为 true 来使此行为成为默认设置。"
+          ]
+        },
+        {
+          "name": "--ignore-missing",
+          "tip": [
+            "检查试运行中是否忽略缺失的文件。"
+          ]
+        },
+        {
+          "name": "--ignore-removal",
+          "tip": [
+            "忽略工作树中已删除的路径（等同于 --no-all）。"
+          ]
+        },
+        {
+          "name": "--intent-to-add",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --intent-to-add"
+          ],
+          "tip": [
+            "仅记录该路径稍后将被添加的事实。"
+          ]
+        },
+        {
+          "name": "--inter-hunk-context",
+          "usage": [
+            "--inter-hunk-context <n>"
+          ],
+          "tip": [
+            "显示差异块之间最多指定行数的上下文。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "交互式地将工作树中修改的内容添加到索引中"
+          ]
+        },
+        {
+          "name": "--no-all",
+          "tip": [
+            "仅添加修改过的文件和新文件，忽略已删除的文件。"
+          ]
+        },
+        {
+          "name": "--no-warn-embedded-repo",
+          "tip": [
+            "在添加没有 .gitmodules 条目的内嵌仓库时不显示警告。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch"
+          ],
+          "tip": [
+            "交互式地在索引和工作树之间选择内容块添加到索引中",
+            "类似于 git add -i, 但跳过初始命令菜单, 直接进入补丁子命令"
+          ]
+        },
+        {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "与 --pathspec-from-file 配合使用，路径规约元素以 NUL 字符分隔。"
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "usage": [
+            "--pathspec-from-file <file>"
+          ],
+          "tip": [
+            "从 <file> 读取路径规约，而不是从命令行参数读取。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "不要添加文件，只是在索引中刷新它们的 stat() 信息。"
+          ]
+        },
+        {
+          "name": "--renormalize",
+          "tip": [
+            "将跟踪的文件的行尾符（EOL）标准化（implies -u）"
+          ]
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "允许更新 sparse-checkout 范围之外的条目。"
+          ]
+        },
+        {
+          "name": "--unified",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --unified <n>"
+          ],
+          "tip": [
+            "生成带有 <n> 行上下文的差异。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "将工作区中已追踪的文件（已存在于 Git 仓库中的文件）的修改和删除操作添加到暂存区，但不会添加新文件。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示详细信息。"
+          ]
+        },
+        {
+          "name": ".",
+          "tip": [
+            "将当前目录及其子目录中的所有更改(包括新文件、修改过的文件和删除的文件)添加到索引中"
+          ]
+        }
+      ]
+    },
+    {
       "name": "stash",
       "tip": [
         "在 stash 中暂存更改。",
@@ -7541,12 +8268,22 @@
               ]
             },
             {
+              "name": "--inter-hunk-context",
+              "usage": [
+                "--inter-hunk-context <n>"
+              ],
+              "tip": [
+                "显示差异块之间最多指定行数的上下文。"
+              ],
+              "next": []
+            },
+            {
               "name": "--keep-index",
               "alias": [
                 "-k"
               ],
               "usage": [
-                "-k, --[no-]keep-index"
+                "-k, --keep-index"
               ],
               "tip": [
                 "保留已添加到索引的更改。"
@@ -7565,6 +8302,34 @@
               ]
             },
             {
+              "name": "--pathspec-file-nul",
+              "tip": [
+                "与 --pathspec-from-file 配合使用，路径规约元素以 NUL 字符分隔。"
+              ]
+            },
+            {
+              "name": "--pathspec-from-file",
+              "usage": [
+                "--pathspec-from-file <file>"
+              ],
+              "tip": [
+                "从 <file> 读取路径规约，而不是从命令行参数读取。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "不显示进度报告。"
+              ]
+            },
+            {
               "name": "--staged",
               "alias": [
                 "-S"
@@ -7575,6 +8340,19 @@
               "tip": [
                 "仅暂存当前已暂存的更改。"
               ]
+            },
+            {
+              "name": "--unified",
+              "alias": [
+                "-U"
+              ],
+              "usage": [
+                "-U, --unified <n>"
+              ],
+              "tip": [
+                "生成带有 <n> 行上下文的差异。"
+              ],
+              "next": []
             },
             {
               "name": "-m",
@@ -7897,15 +8675,15 @@
       ]
     },
     {
-      "name": "subtree",
+      "name": "submodule--helper",
       "tip": [
-        "将仓库拆分为子模块并合并它们。"
+        "`submodule` 使用的内部助手。"
       ]
     },
     {
-      "name": "survey",
+      "name": "subtree",
       "tip": [
-        "实验性功能: 测量仓库的各种规模维度。"
+        "将仓库拆分为子模块并合并它们。"
       ]
     },
     {
@@ -8556,12 +9334,6 @@
       ]
     },
     {
-      "name": "update-git-for-windows",
-      "tip": [
-        "更新 Git for Windows。"
-      ]
-    },
-    {
       "name": "update-index",
       "tip": [
         "将文件内容注册到索引中。"
@@ -8591,6 +9363,12 @@
       "name": "upload-archive",
       "tip": [
         "将归档发送回 git-archive。"
+      ]
+    },
+    {
+      "name": "upload-archive--writer",
+      "tip": [
+        "`upload-archive` 协议中负责写入的一端。"
       ]
     },
     {
@@ -8636,6 +9414,12 @@
       ]
     },
     {
+      "name": "web--browse",
+      "tip": [
+        "用于启动网页浏览器的 Git 助手脚本。"
+      ]
+    },
+    {
       "name": "whatchanged",
       "tip": [
         "显示引入差异的提交日志。"
@@ -8651,54 +9435,258 @@
           "name": "add",
           "tip": [
             "向当前仓库添加一个新的工作目录。"
-          ]
-        },
-        {
-          "name": "checkout",
-          "tip": [
-            "在工作目录中检出分支。"
+          ],
+          "option": [
+            {
+              "name": "--checkout",
+              "tip": [
+                "填充新的工作目录。"
+              ]
+            },
+            {
+              "name": "--detach",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --detach"
+              ],
+              "tip": [
+                "在指定提交处分离 HEAD。"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使 <branch> 已在其他工作目录中检出，也进行检出。"
+              ]
+            },
+            {
+              "name": "--guess-remote",
+              "tip": [
+                "尝试将新分支名与远程跟踪分支匹配。"
+              ]
+            },
+            {
+              "name": "--lock",
+              "tip": [
+                "保持新的工作目录锁定。"
+              ]
+            },
+            {
+              "name": "--orphan",
+              "tip": [
+                "创建一个孤立分支。"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "不显示进度报告。"
+              ]
+            },
+            {
+              "name": "--reason",
+              "usage": [
+                "--reason <string>"
+              ],
+              "tip": [
+                "锁定工作目录的原因。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "工作目录使用相对路径。"
+              ]
+            },
+            {
+              "name": "--track",
+              "tip": [
+                "设置跟踪模式（参见 git-branch）。"
+              ]
+            },
+            {
+              "name": "-b",
+              "usage": [
+                "-b <branch>"
+              ],
+              "tip": [
+                "创建一个新分支。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-B",
+              "usage": [
+                "-B <branch>"
+              ],
+              "tip": [
+                "创建或重置分支。"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "列出当前仓库中的所有工作目录。"
+          ],
+          "option": [
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <time>"
+              ],
+              "tip": [
+                "为早于 <time> 的工作目录添加可修剪标注。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--porcelain",
+              "tip": [
+                "以易于脚本解析的格式输出。"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "显示扩展注释和原因（如果有）。"
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "记录以 NUL 字符结尾。"
+              ]
+            }
           ]
         },
         {
           "name": "lock",
           "tip": [
             "锁定当前工作目录, 防止并发访问。"
-          ]
-        },
-        {
-          "name": "merge",
-          "tip": [
-            "将分支合并到工作目录中。"
+          ],
+          "option": [
+            {
+              "name": "--reason",
+              "usage": [
+                "--reason <string>"
+              ],
+              "tip": [
+                "锁定工作目录的原因。"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "move",
           "tip": [
             "移动或重命名当前仓库中的工作目录。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使工作目录有未提交更改或被锁定，也强制移动。"
+              ]
+            },
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "工作目录使用相对路径。"
+              ]
+            }
           ]
         },
         {
           "name": "prune",
           "tip": [
-            "从工作目录中删除空目录。"
-          ]
-        },
-        {
-          "name": "rebase",
-          "tip": [
-            "在工作目录中为另一个分支进行重新合并。"
+            "删除过期的工作目录管理文件。"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "不删除，只显示。"
+              ]
+            },
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <time>"
+              ],
+              "tip": [
+                "使早于 <time> 的工作目录过期。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "报告已修剪的工作目录。"
+              ]
+            }
           ]
         },
         {
           "name": "remove",
           "tip": [
             "从当前仓库中删除工作目录。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "即使工作目录有未提交更改或被锁定，也强制删除。"
+              ]
+            }
           ]
         },
         {
@@ -8708,18 +9696,14 @@
           ],
           "tip": [
             "修复给定路径或默认工作树中的工作树管理文件。"
-          ]
-        },
-        {
-          "name": "reset",
-          "tip": [
-            "将工作目录重置到特定状态。"
-          ]
-        },
-        {
-          "name": "status",
-          "tip": [
-            "显示工作目录的状态。"
+          ],
+          "option": [
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "工作目录使用相对路径。"
+              ]
+            }
           ]
         },
         {

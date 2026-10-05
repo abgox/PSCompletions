@@ -95,6 +95,12 @@
           ]
         },
         {
+          "name": "--no-public",
+          "tip": [
+            "将依赖项标记为私有（不稳定）。"
+          ]
+        },
+        {
           "name": "--optional",
           "tip": [
             "将依赖项标记为可选。"
@@ -122,6 +128,12 @@
             "要添加的本地 crate 的文件系统路径。"
           ],
           "next": []
+        },
+        {
+          "name": "--public",
+          "tip": [
+            "将依赖项标记为公有（不稳定）。"
+          ]
         },
         {
           "name": "--registry",
@@ -265,12 +277,6 @@
           "next": []
         },
         {
-          "name": "--future-incompat-report",
-          "tip": [
-            "在构建结束时输出未来不兼容性报告。"
-          ]
-        },
-        {
           "name": "--ignore-rust-version",
           "tip": [
             "忽略包中的 `rust-version` 规范。"
@@ -297,12 +303,6 @@
             {
               "name": "8"
             }
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "发生错误时不中止基准测试(不稳定)。"
           ]
         },
         {
@@ -499,12 +499,6 @@
           ]
         },
         {
-          "name": "--build-plan",
-          "tip": [
-            "以 JSON 输出构建计划 (不稳定)。"
-          ]
-        },
-        {
           "name": "--example",
           "usage": [
             "--example <example>"
@@ -612,16 +606,6 @@
           "tip": [
             "不激活 'default' 特性。"
           ]
-        },
-        {
-          "name": "--out-dir",
-          "usage": [
-            "--out-dir <directory>"
-          ],
-          "tip": [
-            "将最终工件复制到此目录 (不稳定)。"
-          ],
-          "next": []
         },
         {
           "name": "--package",
@@ -1011,6 +995,12 @@
       ],
       "option": [
         {
+          "name": "--doc",
+          "tip": [
+            "是否仅清理文档目录。"
+          ]
+        },
+        {
           "name": "--dry-run",
           "alias": [
             "-n"
@@ -1076,12 +1066,6 @@
             "生成所有生成的工件的目录。"
           ],
           "next": []
-        },
-        {
-          "name": "-doc",
-          "tip": [
-            "是否仅清理文档目录。"
-          ]
         }
       ]
     },
@@ -1180,6 +1164,51 @@
           ],
           "tip": [
             "获取 Cargo 的配置。"
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "显示格式 [default: toml]。"
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "json-value"
+                },
+                {
+                  "name": "toml"
+                }
+              ]
+            },
+            {
+              "name": "--merged",
+              "usage": [
+                "--merged <MERGED>"
+              ],
+              "tip": [
+                "是否合并配置值 [default: yes]。"
+              ],
+              "next": [
+                {
+                  "name": "no"
+                },
+                {
+                  "name": "yes"
+                }
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "显示该配置值定义在何处。"
+              ]
+            }
           ]
         }
       ]
@@ -1337,6 +1366,23 @@
           "name": "--open",
           "tip": [
             "操作后在浏览器中打开文档。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "usage": [
+            "--output-format <FMT>"
+          ],
+          "tip": [
+            "要写出的输出类型（不稳定）。"
+          ],
+          "next": [
+            {
+              "name": "html"
+            },
+            {
+              "name": "json"
+            }
           ]
         },
         {
@@ -1759,6 +1805,16 @@
           ]
         },
         {
+          "name": "--manifest-path",
+          "usage": [
+            "--manifest-path <PATH>"
+          ],
+          "tip": [
+            "指定 Cargo.toml 的路径。"
+          ],
+          "next": []
+        },
+        {
           "name": "--message-format",
           "tip": [
             "指定消息格式: short|json|human。"
@@ -1787,6 +1843,12 @@
             "指定要格式化的包。"
           ],
           "next": []
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "打印 rustfmt 版本并退出。"
+          ]
         }
       ]
     },
@@ -1958,6 +2020,12 @@
             {
               "name": "master"
             }
+          ]
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "使用调试模式（`dev` 配置）构建，而不是发布模式。"
           ]
         },
         {
@@ -2201,12 +2269,6 @@
                 "JSON 时序输出"
               ]
             }
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "以 JSON 格式输出构建图(不稳定)。"
           ]
         },
         {
@@ -2535,6 +2597,12 @@
           "next": []
         },
         {
+          "name": "--exclude-lockfile",
+          "tip": [
+            "打包时不包含 lock 文件。"
+          ]
+        },
+        {
           "name": "--features",
           "alias": [
             "-F"
@@ -2544,6 +2612,16 @@
           ],
           "tip": [
             "要激活的特性的空格或逗号分隔列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <INDEX>"
+          ],
+          "tip": [
+            "准备该包所用的 registry 索引 URL。"
           ],
           "next": []
         },
@@ -2589,6 +2667,23 @@
           ]
         },
         {
+          "name": "--message-format",
+          "usage": [
+            "--message-format <FMT>"
+          ],
+          "tip": [
+            "输出表现形式（不稳定）。"
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
           "name": "--no-default-features",
           "tip": [
             "不激活 'default' 特性。"
@@ -2616,6 +2711,16 @@
           ],
           "tip": [
             "要打包的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <REGISTRY>"
+          ],
+          "tip": [
+            "准备该包所用的 registry。"
           ],
           "next": []
         },
@@ -2825,6 +2930,12 @@
     },
     {
       "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "usage": [
+        "rm|remove"
+      ],
       "tip": [
         "从清单文件中删除依赖项。"
       ],
@@ -2883,11 +2994,83 @@
       "tip": [
         "生成和显示各种报告。"
       ],
-      "option": [
+      "next": [
         {
           "name": "future-incompatibilities",
           "tip": [
-            "报告任何最终将停止编译的 crates。"
+            "报告那些最终将无法编译的 crate"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "由某次 Cargo 命令调用生成的报告标识符。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rebuilds",
+          "tip": [
+            "报告之前会话中的重建原因（不稳定）"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "要报告的会话 ID。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "报告之前的会话（不稳定）"
+          ],
+          "option": [
+            {
+              "name": "--limit",
+              "usage": [
+                "--limit <N>"
+              ],
+              "tip": [
+                "限制结果数量 [default: 10]。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "timings",
+          "tip": [
+            "报告之前会话的构建耗时（不稳定）"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "要报告的会话 ID。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--open",
+              "tip": [
+                "在浏览器中打开计时报告。"
+              ]
+            }
           ]
         }
       ]
@@ -2911,12 +3094,6 @@
           ]
         },
         {
-          "name": "--all-targets",
-          "tip": [
-            "构建所有目标(lib、bins、examples、tests 和 benches)。"
-          ]
-        },
-        {
           "name": "--bin",
           "usage": [
             "--bin <bin>"
@@ -2925,12 +3102,6 @@
             "要运行的二进制目标的名称。"
           ],
           "next": []
-        },
-        {
-          "name": "--build-plan",
-          "tip": [
-            "以 JSON 格式输出构建计划(不稳定)。"
-          ]
         },
         {
           "name": "--example",
@@ -3012,16 +3183,6 @@
           "tip": [
             "不激活 'default' 功能。"
           ]
-        },
-        {
-          "name": "--out-dir",
-          "usage": [
-            "--out-dir <directory>"
-          ],
-          "tip": [
-            "将最终工件复制到此目录(不稳定)。"
-          ],
-          "next": []
         },
         {
           "name": "--package",
@@ -3184,16 +3345,6 @@
           "tip": [
             "构建所有示例。"
           ]
-        },
-        {
-          "name": "--exclude",
-          "usage": [
-            "--exclude <package>"
-          ],
-          "tip": [
-            "从构建中排除包。"
-          ],
-          "next": []
         },
         {
           "name": "--features",
@@ -3387,12 +3538,6 @@
           "tip": [
             "以 JSON 格式输出构建图(不稳定)。"
           ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "构建工作区中的所有包。"
-          ]
         }
       ]
     },
@@ -3543,6 +3688,23 @@
           "name": "--open",
           "tip": [
             "在操作完成后在浏览器中打开文档。"
+          ]
+        },
+        {
+          "name": "--output-format",
+          "usage": [
+            "--output-format <FMT>"
+          ],
+          "tip": [
+            "要写出的输出类型（不稳定）。"
+          ],
+          "next": [
+            {
+              "name": "html"
+            },
+            {
+              "name": "json"
+            }
           ]
         },
         {
@@ -3820,12 +3982,6 @@
             {
               "name": "8"
             }
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "当出现错误时不立即中止测试(不稳定)。"
           ]
         },
         {
@@ -4282,6 +4438,12 @@
           "next": []
         },
         {
+          "name": "--recursive",
+          "tip": [
+            "同时强制更新 [SPEC]... 的所有依赖项。"
+          ]
+        },
+        {
           "name": "--workspace",
           "alias": [
             "-w"
@@ -4359,6 +4521,16 @@
           ],
           "tip": [
             "要从中 yank 的注册表索引。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <REGISTRY>"
+          ],
+          "tip": [
+            "要撤包的 registry。"
           ],
           "next": []
         },
@@ -4507,7 +4679,8 @@
       ],
       "tip": [
         "使用详细输出 (-vv 极其详细/build.rs 输出)。"
-      ]
+      ],
+      "repeat": 2
     },
     {
       "name": "-C",
@@ -4518,12 +4691,6 @@
         "在执行任何操作之前切换到 DIRECTORY (仅限 nightly)。"
       ],
       "next": []
-    },
-    {
-      "name": "-vv",
-      "tip": [
-        "使用极其详细的输出。"
-      ]
     },
     {
       "name": "-Z",

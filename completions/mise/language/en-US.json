@@ -43,6 +43,12 @@
           "tip": [
             "List built-in backends"
           ]
+        },
+        {
+          "name": "switch",
+          "tip": [
+            "Switch tools to the backend the registry now installs them from"
+          ]
         }
       ]
     },
@@ -169,9 +175,81 @@
               ]
             },
             {
+              "name": "capture",
+              "tip": [
+                "Record tracked files before and after an external command"
+              ]
+            },
+            {
+              "name": "conflicts",
+              "tip": [
+                "Inspect the local and remote sides of sharing conflicts"
+              ]
+            },
+            {
+              "name": "diff",
+              "tip": [
+                "Show the changes needed to apply dotfiles from `[dotfiles]`"
+              ]
+            },
+            {
               "name": "edit",
               "tip": [
                 "Edit a managed dotfile source"
+              ]
+            },
+            {
+              "name": "exclude",
+              "tip": [
+                "Never capture paths matching a glob"
+              ]
+            },
+            {
+              "name": "history",
+              "tip": [
+                "Browse the checkpoints of your dotfiles"
+              ]
+            },
+            {
+              "name": "include",
+              "tip": [
+                "Stop excluding paths matching a glob"
+              ]
+            },
+            {
+              "name": "origin",
+              "tip": [
+                "Connect or disconnect the setup repository"
+              ]
+            },
+            {
+              "name": "paths",
+              "tip": [
+                "Show what history tracks and under which policies"
+              ]
+            },
+            {
+              "name": "pull",
+              "tip": [
+                "Pull incoming shared changes into the live files"
+              ]
+            },
+            {
+              "name": "recover",
+              "tip": [
+                "Recover an interrupted dotfile operation"
+              ]
+            },
+            {
+              "name": "rollback",
+              "tip": [
+                "Return files to the version a checkpoint holds"
+              ]
+            },
+            {
+              "name": "save",
+              "tip": [
+                "Save a checkpoint of the tracked files now"
               ]
             },
             {
@@ -187,9 +265,39 @@
               ]
             },
             {
+              "name": "sync",
+              "tip": [
+                "Publish, fetch, and record what is pending now"
+              ]
+            },
+            {
+              "name": "track",
+              "tip": [
+                "Track a file or directory in place"
+              ]
+            },
+            {
               "name": "unapply",
               "tip": [
                 "Remove dotfiles applied from `[dotfiles]`"
+              ]
+            },
+            {
+              "name": "undo",
+              "tip": [
+                "Reverse the tracked-file changes from an operation"
+              ]
+            },
+            {
+              "name": "untrack",
+              "tip": [
+                "Stop tracking a file or directory"
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "Save tracked files as they change"
               ]
             }
           ]
@@ -349,6 +457,18 @@
               ]
             },
             {
+              "name": "brew",
+              "tip": [
+                "Manage Homebrew taps used by bootstrap packages"
+              ]
+            },
+            {
+              "name": "export",
+              "tip": [
+                "Export active Nix bootstrap packages as a NixOS module"
+              ]
+            },
+            {
               "name": "import",
               "tip": [
                 "Import installed system packages into `[bootstrap.packages]`"
@@ -394,6 +514,12 @@
               ],
               "tip": [
                 "Add bootstrap packages to [bootstrap.packages] and install them"
+              ]
+            },
+            {
+              "name": "where",
+              "tip": [
+                "Print the stable root of an installed Homebrew formula"
               ]
             }
           ]
@@ -694,6 +820,12 @@
               ]
             },
             {
+              "name": "remove",
+              "tip": [
+                "Remove an installed user-scope service, declared or not"
+              ]
+            },
+            {
               "name": "status",
               "tip": [
                 "Show configured Linux system service state"
@@ -731,6 +863,12 @@
                 "Prompt for secret values instead of skipping"
               ]
             }
+          ]
+        },
+        {
+          "name": "unapply",
+          "tip": [
+            "Remove the resources a config environment contributes"
           ]
         },
         {
@@ -971,183 +1109,95 @@
       ]
     },
     {
-      "name": "deactivate",
-      "tip": [
-        "Disable mise for current shell session"
-      ]
-    },
-    {
-      "name": "deps",
+      "name": "daemons",
       "alias": [
-        "dep"
+        "daemon"
       ],
       "usage": [
-        "dep|deps"
+        "daemon|daemons"
       ],
       "tip": [
-        "[experimental] Manage project dependencies"
-      ],
-      "option": [
-        {
-          "name": "--dry-run",
-          "alias": [
-            "-n"
-          ],
-          "usage": [
-            "-n, --dry-run"
-          ],
-          "tip": [
-            "Only check if deps install is needed, don't run commands"
-          ]
-        },
-        {
-          "name": "--explain",
-          "tip": [
-            "Show why a provider is fresh or stale"
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
-          "tip": [
-            "Force run all deps steps even if outputs are fresh"
-          ]
-        },
-        {
-          "name": "--list",
-          "tip": [
-            "Show what deps providers are available"
-          ]
-        },
-        {
-          "name": "--monorepo",
-          "tip": [
-            "Install dependencies from every [monorepo].config_roots config root"
-          ]
-        },
-        {
-          "name": "--only",
-          "usage": [
-            "--only <ONLY>"
-          ],
-          "tip": [
-            "Run specific deps rule(s) only"
-          ],
-          "next": []
-        },
-        {
-          "name": "--skip",
-          "usage": [
-            "--skip <SKIP>"
-          ],
-          "tip": [
-            "Skip specific deps rule(s)"
-          ],
-          "next": []
-        }
+        "Manage project daemons with pitchfork"
       ],
       "next": [
         {
-          "name": "add",
-          "tip": [
-            "Add a dependency"
+          "name": "list",
+          "alias": [
+            "ls"
           ],
-          "option": [
-            {
-              "name": "--dev",
-              "alias": [
-                "-D"
-              ],
-              "usage": [
-                "-D, --dev"
-              ],
-              "tip": [
-                "Add as a development dependency"
-              ]
-            }
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List project daemons without starting a supervisor or registering configuration."
           ]
         },
         {
-          "name": "install",
+          "name": "logs",
           "tip": [
-            "Install all project dependencies"
-          ],
-          "option": [
-            {
-              "name": "--dry-run",
-              "alias": [
-                "-n"
-              ],
-              "usage": [
-                "-n, --dry-run"
-              ],
-              "tip": [
-                "Only check if deps install is needed, don't run commands"
-              ]
-            },
-            {
-              "name": "--explain",
-              "tip": [
-                "Show why a provider is fresh or stale"
-              ]
-            },
-            {
-              "name": "--force",
-              "alias": [
-                "-f"
-              ],
-              "usage": [
-                "-f, --force"
-              ],
-              "tip": [
-                "Force run all deps steps even if outputs are fresh"
-              ]
-            },
-            {
-              "name": "--list",
-              "tip": [
-                "Show what deps providers are available"
-              ]
-            },
-            {
-              "name": "--monorepo",
-              "tip": [
-                "Install dependencies from every [monorepo].config_roots config root"
-              ]
-            },
-            {
-              "name": "--only",
-              "usage": [
-                "--only <ONLY>"
-              ],
-              "tip": [
-                "Run specific deps rule(s) only"
-              ],
-              "next": []
-            },
-            {
-              "name": "--skip",
-              "usage": [
-                "--skip <SKIP>"
-              ],
-              "tip": [
-                "Skip specific deps rule(s)"
-              ],
-              "next": []
-            }
+            "Arguments passed to pitchfork; daemon names may be short or qualified."
           ]
         },
         {
-          "name": "remove",
+          "name": "providers",
           "tip": [
-            "Remove a dependency"
+            "Manage shared servers defined in global [daemon_providers]."
+          ]
+        },
+        {
+          "name": "prune",
+          "tip": [
+            "Remove daemon state left behind by deleted project directories."
+          ]
+        },
+        {
+          "name": "register",
+          "tip": [
+            "Prepare all project daemons for on-demand startup without starting them."
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Arguments passed to pitchfork; daemon names may be short or qualified."
+          ]
+        },
+        {
+          "name": "start",
+          "tip": [
+            "Arguments passed to pitchfork; daemon names may be short or qualified."
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Arguments passed to pitchfork; daemon names may be short or qualified."
+          ]
+        },
+        {
+          "name": "stop",
+          "tip": [
+            "Arguments passed to pitchfork; daemon names may be short or qualified."
+          ]
+        },
+        {
+          "name": "tui",
+          "tip": [
+            "Open pitchfork's dashboard with optional pitchfork TUI flags."
+          ]
+        },
+        {
+          "name": "urls",
+          "tip": [
+            "Show each project daemon's port and its proxy hostname URL."
           ]
         }
+      ]
+    },
+    {
+      "name": "deactivate",
+      "tip": [
+        "Disable mise for current shell session"
       ]
     },
     {
@@ -1167,6 +1217,12 @@
           "tip": [
             "Print the current PATH entries mise is providing"
           ]
+        },
+        {
+          "name": "project",
+          "tip": [
+            "Run the project's diagnostic checks"
+          ]
         }
       ]
     },
@@ -1174,6 +1230,146 @@
       "name": "dotfiles",
       "tip": [
         "(deprecated) Manage dotfiles from `[dotfiles]`"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add or update dotfiles in `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "apply",
+          "tip": [
+            "Apply dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "capture",
+          "tip": [
+            "Record tracked files before and after an external command"
+          ]
+        },
+        {
+          "name": "conflicts",
+          "tip": [
+            "Inspect the local and remote sides of sharing conflicts"
+          ]
+        },
+        {
+          "name": "diff",
+          "tip": [
+            "Show the changes needed to apply dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "edit",
+          "tip": [
+            "Edit a managed dotfile source"
+          ]
+        },
+        {
+          "name": "exclude",
+          "tip": [
+            "Never capture paths matching a glob"
+          ]
+        },
+        {
+          "name": "history",
+          "tip": [
+            "Browse the checkpoints of your dotfiles"
+          ]
+        },
+        {
+          "name": "include",
+          "tip": [
+            "Stop excluding paths matching a glob"
+          ]
+        },
+        {
+          "name": "origin",
+          "tip": [
+            "Connect or disconnect the setup repository"
+          ]
+        },
+        {
+          "name": "paths",
+          "tip": [
+            "Show what history tracks and under which policies"
+          ]
+        },
+        {
+          "name": "pull",
+          "tip": [
+            "Pull incoming shared changes into the live files"
+          ]
+        },
+        {
+          "name": "recover",
+          "tip": [
+            "Recover an interrupted dotfile operation"
+          ]
+        },
+        {
+          "name": "rollback",
+          "tip": [
+            "Return files to the version a checkpoint holds"
+          ]
+        },
+        {
+          "name": "save",
+          "tip": [
+            "Save a checkpoint of the tracked files now"
+          ]
+        },
+        {
+          "name": "status",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|status"
+          ],
+          "tip": [
+            "Show the status of dotfiles from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Publish, fetch, and record what is pending now"
+          ]
+        },
+        {
+          "name": "track",
+          "tip": [
+            "Track a file or directory in place"
+          ]
+        },
+        {
+          "name": "unapply",
+          "tip": [
+            "Remove dotfiles applied from `[dotfiles]`"
+          ]
+        },
+        {
+          "name": "undo",
+          "tip": [
+            "Reverse the tracked-file changes from an operation"
+          ]
+        },
+        {
+          "name": "untrack",
+          "tip": [
+            "Stop tracking a file or directory"
+          ]
+        },
+        {
+          "name": "watch",
+          "tip": [
+            "Save tracked files as they change"
+          ]
+        }
       ]
     },
     {
@@ -1649,6 +1845,12 @@
                 "Write to .github/workflows/$name.yml"
               ]
             }
+          ]
+        },
+        {
+          "name": "install-script",
+          "tip": [
+            "Generate a script to download+execute mise"
           ]
         },
         {
@@ -2630,6 +2832,32 @@
       ]
     },
     {
+      "name": "packslip",
+      "tip": [
+        "The signers mise accepts packslips from"
+      ],
+      "next": [
+        {
+          "name": "forget",
+          "tip": [
+            "Forget a project's pinned signer, so the next release accepted sets it again"
+          ]
+        },
+        {
+          "name": "pins",
+          "alias": [
+            "list"
+          ],
+          "usage": [
+            "list|pins"
+          ],
+          "tip": [
+            "List the signers mise has accepted packslips from"
+          ]
+        }
+      ]
+    },
+    {
       "name": "patrons",
       "tip": [
         "Show the individuals supporting mise as Patron-tier members"
@@ -2913,13 +3141,14 @@
     {
       "name": "prepare",
       "alias": [
-        "prep"
+        "deps",
+        "dep"
       ],
       "usage": [
-        "prep|prepare"
+        "dep|deps|prepare"
       ],
       "tip": [
-        "[experimental] Ensure project dependencies are ready"
+        "[experimental] Manage project dependencies"
       ],
       "option": [
         {
@@ -2931,7 +3160,13 @@
             "-n, --dry-run"
           ],
           "tip": [
-            "Do not actually prepare anything"
+            "Only check if deps install is needed, don't run commands"
+          ]
+        },
+        {
+          "name": "--explain",
+          "tip": [
+            "Show why a provider is fresh or stale"
           ]
         },
         {
@@ -2943,7 +3178,137 @@
             "-f, --force"
           ],
           "tip": [
-            "Force re-prepare"
+            "Force run all deps steps even if outputs are fresh"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "Show what deps providers are available"
+          ]
+        },
+        {
+          "name": "--monorepo",
+          "tip": [
+            "Install dependencies from every [monorepo].config_roots config root"
+          ]
+        },
+        {
+          "name": "--only",
+          "usage": [
+            "--only <ONLY>"
+          ],
+          "tip": [
+            "Run specific deps rule(s) only"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip",
+          "usage": [
+            "--skip <SKIP>"
+          ],
+          "tip": [
+            "Skip specific deps rule(s)"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "tip": [
+            "Add a dependency"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --dev"
+              ],
+              "tip": [
+                "Add as a development dependency"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "install",
+          "tip": [
+            "Install all project dependencies"
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Only check if deps install is needed, don't run commands"
+              ]
+            },
+            {
+              "name": "--explain",
+              "tip": [
+                "Show why a provider is fresh or stale"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force run all deps steps even if outputs are fresh"
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "Show what deps providers are available"
+              ]
+            },
+            {
+              "name": "--monorepo",
+              "tip": [
+                "Install dependencies from every [monorepo].config_roots config root"
+              ]
+            },
+            {
+              "name": "--only",
+              "usage": [
+                "--only <ONLY>"
+              ],
+              "tip": [
+                "Run specific deps rule(s) only"
+              ],
+              "next": []
+            },
+            {
+              "name": "--skip",
+              "usage": [
+                "--skip <SKIP>"
+              ],
+              "tip": [
+                "Skip specific deps rule(s)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "tip": [
+            "Remove a dependency"
           ]
         }
       ]
@@ -3711,9 +4076,47 @@
       ]
     },
     {
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "usage": [
+        "skill|skills"
+      ],
+      "tip": [
+        "Agent skills the active tools ship, from their packslips"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
+          "tip": [
+            "List the skills the active tools declare"
+          ]
+        },
+        {
+          "name": "sync",
+          "tip": [
+            "Link the active tools' skills where an agent looks for them"
+          ]
+        }
+      ]
+    },
+    {
       "name": "sponsors",
       "tip": [
         "Show the companies sponsoring mise and the en.dev project family"
+      ]
+    },
+    {
+      "name": "ssh",
+      "tip": [
+        "Open an SSH session, optionally borrowing read-only GitHub access"
       ]
     },
     {

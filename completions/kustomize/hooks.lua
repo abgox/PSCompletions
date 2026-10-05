@@ -23,6 +23,8 @@ psc.on({
     { command = { "fn", "run" } }
 }, add_dirs_with_kustomization)
 
+-- Kept separate from the array above: that one is a directory this command can
+-- build, this one is a base to add on top of another -- different questions.
 psc.on({ command = { "edit", "add", "base" }, multiple = true }, add_dirs_with_kustomization)
 
 psc.on({ option = "--namespace" }, add_namespaces)

@@ -95,6 +95,12 @@
           ]
         },
         {
+          "name": "--no-public",
+          "tip": [
+            "Mark the dependency as private (unstable)."
+          ]
+        },
+        {
           "name": "--optional",
           "tip": [
             "Mark the dependency as optional."
@@ -122,6 +128,12 @@
             "Filesystem path to local crate to add."
           ],
           "next": []
+        },
+        {
+          "name": "--public",
+          "tip": [
+            "Mark the dependency as public (unstable)."
+          ]
         },
         {
           "name": "--registry",
@@ -265,12 +277,6 @@
           "next": []
         },
         {
-          "name": "--future-incompat-report",
-          "tip": [
-            "Outputs a future incompatibility report at the end of the build."
-          ]
-        },
-        {
           "name": "--ignore-rust-version",
           "tip": [
             "Ignore `rust-version` specification in packages."
@@ -297,12 +303,6 @@
             {
               "name": "8"
             }
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "Do not abort the benchmark as soon as there is an error (unstable)."
           ]
         },
         {
@@ -499,12 +499,6 @@
           ]
         },
         {
-          "name": "--build-plan",
-          "tip": [
-            "Output the build plan in JSON (unstable)"
-          ]
-        },
-        {
           "name": "--example",
           "usage": [
             "--example <example>"
@@ -612,16 +606,6 @@
           "tip": [
             "Do not activate the 'default' feature."
           ]
-        },
-        {
-          "name": "--out-dir",
-          "usage": [
-            "--out-dir <directory>"
-          ],
-          "tip": [
-            "Copy final artifacts to this directory (unstable)"
-          ],
-          "next": []
         },
         {
           "name": "--package",
@@ -1011,6 +995,12 @@
       ],
       "option": [
         {
+          "name": "--doc",
+          "tip": [
+            "Whether or not to clean just the documentation directory."
+          ]
+        },
+        {
           "name": "--dry-run",
           "alias": [
             "-n"
@@ -1076,12 +1066,6 @@
             "Directory for all generated artifacts."
           ],
           "next": []
-        },
-        {
-          "name": "-doc",
-          "tip": [
-            "Whether or not to clean just the documentation directory."
-          ]
         }
       ]
     },
@@ -1180,6 +1164,51 @@
           ],
           "tip": [
             "Get Cargo's config."
+          ],
+          "option": [
+            {
+              "name": "--format",
+              "usage": [
+                "--format <FORMAT>"
+              ],
+              "tip": [
+                "Display format [default: toml]."
+              ],
+              "next": [
+                {
+                  "name": "json"
+                },
+                {
+                  "name": "json-value"
+                },
+                {
+                  "name": "toml"
+                }
+              ]
+            },
+            {
+              "name": "--merged",
+              "usage": [
+                "--merged <MERGED>"
+              ],
+              "tip": [
+                "Whether or not to merge config values [default: yes]."
+              ],
+              "next": [
+                {
+                  "name": "no"
+                },
+                {
+                  "name": "yes"
+                }
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "Display where the config value is defined."
+              ]
+            }
           ]
         }
       ]
@@ -1337,6 +1366,23 @@
           "name": "--open",
           "tip": [
             "Opens the docs in a browser after the operation."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "usage": [
+            "--output-format <FMT>"
+          ],
+          "tip": [
+            "The output type to write (unstable)."
+          ],
+          "next": [
+            {
+              "name": "html"
+            },
+            {
+              "name": "json"
+            }
           ]
         },
         {
@@ -1759,6 +1805,16 @@
           ]
         },
         {
+          "name": "--manifest-path",
+          "usage": [
+            "--manifest-path <PATH>"
+          ],
+          "tip": [
+            "Specify path to Cargo.toml."
+          ],
+          "next": []
+        },
+        {
           "name": "--message-format",
           "tip": [
             "Specify message-format: short|json|human"
@@ -1787,6 +1843,12 @@
             "Specify package to format."
           ],
           "next": []
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Print rustfmt version and exit."
+          ]
         }
       ]
     },
@@ -1958,6 +2020,12 @@
             {
               "name": "master"
             }
+          ]
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "Build in debug mode (with the 'dev' profile) instead of release mode."
           ]
         },
         {
@@ -2201,12 +2269,6 @@
                 "JSON timing output"
               ]
             }
-          ]
-        },
-        {
-          "name": "--unit-graph",
-          "tip": [
-            "Output build graph in JSON (unstable)"
           ]
         },
         {
@@ -2535,6 +2597,12 @@
           "next": []
         },
         {
+          "name": "--exclude-lockfile",
+          "tip": [
+            "Don't include the lock file when packaging."
+          ]
+        },
+        {
           "name": "--features",
           "alias": [
             "-F"
@@ -2544,6 +2612,16 @@
           ],
           "tip": [
             "Space or comma separated list of features to activate."
+          ],
+          "next": []
+        },
+        {
+          "name": "--index",
+          "usage": [
+            "--index <INDEX>"
+          ],
+          "tip": [
+            "Registry index URL to prepare the package for."
           ],
           "next": []
         },
@@ -2589,6 +2667,23 @@
           ]
         },
         {
+          "name": "--message-format",
+          "usage": [
+            "--message-format <FMT>"
+          ],
+          "tip": [
+            "Output representation (unstable)."
+          ],
+          "next": [
+            {
+              "name": "human"
+            },
+            {
+              "name": "json"
+            }
+          ]
+        },
+        {
           "name": "--no-default-features",
           "tip": [
             "Do not activate the 'default' feature."
@@ -2616,6 +2711,16 @@
           ],
           "tip": [
             "Package(s) to assemble."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <REGISTRY>"
+          ],
+          "tip": [
+            "Registry to prepare the package for."
           ],
           "next": []
         },
@@ -2825,6 +2930,12 @@
     },
     {
       "name": "remove",
+      "alias": [
+        "rm"
+      ],
+      "usage": [
+        "rm|remove"
+      ],
       "tip": [
         "Remove dependencies from a manifest file."
       ],
@@ -2883,11 +2994,83 @@
       "tip": [
         "Generate and display various kinds of reports."
       ],
-      "option": [
+      "next": [
         {
           "name": "future-incompatibilities",
           "tip": [
-            "Reports any crates which will eventually stop compiling."
+            "Reports any crates which will eventually stop compiling"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "Identifier of the report generated by a Cargo command invocation."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rebuilds",
+          "tip": [
+            "Reports rebuild reasons from previous sessions (unstable)"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "Session ID to report on."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "sessions",
+          "tip": [
+            "Reports the previous sessions (unstable)"
+          ],
+          "option": [
+            {
+              "name": "--limit",
+              "usage": [
+                "--limit <N>"
+              ],
+              "tip": [
+                "Limit the number of results [default: 10]."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "timings",
+          "tip": [
+            "Reports the build timings of previous sessions (unstable)"
+          ],
+          "option": [
+            {
+              "name": "--id",
+              "usage": [
+                "--id <ID>"
+              ],
+              "tip": [
+                "Session ID to report on."
+              ],
+              "next": []
+            },
+            {
+              "name": "--open",
+              "tip": [
+                "Opens the timing report in a browser."
+              ]
+            }
           ]
         }
       ]
@@ -2911,12 +3094,6 @@
           ]
         },
         {
-          "name": "--all-targets",
-          "tip": [
-            "Build all targets (lib, bins, examples, tests, and benches)."
-          ]
-        },
-        {
           "name": "--bin",
           "usage": [
             "--bin <bin>"
@@ -2925,12 +3102,6 @@
             "Name of the bin target to run."
           ],
           "next": []
-        },
-        {
-          "name": "--build-plan",
-          "tip": [
-            "Output the build plan in JSON (unstable)"
-          ]
         },
         {
           "name": "--example",
@@ -3012,16 +3183,6 @@
           "tip": [
             "Do not activate the 'default' feature."
           ]
-        },
-        {
-          "name": "--out-dir",
-          "usage": [
-            "--out-dir <directory>"
-          ],
-          "tip": [
-            "Copy final artifacts to this directory (unstable)"
-          ],
-          "next": []
         },
         {
           "name": "--package",
@@ -3184,16 +3345,6 @@
           "tip": [
             "Build all examples."
           ]
-        },
-        {
-          "name": "--exclude",
-          "usage": [
-            "--exclude <package>"
-          ],
-          "tip": [
-            "Exclude packages from the build."
-          ],
-          "next": []
         },
         {
           "name": "--features",
@@ -3387,12 +3538,6 @@
           "tip": [
             "Output build graph in JSON (unstable)"
           ]
-        },
-        {
-          "name": "--workspace",
-          "tip": [
-            "Build all packages in the workspace"
-          ]
         }
       ]
     },
@@ -3543,6 +3688,23 @@
           "name": "--open",
           "tip": [
             "Opens the docs in a browser after the operation."
+          ]
+        },
+        {
+          "name": "--output-format",
+          "usage": [
+            "--output-format <FMT>"
+          ],
+          "tip": [
+            "The output type to write (unstable)."
+          ],
+          "next": [
+            {
+              "name": "html"
+            },
+            {
+              "name": "json"
+            }
           ]
         },
         {
@@ -3820,12 +3982,6 @@
             {
               "name": "8"
             }
-          ]
-        },
-        {
-          "name": "--keep-going",
-          "tip": [
-            "Do not abort the test as soon as there is an error (unstable)."
           ]
         },
         {
@@ -4282,6 +4438,12 @@
           "next": []
         },
         {
+          "name": "--recursive",
+          "tip": [
+            "Force updating all dependencies of [SPEC]... as well."
+          ]
+        },
+        {
           "name": "--workspace",
           "alias": [
             "-w"
@@ -4359,6 +4521,16 @@
           ],
           "tip": [
             "Registry index to yank from."
+          ],
+          "next": []
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <REGISTRY>"
+          ],
+          "tip": [
+            "Registry to yank from."
           ],
           "next": []
         },
@@ -4507,7 +4679,8 @@
       ],
       "tip": [
         "Use verbose output (-vv very verbose/build.rs output)"
-      ]
+      ],
+      "repeat": 2
     },
     {
       "name": "-C",
@@ -4518,12 +4691,6 @@
         "Change to DIRECTORY before doing anything(nightly-only)."
       ],
       "next": []
-    },
-    {
-      "name": "-vv",
-      "tip": [
-        "Use very verbose output"
-      ]
     },
     {
       "name": "-Z",

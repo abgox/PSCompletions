@@ -661,9 +661,7 @@
               "name": "enable_path_trailing_separator",
               "tip": [
                 "Default: 1",
-                "Use path completion with a trailing separator.",
-                "C:\\Users\\abgox\\     (With)",
-                "C:\\Users\\abgox      (Without)"
+                "Use path completion with a trailing separator."
               ],
               "next": [
                 {
@@ -1926,17 +1924,20 @@
       "\n",
       "<@Cyan>PSCompletions has updated the completion library:\n",
       "{{",
+      "$LIM = 100;",
+      "$cap = { param($l) $c = @($l); if($c.Count -gt $LIM){ (@($c[0..($LIM - 1)]) + \"... (+$($c.Count - $LIM))\") } else { $c } };",
       "if($PSCompletions.added){",
       "\"<@Cyan>[New]<@Cyan>`n\";",
-      "\"<@Magenta>$($PSCompletions.added -join ' ')<@Cyan>`n\";",
+      "\"<@Magenta>$((& $cap $PSCompletions.added) -join ' ')<@Cyan>`n\";",
       "};",
       "if($PSCompletions.removed){",
       "\"<@Cyan>[Removed]<@Cyan>`n\";",
-      "\"<@Magenta>$($PSCompletions.removed -join ' ')<@Cyan>`n\";",
+      "\"<@Magenta>$((& $cap $PSCompletions.removed) -join ' ')<@Cyan>`n\";",
       "};",
-      "$updList = @($PSCompletions.update);",
+      "$updList = @(& $cap @($PSCompletions.update));",
       "$renameList = @();",
       "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
+      "$renameList = @(& $cap $renameList);",
       "if($updList -or $renameList){",
       "\"<@Cyan>[Update]<@Cyan>`n\";",
       "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",

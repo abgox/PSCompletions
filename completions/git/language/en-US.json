@@ -7,152 +7,6 @@
   },
   "next": [
     {
-      "name": "add",
-      "usage": [
-        "add [OPTIONS] [<PATHSPEC>...]"
-      ],
-      "tip": [
-        "Add file changes to the index."
-      ],
-      "option": [
-        {
-          "name": "--all",
-          "alias": [
-            "-A"
-          ],
-          "usage": [
-            "-A, --all"
-          ],
-          "tip": [
-            "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
-          ]
-        },
-        {
-          "name": "--dry-run",
-          "alias": [
-            "-n"
-          ],
-          "usage": [
-            "-n, --dry-run"
-          ],
-          "tip": [
-            "Don't actually add any file(s) to the index, only show what would be added."
-          ]
-        },
-        {
-          "name": "--edit",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --edit"
-          ],
-          "tip": [
-            "Open the diff and the index in an editor for further editing."
-          ]
-        },
-        {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
-          "tip": [
-            "Allow adding ignored files."
-          ]
-        },
-        {
-          "name": "--ignore-errors",
-          "tip": [
-            "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
-            "The command shall still exit with non-zero status.",
-            "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
-          ]
-        },
-        {
-          "name": "--ignore-removal",
-          "tip": [
-            "Ignore paths removed in the working tree (same as --no-all)."
-          ]
-        },
-        {
-          "name": "--intent-to-add",
-          "alias": [
-            "-N"
-          ],
-          "usage": [
-            "-N, --intent-to-add"
-          ],
-          "tip": [
-            "Record only the fact that the path will be added later."
-          ]
-        },
-        {
-          "name": "--interactive",
-          "alias": [
-            "-i"
-          ],
-          "usage": [
-            "-i, --interactive"
-          ],
-          "tip": [
-            "Interactively add modified content from the working tree to the index."
-          ]
-        },
-        {
-          "name": "--patch",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --patch"
-          ],
-          "tip": [
-            "Interactively choose chunks of content between the index and the working tree to add to the index.",
-            "Similar to git add -i but skips the initial command menu and goes directly to the patch subcommand."
-          ]
-        },
-        {
-          "name": "--refresh",
-          "tip": [
-            "Don't add the file(s), but only refresh their stat() information in the index."
-          ]
-        },
-        {
-          "name": "--renormalize",
-          "tip": [
-            "renormalize EOL of tracked files (implies -u)"
-          ]
-        },
-        {
-          "name": "--sparse",
-          "tip": [
-            "Allow updating entries outside of the sparse-checkout cone."
-          ]
-        },
-        {
-          "name": "--update",
-          "alias": [
-            "-u"
-          ],
-          "usage": [
-            "-u, --update"
-          ],
-          "tip": [
-            "It will stage modifications and deletions of tracked files (files already in the Git repository) to the staging area, but it does not stage new files."
-          ]
-        },
-        {
-          "name": ".",
-          "tip": [
-            "Add all changes in the current directory and its subdirectories (including new, modified, and deleted files) to the index."
-          ]
-        }
-      ]
-    },
-    {
       "name": "am",
       "tip": [
         "Apply patches."
@@ -1098,6 +952,12 @@
       ]
     },
     {
+      "name": "checkout--worker",
+      "tip": [
+        "Background worker process spawned by `git checkout`."
+      ]
+    },
+    {
       "name": "checkout-index",
       "tip": [
         "Copy files from the index to the working directory."
@@ -1155,12 +1015,6 @@
             "Keep the current conflicts and exit the cherry-pick."
           ]
         }
-      ]
-    },
-    {
-      "name": "citool",
-      "tip": [
-        "Graphical alternative to Git commit."
       ]
     },
     {
@@ -2054,9 +1908,9 @@
       ],
       "option": [
         {
-          "name": "--all",
+          "name": "--add",
           "tip": [
-            "For get/set/unset: return all matching values (not just the first)."
+            "Add a value (legacy form of `set`)."
           ]
         },
         {
@@ -2070,9 +1924,55 @@
           "next": []
         },
         {
+          "name": "--file",
+          "usage": [
+            "--file <file>"
+          ],
+          "tip": [
+            "Read/write the given config file."
+          ],
+          "next": []
+        },
+        {
           "name": "--fixed-value",
           "tip": [
             "For get/unset: match the value exactly rather than treating it as a regular expression."
+          ]
+        },
+        {
+          "name": "--get",
+          "tip": [
+            "Read one value (legacy form of `get`)."
+          ]
+        },
+        {
+          "name": "--get-all",
+          "tip": [
+            "Read every value of the key."
+          ]
+        },
+        {
+          "name": "--get-color",
+          "tip": [
+            "Read a color setting."
+          ]
+        },
+        {
+          "name": "--get-colorbool",
+          "tip": [
+            "Report whether a color setting is set."
+          ]
+        },
+        {
+          "name": "--get-regexp",
+          "tip": [
+            "Read every key matching a pattern."
+          ]
+        },
+        {
+          "name": "--get-urlmatch",
+          "tip": [
+            "Read the URL-specific settings for a URL."
           ]
         },
         {
@@ -2085,6 +1985,12 @@
           "name": "--includes",
           "tip": [
             "For list/get: expand include directives in config files when looking up values."
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "List every setting in the config file."
           ]
         },
         {
@@ -2106,9 +2012,9 @@
           ]
         },
         {
-          "name": "--regexp",
+          "name": "--replace-all",
           "tip": [
-            "For get: treat the name as a regular expression."
+            "Replace every value whose text matches."
           ]
         },
         {
@@ -2130,42 +2036,21 @@
           ]
         },
         {
-          "name": "--type",
-          "usage": [
-            "--type <type>"
-          ],
+          "name": "--unset",
           "tip": [
-            "For set: enforce a specific value type.",
-            "Types: bool, int, bool-or-int, path, expiry-date, color."
-          ],
-          "next": [
-            {
-              "name": "bool"
-            },
-            {
-              "name": "bool-or-int"
-            },
-            {
-              "name": "color"
-            },
-            {
-              "name": "expiry-date"
-            },
-            {
-              "name": "int"
-            },
-            {
-              "name": "path"
-            }
+            "Remove a value (legacy form of `unset`)."
           ]
         },
         {
-          "name": "--work-tree",
-          "usage": [
-            "--work-tree <path>"
-          ],
+          "name": "--unset-all",
           "tip": [
-            "For writing options: set the path to the working tree."
+            "Remove every value of the key."
+          ]
+        },
+        {
+          "name": "--worktree",
+          "tip": [
+            "Read/write the per-worktree config file."
           ],
           "next": []
         }
@@ -2175,6 +2060,42 @@
           "name": "edit",
           "tip": [
             "Open an editor to modify the configuration file."
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            }
           ]
         },
         {
@@ -2184,12 +2105,240 @@
           ],
           "tip": [
             "Get the value of a given configuration key."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Emit every value when the key is multi-valued."
+              ]
+            },
+            {
+              "name": "--default",
+              "usage": [
+                "--default <default>"
+              ],
+              "tip": [
+                "Use this value when the key is missing."
+              ],
+              "next": []
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "Treat the --value pattern as a literal."
+              ]
+            },
+            {
+              "name": "--get-color",
+              "tip": [
+                "Colorize the output when the value is a color slot."
+              ]
+            },
+            {
+              "name": "--get-colorbool",
+              "tip": [
+                "Report whether a color slot is set."
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--includes",
+              "tip": [
+                "Respect include directives."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "Show only the variable names."
+              ]
+            },
+            {
+              "name": "--no-includes",
+              "tip": [
+                "Ignore include directives."
+              ]
+            },
+            {
+              "name": "--null",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--regexp",
+              "tip": [
+                "Treat the name as a regular expression."
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "Show where the value came from."
+              ]
+            },
+            {
+              "name": "--show-scope",
+              "tip": [
+                "Show the scope of the config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--url",
+              "usage": [
+                "--url <url>"
+              ],
+              "tip": [
+                "Resolve the key as a URL-specific setting."
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "Update or unset only the values matching this pattern."
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "Terminate values with a NUL character."
+              ]
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "List all variables and their values."
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--get-color",
+              "tip": [
+                "Colorize the output when the value is a color slot."
+              ]
+            },
+            {
+              "name": "--get-colorbool",
+              "tip": [
+                "Report whether a color slot is set."
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--includes",
+              "tip": [
+                "Respect include directives."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "Show only the variable names."
+              ]
+            },
+            {
+              "name": "--no-includes",
+              "tip": [
+                "Ignore include directives."
+              ]
+            },
+            {
+              "name": "--null",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--show-origin",
+              "tip": [
+                "Show where the value came from."
+              ]
+            },
+            {
+              "name": "--show-scope",
+              "tip": [
+                "Show the scope of the config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "Terminate values with a NUL character."
+              ]
+            }
           ]
         },
         {
@@ -2199,6 +2348,42 @@
           ],
           "tip": [
             "Remove a config section and all its entries."
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            }
           ]
         },
         {
@@ -2208,6 +2393,42 @@
           ],
           "tip": [
             "Rename a config section to a new name."
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            }
           ]
         },
         {
@@ -2217,6 +2438,116 @@
           ],
           "tip": [
             "Set the value of a given configuration key."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Replace all values of a multi-valued key."
+              ]
+            },
+            {
+              "name": "--append",
+              "tip": [
+                "Add a value instead of replacing existing ones."
+              ]
+            },
+            {
+              "name": "--bool",
+              "tip": [
+                "Interpret the value as a boolean."
+              ]
+            },
+            {
+              "name": "--bool-or-int",
+              "tip": [
+                "Interpret the value as a boolean or an integer."
+              ]
+            },
+            {
+              "name": "--expiry-date",
+              "tip": [
+                "Interpret the value as an expiry date."
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "Treat the --value pattern as a literal, not a regex."
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--int",
+              "tip": [
+                "Interpret the value as an integer."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--no-type",
+              "tip": [
+                "Unset any type specifier on the key."
+              ]
+            },
+            {
+              "name": "--path",
+              "tip": [
+                "Interpret the value as a path."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <type>"
+              ],
+              "tip": [
+                "Canonicalize the value under this type."
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "Update or unset only the values matching this pattern."
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            }
           ],
           "next": [
             {
@@ -3429,6 +3760,64 @@
           ],
           "tip": [
             "Remove a config entry."
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Unset every value of the key."
+              ]
+            },
+            {
+              "name": "--file",
+              "usage": [
+                "--file <file>"
+              ],
+              "tip": [
+                "Read/write the given config file."
+              ],
+              "next": []
+            },
+            {
+              "name": "--fixed-value",
+              "tip": [
+                "Treat the --value pattern as a literal, not a regex."
+              ]
+            },
+            {
+              "name": "--global",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "Read/write the repository config file."
+              ]
+            },
+            {
+              "name": "--system",
+              "tip": [
+                "Read/write the system-wide config file."
+              ]
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <pattern>"
+              ],
+              "tip": [
+                "Update or unset only the values matching this pattern."
+              ],
+              "next": []
+            },
+            {
+              "name": "--worktree",
+              "tip": [
+                "Read/write the per-worktree config file."
+              ]
+            }
           ]
         }
       ]
@@ -3475,6 +3864,18 @@
       "name": "credential-cache",
       "tip": [
         "Helper to temporarily store passwords in memory."
+      ]
+    },
+    {
+      "name": "credential-cache--daemon",
+      "tip": [
+        "Daemon that serves the credential cache helper."
+      ]
+    },
+    {
+      "name": "credential-netrc",
+      "tip": [
+        "Credential helper that reads credentials from a .netrc file."
       ]
     },
     {
@@ -3788,6 +4189,12 @@
       "name": "difftool",
       "tip": [
         "Display changes using common diff tools."
+      ]
+    },
+    {
+      "name": "difftool--helper",
+      "tip": [
+        "Helper that presents diff-tool results to the user."
       ]
     },
     {
@@ -4119,68 +4526,6 @@
       ]
     },
     {
-      "name": "flow",
-      "tip": [
-        "Manage branches and development workflows."
-      ],
-      "next": [
-        {
-          "name": "bugfix",
-          "tip": [
-            "Manage bugfix branches."
-          ]
-        },
-        {
-          "name": "config",
-          "tip": [
-            "Manage Git-flow configuration."
-          ]
-        },
-        {
-          "name": "feature",
-          "tip": [
-            "Manage feature branches."
-          ]
-        },
-        {
-          "name": "hotfix",
-          "tip": [
-            "Manage hotfix branches."
-          ]
-        },
-        {
-          "name": "init",
-          "tip": [
-            "Initialize a new Git repository with a branching model."
-          ]
-        },
-        {
-          "name": "log",
-          "tip": [
-            "Display logs that don't match the base branch."
-          ]
-        },
-        {
-          "name": "release",
-          "tip": [
-            "Manage release branches."
-          ]
-        },
-        {
-          "name": "support",
-          "tip": [
-            "Manage support branches."
-          ]
-        },
-        {
-          "name": "version",
-          "tip": [
-            "Display version information."
-          ]
-        }
-      ]
-    },
-    {
       "name": "fmt-merge-msg",
       "tip": [
         "Generate a merge commit message."
@@ -4220,6 +4565,18 @@
       "name": "fsck",
       "tip": [
         "Verify the connectivity and validity of objects in the database."
+      ]
+    },
+    {
+      "name": "fsck-objects",
+      "tip": [
+        "Verifies the connectivity and validity of the objects in the database."
+      ]
+    },
+    {
+      "name": "fsmonitor--daemon",
+      "tip": [
+        "A built-in filesystem monitor."
       ]
     },
     {
@@ -4797,6 +5154,12 @@
       ]
     },
     {
+      "name": "init-db",
+      "tip": [
+        "Creates an empty Git repository. Deprecated synonym for `init`."
+      ]
+    },
+    {
       "name": "instaweb",
       "tip": [
         "Instantly browse working repository in gitweb."
@@ -4809,9 +5172,60 @@
       ]
     },
     {
+      "name": "jump",
+      "tip": [
+        "Jump to interesting elements in an editor."
+      ]
+    },
+    {
       "name": "last-modified",
+      "usage": [
+        "last-modified [<revision-range>] [[--] <pathspec>...]"
+      ],
       "tip": [
         "EXPERIMENTAL: Show when files were last modified."
+      ],
+      "option": [
+        {
+          "name": "--max-depth",
+          "usage": [
+            "--max-depth <depth>"
+          ],
+          "tip": [
+            "Traverse at most <depth> levels into subtrees."
+          ],
+          "next": []
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --recursive"
+          ],
+          "tip": [
+            "Recursively traverse into all subtrees."
+          ]
+        },
+        {
+          "name": "--show-trees",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --show-trees"
+          ],
+          "tip": [
+            "Show tree entries even when recursing into them."
+          ]
+        },
+        {
+          "name": "-z",
+          "tip": [
+            "Terminate each line with a NUL character rather than a newline."
+          ]
+        }
       ]
     },
     {
@@ -5595,9 +6009,51 @@
       ]
     },
     {
+      "name": "merge-octopus",
+      "tip": [
+        "Internal merge strategy driver that handles more than two heads."
+      ]
+    },
+    {
       "name": "merge-one-file",
       "tip": [
         "Common core of 'git merge-index' and standard helper for use with git merge-index."
+      ]
+    },
+    {
+      "name": "merge-ours",
+      "tip": [
+        "Internal merge strategy driver that keeps our version."
+      ]
+    },
+    {
+      "name": "merge-recursive",
+      "tip": [
+        "Internal recursive merge strategy driver."
+      ]
+    },
+    {
+      "name": "merge-recursive-ours",
+      "tip": [
+        "Recursive merge strategy driver that keeps our version."
+      ]
+    },
+    {
+      "name": "merge-recursive-theirs",
+      "tip": [
+        "Recursive merge strategy driver that keeps their version."
+      ]
+    },
+    {
+      "name": "merge-resolve",
+      "tip": [
+        "Internal merge strategy driver that uses a temporary tree."
+      ]
+    },
+    {
+      "name": "merge-subtree",
+      "tip": [
+        "Internal merge strategy driver that performs a subtree merge."
       ]
     },
     {
@@ -5779,15 +6235,15 @@
       ]
     },
     {
-      "name": "parse-remote",
-      "tip": [
-        "Routine to help parse remote repository access parameters."
-      ]
-    },
-    {
       "name": "patch-id",
       "tip": [
         "Compute unique ID for a patch."
+      ]
+    },
+    {
+      "name": "pickaxe",
+      "tip": [
+        "Alias of `blame`."
       ]
     },
     {
@@ -6742,6 +7198,42 @@
       ]
     },
     {
+      "name": "remote-ext",
+      "tip": [
+        "Bridge smart transport to an external command."
+      ]
+    },
+    {
+      "name": "remote-fd",
+      "tip": [
+        "Reflect the smart transport stream back to the caller."
+      ]
+    },
+    {
+      "name": "remote-ftp",
+      "tip": [
+        "Internal remote transport helper for FTP."
+      ]
+    },
+    {
+      "name": "remote-ftps",
+      "tip": [
+        "Internal remote transport helper for FTPS."
+      ]
+    },
+    {
+      "name": "remote-http",
+      "tip": [
+        "Internal remote transport helper for HTTP."
+      ]
+    },
+    {
+      "name": "remote-https",
+      "tip": [
+        "Internal remote transport helper for HTTPS."
+      ]
+    },
+    {
       "name": "repack",
       "tip": [
         "Pack unpacked objects in a repository."
@@ -7206,15 +7698,9 @@
       ]
     },
     {
-      "name": "sh-i18n",
+      "name": "sh-i18n--envsubst",
       "tip": [
-        "Git's i18n setup code for shell scripts."
-      ]
-    },
-    {
-      "name": "sh-setup",
-      "tip": [
-        "Common Git shell script setup code."
+        "Git's own envsubst for i18n fallbacks."
       ]
     },
     {
@@ -7395,6 +7881,247 @@
       ]
     },
     {
+      "name": "stage",
+      "alias": [
+        "add"
+      ],
+      "usage": [
+        "add|stage [OPTIONS] [<PATHSPEC>...]"
+      ],
+      "tip": [
+        "Add file changes to the index."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all"
+          ],
+          "tip": [
+            "Add all changes in the current working tree (including new, modified, and deleted files) to the index."
+          ]
+        },
+        {
+          "name": "--chmod",
+          "usage": [
+            "--chmod=(+|-)x"
+          ],
+          "tip": [
+            "Override the executable bit of the listed files."
+          ],
+          "next": [
+            {
+              "name": "-x",
+              "tip": [
+                "Clear the executable bit."
+              ]
+            },
+            {
+              "name": "+x",
+              "tip": [
+                "Set the executable bit."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "Don't actually add any file(s) to the index, only show what would be added."
+          ]
+        },
+        {
+          "name": "--edit",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --edit"
+          ],
+          "tip": [
+            "Open the diff and the index in an editor for further editing."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Allow adding ignored files."
+          ]
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "If some files could not be added because of errors indexing them, do not abort the operation, but continue adding the others.",
+            "The command shall still exit with non-zero status.",
+            "The configuration variable add.ignoreErrors can be set to true to make this the default behaviour."
+          ]
+        },
+        {
+          "name": "--ignore-missing",
+          "tip": [
+            "Check whether missing files are ignored in a dry run."
+          ]
+        },
+        {
+          "name": "--ignore-removal",
+          "tip": [
+            "Ignore paths removed in the working tree (same as --no-all)."
+          ]
+        },
+        {
+          "name": "--intent-to-add",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --intent-to-add"
+          ],
+          "tip": [
+            "Record only the fact that the path will be added later."
+          ]
+        },
+        {
+          "name": "--inter-hunk-context",
+          "usage": [
+            "--inter-hunk-context <n>"
+          ],
+          "tip": [
+            "Show context between diff hunks up to the specified number of lines."
+          ],
+          "next": []
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "Interactively add modified content from the working tree to the index."
+          ]
+        },
+        {
+          "name": "--no-all",
+          "tip": [
+            "Add only modified and new files, ignoring removed ones."
+          ]
+        },
+        {
+          "name": "--no-warn-embedded-repo",
+          "tip": [
+            "Suppress the warning when adding an embedded repository without a .gitmodules entry."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch"
+          ],
+          "tip": [
+            "Interactively choose chunks of content between the index and the working tree to add to the index.",
+            "Similar to git add -i but skips the initial command menu and goes directly to the patch subcommand."
+          ]
+        },
+        {
+          "name": "--pathspec-file-nul",
+          "tip": [
+            "With --pathspec-from-file, pathspec elements are separated with NUL character."
+          ]
+        },
+        {
+          "name": "--pathspec-from-file",
+          "usage": [
+            "--pathspec-from-file <file>"
+          ],
+          "tip": [
+            "Read pathspec from <file> instead of command-line arguments."
+          ],
+          "next": []
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Don't add the file(s), but only refresh their stat() information in the index."
+          ]
+        },
+        {
+          "name": "--renormalize",
+          "tip": [
+            "renormalize EOL of tracked files (implies -u)"
+          ]
+        },
+        {
+          "name": "--sparse",
+          "tip": [
+            "Allow updating entries outside of the sparse-checkout cone."
+          ]
+        },
+        {
+          "name": "--unified",
+          "alias": [
+            "-U"
+          ],
+          "usage": [
+            "-U, --unified <n>"
+          ],
+          "tip": [
+            "Generate diffs with <n> lines of context."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "It will stage modifications and deletions of tracked files (files already in the Git repository) to the staging area, but it does not stage new files."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Be verbose."
+          ]
+        },
+        {
+          "name": ".",
+          "tip": [
+            "Add all changes in the current directory and its subdirectories (including new, modified, and deleted files) to the index."
+          ]
+        }
+      ]
+    },
+    {
       "name": "stash",
       "tip": [
         "Stash changes in the stash.",
@@ -7540,12 +8267,22 @@
               ]
             },
             {
+              "name": "--inter-hunk-context",
+              "usage": [
+                "--inter-hunk-context <n>"
+              ],
+              "tip": [
+                "Show context between diff hunks up to the specified number of lines."
+              ],
+              "next": []
+            },
+            {
               "name": "--keep-index",
               "alias": [
                 "-k"
               ],
               "usage": [
-                "-k, --[no-]keep-index"
+                "-k, --keep-index"
               ],
               "tip": [
                 "Leave changes already added to index intact."
@@ -7564,6 +8301,34 @@
               ]
             },
             {
+              "name": "--pathspec-file-nul",
+              "tip": [
+                "With --pathspec-from-file, pathspec elements are separated with NUL character."
+              ]
+            },
+            {
+              "name": "--pathspec-from-file",
+              "usage": [
+                "--pathspec-from-file <file>"
+              ],
+              "tip": [
+                "Read pathspec from <file> instead of command-line arguments."
+              ],
+              "next": []
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress progress reporting."
+              ]
+            },
+            {
               "name": "--staged",
               "alias": [
                 "-S"
@@ -7574,6 +8339,19 @@
               "tip": [
                 "Stash only changes that are currently staged."
               ]
+            },
+            {
+              "name": "--unified",
+              "alias": [
+                "-U"
+              ],
+              "usage": [
+                "-U, --unified <n>"
+              ],
+              "tip": [
+                "Generate diffs with <n> lines of context."
+              ],
+              "next": []
             },
             {
               "name": "-m",
@@ -7896,15 +8674,15 @@
       ]
     },
     {
-      "name": "subtree",
+      "name": "submodule--helper",
       "tip": [
-        "Split a repository into subtrees and merge them."
+        "Internal helper used by `submodule`."
       ]
     },
     {
-      "name": "survey",
+      "name": "subtree",
       "tip": [
-        "EXPERIMENTAL: Measure various repository dimensions of scale."
+        "Split a repository into subtrees and merge them."
       ]
     },
     {
@@ -8555,12 +9333,6 @@
       ]
     },
     {
-      "name": "update-git-for-windows",
-      "tip": [
-        "Update Git for Windows."
-      ]
-    },
-    {
       "name": "update-index",
       "tip": [
         "Register file contents in the index."
@@ -8590,6 +9362,12 @@
       "name": "upload-archive",
       "tip": [
         "Send an archive back to git-archive."
+      ]
+    },
+    {
+      "name": "upload-archive--writer",
+      "tip": [
+        "Writer half of the `upload-archive` protocol."
       ]
     },
     {
@@ -8635,6 +9413,12 @@
       ]
     },
     {
+      "name": "web--browse",
+      "tip": [
+        "Git helper script to launch a web browser."
+      ]
+    },
+    {
       "name": "whatchanged",
       "tip": [
         "Show commit logs with differences introduced."
@@ -8650,54 +9434,258 @@
           "name": "add",
           "tip": [
             "Add a new working tree to the current repository."
-          ]
-        },
-        {
-          "name": "checkout",
-          "tip": [
-            "Checkout a branch into a working tree."
+          ],
+          "option": [
+            {
+              "name": "--checkout",
+              "tip": [
+                "Populate the new working tree."
+              ]
+            },
+            {
+              "name": "--detach",
+              "alias": [
+                "-d"
+              ],
+              "usage": [
+                "-d, --detach"
+              ],
+              "tip": [
+                "Detach HEAD at the named commit."
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Checkout <branch> even if already checked out in other worktree."
+              ]
+            },
+            {
+              "name": "--guess-remote",
+              "tip": [
+                "Try to match the new branch name with a remote-tracking branch."
+              ]
+            },
+            {
+              "name": "--lock",
+              "tip": [
+                "Keep the new working tree locked."
+              ]
+            },
+            {
+              "name": "--orphan",
+              "tip": [
+                "Create an unborn branch."
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "Suppress progress reporting."
+              ]
+            },
+            {
+              "name": "--reason",
+              "usage": [
+                "--reason <string>"
+              ],
+              "tip": [
+                "Reason for locking the worktree."
+              ],
+              "next": []
+            },
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "Use relative paths for worktrees."
+              ]
+            },
+            {
+              "name": "--track",
+              "tip": [
+                "Set up tracking mode (see git-branch)."
+              ]
+            },
+            {
+              "name": "-b",
+              "usage": [
+                "-b <branch>"
+              ],
+              "tip": [
+                "Create a new branch."
+              ],
+              "next": []
+            },
+            {
+              "name": "-B",
+              "usage": [
+                "-B <branch>"
+              ],
+              "tip": [
+                "Create or reset a branch."
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "List all working trees in the current repository."
+          ],
+          "option": [
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <time>"
+              ],
+              "tip": [
+                "Add 'prunable' annotation to worktrees older than <time>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--porcelain",
+              "tip": [
+                "Give the output in an easy-to-parse format for scripts."
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Show extended annotations and reasons, if available."
+              ]
+            },
+            {
+              "name": "-z",
+              "tip": [
+                "Terminate records with a NUL character."
+              ]
+            }
           ]
         },
         {
           "name": "lock",
           "tip": [
             "Lock the current working tree to prevent concurrent access."
-          ]
-        },
-        {
-          "name": "merge",
-          "tip": [
-            "Merge a branch into a working tree."
+          ],
+          "option": [
+            {
+              "name": "--reason",
+              "usage": [
+                "--reason <string>"
+              ],
+              "tip": [
+                "Reason for locking the worktree."
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "move",
           "tip": [
             "Move or rename a working tree in the current repository."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force move even if the worktree is dirty or locked."
+              ]
+            },
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "Use relative paths for worktrees."
+              ]
+            }
           ]
         },
         {
           "name": "prune",
           "tip": [
             "Remove stale working tree administrative files."
-          ]
-        },
-        {
-          "name": "rebase",
-          "tip": [
-            "Rebase a branch onto another branch in the working tree."
+          ],
+          "option": [
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Do not remove, show only."
+              ]
+            },
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <time>"
+              ],
+              "tip": [
+                "Expire working trees older than <time>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Report pruned working trees."
+              ]
+            }
           ]
         },
         {
           "name": "remove",
           "tip": [
             "Remove a working tree from the current repository."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Force removal even if the worktree is dirty or locked."
+              ]
+            }
           ]
         },
         {
@@ -8707,18 +9695,14 @@
           ],
           "tip": [
             "Repair worktree administrative files in the given paths, or the default working tree."
-          ]
-        },
-        {
-          "name": "reset",
-          "tip": [
-            "Reset a working tree to a specific state."
-          ]
-        },
-        {
-          "name": "status",
-          "tip": [
-            "Show the status of a working tree."
+          ],
+          "option": [
+            {
+              "name": "--relative-paths",
+              "tip": [
+                "Use relative paths for worktrees."
+              ]
+            }
           ]
         },
         {

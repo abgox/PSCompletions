@@ -7,9 +7,9 @@ local function add_running_containers()
 end
 
 local function add_images()
-    -- Repository:Tag list; filter empty handled by psc.add no-op for blank names
     local lines = psc.run({ "docker", "images", "--format", "{{.Repository}}:{{.Tag}}" }) or {}
     for _, v in ipairs(lines) do
+        -- A dangling image prints as <none>:<none>, which is not a usable reference.
         if v ~= "<none>:<none>" and v ~= "" then
             psc.add({ name = v })
         end

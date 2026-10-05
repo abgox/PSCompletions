@@ -7,6 +7,435 @@
   },
   "next": [
     {
+      "name": "add",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|add [flags] <package>[@<version>]"
+      ],
+      "tip": [
+        "Add a new dependency to package.json and install it."
+      ],
+      "example": [
+        "add zod",
+        "add -d typescript"
+      ],
+      "option": [
+        {
+          "name": "--analyze",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --analyze"
+          ],
+          "tip": [
+            "Analyze & install all dependencies of files passed as arguments recursively (using Bun's bundler)."
+          ]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "Platform-specific optimizations for installing dependencies.",
+            "Possible values: \"hardlink\" (default), \"symlink\", \"copyfile\""
+          ],
+          "next": [
+            {
+              "name": "copyfile"
+            },
+            {
+              "name": "hardlink",
+              "tip": [
+                "default value"
+              ]
+            },
+            {
+              "name": "symlink"
+            }
+          ]
+        },
+        {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-dir",
+          "usage": [
+            "--cache-dir <path>"
+          ],
+          "tip": [
+            "Store & load cached data from a specific directory path."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
+          "name": "--catalog",
+          "usage": [
+            "--catalog <name>"
+          ],
+          "tip": [
+            "Add the resolved version to the root package.json catalog and depend on it as \"catalog:\"."
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": [
+            "Maximum number of concurrent jobs for lifecycle scripts. (default 5)"
+          ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <arch>"
+          ],
+          "tip": [
+            "Override CPU architecture for optional dependencies (e.g., x64, arm64, * for all)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <cwd>"
+          ],
+          "tip": [
+            "Set a specific cwd."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "Add dependency to \"devDependencies\"."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Don't install anything."
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --exact"
+          ],
+          "tip": [
+            "Add the exact version instead of the ^range"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <pattern>"
+          ],
+          "tip": [
+            "Install packages for the matching workspaces."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Always request the latest versions from the registry & reinstall all dependencies."
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Disallow changes to lockfile."
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Install globally."
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "Skip lifecycle scripts in the project's package.json (dependency scripts are never run)."
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": [
+            "Link \"bin\" from a matching platform-specific \"optionalDependencies\" instead.",
+            "Default: esbuild, turbo"
+          ]
+        },
+        {
+          "name": "--linker",
+          "usage": [
+            "--linker <strategy>"
+          ],
+          "tip": [
+            "Linker strategy."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "Generate a lockfile without installing dependencies."
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "usage": [
+            "--minimum-release-age <duration>"
+          ],
+          "tip": [
+            "Only install packages published at least N seconds ago (security feature)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--network-concurrency",
+          "usage": [
+            "--network-concurrency <n>"
+          ],
+          "tip": [
+            "Maximum number of concurrent network requests (default 48)."
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "Ignore manifest cache entirely."
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "Disable the progress bar."
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "Don't update package.json or save a lockfile."
+          ]
+        },
+        {
+          "name": "--no-summary",
+          "tip": [
+            "Don't print a summary."
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "Skip verifying integrity of newly downloaded packages."
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "Never touch the network: resolve and install only from the local cache."
+          ]
+        },
+        {
+          "name": "--omit",
+          "usage": [
+            "--omit <type>"
+          ],
+          "tip": [
+            "Exclude 'dev', 'optional', or 'peer' dependencies from install."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--only-missing",
+          "tip": [
+            "Only add dependencies to package.json if they are not already present."
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "Add dependency to \"optionalDependencies\"."
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <os>"
+          ],
+          "tip": [
+            "Override operating system for optional dependencies (e.g., linux, darwin, * for all)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--peer",
+          "tip": [
+            "Add dependency to \"peerDependencies\"."
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "Use cached package metadata regardless of age; only fetch what is missing."
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --production"
+          ],
+          "tip": [
+            "Don't install devDependencies."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <url>"
+          ],
+          "tip": [
+            "Use a specific registry by default, overriding .npmrc, bunfig.toml and environment variables."
+          ],
+          "next": []
+        },
+        {
+          "name": "--save",
+          "tip": [
+            "Save to package.json. (true by default)"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "Save a text-based lockfile."
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Don't log anything."
+          ]
+        },
+        {
+          "name": "--trust",
+          "tip": [
+            "Add to trustedDependencies in the project's package.json and install the package(s)."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Excessively verbose logging."
+          ]
+        },
+        {
+          "name": "--yarn",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yarn"
+          ],
+          "tip": [
+            "Write a yarn.lock file. (yarn v1)"
+          ]
+        }
+      ]
+    },
+    {
       "name": "audit",
       "usage": [
         "audit [flags]"
@@ -44,14 +473,27 @@
             "--ignore <CVE>"
           ],
           "tip": [
-            "Ignore specific CVE IDs from audit."
+            "Ignore advisories by GHSA or numeric advisory ID."
           ],
+          "repeat": 99,
           "next": []
         },
         {
           "name": "--json",
           "tip": [
             "Output in JSON format."
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "Also apply fixes your declared ranges exclude, rewriting package.json."
           ]
         }
       ]
@@ -518,195 +960,83 @@
       ]
     },
     {
-      "name": "exec",
-      "alias": [
-        "run"
-      ],
+      "name": "dedupe",
       "usage": [
-        "run|exec [flags] <file or script>"
+        "dedupe [flags]"
       ],
       "tip": [
-        "Execute a file with Bun."
-      ],
-      "example": [
-        {
-          "cmd": "run ./my-script.ts",
-          "desc": "Run ts file"
-        },
-        {
-          "cmd": "run build",
-          "desc": "Run a package.json script"
-        }
+        "Remove duplicate versions from the lockfile."
       ],
       "option": [
         {
-          "name": "--define",
-          "alias": [
-            "-d"
-          ],
+          "name": "--check",
+          "tip": [
+            "Exit with code 1 if the lockfile has duplicate versions that can be removed, without changing anything."
+          ]
+        },
+        {
+          "name": "--cwd",
           "usage": [
-            "-d, --define <K:V>"
+            "--cwd <cwd>"
           ],
           "tip": [
-            "Substitute K:V while parsing. Values are parsed as JSON."
-          ],
-          "example": [
-            "--define process.env.NODE_ENV:\"development\""
+            "Set a specific cwd."
           ],
           "next": []
         },
         {
-          "name": "--drop",
+          "name": "--dry-run",
+          "tip": [
+            "Print the duplicate versions that would be removed without changing anything."
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "Fail instead of rewriting bun.lock when duplicate versions can be removed."
+          ]
+        },
+        {
+          "name": "--linker",
           "usage": [
-            "--drop <calls>"
+            "--linker <strategy>"
           ],
           "tip": [
-            "Remove function calls, e.g. --drop=console removes all console.* calls."
-          ],
-          "next": []
-        },
-        {
-          "name": "--extension-order",
-          "usage": [
-            "--extension-order <ext1,ext2,ext3>"
-          ],
-          "tip": [
-            "Defaults to: .tsx,.ts,.jsx,.js,.json"
-          ],
-          "next": []
-        },
-        {
-          "name": "--feature",
-          "usage": [
-            "--feature <flag>"
-          ],
-          "tip": [
-            "Enable a feature flag for dead-code elimination."
-          ],
-          "next": []
-        },
-        {
-          "name": "--ignore-dce-annotations",
-          "tip": [
-            "Ignore tree-shaking annotations such as @__PURE__."
-          ]
-        },
-        {
-          "name": "--jsx-factory",
-          "tip": [
-            "Changes the function called when compiling JSX elements using the classic JSX runtime."
-          ]
-        },
-        {
-          "name": "--jsx-fragment",
-          "tip": [
-            "Changes the function called when compiling JSX fragments."
-          ]
-        },
-        {
-          "name": "--jsx-import-source",
-          "tip": [
-            "Declares the module specifier to be used for importing the jsx and jsxs factory functions.",
-            "Default: \"react\""
-          ]
-        },
-        {
-          "name": "--jsx-runtime",
-          "tip": [
-            "Set up the JSX runtime."
+            "Install with the given linker."
           ],
           "next": [
             {
-              "name": "automatic"
+              "name": "hoisted"
             },
             {
-              "name": "classic"
+              "name": "isolated"
             }
           ]
         },
         {
-          "name": "--jsx-side-effects",
+          "name": "--lockfile-only",
           "tip": [
-            "Treat JSX elements as having side effects (disable pure annotations)."
+            "Rewrite bun.lock without installing."
           ]
         },
         {
-          "name": "--loader",
-          "alias": [
-            "-l"
-          ],
-          "usage": [
-            "-l, --loader <.ext:loader>"
-          ],
+          "name": "--silent",
           "tip": [
-            "Parse files with .ext:loader",
-            "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi"
-          ],
-          "example": [
-            "--loader .js:jsx"
-          ],
-          "next": []
-        },
-        {
-          "name": "--main-fields",
-          "tip": [
-            "Main fields to lookup in package.json.",
-            "Defaults to --target dependent"
+            "Don't log anything."
           ]
-        },
-        {
-          "name": "--no-macros",
-          "tip": [
-            "Disable macros from being executed in the bundler, transpiler and runtime."
-          ]
-        },
-        {
-          "name": "--preserve-symlinks",
-          "tip": [
-            "Preserve symlinks when resolving files."
-          ]
-        },
-        {
-          "name": "--preserve-symlinks-main",
-          "tip": [
-            "Preserve symlinks when resolving the main entry point."
-          ]
-        },
-        {
-          "name": "--tsconfig-override",
-          "usage": [
-            "--tsconfig-override <path>"
-          ],
-          "tip": [
-            "Specify custom tsconfig.json.",
-            "Default ./tsconfig.json"
-          ],
-          "next": []
         }
       ]
     },
     {
-      "name": "feedback",
+      "name": "exec",
       "usage": [
-        "feedback [options] [feedback text ... | files ...]"
+        "exec <script>"
       ],
       "tip": [
-        "Provide feedback to the Bun team."
+        "Run a shell script directly with Bun."
       ],
-      "option": [
-        {
-          "name": "--email",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --email <email>"
-          ],
-          "tip": [
-            "Set the email address used for this submission."
-          ],
-          "next": []
-        }
+      "example": [
+        "exec \"echo hi\""
       ]
     },
     {
@@ -987,15 +1317,13 @@
     {
       "name": "install",
       "alias": [
-        "add",
-        "a",
         "i"
       ],
       "usage": [
-        "i|a|add|install"
+        "i|install [flags] [<package>...]"
       ],
       "tip": [
-        "Install/Add dependencies for a package.json."
+        "Install the dependencies listed in package.json."
       ],
       "option": [
         {
@@ -1032,6 +1360,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -1042,10 +1380,43 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
+          "name": "--catalog",
+          "usage": [
+            "--catalog <name>"
+          ],
+          "tip": [
+            "Add the resolved version to the root package.json catalog and depend on it as \"catalog:\"."
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "Maximum number of concurrent jobs for lifecycle scripts. (default 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cpu",
@@ -1237,6 +1608,12 @@
           ]
         },
         {
+          "name": "--offline",
+          "tip": [
+            "Never touch the network: resolve and install only from the local cache."
+          ]
+        },
+        {
           "name": "--omit",
           "usage": [
             "--omit <type>"
@@ -1285,6 +1662,12 @@
           ]
         },
         {
+          "name": "--prefer-offline",
+          "tip": [
+            "Use cached package metadata regardless of age; only fetch what is missing."
+          ]
+        },
+        {
           "name": "--production",
           "alias": [
             "-p"
@@ -1294,6 +1677,12 @@
           ],
           "tip": [
             "Don't install devDependencies."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Only show tarball name when packing."
           ]
         },
         {
@@ -1381,6 +1770,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -1391,10 +1790,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -2057,6 +2479,48 @@
           ]
         },
         {
+          "name": "licenses",
+          "tip": [
+            "List installed packages grouped by license."
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "tip": [
+                "List only what devDependencies pull in."
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <pattern>"
+              ],
+              "tip": [
+                "List only the matching workspaces' dependencies."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output as JSON."
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "Also print author, description and homepage."
+              ]
+            },
+            {
+              "name": "--prod",
+              "tip": [
+                "Omit devDependencies."
+              ]
+            }
+          ]
+        },
+        {
           "name": "ls",
           "tip": [
             "list the dependency tree according to the current lockfile."
@@ -2066,6 +2530,12 @@
               "name": "--all",
               "tip": [
                 "list the entire dependency tree according to the current lockfile."
+              ]
+            },
+            {
+              "name": "--trusted",
+              "tip": [
+                "List only trusted dependencies."
               ]
             }
           ]
@@ -2212,6 +2682,9 @@
           ],
           "next": [
             {
+              "name": "from-git"
+            },
+            {
               "name": "major"
             },
             {
@@ -2256,6 +2729,121 @@
           ],
           "tip": [
             "Show dependency tree explaining why a package is installed."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "usage": [
+        "prune [flags]"
+      ],
+      "tip": [
+        "Remove packages from node_modules that are not in bun.lock."
+      ],
+      "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <arch>"
+          ],
+          "tip": [
+            "Prune for a different CPU architecture than the current one."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <cwd>"
+          ],
+          "tip": [
+            "Set a specific cwd."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print what would be removed without deleting anything."
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <pattern>"
+          ],
+          "tip": [
+            "Only prune the node_modules folders of the matching workspaces."
+          ],
+          "next": []
+        },
+        {
+          "name": "--linker",
+          "usage": [
+            "--linker <strategy>"
+          ],
+          "tip": [
+            "Linker to assume when node_modules mixes isolated and hoisted installs."
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--omit",
+          "usage": [
+            "--omit <type>"
+          ],
+          "tip": [
+            "Also remove packages that are only needed by the given dependency types."
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <os>"
+          ],
+          "tip": [
+            "Prune for a different operating system than the current one."
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --production"
+          ],
+          "tip": [
+            "Also remove packages that are only needed by devDependencies (alias: --prod)."
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Don't log anything."
           ]
         }
       ]
@@ -2533,10 +3121,11 @@
     {
       "name": "remove",
       "alias": [
-        "rm"
+        "rm",
+        "r"
       ],
       "usage": [
-        "rm|remove [flags] <pkg> [...<pkg>]"
+        "r|rm|remove [flags] <pkg> [...<pkg>]"
       ],
       "tip": [
         "Remove a package from package.json and uninstall from node_modules."
@@ -2567,6 +3156,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -2577,10 +3176,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -2760,6 +3382,171 @@
           "tip": [
             "Runs the REPL in sloppy mode."
           ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [flags] <file or script>"
+      ],
+      "tip": [
+        "Execute a file with Bun."
+      ],
+      "example": [
+        {
+          "cmd": "run ./my-script.ts",
+          "desc": "Run ts file"
+        },
+        {
+          "cmd": "run build",
+          "desc": "Run a package.json script"
+        }
+      ],
+      "option": [
+        {
+          "name": "--define",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --define <K:V>"
+          ],
+          "tip": [
+            "Substitute K:V while parsing. Values are parsed as JSON."
+          ],
+          "example": [
+            "--define process.env.NODE_ENV:\"development\""
+          ],
+          "next": []
+        },
+        {
+          "name": "--drop",
+          "usage": [
+            "--drop <calls>"
+          ],
+          "tip": [
+            "Remove function calls, e.g. --drop=console removes all console.* calls."
+          ],
+          "next": []
+        },
+        {
+          "name": "--extension-order",
+          "usage": [
+            "--extension-order <ext1,ext2,ext3>"
+          ],
+          "tip": [
+            "Defaults to: .tsx,.ts,.jsx,.js,.json"
+          ],
+          "next": []
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <flag>"
+          ],
+          "tip": [
+            "Enable a feature flag for dead-code elimination."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-dce-annotations",
+          "tip": [
+            "Ignore tree-shaking annotations such as @__PURE__."
+          ]
+        },
+        {
+          "name": "--jsx-factory",
+          "tip": [
+            "Changes the function called when compiling JSX elements using the classic JSX runtime."
+          ]
+        },
+        {
+          "name": "--jsx-fragment",
+          "tip": [
+            "Changes the function called when compiling JSX fragments."
+          ]
+        },
+        {
+          "name": "--jsx-import-source",
+          "tip": [
+            "Declares the module specifier to be used for importing the jsx and jsxs factory functions.",
+            "Default: \"react\""
+          ]
+        },
+        {
+          "name": "--jsx-runtime",
+          "tip": [
+            "Set up the JSX runtime."
+          ],
+          "next": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "classic"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-side-effects",
+          "tip": [
+            "Treat JSX elements as having side effects (disable pure annotations)."
+          ]
+        },
+        {
+          "name": "--loader",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --loader <.ext:loader>"
+          ],
+          "tip": [
+            "Parse files with .ext:loader",
+            "Valid loaders: js, jsx, ts, tsx, json, toml, text, file, wasm, napi"
+          ],
+          "example": [
+            "--loader .js:jsx"
+          ],
+          "next": []
+        },
+        {
+          "name": "--main-fields",
+          "tip": [
+            "Main fields to lookup in package.json.",
+            "Defaults to --target dependent"
+          ]
+        },
+        {
+          "name": "--no-macros",
+          "tip": [
+            "Disable macros from being executed in the bundler, transpiler and runtime."
+          ]
+        },
+        {
+          "name": "--preserve-symlinks",
+          "tip": [
+            "Preserve symlinks when resolving files."
+          ]
+        },
+        {
+          "name": "--preserve-symlinks-main",
+          "tip": [
+            "Preserve symlinks when resolving the main entry point."
+          ]
+        },
+        {
+          "name": "--tsconfig-override",
+          "usage": [
+            "--tsconfig-override <path>"
+          ],
+          "tip": [
+            "Specify custom tsconfig.json.",
+            "Default ./tsconfig.json"
+          ],
+          "next": []
         }
       ]
     },
@@ -3080,6 +3867,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -3090,10 +3887,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -3235,6 +4055,12 @@
     },
     {
       "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [flags] <name>@<version>"
+      ],
       "tip": [
         "Update all dependencies to most recent versions within the version range in package.json."
       ],
@@ -3261,6 +4087,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "Provide a Certificate Authority signing certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -3271,10 +4107,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "The same as --ca, but is a file path to the certificate."
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "Maximum number of concurrent jobs for lifecycle scripts (default 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "Specify path to config file (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cpu",
@@ -3629,6 +4488,37 @@
           "name": "--bun",
           "tip": [
             "Force the command to run with Bun instead of Node.js"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "Skip installation if package is not already installed."
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <package>"
+          ],
+          "tip": [
+            "Specify package to install when binary name differs from package name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "Suppress output during installation."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "Enable verbose output during installation."
           ]
         }
       ]

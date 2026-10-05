@@ -7,6 +7,435 @@
   },
   "next": [
     {
+      "name": "add",
+      "alias": [
+        "a"
+      ],
+      "usage": [
+        "a|add [flags] <package>[@<version>]"
+      ],
+      "tip": [
+        "向 package.json 添加新依赖并安装。"
+      ],
+      "example": [
+        "add zod",
+        "add -d typescript"
+      ],
+      "option": [
+        {
+          "name": "--analyze",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --analyze"
+          ],
+          "tip": [
+            "递归分析并安装作为参数传递的文件的所有依赖项 (使用 Bun 的捆绑器)。"
+          ]
+        },
+        {
+          "name": "--backend",
+          "tip": [
+            "针对安装依赖项进行平台特定的优化。",
+            "可能的值: \"hardlink\" (默认), \"symlink\", \"copyfile\"。"
+          ],
+          "next": [
+            {
+              "name": "copyfile"
+            },
+            {
+              "name": "hardlink",
+              "tip": [
+                "默认值。"
+              ]
+            },
+            {
+              "name": "symlink"
+            }
+          ]
+        },
+        {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cache-dir",
+          "usage": [
+            "--cache-dir <path>"
+          ],
+          "tip": [
+            "从特定目录路径存储和加载缓存数据。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--catalog",
+          "usage": [
+            "--catalog <name>"
+          ],
+          "tip": [
+            "将解析出的版本添加到根 package.json catalog，并以 \"catalog:\" 形式依赖。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--concurrent-scripts",
+          "tip": [
+            "生命周期脚本的最大并发作业数。 (默认为 5)"
+          ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <arch>"
+          ],
+          "tip": [
+            "覆盖可选依赖项的 CPU 架构 (例如 x64, arm64, * 代表全部)。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <cwd>"
+          ],
+          "tip": [
+            "设置特定的 cwd。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dev",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --dev"
+          ],
+          "tip": [
+            "将依赖项添加到 \"devDependencies\"。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "不安装任何东西。"
+          ]
+        },
+        {
+          "name": "--exact",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --exact"
+          ],
+          "tip": [
+            "添加精确版本而不是 ^range。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <pattern>"
+          ],
+          "tip": [
+            "为匹配的工作区安装包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "始终从注册表请求最新版本并重新安装所有依赖项。"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "禁止对锁定文件进行更改。"
+          ]
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "全局安装。"
+          ]
+        },
+        {
+          "name": "--ignore-scripts",
+          "tip": [
+            "跳过项目的 package.json 中的生命周期脚本(依赖项脚本永远不会运行)。"
+          ]
+        },
+        {
+          "name": "--link-native-bins",
+          "tip": [
+            "从匹配的平台特定的 \"optionalDependencies\" 中链接 \"bin\"。",
+            "默认值: esbuild, turbo"
+          ]
+        },
+        {
+          "name": "--linker",
+          "usage": [
+            "--linker <strategy>"
+          ],
+          "tip": [
+            "链接器策略。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--lockfile-only",
+          "tip": [
+            "生成锁定文件而不安装依赖项。"
+          ]
+        },
+        {
+          "name": "--minimum-release-age",
+          "usage": [
+            "--minimum-release-age <duration>"
+          ],
+          "tip": [
+            "仅安装至少 N 秒前发布的包 (安全功能)。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--network-concurrency",
+          "usage": [
+            "--network-concurrency <n>"
+          ],
+          "tip": [
+            "最大并发网络请求数 (默认 48)。"
+          ],
+          "next": [
+            {
+              "name": "1"
+            },
+            {
+              "name": "4"
+            },
+            {
+              "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--no-cache",
+          "tip": [
+            "完全忽略清单缓存。"
+          ]
+        },
+        {
+          "name": "--no-progress",
+          "tip": [
+            "禁用进度条。"
+          ]
+        },
+        {
+          "name": "--no-save",
+          "tip": [
+            "不更新 package.json 或保存锁定文件。"
+          ]
+        },
+        {
+          "name": "--no-summary",
+          "tip": [
+            "不打印摘要。"
+          ]
+        },
+        {
+          "name": "--no-verify",
+          "tip": [
+            "跳过对新下载的软件包完整性的验证。"
+          ]
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "从不访问网络：仅从本地缓存解析和安装。"
+          ]
+        },
+        {
+          "name": "--omit",
+          "usage": [
+            "--omit <type>"
+          ],
+          "tip": [
+            "从安装中排除 \"dev\"、\"optional\" 或 \"peer\" 依赖项。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--only-missing",
+          "tip": [
+            "仅在 package.json 中尚不存在时添加依赖项。"
+          ]
+        },
+        {
+          "name": "--optional",
+          "tip": [
+            "将依赖项添加到 \"optionalDependencies\"。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <os>"
+          ],
+          "tip": [
+            "覆盖可选依赖项的操作系统 (例如 linux, darwin, * 代表全部)。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--peer",
+          "tip": [
+            "将依赖项添加到 \"peerDependencies\"。"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "无论缓存新旧，一律使用缓存的包元数据；仅获取缺失的部分。"
+          ]
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --production"
+          ],
+          "tip": [
+            "不安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
+          ]
+        },
+        {
+          "name": "--registry",
+          "usage": [
+            "--registry <url>"
+          ],
+          "tip": [
+            "使用特定的注册表, 覆盖 .npmrc, bunfig.toml 和环境变量。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--save",
+          "tip": [
+            "保存到 package.json (默认为 true)。"
+          ]
+        },
+        {
+          "name": "--save-text-lockfile",
+          "tip": [
+            "保存基于文本的锁定文件。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "不记录任何内容。"
+          ]
+        },
+        {
+          "name": "--trust",
+          "tip": [
+            "添加到项目的 package.json 中的 trustedDependencies, 并安装包。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "更详细的记录。"
+          ]
+        },
+        {
+          "name": "--yarn",
+          "alias": [
+            "-y"
+          ],
+          "usage": [
+            "-y, --yarn"
+          ],
+          "tip": [
+            "生成 yarn.lock 文件 (yarn v1)。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "audit",
       "usage": [
         "audit [flags]"
@@ -44,14 +473,27 @@
             "--ignore <CVE>"
           ],
           "tip": [
-            "忽略审计中的特定 CVE ID。"
+            "按 GHSA 或数字公告 ID 忽略公告。"
           ],
+          "repeat": 99,
           "next": []
         },
         {
           "name": "--json",
           "tip": [
             "以 JSON 格式输出。"
+          ]
+        },
+        {
+          "name": "--latest",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --latest"
+          ],
+          "tip": [
+            "还会应用声明范围之外的修复，并重写 package.json。"
           ]
         }
       ]
@@ -520,195 +962,83 @@
       ]
     },
     {
-      "name": "exec",
-      "alias": [
-        "run"
-      ],
+      "name": "dedupe",
       "usage": [
-        "run|exec [flags] <file or script>"
+        "dedupe [flags]"
       ],
       "tip": [
-        "使用 Bun 执行一个文件。"
-      ],
-      "example": [
-        {
-          "cmd": "run ./my-script.ts",
-          "desc": "运行 ts 文件"
-        },
-        {
-          "cmd": "run build",
-          "desc": "运行 package.json 中的脚本"
-        }
+        "移除锁文件中的重复版本。"
       ],
       "option": [
         {
-          "name": "--define",
-          "alias": [
-            "-d"
-          ],
+          "name": "--check",
+          "tip": [
+            "检查锁文件中是否有可移除的重复版本而不做更改；若有则以退出码 1 退出。"
+          ]
+        },
+        {
+          "name": "--cwd",
           "usage": [
-            "-d, --define <K:V>"
+            "--cwd <cwd>"
           ],
           "tip": [
-            "在解析时替换 K:V。值将解析为 JSON。"
-          ],
-          "example": [
-            "--define process.env.NODE_ENV:\"development\""
+            "设置特定的 cwd。"
           ],
           "next": []
         },
         {
-          "name": "--drop",
+          "name": "--dry-run",
+          "tip": [
+            "打印将被移除的重复版本而不做任何更改。"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "当存在可移除的重复版本时拒绝重写 bun.lock 而不是直接改写。"
+          ]
+        },
+        {
+          "name": "--linker",
           "usage": [
-            "--drop <calls>"
+            "--linker <strategy>"
           ],
           "tip": [
-            "删除函数调用, 例如 --drop=console 删除所有 console.* 调用。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--extension-order",
-          "usage": [
-            "--extension-order <ext1,ext2,ext3>"
-          ],
-          "tip": [
-            "默认为: .tsx,.ts,.jsx,.js,.json。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--feature",
-          "usage": [
-            "--feature <flag>"
-          ],
-          "tip": [
-            "启用死代码消除的功能标志。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--ignore-dce-annotations",
-          "tip": [
-            "忽略树摇注释, 如 @__PURE__。"
-          ]
-        },
-        {
-          "name": "--jsx-factory",
-          "tip": [
-            "更改编译 JSX 元素时调用的函数。"
-          ]
-        },
-        {
-          "name": "--jsx-fragment",
-          "tip": [
-            "更改编译 JSX 片段时调用的函数。"
-          ]
-        },
-        {
-          "name": "--jsx-import-source",
-          "tip": [
-            "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符。",
-            "默认为: \"react\""
-          ]
-        },
-        {
-          "name": "--jsx-runtime",
-          "tip": [
-            "设置 JSX 运行时。"
+            "使用指定的 linker 安装。"
           ],
           "next": [
             {
-              "name": "automatic"
+              "name": "hoisted"
             },
             {
-              "name": "classic"
+              "name": "isolated"
             }
           ]
         },
         {
-          "name": "--jsx-side-effects",
+          "name": "--lockfile-only",
           "tip": [
-            "将 JSX 元素视为具有副作用 (禁用纯注释)。"
+            "仅重写 bun.lock 而不安装。"
           ]
         },
         {
-          "name": "--loader",
-          "alias": [
-            "-l"
-          ],
-          "usage": [
-            "-l, --loader <.ext:loader>"
-          ],
+          "name": "--silent",
           "tip": [
-            "使用 .ext:loader 解析文件。",
-            "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi。"
-          ],
-          "example": [
-            "--loader .js:jsx"
-          ],
-          "next": []
-        },
-        {
-          "name": "--main-fields",
-          "tip": [
-            "要在 package.json 中查找的主要字段。",
-            "默认为 --target dependent"
+            "不记录任何内容。"
           ]
-        },
-        {
-          "name": "--no-macros",
-          "tip": [
-            "禁止在捆绑器、转译器和运行时执行宏。"
-          ]
-        },
-        {
-          "name": "--preserve-symlinks",
-          "tip": [
-            "解析文件时保留符号链接。"
-          ]
-        },
-        {
-          "name": "--preserve-symlinks-main",
-          "tip": [
-            "解析主入口点时保留符号链接。"
-          ]
-        },
-        {
-          "name": "--tsconfig-override",
-          "usage": [
-            "--tsconfig-override <path>"
-          ],
-          "tip": [
-            "指定自定义的 tsconfig.json。",
-            "默认为 ./tsconfig.json"
-          ],
-          "next": []
         }
       ]
     },
     {
-      "name": "feedback",
+      "name": "exec",
       "usage": [
-        "feedback [options] [feedback text ... | files ...]"
+        "exec <script>"
       ],
       "tip": [
-        "向 Bun 团队提供反馈。"
+        "直接使用 Bun 运行 shell 脚本。"
       ],
-      "option": [
-        {
-          "name": "--email",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --email <email>"
-          ],
-          "tip": [
-            "设置此提交使用的电子邮件地址。"
-          ],
-          "next": []
-        }
+      "example": [
+        "exec \"echo hi\""
       ]
     },
     {
@@ -989,15 +1319,13 @@
     {
       "name": "install",
       "alias": [
-        "add",
-        "a",
         "i"
       ],
       "usage": [
-        "i|a|add|install"
+        "i|install [flags] [<package>...]"
       ],
       "tip": [
-        "为 package.json 安装/添加依赖项。"
+        "安装 package.json 中列出的依赖项。"
       ],
       "option": [
         {
@@ -1034,6 +1362,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -1044,10 +1382,43 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--catalog",
+          "usage": [
+            "--catalog <name>"
+          ],
+          "tip": [
+            "将解析出的版本添加到根 package.json catalog，并以 \"catalog:\" 形式依赖。"
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "生命周期脚本的最大并发作业数。 (默认为 5)"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cpu",
@@ -1239,6 +1610,12 @@
           ]
         },
         {
+          "name": "--offline",
+          "tip": [
+            "从不访问网络：仅从本地缓存解析和安装。"
+          ]
+        },
+        {
           "name": "--omit",
           "usage": [
             "--omit <type>"
@@ -1287,6 +1664,12 @@
           ]
         },
         {
+          "name": "--prefer-offline",
+          "tip": [
+            "无论缓存新旧，一律使用缓存的包元数据；仅获取缺失的部分。"
+          ]
+        },
+        {
           "name": "--production",
           "alias": [
             "-p"
@@ -1296,6 +1679,12 @@
           ],
           "tip": [
             "不安装 devDependencies。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "打包时仅显示 tarball 名称。"
           ]
         },
         {
@@ -1383,6 +1772,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -1393,10 +1792,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "生命周期脚本的最大并发作业数 (默认为 5)。"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -2059,6 +2481,48 @@
           ]
         },
         {
+          "name": "licenses",
+          "tip": [
+            "按许可证分组列出已安装的包。"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "tip": [
+                "仅列出 devDependencies 引入的内容。"
+              ]
+            },
+            {
+              "name": "--filter",
+              "usage": [
+                "--filter <pattern>"
+              ],
+              "tip": [
+                "仅列出匹配工作区的依赖项。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "同时打印作者、描述和主页。"
+              ]
+            },
+            {
+              "name": "--prod",
+              "tip": [
+                "省略 devDependencies。"
+              ]
+            }
+          ]
+        },
+        {
           "name": "ls",
           "tip": [
             "根据当前的锁定文件列出依赖树。"
@@ -2068,6 +2532,12 @@
               "name": "--all",
               "tip": [
                 "根据当前的锁定文件列出整个依赖树。"
+              ]
+            },
+            {
+              "name": "--trusted",
+              "tip": [
+                "仅列出受信任的依赖项。"
               ]
             }
           ]
@@ -2214,6 +2684,9 @@
           ],
           "next": [
             {
+              "name": "from-git"
+            },
+            {
               "name": "major"
             },
             {
@@ -2258,6 +2731,121 @@
           ],
           "tip": [
             "显示解释为何安装该包的依赖树。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "prune",
+      "usage": [
+        "prune [flags]"
+      ],
+      "tip": [
+        "移除 node_modules 中不在 bun.lock 内的包。"
+      ],
+      "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <arch>"
+          ],
+          "tip": [
+            "针对与当前不同的 CPU 架构做裁剪。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cwd",
+          "usage": [
+            "--cwd <cwd>"
+          ],
+          "tip": [
+            "设置特定的 cwd。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "仅打印将被删除的内容而不实际删除。"
+          ]
+        },
+        {
+          "name": "--filter",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --filter <pattern>"
+          ],
+          "tip": [
+            "仅裁剪匹配工作区的 node_modules 目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--linker",
+          "usage": [
+            "--linker <strategy>"
+          ],
+          "tip": [
+            "当 node_modules 混合 isolated 与 hoisted 安装时假定的 linker。"
+          ],
+          "next": [
+            {
+              "name": "hoisted"
+            },
+            {
+              "name": "isolated"
+            }
+          ]
+        },
+        {
+          "name": "--omit",
+          "usage": [
+            "--omit <type>"
+          ],
+          "tip": [
+            "同时移除仅给定依赖类型需要的包。"
+          ],
+          "next": [
+            {
+              "name": "dev"
+            },
+            {
+              "name": "optional"
+            },
+            {
+              "name": "peer"
+            }
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <os>"
+          ],
+          "tip": [
+            "针对与当前不同的操作系统做裁剪。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--production",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --production"
+          ],
+          "tip": [
+            "同时移除仅 devDependencies 需要的包（别名：--prod）。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "不记录任何内容。"
           ]
         }
       ]
@@ -2535,10 +3123,11 @@
     {
       "name": "remove",
       "alias": [
-        "rm"
+        "rm",
+        "r"
       ],
       "usage": [
-        "rm|remove [flags] <pkg> [...<pkg>]"
+        "r|rm|remove [flags] <pkg> [...<pkg>]"
       ],
       "tip": [
         "从 package.json 中移除一个包并从 node_modules 中卸载。"
@@ -2569,6 +3158,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -2579,10 +3178,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "生命周期脚本的最大并发作业数 (默认为 5)。"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -2763,6 +3385,171 @@
           "tip": [
             "以 sloopy 模式运行 REPL。"
           ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [flags] <file or script>"
+      ],
+      "tip": [
+        "使用 Bun 执行文件。"
+      ],
+      "example": [
+        {
+          "cmd": "run ./my-script.ts",
+          "desc": "运行 ts 文件"
+        },
+        {
+          "cmd": "run build",
+          "desc": "运行 package.json 中的脚本"
+        }
+      ],
+      "option": [
+        {
+          "name": "--define",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --define <K:V>"
+          ],
+          "tip": [
+            "在解析时替换 K:V。值将解析为 JSON。"
+          ],
+          "example": [
+            "--define process.env.NODE_ENV:\"development\""
+          ],
+          "next": []
+        },
+        {
+          "name": "--drop",
+          "usage": [
+            "--drop <calls>"
+          ],
+          "tip": [
+            "删除函数调用, 例如 --drop=console 删除所有 console.* 调用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extension-order",
+          "usage": [
+            "--extension-order <ext1,ext2,ext3>"
+          ],
+          "tip": [
+            "默认为: .tsx,.ts,.jsx,.js,.json。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--feature",
+          "usage": [
+            "--feature <flag>"
+          ],
+          "tip": [
+            "启用死代码消除的功能标志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-dce-annotations",
+          "tip": [
+            "忽略树摇注释, 如 @__PURE__。"
+          ]
+        },
+        {
+          "name": "--jsx-factory",
+          "tip": [
+            "更改编译 JSX 元素时调用的函数。"
+          ]
+        },
+        {
+          "name": "--jsx-fragment",
+          "tip": [
+            "更改编译 JSX 片段时调用的函数。"
+          ]
+        },
+        {
+          "name": "--jsx-import-source",
+          "tip": [
+            "声明用于导入 jsx 和 jsxs 工厂函数的模块规范符。",
+            "默认为: \"react\""
+          ]
+        },
+        {
+          "name": "--jsx-runtime",
+          "tip": [
+            "设置 JSX 运行时。"
+          ],
+          "next": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "classic"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-side-effects",
+          "tip": [
+            "将 JSX 元素视为具有副作用 (禁用纯注释)。"
+          ]
+        },
+        {
+          "name": "--loader",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --loader <.ext:loader>"
+          ],
+          "tip": [
+            "使用 .ext:loader 解析文件。",
+            "有效的加载器: js, jsx, ts, tsx, json, toml, text, file, wasm, napi。"
+          ],
+          "example": [
+            "--loader .js:jsx"
+          ],
+          "next": []
+        },
+        {
+          "name": "--main-fields",
+          "tip": [
+            "要在 package.json 中查找的主要字段。",
+            "默认为 --target dependent"
+          ]
+        },
+        {
+          "name": "--no-macros",
+          "tip": [
+            "禁止在捆绑器、转译器和运行时执行宏。"
+          ]
+        },
+        {
+          "name": "--preserve-symlinks",
+          "tip": [
+            "解析文件时保留符号链接。"
+          ]
+        },
+        {
+          "name": "--preserve-symlinks-main",
+          "tip": [
+            "解析主入口点时保留符号链接。"
+          ]
+        },
+        {
+          "name": "--tsconfig-override",
+          "usage": [
+            "--tsconfig-override <path>"
+          ],
+          "tip": [
+            "指定自定义的 tsconfig.json。",
+            "默认为 ./tsconfig.json"
+          ],
+          "next": []
         }
       ]
     },
@@ -3083,6 +3870,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -3093,10 +3890,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "生命周期脚本的最大并发作业数 (默认为 5)。"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cwd",
@@ -3238,6 +4058,12 @@
     },
     {
       "name": "update",
+      "alias": [
+        "up"
+      ],
+      "usage": [
+        "up|update [flags] <name>@<version>"
+      ],
       "tip": [
         "将 package.json 中所有的依赖项更新到最新版本的范围内。"
       ],
@@ -3264,6 +4090,16 @@
           ]
         },
         {
+          "name": "--ca",
+          "usage": [
+            "--ca <cert>"
+          ],
+          "tip": [
+            "提供证书颁发机构签名证书。"
+          ],
+          "next": []
+        },
+        {
           "name": "--cache-dir",
           "usage": [
             "--cache-dir <path>"
@@ -3274,10 +4110,33 @@
           "next": []
         },
         {
+          "name": "--cafile",
+          "usage": [
+            "--cafile <path>"
+          ],
+          "tip": [
+            "与 --ca 相同, 但它是证书的文件路径。"
+          ],
+          "next": []
+        },
+        {
           "name": "--concurrent-scripts",
           "tip": [
             "生命周期脚本的最大并发作业数 (默认为 5)。"
           ]
+        },
+        {
+          "name": "--config",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --config <path>"
+          ],
+          "tip": [
+            "指定配置文件路径 (bunfig.toml)"
+          ],
+          "next": []
         },
         {
           "name": "--cpu",
@@ -3632,6 +4491,37 @@
           "name": "--bun",
           "tip": [
             "强制命令使用 Bun 而不是 Node.js 运行。"
+          ]
+        },
+        {
+          "name": "--no-install",
+          "tip": [
+            "如果包尚未安装则跳过安装。"
+          ]
+        },
+        {
+          "name": "--package",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --package <package>"
+          ],
+          "tip": [
+            "当二进制名与包名不一致时指定要安装的包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "在安装期间静默输出。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "tip": [
+            "在安装期间启用详细输出。"
           ]
         }
       ]

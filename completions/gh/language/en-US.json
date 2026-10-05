@@ -33,7 +33,15 @@
       ]
     },
     {
-      "name": "agent-task",
+      "name": "agent-tasks",
+      "alias": [
+        "agent-task",
+        "agents",
+        "agent"
+      ],
+      "usage": [
+        "agent|agents|agent-task|agent-tasks"
+      ],
       "tip": [
         "Work with agent tasks (preview)"
       ],
@@ -97,11 +105,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -122,7 +141,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -155,11 +174,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -167,7 +197,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -286,6 +316,16 @@
           ]
         },
         {
+          "name": "--hostname",
+          "usage": [
+            "--hostname <HOST>"
+          ],
+          "tip": [
+            "The GitHub hostname for the request (default \"github.com\")"
+          ],
+          "next": []
+        },
+        {
           "name": "--include",
           "alias": [
             "-i"
@@ -362,122 +402,16 @@
           ],
           "next": []
         }
-      ],
-      "next": [
-        {
-          "name": "GH_HOST",
-          "tip": [
-            "make the request to a GitHub host other than `github.com`."
-          ],
-          "option": [
-            {
-              "name": "--field",
-              "alias": [
-                "-F"
-              ],
-              "usage": [
-                "-F, --field"
-              ],
-              "tip": [
-                "Add a typed parameter in key=value format (use \"@<path>\" or \"@-\" to read value from file or stdin)"
-              ],
-              "next": []
-            },
-            {
-              "name": "--header",
-              "alias": [
-                "-H"
-              ],
-              "usage": [
-                "-H, --header"
-              ],
-              "tip": [
-                "Add a HTTP request header in key:value format"
-              ]
-            },
-            {
-              "name": "--include",
-              "alias": [
-                "-i"
-              ],
-              "usage": [
-                "-i, --include"
-              ],
-              "tip": [
-                "Include HTTP response status line and headers in the output"
-              ]
-            },
-            {
-              "name": "--jq",
-              "alias": [
-                "-q"
-              ],
-              "usage": [
-                "-q, --jq"
-              ],
-              "tip": [
-                "Query to select values from the response using jq syntax"
-              ],
-              "next": []
-            },
-            {
-              "name": "--method",
-              "alias": [
-                "-X"
-              ],
-              "usage": [
-                "-X, --method"
-              ],
-              "tip": [
-                "The HTTP method for the request (default \"GET\")"
-              ],
-              "next": []
-            },
-            {
-              "name": "--preview",
-              "alias": [
-                "-p"
-              ],
-              "usage": [
-                "-p, --preview"
-              ],
-              "tip": [
-                "Opt into GitHub API previews (names should omit '-preview')"
-              ],
-              "next": []
-            },
-            {
-              "name": "--raw-field",
-              "alias": [
-                "-f"
-              ],
-              "usage": [
-                "-f, --raw-field"
-              ],
-              "tip": [
-                "Add a string parameter in key=value format"
-              ],
-              "next": []
-            },
-            {
-              "name": "--template",
-              "alias": [
-                "-t"
-              ],
-              "usage": [
-                "-t, --template"
-              ],
-              "tip": [
-                "Format JSON output using a Go template; see \"gh help formatting\""
-              ],
-              "next": []
-            }
-          ]
-        }
       ]
     },
     {
       "name": "attestation",
+      "alias": [
+        "at"
+      ],
+      "usage": [
+        "at|attestation"
+      ],
       "tip": [
         "Work with artifact attestations"
       ],
@@ -869,6 +803,44 @@
           "name": "status",
           "tip": [
             "Display active account and authentication state on each known GitHub host"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -1043,11 +1015,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--key",
@@ -1120,7 +1103,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -1166,6 +1149,12 @@
     },
     {
       "name": "codespace",
+      "alias": [
+        "cs"
+      ],
+      "usage": [
+        "cs|codespace"
+      ],
       "tip": [
         "Connect to and manage codespaces"
       ],
@@ -1486,11 +1475,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -1524,7 +1524,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -1617,11 +1617,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -1629,12 +1640,26 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
               ],
               "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "forward",
+              "tip": [
+                "Forward ports"
+              ]
+            },
+            {
+              "name": "visibility",
+              "tip": [
+                "Change the visibility of the forwarded port"
+              ]
             }
           ]
         },
@@ -1763,11 +1788,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -1775,7 +1811,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -1926,12 +1962,88 @@
           "name": "list",
           "tip": [
             "List discussions in a repository (preview)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "view",
           "tip": [
             "View a discussion (preview)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
+              ],
+              "next": []
+            }
           ]
         }
       ]
@@ -1949,7 +2061,14 @@
       ]
     },
     {
-      "name": "extension",
+      "name": "extensions",
+      "alias": [
+        "extension",
+        "ext"
+      ],
+      "usage": [
+        "ext|extension|extensions"
+      ],
       "tip": [
         "Manage gh extensions"
       ],
@@ -2040,11 +2159,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -2065,7 +2195,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -2134,6 +2264,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "Create a new gist"
           ],
@@ -2495,6 +2631,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "Create a new issue"
           ],
@@ -2707,6 +2849,16 @@
           ],
           "option": [
             {
+              "name": "--add-label",
+              "usage": [
+                "--add-label <name>"
+              ],
+              "tip": [
+                "Add labels by name"
+              ],
+              "next": []
+            },
+            {
               "name": "--body",
               "alias": [
                 "-b"
@@ -2745,6 +2897,16 @@
               "next": []
             },
             {
+              "name": "--remove-label",
+              "usage": [
+                "--remove-label <name>"
+              ],
+              "tip": [
+                "Remove labels by name"
+              ],
+              "next": []
+            },
+            {
               "name": "--title",
               "alias": [
                 "-t"
@@ -2761,10 +2923,26 @@
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "List issues in a repository"
           ],
           "option": [
+            {
+              "name": "--app",
+              "usage": [
+                "--app <app>"
+              ],
+              "tip": [
+                "Filter by GitHub App author"
+              ],
+              "next": []
+            },
             {
               "name": "--assignee",
               "alias": [
@@ -2797,11 +2975,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields"
+              ],
+              "next": []
             },
             {
               "name": "--label",
@@ -2826,6 +3015,16 @@
               ],
               "tip": [
                 "Maximum number of issues to fetch (default 30)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--mention",
+              "usage": [
+                "--mention <user>"
+              ],
+              "tip": [
+                "Filter by mention"
               ],
               "next": []
             },
@@ -2873,10 +3072,20 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
+              ],
+              "next": []
+            },
+            {
+              "name": "--type",
+              "usage": [
+                "--type <name>"
+              ],
+              "tip": [
+                "Filter by issue type name"
               ],
               "next": []
             },
@@ -2955,11 +3164,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -2967,7 +3187,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -3018,11 +3238,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -3030,7 +3261,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -3200,11 +3431,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -3238,7 +3480,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -3271,15 +3513,7 @@
     {
       "name": "mintty",
       "tip": [
-        "Information about using gh with MinTTY"
-      ],
-      "next": [
-        {
-          "name": "NOTE",
-          "tip": [
-            "this can lead to some UI bugs."
-          ]
-        }
+        "Information about using gh with MinTTY (Windows only)"
       ]
     },
     {
@@ -3375,11 +3609,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -3387,7 +3632,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -3500,6 +3745,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "Create a pull request"
           ],
@@ -3515,6 +3766,16 @@
               "tip": [
                 "Assign people by their login. Use \"@me\" to self-assign."
               ]
+            },
+            {
+              "name": "--attach",
+              "usage": [
+                "--attach <file>"
+              ],
+              "tip": [
+                "Attach an image or video file, in '<file>#<image alt text>' format"
+              ],
+              "next": []
             },
             {
               "name": "--base",
@@ -3567,6 +3828,12 @@
               ]
             },
             {
+              "name": "--dry-run",
+              "tip": [
+                "Print details instead of creating the PR. May still push git changes."
+              ]
+            },
+            {
               "name": "--editor",
               "alias": [
                 "-e"
@@ -3589,6 +3856,18 @@
               ],
               "tip": [
                 "Use commit info for title and body"
+              ]
+            },
+            {
+              "name": "--fill-first",
+              "tip": [
+                "Use first commit info for title and body"
+              ]
+            },
+            {
+              "name": "--fill-verbose",
+              "tip": [
+                "Use commits msg+body for description"
               ]
             },
             {
@@ -3630,6 +3909,12 @@
               "next": []
             },
             {
+              "name": "--no-maintainer-edit",
+              "tip": [
+                "Disable maintainer's ability to modify pull request"
+              ]
+            },
+            {
               "name": "--project",
               "alias": [
                 "-p"
@@ -3640,6 +3925,16 @@
               "tip": [
                 "Add the pull request to projects by title"
               ]
+            },
+            {
+              "name": "--recover",
+              "usage": [
+                "--recover <string>"
+              ],
+              "tip": [
+                "Recover input from a failed run of create"
+              ],
+              "next": []
             },
             {
               "name": "--reviewer",
@@ -3731,6 +4026,16 @@
           ],
           "option": [
             {
+              "name": "--add-label",
+              "usage": [
+                "--add-label <name>"
+              ],
+              "tip": [
+                "Add labels by name"
+              ],
+              "next": []
+            },
+            {
               "name": "--base",
               "alias": [
                 "-B"
@@ -3781,6 +4086,16 @@
               "next": []
             },
             {
+              "name": "--remove-label",
+              "usage": [
+                "--remove-label <name>"
+              ],
+              "tip": [
+                "Remove labels by name"
+              ],
+              "next": []
+            },
+            {
               "name": "--title",
               "alias": [
                 "-t"
@@ -3797,6 +4112,12 @@
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "List pull requests in a repository"
           ],
@@ -3871,11 +4192,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--label",
@@ -3934,7 +4266,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -4268,11 +4600,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -4280,7 +4623,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -4333,11 +4676,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -4345,7 +4699,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -5311,11 +5665,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -5349,7 +5714,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -5451,11 +5816,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -5463,7 +5839,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -5517,6 +5893,108 @@
           "name": "autolink",
           "tip": [
             "Manage autolink references"
+          ],
+          "next": [
+            {
+              "name": "create",
+              "tip": [
+                "Create a new autolink reference"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "Delete an autolink reference"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List autolink references for a GitHub repository"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "Filter JSON output using a jq expression."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "Output JSON with the specified fields."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "Format JSON output using a Go template; see \"gh help formatting\"."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "View an autolink reference"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "Filter JSON output using a jq expression."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "Output JSON with the specified fields."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "Format JSON output using a Go template; see \"gh help formatting\"."
+                  ],
+                  "next": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -5525,6 +6003,12 @@
             "Clone a repository locally"
           ],
           "option": [
+            {
+              "name": "--no-upstream",
+              "tip": [
+                "Do not add an upstream remote when cloning a fork"
+              ]
+            },
             {
               "name": "--upstream-remote-name",
               "alias": [
@@ -5542,6 +6026,12 @@
         },
         {
           "name": "create",
+          "alias": [
+            "new"
+          ],
+          "usage": [
+            "new|create"
+          ],
           "tip": [
             "Create a new repository"
           ],
@@ -5683,6 +6173,64 @@
           "name": "deploy-key",
           "tip": [
             "Manage deploy keys in a repository"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "tip": [
+                "Add a deploy key to a GitHub repository"
+              ]
+            },
+            {
+              "name": "delete",
+              "tip": [
+                "Delete a deploy key from a GitHub repository"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List deploy keys in a GitHub repository"
+              ],
+              "option": [
+                {
+                  "name": "--jq",
+                  "alias": [
+                    "-q"
+                  ],
+                  "usage": [
+                    "-q, --jq <expression>"
+                  ],
+                  "tip": [
+                    "Filter JSON output using a jq expression."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--json",
+                  "usage": [
+                    "--json <fields>"
+                  ],
+                  "tip": [
+                    "Output JSON with the specified fields."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--template",
+                  "alias": [
+                    "-t"
+                  ],
+                  "usage": [
+                    "-t, --template <format>"
+                  ],
+                  "tip": [
+                    "Format JSON output using a Go template; see \"gh help formatting\"."
+                  ],
+                  "next": []
+                }
+              ]
+            }
           ]
         },
         {
@@ -5770,16 +6318,50 @@
           "name": "gitignore",
           "tip": [
             "List and view available repository gitignore templates"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List available repository gitignore templates"
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "View an available repository gitignore template"
+              ]
+            }
           ]
         },
         {
           "name": "license",
           "tip": [
             "Explore repository licenses"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List common repository licenses"
+              ]
+            },
+            {
+              "name": "view",
+              "tip": [
+                "View a specific repository license"
+              ]
+            }
           ]
         },
         {
           "name": "list",
+          "alias": [
+            "ls"
+          ],
+          "usage": [
+            "ls|list"
+          ],
           "tip": [
             "List repositories owned by user or organization"
           ],
@@ -5790,11 +6372,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--language",
@@ -5828,7 +6421,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -5849,11 +6442,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -5861,7 +6465,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -5882,11 +6486,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--output",
@@ -5907,7 +6522,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6038,11 +6653,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -6050,7 +6676,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6076,6 +6702,12 @@
     },
     {
       "name": "ruleset",
+      "alias": [
+        "rs"
+      ],
+      "usage": [
+        "rs|ruleset"
+      ],
       "tip": [
         "View info about repo rulesets"
       ],
@@ -6340,11 +6972,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6378,7 +7021,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6484,11 +7127,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--template",
@@ -6496,7 +7150,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6558,11 +7212,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6583,7 +7248,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6616,11 +7281,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6641,7 +7317,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6674,11 +7350,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6699,7 +7386,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6758,11 +7445,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6783,7 +7481,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6816,11 +7514,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -6841,7 +7550,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -6967,11 +7676,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -6992,7 +7712,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -7113,7 +7833,13 @@
       ]
     },
     {
-      "name": "skill",
+      "name": "skills",
+      "alias": [
+        "skill"
+      ],
+      "usage": [
+        "skill|skills"
+      ],
       "tip": [
         "Install and manage agent skills (preview)"
       ],
@@ -7128,6 +7854,44 @@
           "name": "list",
           "tip": [
             "List installed skills (preview)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -7146,6 +7910,44 @@
           "name": "search",
           "tip": [
             "Search for skills across GitHub (preview)"
+          ],
+          "option": [
+            {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
+              ],
+              "next": []
+            }
           ]
         },
         {
@@ -7317,11 +8119,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -7342,7 +8155,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -7376,11 +8189,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--org",
@@ -7401,7 +8225,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -7525,11 +8349,22 @@
                 "-q"
               ],
               "usage": [
-                "-q, --jq"
+                "-q, --jq <expression>"
               ],
               "tip": [
                 "Filter JSON output using a jq expression"
-              ]
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
             },
             {
               "name": "--limit",
@@ -7550,7 +8385,7 @@
                 "-t"
               ],
               "usage": [
-                "-t, --template"
+                "-t, --template <format>"
               ],
               "tip": [
                 "Format JSON output using a Go template; see \"gh help formatting\""
@@ -7579,6 +8414,29 @@
               "next": []
             },
             {
+              "name": "--jq",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --jq <expression>"
+              ],
+              "tip": [
+                "Filter JSON output using a jq expression."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "usage": [
+                "--json <fields>"
+              ],
+              "tip": [
+                "Output JSON with the specified fields."
+              ],
+              "next": []
+            },
+            {
               "name": "--raw-field",
               "alias": [
                 "-f"
@@ -7601,6 +8459,19 @@
               ],
               "tip": [
                 "Branch or tag name which contains the version of the workflow file you'd like to run"
+              ],
+              "next": []
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --template <format>"
+              ],
+              "tip": [
+                "Format JSON output using a Go template; see \"gh help formatting\"."
               ],
               "next": []
             }
@@ -7663,6 +8534,12 @@
     }
   ],
   "global_option": [
+    {
+      "name": "--codespace",
+      "tip": [
+        "Select a codespace interactively instead of running the command locally"
+      ]
+    },
     {
       "name": "--help",
       "tip": [
