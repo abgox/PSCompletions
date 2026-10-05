@@ -234,30 +234,17 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v5
 
-  sync-gitee:
-    name: Sync to Gitee
-    needs: update-content
+  git-mirror:
+    name: Git Mirror
     runs-on: ubuntu-latest
     steps:
-      - uses: abgox/hub-mirror-action@abgox
+      - uses: abgox/git-mirror-action@main
         with:
-          src: github/abgox
-          dst: gitee/abgox
-          dst_key: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
-          dst_token: ""
-          force_update: true
-          static_list: ${{ github.event.repository.name }}
-
-  sync-gitcode:
-    name: Sync to GitCode
-    needs: update-content
-    runs-on: ubuntu-latest
-    steps:
-      - uses: abgox/hub-mirror-action@abgox
-        with:
-          src: github/abgox
-          dst: gitcode/abgox
-          dst_key: ${{ secrets.GITCODE_SSH_PRIVATE_KEY }}
-          dst_token: ""
-          force_update: true
-          static_list: ${{ github.event.repository.name }}
+          src_url: git@github.com:${{ github.repository }}.git
+          dst_url: |
+            - git@gitee.com:${{ github.repository }}.git
+            - git@atomgit.com:${{ github.repository }}.git
+          src_ssh_key: ${{ secrets.SSH_PRIVATE_KEY_GITHUB }}
+          dst_ssh_key: |
+            - ${{ secrets.SSH_PRIVATE_KEY_GITEE }}
+            - ${{ secrets.SSH_PRIVATE_KEY_ATOMGIT }}
