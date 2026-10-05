@@ -106,6 +106,30 @@ local function add_conflicts()
     end
 end
 
+local function load_aliases()
+    local aliases = {}
+    -- --get-regexp prints "alias.<name> <expansion>"; no match at all exits non-zero (nil).
+    for _, line in ipairs(psc.run({ "git", "config", "--get-regexp", "^alias[.]" }) or {}) do
+        local name, expansion = line:match("^alias%.(%S+)%s+(.*)$")
+        if name then
+            table.insert(aliases, { name = name, expansion = expansion })
+        end
+    end
+    return aliases
+end
+
+local function add_alias_keys()
+    psc.add(psc.items(load_aliases(), function(a)
+        return { name = "alias." .. a.name, tip = "alias --- " .. a.expansion }
+    end))
+end
+
+local function add_aliases()
+    psc.add(psc.items(load_aliases(), function(a)
+        return { name = a.name, tip = "alias --- " .. a.expansion }
+    end))
+end
+
 psc.on({
     { command = "merge" },
     { command = "branch" },
@@ -251,8 +275,14 @@ psc.on({
 psc.on({ command = "mergetool" }, add_conflicts)
 
 psc.on({
+    { command = "config" },
     { command = { "config", "unset" } },
     { command = { "config", "get" } }
 }, function()
     psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+    add_alias_keys()
 end)
+
+psc.on({ command = { "config", "set" } }, add_alias_keys)
+
+psc.on({}, add_aliases)
