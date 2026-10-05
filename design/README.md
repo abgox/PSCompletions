@@ -7,6 +7,7 @@ the knowledge base for maintainers and for AI agents working on the repo.
 > **Who reads what**:
 > - Writing or updating completions / hooks → `AGENTS.md` first, then `hooks.md`.
 > - Working on the engine / menu / CLI → the docs below.
+> - Asking *why* a rule or a mechanism is shaped the way it is → `decisions/`.
 
 ## Index
 
@@ -29,7 +30,7 @@ the knowledge base for maintainers and for AI agents working on the repo.
   doc disagrees with the code, fix the doc.
 - **Cross-references** between docs use paths relative to the repo root (e.g. `design/menu.md`).
 - **Scope**: these docs describe the system; the operative how-to for the completions workflow
-  lives in `AGENTS.md`.
+  lives in `AGENTS.md`, and the reasoning behind a rule lives in `decisions/`.
 - **Granularity — contracts, decisions, invariants, not implementation**: a design doc records
   (1) cross-boundary contracts (protocol fields, API signatures, user-visible behavior,
   security/sandbox edges), (2) design decisions and their rationale, and (3) invariants and

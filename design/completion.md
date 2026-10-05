@@ -31,7 +31,9 @@ menu by the repeat rule, not by inheriting an outer context.
 node's own `option`; if the node has none, they bubble **up the ancestor chain** — the
 nearest ancestor that declares an `option` wins, and only if no ancestor has one do the
 tree's root `option` items apply. `global_option` is always appended. Place a flag on the
-**most precise level** where it is valid.
+**most precise level** where it is valid — with one deliberate exception: a flag shared
+verbatim by many subcommands belongs in `global_option` even if the root rejects it (see the
+`option` vs `global_option` table below).
 
 ## 2. Resolve (engine)
 
@@ -156,7 +158,7 @@ Top-level manifest fields:
 | `meta` | yes | `url`, `description` |
 | `next` | no | Subcommand list (each may carry `alias`, `usage`, `tip`, `option`, `next`) |
 | `option` | no | Root-level options (available before any subcommand) |
-| `global_option` | no | Options available at **every** level |
+| `global_option` | no | Options appended at **every** level |
 | `config` | no | Per-completion configurable settings (advanced) |
 | `info` | no | Extra data for the module/hooks (advanced; see `completions/psc/`) |
 
@@ -190,9 +192,17 @@ Top-level manifest fields:
 | --- | --- |
 | Only at root level (e.g. `--version`) | `option` |
 | At root **and** all subcommands (e.g. `--help`) | `global_option` |
+| Shared verbatim by **many** subcommands, but *not* accepted at the root (e.g. `cargo --manifest-path`, valid under 26 of 40 subcommands) | `global_option` |
 | Only for a specific subcommand | That subcommand's `option` |
 
-Subcommand's own `option` inherits `global_option` — never repeat it.
+Subcommand's own `option` inherits `global_option` — never repeat it, except as described
+below.
+
+The third row is a **cost trade-off, not an inaccuracy**: `global_option` is a sharing
+mechanism, and the CLI is always the validator. One `unexpected argument` on the commands that
+reject the flag costs less than N copies to write and N edits to maintain. The measurement
+behind that, and the conditions under which it flips, are in
+[`decisions/authoring.md` §Global option is a sharing mechanism](../decisions/authoring.md#d16).
 
 **Manifest is data, not code** — `tip`/`usage`/`example`/`description` are **plain text**.
 `usage`/`example` entries may also be a `{ "cmd", "desc" }` object (both keys required by
