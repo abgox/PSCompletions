@@ -208,18 +208,68 @@ function Get-Report {
 
 $results = [System.Collections.Generic.List[object]]::new()
 
+function Get-AjvPath {
+    # Hard dependency.
+    $cmd = Get-Command ajv -ErrorAction SilentlyContinue
+    if (-not $cmd) {
+        throw @'
+JSON Schema validator not found on PATH.
+
+Install it with:
+  npm install -g ajv-cli
+
+It is a hard dependency of validate-completion.ps1, because Test-Json reports the
+wrong path for schema errors and drops every `errorMessage` in schema/*.json --
+messages VSCode does show.
+'@
+    }
+    return $cmd.Source
+}
+
+function ConvertTo-ReadablePath {
+    # JSON Pointer /next/0/option/0/tip/0 -> next[0].option[0].tip[0]
+    param([string]$Pointer)
+    if ([string]::IsNullOrEmpty($Pointer) -or $Pointer -eq '/') { return '(root)' }
+    $out = ''
+    foreach ($seg in (($Pointer.TrimStart('/')) -split '/')) {
+        $seg = $seg -replace '~1', '/' -replace '~0', '~'
+        if ($seg -match '^\d+$') { $out += "[$seg]" }
+        elseif ($out -eq '') { $out = $seg }
+        else { $out += ".$seg" }
+    }
+    return $out
+}
+
 function Get-JsonErrors {
-    param([string]$JsonText, [string]$SchemaFile)
-    $schema = Get-Content -LiteralPath $SchemaFile -Raw
-    try {
-        $null = $JsonText | Test-Json -Schema $schema -ErrorAction Stop
-        return @()
+    param([string]$FilePath, [string]$SchemaFile)
+
+    $ajv = Get-AjvPath
+    # --strict=false: the schemas carry `markdownDescription`, a VSCode-only
+    #   annotation that ajv's strict mode rejects as an unknown keyword.
+    # --errors=json: the default `js` format is a JS object literal (single
+    #   quotes, unquoted keys) and cannot be parsed as JSON.
+    # --all-errors: without it ajv stops at the first failure, which is exactly
+    #   the round-trip-by-round-trip cost this replaced.
+    $raw = & $ajv validate --strict=false --all-errors --errors=json -s $SchemaFile -d $FilePath 2>&1
+    $exit = $LASTEXITCODE
+    if ($exit -eq 0) { return @() }
+
+    $text = ($raw | Out-String)
+    $start = $text.IndexOf('[')
+    if ($start -lt 0) {
+        # ajv failed before validating (bad schema, unreadable file, ...)
+        return @(($text -replace '\s+', ' ').Trim())
     }
-    catch {
-        $msg = $_.Exception.Message
-        if ($msg -match ':\s*(.*)$') { $msg = $Matches[1] }
-        return @($msg)
+
+    $errs = @()
+    try { $errs = @($text.Substring($start) | ConvertFrom-Json) }
+    catch { return @(($text -replace '\s+', ' ').Trim()) }
+    if ($errs.Count -eq 0) { return @() }
+
+    $msgs = foreach ($e in $errs) {
+        '{0}: {1}  [{2}]' -f (ConvertTo-ReadablePath $e.instancePath), $e.message, $e.schemaPath
     }
+    return @($msgs)
 }
 
 function Get-ConfigIssues {
@@ -445,17 +495,16 @@ foreach ($name in $CompletionList) {
     }
 
     foreach ($f in $langFiles) {
-        $jsonText = Get-Content -LiteralPath $f.FullName -Raw
-        $errs = Get-JsonErrors -JsonText $jsonText -SchemaFile $manifestSchema
+        $errs = Get-JsonErrors -FilePath $f.FullName -SchemaFile $manifestSchema
         foreach ($e in $errs) { $entry.issues.schema.Add(@{ file = $f.Name; text = $e }) }
         $i18n = Get-I18nSpacingIssues -JsonPath $f.FullName
         foreach ($e in $i18n) { $entry.issues.schema.Add($e) }
     }
 
     if ($hasConfig) {
-        # One read serves both the schema check and the parsed form below.
+        # One read serves the schema check and the parsed form below.
         $cfgText = Get-Content -LiteralPath $configFile -Raw
-        $errs = Get-JsonErrors -JsonText $cfgText -SchemaFile $configSchema
+        $errs = Get-JsonErrors -FilePath $configFile -SchemaFile $configSchema
         foreach ($e in $errs) { $entry.issues.config.Add(@{ code = 'cfg_schema'; args = @($e) }) }
 
         $config = $null

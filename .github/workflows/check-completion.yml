@@ -78,6 +78,11 @@ jobs:
           Remove-Item -Path pr/scripts -Recurse -Force
           Copy-Item -Path base/scripts -Destination pr -Recurse -Force
 
+      # Hard dependency of validate-completion.ps1.
+      - name: Install JSON Schema validator
+        shell: pwsh
+        run: npm install -g ajv-cli@5
+
       - name: Check Completion
         shell: pwsh
         working-directory: pr

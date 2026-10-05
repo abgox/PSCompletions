@@ -85,6 +85,18 @@ else {
 
     $hasIssues = @($validationResults | Where-Object { $_.hasIssues }).Count -gt 0
 
+    # Hook target audit: a psc.on target naming an alias never fires, and no other
+    # gate looks at that.
+    $hookTargets = @()
+    $withHooks = @($changedCompletions | Where-Object {
+            Test-Path -LiteralPath (Join-Path $PSScriptRoot "..\completions\$_\hooks.lua")
+        })
+    if ($withHooks.Count -gt 0) {
+        $hookTargets = & $PSScriptRoot\check-hook-targets.ps1 @withHooks -Json |
+            ConvertFrom-Json
+        if ($hookTargets.failures.Count -gt 0) { $hasIssues = $true }
+    }
+
     # hooks audit: hooks.lua uses psc.run / run_batch
     $hooksUsingRun = @()
     foreach ($c in $changedCompletions) {
@@ -152,9 +164,25 @@ else {
             '',
             '> [!WARNING]',
             '>',
-            "> hooks.lua uses `psc.run` / `psc.run_batch`: $hooksUsingRun" ,
+            ('> hooks.lua uses `{0}` / `{1}`: {2}' -f 'psc.run', 'psc.run_batch', ($hooksUsingRun -join ' ')),
             ''
         )
+    }
+
+    if ($hookTargets.failures.Count -gt 0) {
+        $results += @(
+            '',
+            '> [!WARNING]',
+            '>',
+            '> `hooks.lua` targets that can never fire (`psc.on` matches the canonical `name`, not an `alias`):',
+            '>'
+        )
+        foreach ($f in $hookTargets.failures) {
+            $loc = "$($f.completion) > $($f.target)"
+            if ($f.option) { $loc += " [$($f.option)]" }
+            $results += ('> - `{0}` -- {1}' -f $loc, $f.reason)
+        }
+        $results += ''
     }
 }
 
