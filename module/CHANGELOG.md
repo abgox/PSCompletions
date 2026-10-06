@@ -2,10 +2,11 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 7.6.1
 
 - `psc.add` uses `name` as the default value for `tip`.
 - Fixed the menu freezing when a hook globbed a very large or deeply nested directory tree.
+- Other optimizations and fixes.
 
 ## 7.6.0
 
