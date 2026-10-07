@@ -1,17 +1,13 @@
 local function add_packages()
     local data = psc.run({ "uv", "pip", "list", "--format", "json" }, { format = "json" })
-    if data then
-        for _, pkg in ipairs(data) do
-            if pkg.name then psc.add({ name = pkg.name, tip = pkg.version or "" }) end
-        end
-        return
-    end
-    -- fallback: pyproject.toml dependencies
-    local toml = psc.toml("pyproject.toml")
-    if toml and toml.project and toml.project.dependencies then
-        for _, dep in ipairs(toml.project.dependencies) do
-            local n = dep:match("^([%w%-%_]+)")
-            if n then psc.add({ name = n, tip = dep }) end
+    if type(data) ~= "table" then return end
+    for _, pkg in ipairs(data) do
+        if pkg.name then
+            if pkg.version then
+                psc.add({ name = pkg.name, tip = pkg.version })
+            else
+                psc.add({ name = pkg.name })
+            end
         end
     end
 end
@@ -27,8 +23,12 @@ psc.on({
     { option = "--with" },
     { command = { "pip", "uninstall" }, multiple = true },
     { command = { "pip", "show" } },
-    { command = "remove", multiple = true },
-    { command = "run" }
+    { command = "remove",               multiple = true }
 }, add_packages)
 
-psc.on({ option = "--python" }, add_pythons)
+psc.on({
+    { option = "--python" },
+    { command = { "python", "install" }, multiple = true },
+    { command = { "python", "upgrade" }, multiple = true },
+    { command = { "python", "pin" } }
+}, add_pythons)

@@ -52,18 +52,6 @@ local function add_namespaces()
     end
 end
 
-local function add_ecosystem_files()
-    for _, p in ipairs(psc.glob("ecosystem.config.*") or {}) do
-        psc.add({ name = p })
-    end
-    for _, p in ipairs(psc.glob("pm2.config.*") or {}) do
-        psc.add({ name = p })
-    end
-    for _, p in ipairs(psc.glob("*.config.js") or {}) do
-        psc.add({ name = p })
-    end
-end
-
 psc.on({
     { command = "delete" },
     { command = "describe" },
@@ -91,10 +79,3 @@ psc.on({
 }, add_processes)
 
 psc.on({ option = "--namespace" }, add_namespaces)
-
-psc.on({
-    { command = "deploy" },
-    { command = "startOrReload" },
-    { command = "startOrRestart" },
-    { command = "startOrGracefulReload" }
-}, add_ecosystem_files)

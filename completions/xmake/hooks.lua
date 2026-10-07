@@ -7,12 +7,6 @@ local function add_targets()
     end
 end
 
-local function add_files()
-    for _, p in ipairs(psc.glob("xmake.lua") or {}) do
-        psc.add({ name = p, tip = "xmake" })
-    end
-end
-
 psc.on({
     { command = "build" },
     { command = "clean" },
@@ -23,5 +17,3 @@ psc.on({
     { command = "test" },
     { command = "uninstall" }
 }, add_targets)
-
-psc.on({ option = "--file" }, add_files)

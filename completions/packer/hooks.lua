@@ -14,38 +14,7 @@ local function add_plugins()
     end
 end
 
-local function add_templates()
-    for _, p in ipairs(psc.glob("*.pkr.hcl") or {}) do
-        psc.add({ name = p, tip = "template" })
-    end
-    for _, p in ipairs(psc.glob("*.pkr.json") or {}) do
-        psc.add({ name = p, tip = "template" })
-    end
-end
-
 psc.on({
     { command = { "plugins", "remove" }, multiple = true },
     { command = { "plugins", "install" } }
 }, add_plugins)
-
-psc.on({
-    { command = "build", multiple = true },
-    { command = "console" },
-    { command = "fix" },
-    { command = "fmt", multiple = true },
-    { command = "hcl2_upgrade" },
-    { command = "init", multiple = true },
-    { command = "inspect", multiple = true },
-    { command = "validate", multiple = true },
-    { command = "verify-attestation" },
-    { command = { "plugins", "required" } }
-}, add_templates)
-
-psc.on({ option = "-var-file" }, function()
-    for _, p in ipairs(psc.glob("*.pkrvars.hcl") or {}) do
-        psc.add({ name = p, tip = "var file" })
-    end
-    for _, p in ipairs(psc.glob("*.auto.pkrvars.hcl") or {}) do
-        psc.add({ name = p, tip = "var file" })
-    end
-end)

@@ -25,16 +25,6 @@ local function add_resources()
     end
 end
 
-local function add_units()
-    for _, p in ipairs(psc.glob("**/terragrunt.hcl") or {}) do
-        psc.add({ name = p, tip = "unit" })
-    end
-    -- also top-level hcl files
-    for _, p in ipairs(psc.glob("*.hcl") or {}) do
-        psc.add({ name = p, tip = "unit" })
-    end
-end
-
 psc.on({
     { command = "output", multiple = true },
     { command = "output" }
@@ -45,10 +35,3 @@ psc.on({
     { option = "-target" },
     { option = "-replace" }
 }, add_resources)
-
-psc.on({ option = "--config" }, add_units)
-
-psc.on({ option = "--tf-path" }, function()
-    psc.add({ name = "terraform", tip = "terraform binary" })
-    psc.add({ name = "tofu", tip = "opentofu binary" })
-end)

@@ -56,21 +56,12 @@ local function add_projects()
     end
 end
 
-local function add_gradle_files()
-    for _, p in ipairs(psc.glob("*.gradle*") or {}) do
-        local name = p:match("([^/\\]+)$")
-        if name then psc.add({ name = name, tip = p }) end
-    end
-end
-
 psc.on({}, function()
     add_tasks()
     add_projects()
 end)
 
 psc.on({ option = "--exclude-task" }, add_tasks)
-
-psc.on({ option = "--init-script" }, add_gradle_files)
 
 psc.on({ option = "--project-prop" }, function()
     local p = psc.read("gradle.properties")

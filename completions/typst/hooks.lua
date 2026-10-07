@@ -1,9 +1,3 @@
-local function add_files()
-    for _, p in ipairs(psc.glob("*.typ") or {}) do
-        psc.add({ name = p, tip = "typst" })
-    end
-end
-
 local function add_fonts()
     for _, line in ipairs(psc.run({ "typst", "fonts" }) or {}) do
         local name = psc.trim(line)
@@ -19,11 +13,6 @@ local function add_packages()
         psc.add({ name = e.name, tip = e.path })
     end
 end
-
-psc.on({
-    { command = "compile" },
-    { command = "watch" }
-}, add_files)
 
 psc.on({ command = "fonts" }, add_fonts)
 

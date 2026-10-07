@@ -1,6 +1,4 @@
 local function add_models()
-    local models = { "o3", "o4-mini", "gpt-4o", "gpt-4.1", "gpt-5" }
-    for _, m in ipairs(models) do psc.add({ name = m, tip = "codex model" }) end
     local cfg = psc.toml(psc.path(psc.env("HOME") or psc.env("USERPROFILE") or "", ".codex", "config.toml"))
     if cfg and cfg.model then psc.add({ name = cfg.model, tip = "configured" }) end
 end
@@ -44,12 +42,6 @@ local function add_plugins()
 end
 
 psc.on({ option = "--model" }, add_models)
-
-psc.on({ option = "--config" }, function()
-    for _, p in ipairs(psc.glob("**/config.toml") or {}) do
-        psc.add({ name = p })
-    end
-end)
 
 psc.on({
     { command = { "mcp", "get" } },

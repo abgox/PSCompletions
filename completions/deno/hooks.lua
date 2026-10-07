@@ -19,7 +19,3 @@ local function add_tasks()
 end
 
 psc.on({ command = "task" }, add_tasks)
-
-psc.on({ option = "--config" }, function()
-    for _, p in ipairs(psc.glob("{deno.json,deno.jsonc}") or {}) do psc.add({ name = p }) end
-end)

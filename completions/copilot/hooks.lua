@@ -1,9 +1,3 @@
-local function add_models()
-    for _, m in ipairs({ "gpt-4o", "gpt-4o-mini", "o1", "o1-mini", "claude-sonnet-4", "claude-opus-4" }) do
-        psc.add({ name = m, tip = "model" })
-    end
-end
-
 local function add_mcp_servers()
     local lines = psc.run({ "copilot", "mcp", "list" })
     if lines then
@@ -38,8 +32,6 @@ local function add_skills()
         end
     end
 end
-
-psc.on({ option = "--model" }, add_models)
 
 psc.on({ command = { "mcp", "" } }, add_mcp_servers)
 

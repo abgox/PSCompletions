@@ -1,28 +1,32 @@
-local lifecycle_phases = {
-    "clean", "validate", "compile", "test", "package", "verify", "install", "site", "deploy",
-    "pre-clean", "post-clean", "pre-site", "post-site", "site-deploy"
-}
-
-local common_goals = {
-    "compiler:compile", "compiler:testCompile", "surefire:test", "failsafe:integration-test",
-    "jar:jar", "war:war", "shade:shade", "exec:java", "exec:exec",
-    "dependency:tree", "dependency:resolve", "help:describe", "help:effective-pom"
-}
-
-local function add_phases_and_goals()
-    for _, n in ipairs(lifecycle_phases) do
-        psc.add({ name = n, tip = "lifecycle phase" })
-    end
-    for _, n in ipairs(common_goals) do
-        psc.add({ name = n, tip = "plugin goal" })
-    end
-    -- discover local plugin goals via pom if present
+-- Lifecycle phases and common plugin goals live in the manifest root `next`:
+-- they are a closed list known at authoring time (R-16). What remains here is
+-- the pom.xml-derived plugin discovery.
+local function add_local_plugins()
+    -- Full coordinates only: <groupId>:<artifactId>:help. A bare artifactId is
+    -- not a resolvable plugin prefix, so the old <artifactId>:help form always
+    -- failed with "No plugin found for prefix". Only match inside <plugin> so
+    -- dependency and project artifactIds are never offered.
     local content = psc.read("pom.xml")
-    if content then
-        for plugin in content:gmatch("<artifactId>%s*([^<%s]+)%s*</artifactId>") do
-            local goal = plugin .. ":help"
-            psc.add({ name = goal, tip = "local plugin" })
+    if not content then return end
+    local seen = {}
+    local function offer(gid, aid)
+        local key = gid .. ":" .. aid
+        if not seen[key] then
+            seen[key] = true
+            psc.add({ name = key .. ":help", tip = "local plugin" })
         end
+    end
+    -- <groupId> before <artifactId> (standard Maven order)
+    for gid, aid in content:gmatch(
+        "<plugin>%s*<groupId>%s*([^<%s]+)%s*</groupId>%s*<artifactId>%s*([^<%s]+)%s*</artifactId>"
+    ) do
+        offer(gid, aid)
+    end
+    -- <artifactId> before <groupId> (reversed, rarer)
+    for aid, gid in content:gmatch(
+        "<plugin>%s*<artifactId>%s*([^<%s]+)%s*</artifactId>%s*<groupId>%s*([^<%s]+)%s*</groupId>"
+    ) do
+        offer(gid, aid)
     end
 end
 
@@ -54,7 +58,7 @@ local function add_properties()
     end
 end
 
-psc.on({}, add_phases_and_goals)
+psc.on({}, add_local_plugins)
 
 psc.on({
     { option = "--projects" },
@@ -63,17 +67,6 @@ psc.on({
 
 psc.on({ option = "--activate-profiles" }, add_profiles)
 
-psc.on({ option = "--define" }, function()
-    add_properties()
-    -- also add common defines
-    psc.add({ name = "skipTests", tip = "skip tests" })
-    psc.add({ name = "maven.test.skip", tip = "skip test compile" })
-end)
-
-psc.on({ option = "--file" }, function()
-    for _, p in ipairs(psc.glob("**/pom.xml") or {}) do
-        local name = p:match("([^/\\]+)$")
-        if name then psc.add({ name = p }) end
-    end
-    psc.add({ name = "pom.xml", tip = "main pom" })
-end)
+-- skipTests / maven.test.skip live in the manifest; this only adds the
+-- properties declared in the current pom.xml.
+psc.on({ option = "--define" }, add_properties)

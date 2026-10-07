@@ -6,10 +6,4 @@ local function add_logos()
     end
 end
 
-local function add_configs()
-    psc.add(psc.items(psc.glob("fastfetch.{json,toml}") or {}))
-end
-
 psc.on({ option = "--logo" }, add_logos)
-
-psc.on({ option = "--config" }, add_configs)

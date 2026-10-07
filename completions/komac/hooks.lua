@@ -46,13 +46,6 @@ local function add_versions()
     end
 end
 
-local function add_manifest_dirs()
-    for _, p in ipairs(psc.glob("manifests/*") or {}) do
-        local n = p:match("([^/\\]+)$")
-        if n then psc.add({ name = p, tip = n }) end
-    end
-end
-
 psc.on({
     { command = "show" },
     { command = "list-versions" },
@@ -64,5 +57,3 @@ psc.on({
     { option = "--version" },
     { option = "--replace" }
 }, add_versions)
-
-psc.on({ command = "submit" }, add_manifest_dirs)

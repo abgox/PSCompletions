@@ -8,19 +8,6 @@ local function add_sessions()
     end
 end
 
-local function add_layouts()
-    for _, p in ipairs(psc.glob("*.kdl") or {}) do
-        psc.add({ name = p, tip = "layout" })
-    end
-    -- layout dir from config
-    local layout_dir = psc.env("ZELLIJ_CONFIG_DIR")
-    if layout_dir then
-        for _, p in ipairs(psc.glob(psc.path(layout_dir, "layouts", "*.kdl")) or {}) do
-            psc.add({ name = p, tip = "layout" })
-        end
-    end
-end
-
 psc.on({
     { command = "attach" },
     { command = "delete-session" },
@@ -28,8 +15,3 @@ psc.on({
     { command = "watch" },
     { option = "--session" }
 }, add_sessions)
-
-psc.on({
-    { option = "--layout" },
-    { option = "--new-session-with-layout" }
-}, add_layouts)

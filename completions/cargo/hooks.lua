@@ -42,10 +42,6 @@ local function add_bins()
             if b.name then push(b.name, b.path or "bin") end
         end
     end
-    for _, p in ipairs(psc.glob("src/bin/*.rs") or {}) do
-        local n = p:match("([^/\\]+)%.rs$")
-        if n then push(n, p) end
-    end
 end
 
 local function add_examples()
@@ -60,10 +56,6 @@ local function add_examples()
         for _, e in ipairs(data.example) do
             if e.name then push(e.name, e.path or "example") end
         end
-    end
-    for _, p in ipairs(psc.glob("examples/**/*.rs") or {}) do
-        local n = p:match("([^/\\]+)%.rs$")
-        if n then push(n, p) end
     end
 end
 

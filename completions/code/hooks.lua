@@ -7,14 +7,6 @@ local function add_extensions()
     end
 end
 
-local function add_workspaces()
-    for _, p in ipairs(psc.glob("**/*.code-workspace") or {}) do
-        psc.add({ name = p, tip = "workspace" })
-    end
-end
-
-psc.on({}, add_workspaces)
-
 psc.on({
     { option = "--install-extension" },
     { option = "--uninstall-extension" },
