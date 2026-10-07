@@ -5,7 +5,7 @@ built that way** — the decisions, constraints, and current state of the implem
 the knowledge base for maintainers and for AI agents working on the repo.
 
 > **Who reads what**:
-> - Writing or updating completions / hooks → `AGENTS.md` first, then `hooks.md`.
+> - Writing or updating completions / hooks → `AGENTS.md`, then `authoring/`, then `hooks.md`.
 > - Working on the engine / menu / CLI → the docs below.
 > - Asking *why* a rule or a mechanism is shaped the way it is → `decisions/`.
 
@@ -24,13 +24,17 @@ the knowledge base for maintainers and for AI agents working on the repo.
 
 ## Conventions
 
-- **Language**: English (all design docs, matching `AGENTS.md`).
+- **Language**: English (all design docs, matching `AGENTS.md` and `authoring/`).
 - **Present tense, current state only**: docs describe how the system **runs today** — not plans,
   proposals, or migration records. Historical/old-version content is deliberately dropped; when a
   doc disagrees with the code, fix the doc.
-- **Cross-references** between docs use paths relative to the repo root (e.g. `design/menu.md`).
-- **Scope**: these docs describe the system; the operative how-to for the completions workflow
-  lives in `AGENTS.md`, and the reasoning behind a rule lives in `decisions/`.
+- **Cross-references** are markdown links that resolve from the file containing them (e.g.
+  [`architecture.md`](architecture.md)); prose references to code may be abbreviated to their leaf
+  (`menu/protocol.rs`). `scripts/check-doc-links.ps1` verifies that every link and every cited
+  path resolves.
+- **Scope**: these docs describe the system. The rules an author follows live in `AGENTS.md`, the
+  procedure and reference an author works from live in `authoring/`, and the reasoning behind a
+  rule lives in `decisions/`.
 - **Granularity — contracts, decisions, invariants, not implementation**: a design doc records
   (1) cross-boundary contracts (protocol fields, API signatures, user-visible behavior,
   security/sandbox edges), (2) design decisions and their rationale, and (3) invariants and

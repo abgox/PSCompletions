@@ -33,21 +33,21 @@ commit — a reason must never live longer than the rule it justifies.
 | D10           | [Platform-specific topics stay, marked](#d10) |
 | D11           | [Paths are platform-neutral by default](#d11) |
 | D15           | [404 does not mean "cannot be installed"](#d15) |
-| D4, D20, D22  | [The inclusion criterion: can it be dispatched?](#d4-20-22) |
 | D5            | [Upstream is authoritative; a locally missing command is not a deletion reason](#d5) |
+| D31           | [An unverified fallback is dead code](#d31) |
+| D32           | [Trailing punctuation is not a rule](#d32) |
 | D17           | [The directory name is the command the user types](#d17) |
 | D21           | [`@` names the source, never the platform](#d21) |
 | D16           | [Global option is a sharing mechanism, not a validity claim](#d16) |
 | D23           | [Fill hook gaps while you still have the context](#d23) |
 | D24           | [A forwarding command's subcommand table is the union of its implementations](#d24) |
-| D18           | [File globs fall into three classes; probe tools are tiered](#d18) |
-| D19           | [A Windows-only environment variable needs a platform guard](#d19) |
+| D18           | [Hooks do not offer file paths as candidates; probe tools are tiered](#d18) |
+| D19           | [A Windows-only element needs a platform guard](#d19) |
 | —             | [Platform guards and probe discipline for GUI/TUI tools](#gui-probe) |
-| D6            | [The Linux re-audit checklist](#d6) |
+| D6            | [The platform checklist has one home](#d6) |
 | D26           | [Data-writing scripts must resolve aliases too](#d26) |
 | D27           | [Grouping psc.on specs](#d27) |
 | D28           | [A checker's own coverage must be measured](#d28) |
-| D14, D25, D29 | [Deliberately not merged](#d14-25-29) |
 
 <a id="d1"></a>
 
@@ -56,7 +56,7 @@ commit — a reason must never live longer than the rule it justifies.
 **Decision**: `usage` writes the value placeholder the way the tool's own `--help` writes it —
 `--opt <VAL>` with a space by default, `--opt=<VAL>` only when the CLI itself uses `=`.
 
-**Rule lives in**: `AGENTS.md` §`tip` / `usage` / `example` Format Rules.
+**Rule lives in**: `authoring/manifest.md` §`tip` / `usage` / `example` format.
 
 **Why**: the usage line is read next to what the user is about to type. A shape the tool would
 reject is noise in the one place the user is checking the shape.
@@ -72,7 +72,7 @@ reject is noise in the one place the user is checking the shape.
 `-U, --unified <n>` unless the CLI accepts nothing else. `separator` keeps its existing spec.
 A negatable `--[no-]` switch is **two entries** (`--foo` / `--no-foo`), never one `[no-]` line.
 
-**Rule lives in**: `AGENTS.md` §`tip` / `usage` / `example` Format Rules.
+**Rule lives in**: `authoring/manifest.md` §`tip` / `usage` / `example` format.
 
 **Why**: each shape promises something different to the user. A closed enumeration says "only
 these two are possible", which `usage` conveys and a bare `<VAL>` does not; `next` then lets
@@ -98,7 +98,7 @@ use — then a single `[no-]` line is more honest to the CLI, and report it here
 **Decision**: when a slot takes a fixed set of values, list them even though every value is
 knowable at authoring time. Stated as guidance with the trade-off attached, not as a hard rule.
 
-**Rule lives in**: `AGENTS.md` §Manifest Field Summary.
+**Rule lives in**: `authoring/manifest.md` §Field semantics in use.
 
 **Why**: the reasoning that keeps *hooks* out of a slot — "can this value be determined while
 writing?" — does not apply to a fixed set. The CLI itself presents these as a list, and the
@@ -120,7 +120,7 @@ every run, so "which form is primary" was never an open question. It is still **
 claim about the tool: the CLI's own primary name may be the shorter one, and the only hard
 requirement is that both forms appear in `usage`.
 
-**Rule lives in**: `AGENTS.md` §Manifest Field Summary.
+**Rule lives in**: `authoring/manifest.md` §Field semantics in use.
 
 **Why**: `k3d config create` is dispatched by the CLI as `init`; `svn praise` as `blame`. Having
 inverted a manifest against the tool's preference is not a defect, and a note in the tip saying
@@ -135,7 +135,7 @@ which form the tool prefers was tried and reverted — it reads as an apology fo
 **Decision**: a `psc.on` target names the canonical `name`, which is the longest form. Because
 `sort-json` guarantees it, no per-file comment is needed to explain that.
 
-**Rule lives in**: `design/hooks.md` §9; `AGENTS.md` §Manifest Field Summary.
+**Rule lives in**: `design/hooks.md` §9; `authoring/manifest.md` §Field semantics in use.
 
 **Why**: `psc.on` matches command segments against the canonical name only, and the canonical is
 the manifest's own `name` (`canonical_name()` in `core/engine/src/engine/completion.rs`).
@@ -161,7 +161,7 @@ commands section. Output present → the manifest needs a non-empty `next`. Outp
 the manifest has one is not a verdict on its own, because `next` is dual-purpose (subcommands, or
 candidate values for a positional slot) — judge it from the command's `usage`.
 
-**Rule lives in**: `AGENTS.md` §Collecting Command Info; §Pre-completion Checklist.
+**Rule lives in**: `authoring/collecting-info.md` §The subcommand probe; `authoring/validation.md`.
 
 **Why**: `compare-json` and `validate-completion` only check internal consistency, so a parent
 modelled as a leaf passes both. Five such instances existed in `gh` alone, and `netlify teams
@@ -175,7 +175,7 @@ list` was an invented subcommand whose `--help` quietly printed its parent's hel
 
 **Decision**: record every alias the CLI lists, with no length cutoff.
 
-**Rule lives in**: `AGENTS.md` §Collecting Command Info.
+**Rule lives in**: `authoring/collecting-info.md`.
 
 **Why**: `compare-json` validates an alias that is already recorded but never reports a *missing*
 one, so nothing else will. A missing alias is a functional gap: the user cannot discover the
@@ -191,7 +191,7 @@ short form exists.
 is the commands section; `HELP TOPICS` is documentation; option descriptions and trailing prose
 are neither.
 
-**Rule lives in**: `AGENTS.md` §Collecting Command Info.
+**Rule lives in**: `authoring/collecting-info.md`.
 
 **Why**: scraping the wrong section invents commands that do not exist — `gh mintty` comes from a
 trailing `NOTE`, `gh api`'s `--hostname` from a stray line. A blacklist of section names is worse
@@ -206,7 +206,7 @@ than the rule: the word `gh` appears inside an `EXAMPLES` section.
 **Decision**: take an option's description from the text *after* the flag and its placeholder, and
 anchor the flag at the start of the line.
 
-**Rule lives in**: `AGENTS.md` §Collecting Command Info.
+**Rule lives in**: `authoring/collecting-info.md`.
 
 **Why**: in `--file-type string        Set file type…`, `string` is a placeholder, so a faithful
 transcription writes it into the tip; in `  -a, --append            Append files…`, the comma
@@ -222,7 +222,7 @@ Both produce a manifest that passes every gate and is wrong.
 **Decision**: keep a documented command or option that is unusable on the current platform, and
 mark it `(Windows only)` / `(macOS only)`.
 
-**Rule lives in**: `AGENTS.md` §`tip` / `usage` / `example` Format Rules.
+**Rule lives in**: `authoring/manifest.md` §`tip` / `usage` / `example` format.
 
 **Why**: removing it loses `gh help mintty`-style discoverability; the marker makes the limitation
 visible before the user tries.
@@ -238,7 +238,7 @@ nothing. Prefer a neutral form (`~/.gnupg/pubring.kbx`, `/home/<user>/`); show *
 forms only when the tool documents different defaults per platform and they are not
 interchangeable.
 
-**Rule lives in**: `AGENTS.md` §Linux re-audit Checklist.
+**Rule lives in**: `authoring/validation.md` §Portability audit.
 
 **Why**: a default that varies per machine leaks the author's machine and is wrong for everyone
 else. A per-platform pair is a fact about the tool; one machine's path is an artefact.
@@ -254,45 +254,10 @@ packages: `rspack` → `@rspack/cli`, `rsbuild` → `@rsbuild/core`, `ionic` →
 `rsdoctor` → `@rsdoctor/cli` (not `@rsdoctor/core`, which is a library with no bin). Verify with
 `npm view <pkg> version` and `npm view <pkg> bin`.
 
-**Rule lives in**: `AGENTS.md` §Linux re-audit Checklist.
+**Rule lives in**: `authoring/collecting-info.md` §Alternative patterns.
 
 **Why**: a name that 404s on the registry reads as "unavailable" and silently shrinks the
 completion set.
-
----
-
-<a id="d4-20-22"></a>
-
-## The inclusion criterion: can it be dispatched? (D4, D20, D22)
-
-**Decision**, consolidating three earlier rulings:
-
-1. **Dispatch is the only test for membership.** Prerequisite configuration, rarity, and whether
-   the user would type it are all irrelevant — the menu *is* the discovery surface, and deciding
-   by a property the user cannot know in advance would stop the completion from doing its job.
-2. **Not installed or not runnable here is not a reason to exclude.** `gitk` / `gitweb` (Homebrew
-   builds no Tcl/Tk), `lfs` / `scalar` / `svn` (not installed) all stay. Whether to *delete* an
-   entry is the version-skew question below.
-3. **Extensions are judged by dispatch, not by being a separate binary.** If the parent dispatches
-   it, it goes in the parent's manifest: `cargo fmt` (a rustup component), `docker compose`, even
-   `podman compose` (a different binary entirely).
-4. **The only exclusions are "not a command at all"**: `citool` (a Perl GUI git removed),
-   shell-library entry points such as `sh-i18n` / `sh-setup` (the real sibling is
-   `sh-i18n--envsubst`), and documentation topics.
-5. **Never draw a porcelain / plumbing line.** The manifest already carries `daemon`,
-   `http-backend`, `imap-send`, `mailsplit`; pruning "internal" commands after that contradicts
-   itself.
-
-**Rule lives in**: `AGENTS.md` §Collecting Command Info.
-
-**Evidence**: the git manifest carried 129 core commands while 26 dispatchable ones were missing.
-`git flow` had been deleted on the reasoning that it was a third-party extension — but
-`git flow --help` answers `git: 'flow' is not a git command`, so git itself had stopped
-dispatching it. That is a statement about git, not about extensions.
-
-**Verification**: `git --list-cmds=main` gives the authoritative builtin list; then
-`git <cmd> --help` per entry — exit code 16 means found without a man page, 0 means found with
-one, and both count as dispatchable. Only `is not a git command` does not.
 
 ---
 
@@ -303,13 +268,95 @@ one, and both count as dispatchable. Only `is not a git command` does not.
 **Decision**: when the local binary and `meta.url`'s upstream disagree, trust the upstream docs /
 command list. Delete only when upstream has removed it, or the CLI rejects it locally **and**
 upstream has no such command. Documentation topics and shell-library entry points are never
-encoded.
+encoded. "The CLI rejects it" is established by *invocation*, never by reading: run the flag with
+no value and read the error text — `unknown argument '--x'` / `unexpected argument '--x' found`
+means the CLI refuses it, `a value is required for '--x <X>'` means it still accepts it and was
+only hidden from `--help`. Absence from `--help` is not evidence of removal.
 
-**Rule lives in**: `AGENTS.md` §Updating Existing Completions.
+**Rule lives in**: `authoring/maintenance.md`.
 
 **Evidence**: both directions occur. `format-rev` / `history` landed upstream in 2026-05 while the
 local 2.53.0 had neither — deleting them would have been wrong. `survey` does not exist upstream at
-all — keeping it would have been wrong.
+all — keeping it would have been wrong. The `--help`-silent-but-accepted half is equally real and
+easier to mishandle: `uv` 0.12.21 hides `--from` and `--constraint` while accepting both, and the
+inverse is how real deletions happen — five ruff-era flags in `uv` 0.12.21's `check` (`--all`,
+`--diff`, `--ignore`, `--select`, `--watch`) were present in the manifest, absent from the current
+help, and all five answered `unknown argument`, so they went.
+
+---
+
+<a id="d31"></a>
+
+## An unverified fallback is dead code (D31)
+
+**Decision**: a hook reads one shape of a query and stops. A fallback whose only stated reason
+is "the first read might fail" is dead code — no reachable state gets to it:
+
+1. **The structured path succeeds** — the handler returns at once, the fallback never runs.
+2. **It returns a valid but empty result** — the fallback does run, but the CLI is already
+   saying "no data", so the second read is a duplicate subprocess whose own result is almost
+   certainly empty too.
+3. **It returns `nil`** — the command failed (no auth, no such repository, a build without the
+   argument), and the plaintext path fails identically.
+
+A fallback is justified only by *evidence* that a specific CLI cannot serve the first shape, and
+that evidence is an invocation — the same footing as the deletion test in D5. A retry between two
+**forms of the same query** (`copilot plugins list` → `copilot plugin list`) is a different
+thing and is allowed; §10.1 of `design/hooks.md` covers its cost, because the second command must
+run even when the first succeeds.
+
+**Rule lives in**: `design/hooks.md` §9 Style Guide, "One shape per producer".
+
+**Why**: the prohibition was already written, yet violations shipped in the repo and none of the
+three gates — `compare-json`, `validate-completion`, `check-hook-targets` — can see them, because
+it is an internal property of one function. A prohibition that keeps being violated is a
+suggestion, not a rule; stating the reachable states is what makes it checkable by inspection.
+
+**Overturn if**: a version is documented as accepting the flag but returning a non-zero exit for a
+valid query. That is the one state where a fallback earns its keep, and it would have to be
+shown by invocation — assuming it is not evidence.
+
+---
+
+<a id="d32"></a>
+
+## Trailing punctuation is not a rule (D32)
+
+**Decision**: whether a `tip` line ends in terminal punctuation is the author's choice. It was
+written as a mandatory rule, measured against the repo, and withdrawn.
+
+**Rule lives in**: `AGENTS.md` §Format judgment calls, where it is now stated as an explicit
+non-rule. The text-format guidance itself is in `authoring/manifest.md`; the pre-completion
+checklist item that enforced it is removed.
+
+**Evidence**: the repo holds two conventions at once, and they divide by completion rather than by
+line — some completions end every tip with terminal punctuation, others end with nothing. So there
+was no single practice to enforce, only one side to prefer over the other, which is a taste call
+dressed as a standard. The counts behind that observation were taken once and drift as completions
+land, so they were dropped rather than pinned; the split is what mattered, and it does not depend
+on any count.
+
+**Why it was withdrawn**: `tip` is display text under `[Description]`. The engine never parses it
+and nothing downstream branches on a period, so a rule here has no enforcement point and no
+user-visible effect. Every other checklist item guards a defect the engine will mis-handle —
+`next: []` on a command, a missing `usage` on an aliased item, a duplicate `name`, a `U:`-prefixed
+line sitting in `tip` instead of `usage`. This one guarded only taste, and its cost was pure
+editing: nothing else about a completion changes when a period is added or removed. It also fought
+its own source of truth — clap omits the period in most descriptions, so the rule made faithful
+transcription the exception and required an edit per line. Finally, the completions this directory
+names as style references are all no-period, so the rule told an author to follow `git` and then to
+write something `git` does not do.
+
+**What stayed**: the corrected `uv` lines were kept, because that change was never really about the
+rule. It closed a real en/zh disagreement — the English line ended at `` `--refresh` `` while
+the Chinese counterpart ended the same sentence in `。`, so the two languages rendered the same
+description differently. The scoped enumeration convention also survives, since `Possible values:`
+/ `可能值:` is one named tip shape rather than a general mandate.
+
+**Overturn if**: something starts parsing `tip` — a menu feature that groups or sorts on it, a
+filter that matches it, a diff that treats punctuation as content. Then the cost stops being nil
+and the argument reopens. Until then a rule with no enforcement point is a tax levied on every
+future completion for nothing.
 
 ---
 
@@ -320,7 +367,7 @@ all — keeping it would have been wrong.
 **Decision**: name a completion directory after the command the user actually types, and add
 `alias` only when upstream officially recognises more than one name.
 
-**Rule lives in**: `AGENTS.md` §`config.json` Structure.
+**Rule lives in**: `authoring/manifest.md` §`config.json`.
 
 **Why**: the directory list is read by users, so it must match their input. `hx` has no `alias` —
 `helix` is only the product name and no platform installs a `helix` command, so an alias would
@@ -344,7 +391,7 @@ its suffix — there is no bare "default", because a bare name hides which imple
 documents and every default is somebody's subjective choice. A user installs exactly the variant
 matching their system, so same-word collisions are misuse, not a case to resolve.
 
-**Rule lives in**: `AGENTS.md` §`config.json` Structure.
+**Rule lives in**: `authoring/manifest.md` §`config.json`.
 
 **Why**: a completion describes an *implementation*, and the platform it runs on is an unstable
 axis — uutils itself runs everywhere, which is why the existing split is `@uutils` and not
@@ -363,7 +410,7 @@ nobody types `AAA@author`.
 root itself rejects it. Keep it on a subcommand's own `option` when only a few subcommands take
 it, or when the entries differ per subcommand.
 
-**Rule lives in**: `AGENTS.md` §Collecting Command Info; `design/completion.md` §`option` vs
+**Rule lives in**: `authoring/collecting-info.md`; `design/completion.md` §`option` vs
 `global_option`.
 
 **Why**: duplicating the entry across N subcommands costs N copies to write and N edits per
@@ -428,40 +475,71 @@ does not → official docs last, because docs lag.
 
 <a id="d18"></a>
 
-## File globs fall into three classes; probe tools are tiered (D18)
+## Hooks do not offer file paths as candidates; probe tools are tiered (D18)
 
-**Decision**: a file glob is worth writing when the file is found **by name** at a depth the user
-has not typed (`tsconfig*.json`, `.swcrc`, `Cargo.toml`, `wrangler.toml` — a recursive glob whose
-last segment contains a literal name fragment). Leave "any file of this type somewhere"
-(`**/*.{js,ts}`) to native path completion. An extension-only glob is allowed only when the tool
-accepts no other kind of file in that slot and the format belongs to the tool rather than the
-user (`buf` takes `.proto` and nothing else).
+**Decision**: no hook offers a file path as a completion candidate. The rule is about the
+*offering*, not the API — `psc.glob` (with or without a wildcard), a `psc.ls` of the current
+directory, and a `psc.run` of `ls` all count the same. The one exception is a known directory whose
+*names* the CLI cannot enumerate itself, surfaced as `entry.name` rather than `entry.path`
+(`psc.ls("themes")` for `hugo --theme`).
 
 **Rule lives in**: `design/hooks.md` §9. The probe-tool tiering stays here: run what runs, read
 source for what does not, docs last.
 
 **Why**: native path completion works inside the current directory and once the user has typed a
-prefix, so it can never find a named file at an untyped depth — that is the gap a hook must fill.
-But `**/*.{js,ts}` is the whole repository by construction, and listing it buries the subcommands.
+prefix, so a hook adds nothing the shell cannot already give it — and a hook's file list is unbounded
+by construction, growing with the repository. A criterion that carves out an exception answers the
+*kind* of file and never bounds the *count*, so the exception kept needing to be narrowed until it
+was no longer a standard at all. A ban cannot be reinterpreted, which is what this rule needs.
 
-**Evidence**: the same distinction decided `tofu -var-file` (the tool owns the format, keep it) and
-`docker build` (the user's own file, native completion is better) — which is why the question to ask is "whose file is it" and not "is it a glob".
+**Evidence**: native completion reaches every one of those files once the user has typed a prefix,
+and the user normally already knows where their own config lives. The only candidate with genuine
+discovery value was learning that a config has an alternative spelling (`biome.json` or
+`biome.jsonc`), which is a convenience rather than a need. `buf`'s `**/*.proto` was injected into
+17 slots, several of which (`--path`, `--exclude-path`, `--against`) want directory paths rather
+than `.proto` files.
+
+**Cost**: `act`'s `.env`/`.secrets`/`.vars`/`.input`, `buf`'s `buf.yaml`/`buf.work.yaml`/
+`buf.gen.yaml`/`{.netrc,_netrc}`/`**/*.proto`/`**/*.wasm`, `fastfetch`'s
+`fastfetch.{json,toml}` and `hugo`'s config globs are removed. `hugo`'s `psc.ls("themes")`
+survives, because it surfaces names rather than paths.
+
+**Overturn if**: a case arrives where the CLI takes a path, the file is a named artifact whose
+spelling the user cannot guess, and native completion demonstrably cannot help. Until then the
+exception list stays empty.
 
 ---
 
 <a id="d19"></a>
 
-## A Windows-only environment variable needs a platform guard (D19)
+## A Windows-only element needs a platform guard (D19)
 
-**Decision**: prefer a portable path first, and put any Windows-only variable behind
-`if psc.platform == "windows"` with a non-empty check.
+**Decision**: prefer a portable path first, and put any Windows-only element — environment
+variable, program invocation, or platform-only data — behind `if psc.platform == "windows"`,
+with a non-empty check where the value can be empty.
 
-**Rule lives in**: `design/hooks.md`, beside `psc.platform`.
+**Rule lives in**: `design/hooks.md`, beside `psc.platform`; `AGENTS.md` `R-13`.
+
+**Evidence**: `psc.platform` is in the hook prelude, and five hooks already branch on it —
+`nssm`, `volta`, `scoop`, `scoop-install`, `scoop-update`. Three of those (`nssm`, `scoop`,
+`scoop-install`) guard the whole hook with an early `return`, so everything below is
+Windows-only by construction. No hook in the repo invokes a Windows-only binary unguarded.
 
 **Why**: `APPDATA` is always empty on Linux, and `psc.path("")` degrades to a path relative to the
 current directory — so the lookup silently succeeds somewhere wrong.
 `HOME or USERPROFILE or ""` is safe on its own; the dangerous shape is narrower, a Windows-only
-variable as the first link of an `or ""` chain.
+variable as the first link of an `or ""` chain. A program call fails the same way, only louder:
+`powershell.exe` has no Linux equivalent, so an unguarded call errors instead of silently
+succeeding somewhere wrong. Either way the defect is the missing guard, and the guard is already
+expressible.
+
+**Why it was narrowed**: the rule was previously written as an absolute ban — "`hooks.lua` invokes
+no Windows-only program". It forbade something the prelude exists to express, and it had no case
+in the repo to point at: enforced, it would have disqualified `nssm` itself.
+
+**Overturn if**: the guard cannot prevent cross-platform failure — for instance hooks are
+evaluated on every platform regardless of `psc.platform`. Then the call itself is unsafe and the
+ban returns.
 
 ---
 
@@ -472,7 +550,7 @@ variable as the first link of an `or ""` chain.
 **Decision**: a GUI or TUI tool is only ever read with `--help`, never invoked flag by flag, and no
 "accepted / rejected" conclusion is drawn from it.
 
-**Rule lives in**: `AGENTS.md` (probe discipline); the reason is here.
+**Rule lives in**: `AGENTS.md` `R-02`; `authoring/collecting-info.md`. The reason is here.
 
 **Why**: `code <flag>` opens a window per invocation and was enough to lock the operator's
 machine. A GUI tool's exit code and output say nothing about whether a flag is valid.
@@ -481,10 +559,10 @@ machine. A GUI tool's exit code and output say nothing about whether a flag is v
 
 <a id="d6"></a>
 
-## The Linux re-audit checklist (D6)
+## The platform checklist has one home (D6)
 
-**Decision**: the per-review platform checklist lives in `AGENTS.md` §Linux re-audit Checklist
-as its own section; no second copy is maintained anywhere.
+**Decision**: the per-review platform checklist lives in `authoring/validation.md`
+§Portability audit as its own section; no second copy is maintained anywhere.
 
 **Why**: a checklist that exists in two places is a checklist that will be updated in one of
 them. This entry exists so the identifier resolves.
@@ -539,29 +617,3 @@ looking at what it reports.
 files completely unchecked** while the checker reported success. The target count went from 1159
 to 1397 once it was fixed. A count of failures alone would never have shown the blind spot, because
 an unchecked target cannot fail.
-
----
-
-<a id="d14-25-29"></a>
-
-## Deliberately not merged (D14, D25, D29)
-
-Three rulings are archived here rather than turned into rules, with the reason, because a rule
-nobody can delete is worse than no rule. (D28 was archived for the same reason and has since been
-given its own entry, because its measurement turned out to be worth keeping.)
-
-**Rebuilding a completion wholesale is allowed when the gap is enormous** (plus delegating the
-translation). It is a review-phase permission, not something an author needs while writing a
-manifest.
-
-**Run known-answer cases before trusting a checker, and calibrate the checker before trusting it
-again.** The help reader behind the retired live-verification mode went through five versions and
-each of the first four reported working targets as dead — every one a reader bug rather than a
-manifest problem. This is how to build a checker, so it belongs with the checkers.
-
-**Known gaps stay listed instead of being guessed at.** Deferred items: `docker buildx` (the
-plugin is not installed locally, so `docker buildx` answers `unknown command`); `docker compose`
-service names (the producer depends on the cwd's project context, which is a pattern-level
-question, not one completion's); `cargo miri` / `cargo tauri` (listed by `cargo --list`, but
-`cargo miri` answers `no such command`). In each case only the documentation is available, and
-copying documentation is how invented subcommands happen.

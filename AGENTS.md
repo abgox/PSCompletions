@@ -1,902 +1,326 @@
 # PSCompletions
 
-A tab-completion manager for PowerShell. This repo maintains **completion definitions** for many CLI tools: each tool has a JSON manifest describing its subcommands, options, aliases, and tooltips. A PowerShell module reads these manifests at runtime so that typing a command like `git <Tab>` shows rich completions with explanations.
+A tab-completion manager for PowerShell. This repo maintains **completion definitions** for
+many CLI tools: each tool has a JSON manifest describing its subcommands, options, aliases,
+and tooltips. A PowerShell module reads these manifests at runtime so that typing
+`git <Tab>` shows rich completions with explanations.
 
 ## Directives
 
-Every file you produce **MUST** strictly conform to the rules defined in this document.
+Every file you produce **MUST** strictly conform to the rules here and in `authoring/`.
 
-- **Follow every rule exactly.** Do not skip, relax, or reinterpret any specification.
-- **Do not invent conventions.** If a rule does not cover the case you are facing, stop and ask the operator for guidance. Never assume or fabricate a rule to unblock yourself.
-- **When in doubt, ask.** An incorrect assumption is far more costly than a clarifying question.
-- **This document covers the common rules.** For advanced or rarely-used features (hooks, per-completion `config`, `info`, predict symbols), consult the official docs (https://pscompletions.abgox.com) or ask — don't guess.
+- **Follow every rule exactly.** Do not skip, relax, or reinterpret a specification.
+- **Do not invent conventions.** If a rule does not cover the case you are facing, stop and
+  ask the operator for guidance. Never assume or fabricate a rule to unblock yourself.
+- **When in doubt, ask.** An incorrect assumption is far more costly than a clarifying
+  question.
+- **Do not guess advanced features.** Per-completion `config` keys, `info`, predict
+  symbols, and the full `psc.*` API are documented in `design/` (or the official docs at
+  https://pscompletions.abgox.com) — read them, or ask.
 
-**Three layers, one job each.** This file is the **rules**: what to follow every time, kept short
-because it is read while writing a manifest. `design/` is the **system**: how it runs today.
-`decisions/` is the **reasons**: the measurement, the rejected alternative, and the condition
-under which a rule here should be overturned. A rule that needs its reasoning attached belongs in
-this file as one line plus a pointer to `decisions/authoring.md`, not as a paragraph. When you
-change a rule here, amend its entry there in the same commit.
+## Where things live
 
-## Dynamic Hooks (Lua)
+Four layers, one job each.
 
-**When writing or migrating a `hooks.lua`, read `design/hooks.md` first** — it is the authoritative reference for the `psc.*` API, the prelude helper functions, and the PowerShell→Lua semantics rules (case-sensitivity, pending-token exclusion, array/`-match` gotchas). **Style is also defined there** — follow `design/hooks.md §9 Style Guide` (comments, `psc.on` array merging, target validation, `add_*` naming, `or {}` guards).
+| Layer | Holds | Changes when |
+| --- | --- | --- |
+| **`AGENTS.md`** (here) | the `R-xx` rules — what must hold at all times — plus where to look | rarely |
+| **`authoring/`** | procedure and reference: collecting CLI facts, field reference, gate reports, checklists | with every new CLI quirk found |
+| **`design/`** | how the system runs today: manifest semantics, engine, hooks API, menu, protocol, `psc` CLI | when code changes |
+| **`decisions/`** | the reasons: evidence, the rejected alternative, the overturn condition | when a rule is added or changed |
 
-**Language policy**: all documentation (this file, `design/hooks.md`) and all `hooks.lua` comments are written in **English**. Write new comments in English; do not introduce comments in other languages.
+A rule that needs its reasoning attached belongs here as one line plus a pointer to
+`decisions/authoring.md`, not as a paragraph. When you change a rule here, amend its entry
+there in the same commit.
 
-**Comment style**: keep comments **short** — explain *why* when the code isn't self-evident, not *what* (the code already says that). Avoid long multi-line essays; prefer a single crisp line. Applies to `hooks.lua` and all source comments.
+**Canonical order: `AGENTS.md` > `authoring/` > `design/`.** The rule statement is here;
+`authoring/` adds mechanism and examples and must not offer a second wording of the same
+rule.
 
-The editor-facing annotation file — `types/psc.lua` — uses **bilingual descriptions: Chinese first, English after** (Chinese reads shorter, so it leads and stays visible in the editor's hover hint; English follows). Its comments surface as type hints for completion authors, so they are the exception to the English-only rule. `---@param` / `---@return` / `---@type` annotations keep English identifiers (code symbols).
+### Routing
 
-## Project Structure
+| You are | Read |
+| --- | --- |
+| Writing a new completion | `authoring/collecting-info.md` → `authoring/manifest.md` → `authoring/validation.md` |
+| Gathering facts from a CLI | `authoring/collecting-info.md` |
+| Writing or reviewing manifest JSON | `authoring/manifest.md` |
+| Writing a `hooks.lua` | `design/hooks.md §9`, then `authoring/hooks.md` |
+| Updating an existing completion | `authoring/maintenance.md` |
+| Translating to another language | `authoring/maintenance.md` |
+| Auditing a completion for portability | `authoring/validation.md` |
+| Stuck on tooling | `authoring/tooling.md` |
+| Working on the engine, menu, or protocol | `design/README.md` |
+| Questioning or overturning a rule | `decisions/README.md` |
+
+## Language and comment policy
+
+- **English** for all documentation — this file, `authoring/`, `design/` — and for all
+  `hooks.lua` comments. Do not introduce comments in other languages.
+- **Short comments.** Explain *why* when the code is not self-evident, not *what* (the code
+  already says that). Prefer one crisp line over a multi-line essay. Applies to `hooks.lua`
+  and all source comments.
+- **Exception — `types/psc.lua`** uses **bilingual descriptions: Chinese first, English
+  after** (Chinese reads shorter, so it leads and stays visible in the editor's hover
+  hint). Its comments surface as type hints for completion authors, so they are the
+  exception to the English-only rule. `---@param` / `---@return` / `---@type` annotations
+  keep English identifiers.
+
+## Project structure
 
 ```
 PSCompletions/
-├── completions/              # All completion definitions
+├── completions/              # completion definitions, one directory per tool
 │   └── <command>/
-│       ├── config.json       # Completion config (language, hooks, alias)
-│       ├── hooks.lua         # Dynamic completions (only when hooks: true)
+│       ├── config.json       # id, language, alias, hooks
+│       ├── hooks.lua         # dynamic completions (only when hooks: true)
 │       └── language/
-│           ├── en-US.json    # English completion data (single source of truth)
-│           └── zh-CN.json    # Chinese completion data (translated)
-├── completions.json          # Completion index — auto-generated by CI, DO NOT edit
+│           ├── en-US.json    # English data — single source of truth
+│           └── zh-CN.json    # translated data
+├── completions.json          # completion index — auto-generated by CI, DO NOT edit
 ├── schema/                   # JSON Schema definitions
-├── scripts/
-│   ├── create-completion.ps1 # Scaffold new completion from template
-│   ├── compare-json.ps1      # Diff + sort (supports -Json structured output for automation)
-│   ├── sort-json.ps1         # Normalize field order (called internally by compare-json.ps1)
-│   ├── validate-completion.ps1 # Comprehensive validation: schema + config.json + hooks.lua + compare-json rules
-│   ├── check-completion.ps1  # CI/PR check: scans changed completions, runs validation, posts a structured report
-│   ├── link-completion.ps1   # Link completion to local env for live testing (optional)
-│   ├── template/             # Template files for new completions
-│   └── language/             # Multi-language text for scripts themselves
-├── design/                   # System design docs — the authoritative "how the system works" reference
-│   ├── README.md             # Index of the design docs
-│   ├── architecture.md       # Project architecture: repo layout, binaries, data flow
-│   ├── completion.md         # Completion context/resolve, predict symbols, manifest format
-│   ├── hooks.md              # Lua hooks: architecture + full psc.* API reference
-│   ├── menu.md               # TUI menu design (rendering, layout, config, contract)
-│   ├── psc-cli.md            # psc management CLI: architecture + command surface reference
-│   └── filter-matching.md    # Menu filter matching semantics
-├── types/                    # Editor type definitions (EmmyLua stub for the psc.* API)
-│   └── psc.lua               # Types for the Lua LSP: autocomplete/diagnostics in hooks.lua
-└── module/PSCompletions/     # PowerShell host (don't edit this when writing completions)
-    ├── PSCompletions.psd1    # Module manifest
-    ├── PSCompletions.psm1    # Module entry point (thin: forwards management CLI to psc binary)
-    ├── PSCompletions.ps1     # Initialization script
-    └── bin/                  # Rust binaries: psc-menu.exe (engine/menu), psc.exe (management CLI)
+├── authoring/                # authoring procedure, field reference, gates, checklists
+├── design/                   # how the system works today
+├── decisions/                # why the rules are shaped this way
+├── scripts/                  # validation, scaffolding, and maintenance scripts
+├── types/psc.lua             # EmmyLua stubs for the psc.* API
+└── module/PSCompletions/     # PowerShell host — do not edit when writing completions
 ```
 
-**Scope reminder**: Only _edit_ files under `completions/<command>/`. Running scripts under `scripts/` is expected and required — the scope restriction applies to "where you can write", not "which scripts you can run".
+**Scope reminder**: only _edit_ files under `completions/<command>/`. Running scripts under
+`scripts/` is expected and required — the restriction applies to where you can *write*, not
+which scripts you can *run*.
 
-## How It Works
+## The completion model
 
-Every command has its own **completion context** — what appears in its menu. A context is made of **subcommands** (`next`) and **options** (`option`); `global_option` items are available at every level. The engine builds a tree from the manifest; selecting a subcommand moves **into its context**, selecting an option stays (unless the option has `next`/`option`).
-
-> **For the full system** — context inheritance, option resolution (bubbling), the resolve walk, repeat filtering, predict symbols, and the manifest format — read **`design/completion.md`**. It is the authoritative reference. The rest of this section summarizes what you need to know when writing a manifest.
-
-**Key rules for writing `next`:**
-
-> **Decision flowchart — when writing `next` for an item:**
->
-> ```
-> Is this item a command (inside a next array)?
->   YES → next must be [...] (non-empty). No sub-subcommands? Omit next entirely.
->         NEVER use next: [] (empty array is forbidden for commands).
->   NO  → Is this item an option (inside option / global_option)?
->     YES → Does it take a value (has usage <...>)?
->       YES → Add next: [...] (if candidates exist) or next: [] (if free-form).
->       NO  → Omit next (boolean flag).
-> ```
-
-**Summary** (see `design/completion.md` for the full symbol logic):
-
-- For commands, `next: []` (empty array) is **forbidden** — either use `next: [...]` (non-empty) or omit the field entirely.
-- For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). The engine auto-assigns `stay` (`?`) to such options.
-- These are opposite rules — don't mix them up.
-
-**Example — the `git` experience:**
+Every command has its own **completion context** — what appears in its menu. A context is
+made of **subcommands** (`next`) and **options** (`option`); `global_option` items are
+available at every level. The engine builds a tree from the manifest; selecting a
+subcommand moves **into its context**, selecting an option stays (unless the option has
+`next` / `option`).
 
 ```
 git <Tab>             → add, branch, checkout, commit, ...   (next)
 git add <Tab>         → --all, --patch, --dry-run, ...       (add's option)
 git stash <Tab>       → apply, pop, show, ...                (stash's next)
-git stash apply <Tab> → stash names supplied by hooks        (dynamic via psc.add)
+git stash apply <Tab> → stash names supplied by hooks        (dynamic, via psc.add)
 ```
 
-## Workflow (follow this order every time)
+Context inheritance, option resolution (bubbling), the resolve walk, repeat filtering,
+predict symbols, and the full manifest format are defined in
+[`design/completion.md`](design/completion.md). The strict, actually validated definition
+is [`schema/completion-manifest.en-US.json`](schema/completion-manifest.en-US.json).
 
-1. **Generate scaffold**: `.\scripts\create-completion.ps1 <command>`
-2. **Collect CLI info** (see "Collecting Command Info" below) — including the
-   **subcommand probe** in that section: a command with subcommands in the CLI must
-   have a non-empty `next`, and the validation scripts cannot catch this for you.
-3. **Write `en-US.json`**, following the [JSON Schema](./schema/completion-manifest.en-US.json) — after writing, review it against the schema field definitions
-4. **Self-check** — before running any tool, verify the two `next` rules manually:
-   - [ ] Every item inside a `next` array (commands) does **NOT** have `"next": []`
-   - [ ] Every item inside an `option` / `global_option` array that has `usage <...>` **does** have a `"next"` field (either `[]` or `[...]`)
-5. **Decide on `hooks.lua`** — does this tool have values that depend on **runtime local state** (branches, containers, pods, installed packages, files, env vars)? If yes, hand-write `hooks.lua` per `design/hooks.md` (declarative `psc.on`, validated targets, merged array specs, short why-only comments), set `"hooks": true` in `config.json`, and validate with `.\scripts\validate-completion.ps1 <command>`. If no, leave `hooks.lua` absent and `hooks` unset — do not add a placeholder. See `design/hooks.md §9 Style Guide`.
-6. **Run**: `.\scripts\compare-json.ps1 <command>` — sort + cross-language structure/translation completeness check
-7. **Fix all reported issues** (see "Validation & Design Rules" for what each issue means and how to fix it), re-run step 6 until clean
-8. **Translate to `zh-CN.json`**
-9. **Run again**: `.\scripts\compare-json.ps1 <command>` — must run clean for both languages
+### R-01 — the two `next` rules (they are opposite)
 
-### Collecting Command Info
-
-**Critical: You MUST collect help for EVERY subcommand, not just the top-level command.**
-
-**Five collection mistakes that all produce wrong data silently:**
-
-| Mistake | What to do instead |
-| --- | --- |
-| Searching for a flag anywhere in the help with `--h` | **Anchor at the start of the line** — prose gets mistaken for options |
-| Decoding the probe's output as text | Read bytes; a `UnicodeDecodeError` is not a refusal |
-| Probing a subcommand's options as `<tool> <flag>` | Use `<tool> <sub> <flag>` |
-| Treating "parent and child print the same first line" as proof of a fake command | The first line proves nothing (cobra prints `NAME:`, some tools print a version banner) |
-| Comparing only the `name` field | **Compare `name` *and* `alias`** — a long form stored as an alias reads as missing |
-
-Step-by-step process:
-
-1. Run `<command> --help` to get the top-level help and list of subcommands
-2. For **each** subcommand with further subcommands, run `<command> <subcommand> --help`
-3. Continue recursively until you have all subcommands and their options
-4. For each subcommand, record: full name, **every command-level alias**, description, every option (including aliases, whether it takes a value), and whether any option/parameter has a fixed set of allowed values (see `next` field rules below — this affects how you encode it).
-
-**The inclusion criterion — can it be dispatched?** That is the only test for whether a
-command belongs in the manifest:
-
-- **Prerequisites, prior configuration and rarity do not matter.** The menu *is* the
-  discovery surface: deciding by "will the user type this?" uses a property the user cannot
-  know in advance, which would stop the completion from doing its job.
-- **Not installed here, or not runnable on this machine, is not a reason to exclude it.**
-  `gitk` / `gitweb` (Homebrew builds no Tcl/Tk), `lfs` / `scalar` / `svn` (not installed) all
-  stay. Whether to *delete* an entry is a separate question, answered by
-  [Updating Existing Completions](#updating-existing-completions-new-tool-version).
-- **Extensions are judged by dispatch, not by being a separate binary.** If the parent
-  command dispatches it, it goes in the parent's manifest — `cargo fmt` (a rustup
-  component), `docker compose`, even `podman compose` (a different binary entirely). If the
-  parent no longer dispatches it, it is not a command any more: `git flow` answers
-  `git: 'flow' is not a git command`, so deleting it had nothing to do with it being
-  third-party.
-- **The only things excluded are "not a command at all"**: `citool` (a Perl GUI git
-  removed), shell-library entry points such as `sh-i18n` / `sh-setup` (the real sibling is
-  `sh-i18n--envsubst`), and documentation topics (`HELP TOPICS`).
-- **Never draw a porcelain / plumbing line.** The manifest already carries `daemon`,
-  `http-backend`, `imap-send`, `mailsplit`; pruning "internal" commands after that contradicts
-  itself.
-
-**Command-level aliases are mandatory, not optional.** Record *every* alias the CLI
-lists — no length cutoff, no "only the popular ones". A missing alias is a functional
-gap: the user cannot discover that the short form exists. Sources: the `ALIASES`
-section of `--help`, or the `cmd (alias1, alias2)` header of `svn help`. `compare-json`
-only validates that an *already recorded* alias has a `usage` — it never reports a
-**missing** one.
-
-**Read `--help` by section — prose is not a command.** Help output mixes several kinds
-of lines, and scraping the wrong section invents subcommands that do not exist:
-
-| Help section | What it is | How to encode |
-| --- | --- | --- |
-| `COMMANDS` / `AVAILABLE COMMANDS` | real subcommands | `next` entries |
-| `HELP TOPICS` / `HELP TOPICS AND GUIDES` | documentation topics, not commands | keep as **top-level** entries, never as a command's `next` |
-| option descriptions, trailing prose (`NOTE: ...`, `The GitHub hostname ...`) | neither | never encode as a subcommand |
-
-Real examples of what this rule prevents: `gh mintty > NOTE` and `gh api > GH_HOST`
-(the latter is actually the `--hostname` **option**).
-
-**Decide a section by its name, not by what it is not.** Each tool names its
-sections differently — gh has `AVAILABLE COMMANDS` / `GENERAL COMMANDS` /
-`TARGETED COMMANDS`, podman has `Available Commands`, git's `help -a` is two columns —
-so treat a section whose name ends in `COMMANDS` as the commands section and require
-its entries to be bare command words. A blacklist (skip `FLAGS`, `ARGUMENTS`,
-`EXAMPLES`…) gets fooled by the word `gh` appearing inside an `EXAMPLES` section.
-
-**Two ways option lines silently corrupt the data.** Both produce a manifest that
-passes every gate and is wrong:
-
-```
---file-type string        Set file type to use for the artifact (layer)
-                           ^^^^^^^ a placeholder, not part of the description
-  -a, --append            Append files to an existing artifact
-     ^ the short form shares the line; the comma is not a placeholder
-```
-
-A parser that transcribes faithfully ends up with the type name inside the `tip`,
-or splits one option into two entries. Take the description from the text after the
-flag and its placeholder, and anchor the flag at the start of the line.
-
-**Subcommand probe (mandatory per batch).** For each command in the manifest — down to
-2 levels, which covers nearly every tool — run:
-
-```
-<cmd> <sub> --help | grep -E 'AVAILABLE COMMANDS|^Commands:'
-```
-
-**Direction 1 — a hard check.** Output present → the manifest **must** have a non-empty
-`next`. Output absent while the manifest has none → correct. This one-line check catches
-the "parent command modeled as a leaf" defect (5 instances in `gh` alone), which
-`compare-json` and `validate-completion` both pass silently because they only check
-internal consistency.
-
-**Direction 2 — not a verdict.** Output absent while the manifest **does** have `next`
-proves nothing, because `next` is deliberately a **dual-purpose field**:
-
-| `next` holds | Example | Engine behaviour |
-| --- | --- | --- |
-| subcommands (enter a context) | `git remote` → `add`/`remove`/`rename`/`set-url` | moves into a new context |
-| candidate values for one slot | `volta list [TOOL]` → `all`/`node`/`npm`/`yarn`/`pnpm`; `stripe resources` → 89 API resource names | fills the current slot |
-
-So judge this direction from the command's own `usage`:
-
-- `usage` **has a positional placeholder** (`<TOOL>`, `[TOOL]`) → the `next` entries are
-  candidate values. Legitimate, leave it alone.
-- `usage` has **no placeholder** → the `next` entries claim to be subcommands, so verify.
-
-**Ground-truth verification** (use it in either direction, and whenever a `next` child is
-suspect):
-
-```
-<cmd> <child-from-manifest> --help
-  prints the PARENT's help  →  that "subcommand" does not exist (defect)
-  prints the child's own help / argument docs  →  it exists (or it was a value all along)
-```
-
-`netlify teams list` is the worked example: the manifest invented a `list` under the
-leaf command `teams`, and `netlify teams list --help` quietly prints `teams`' own help
-instead of failing.
-
-**Reading the result.** If `MISSING` holds the CLI's primary name while `EXTRA` holds
-the manifest's alias, the two sides simply disagree on which form is longer — **this is
-not a defect and needs no fix**. `name`/`alias` is a data-model distinction with no
-hierarchy; "longest wins" is only a `sort-json` convention, and a CLI's own primary form
-may well be the shorter one. The only real requirement is that **both forms appear in
-`usage`**, so the user recognises either. `psc.on` in `hooks.lua` refers to the `name`
-field, but that is likewise just an identifier.
-
-**Recursive checking (MANDATORY):**
-
-You MUST recursively check every level of the command hierarchy. Do NOT assume a command has no subcommands without checking its `--help` output. Many commands have sub-subcommands that are not obvious from the top-level help.
-
-> When you run `<command> <subcommand> --help`, the first line is typically the description. Use it as the `tip` value.
-
-The process works like this:
-
-```
-1. Run: <command> --help
-   → Lists all top-level subcommands
-
-2. For EACH subcommand found:
-   Run: <command> <subcommand> --help
-   → Check if it has its own subcommands (look for "Commands:" section)
-
-3. If it has subcommands, for EACH of those:
-   Run: <command> <subcommand> <sub-subcommand> --help
-   → Continue until no more subcommands are found
-
-4. Record ALL options at every level
-```
-
-**Checking for description updates:**
-
-When collecting help, also check if descriptions have changed:
-- Commands previously marked `[experimental]` may no longer be experimental — update the description
-- Descriptions may have been rewritten — update to match current help output
-
-**Spotting preset values in help output**: help text often lists an option's allowed/example values — recognize them and map them to `next: [...]`:
-
-- "Possible values: a, b, c" / "Valid values: ..." / "Values: ..."
-- parenthesized groups: `(a | b | c)` or `(a, b, c)`
-- bracketed groups: `[a|b|c]` or `[a, b, c]`
-- a list right after the option's placeholder in the usage line
-
-Even when the help shows no such list, if an option's value has a recognizable shape (status codes, numbers, IDs, time formats), add a few **representative example values** via `next: [...]` so users can pick one instead of typing blindly (e.g. `--status-code` → `[200, 404, 500]`, `--since <TIME>` → `["2024-01-01", "1h"]`). Keep `next: []` only for genuinely free-form values.
-
-**Example for a tool like `git`:**
-
-```powershell
-git --help                    # Get top-level commands: add, commit, push, etc.
-git add --help                # Get options for 'add'
-git commit --help             # Get options for 'commit'
-git commit --help             # Get subcommands if any (e.g., commit has no sub-subcommands)
-git push --help               # Get options for 'push'
-```
-
-**Alternative patterns:**
-
-- If the tool uses `help` subcommand instead of `--help`, use `<command> help <subcommand>`
-- If `--help` output is sparse or missing option descriptions, check official docs
-- If updating an existing completion for a new version, check changelogs/release notes
-- **If the tool is not installed locally**, fetch its docs instead: official website, GitHub README, or `--help` output shown in the project's docs/release notes. Don't skip a subcommand's options just because you can't run it — dig until you have them.
-
-## Generated Scaffold Files
-
-Running `.\scripts\create-completion.ps1 <command>` generates:
-
-```
-completions/<command>/
-├── config.json           # { "id": "<uuid>", "language": ["en-US", "zh-CN"] }
-└── language/
-    ├── en-US.json        # Template content, needs full rewrite
-    └── zh-CN.json        # Template content, needs full rewrite
-```
-
-The script creates **static completions only**. For dynamic completions, hand-write `hooks.lua` per `design/hooks.md §9 Style Guide` (declarative `psc.on`, validated targets, merged array specs, short why-only comments) and set `"hooks": true` in `config.json`; there is no automatic hooks generation — every hook is bespoke.
-
-Before writing, skim a few existing completions to match the house style — e.g. `completions/git/` (deep nesting, hooks), `completions/psc/` (dynamic tips via hooks), or any simple tool like `completions/fd/`.
-
-## Completion Data Structure
-
-> **Read the [JSON Schema](./schema/completion-manifest.en-US.json) first.** It is the strict, actually validated definition. For the full field-by-field reference — `next` semantics, `option` vs `global_option`, predict symbols, and the manifest format — see **`design/completion.md`**. This section explains how to understand the fields through examples and practical rules.
-
-### Minimal Example
-
-```json
-{
-  "meta": {
-    "url": "https://example.com",
-    "description": ["A tool to do something"]
-  },
-  "next": [
-    {
-      "name": "init",
-      "tip": ["Initialize a new project."]
-    },
-    {
-      "name": "build",
-      "alias": ["b"],
-      "usage": ["b|build [OPTIONS]"],
-      "tip": ["Build the project"],
-      "option": [
-        {
-          "name": "--output",
-          "alias": ["-o"],
-          "usage": ["-o, --output <DIR>"],
-          "tip": ["Output directory"],
-          "next": []
-        }
-      ]
-    },
-    {
-      "name": "deploy",
-      "usage": ["deploy <ENV>"],
-      "tip": ["Deploy to a target environment."],
-      "option": [
-        {
-          "name": "--tag",
-          "usage": ["--tag <TAG>"],
-          "tip": ["Image tag to deploy."],
-          "next": []
-        },
-        {
-          "name": "--dry-run",
-          "tip": ["Preview the deploy without applying."]
-        }
-      ],
-      "next": [
-        {
-          "name": "status",
-          "tip": ["Show deployment status."]
-        },
-        {
-          "name": "rollback",
-          "usage": ["rollback <VERSION>"],
-          "tip": ["Revert to a previous version."]
-        }
-      ]
-    }
-  ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": ["-v"],
-      "usage": ["-v, --version"],
-      "tip": ["Show version."]
-    },
-    {
-      "name": "--dry-run",
-      "tip": ["Dry run without making changes"]
-    }
-  ],
-  "global_option": [
-    {
-      "name": "--help",
-      "alias": ["-h"],
-      "usage": ["-h, --help"],
-      "tip": ["Show help."]
-    },
-    {
-      "name": "--verbose",
-      "tip": [
-        "Enable verbose output.",
-        "Can be repeated twice for more detail."
-      ],
-      "repeat": 2
-    }
-  ]
-}
-```
-
-**Key points**:
-
-- `build`'s `option` is options specific to the `build` subcommand (e.g., `-o`)
-- `build` has **no `next` field** — it's a command, and commands must not have `next: []` (empty). If it had sub-subcommands, they'd go in a non-empty `next: [...]`.
-- `--output` (an option) **does** have `next: []` — it takes a value but has no static candidates. This is correct.
-- `deploy` shows a **nested scenario**: a command that has both `option` (for its own flags like `--tag`) and `next` (for its sub-subcommands like `status`, `rollback`). Note:
-  - `deploy` itself has no `next: []` — correct, it's a command.
-  - `--tag` has `next: []` — correct, it's an option taking a free-form value.
-  - `--dry-run` has no `next` — correct, it's a boolean flag (no value).
-  - `status` has no `next` — correct, it's a leaf command with nothing after it.
-  - `rollback` has no `next` — correct, its value is expressed by `usage <VERSION>`, not by `next`.
-- Top-level `option` is root-level options (available before any subcommand, e.g., `--version`)
-- `global_option` is appended at every level (e.g., `--help`). A flag that **many** subcommands share *verbatim* belongs here even when the root itself rejects it; when only a **few** take it, or the entries differ per subcommand, put it on each of those subcommands' own `option` instead. The trade-off and its measurement: `decisions/authoring.md` §[Global option is a sharing mechanism](decisions/authoring.md#d16).
-- `repeat: 2` means the option can appear up to twice; use `repeat: 99` only when the exact limit is unknown
-- `usage` / `example` are optional text arrays (see [Format Rules](#tip--usage--example-format-rules)); `tip` is the description only
-- Empty arrays must be removed entirely — don't keep `"option": []`
-
-### `config.json` Structure
-
-```jsonc
-{
-  "id": "<uuid>",
-  "language": ["en-US", "zh-CN"],
-  // "alias": [...],
-  // "hooks": true
-}
-```
-
-- `id` (required): Random UUID generated at creation (`create-completion.ps1`), never changes — the engine uses it to detect upstream renames
-- `language` (required): Language array, corresponds to files in `language/` directory
-- `alias` (optional): Alternative command names that trigger this completion
-  - **The directory name is the command the user actually types.** Do not name a
-    directory after a project's full name when users type a shorter binary
-    (`hx`, not `helix`; `python3`, not `python`) — the directory list is read by
-    users, so it must match their input.
-  - **If not set**, the directory name is used as the trigger name
-  - **If set**, the directory name is **ignored** — only the names in this array are
-    used, so **the directory name must be repeated inside it** (`alias: ["python3","python"]`
-    for a `python3/` directory). An `alias` that omits it silently kills that trigger.
-  - **Only add `alias` when the upstream officially recognizes more than one name.**
-    Check what upstream actually says — do not reason from the project's full name:
-    - `hx` has **no** `alias`. `helix` is only the product name (`hx --version` reports
-      "helix 25.07.1"), and no platform installs a `helix` command, so an alias would
-      invent a trigger and could hijack a user's own command of that name.
-    - `python3` **does**: PEP 394 makes `python3` canonical on POSIX, while the CPython
-      Windows docs recommend `python` and describe `python3` as "not meant to be widely
-      used or recommended". Both are official, on different platforms.
-
-    When only one name is officially valid, **omit `alias` entirely** and let the user
-    configure their own triggers after install (`psc alias add <name> <alias>...`) —
-    guessing aliases is how trigger conflicts get created.
-  - **Omit `.cmd`, `.exe`, `.bat` suffixes** — just use the command name (e.g., `git` not `git.exe`)
-- `@` in a directory name is an **ownership marker, never a trigger**: `AAA@author`,
-  `AAA@local`, `AAA@uutils`. Directory names must be unique, so this is how two
-  same-named tools — different authors, or different implementations — are told
-  apart.
-  **The part before the `@` must be the command name character for character.** Do
-  not force a case: most commands are all lowercase, but a command genuinely
-  spelled `N_m3u8DL-RE` keeps its capitals, because the directory name serves the
-  user's input rather than typography.
-  **The part after the `@` names the source, never the platform, following the source's
-  own spelling and case.** Do not write `@Linux` / `@MacOS` / `@Windows`.
-  A completion describes an *implementation*; the platform it runs on is an unstable
-  axis — a platform may ship one implementation and later another — and uutils itself
-  runs on every platform, which is exactly why the existing splits are `@uutils` and not
-  `@Linux`. When two *projects* provide the same command on different platforms
-  (`cut` as BSD vs GNU), name the project: `cut@BSD`. uutils spells itself lowercase
-  (`cut@uutils`); GNU and BSD spell themselves uppercase (`cut@GNU`, `cut@BSD`).
-  **Once a command has variants, every variant carries its suffix — there is no bare
-  "default".** A bare name hides which implementation it documents, and every default is
-  somebody's subjective choice. A user installs exactly the variant matching their system.
-  Keeping the suffix single-valued also removes the need for a double suffix: a macOS user
-  running uutils wants "uutils's cut" (`cut@uutils`), not "macOS's cut".
-  **A directory whose name contains `@` MUST declare `alias` with the real command
-  name** — triggers are first-come-first-served (`filter_owned_triggers` in
-  `core/cli/src/validate.rs` leaves a word with whoever claimed it first and
-  silently skips later claimants), and nobody types `AAA@author`, so without an
-  alias the completion is unreachable.
-  This does not contradict the rule above: there `alias` carries another
-  *officially recognized* name, here it carries the *only trigger that works*.
-  The marker itself can never collide with a real author handle: it is a label for
-  humans, and no component of the engine splits or matches on `@` (verified across
-  all 46 Rust sources), so the engine treats the whole directory name as opaque.
-  `@` is also a legal path character in URLs and on both filesystems.
-  `@local` marks a local draft (gitignored, see `.gitignore`); the older
-  dot-prefixed convention stays valid, and unlike `@local` a dot-directory is
-  hidden from a plain `ls completions/`.
-- `hooks` (optional): `true` — dynamic hooks enabled by default (install writes no
-  `enable_hooks` entry, since absence already means enabled); `false` — `hooks.lua` exists but is
-  disabled by default (install writes `enable_hooks=0`; users enable it with
-  `psc completion <name> enable_hooks 1`). Omit when there is no `hooks.lua`.
-
-### Manifest Field Summary
-
-For the full field definitions (`meta`, `next`, `option`, `global_option`, `config`, `info`) and their semantics, see **`design/completion.md`**. The key points when writing:
-
-> **Two different orderings — don't confuse them.** In the JSON structure, `name` is the longest (canonical) form and `alias` lists the remaining forms **longest → shortest** (the data model: `name` is the item's identity). In the `usage` line, the same forms are shown **shortest → longest** (`-f, --force`, `rm|remove`) — a display convention that matches CLI `--help`. Keep them as they are; the usage order is not a mistake. If a `name` or `alias` contains spaces, wrap it in quotes: `"hello world"` or `'hello world'` (see the JSON Schema for validation).
+> Is this item a command (inside a `next` array)?
 >
-> **"Longest" is a convention, not a claim about the tool.** `scripts/sort-json.ps1` puts the
-> longest form in `name` on every run, so this is guaranteed for you and a `psc.on` target can
-> always be written as `name` — but nothing is *wrong* when a manifest's `name` is the tool's
-> shorter form (`k3d config create` vs the CLI's `init`, `svn praise` vs `blame`). `name`/`alias`
-> carries no hierarchy; the CLI's own primary name may be the shorter one. The one hard
-> requirement is that **both forms appear in `usage`**, so the user recognises either.
+> - **YES** → `next` must be non-empty. No sub-subcommands? **Omit `next` entirely.**
+>   `next: []` on a command is forbidden.
+> - **NO** → is it an option (inside `option` / `global_option`)?
+>   - Takes a value? → `next: []` (free-form) or `next: [...]` (known candidates).
+>   - No value (boolean flag)? → **omit `next`**.
 
-**Boolean options** (no value needed): Don't include `next` field. A negatable `--[no-]` switch is modeled as **two entries** (`--foo` / `--no-foo`, each with a plain-form `usage`) — never a single `--[no-]` usage line.
+Commands must never carry `next: []`; value-taking options must always declare `next`.
+Machine-enforced by `compare-json.ps1`.
 
-**Options that take a value**: use `next: [...]` when you know the value's shape (allowed values or representative examples), otherwise `next: []`. **A value-taking option must declare `next` regardless of whether it has a `usage` placeholder** — the `compare-json` check keys on `usage <...>`, so an option with only a tip (e.g. `dotnet --roll-forward`) would otherwise be treated as a boolean switch and go unflagged.
+## Workflow
 
-**A closed enumeration is worth listing** even though every value is knowable at authoring time — the test is whether the user would otherwise have to know an unfamiliar name, not how many entries there are. A probe reporting "has `next` but no Commands section" is then expected noise, not a defect, provided the `usage` has no positional placeholder. Reasoning and evidence: `decisions/authoring.md` §[A closed enumeration is worth listing](decisions/authoring.md#d13).
+1. **Generate scaffold**: `.\scripts\create-completion.ps1 <command>`.
+2. **Collect CLI info** — see `authoring/collecting-info.md`. Include the **subcommand
+   probe** (`R-02`): a command with subcommands in the CLI must have a non-empty `next`, and
+   no script can catch this for you.
+3. **Write `en-US.json`** against the schema. After writing, review it against
+   `authoring/manifest.md`.
+4. **Self-check** — before running any tool, verify `R-01` by hand:
+   - every item inside a `next` array does **NOT** have `next: []`
+   - every item inside `option` / `global_option` with `usage <...>` **DOES** have `next`
+5. **Decide on `hooks.lua`** — see `authoring/hooks.md` and `design/hooks.md §9`. If yes,
+   set `"hooks": true`; if no, leave both absent. Do not add a placeholder.
+6. **Run**: `.\scripts\compare-json.ps1 <command>`.
+7. **Fix every reported issue** — see `authoring/validation.md` for what each report means.
+   Re-run step 6 until clean.
+8. **Translate to `zh-CN.json`** — see `authoring/maintenance.md`.
+9. **Run again**: `.\scripts\compare-json.ps1 <command>` must be clean for both languages.
 
-> **Summary**: For commands, `next: []` (empty array) is **forbidden** — either use `next: [...]` (non-empty) or omit the field entirely. For options with a value, `next: []` is **required** (or use `next: [...]` if candidates exist). These are opposite rules — don't mix them up.
+### Judgment checks — the scripts cannot see these
 
-**Repeatable options**: Add `"repeat": N` where N is the max number of times the option can appear. Use a specific number when known (e.g., `2` for `-v -v`); use `99` only when the limit is unknown or effectively unlimited:
+Run these after the gates, before declaring the task complete.
 
-```json
-{
-  "name": "--exclude",
-  "alias": ["-e"],
-  "usage": ["-e, --exclude <path>"],
-  "tip": [
-    "Exclude a path (can be used multiple times)"
-  ],
-  "repeat": 99,
-  "next": []
-}
+- [ ] **Subcommand probe run for every command (≤2 levels)** — `R-02`.
+- [ ] **Every command-level alias the CLI lists is recorded**, no length cutoff — `R-03`.
+- [ ] **Every subcommand and every option at every level is captured**, not just top-level
+  `--help`.
+- [ ] **Portability audit run** — `R-12`, `R-13`, in `authoring/validation.md`.
+- [ ] **`hooks.lua` compiles** (`luac -p`) and every `psc.on` target resolves
+  (`check-hook-targets.ps1`).
+- [ ] **Every value a hook produces was probed against the CLI** — `R-17`.
+
+The full checklist, and the machine-checked half of it, is in
+`authoring/validation.md`.
+
+## Hard rules
+
+Each is a silent failure — the validation scripts cannot see it. Evidence and overturn
+conditions are in [`decisions/authoring.md`](decisions/authoring.md). `R-01` is stated above,
+with the completion model.
+
+**R-00 — Surface codifiable gaps proactively.** When you encounter a gap in the authoring
+guidance, propose codifying it rather than waiting to be asked. The signals: a gate passed
+but the data was wrong (silent failure); you had to invent a technique because no guidance
+existed; you noticed the same pattern in two or more places; an existing rule needed
+reinterpretation to apply. You surface the moment; the user decides whether to adopt.
+
+**R-02 — Subcommand probe, both directions.** Run
+`<cmd> <sub> --help | grep -E 'AVAILABLE COMMANDS|^Commands:'` for every command, to 2
+levels. Output present → the manifest **must** have non-empty `next`; this one line catches
+the "parent modeled as a leaf" defect that both gates pass silently. Output absent while the
+manifest **does** have `next` proves nothing — judge that direction from `usage` (a
+positional placeholder means the entries are candidate values, not subcommands) and verify
+by invocation. See `authoring/collecting-info.md`.
+
+**R-03 — Command-level aliases are mandatory, not optional.** Record *every* alias the CLI
+lists — no length cutoff, no "only the popular ones". A missing alias is a functional gap:
+the user cannot discover that the short form exists. Both forms must also appear in `usage`.
+`compare-json` only validates that an *already recorded* alias has a `usage`; it never
+reports a **missing** one.
+
+**R-04 — Upstream is authoritative.** Prerequisites, prior configuration, rarity, and being
+uninstalled here are all **not** reasons to exclude a command — the menu *is* the discovery
+surface. The only exclusions are "not a command at all": a removed GUI tool, shell-library
+entry points, and documentation topics (`HELP TOPICS`). Never draw a porcelain / plumbing
+line. Delete only per `R-06`. See [`D5`](decisions/authoring.md#d5).
+
+**R-05 — An option diff must subtract the global set first.** Build the global set once,
+then subtract it from every per-command diff. clap repeats global flags in *every*
+subcommand's `--help`, so a naive comparison reports each as missing at every level. The
+reverse failure is worse — seeing globals as `EXTRA` everywhere invites deleting them, and
+they belong in `global_option` alone ([`D16`](decisions/authoring.md#d16)).
+
+**R-06 — Deletion and keeping are decided by the invocation's error text.** Run the flag
+with no value and read what the CLI says: `unknown argument` → delete; `a value is required
+for '--x <X>'` → keep (hidden but accepted); `unexpected argument` → delete. `--help`
+settles neither direction — a CLI hides flags between versions while still accepting them,
+and a flag it lists may already be gone. See `authoring/maintenance.md`.
+
+**R-07 — Read `--help` by section; prose is not a command.** A section whose name ends in
+`COMMANDS` is the commands section and its entries must be bare command words. `HELP TOPICS`
+entries stay top-level, never under a command's `next`. Option descriptions and trailing
+prose are never subcommands. Decide by what a section *is named*, not by what it isn't.
+
+**R-08 — `[possible values: a, b, c]` is the authoritative enumeration source.** It is
+machine-generated inline in the option's own description line, so it cannot mislead the way
+`(a|b)` or a trailing list can. Extract it into `next: [...]` in the CLI's own order, and
+add the trailing tip line `Possible values: a, b, c` (English) / `可能值: a, b, c`
+(Chinese, **no trailing period**). Any `--help` line carrying it yields a non-empty `next`.
+
+**R-09 — Hook slot rule.** Inject a value kind only where the CLI itself accepts it — check
+`--help` usage, docs, and examples, not the manifest alone. Never offer files at a context
+whose slot takes subcommands, names, keys, or nothing. If a slot accepts files but the
+manifest shows no placeholder, add the `usage` placeholder so the slot is documented.
+
+**R-10 — Hooks do not offer file paths as candidates.** Native completion owns paths, and a hook's
+file list is unbounded by construction — it grows with the repository — so it buries the subcommands
+and options the user is actually looking for. The test is **what becomes the selectable value**, not
+which API produced it: `psc.glob` (with or without a wildcard — `psc.glob(".env")` is still
+`psc.glob`), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
+
+Offering a **bare filename** is not a way around this. Stripping the directory fixes nothing — a
+repo-wide `**/*.json` still yields a repository-sized list — and into a path slot a basename is
+usually a *broken* argument. The test is what the slot accepts, not the shape of the string.
+
+`psc.glob` is a free **means**, not a trigger. When the CLI cannot enumerate the values a slot
+accepts, the hook must — and a glob is often the only way to find the source files. `scoop` globs
+`bucket/**/*.json` across every bucket and offers the app **names** extracted from those manifests;
+`scoop-checkver` does the same over its own bucket directory. The path never reaches the menu — only
+the name does — and without the glob there is no other source and no CLI call to move into `next`.
+The path may itself be unknown to the user: `scoop` resolves the bucket directory via the `SCOOP`
+environment variable, so neither the user nor the CLI knows where the manifests live — the hook
+resolves the path and enumerates in one step.
+
+The same principle applies to `psc.ls`: when the slot takes a **name** the CLI cannot enumerate
+itself, sourced from a **known directory** — `hugo --theme` with `psc.ls("themes")`, `typst init`
+over the package cache — surface `entry.name`, never `entry.path`. See `authoring/hooks.md`.
+
+**R-11 — `global_option` is a sharing mechanism.** A flag that **many** subcommands share
+*verbatim* belongs in `global_option`, even when the root itself rejects it. When only a
+**few** take it, or the entries differ per subcommand, put it on each of those subcommands'
+own `option`. The trade-off and its measurement:
+[`D16`](decisions/authoring.md#d16).
+
+**R-12 — Paths stay platform-neutral; no author-machine paths.** `tip` / `usage` / `example`
+use `~/.gnupg/pubring.kbx`, `/home/<user>/`, never a copied machine path. When a value is
+genuinely platform-specific and the two forms are not interchangeable, show both as separate
+`tip` lines (`"Windows: ..."` / `"Linux: ..."`) — per-platform pairs are not a defect,
+copying one machine's path is. File-name completions must not assume case-insensitive
+matching.
+
+**R-13 — A platform-specific invocation must be guarded, not avoided.** `psc.platform`
+(`"windows"` / `"macos"` / `"linux"`) exists for this and hooks already branch on it (`nssm`,
+`volta`, `scoop`): a Windows-only program behind `psc.platform == "windows"` is correct; an
+*unguarded* `powershell.exe` / `cmd.exe` / `wmic` call is the defect. Platform-only data
+(`C:\` paths, registry access) has no portable form and goes inside the guard too. See
+`D19`.
+
+**R-14 — `config.json` `alias` discipline.** Add `alias` only when upstream officially
+recognizes more than one name — do not reason from the project's full name. When set, the
+directory name is ignored, so **it must be repeated inside `alias`**, or that trigger
+silently dies. A directory whose name contains `@` **must** declare `alias`, because
+triggers are first-come-first-served and nobody types `AAA@author`. Omit `.exe` / `.cmd` /
+`.bat` suffixes. See `authoring/manifest.md`.
+
+**R-15 — A `config` entry is user-facing surface; ask before adding one.** Every key lands in
+`psc completion` for every user of this completion, and no gate will flag an unnecessary one.
+When a setting looks like it should be configurable, ask the author whether it should be — do
+not add it because it seems reasonable. The three existing uses are all one shape (a knob on
+how much work a hook does); `authoring/manifest.md` has the criterion.
+
+**R-16 — A hook does not supply constant candidates.** If a candidate's value is known while
+writing — a literal string, or a literal array iterated with `ipairs` — it belongs in the
+manifest's `next: [...]`: the manifest already owns the mechanism (`next` is "a fixed list of
+values to complete from"), and hooks **append** to `next` rather than replace it, so moving it is
+a clean subtraction. This is a layering rule, not a size rule — `aws` lists 1405 static entries in
+its manifest — and the test is whether the value is known at authoring time, not how many there
+are. A producer whose only candidates are constants is a `next` array, not a hook: delete the
+producer, and drop `"hooks": true` when nothing else remains.
+
+**Relocating is not verifying.** The move inherits the producer's errors, and a manifest value has
+no self-verifying source — `compare-json` and `validate-completion` check structure, never truth,
+so a clean run certifies the shape, not the content. Re-probe each value against the CLI as part of
+the move; see `authoring/collecting-info.md`.
+
+**R-17 — Touching a hook means auditing it.** No gate checks whether a hook's output resolves —
+`compare-json` and `validate-completion` test structure and translation, never truth. A hook is
+unverified until someone probes its output against the CLI, so when you edit one, treat the
+producers you did not touch as equally unverified and re-probe them. See
+`authoring/collecting-info.md`.
+
+## Format judgment calls
+
+These are judgment, not enforcement — the scripts cannot express them.
+
+- **Trailing punctuation is not a rule.** A `tip` line may end in `.`, `?`, `:`, `)`, a
+  closing quote, or nothing. `tip` is display text and the engine never parses it, so a rule
+  about it has no enforcement point. See [`D32`](decisions/authoring.md#d32).
+- **Spaces between Chinese and English characters are required** — enforced by
+  `validate-completion.ps1`.
+- **Experimental** items keep the upstream `EXPERIMENTAL:` prefix. **Deprecated** items are
+  noted inline, not deleted (`R-06`).
+- **Platform-specific topics that are unusable on the current platform are kept** and marked
+  `(Windows only)` / `(macOS only)` — the marker makes the limitation visible before the
+  user tries it.
+
+## Gates
+
+```
+.\scripts\compare-json.ps1 <command>         # structure, usage, translation
+.\scripts\validate-completion.ps1 <command>  # schema, config.json, spacing
+.\scripts\check-hook-targets.ps1 <command>   # psc.on targets — mandatory when hooks exist
 ```
 
-**`next` for options** — prefer `next: [...]` over `next: []` whenever you know the value's shape well enough to give representative examples; keep `next: []` only for genuinely free-form values. If `hooks: true` is enabled, `hooks.lua` dynamically generated completions are **appended** to the static array, not replaced. See `design/completion.md` for the full `next` semantics.
-
-**`separator` for list values** — an option whose value is a separator-joined list (`--exclude a,b,c`) declares `"separator": ","` (any non-empty string except whitespace/`=`; typically `,`/`;`). Requires `next` (boolean flags must not carry it). Selecting a candidate replaces only the current segment and adds **no** trailing space — the user types the separator to continue, Space to finish. `usage` should show the shape (`--exclude <A,B,...>`). See `design/completion.md` for the full semantics.
-
-**Duplicate detection**: an option counts as a duplicate only if it is **fully structurally identical** to a `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `separator`, `next`, `option`, and all nested substructure. If the description or `next` differs in any way, they are **different** options: when you reach a subcommand context, the module uses the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by removing the subcommand/root copy and keeping the one in `global_option` — the module appends `global_option` at every level, so the copy is redundant, except for a flag only a **few** subcommands take.
-
-### Duplicate Prevention
-
-No duplicate `name` within the same array. `compare-json.ps1` matches by `name` and silently overwrites duplicates without error.
-
-## `tip` / `usage` / `example` Format Rules
-
-Every item may carry three text arrays. `tip` is the description (shown under `[Description]`); `usage` and `example` are optional and shown under `[Usage]` / `[Example]`.
-
-- Each array element is one line, no inline line breaks allowed.
-- Spaces required between Chinese and English characters.
-- `tip` — the description line. If `tip` exists, it should be a real description; do not put `U:`/`E:` prefixed lines in it — those belong in `usage` / `example`. Experimental commands/options keep the upstream `EXPERIMENTAL:` prefix (uppercase + colon, e.g. `EXPERIMENTAL: Show when files were last modified.`); deprecated ones are noted inline (e.g. `"(deprecated, use --new-flag instead)"`). Entries that document a platform-specific topic which is **not usable on the current platform** are kept and marked `(Windows only)` / `(macOS only)` — keeping the topic preserves `gh help mintty`-style discoverability, and the marker makes the limitation visible before the user tries it.
-- `usage` — invocation syntax. **Not mandatory; add it when it conveys something the name alone doesn't.**
-  - **Must add `usage` when**: the item has an alias — the short form must be shown (`-f, --force`, `rm|remove`).
-  - **Should add `usage` when** (recommended, not mandatory): the item takes a value and you know its shape — e.g. `--output <FILE>`, `add <PACKAGE>`. Skip it when the value's nature is unknown or unknowable (e.g. `next: []` hook-provided free input) — a vague usage adds nothing.
-  - **Value syntax follows the CLI**: write the value placeholder the way the tool's own `--help` writes it — `--opt <VAL>` (space) by default, `--opt=<VAL>` only when the CLI itself uses `=` (e.g. `esbuild --certfile=<FILE>`). Same for short flags: `-U, --unified <n>` (space) unless the CLI only accepts the attached form.
-  - **Three optional shapes are standard, not special cases**:
-    - *Optional value* `--opt[=<VAL>]` — keep whatever the CLI writes, with `next: []`.
-    - *Closed enumeration* `--opt=(a|b)` — the enumeration in `usage` tells the user only two
-      values are possible, and `next` lets them pick one directly (`git add --chmod=(+|-)x`
-      with `next` `+x` / `-x`).
-    - *Glued short-option value* `-U<n>` — normalise to the space form `-U, --unified <n>`
-      (git's `parse-options` accepts both, so nothing is lost), and copy the CLI verbatim only
-      when it accepts nothing else (e.g. `-C<NUM>`).
-  - **May add `usage` when** (allowed, not required): the item has no alias and no value, but it still documents something useful (e.g. important sub-options).
-  - **Must NOT add `usage` when**: the item has no alias and no value, and the line would just repeat the name — e.g. a boolean flag `--dry-run` with `--dry-run`, or a subcommand `build` with `build`. This is meaningless.
-  - In the rare case a usage line needs a brief explanation, use the object form `{ "cmd": ..., "desc": ... }` (both required).
-  - Subcommands use `|`: `add|install <APP>`
-  - Options use `,`: `-f, --format <FORMAT>`
-  - **Always order from short to long** — shorter form comes first: `rm|remove`, `-g, --global`. Never reverse the order.
-  - **Usage starts from the current command level, never include root command name.** Each level only describes its own invocation syntax. For `git worktree add <PATH>`, the path is `root → worktree → add`, so `add`'s usage should be `add <PATH>`, not `worktree add <path>`.
-- `example` — optional, add when examples clarify usage. Each item is a plain string, or an object `{ "cmd": ..., "desc": ... }` when an explanation is wanted — **both** `cmd` and `desc` are required in object form (use a plain string when there is no explanation). Multiple examples are separate array elements. Skip when usage is sufficient.
-- Order of fields in the JSON: `name`, `alias`, `usage`, `tip`, `example`, then `repeat` / `separator` / `option` / `next`.
-
-**`usage` examples — correct vs wrong:**
-
-```jsonc
-// Has alias → usage is required (shows the short form)
-{ "name": "--force", "alias": ["-f"], "usage": ["-f, --force"], "tip": ["Force action"] }
-
-// Has argument and you know the value → usage is recommended (shows what to write)
-{ "name": "--output", "usage": ["--output <FILE>"], "tip": ["Output path"], "next": [] }
-
-// Has argument but the value is unknown → usage may be omitted (optional)
-{ "name": "--script", "tip": ["Run the given script"] }  // OK — no usage
-
-// No alias, no argument → usage must NOT be added
-{ "name": "--dry-run", "tip": ["Dry run without changes"] }  // CORRECT
-{ "name": "--dry-run", "usage": ["--dry-run"], "tip": ["Dry run"] }  // WRONG — meaningless
-```
-
-## Validation & Design Rules
-
-The validation scripts (`compare-json.ps1` for structure/usage, `validate-completion.ps1` for schema/config/hooks) enforce the rules below. Fix every reported item until both run clean.
-
-### Usage Checks
-
-| Reported issue | Trigger | Fix |
-| --- | --- | --- |
-| Missing usage | item has an **alias** but no `usage` field | add `usage` showing `short, long` (option) or `short | long` (subcommand) |
-| Meaningless usage | no alias, no `next`, and the `usage` just repeats the name | remove the `usage` field |
-| usage too simple | the `usage` equals the name, but the item has an alias or `next` | make the `usage` show the alias and/or a value placeholder, or remove it |
-| usage order wrong | a long form comes before its short form | order short → long: `-s, --long` / `short | long` |
-| usage separator wrong | an option uses `\|`, or a subcommand uses `,` | options use `,`; subcommands use `\|` |
-| option value without `next` | an option has `usage <...>` but no `next` field | add `next: []` (free-form value) or `next: [...]` (known candidates) |
-| `next: []` on a command | an item inside a `next` array has an empty `next` | omit `next` for leaf commands, or fill in real subcommands |
-| `usage` repeats root command | a `usage` line starts with the root command name | start `usage` at the current level (e.g. `add <PATH>`, not `worktree add <PATH>`) |
-
-**Option vs subcommand**: an item is treated as an option (expects `,`) when its name starts with `-`, even if it lives inside a `next` array.
-
-### Options in `next`
-
-Options normally go in `option` / `global_option`. Some flag-only tools (no subcommands — e.g. `gpg`, `eslint`) put every flag in `next`; this works, but the module then treats a flag as a command that switches context, so chaining flags after it can stop completing. Prefer `option` for flags.
-
-### Leaf Value Items
-
-Leaf values inside a `next` array follow the same rules as commands: with an alias they also need a `usage` field (e.g. `all|world|everybody`).
-
-## Pre-completion Checklist
-
-- [ ] Every subcommand in `--help` is in `next` (including sub-subcommands)
-- [ ] **Subcommand probe run for every command (≤2 levels)**: `--help` shows a commands section ⟺ manifest has a non-empty `next`
-- [ ] **Every command-level alias the CLI lists is recorded** — no length cutoff
-- [ ] Every option of every subcommand is captured, not just top-level `--help` options
-- [ ] Any option with fixed allowed values uses `next: [...]`, not `next: []`
-- [ ] Options whose value has a known shape (status codes, numbers, times, IDs) provide example values via `next: [...]`, not `next: []`
-- [ ] `next: []` is only on **option** entries (commands must NEVER have `next: []` (empty) — omit the field entirely)
-- [ ] Every option with `usage <...>` has a `next` field (either `next: []` or `next: [...]`)
-- [ ] No duplicate `name` in any array (check `next`, `option`, `global_option`)
-- [ ] No option appears in both a subcommand's `option` and `global_option`
-- [ ] `repeat` only on `option`/`global_option` entries, only when CLI actually allows repetition
-- [ ] Every `tip` has at least one description line (not just a usage line — usage goes in `usage`)
-- [ ] Every item with an alias has a `usage` field showing the alias
-- [ ] Option aliases use `,` (`-f, --force`); subcommand aliases use `|` (`rm|remove`)
-- [ ] `usage` forms order short first (`-s, --long`, not `--long, -s`)
-- [ ] No meaningless `usage` — when an item has no alias and no value, don't add a `usage` that just repeats the name
-- [ ] `zh-CN.json` and `en-US.json` have identical structure — only `tip`/`usage`/`example` content is translated
-- [ ] `name`, `alias`, and other non-`tip` fields unchanged during translation
-- [ ] No file extensions (`.cmd`, `.exe`, `.bat`) in `config.json` `alias` field
-- [ ] `.\scripts\compare-json.ps1 <command>` and `.\scripts\validate-completion.ps1 <command>` run clean
-
-All items satisfied = task complete. Re-run `compare-json.ps1 <command>` after changes stabilize to confirm no _content_ differences. Run with `<command>` to check just one, or with `-All` to check every completion (slower). Without arguments it checks only recently changed / uncommitted completions.
-
-## Common Errors (before/after)
-
-These are the most frequent mistakes when writing a completion. Each shows the wrong version and the fix.
-
-### Error 1: `next: []` on a command
-
-**Wrong** — `delete` is a command, but has `next: []`:
-```json
-{
-  "name": "delete",
-  "usage": ["delete <NAME>"],
-  "tip": ["Delete an item."],
-  "next": []
-}
-```
-
-**Correct** — commands must not have `next: []`. If it has no sub-subcommands, omit `next` entirely:
-```json
-{
-  "name": "delete",
-  "usage": ["delete <NAME>"],
-  "tip": ["Delete an item."]
-}
-```
-
-If it has sub-subcommands, use a non-empty array:
-```json
-{
-  "name": "delete",
-  "usage": ["delete <NAME>"],
-  "tip": ["Delete an item."],
-  "next": [
-    { "name": "force", "tip": ["Force delete."] },
-    { "name": "interactive", "tip": ["Confirm before deleting."] }
-  ]
-}
-```
-
-### Error 2: Option with `usage <...>` but no `next`
-
-**Wrong** — `--output` takes a value (`<DIR>`), but has no `next` field:
-```json
-{
-  "name": "--output",
-  "alias": ["-o"],
-  "usage": ["-o, --output <DIR>"],
-  "tip": ["Output directory"]
-}
-```
-
-**Correct** — an option that takes a value must have `next`. Use `next: []` for free-form values:
-```json
-{
-  "name": "--output",
-  "alias": ["-o"],
-  "usage": ["-o, --output <DIR>"],
-  "tip": ["Output directory"],
-  "next": []
-}
-```
-
-Or `next: [...]` if there are known candidates:
-```json
-{
-  "name": "--format",
-  "usage": ["--format <FMT>"],
-  "tip": ["Output format."],
-  "next": [
-    { "name": "json", "tip": ["JSON"] },
-    { "name": "yaml", "tip": ["YAML"] },
-    { "name": "text", "tip": ["Plain text"] }
-  ]
-}
-```
-
-### Error 3: Boolean flag with meaningless `usage`
-
-**Wrong** — `--dry-run` has no alias and no value; `usage` just repeats the name:
-```json
-{
-  "name": "--dry-run",
-  "usage": ["--dry-run"],
-  "tip": ["Dry run."]
-}
-```
-
-**Correct** — boolean flags without aliases don't need `usage`:
-```json
-{
-  "name": "--dry-run",
-  "tip": ["Dry run."]
-}
-```
-
-### Error 4: Subcommand alias using `,` instead of `|`
-
-**Wrong**:
-```json
-{
-  "name": "remove",
-  "alias": ["rm"],
-  "usage": ["rm, remove <NAME>"],
-  "tip": ["Remove an item."]
-}
-```
-
-**Correct** — subcommands use `|`:
-```json
-{
-  "name": "remove",
-  "alias": ["rm"],
-  "usage": ["rm|remove <NAME>"],
-  "tip": ["Remove an item."]
-}
-```
-
-### Error 5: Usage shows long form first
-
-**Wrong**:
-```json
-{
-  "name": "--force",
-  "alias": ["-f"],
-  "usage": ["--force, -f"],
-  "tip": ["Force action."]
-}
-```
-
-**Correct** — short form first:
-```json
-{
-  "name": "--force",
-  "alias": ["-f"],
-  "usage": ["-f, --force"],
-  "tip": ["Force action."]
-}
-```
-
-## Linux re-audit Checklist
-
-Run through this list for **every command you review** — the data is cross-platform but was
-often authored on Windows, and none of these are visible to the validation scripts.
-
-- [ ] **No author-machine paths in text.** `grep -rn 'C:\\Users\|/Users/\|%[A-Za-z]\+%' completions/<cmd>/` must return nothing. A default value that varies per user machine (e.g. a GnuPG keyring path) must never appear as-is.
-- [ ] **Paths in `tip`/`usage`/`example` are platform-neutral by default** — `~/.gnupg/pubring.kbx`, `/home/<user>/`. **Exception: when a value is genuinely platform-specific** (the tool itself documents different defaults per platform, and the two forms are not interchangeable), it is correct — and sometimes necessary — to show both, as separate `tip` lines: `"Windows: %LOCALAPPDATA%\\…"` / `"Linux: ~/.config/…"`. Per-platform pairs are **not** a defect; copying a single machine's path is. Prefer the neutral form whenever one exists, and use the pair only when no neutral form exists.
-- [ ] **`config.json` `alias` has no `.exe` / `.cmd` / `.bat`** (already covered by `validate-completion`, re-check when adding one).
-- [ ] **No Windows-only commands or options** in the manifest. If the tool genuinely offers them and they are documented, keep them and mark the tip `(Windows only)` / `(macOS only)`.
-- [ ] **`hooks.lua` invokes no Windows-only program** — no `powershell.exe`, `cmd.exe`, `wmic`, registry access, or drive-letter paths. Check every `psc.run` / `psc.run_batch` argument list. Note: a `.exe`/`.cmd` suffix *check* (e.g. npm bin-shim probing) is fine — it is about recognising shims, not launching them.
-- [ ] **Path-shaped assumptions hold on a case-sensitive filesystem** — completions of file names/dirs must not assume case-insensitive matching.
-- [ ] **Subcommand probe run** — see the two directions in "Collecting Command Info"; only direction 1 is a hard check.
-- [ ] **Command-level aliases recorded exhaustively.**
-- [ ] **Tool availability confirmed, not assumed.** A command name returning 404 from a package registry does **not** mean "cannot be installed" — many tools ship as scoped packages under a different name (`rspack` → `@rspack/cli`, `rsbuild` → `@rsbuild/core`, `ionic` → `@ionic/cli`, `rsdoctor` → `@rsdoctor/cli`, not `@rsdoctor/core` which is a library with no bin). Check the tool's own docs for the real package name, then `npm view <pkg> version` and `npm view <pkg> bin`. Only record a skip after the real package name is ruled out.
-
-## Tooling & Environment
-- **Always use PowerShell 7 (`pwsh`) for any file writes or script execution.** Windows PowerShell 5.1
-  (`powershell.exe`) writes a UTF-8 **BOM** with `Set-Content -Encoding utf8` and misreads UTF-8
-  without BOM as the system ANSI code page (e.g. GBK), silently corrupting Unicode characters
-  (`→`, `—`, Chinese text). Use `pwsh` (UTF-8 no BOM by default), or better, the editor/write
-  tools for file edits. If you must write files from a shell, run `pwsh -NoProfile` scripts.
-- Rust sources are UTF-8 without BOM; PowerShell module files are UTF-8 with BOM
-  (`utf8bom`, see `.vscode/settings.json`).
-- **`validate-completion.ps1` requires `ajv-cli` — a hard dependency:**
-  ```
-  npm install -g ajv-cli
-  ```
-  It is invoked as `ajv validate --strict=false --all-errors --errors=json`, and each flag is
-  load-bearing: `--strict=false` because the schemas carry `markdownDescription` (a VSCode-only
-  annotation) which strict mode rejects as an unknown keyword; `--all-errors` because ajv
-  otherwise stops at the first failure; `--errors=json` because the default `js` format is a JS
-  object literal that `ConvertFrom-Json` cannot read. Errors come back on **stderr**, with the
-  instance path and the failing schema rule:
-  `next[35].next[0].option[3].tip[0]: must NOT be fewer than 1 characters  [#/allOf/1/items/minLength]`.
-  The previous `Test-Json` reported the wrong path entirely — an empty `tip` deep in
-  `podman` was blamed on `meta/description` — and it surfaced only the first error.
-  `validate-completion.ps1` throws with the install command when `ajv` is not on `PATH`.
-  **Note**: the `errorMessage` texts in `schema/*.json` are not printed by the script, and no
-  mainstream CLI can print them (ajv v8 moved the keyword to the `ajv-errors` plugin, which
-  fails to compile these schemas; python-jsonschema ignores it). **VSCode does honour them**,
-  so the friendly wording reaches whoever edits a manifest in the editor, and
-  `Get-I18nSpacingIssues` independently enforces the most valuable one ("Chinese and English
-  must be separated by a space").
-  The rule pointer is enough to recover the wording by hand: `#/allOf/1/items/minLength` names a
-  constraint inside a `definitions` entry, and opening that entry says what it means. Do not
-  script that lookup — ajv renumbers `allOf` indices after `$ref` resolution, so an automatic
-  resolver attaches the *wrong* message whenever a `$ref` sits in between, and a confidently
-  wrong message is the same trap as `Test-Json` blaming `meta/description` for an empty `tip`
-  three hundred lines away.
-- **`luac -p` is a required extra step** — `validate-completion.ps1` only checks that `hooks.lua`
-  exists and is non-empty, so a clean gate says nothing about whether it compiles:
-  ```
-  luac -p completions/<cmd>/hooks.lua
-  ```
-
-## Adding a New `menu` Config Key
-
-A new config key touches several places — follow the full chain:
-
-1. `core/cli/src/data/config.rs` — add a `CfgDef` row in `CONFIG_KEYS` (group, key, type).
-2. `core/cli/src/data/mod.rs` — add the default to `default_config`.
-3. `completions/psc/language/en-US.json` + `zh-CN.json` — add the key's `next` values / tip
-   under the `menu` group (en-US first, then translate; keep structure identical).
-4. `design/menu.md` and `design/psc-cli.md` — add the key to the config inventory tables.
-5. If the engine consumes it at build time, read it from the build context's `global_config`
-   (not a new per-field input), and update `design/protocol.md` if the build input changes.
-6. Run `.\scripts\compare-json.ps1 psc` (structure + translation) and
-   `cargo test --manifest-path core/Cargo.toml` (config registry).
-
-## Dynamic Completions (`hooks.lua`)
-
-Use hooks when a static list can't know the real values at authoring time — they depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars). Dynamic items are **merged** with the static JSON items, not a replacement.
-
-> **Before writing a `hooks.lua`, read `design/hooks.md`** — it is the authoritative reference for the `psc.*` API, the prelude helpers, and the semantics rules. **Style is also defined there** — follow `design/hooks.md §9 Style Guide`.
-
-If `config.json` has `hooks: true` but no dynamic behavior is actually needed, remove `hooks: true` and delete `hooks.lua`.
-
-**Slot rule**: inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and examples, not the manifest alone. Never offer files at a context whose slot takes subcommands, names, keys, or nothing (`{}`, `{ command = "build" }` offering `rspress.config.ts` where only `build`/`preview` are valid). If a slot accepts files but the manifest shows no placeholder, add the `usage` placeholder (`[FILES]...`) so the slot is documented. For allowed `psc.ls` candidates in a relative file or directory slot, use `entry.name` as the completion `name`; use `entry.path` only when the slot requires an absolute path or as a tip.
-
-**Path-candidate rule — one question settles it: can native path completion do this job?** Native path completion works *inside the current directory* and only once the user has typed a path prefix (`./`, `../`, `/`, `C:\`, `~/`). It never searches by name at a depth the user has not typed. Everything follows from that:
-
-- **A hook must provide it** when the candidate is found *by name* at a depth the user has not typed — a config file that may live anywhere in the tree (`tsconfig*.json`, `biome.{json,jsonc}`, `.swcrc`, `Cargo.toml`, `wrangler.toml`). A recursive glob whose **last segment contains a literal name fragment** (letters/digits that are not merely the extension) is the right tool.
-- **Leave it to native path completion** when the candidate is only "a file of this type somewhere" — `**/*.{js,ts,jsx,tsx}`, `**/*.py`, `**/*.{yaml,yml}`. Such a set is **unbounded by construction**: it grows with the repository instead of staying a small list. The user usually already knows where their own file is, so typing a prefix reaches it faster than scanning a flat list that buries the subcommands and options.
-
-**An extension is not a filter.** `**/*.{js,ts}` is not a "small, semantically filtered set" — it is the whole repository, and it will bury the static candidates. Never add a file listing to make discovery *look* complete.
-
-**Carve-out — an extension-only glob is allowed only when the CLI accepts no other kind of file in that slot *and* the format belongs to the tool rather than to the user** (e.g. `buf` takes `.proto` and nothing else; `dotnet build` takes a project/solution). Ask: when the user wants this, do they want *their own* file of that type, or a file *this tool* owns? If the answer is "their own", native path completion wins. Also prefer narrowing to a fixed depth when the CLI does not need arbitrary depth.
-
-See `design/hooks.md §9` for the full rule with worked examples.
-
-## Updating Existing Completions (New Tool Version)
-
-1. Get new version's `--help` output or changelog
-2. Compare with existing `en-US.json` — new subcommands, new options, changed defaults, deprecated flags
-3. Update `en-US.json` first, then sync structural changes to `zh-CN.json` and other languages
-4. Run `.\scripts\compare-json.ps1 <command>`, fix all reported issues
-
-**Upstream wins; a locally missing command is not a deletion reason.** Delete only when upstream
-has removed it, or the CLI rejects it locally **and** upstream has no such command. Never encode
-documentation topics (`HELP TOPICS`) or shell-library entry points. Why, and the two directions it
-was derived from: `decisions/authoring.md` §[Upstream is authoritative](decisions/authoring.md#d5).
-
-**Don't delete options just because changelog says "deprecated"** unless you've confirmed the CLI no longer accepts the parameter. Keep the entry and note it in the description (e.g., `"(deprecated, use --new-flag instead)"`).
-
-## Translation (`zh-CN.json` and Other Languages)
-
-1. Structure must be identical to `en-US.json` — same nesting, same array order, same entries
-2. Only translate `tip` / `usage` / `example` content — `name`, `alias`, `repeat`, `next` values stay as-is
-3. Spaces between Chinese and English characters
-4. Don't translate proper nouns — command names, option names, tool names stay as-is
-5. When a `tip` value is a proper noun that cannot be translated, append a trailing space so `compare-json.ps1` does not flag it as untranslated. For example, `"Chromium"` → `"Chromium "`
+Fix every reported item until they run clean. `check-hook-targets.ps1` is the **only** check
+that catches a dangling `psc.on` target or one written as an alias — both fail silently at
+runtime. What each gate cannot see, and how to read every report it does produce, is in
+`authoring/validation.md`.
+
+Environment prerequisites — `pwsh` not `powershell.exe`, `ajv-cli`, `luac -p`:
+`authoring/tooling.md`.

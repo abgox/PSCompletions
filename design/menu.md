@@ -406,6 +406,7 @@ Ordering lives in the TUI process:
   `scripts` and `build.ps1`), and a **directory** candidate (trailing separator, e.g. `.\src\`)
   ranks under its own name (`src`). Bare-word candidates (e.g. `cd <Tab>` before any separator is
   typed) are not treated as path completions and keep their native order.
+  <!-- nolink: illustrative path in a ranking example, not a repo file -->
 
 ## 7. Engineering structure (current)
 
