@@ -93,7 +93,7 @@ else {
         })
     if ($withHooks.Count -gt 0) {
         $hookTargets = & $PSScriptRoot\check-hook-targets.ps1 @withHooks -Json |
-            ConvertFrom-Json
+        ConvertFrom-Json
         if ($hookTargets.failures.Count -gt 0) { $hasIssues = $true }
     }
 

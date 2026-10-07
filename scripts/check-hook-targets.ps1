@@ -86,13 +86,13 @@ function msg {
 function colorize {
     param([string]$Text)
     $map = @{
-        '<@Red>'    = "`e[31m"
-        '<@Green>'  = "`e[32m"
-        '<@Yellow>' = "`e[33m"
-        '<@Blue>'   = "`e[34m"
-        '<@Cyan>'   = "`e[36m"
+        '<@Red>'     = "`e[31m"
+        '<@Green>'   = "`e[32m"
+        '<@Yellow>'  = "`e[33m"
+        '<@Blue>'    = "`e[34m"
+        '<@Cyan>'    = "`e[36m"
         '<@Magenta>' = "`e[35m"
-        '<@Gray>'   = "`e[90m"
+        '<@Gray>'    = "`e[90m"
     }
     $out = $Text
     foreach ($k in $map.Keys) { $out = $out.Replace($k, $map[$k]) }
@@ -357,11 +357,11 @@ function Test-HookTargets {
             $missing = @($t.option | Where-Object { !$known.Contains($_) })
             if ($missing.Count -gt 0) {
                 $bad.Add([pscustomobject]@{
-                    completion = $Name
-                    target     = '(any command)'
-                    option     = ($t.option -join ',')
-                    reason     = (msg 'optionNowhere' -Vars @{ options = ($missing -join ', ') })
-                })
+                        completion = $Name
+                        target     = '(any command)'
+                        option     = ($t.option -join ',')
+                        reason     = (msg 'optionNowhere' -Vars @{ options = ($missing -join ', ') })
+                    })
             }
             continue
         }
@@ -371,20 +371,20 @@ function Test-HookTargets {
         elseif ($idx.aliases.ContainsKey($p)) {
             $canon = $idx.aliases[$p]
             $bad.Add([pscustomobject]@{
-                completion = $Name
-                target     = $p
-                option     = ($t.option -join ',')
-                reason     = (msg 'aliasReason' -Vars @{ canonical = $canon })
-            })
+                    completion = $Name
+                    target     = $p
+                    option     = ($t.option -join ',')
+                    reason     = (msg 'aliasReason' -Vars @{ canonical = $canon })
+                })
             continue
         }
         else {
             $bad.Add([pscustomobject]@{
-                completion = $Name
-                target     = $p
-                option     = ($t.option -join ',')
-                reason     = (msg 'noPath')
-            })
+                    completion = $Name
+                    target     = $p
+                    option     = ($t.option -join ',')
+                    reason     = (msg 'noPath')
+                })
             continue
         }
         if ($t.option.Count -gt 0) {
@@ -392,11 +392,11 @@ function Test-HookTargets {
             $missing = @($t.option | Where-Object { !$names.Contains($_) })
             if ($missing.Count -gt 0) {
                 $bad.Add([pscustomobject]@{
-                    completion = $Name
-                    target     = $p
-                    option     = ($t.option -join ',')
-                    reason     = (msg 'optionNotThere' -Vars @{ options = ($missing -join ', ') })
-                })
+                        completion = $Name
+                        target     = $p
+                        option     = ($t.option -join ',')
+                        reason     = (msg 'optionNotThere' -Vars @{ options = ($missing -join ', ') })
+                    })
             }
         }
     }
@@ -427,16 +427,13 @@ $names = @(if ($Completion) {
         $Completion
     }
     elseif ($All) {
-        Get-ChildItem $completionsDir -Directory |
-            Where-Object { Test-HasHooks $_.Name } |
-            ForEach-Object { $_.Name } | Sort-Object
+        Get-ChildItem $completionsDir -Directory | Where-Object { Test-HasHooks $_.Name } | ForEach-Object { $_.Name } | Sort-Object
     }
     else {
         # -IncludeHooks because this check reads hooks.lua, so a completion whose
         # only change is a hook edit is exactly the case it exists for.
         . (Join-Path $script:Root 'scripts/utils.ps1')
-        Get-RecentCompletions -CompletionsDir $completionsDir -IncludeHooks |
-            Where-Object { Test-HasHooks $_ }
+        Get-RecentCompletions -CompletionsDir $completionsDir -IncludeHooks | Where-Object { Test-HasHooks $_ }
     })
 
 if ($names.Count -eq 0) {
