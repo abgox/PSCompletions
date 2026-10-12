@@ -137,9 +137,9 @@
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
 |[gh](https://cli.github.com/)|GitHub 命令行工具。|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件|
-|[git](https://git-scm.com)|版本控制系统。|
+|[git](https://git-scm.com)|分布式版本控制系统，用于跟踪源代码和其他文件的变更。|
 |[gitversion](https://gitversion.net/)|一款可依据 Git 提交历史生成语义化版本号的工具|
-|[glab](https://gitlab.com/gitlab-org/cli)|一个开源的 GitLab CLI 工具，将 GitLab 带到你的命令行。|
+|[glab](https://gitlab.com/gitlab-org/cli)|GitLab 命令行工具（开源），把 GitLab 带到你的终端。|
 |[glow](https://github.com/charmbracelet/glow)|在终端中渲染 Markdown 文件！|
 |[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
 |[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|

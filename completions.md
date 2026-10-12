@@ -137,7 +137,7 @@
 |[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
 |[gh](https://cli.github.com/)|GitHub command-line tool.|
 |[ghgrab](https://github.com/abhixdd/ghgrab)|A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo|
-|[git](https://git-scm.com)|Version control system.|
+|[git](https://git-scm.com)|A distributed version control system for tracking changes in source code and other files.|
 |[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
 |[glab](https://gitlab.com/gitlab-org/cli)|An open source GitLab CLI tool that brings GitLab to your command line.|
 |[glow](https://github.com/charmbracelet/glow)|Render markdown on the CLI, with pizzazz!|
