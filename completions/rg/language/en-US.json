@@ -34,6 +34,12 @@
       "next": []
     },
     {
+      "name": "--auto-hybrid-regex",
+      "tip": [
+        "(deprecated, use --engine instead) Dynamically choose between supported regex engines depending on the features used in a pattern."
+      ]
+    },
+    {
       "name": "--before-context",
       "alias": [
         "-B"
@@ -193,20 +199,51 @@
         "-E, --encoding <ENCODING>"
       ],
       "tip": [
-        "Specify the text encoding to use."
+        "Specify the text encoding to use.",
+        "Defaults to auto, which sniffs for a UTF-8 or UTF-16 BOM. Use none to search raw bytes."
       ],
       "next": [
         {
           "name": "auto"
         },
         {
+          "name": "big5"
+        },
+        {
+          "name": "euc-jp"
+        },
+        {
+          "name": "euc-kr"
+        },
+        {
+          "name": "gb18030"
+        },
+        {
+          "name": "gbk"
+        },
+        {
+          "name": "latin1"
+        },
+        {
           "name": "none"
+        },
+        {
+          "name": "shift_jis"
         },
         {
           "name": "utf-16"
         },
         {
+          "name": "utf-16be"
+        },
+        {
+          "name": "utf-16le"
+        },
+        {
           "name": "utf-8"
+        },
+        {
+          "name": "windows-1252"
         }
       ]
     },
@@ -231,13 +268,41 @@
       ]
     },
     {
-      "name": "--exact-depth",
+      "name": "--field-context-separator",
       "usage": [
-        "--exact-depth <NUM>"
+        "--field-context-separator <SEPARATOR>"
       ],
       "tip": [
-        "Only show results at the exact given depth."
+        "Set the field context separator for printing contextual lines.",
+        "It delimits file paths, line numbers, columns and the contextual line itself.",
+        "The - character is the default value."
       ],
+      "next": []
+    },
+    {
+      "name": "--field-match-separator",
+      "usage": [
+        "--field-match-separator <SEPARATOR>"
+      ],
+      "tip": [
+        "Set the field match separator for printing matching lines.",
+        "It delimits file paths, line numbers, columns and the matching line itself.",
+        "The : character is the default value."
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <PATTERNFILE>"
+      ],
+      "tip": [
+        "Search for patterns from the given file, one per line."
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -325,6 +390,7 @@
       "tip": [
         "Include or exclude files and directories matching the glob."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -364,6 +430,17 @@
       ]
     },
     {
+      "name": "--hostname-bin",
+      "usage": [
+        "--hostname-bin <COMMAND>"
+      ],
+      "tip": [
+        "Control how ripgrep determines this system's hostname by running the given executable.",
+        "The hostname is used for producing hyperlinks. When unset, it is detected automatically."
+      ],
+      "next": []
+    },
+    {
       "name": "--hyperlink-format",
       "usage": [
         "--hyperlink-format <FORMAT>"
@@ -373,19 +450,37 @@
       ],
       "next": [
         {
+          "name": "cursor"
+        },
+        {
           "name": "default"
         },
         {
           "name": "file"
         },
         {
+          "name": "grep+"
+        },
+        {
           "name": "kitty"
+        },
+        {
+          "name": "macvim"
         },
         {
           "name": "none"
         },
         {
+          "name": "textmate"
+        },
+        {
           "name": "vscode"
+        },
+        {
+          "name": "vscode-insiders"
+        },
+        {
+          "name": "vscodium"
         }
       ]
     },
@@ -397,7 +492,14 @@
       "tip": [
         "Include or exclude files with a case-insensitive glob."
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--ignore",
+      "tip": [
+        "Respect ignore files (.gitignore, .ignore, etc.)."
+      ]
     },
     {
       "name": "--ignore-case",
@@ -412,6 +514,18 @@
       ]
     },
     {
+      "name": "--ignore-dot",
+      "tip": [
+        "Respect .ignore and .rgignore files."
+      ]
+    },
+    {
+      "name": "--ignore-exclude",
+      "tip": [
+        "Respect filter rules from files that are manually configured for the repository, such as git's .git/info/exclude."
+      ]
+    },
+    {
       "name": "--ignore-file",
       "usage": [
         "--ignore-file <PATH>"
@@ -419,7 +533,45 @@
       "tip": [
         "Specify a path to an ignore file."
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--ignore-file-case-insensitive",
+      "tip": [
+        "Process ignore files (.gitignore, .ignore, etc.) case insensitively.",
+        "Most useful on case insensitive file systems (such as Windows)."
+      ]
+    },
+    {
+      "name": "--ignore-files",
+      "tip": [
+        "Respect --ignore-file flags."
+      ]
+    },
+    {
+      "name": "--ignore-global",
+      "tip": [
+        "Respect global ignore files."
+      ]
+    },
+    {
+      "name": "--ignore-messages",
+      "tip": [
+        "Show error messages about parsing ignore files."
+      ]
+    },
+    {
+      "name": "--ignore-parent",
+      "tip": [
+        "Respect ignore files in parent directories."
+      ]
+    },
+    {
+      "name": "--ignore-vcs",
+      "tip": [
+        "Respect source control ignore files."
+      ]
     },
     {
       "name": "--include-zero",
@@ -495,12 +647,26 @@
       ]
     },
     {
+      "name": "--max-count",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-count <NUM>"
+      ],
+      "tip": [
+        "Limit the number of matching lines per file."
+      ],
+      "next": []
+    },
+    {
       "name": "--max-depth",
       "alias": [
+        "--maxdepth",
         "-d"
       ],
       "usage": [
-        "-d, --max-depth <NUM>"
+        "-d, --maxdepth, --max-depth <NUM>"
       ],
       "tip": [
         "Limit the depth of directory traversal."
@@ -518,14 +684,10 @@
       "next": []
     },
     {
-      "name": "--min-depth",
-      "usage": [
-        "--min-depth <NUM>"
-      ],
+      "name": "--messages",
       "tip": [
-        "Only show results starting at the given depth."
-      ],
-      "next": []
+        "Show error messages about failed file operations."
+      ]
     },
     {
       "name": "--mmap",
@@ -552,9 +714,57 @@
       ]
     },
     {
+      "name": "--no-auto-hybrid-regex",
+      "tip": [
+        "Disable automatic hybrid regex matching."
+      ]
+    },
+    {
+      "name": "--no-binary",
+      "tip": [
+        "Do not search binary files."
+      ]
+    },
+    {
+      "name": "--no-block-buffered",
+      "tip": [
+        "Do not use block buffering for output."
+      ]
+    },
+    {
+      "name": "--no-byte-offset",
+      "tip": [
+        "Do not print the byte offset before each line."
+      ]
+    },
+    {
+      "name": "--no-column",
+      "tip": [
+        "Do not show column numbers."
+      ]
+    },
+    {
       "name": "--no-config",
       "tip": [
         "Never read configuration files."
+      ]
+    },
+    {
+      "name": "--no-context-separator",
+      "tip": [
+        "Completely disable context separators."
+      ]
+    },
+    {
+      "name": "--no-crlf",
+      "tip": [
+        "Do not treat CRLF as a line terminator."
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "Revert to automatic encoding detection."
       ]
     },
     {
@@ -570,9 +780,33 @@
       ]
     },
     {
+      "name": "--no-fixed-strings",
+      "tip": [
+        "Treat patterns as regular expressions instead of literals."
+      ]
+    },
+    {
+      "name": "--no-follow",
+      "tip": [
+        "Do not follow symbolic links while traversing directories."
+      ]
+    },
+    {
+      "name": "--no-glob-case-insensitive",
+      "tip": [
+        "Process glob patterns case sensitively."
+      ]
+    },
+    {
       "name": "--no-heading",
       "tip": [
         "Do not group matches by file."
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "Do not search hidden files and directories."
       ]
     },
     {
@@ -588,9 +822,15 @@
       ]
     },
     {
+      "name": "--no-ignore-exclude",
+      "tip": [
+        "Do not respect filter rules from files that are manually configured for the repository, such as git's .git/info/exclude."
+      ]
+    },
+    {
       "name": "--no-ignore-file-case-insensitive",
       "tip": [
-        "Process ignore files case insensitively."
+        "Process ignore files case sensitively (the default)."
       ]
     },
     {
@@ -624,6 +864,30 @@
       ]
     },
     {
+      "name": "--no-include-zero",
+      "tip": [
+        "Do not print match counts of zero."
+      ]
+    },
+    {
+      "name": "--no-invert-match",
+      "tip": [
+        "Disable inverted matching. Print lines that match."
+      ]
+    },
+    {
+      "name": "--no-json",
+      "tip": [
+        "Do not print results in JSON Lines format."
+      ]
+    },
+    {
+      "name": "--no-line-buffered",
+      "tip": [
+        "Do not use line buffering for output."
+      ]
+    },
+    {
       "name": "--no-line-number",
       "alias": [
         "-N"
@@ -633,6 +897,12 @@
       ],
       "tip": [
         "Suppress line numbers."
+      ]
+    },
+    {
+      "name": "--no-max-columns-preview",
+      "tip": [
+        "Do not print a preview for lines exceeding the maximum column limit."
       ]
     },
     {
@@ -648,9 +918,76 @@
       ]
     },
     {
+      "name": "--no-multiline",
+      "tip": [
+        "Disable searching across multiple lines."
+      ]
+    },
+    {
+      "name": "--no-multiline-dotall",
+      "tip": [
+        "Disable dot all mode in multiline searching."
+      ]
+    },
+    {
+      "name": "--no-one-file-system",
+      "tip": [
+        "Allow crossing file system boundaries."
+      ]
+    },
+    {
+      "name": "--no-pcre2",
+      "tip": [
+        "Do not use the PCRE2 regex engine."
+      ]
+    },
+    {
+      "name": "--no-pcre2-unicode",
+      "tip": [
+        "(deprecated, use --no-unicode instead)",
+        "Unicode mode is enabled by default."
+      ]
+    },
+    {
+      "name": "--no-pre",
+      "tip": [
+        "Disable the preprocessor command set by --pre."
+      ]
+    },
+    {
       "name": "--no-require-git",
       "tip": [
         "Respect gitignore files even without a git repository."
+      ]
+    },
+    {
+      "name": "--no-search-zip",
+      "tip": [
+        "Do not search compressed files."
+      ]
+    },
+    {
+      "name": "--no-sort-files",
+      "tip": [
+        "Do not sort results by file path."
+      ]
+    },
+    {
+      "name": "--no-stats",
+      "tip": [
+        "Do not print aggregate statistics about the search."
+      ]
+    },
+    {
+      "name": "--no-text",
+      "tip": [
+        "Do not search binary files as text."
+      ]
+    },
+    {
+      "name": "--no-trim",
+      "tip": [
+        "Do not trim leading ASCII whitespace from lines."
       ]
     },
     {
@@ -696,9 +1033,16 @@
       ]
     },
     {
-      "name": "--passthru",
+      "name": "--passthrough",
+      "alias": [
+        "--passthru"
+      ],
+      "usage": [
+        "--passthru, --passthrough"
+      ],
       "tip": [
-        "Print both matching and non-matching lines."
+        "Print both matching and non-matching lines.",
+        "This overrides -C/--context, -A/--after-context and -B/--before-context."
       ]
     },
     {
@@ -721,6 +1065,12 @@
       ],
       "tip": [
         "Use the PCRE2 regex engine."
+      ]
+    },
+    {
+      "name": "--pcre2-unicode",
+      "tip": [
+        "Enable PCRE2 Unicode mode."
       ]
     },
     {
@@ -747,6 +1097,7 @@
       "tip": [
         "Only apply --pre to files matching the glob."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -784,6 +1135,20 @@
       "next": []
     },
     {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp <PATTERN>"
+      ],
+      "tip": [
+        "A pattern to search for. Can be provided multiple times."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
       "name": "--replace",
       "alias": [
         "-r"
@@ -795,6 +1160,12 @@
         "Replace every match with the given text."
       ],
       "next": []
+    },
+    {
+      "name": "--require-git",
+      "tip": [
+        "Only respect gitignore files inside a git repository."
+      ]
     },
     {
       "name": "--search-zip",
@@ -844,6 +1215,12 @@
         {
           "name": "path"
         }
+      ]
+    },
+    {
+      "name": "--sort-files",
+      "tip": [
+        "(deprecated, use --sort=path instead) Sort search results by file path in ascending order."
       ]
     },
     {
@@ -940,8 +1317,10 @@
         "-t, --type <TYPE>"
       ],
       "tip": [
-        "Filter by file type (e.g., py, js, html)."
+        "Filter by file type (e.g., py, js, html).",
+        "Use --type-list to show all supported file types and their corresponding globs."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -951,6 +1330,18 @@
       ],
       "tip": [
         "Add a new glob for a particular file type."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-clear",
+      "usage": [
+        "--type-clear <TYPE>"
+      ],
+      "tip": [
+        "Clear the file type globs previously defined for TYPE.",
+        "Globs can be added again after this flag."
       ],
       "next": []
     },
@@ -969,9 +1360,17 @@
         "-T, --type-not <TYPE>"
       ],
       "tip": [
-        "Do not search files matching TYPE."
+        "Do not search files matching TYPE.",
+        "Use --type-list to show all supported file types and their corresponding globs."
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--unicode",
+      "tip": [
+        "Enable Unicode mode for all patterns."
+      ]
     },
     {
       "name": "--unrestricted",
@@ -1015,36 +1414,6 @@
       "tip": [
         "Only show matches surrounded by word boundaries."
       ]
-    },
-    {
-      "name": "-e",
-      "usage": [
-        "-e, --regexp <PATTERN>"
-      ],
-      "tip": [
-        "A pattern to search for. Can be provided multiple times."
-      ],
-      "next": []
-    },
-    {
-      "name": "-f",
-      "usage": [
-        "-f, --file <PATTERNFILE>"
-      ],
-      "tip": [
-        "Search for patterns from the given file, one per line."
-      ],
-      "next": []
-    },
-    {
-      "name": "-m",
-      "usage": [
-        "-m, --max-count <NUM>"
-      ],
-      "tip": [
-        "Limit the number of matching lines per file."
-      ],
-      "next": []
     }
   ]
 }

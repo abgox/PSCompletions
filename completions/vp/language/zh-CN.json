@@ -48,6 +48,24 @@
           "next": []
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "强制重新安装全部依赖。"
+          ]
+        },
+        {
+          "name": "--frozen-lockfile",
+          "tip": [
+            "不更新锁文件。"
+          ]
+        },
+        {
           "name": "--global",
           "alias": [
             "-g"
@@ -66,6 +84,30 @@
           ]
         },
         {
+          "name": "--lockfile-only",
+          "tip": [
+            "仅更新锁文件，不执行安装。"
+          ]
+        },
+        {
+          "name": "--no-frozen-lockfile",
+          "tip": [
+            "允许更新锁文件。"
+          ]
+        },
+        {
+          "name": "--no-lockfile",
+          "tip": [
+            "不读取也不生成锁文件。"
+          ]
+        },
+        {
+          "name": "--no-optional",
+          "tip": [
+            "不安装 optionalDependencies。"
+          ]
+        },
+        {
           "name": "--node",
           "usage": [
             "--node <NODE>"
@@ -74,6 +116,18 @@
             "全局安装所用的 Node.js 版本（仅与 -g 联用）。"
           ],
           "next": []
+        },
+        {
+          "name": "--offline",
+          "tip": [
+            "仅使用缓存中已有的包。"
+          ]
+        },
+        {
+          "name": "--prefer-offline",
+          "tip": [
+            "优先使用缓存的包。"
+          ]
         },
         {
           "name": "--save-catalog",
@@ -146,6 +200,18 @@
           ]
         },
         {
+          "name": "--shamefully-hoist",
+          "tip": [
+            "创建扁平的 node_modules（仅 pnpm）。"
+          ]
+        },
+        {
+          "name": "--silent",
+          "tip": [
+            "抑制 Vite+ 输出，并在支持的情况下启用原生的静默模式。"
+          ]
+        },
+        {
           "name": "--workspace",
           "tip": [
             "仅当包存在于工作区时添加（pnpm 特有）。"
@@ -183,7 +249,7 @@
         {
           "name": "--assetsDir",
           "usage": [
-            "--assetsDir <DIR>"
+            "--assetsDir <dir>"
           ],
           "tip": [
             "outDir 下存放静态资源的目录（默认：assets）。"
@@ -193,7 +259,7 @@
         {
           "name": "--assetsInlineLimit",
           "usage": [
-            "--assetsInlineLimit <NUMBER>"
+            "--assetsInlineLimit <number>"
           ],
           "tip": [
             "静态资源 base64 内联阈值（字节，默认：4096）。"
@@ -203,7 +269,7 @@
         {
           "name": "--base",
           "usage": [
-            "--base <PATH>"
+            "--base <path>"
           ],
           "tip": [
             "公共基础路径（默认：/）。"
@@ -222,7 +288,7 @@
             "-d"
           ],
           "usage": [
-            "-d, --debug [FEAT]"
+            "-d, --debug [feat]"
           ],
           "tip": [
             "显示调试日志。"
@@ -241,7 +307,7 @@
             "-f"
           ],
           "usage": [
-            "-f, --filter <FILTER>"
+            "-f, --filter <filter>"
           ],
           "tip": [
             "过滤调试日志。"
@@ -254,7 +320,7 @@
             "-l"
           ],
           "usage": [
-            "-l, --logLevel <LEVEL>"
+            "-l, --logLevel <level>"
           ],
           "tip": [
             "设置日志级别。"
@@ -289,7 +355,7 @@
         {
           "name": "--manifest",
           "usage": [
-            "--manifest [NAME]"
+            "--manifest [name]"
           ],
           "tip": [
             "输出构建 manifest json。"
@@ -299,7 +365,7 @@
         {
           "name": "--minify",
           "usage": [
-            "--minify [MINIFIER]"
+            "--minify [minifier]"
           ],
           "tip": [
             "启用/禁用压缩，或指定压缩器（默认：oxc）。"
@@ -331,7 +397,7 @@
             "-m"
           ],
           "usage": [
-            "-m, --mode <MODE>"
+            "-m, --mode <mode>"
           ],
           "tip": [
             "设置环境模式。"
@@ -341,7 +407,7 @@
         {
           "name": "--outDir",
           "usage": [
-            "--outDir <DIR>"
+            "--outDir <dir>"
           ],
           "tip": [
             "输出目录（默认：dist）。"
@@ -351,7 +417,7 @@
         {
           "name": "--sourcemap",
           "usage": [
-            "--sourcemap [OUTPUT]"
+            "--sourcemap [output]"
           ],
           "tip": [
             "输出构建 source map（默认：false）。"
@@ -374,7 +440,7 @@
         {
           "name": "--ssr",
           "usage": [
-            "--ssr [ENTRY]"
+            "--ssr [entry]"
           ],
           "tip": [
             "为服务端渲染构建指定入口。"
@@ -384,7 +450,7 @@
         {
           "name": "--ssrManifest",
           "usage": [
-            "--ssrManifest [NAME]"
+            "--ssrManifest [name]"
           ],
           "tip": [
             "输出 ssr manifest json。"
@@ -394,7 +460,7 @@
         {
           "name": "--target",
           "usage": [
-            "--target <TARGET>"
+            "--target <target>"
           ],
           "tip": [
             "转译目标（默认：'baseline-widely-available'）。"
@@ -497,7 +563,7 @@
         {
           "name": "--hooks-dir",
           "usage": [
-            "--hooks-dir <PATH>"
+            "--hooks-dir <path>"
           ],
           "tip": [
             "自定义钩子目录（默认：.vite-hooks，或本仓库上次使用的目录）。"
@@ -620,7 +686,7 @@
         {
           "name": "--package-manager",
           "usage": [
-            "--package-manager <MANAGER>"
+            "--package-manager <pnpm|npm|yarn|bun>"
           ],
           "tip": [
             "使用指定的包管理器。"
@@ -689,7 +755,7 @@
         {
           "name": "--base",
           "usage": [
-            "--base <PATH>"
+            "--base <path>"
           ],
           "tip": [
             "公共基础路径（默认：/）。"
@@ -714,7 +780,7 @@
             "-d"
           ],
           "usage": [
-            "-d, --debug [FEAT]"
+            "-d, --debug [feat]"
           ],
           "tip": [
             "显示调试日志。"
@@ -733,7 +799,7 @@
             "-f"
           ],
           "usage": [
-            "-f, --filter <FILTER>"
+            "-f, --filter <filter>"
           ],
           "tip": [
             "过滤调试日志。"
@@ -749,7 +815,7 @@
         {
           "name": "--host",
           "usage": [
-            "--host [HOST]"
+            "--host [host]"
           ],
           "tip": [
             "指定主机名。"
@@ -762,7 +828,7 @@
             "-l"
           ],
           "usage": [
-            "-l, --logLevel <LEVEL>"
+            "-l, --logLevel <level>"
           ],
           "tip": [
             "设置日志级别。"
@@ -800,7 +866,7 @@
             "-m"
           ],
           "usage": [
-            "-m, --mode <MODE>"
+            "-m, --mode <mode>"
           ],
           "tip": [
             "设置环境模式。"
@@ -810,7 +876,7 @@
         {
           "name": "--open",
           "usage": [
-            "--open [PATH]"
+            "--open [path]"
           ],
           "tip": [
             "启动时打开浏览器。"
@@ -820,7 +886,7 @@
         {
           "name": "--port",
           "usage": [
-            "--port <PORT>"
+            "--port <port>"
           ],
           "tip": [
             "指定端口。"
@@ -926,6 +992,14 @@
           ],
           "tip": [
             "设置或显示全局环境默认值。"
+          ],
+          "option": [
+            {
+              "name": "--unset",
+              "tip": [
+                "清除默认值，而不是设置它们。"
+              ]
+            }
           ]
         },
         {
@@ -1517,7 +1591,7 @@
         {
           "name": "--ignore-path",
           "usage": [
-            "--ignore-path <PATH>"
+            "--ignore-path=PATH"
           ],
           "tip": [
             "忽略文件路径。可多次指定。未指定时使用当前目录的 .gitignore 与 .prettierignore。"
@@ -1540,7 +1614,7 @@
         {
           "name": "--stdin-filepath",
           "usage": [
-            "--stdin-filepath <PATH>"
+            "--stdin-filepath=PATH"
           ],
           "tip": [
             "指定用于推断解析器的文件名。"
@@ -1550,7 +1624,7 @@
         {
           "name": "--threads",
           "usage": [
-            "--threads <INT>"
+            "--threads=INT"
           ],
           "tip": [
             "要使用的线程数。设为 1 则仅使用 1 个 CPU 核心。"
@@ -1599,7 +1673,7 @@
             {
               "name": "--hooks-dir",
               "usage": [
-                "--hooks-dir <PATH>"
+                "--hooks-dir <path>"
               ],
               "tip": [
                 "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
@@ -1617,7 +1691,7 @@
             {
               "name": "--hooks-dir",
               "usage": [
-                "--hooks-dir <PATH>"
+                "--hooks-dir <path>"
               ],
               "tip": [
                 "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
@@ -1635,7 +1709,7 @@
             {
               "name": "--hooks-dir",
               "usage": [
-                "--hooks-dir <PATH>"
+                "--hooks-dir <path>"
               ],
               "tip": [
                 "自定义钩子目录（默认：.vite-hooks，或上次使用的目录）。"
@@ -1930,7 +2004,7 @@
             "-A"
           ],
           "usage": [
-            "-A, --allow <NAME>"
+            "-A, --allow=NAME"
           ],
           "tip": [
             "允许规则或分类（抑制检查）。"
@@ -1990,7 +2064,7 @@
         {
           "name": "--debug",
           "usage": [
-            "--debug <OPTIONS>"
+            "--debug=OPTIONS"
           ],
           "tip": [
             "启用调试输出选项。多个选项以逗号分隔。"
@@ -2016,7 +2090,7 @@
             "-D"
           ],
           "usage": [
-            "-D, --deny <NAME>"
+            "-D, --deny=NAME"
           ],
           "tip": [
             "对规则或分类报错。"
@@ -2121,7 +2195,7 @@
             "-f"
           ],
           "usage": [
-            "-f, --format <ARG>"
+            "-f, --format=ARG"
           ],
           "tip": [
             "使用指定的输出格式。"
@@ -2192,7 +2266,7 @@
         {
           "name": "--ignore-path",
           "usage": [
-            "--ignore-path <PATH>"
+            "--ignore-path=PATH"
           ],
           "tip": [
             "指定用作 .eslintignore 的文件。"
@@ -2202,7 +2276,7 @@
         {
           "name": "--ignore-pattern",
           "usage": [
-            "--ignore-pattern <PAT>"
+            "--ignore-pattern=PAT"
           ],
           "tip": [
             "指定要忽略的文件模式（在 .eslintignore 之外追加）。"
@@ -2237,7 +2311,7 @@
         {
           "name": "--max-warnings",
           "usage": [
-            "--max-warnings <INT>"
+            "--max-warnings=INT"
           ],
           "tip": [
             "指定警告阈值，警告过多时可强制以错误状态退出。"
@@ -2307,7 +2381,7 @@
         {
           "name": "--report-unused-disable-directives-severity",
           "usage": [
-            "--report-unused-disable-directives-severity <SEVERITY>"
+            "--report-unused-disable-directives-severity=SEVERITY"
           ],
           "tip": [
             "等同于 --report-unused-disable-directives，但可指定报告的严重级别。"
@@ -2329,7 +2403,7 @@
         {
           "name": "--threads",
           "usage": [
-            "--threads <INT>"
+            "--threads=INT"
           ],
           "tip": [
             "要使用的线程数。设为 1 则仅使用 1 个 CPU 核心。"
@@ -2349,7 +2423,7 @@
         {
           "name": "--tsconfig",
           "usage": [
-            "--tsconfig <PATH>"
+            "--tsconfig=<./tsconfig.json>"
           ],
           "tip": [
             "覆盖用于导入解析的 TypeScript 配置。"
@@ -2386,7 +2460,7 @@
             "-W"
           ],
           "usage": [
-            "-W, --warn <NAME>"
+            "-W, --warn=NAME"
           ],
           "tip": [
             "对规则或分类发出警告。"
@@ -2859,7 +2933,7 @@
         {
           "name": "--concurrency",
           "usage": [
-            "--concurrency <COUNT>"
+            "--concurrency <count>"
           ],
           "tip": [
             "并行运行的最大 Rolldown 构建数。"
@@ -2869,7 +2943,7 @@
         {
           "name": "--copy",
           "usage": [
-            "--copy <DIR>"
+            "--copy <dir>"
           ],
           "tip": [
             "复制文件到输出目录。"
@@ -2879,7 +2953,7 @@
         {
           "name": "--debug",
           "usage": [
-            "--debug [FEAT]"
+            "--debug [feat]"
           ],
           "tip": [
             "显示调试日志。"
@@ -2889,7 +2963,7 @@
         {
           "name": "--deps.never-bundle",
           "usage": [
-            "--deps.never-bundle <MODULE>"
+            "--deps.never-bundle <module>"
           ],
           "tip": [
             "将依赖标记为外部依赖。"
@@ -2911,7 +2985,7 @@
         {
           "name": "--env-file",
           "usage": [
-            "--env-file <FILE>"
+            "--env-file <file>"
           ],
           "tip": [
             "从文件加载环境变量；与 --env 联用时 --env 中的变量优先。"
@@ -2921,7 +2995,7 @@
         {
           "name": "--env-prefix",
           "usage": [
-            "--env-prefix <PREFIX>"
+            "--env-prefix <prefix>"
           ],
           "tip": [
             "注入到包中的环境变量前缀（默认：TSDOWN_）。"
@@ -2962,7 +3036,7 @@
             "-F"
           ],
           "usage": [
-            "-F, --filter <PATTERN>"
+            "-F, --filter <pattern>"
           ],
           "tip": [
             "过滤配置（cwd 或名称），例如 /pkg-name$/ 或 pkg-name。"
@@ -2975,7 +3049,7 @@
             "-f"
           ],
           "usage": [
-            "-f, --format <FORMAT>"
+            "-f, --format <format>"
           ],
           "tip": [
             "打包格式（默认：esm）。"
@@ -3010,7 +3084,7 @@
         {
           "name": "--from-vite",
           "usage": [
-            "--from-vite [VITEST]"
+            "--from-vite [vitest]"
           ],
           "tip": [
             "复用 Vite 或 Vitest 配置。"
@@ -3020,7 +3094,7 @@
         {
           "name": "--ignore-watch",
           "usage": [
-            "--ignore-watch <PATH>"
+            "--ignore-watch <path>"
           ],
           "tip": [
             "监视模式下忽略自定义路径。"
@@ -3033,7 +3107,7 @@
             "-l"
           ],
           "usage": [
-            "-l, --logLevel <LEVEL>"
+            "-l, --logLevel <level>"
           ],
           "tip": [
             "设置日志级别：info、warn、error、silent。"
@@ -3086,7 +3160,7 @@
         {
           "name": "--on-success",
           "usage": [
-            "--on-success <COMMAND>"
+            "--on-success <command>"
           ],
           "tip": [
             "成功时运行的命令。"
@@ -3099,7 +3173,7 @@
             "-d"
           ],
           "usage": [
-            "-d, --out-dir <DIR>"
+            "-d, --out-dir <dir>"
           ],
           "tip": [
             "输出目录（默认：dist）。"
@@ -3109,7 +3183,7 @@
         {
           "name": "--platform",
           "usage": [
-            "--platform <PLATFORM>"
+            "--platform <platform>"
           ],
           "tip": [
             "目标平台（默认：node）。"
@@ -3150,7 +3224,7 @@
         {
           "name": "--root",
           "usage": [
-            "--root <DIR>"
+            "--root <dir>"
           ],
           "tip": [
             "输入文件的根目录。"
@@ -3172,7 +3246,7 @@
         {
           "name": "--target",
           "usage": [
-            "--target <TARGET>"
+            "--target <target>"
           ],
           "tip": [
             "打包目标，例如 \"es2015\"、\"esnext\"。"
@@ -3188,7 +3262,7 @@
         {
           "name": "--tsconfig",
           "usage": [
-            "--tsconfig <TSCONFIG>"
+            "--tsconfig <tsconfig>"
           ],
           "tip": [
             "设置 tsconfig 路径。"
@@ -3213,7 +3287,7 @@
             "-w"
           ],
           "usage": [
-            "-w, --watch [PATH]"
+            "-w, --watch [path]"
           ],
           "tip": [
             "监视模式。"
@@ -3226,7 +3300,7 @@
             "-W"
           ],
           "usage": [
-            "-W, --workspace [DIR]"
+            "-W, --workspace [dir]"
           ],
           "tip": [
             "启用工作区模式。"
@@ -4655,7 +4729,7 @@
         {
           "name": "--base",
           "usage": [
-            "--base <PATH>"
+            "--base <path>"
           ],
           "tip": [
             "公共基础路径（默认：/）。"
@@ -4674,7 +4748,7 @@
             "-d"
           ],
           "usage": [
-            "-d, --debug [FEAT]"
+            "-d, --debug [feat]"
           ],
           "tip": [
             "显示调试日志。"
@@ -4687,7 +4761,7 @@
             "-f"
           ],
           "usage": [
-            "-f, --filter <FILTER>"
+            "-f, --filter <filter>"
           ],
           "tip": [
             "过滤调试日志。"
@@ -4697,7 +4771,7 @@
         {
           "name": "--host",
           "usage": [
-            "--host [HOST]"
+            "--host [host]"
           ],
           "tip": [
             "指定主机名。"
@@ -4710,7 +4784,7 @@
             "-l"
           ],
           "usage": [
-            "-l, --logLevel <LEVEL>"
+            "-l, --logLevel <level>"
           ],
           "tip": [
             "设置日志级别。"
@@ -4748,7 +4822,7 @@
             "-m"
           ],
           "usage": [
-            "-m, --mode <MODE>"
+            "-m, --mode <mode>"
           ],
           "tip": [
             "设置环境模式。"
@@ -4758,7 +4832,7 @@
         {
           "name": "--open",
           "usage": [
-            "--open [PATH]"
+            "--open [path]"
           ],
           "tip": [
             "启动时打开浏览器。"
@@ -4768,7 +4842,7 @@
         {
           "name": "--outDir",
           "usage": [
-            "--outDir <DIR>"
+            "--outDir <dir>"
           ],
           "tip": [
             "输出目录（默认：dist）。"
@@ -4778,7 +4852,7 @@
         {
           "name": "--port",
           "usage": [
-            "--port <PORT>"
+            "--port <port>"
           ],
           "tip": [
             "指定端口。"
@@ -4986,7 +5060,7 @@
         {
           "name": "--cwd",
           "usage": [
-            "--cwd <PATH>"
+            "--cwd <path>"
           ],
           "tip": [
             "运行所有任务所用的工作目录。"
@@ -5008,7 +5082,7 @@
         {
           "name": "--diff",
           "usage": [
-            "--diff <STRING>"
+            "--diff <string>"
           ],
           "tip": [
             "覆盖 git diff 默认的 --staged 标志。"
@@ -5018,7 +5092,7 @@
         {
           "name": "--diff-filter",
           "usage": [
-            "--diff-filter <STRING>"
+            "--diff-filter <string>"
           ],
           "tip": [
             "覆盖 git diff 默认的 --diff-filter=ACMR 标志。"
@@ -5117,7 +5191,7 @@
         {
           "name": "--api",
           "usage": [
-            "--api [PORT]"
+            "--api [port]"
           ],
           "tip": [
             "指定服务器端口。"
@@ -5127,7 +5201,7 @@
         {
           "name": "--attachmentsDir",
           "usage": [
-            "--attachmentsDir <DIR>"
+            "--attachmentsDir <dir>"
           ],
           "tip": [
             "context.annotate 附件的存储目录（默认：.vitest-attachments）。"
@@ -5137,7 +5211,7 @@
         {
           "name": "--bail",
           "usage": [
-            "--bail <NUMBER>"
+            "--bail <number>"
           ],
           "tip": [
             "失败测试达到给定数量时停止执行（默认：0）。"
@@ -5147,7 +5221,7 @@
         {
           "name": "--browser",
           "usage": [
-            "--browser <NAME>"
+            "--browser <name>"
           ],
           "tip": [
             "在浏览器中运行测试。等同于 --browser.enabled（默认：false）。"
@@ -5163,7 +5237,7 @@
         {
           "name": "--changed",
           "usage": [
-            "--changed [SINCE]"
+            "--changed [since]"
           ],
           "tip": [
             "运行受改动文件影响的测试（默认：false）。"
@@ -5181,16 +5255,6 @@
           "tip": [
             "监视模式重新运行时清屏（默认：true）。"
           ]
-        },
-        {
-          "name": "--compare",
-          "usage": [
-            "--compare <FILE>"
-          ],
-          "tip": [
-            "用于对比的基准测试输出文件。"
-          ],
-          "next": []
         },
         {
           "name": "--coverage",
@@ -5213,7 +5277,7 @@
         {
           "name": "--diff",
           "usage": [
-            "--diff <PATH>"
+            "--diff <path>"
           ],
           "tip": [
             "DiffOptions 对象，或导出 DiffOptions 对象的模块路径。"
@@ -5223,7 +5287,7 @@
         {
           "name": "--dir",
           "usage": [
-            "--dir <PATH>"
+            "--dir <path>"
           ],
           "tip": [
             "扫描测试文件的基础目录。"
@@ -5245,7 +5309,7 @@
         {
           "name": "--environment",
           "usage": [
-            "--environment <NAME>"
+            "--environment <name>"
           ],
           "tip": [
             "指定运行环境（非浏览器模式，默认：node）。"
@@ -5274,7 +5338,7 @@
         {
           "name": "--exclude",
           "usage": [
-            "--exclude <GLOB>"
+            "--exclude <glob>"
           ],
           "tip": [
             "测试中要排除的额外文件 glob。"
@@ -5284,7 +5348,7 @@
         {
           "name": "--execArgv",
           "usage": [
-            "--execArgv <OPTION>"
+            "--execArgv <option>"
           ],
           "tip": [
             "生成 worker_threads 或 child_process 时向 Node 进程传递额外参数。"
@@ -5306,7 +5370,7 @@
         {
           "name": "--experimental",
           "usage": [
-            "--experimental <FEATURES>"
+            "--experimental <features>"
           ],
           "tip": [
             "实验性功能。"
@@ -5326,6 +5390,22 @@
           ]
         },
         {
+          "name": "--fsModuleCache",
+          "tip": [
+            "缓存转换后的模块到文件系统，并在重新运行时复用（默认：false）。"
+          ]
+        },
+        {
+          "name": "--fsModuleCachePath",
+          "usage": [
+            "--fsModuleCachePath <path>"
+          ],
+          "tip": [
+            "fsModuleCache 的存储目录（默认：node_modules/.vitest-cache）。"
+          ],
+          "next": []
+        },
+        {
           "name": "--globals",
           "tip": [
             "全局注入 API。"
@@ -5340,7 +5420,7 @@
         {
           "name": "--hookTimeout",
           "usage": [
-            "--hookTimeout <TIMEOUT>"
+            "--hookTimeout <timeout>"
           ],
           "tip": [
             "钩子默认超时（毫秒，默认：10000）。设为 0 可完全禁用超时。"
@@ -5354,9 +5434,16 @@
           ]
         },
         {
+          "name": "--injectCjsGlobals",
+          "tip": [
+            "将 CommonJS 变量（module、exports、require、__filename、__dirname）注入每个测试模块。",
+            "用 --no-inject-cjs-globals 可禁用（默认：true）。"
+          ]
+        },
+        {
           "name": "--inspect",
           "usage": [
-            "--inspect [[HOST:]PORT]"
+            "--inspect [[host:]port]"
           ],
           "tip": [
             "启用 Node.js 检查器（默认：127.0.0.1:9229）。"
@@ -5366,7 +5453,7 @@
         {
           "name": "--inspectBrk",
           "usage": [
-            "--inspectBrk [[HOST:]PORT]"
+            "--inspectBrk [[host:]port]"
           ],
           "tip": [
             "启用 Node.js 检查器，并在测试开始前中断。"
@@ -5382,7 +5469,7 @@
         {
           "name": "--json",
           "usage": [
-            "--json [VALUE]"
+            "--json [true/path]"
           ],
           "tip": [
             "以 JSON 打印收集到的测试，或写入文件（默认：false）。"
@@ -5392,7 +5479,7 @@
         {
           "name": "--listTags",
           "usage": [
-            "--listTags [TYPE]"
+            "--listTags [type]"
           ],
           "tip": [
             "列出全部可用标签而不运行测试。--list-tags=json 将以 JSON 输出标签（无标签时除外）。"
@@ -5408,7 +5495,7 @@
         {
           "name": "--maxConcurrency",
           "usage": [
-            "--maxConcurrency <NUMBER>"
+            "--maxConcurrency <number>"
           ],
           "tip": [
             "测试文件执行期间并发测试与套件的最大数量（默认：5）。"
@@ -5418,7 +5505,7 @@
         {
           "name": "--maxWorkers",
           "usage": [
-            "--maxWorkers <WORKERS>"
+            "--maxWorkers <workers>"
           ],
           "tip": [
             "运行测试的最大 Worker 数量或百分比。"
@@ -5428,7 +5515,7 @@
         {
           "name": "--mergeReports",
           "usage": [
-            "--mergeReports [PATH]"
+            "--mergeReports [path]"
           ],
           "tip": [
             "Blob 报告目录路径。使用此选项时 Vitest 不运行测试，仅报告之前记录的测试。"
@@ -5438,7 +5525,7 @@
         {
           "name": "--mode",
           "usage": [
-            "--mode <NAME>"
+            "--mode <name>"
           ],
           "tip": [
             "覆盖 Vite 模式（默认：test 或 benchmark）。"
@@ -5460,20 +5547,10 @@
         {
           "name": "--outputFile",
           "usage": [
-            "--outputFile <FILE>"
+            "--outputFile <filename/-s>"
           ],
           "tip": [
             "同时指定了受支持的报告器时，将测试结果写入文件。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--outputJson",
-          "usage": [
-            "--outputJson <FILE>"
-          ],
-          "tip": [
-            "基准测试输出文件。"
           ],
           "next": []
         },
@@ -5486,7 +5563,7 @@
         {
           "name": "--pool",
           "usage": [
-            "--pool <POOL>"
+            "--pool <pool>"
           ],
           "tip": [
             "指定运行池（非浏览器模式，默认：forks）。"
@@ -5501,19 +5578,33 @@
         },
         {
           "name": "--project",
+          "alias": [
+            "-p"
+          ],
           "usage": [
-            "--project <NAME>"
+            "-p, --project <name>"
           ],
           "tip": [
-            "使用 Vitest 工作区功能时要运行的项目名。可重复指定多个项目。"
+            "使用 Vitest 工作区功能时要运行的项目名。",
+            "可重复指定多个项目。"
           ],
           "repeat": 99,
           "next": []
         },
         {
+          "name": "--repeats",
+          "usage": [
+            "--repeats <number>"
+          ],
+          "tip": [
+            "无论结果如何，将每个测试重复指定次数（默认：0）。"
+          ],
+          "next": []
+        },
+        {
           "name": "--reporter",
           "usage": [
-            "--reporter <NAME>"
+            "--reporter <name>"
           ],
           "tip": [
             "指定报告器。"
@@ -5602,7 +5693,7 @@
         {
           "name": "--retry",
           "usage": [
-            "--retry <TIMES>"
+            "--retry <times>"
           ],
           "tip": [
             "测试失败时重试指定次数（默认：0）。"
@@ -5615,7 +5706,7 @@
             "-r"
           ],
           "usage": [
-            "-r, --root <PATH>"
+            "-r, --root <path>"
           ],
           "tip": [
             "根路径。"
@@ -5631,7 +5722,7 @@
         {
           "name": "--sequence",
           "usage": [
-            "--sequence <OPTIONS>"
+            "--sequence <options>"
           ],
           "tip": [
             "测试排序选项。"
@@ -5641,7 +5732,7 @@
         {
           "name": "--shard",
           "usage": [
-            "--shard <SHARDS>"
+            "--shard <shards>"
           ],
           "tip": [
             "以 <index>/<count> 格式执行测试套件分片。"
@@ -5649,9 +5740,15 @@
           "next": []
         },
         {
+          "name": "--sharedViteServer",
+          "tip": [
+            "让不修改 Vite 配置的内联项目复用声明它们的配置的 Vite 服务器（默认：true）。"
+          ]
+        },
+        {
           "name": "--silent",
           "usage": [
-            "--silent [VALUE]"
+            "--silent [value]"
           ],
           "tip": [
             "测试的控制台输出静默。使用 'passed-only' 可仅查看失败测试的日志。"
@@ -5668,7 +5765,7 @@
         {
           "name": "--slowTestThreshold",
           "usage": [
-            "--slowTestThreshold <THRESHOLD>"
+            "--slowTestThreshold <threshold>"
           ],
           "tip": [
             "测试或套件被视为缓慢的阈值（毫秒，默认：300）。"
@@ -5690,7 +5787,7 @@
         {
           "name": "--staticParseConcurrency",
           "usage": [
-            "--staticParseConcurrency <LIMIT>"
+            "--staticParseConcurrency <limit>"
           ],
           "tip": [
             "同时处理多少个测试（默认：os.availableParallelism()）。"
@@ -5706,7 +5803,7 @@
         {
           "name": "--tagsFilter",
           "usage": [
-            "--tagsFilter <EXPRESSION>"
+            "--tagsFilter <expression>"
           ],
           "tip": [
             "仅运行带指定标签的测试。"
@@ -5716,7 +5813,7 @@
         {
           "name": "--teardownTimeout",
           "usage": [
-            "--teardownTimeout <TIMEOUT>"
+            "--teardownTimeout <timeout>"
           ],
           "tip": [
             "清理函数的默认超时（毫秒，默认：10000）。"
@@ -5729,7 +5826,7 @@
             "-t"
           ],
           "usage": [
-            "-t, --testNamePattern <PATTERN>"
+            "-t, --testNamePattern <pattern>"
           ],
           "tip": [
             "运行全名匹配指定正则的测试。"
@@ -5739,7 +5836,7 @@
         {
           "name": "--testTimeout",
           "usage": [
-            "--testTimeout <TIMEOUT>"
+            "--testTimeout <timeout>"
           ],
           "tip": [
             "测试默认超时（毫秒，默认：5000）。设为 0 可完全禁用超时。"
@@ -5764,7 +5861,7 @@
             "-u"
           ],
           "usage": [
-            "-u, --update [TYPE]"
+            "-u, --update [type]"
           ],
           "tip": [
             "更新快照（接受布尔值、\"new\"、\"all\" 或 \"none\"）。"
@@ -5793,7 +5890,7 @@
         {
           "name": "--vmMemoryLimit",
           "usage": [
-            "--vmMemoryLimit <LIMIT>"
+            "--vmMemoryLimit <limit>"
           ],
           "tip": [
             "VM 池的内存限制。"
@@ -6193,7 +6290,7 @@
         {
           "name": "--registry",
           "usage": [
-            "--registry <URL>"
+            "--registry <REGISTRY>"
           ],
           "tip": [
             "自定义 npm 注册表 URL。"

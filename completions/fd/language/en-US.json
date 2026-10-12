@@ -40,6 +40,7 @@
       "tip": [
         "Add additional required search patterns."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -78,12 +79,17 @@
       ]
     },
     {
-      "name": "--changed-before",
+      "name": "--change-newer-than",
+      "alias": [
+        "--changed-within",
+        "--changed-after",
+        "--newer"
+      ],
       "usage": [
-        "--changed-before <date|dur>"
+        "--newer, --changed-after, --changed-within, --change-newer-than <date|dur>"
       ],
       "tip": [
-        "Filter by modification time (older than)."
+        "Filter by modification time (newer than)."
       ],
       "next": [
         {
@@ -98,12 +104,16 @@
       ]
     },
     {
-      "name": "--changed-within",
+      "name": "--change-older-than",
+      "alias": [
+        "--changed-before",
+        "--older"
+      ],
       "usage": [
-        "--changed-within <date|dur>"
+        "--older, --changed-before, --change-older-than <date|dur>"
       ],
       "tip": [
-        "Filter by modification time (newer than)."
+        "Filter by modification time (older than)."
       ],
       "next": [
         {
@@ -141,6 +151,14 @@
       ]
     },
     {
+      "name": "--exact",
+      "tip": [
+        "Perform an exact match.",
+        "Equivalent to --fixed-strings but requires the pattern to match the entire filename or path.",
+        "Special regex characters in the pattern are treated as literal characters."
+      ]
+    },
+    {
       "name": "--exact-depth",
       "usage": [
         "--exact-depth <depth>"
@@ -161,6 +179,7 @@
       "tip": [
         "Exclude files/directories matching the glob pattern."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -200,6 +219,7 @@
       "tip": [
         "Filter by file extension."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -262,8 +282,15 @@
     },
     {
       "name": "--has-results",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --has-results"
+      ],
       "tip": [
-        "Alias for --quiet."
+        "Do not print anything, return exit code."
       ]
     },
     {
@@ -311,6 +338,12 @@
       ]
     },
     {
+      "name": "--ignore",
+      "tip": [
+        "Ignore files and directories that match ignore rules (.gitignore, .ignore, .fdignore, or the global ignore file)."
+      ]
+    },
+    {
       "name": "--ignore-case",
       "alias": [
         "-i"
@@ -341,6 +374,18 @@
         "Add a custom ignore file in .gitignore format."
       ],
       "next": []
+    },
+    {
+      "name": "--ignore-parent",
+      "tip": [
+        "Ignore files and directories that match ignore rules in parent directories."
+      ]
+    },
+    {
+      "name": "--ignore-vcs",
+      "tip": [
+        "Ignore files and directories that match .gitignore rules."
+      ]
     },
     {
       "name": "--list-details",
@@ -395,6 +440,18 @@
       "next": []
     },
     {
+      "name": "--no-follow",
+      "tip": [
+        "Do not follow symbolic links."
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "Do not include hidden directories and files in the search results."
+      ]
+    },
+    {
       "name": "--no-ignore",
       "alias": [
         "-I"
@@ -439,7 +496,10 @@
         "-o, --owner <user:group>"
       ],
       "tip": [
-        "Filter files by their user and/or group. Format: [(user|uid)][:(group|gid)]. Either side is optional. Precede either side with a \"!\" to exclude files instead.",
+        "Filter files by their user and/or group.",
+        "Format: [(user|uid)][:(group|gid)].",
+        "Either side is optional.",
+        "Precede either side with a \"!\" to exclude files instead.",
         "Examples: --owner john | --owner :students | --owner !john:students"
       ],
       "next": [
@@ -492,21 +552,21 @@
       ]
     },
     {
-      "name": "--quiet",
-      "alias": [
-        "-q"
-      ],
-      "usage": [
-        "-q, --quiet"
-      ],
-      "tip": [
-        "Do not print anything, return exit code."
-      ]
-    },
-    {
       "name": "--regex",
       "tip": [
         "Perform a regular-expression based search (default)."
+      ]
+    },
+    {
+      "name": "--relative-path",
+      "tip": [
+        "Show relative paths instead of absolute paths."
+      ]
+    },
+    {
+      "name": "--require-git",
+      "tip": [
+        "Require a git repository to respect gitignores."
       ]
     },
     {
@@ -517,6 +577,7 @@
       "tip": [
         "Provide paths to search as an alternative to positional argument."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -592,6 +653,7 @@
       "tip": [
         "Filter by type: f/file, d/dir, l/symlink, x/executable, e/empty."
       ],
+      "repeat": 99,
       "next": [
         {
           "name": "b",

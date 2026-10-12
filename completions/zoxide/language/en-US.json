@@ -2,7 +2,7 @@
   "meta": {
     "url": "https://github.com/ajeetdsouza/zoxide",
     "description": [
-      "Smarter cd command for your terminal."
+      "A smarter cd command for your terminal."
     ]
   },
   "next": [
@@ -39,33 +39,54 @@
     {
       "name": "import",
       "usage": [
-        "import [OPTIONS] --from <FROM> <PATH>"
+        "import [OPTIONS] <COMMAND>"
       ],
       "tip": [
         "Import entries from another application"
       ],
       "option": [
         {
-          "name": "--from",
-          "usage": [
-            "--from <FROM>"
-          ],
-          "tip": [
-            "Application to import from [possible values: autojump, z]"
-          ],
-          "next": [
-            {
-              "name": "autojump"
-            },
-            {
-              "name": "z"
-            }
-          ]
-        },
-        {
           "name": "--merge",
           "tip": [
             "Merge into existing database"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "atuin",
+          "tip": [
+            "Import from atuin"
+          ]
+        },
+        {
+          "name": "autojump",
+          "tip": [
+            "Import from autojump"
+          ]
+        },
+        {
+          "name": "fasd",
+          "tip": [
+            "Import from fasd"
+          ]
+        },
+        {
+          "name": "z",
+          "tip": [
+            "Import from z"
+          ]
+        },
+        {
+          "name": "z.lua",
+          "tip": [
+            "Import from z.lua"
+          ]
+        },
+        {
+          "name": "zsh-z",
+          "tip": [
+            "Import from zsh-z"
           ]
         }
       ]
@@ -87,14 +108,7 @@
           "tip": [
             "Changes the prefix of the `z` and `zi` commands [default: z]"
           ],
-          "next": [
-            {
-              "name": "z",
-              "tip": [
-                "default"
-              ]
-            }
-          ]
+          "next": []
         },
         {
           "name": "--hook",
@@ -102,7 +116,8 @@
             "--hook <HOOK>"
           ],
           "tip": [
-            "Changes how often zoxide increments a directory's score [default: pwd]"
+            "Changes how often zoxide increments a directory's score [default: pwd]",
+            "Possible values: none, prompt, pwd"
           ],
           "next": [
             {
@@ -163,6 +178,18 @@
       ],
       "option": [
         {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Show unavailable directories"
+          ]
+        },
+        {
           "name": "--base-dir",
           "usage": [
             "--base-dir <path>"
@@ -183,16 +210,10 @@
           "next": []
         },
         {
-          "name": "-a",
-          "usage": [
-            "-a, --all"
+          "name": "--interactive",
+          "alias": [
+            "-i"
           ],
-          "tip": [
-            "Show unavailable directories"
-          ]
-        },
-        {
-          "name": "-i",
           "usage": [
             "-i, --interactive"
           ],
@@ -201,7 +222,10 @@
           ]
         },
         {
-          "name": "-l",
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
           "usage": [
             "-l, --list"
           ],
@@ -210,7 +234,10 @@
           ]
         },
         {
-          "name": "-s",
+          "name": "--score",
+          "alias": [
+            "-s"
+          ],
           "usage": [
             "-s, --score"
           ],
@@ -230,20 +257,6 @@
       ]
     }
   ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "Show the version."
-      ]
-    }
-  ],
   "global_option": [
     {
       "name": "--help",
@@ -255,6 +268,18 @@
       ],
       "tip": [
         "Show the help."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Show the version."
       ]
     }
   ]

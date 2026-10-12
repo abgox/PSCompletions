@@ -126,6 +126,12 @@
       "next": []
     },
     {
+      "name": "--cert-status",
+      "tip": [
+        "验证服务器证书状态（OCSP stapling）。"
+      ]
+    },
+    {
       "name": "--cert-type",
       "usage": [
         "--cert-type <type>"
@@ -165,6 +171,12 @@
       "name": "--compressed",
       "tip": [
         "请求压缩响应。"
+      ]
+    },
+    {
+      "name": "--compressed-ssh",
+      "tip": [
+        "启用 SSH 压缩。"
       ]
     },
     {
@@ -254,6 +266,16 @@
       "tip": [
         "创建必要的本地目录层次结构。"
       ]
+    },
+    {
+      "name": "--create-file-mode",
+      "usage": [
+        "--create-file-mode <mode>"
+      ],
+      "tip": [
+        "设置创建文件的模式。"
+      ],
+      "next": []
     },
     {
       "name": "--crlf",
@@ -453,6 +475,12 @@
       "next": []
     },
     {
+      "name": "--dump-ca-embed",
+      "tip": [
+        "将内嵌的 CA 证书包写入标准输出。"
+      ]
+    },
+    {
       "name": "--dump-header",
       "alias": [
         "-D"
@@ -466,12 +494,22 @@
       "next": []
     },
     {
+      "name": "--ech",
+      "usage": [
+        "--ech <config>"
+      ],
+      "tip": [
+        "指定如何进行 ECH（加密 Client Hello）。"
+      ],
+      "next": []
+    },
+    {
       "name": "--egd-file",
       "usage": [
         "--egd-file <file>"
       ],
       "tip": [
-        "用于随机数据的 EGD 套接字路径。"
+        "（已弃用）用于随机数据的 EGD 套接字路径。"
       ],
       "next": []
     },
@@ -552,7 +590,13 @@
     {
       "name": "--false-start",
       "tip": [
-        "启用 TLS False Start。"
+        "（已弃用）启用 TLS False Start。"
+      ]
+    },
+    {
+      "name": "--follow",
+      "tip": [
+        "按规范跟随重定向，并保留自定义请求方法。"
       ]
     },
     {
@@ -567,6 +611,12 @@
         "指定 multipart MIME 数据。"
       ],
       "next": []
+    },
+    {
+      "name": "--form-escape",
+      "tip": [
+        "使用反斜杠转义表单字段。"
+      ]
     },
     {
       "name": "--form-string",
@@ -631,6 +681,19 @@
       ]
     },
     {
+      "name": "--ftp-port",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --ftp-port <address>"
+      ],
+      "tip": [
+        "发送 PORT 而非 PASV。"
+      ],
+      "next": []
+    },
+    {
       "name": "--ftp-pret",
       "tip": [
         "在 PASV 之前发送 PRET。"
@@ -681,6 +744,18 @@
       ],
       "tip": [
         "将 post 数据放入 URL 并使用 GET。"
+      ]
+    },
+    {
+      "name": "--globoff",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --globoff"
+      ],
+      "tip": [
+        "禁用 URL glob（{} 和 []）。"
       ]
     },
     {
@@ -790,6 +865,9 @@
           "name": "ldap"
         },
         {
+          "name": "mqtt"
+        },
+        {
           "name": "output"
         },
         {
@@ -850,6 +928,16 @@
       ],
       "tip": [
         "可接受的主机公钥的 SHA256 哈希。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--hsts",
+      "usage": [
+        "--hsts <filename>"
+      ],
+      "tip": [
+        "使用此缓存文件启用 HSTS。"
       ],
       "next": []
     },
@@ -984,6 +1072,18 @@
       "next": []
     },
     {
+      "name": "--junk-session-cookies",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --junk-session-cookies"
+      ],
+      "tip": [
+        "忽略从文件中读取的会话 cookie。"
+      ]
+    },
+    {
       "name": "--keepalive-cnt",
       "usage": [
         "--keepalive-cnt <integer>"
@@ -1049,7 +1149,7 @@
         "--krb <level>"
       ],
       "tip": [
-        "启用具有安全级别 <level> 的 Kerberos。"
+        "（已弃用）启用具有安全级别 <level> 的 Kerberos。"
       ],
       "next": [
         {
@@ -1218,7 +1318,7 @@
     {
       "name": "--metalink",
       "tip": [
-        "将给定的 URL 作为 metalink XML 文件处理。"
+        "（已弃用）将给定的 URL 作为 metalink XML 文件处理。"
       ]
     },
     {
@@ -1231,6 +1331,34 @@
       "name": "--negotiate",
       "tip": [
         "使用 HTTP 协商（SPNEGO）身份验证。"
+      ]
+    },
+    {
+      "name": "--netrc",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --netrc"
+      ],
+      "tip": [
+        "必须从 .netrc 读取用户名和密码。"
+      ]
+    },
+    {
+      "name": "--netrc-file",
+      "usage": [
+        "--netrc-file <filename>"
+      ],
+      "tip": [
+        "指定用于 netrc 的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--netrc-optional",
+      "tip": [
+        "使用 .netrc 或 URL 均可。"
       ]
     },
     {
@@ -1278,7 +1406,7 @@
     {
       "name": "--no-npn",
       "tip": [
-        "禁用 NPN TLS 扩展。"
+        "（已弃用）禁用 NPN TLS 扩展。"
       ]
     },
     {
@@ -1312,7 +1440,7 @@
     {
       "name": "--ntlm-wb",
       "tip": [
-        "使用 winbind 的 HTTP NTLM 身份验证。"
+        "（已弃用）使用 winbind 的 HTTP NTLM 身份验证。"
       ]
     },
     {
@@ -1324,6 +1452,12 @@
         "OAuth 2 Bearer Token。"
       ],
       "next": []
+    },
+    {
+      "name": "--out-null",
+      "tip": [
+        "将响应数据丢弃到虚空。"
+      ]
     },
     {
       "name": "--output",
@@ -1528,6 +1662,12 @@
       ]
     },
     {
+      "name": "--proxy-ca-native",
+      "tip": [
+        "从操作系统加载 CA 证书以验证代理。"
+      ]
+    },
+    {
       "name": "--proxy-cacert",
       "usage": [
         "--proxy-cacert <file>"
@@ -1568,6 +1708,26 @@
       "next": []
     },
     {
+      "name": "--proxy-ciphers",
+      "usage": [
+        "--proxy-ciphers <list>"
+      ],
+      "tip": [
+        "用于代理的 TLS 1.2（1.1、1.0）密码套件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-crlfile",
+      "usage": [
+        "--proxy-crlfile <file>"
+      ],
+      "tip": [
+        "为代理设置 CRL 列表。"
+      ],
+      "next": []
+    },
+    {
       "name": "--proxy-digest",
       "tip": [
         "与代理的摘要身份验证。"
@@ -1587,6 +1747,12 @@
       "name": "--proxy-http2",
       "tip": [
         "使用 HTTPS 代理的 HTTP/2。"
+      ]
+    },
+    {
+      "name": "--proxy-http3",
+      "tip": [
+        "对 HTTPS 代理使用 HTTP/3。"
       ]
     },
     {
@@ -1656,6 +1822,18 @@
         "SPNEGO 代理服务名称。"
       ],
       "next": []
+    },
+    {
+      "name": "--proxy-ssl-allow-beast",
+      "tip": [
+        "允许 HTTPS 代理存在此安全缺陷。"
+      ]
+    },
+    {
+      "name": "--proxy-ssl-auto-client-cert",
+      "tip": [
+        "代理的自动客户端证书。"
+      ]
     },
     {
       "name": "--proxy-tls13-ciphers",
@@ -1767,7 +1945,7 @@
         "--random-file <file>"
       ],
       "tip": [
-        "从中读取随机数据的文件。"
+        "（已弃用）从中读取随机数据的文件。"
       ],
       "next": []
     },
@@ -1781,6 +1959,16 @@
       ],
       "tip": [
         "仅检索 RANGE 内的字节。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--rate",
+      "usage": [
+        "--rate <max request rate>"
+      ],
+      "tip": [
+        "串行传输的请求速率。"
       ],
       "next": []
     },
@@ -1825,6 +2013,12 @@
       ],
       "tip": [
         "将输出写入以远程文件命名的文件。"
+      ]
+    },
+    {
+      "name": "--remote-name-all",
+      "tip": [
+        "对所有 URL 使用远端文件名。"
       ]
     },
     {
@@ -1879,6 +2073,16 @@
           "name": "PUT"
         }
       ]
+    },
+    {
+      "name": "--request-target",
+      "usage": [
+        "--request-target <path>"
+      ],
+      "tip": [
+        "指定此次请求的目标。"
+      ],
+      "next": []
     },
     {
       "name": "--resolve",
@@ -2109,6 +2313,32 @@
       "next": []
     },
     {
+      "name": "--speed-limit",
+      "alias": [
+        "-Y"
+      ],
+      "usage": [
+        "-Y, --speed-limit <speed>"
+      ],
+      "tip": [
+        "中止慢于此速度的传输。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--speed-time",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --speed-time <seconds>"
+      ],
+      "tip": [
+        "在此时间后触发 speed-limit 中止。"
+      ],
+      "next": []
+    },
+    {
       "name": "--ssl",
       "tip": [
         "尝试启用 TLS。"
@@ -2155,22 +2385,36 @@
       "next": []
     },
     {
+      "name": "--sslv2",
+      "alias": [
+        "-2"
+      ],
+      "usage": [
+        "-2, --sslv2"
+      ],
+      "tip": [
+        "（已弃用，不再有任何作用）SSLv2。"
+      ]
+    },
+    {
+      "name": "--sslv3",
+      "alias": [
+        "-3"
+      ],
+      "usage": [
+        "-3, --sslv3"
+      ],
+      "tip": [
+        "（已弃用，不再有任何作用）SSLv3。"
+      ]
+    },
+    {
       "name": "--stderr",
       "usage": [
         "--stderr <file>"
       ],
       "tip": [
         "将 stderr 重定向到哪里。"
-      ],
-      "next": []
-    },
-    {
-      "name": "--stdout",
-      "usage": [
-        "--stdout <file>"
-      ],
-      "tip": [
-        "将 stdout 重定向到哪里。"
       ],
       "next": []
     },
@@ -2313,6 +2557,42 @@
       "next": []
     },
     {
+      "name": "--tlsv1",
+      "alias": [
+        "-1"
+      ],
+      "usage": [
+        "-1, --tlsv1"
+      ],
+      "tip": [
+        "TLSv1.0 或更高版本。"
+      ]
+    },
+    {
+      "name": "--tlsv1.0",
+      "tip": [
+        "TLSv1.0 或更高版本。"
+      ]
+    },
+    {
+      "name": "--tlsv1.1",
+      "tip": [
+        "TLSv1.1 或更高版本。"
+      ]
+    },
+    {
+      "name": "--tlsv1.2",
+      "tip": [
+        "TLSv1.2 或更高版本。"
+      ]
+    },
+    {
+      "name": "--tlsv1.3",
+      "tip": [
+        "TLSv1.3 或更高版本。"
+      ]
+    },
+    {
       "name": "--tr-encoding",
       "tip": [
         "请求压缩传输编码。"
@@ -2349,6 +2629,12 @@
       "next": []
     },
     {
+      "name": "--trace-ids",
+      "tip": [
+        "在每个跟踪或详细输出行前加上传输与连接标识。"
+      ]
+    },
+    {
       "name": "--trace-time",
       "tip": [
         "在跟踪/详细输出中添加时间戳。"
@@ -2363,12 +2649,6 @@
         "通过此 Unix 域套接字连接。"
       ],
       "next": []
-    },
-    {
-      "name": "--upgrade",
-      "tip": [
-        "请求 Connection: Upgrade 头。"
-      ]
     },
     {
       "name": "--upload-file",

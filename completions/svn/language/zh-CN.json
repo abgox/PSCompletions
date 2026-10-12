@@ -8,27 +8,27 @@
   "next": [
     {
       "name": "add",
+      "usage": [
+        "add PATH[@]..."
+      ],
       "tip": [
-        "将文件、目录或符号链接调度到仓库中。"
+        "将新文件和目录纳入版本控制。"
       ],
       "option": [
         {
           "name": "--auto-props",
           "tip": [
-            "使用 auto-props 为新添加的文件设置默认属性。"
+            "启用自动属性"
           ]
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。",
-            "可选值: empty, files, immediates, infinity"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
           "next": [
             {
@@ -47,26 +47,20 @@
         },
         {
           "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
           "tip": [
-            "强制添加已经是父目录深度限制操作的一部分的文件。"
+            "忽略已纳入版本控制的路径"
           ]
         },
         {
           "name": "--no-auto-props",
           "tip": [
-            "禁用 auto-props 属性设置。"
+            "禁用自动属性"
           ]
         },
         {
           "name": "--no-ignore",
           "tip": [
-            "添加时忽略默认和 svn:ignore 属性忽略的文件。"
+            "忽略默认忽略规则以及 svn:ignore 和 svn:global-ignores 属性定义的忽略规则"
           ]
         },
         {
@@ -78,75 +72,79 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=empty"
           ]
         },
         {
           "name": "--parents",
           "tip": [
-            "为要添加的文件创建缺失的父目录。"
+            "添加中间层父目录"
           ]
-        }
-      ]
-    },
-    {
-      "name": "auth",
-      "tip": [
-        "管理缓存的身份验证凭据。",
-        "列出、删除或刷新缓存的身份验证信息。"
-      ],
-      "option": [
+        },
         {
-          "name": "--clear",
+          "name": "--quiet",
           "alias": [
-            "-c"
+            "-q"
           ],
           "usage": [
-            "-c, --clear <Realm>"
+            "-q, --quiet"
           ],
           "tip": [
-            "删除指定域的缓存凭据。"
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
           ],
           "next": []
-        },
-        {
-          "name": "--flush-cache",
-          "tip": [
-            "刷新所有缓存的凭据。"
-          ]
-        },
-        {
-          "name": "--list",
-          "alias": [
-            "-l"
-          ],
-          "usage": [
-            "-l, --list"
-          ],
-          "tip": [
-            "列出所有缓存的凭据。"
-          ]
         }
       ]
     },
     {
-      "name": "cat",
+      "name": "annotate",
+      "alias": [
+        "praise",
+        "blame",
+        "ann"
+      ],
+      "usage": [
+        "ann|blame|praise|annotate [-rM:N] TARGET[@REV]..."
+      ],
       "tip": [
-        "输出指定文件或 URL 的内容。"
+        "显示文件中每一行最后一次（或下一次）更改的信息。"
       ],
       "option": [
         {
-          "name": "--expand-keywords",
+          "name": "--extensions",
           "alias": [
             "-x"
           ],
           "usage": [
-            "-x, --expand-keywords <ARG>"
+            "-x, --extensions <ARG>"
           ],
           "tip": [
-            "指定关键字扩展模式。"
+            "为外部 diff、内部 diff 或 blame 指定差异选项。",
+            "默认值: '-u'。选项之间以空格分隔。",
+            "内部 diff 和 blame 接受: -u（--unified）、-b（--ignore-space-change）、-w（--ignore-all-space）、--ignore-eol-style、-U ARG（--context ARG）、-p（--show-c-function）。"
           ],
           "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
+          ]
         },
         {
           "name": "--revision",
@@ -157,7 +155,92 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定要查看的版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-merge-history",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --use-merge-history"
+          ],
+          "tip": [
+            "使用/显示来自合并历史的额外信息"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印额外信息"
+          ]
+        },
+        {
+          "name": "--xml",
+          "tip": [
+            "以 XML 格式输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "auth",
+      "usage": [
+        "auth [PATTERN...]"
+      ],
+      "tip": [
+        "管理已缓存的身份验证凭据。"
+      ],
+      "option": [
+        {
+          "name": "--remove",
+          "tip": [
+            "移除匹配的身份验证凭据"
+          ]
+        },
+        {
+          "name": "--show-passwords",
+          "tip": [
+            "显示已缓存的密码"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cat",
+      "usage": [
+        "cat TARGET[@REV]..."
+      ],
+      "tip": [
+        "输出指定文件或 URL 的内容。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-keywords",
+          "tip": [
+            "不展开关键字"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <ARG>"
+          ],
+          "tip": [
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         }
@@ -169,38 +252,89 @@
         "cl"
       ],
       "usage": [
-        "cl|changelist",
-        "cl <CHANGELIST> <PATH...>",
-        "cl --remove <PATH...>"
+        "cl|changelist CLNAME PATH[@]...",
+        "cl|changelist --remove PATH[@]..."
       ],
       "tip": [
-        "将本地路径与变更列表关联（或取消关联）。"
+        "将命名路径关联（或解除关联）到更改列表 CLNAME。"
       ],
       "option": [
         {
-          "name": "--depth",
+          "name": "--changelist",
           "alias": [
-            "-d"
+            "--cl"
           ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
         },
         {
-          "name": "--remove",
-          "alias": [
-            "-c"
-          ],
+          "name": "--depth",
           "usage": [
-            "-c, --remove"
+            "--depth <ARG>"
           ],
           "tip": [
-            "移除指定路径的变更列表关联。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
           ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
+        {
+          "name": "--remove",
+          "tip": [
+            "移除更改列表关联"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
         }
       ]
     },
@@ -210,23 +344,30 @@
         "co"
       ],
       "usage": [
-        "co|checkout"
+        "co|checkout URL[@REV]... [PATH]"
       ],
       "tip": [
-        "从仓库中检出工作副本。"
+        "从仓库检出一个工作副本。"
       ],
       "option": [
         {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
+          "name": "--compatible-version",
           "usage": [
-            "-d, --depth <ARG>"
+            "--compatible-version <ARG>"
           ],
           "tip": [
-            "限制检出的深度。",
-            "可选值: empty, files, immediates, infinity"
+            "使用与 Subversion 版本 ARG（如 \"1.8\"、\"1.9.5\"）兼容的工作副本格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
           "next": [
             {
@@ -245,26 +386,14 @@
         },
         {
           "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
           "tip": [
-            "即使目标目录不为空也强制检出。"
+            "强制运行操作"
           ]
         },
         {
           "name": "--ignore-externals",
           "tip": [
-            "检出时忽略外部定义。"
-          ]
-        },
-        {
-          "name": "--incomplete",
-          "tip": [
-            "允许不完整的检出。"
+            "忽略外部条目定义"
           ]
         },
         {
@@ -276,7 +405,19 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
@@ -288,16 +429,40 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "检出特定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
+        },
+        {
+          "name": "--store-pristine",
+          "usage": [
+            "--store-pristine <ARG>"
+          ],
+          "tip": [
+            "将工作副本配置为在本地保存原始内容的副本（'yes'），或按需获取（'no'）。",
+            "按需获取可以节省磁盘空间，但执行 diff 或 revert 等命令时可能需要访问网络。",
+            "默认值: 'yes'。",
+            "可能值: yes, no"
+          ],
+          "next": [
+            {
+              "name": "no"
+            },
+            {
+              "name": "yes"
+            }
+          ]
         }
       ]
     },
     {
       "name": "cleanup",
+      "usage": [
+        "cleanup [WCPATH[@]...]"
+      ],
       "tip": [
-        "递归清理工作副本，移除锁、恢复未完成的操作等。"
+        "递归清理工作副本，移除锁并恢复未完成的操作。"
       ],
       "option": [
         {
@@ -306,38 +471,44 @@
             "--diff3-cmd <ARG>"
           ],
           "tip": [
-            "指定外部 diff3 命令。"
+            "已弃用并被忽略"
           ],
           "next": []
         },
         {
-          "name": "--dry-run",
-          "tip": [
-            "显示将要清理的内容，但不实际执行。"
-          ]
-        },
-        {
-          "name": "--fix-anchors",
-          "tip": [
-            "修复树冲突受害者根节点的深度。"
-          ]
-        },
-        {
           "name": "--include-externals",
           "tip": [
-            "同时操作 svn:externals 定义的外部引用。"
+            "同时作用于 svn:externals 属性定义的外部条目"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
           "name": "--remove-ignored",
           "tip": [
-            "从工作副本中移除所有被忽略的文件和目录。"
+            "移除被忽略的条目"
           ]
         },
         {
           "name": "--remove-unversioned",
           "tip": [
-            "从工作副本中移除所有未版本化的文件和目录。"
+            "移除未纳入版本控制的条目"
+          ]
+        },
+        {
+          "name": "--vacuum-pristines",
+          "tip": [
+            "移除 .svn 目录中未引用的原始副本"
           ]
         }
       ]
@@ -348,22 +519,66 @@
         "ci"
       ],
       "usage": [
-        "ci|commit"
+        "ci|commit [PATH[@]...]"
       ],
       "tip": [
-        "将工作副本的更改发送到仓库。"
+        "将工作副本中的更改发送到仓库。"
       ],
       "option": [
         {
-          "name": "--encoding",
+          "name": "--changelist",
           "alias": [
-            "-E"
+            "--cl"
           ],
           "usage": [
-            "-E, --encoding <ENC>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "将 --message 的值视为指定编码。"
+            "仅操作更改列表 ARG 的成员"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
           ],
           "next": []
         },
@@ -376,26 +591,26 @@
             "-F, --file <ARG>"
           ],
           "tip": [
-            "从文件中读取日志消息。"
+            "从文件 ARG 中读取日志消息"
           ],
           "next": []
         },
         {
           "name": "--force-log",
           "tip": [
-            "强制将日志消息视为文本，即使以 - 开头。"
+            "强制日志消息来源有效"
           ]
         },
         {
-          "name": "--keep-changelist",
+          "name": "--include-externals",
           "tip": [
-            "提交后不移除变更列表。"
+            "同时作用于 svn:externals 属性定义的外部条目"
           ]
         },
         {
           "name": "--keep-changelists",
           "tip": [
-            "提交后不要从变更列表中移除项。"
+            "提交后不删除更改列表"
           ]
         },
         {
@@ -407,26 +622,57 @@
             "-m, --message <ARG>"
           ],
           "tip": [
-            "指定日志消息。"
+            "指定日志消息 ARG"
           ],
           "next": []
         },
         {
           "name": "--no-unlock",
           "tip": [
-            "提交后不解锁文件。"
+            "不解除目标的锁"
           ]
         },
         {
-          "name": "--revision",
+          "name": "--non-recursive",
           "alias": [
-            "-r"
+            "-N"
           ],
           "usage": [
-            "-r, --revision <ARG>"
+            "-N, --non-recursive"
           ],
           "tip": [
-            "指定版本（不适用于提交，但被其他命令使用）。"
+            "已废弃；等同于 --depth=empty"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
           ],
           "next": []
         }
@@ -438,16 +684,92 @@
         "cp"
       ],
       "usage": [
-        "cp|copy"
+        "cp|copy SRC[@REV]... DST[@]"
       ],
       "tip": [
-        "复制并调度添加（带历史记录）。"
+        "复制工作副本或仓库中的文件和目录。"
       ],
       "option": [
         {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --file <ARG>"
+          ],
+          "tip": [
+            "从文件 ARG 中读取日志消息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制日志消息来源有效"
+          ]
+        },
+        {
+          "name": "--ignore-externals",
+          "tip": [
+            "忽略外部条目定义"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <ARG>"
+          ],
+          "tip": [
+            "指定日志消息 ARG"
+          ],
+          "next": []
+        },
+        {
           "name": "--parents",
           "tip": [
-            "创建缺失的父目录。"
+            "创建中间层目录"
+          ]
+        },
+        {
+          "name": "--pin-externals",
+          "tip": [
+            "将未显式指定修订的外部条目固定到其当前修订（打标签时推荐）"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
@@ -459,7 +781,18 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定要复制的版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
           ],
           "next": []
         }
@@ -473,41 +806,108 @@
         "rm"
       ],
       "usage": [
-        "rm|del|remove|delete"
+        "rm|del|delete|remove PATH[@]...",
+        "rm|del|delete|remove URL[@]..."
       ],
       "tip": [
-        "从工作副本或仓库中删除项目。"
+        "从版本控制中移除文件和目录。"
       ],
       "option": [
         {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
+          "name": "--editor-cmd",
           "usage": [
-            "-f, --force"
+            "--editor-cmd <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --file <ARG>"
+          ],
+          "tip": [
+            "从文件 ARG 中读取日志消息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制日志消息来源有效"
           ]
         },
         {
           "name": "--keep-local",
           "tip": [
-            "文件被调度删除后保留在工作副本中。"
+            "在工作副本中保留该路径"
           ]
         },
         {
-          "name": "--non-recursive",
+          "name": "--message",
           "alias": [
-            "-N"
+            "-m"
           ],
           "usage": [
-            "-N, --non-recursive"
+            "-m, --message <ARG>"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "指定日志消息 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
+          ],
+          "next": []
         }
       ]
     },
@@ -517,10 +917,11 @@
         "di"
       ],
       "usage": [
-        "di|diff"
+        "di|diff",
+        "di|diff [-c M | -r N[:M]] [TARGET[@REV]...]"
       ],
       "tip": [
-        "显示两个版本或路径之间的差异。"
+        "显示本地更改或两个修订/路径之间的差异。"
       ],
       "option": [
         {
@@ -532,22 +933,97 @@
             "-c, --change <ARG>"
           ],
           "tip": [
-            "显示特定版本引入的更改。"
+            "修订 ARG 所做的更改（类似于 -r ARG-1:ARG）。",
+            "如果 ARG 为负数，则等同于 -r ARG:ARG-1。",
+            "如果 ARG 的形式为 ARG1-ARG2，则等同于 ARG1:ARG2，其中 ARG1 是闭区间端点。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--changelist",
+          "alias": [
+            "--cl"
+          ],
+          "usage": [
+            "--cl, --changelist <ARG>"
+          ],
+          "tip": [
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--diff-cmd",
+          "usage": [
+            "--diff-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作 diff 命令"
           ],
           "next": []
+        },
+        {
+          "name": "--extensions",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --extensions <ARG>"
+          ],
+          "tip": [
+            "为外部 diff、内部 diff 或 blame 指定差异选项。",
+            "默认值: '-u'。选项之间以空格分隔。",
+            "内部 diff 和 blame 接受: -u（--unified）、-b（--ignore-space-change）、-w（--ignore-all-space）、--ignore-eol-style、-U ARG（--context ARG）、-p（--show-c-function）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
+          "name": "--git",
+          "tip": [
+            "使用 git 的扩展差异格式"
+          ]
+        },
+        {
+          "name": "--ignore-properties",
+          "tip": [
+            "操作期间忽略属性"
+          ]
+        },
+        {
+          "name": "--internal-diff",
+          "tip": [
+            "覆盖配置文件中指定的 diff-cmd"
+          ]
         },
         {
           "name": "--new",
@@ -555,9 +1031,21 @@
             "--new <ARG>"
           ],
           "tip": [
-            "指定差异的新文件/目录。"
+            "将 ARG 用作较新的目标"
           ],
           "next": []
+        },
+        {
+          "name": "--no-diff-added",
+          "tip": [
+            "不打印新增文件的差异"
+          ]
+        },
+        {
+          "name": "--no-diff-deleted",
+          "tip": [
+            "不打印删除文件的差异"
+          ]
         },
         {
           "name": "--non-recursive",
@@ -568,7 +1056,13 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--notice-ancestry",
+          "tip": [
+            "将无关节点按删除与新增进行比较"
           ]
         },
         {
@@ -577,9 +1071,21 @@
             "--old <ARG>"
           ],
           "tip": [
-            "指定差异的旧文件/目录。"
+            "将 ARG 用作较旧的目标"
           ],
           "next": []
+        },
+        {
+          "name": "--patch-compatible",
+          "tip": [
+            "生成适用于通用第三方补丁工具的差异输出；当前等同于 --show-copies-as-adds --ignore-properties"
+          ]
+        },
+        {
+          "name": "--properties-only",
+          "tip": [
+            "操作期间仅显示属性"
+          ]
         },
         {
           "name": "--revision",
@@ -590,73 +1096,81 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本范围（例如 -r 1:10）。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         },
         {
+          "name": "--show-copies-as-adds",
+          "tip": [
+            "不将复制或移动的文件与其源文件进行比较"
+          ]
+        },
+        {
           "name": "--summarize",
           "tip": [
-            "显示更改路径的摘要。"
+            "显示结果摘要"
           ]
         },
         {
           "name": "--xml",
           "tip": [
-            "以 XML 格式输出。"
+            "以 XML 格式输出"
           ]
         }
       ]
     },
     {
       "name": "export",
+      "usage": [
+        "export [-r REV] URL[@PEGREV] [UNVERSIONED_PATH[@]]"
+      ],
       "tip": [
-        "创建一个无版本控制的副本。"
+        "创建目录树的未纳入版本控制的副本。"
       ],
       "option": [
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
         },
         {
           "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
           "tip": [
-            "强制覆盖已存在的文件。"
+            "强制运行操作"
           ]
         },
         {
           "name": "--ignore-externals",
           "tip": [
-            "导出时忽略外部定义。"
+            "忽略外部条目定义"
           ]
         },
         {
-          "name": "--keyword-expansion",
-          "alias": [
-            "-x"
-          ],
-          "usage": [
-            "-x, --keyword-expansion <ARG>"
-          ],
+          "name": "--ignore-keywords",
           "tip": [
-            "设置关键字扩展模式。"
-          ],
-          "next": []
+            "不展开关键字"
+          ]
         },
         {
           "name": "--native-eol",
@@ -664,27 +1178,44 @@
             "--native-eol <ARG>"
           ],
           "tip": [
-            "为导出的文件使用指定的换行符样式。"
+            "对 svn:eol-style 属性设置为 'native' 的文件，使用与系统标准换行符不同的换行标记。",
+            "ARG 可以是 'LF'、'CR'、'CRLF' 之一。",
+            "可能值: LF, CR, CRLF"
           ],
           "next": [
             {
-              "name": "CR",
-              "tip": [
-                "使用 CR 换行符。"
-              ]
+              "name": "CR"
             },
             {
-              "name": "CRLF",
-              "tip": [
-                "使用 CRLF 换行符。"
-              ]
+              "name": "CRLF"
             },
             {
-              "name": "LF",
-              "tip": [
-                "使用 LF 换行符。"
-              ]
+              "name": "LF"
             }
+          ]
+        },
+        {
+          "name": "--non-recursive",
+          "alias": [
+            "-N"
+          ],
+          "usage": [
+            "-N, --non-recursive"
+          ],
+          "tip": [
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
@@ -696,7 +1227,8 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "导出特定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         }
@@ -709,10 +1241,10 @@
         "h"
       ],
       "usage": [
-        "?|h|help"
+        "?|h|help [SUBCOMMAND...]"
       ],
       "tip": [
-        "描述可用的子命令或一个特定的子命令。"
+        "描述本程序或其子命令的用法。"
       ],
       "option": [
         {
@@ -724,23 +1256,70 @@
             "-v, --verbose"
           ],
           "tip": [
-            "显示详细帮助。"
+            "同时显示实验性子命令和选项"
           ]
         }
       ]
     },
     {
       "name": "import",
-      "alias": [
-        "imp"
-      ],
       "usage": [
-        "imp|import"
+        "import [PATH] URL"
       ],
       "tip": [
-        "将文件或目录树导入仓库。"
+        "将未纳入版本控制的文件或目录树提交到仓库。"
       ],
       "option": [
+        {
+          "name": "--auto-props",
+          "tip": [
+            "启用自动属性"
+          ]
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
         {
           "name": "--file",
           "alias": [
@@ -750,14 +1329,20 @@
             "-F, --file <ARG>"
           ],
           "tip": [
-            "从文件中读取日志消息。"
+            "从文件 ARG 中读取日志消息"
           ],
           "next": []
         },
         {
+          "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
           "name": "--force-log",
           "tip": [
-            "强制将日志消息视为文本。"
+            "强制日志消息来源有效"
           ]
         },
         {
@@ -769,100 +1354,21 @@
             "-m, --message <ARG>"
           ],
           "tip": [
-            "指定日志消息。"
+            "指定日志消息 ARG"
           ],
           "next": []
         },
         {
           "name": "--no-auto-props",
           "tip": [
-            "禁用 auto-props 属性设置。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "info",
-      "tip": [
-        "显示本地或远程项目的信息。"
-      ],
-      "option": [
-        {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --depth <ARG>"
-          ],
-          "tip": [
-            "限制操作的深度。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--recursive",
-          "alias": [
-            "-R"
-          ],
-          "usage": [
-            "-R, --recursive"
-          ],
-          "tip": [
-            "递归操作。"
+            "禁用自动属性"
           ]
         },
         {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "usage": [
-            "-r, --revision <ARG>"
-          ],
+          "name": "--no-ignore",
           "tip": [
-            "指定要获取信息的版本。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--show-item",
-          "tip": [
-            "仅显示目标项目的信息。"
+            "忽略默认忽略规则以及 svn:ignore 和 svn:global-ignores 属性定义的忽略规则"
           ]
-        },
-        {
-          "name": "--xml",
-          "tip": [
-            "以 XML 格式输出。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "list",
-      "alias": [
-        "ls"
-      ],
-      "usage": [
-        "ls|list"
-      ],
-      "tip": [
-        "列出仓库中的目录条目。"
-      ],
-      "option": [
-        {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --depth <ARG>"
-          ],
-          "tip": [
-            "限制操作的深度。"
-          ],
-          "next": []
         },
         {
           "name": "--non-recursive",
@@ -873,7 +1379,119 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [TARGET[@REV]...]"
+      ],
+      "tip": [
+        "显示本地或远程条目的信息。"
+      ],
+      "option": [
+        {
+          "name": "--changelist",
+          "alias": [
+            "--cl"
+          ],
+          "usage": [
+            "--cl, --changelist <ARG>"
+          ],
+          "tip": [
+            "仅操作更改列表 ARG 的成员"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--human-readable",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --human-readable"
+          ],
+          "tip": [
+            "显示带二进制单位后缀（Byte、Kilobyte、Megabyte、Gigabyte、Terabyte 和 Petabyte）的文件大小，并将位数限制在三位以内"
+          ]
+        },
+        {
+          "name": "--include-externals",
+          "tip": [
+            "同时作用于 svn:externals 属性定义的外部条目"
+          ]
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
+          ]
+        },
+        {
+          "name": "--no-newline",
+          "tip": [
+            "不输出末尾换行符"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
           ]
         },
         {
@@ -885,7 +1503,185 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定要列出的版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--show-item",
+          "usage": [
+            "--show-item <ARG>"
+          ],
+          "tip": [
+            "仅打印由 ARG 指定的条目。",
+            "可能值: kind, url, relative-url, repos-root-url, repos-uuid, repos-size, revision, last-changed-revision, last-changed-date, last-changed-author, wc-root, schedule, depth, wc-format, wc-compatible-version, changelist, store-pristine"
+          ],
+          "next": [
+            {
+              "name": "changelist"
+            },
+            {
+              "name": "depth"
+            },
+            {
+              "name": "kind"
+            },
+            {
+              "name": "last-changed-author"
+            },
+            {
+              "name": "last-changed-date"
+            },
+            {
+              "name": "last-changed-revision"
+            },
+            {
+              "name": "relative-url"
+            },
+            {
+              "name": "repos-root-url"
+            },
+            {
+              "name": "repos-size"
+            },
+            {
+              "name": "repos-uuid"
+            },
+            {
+              "name": "revision"
+            },
+            {
+              "name": "schedule"
+            },
+            {
+              "name": "store-pristine"
+            },
+            {
+              "name": "url"
+            },
+            {
+              "name": "wc-compatible-version"
+            },
+            {
+              "name": "wc-format"
+            },
+            {
+              "name": "wc-root"
+            }
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
+        },
+        {
+          "name": "--xml",
+          "tip": [
+            "以 XML 格式输出"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "alias": [
+        "ls"
+      ],
+      "usage": [
+        "ls|list [TARGET[@REV]...]"
+      ],
+      "tip": [
+        "列出仓库中的目录条目。"
+      ],
+      "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--human-readable",
+          "alias": [
+            "-H"
+          ],
+          "usage": [
+            "-H, --human-readable"
+          ],
+          "tip": [
+            "配合 --verbose 使用，显示带二进制单位后缀（Byte、Kilobyte、Megabyte、Gigabyte、Terabyte 和 Petabyte）的文件大小，并将位数限制在三位以内"
+          ]
+        },
+        {
+          "name": "--include-externals",
+          "tip": [
+            "同时作用于 svn:externals 属性定义的外部条目"
+          ]
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <ARG>"
+          ],
+          "tip": [
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--search",
+          "usage": [
+            "--search <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作搜索模式（glob 语法，大小写与重音不敏感；可能需要加引号以防止 shell 展开）"
           ],
           "next": []
         },
@@ -898,15 +1694,24 @@
             "-v, --verbose"
           ],
           "tip": [
-            "显示额外信息。"
+            "打印额外信息"
+          ]
+        },
+        {
+          "name": "--xml",
+          "tip": [
+            "以 XML 格式输出"
           ]
         }
       ]
     },
     {
       "name": "lock",
+      "usage": [
+        "lock TARGET..."
+      ],
       "tip": [
-        "锁定项目，使其他用户在解锁之前无法修改。"
+        "锁定仓库中的工作副本路径或 URL。"
       ],
       "option": [
         {
@@ -915,7 +1720,7 @@
             "--encoding <ARG>"
           ],
           "tip": [
-            "将锁定备注视为指定编码。"
+            "将取值视为使用字符集编码 ARG"
           ],
           "next": []
         },
@@ -928,20 +1733,20 @@
             "-F, --file <ARG>"
           ],
           "tip": [
-            "从文件中读取锁定备注。"
+            "从文件 ARG 中读取锁注释"
           ],
           "next": []
         },
         {
           "name": "--force",
-          "alias": [
-            "-f"
-          ],
-          "usage": [
-            "-f, --force"
-          ],
           "tip": [
-            "从其他用户那里窃取锁。"
+            "抢占他人的锁"
+          ]
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制锁注释来源有效"
           ]
         },
         {
@@ -953,7 +1758,29 @@
             "-m, --message <ARG>"
           ],
           "tip": [
-            "指定锁定备注。"
+            "指定锁注释 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
           ],
           "next": []
         }
@@ -961,8 +1788,11 @@
     },
     {
       "name": "log",
+      "usage": [
+        "log [PATH][@REV]"
+      ],
       "tip": [
-        "显示一组版本和/或文件的日志消息。"
+        "显示一组修订和/或路径的日志消息。"
       ],
       "option": [
         {
@@ -974,22 +1804,76 @@
             "-c, --change <ARG>"
           ],
           "tip": [
-            "显示特定变更的日志。"
+            "修订 ARG 中所做的更改"
           ],
           "next": []
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--diff",
+          "tip": [
+            "生成差异输出"
+          ]
+        },
+        {
+          "name": "--diff-cmd",
+          "usage": [
+            "--diff-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作 diff 命令"
           ],
           "next": []
+        },
+        {
+          "name": "--extensions",
+          "alias": [
+            "-x"
+          ],
+          "usage": [
+            "-x, --extensions <ARG>"
+          ],
+          "tip": [
+            "为外部 diff、内部 diff 或 blame 指定差异选项。",
+            "默认值: '-u'。选项之间以空格分隔。",
+            "内部 diff 和 blame 接受: -u（--unified）、-b（--ignore-space-change）、-w（--ignore-all-space）、--ignore-eol-style、-U ARG（--context ARG）、-p（--show-c-function）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
+          ]
+        },
+        {
+          "name": "--internal-diff",
+          "tip": [
+            "覆盖配置文件中指定的 diff-cmd"
+          ]
         },
         {
           "name": "--limit",
@@ -1000,15 +1884,20 @@
             "-l, --limit <ARG>"
           ],
           "tip": [
-            "输出的最大日志消息数量。"
+            "日志条目的最大数量"
           ],
-          "next": [
-            {
-              "name": "10"
-            },
-            {
-              "name": "100"
-            }
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印日志消息"
           ]
         },
         {
@@ -1020,28 +1909,46 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本范围（例如 -r 1:10 或 -r 10）。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         },
         {
           "name": "--search",
-          "alias": [
-            "-S"
-          ],
           "usage": [
-            "-S, --search <ARG>"
+            "--search <ARG>"
           ],
           "tip": [
-            "搜索日志消息。"
+            "将 ARG 用作搜索模式（glob 语法，大小写与重音不敏感；可能需要加引号以防止 shell 展开）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--search-and",
+          "usage": [
+            "--search-and <ARG>"
+          ],
+          "tip": [
+            "将 ARG 与上一个搜索模式组合"
           ],
           "next": []
         },
         {
           "name": "--stop-on-copy",
           "tip": [
-            "执行日志时不跨越复制操作。"
+            "遍历历史记录时不跨越副本"
           ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
         },
         {
           "name": "--use-merge-history",
@@ -1052,7 +1959,7 @@
             "-g, --use-merge-history"
           ],
           "tip": [
-            "显示合并变更的日志。"
+            "使用/显示来自合并历史的额外信息"
           ]
         },
         {
@@ -1064,34 +1971,56 @@
             "-v, --verbose"
           ],
           "tip": [
-            "显示完整的消息正文。"
+            "同时打印所有受影响的路径"
           ]
+        },
+        {
+          "name": "--with-all-revprops",
+          "tip": [
+            "获取所有修订属性"
+          ]
+        },
+        {
+          "name": "--with-no-revprops",
+          "tip": [
+            "不获取任何修订属性"
+          ]
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "获取修订属性 ARG"
+          ],
+          "next": []
         },
         {
           "name": "--xml",
           "tip": [
-            "以 XML 格式输出。"
+            "以 XML 格式输出"
           ]
         }
       ]
     },
     {
       "name": "merge",
+      "usage": [
+        "merge SOURCE[@REV] [TARGET_WCPATH]"
+      ],
       "tip": [
-        "将两棵不同的树合并到工作副本或仓库中。"
+        "将更改合并到工作副本。"
       ],
       "option": [
         {
           "name": "--accept",
-          "alias": [
-            "-a"
-          ],
           "usage": [
-            "-a, --accept <ARG>"
+            "--accept <ARG>"
           ],
           "tip": [
-            "指定自动冲突解决方式。",
-            "可选值: postpone, base, working, mine-full, theirs-full, edit, launch"
+            "指定自动冲突解决方式（'postpone'、'working'、'base'、'mine-conflict'、'theirs-conflict'、'mine-full'、'theirs-full'、'edit'、'launch'、'recommended'），简写为 'p'、'mc'、'tc'、'mf'、'tf'、'e'、'l'、'r'。",
+            "可能值: postpone, working, base, mine-conflict, theirs-conflict, mine-full, theirs-full, edit, launch, recommended"
           ],
           "next": [
             {
@@ -1104,10 +2033,19 @@
               "name": "launch"
             },
             {
+              "name": "mine-conflict"
+            },
+            {
               "name": "mine-full"
             },
             {
               "name": "postpone"
+            },
+            {
+              "name": "recommended"
+            },
+            {
+              "name": "theirs-conflict"
             },
             {
               "name": "theirs-full"
@@ -1120,7 +2058,9 @@
         {
           "name": "--allow-mixed-revisions",
           "tip": [
-            "允许合并到混合版本的工作副本。"
+            "允许对混合修订版本的工作副本执行操作。",
+            "不建议使用该选项！",
+            "请改用 'svn update'。"
           ]
         },
         {
@@ -1132,39 +2072,77 @@
             "-c, --change <ARG>"
           ],
           "tip": [
-            "合并特定版本引入的更改。"
+            "修订 ARG 所做的更改（类似于 -r ARG-1:ARG）。",
+            "如果 ARG 为负数，则等同于 -r ARG:ARG-1。",
+            "如果 ARG 的形式为 ARG1-ARG2，则等同于 ARG1:ARG2，其中 ARG1 是闭区间端点。"
           ],
           "next": []
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--diff3-cmd",
+          "usage": [
+            "--diff3-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作 merge 命令"
           ],
           "next": []
         },
         {
           "name": "--dry-run",
           "tip": [
-            "显示将要合并的内容，但不实际执行。"
+            "尝试执行操作但不做任何更改"
           ]
         },
         {
-          "name": "--force",
+          "name": "--extensions",
           "alias": [
-            "-f"
+            "-x"
           ],
           "usage": [
-            "-f, --force"
+            "-x, --extensions <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "为外部 diff、内部 diff 或 blame 指定差异选项。",
+            "默认值: '-u'。选项之间以空格分隔。",
+            "内部 diff 和 blame 接受: -u（--unified）、-b（--ignore-space-change）、-w（--ignore-all-space）、--ignore-eol-style、-U ARG（--context ARG）、-p（--show-c-function）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使被删除的内容不匹配也强制删除"
+          ]
+        },
+        {
+          "name": "--ignore-ancestry",
+          "tip": [
+            "禁用合并跟踪；将节点视为相关来进行比较"
           ]
         },
         {
@@ -1176,19 +2154,31 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
           "name": "--record-only",
           "tip": [
-            "记录合并但不修改工作副本。"
+            "仅合并合并信息的差异"
           ]
         },
         {
           "name": "--reintegrate",
           "tip": [
-            "使用 reintegrate 合并策略。"
+            "已弃用"
           ]
         },
         {
@@ -1200,18 +2190,94 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本范围。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印额外信息"
+          ]
         }
       ]
     },
     {
       "name": "mergeinfo",
+      "usage": [
+        "mergeinfo SOURCE[@REV] [TARGET[@REV]]"
+      ],
       "tip": [
-        "显示已合并/待合并的版本信息。"
+        "显示合并相关信息。"
       ],
       "option": [
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
+          ]
+        },
+        {
+          "name": "--log",
+          "tip": [
+            "显示修订日志消息、作者和日期"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
         {
           "name": "--revision",
           "alias": [
@@ -1221,7 +2287,8 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本范围。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         },
@@ -1231,8 +2298,8 @@
             "--show-revs <ARG>"
           ],
           "tip": [
-            "指定要显示的版本。",
-            "可选值: eligible, merged"
+            "指定要显示的修订集合（'merged' 或 'eligible'）。",
+            "可能值: merged, eligible"
           ],
           "next": [
             {
@@ -1244,19 +2311,48 @@
           ]
         },
         {
-          "name": "--xml",
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
           "tip": [
-            "以 XML 格式输出。"
+            "打印额外信息"
           ]
         }
       ]
     },
     {
       "name": "mkdir",
+      "usage": [
+        "mkdir PATH[@]..."
+      ],
       "tip": [
-        "创建新的版本控制目录。"
+        "创建一个纳入版本控制的新目录。"
       ],
       "option": [
+        {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
         {
           "name": "--file",
           "alias": [
@@ -1266,9 +2362,15 @@
             "-F, --file <ARG>"
           ],
           "tip": [
-            "从文件中读取日志消息。"
+            "从文件 ARG 中读取日志消息"
           ],
           "next": []
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制日志消息来源有效"
+          ]
         },
         {
           "name": "--message",
@@ -1279,20 +2381,45 @@
             "-m, --message <ARG>"
           ],
           "tip": [
-            "指定日志消息。"
+            "指定日志消息 ARG"
           ],
           "next": []
         },
         {
           "name": "--parents",
           "tip": [
-            "创建缺失的父目录。"
+            "创建中间层目录"
           ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
+          ],
+          "next": []
         }
       ]
     },
     {
       "name": "patch",
+      "usage": [
+        "patch PATCHFILE [WCPATH[@]]"
+      ],
       "tip": [
         "将补丁应用到工作副本。"
       ],
@@ -1300,133 +2427,121 @@
         {
           "name": "--dry-run",
           "tip": [
-            "显示将要打补丁的内容，但不实际执行。"
+            "尝试执行操作但不做任何更改"
           ]
         },
         {
-          "name": "--reverse",
+          "name": "--ignore-whitespace",
           "tip": [
-            "反向应用补丁。"
+            "模式匹配时忽略空白字符"
           ]
         },
         {
-          "name": "--strip",
+          "name": "--quiet",
           "alias": [
-            "-p"
+            "-q"
           ],
           "usage": [
-            "-p, --strip <ARG>"
+            "-q, --quiet"
           ],
           "tip": [
-            "从补丁路径中剥离的路径组件数量。"
-          ],
-          "next": []
-        }
-      ]
-    },
-    {
-      "name": "praise",
-      "alias": [
-        "blame"
-      ],
-      "usage": [
-        "blame|praise"
-      ],
-      "tip": [
-        "显示文件每一行的作者和版本信息。"
-      ],
-      "option": [
-        {
-          "name": "--end-revision",
-          "usage": [
-            "--end-revision <ARG>"
-          ],
-          "tip": [
-            "指定 blame 的结束版本。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--incremental",
-          "tip": [
-            "以增量格式输出内容。"
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
           "name": "--reverse-diff",
           "tip": [
-            "以反向差异方式显示 blame 信息。"
+            "反向应用 unidiff 补丁"
           ]
         },
         {
-          "name": "--start-revision",
-          "alias": [
-            "-r"
-          ],
+          "name": "--strip",
           "usage": [
-            "-r, --start-revision <ARG>"
+            "--strip <ARG>"
           ],
           "tip": [
-            "指定 blame 的起始版本。"
+            "从补丁文件解析出的路径中剥离的前导路径分量数量。",
+            "--strip 0 是默认值，保持路径不变。",
+            "--strip 1 会把路径 'doc/fudge/crunchy.html' 改成 'fudge/crunchy.html'。",
+            "所有平台上期望的分隔符都是 '/'；开头的 '/' 计为一个分量。"
           ],
           "next": []
-        },
-        {
-          "name": "--use-merge-history",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --use-merge-history"
-          ],
-          "tip": [
-            "显示合并来源的 blame 信息。"
-          ]
-        },
-        {
-          "name": "--verbose",
-          "alias": [
-            "-v"
-          ],
-          "usage": [
-            "-v, --verbose"
-          ],
-          "tip": [
-            "显示每一行的完整日期、作者和版本。"
-          ]
-        },
-        {
-          "name": "--xml",
-          "tip": [
-            "以 XML 格式输出。"
-          ]
         }
       ]
     },
     {
       "name": "propdel",
       "alias": [
-        "pdel"
+        "pdel",
+        "pd"
       ],
       "usage": [
-        "pdel|propdel"
+        "pd|pdel|propdel PROPNAME [PATH[@]...]"
       ],
       "tip": [
-        "从文件、目录或版本中删除属性。"
+        "移除文件、目录或修订上的属性。"
       ],
       "option": [
         {
-          "name": "--depth",
+          "name": "--changelist",
           "alias": [
-            "-d"
+            "--cl"
           ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
         },
         {
           "name": "--revision",
@@ -1437,9 +2552,16 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
+        },
+        {
+          "name": "--revprop",
+          "tip": [
+            "操作修订属性（配合 -r 使用）"
+          ]
         }
       ]
     },
@@ -1450,32 +2572,168 @@
         "pe"
       ],
       "usage": [
-        "pe|pedit|propedit"
+        "pe|pedit|propedit PROPNAME TARGET[@]..."
       ],
       "tip": [
         "使用外部编辑器编辑属性。"
       ],
       "option": [
         {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
           "name": "--encoding",
           "usage": [
             "--encoding <ARG>"
           ],
           "tip": [
-            "将属性值视为指定编码。"
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --file <ARG>"
+          ],
+          "tip": [
+            "从文件 ARG 中读取日志消息"
           ],
           "next": []
         },
         {
           "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制日志消息来源有效"
+          ]
+        },
+        {
+          "name": "--message",
           "alias": [
-            "-f"
+            "-m"
           ],
           "usage": [
-            "-f, --force"
+            "-m, --message <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "指定日志消息 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <ARG>"
+          ],
+          "tip": [
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revprop",
+          "tip": [
+            "操作修订属性（配合 -r 使用）"
+          ]
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "propget",
+      "alias": [
+        "pget",
+        "pg"
+      ],
+      "usage": [
+        "pg|pget|propget PROPNAME [TARGET[@REV]...]"
+      ],
+      "tip": [
+        "打印文件、目录或修订上某个属性的值。"
+      ],
+      "option": [
+        {
+          "name": "--changelist",
+          "alias": [
+            "--cl"
+          ],
+          "usage": [
+            "--cl, --changelist <ARG>"
+          ],
+          "tip": [
+            "仅操作更改列表 ARG 的成员"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--no-newline",
+          "tip": [
+            "不输出末尾换行符"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
           ]
         },
         {
@@ -1487,80 +2745,27 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--wait",
-          "tip": [
-            "等待编辑器关闭而不是生成它。"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "propget",
-      "alias": [
-        "pget",
-        "pg"
-      ],
-      "usage": [
-        "pg|pget|propget"
-      ],
-      "tip": [
-        "打印文件、目录或版本上属性的值。"
-      ],
-      "option": [
-        {
-          "name": "--changelist",
-          "alias": [
-            "-cl"
-          ],
-          "usage": [
-            "-cl, --changelist <CL>"
-          ],
-          "tip": [
-            "仅对指定变更列表中的项进行操作。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --depth <ARG>"
-          ],
-          "tip": [
-            "限制操作的深度。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--revision",
-          "alias": [
-            "-r"
-          ],
-          "usage": [
-            "-r, --revision <REV>"
-          ],
-          "tip": [
-            "指定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
         },
         {
           "name": "--revprop",
-          "alias": [
-            "-R"
-          ],
-          "usage": [
-            "-R, --revprop"
-          ],
           "tip": [
-            "操作仓库修订属性。"
+            "操作修订属性（配合 -r 使用）"
+          ]
+        },
+        {
+          "name": "--show-inherited-props",
+          "tip": [
+            "获取在目标父级上设置的属性"
+          ]
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "已弃用（请改用 --no-newline）"
           ]
         },
         {
@@ -1572,13 +2777,13 @@
             "-v, --verbose"
           ],
           "tip": [
-            "显示属性值和完整的属性名称。"
+            "将路径、名称和值分别打印在不同行"
           ]
         },
         {
           "name": "--xml",
           "tip": [
-            "以 XML 格式输出。"
+            "以 XML 格式输出"
           ]
         }
       ]
@@ -1590,24 +2795,60 @@
         "pl"
       ],
       "usage": [
-        "pl|plist|proplist"
+        "pl|plist|proplist [TARGET[@REV]...]"
       ],
       "tip": [
-        "列出文件、目录或版本上的所有属性。"
+        "列出文件、目录或修订上的所有属性。"
       ],
       "option": [
         {
-          "name": "--depth",
+          "name": "--changelist",
           "alias": [
-            "-d"
+            "--cl"
           ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印路径"
+          ]
         },
         {
           "name": "--recursive",
@@ -1618,7 +2859,7 @@
             "-R, --recursive"
           ],
           "tip": [
-            "递归操作。"
+            "递归处理，等同于 --depth=infinity"
           ]
         },
         {
@@ -1630,9 +2871,22 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
+        },
+        {
+          "name": "--revprop",
+          "tip": [
+            "操作修订属性（配合 -r 使用）"
+          ]
+        },
+        {
+          "name": "--show-inherited-props",
+          "tip": [
+            "获取在目标父级上设置的属性"
+          ]
         },
         {
           "name": "--verbose",
@@ -1643,13 +2897,13 @@
             "-v, --verbose"
           ],
           "tip": [
-            "同时显示属性值。"
+            "将路径、名称和值分别打印在不同行"
           ]
         },
         {
           "name": "--xml",
           "tip": [
-            "以 XML 格式输出。"
+            "以 XML 格式输出"
           ]
         }
       ]
@@ -1661,19 +2915,56 @@
         "ps"
       ],
       "usage": [
-        "ps|set|propset"
+        "ps|pset|propset PROPNAME PROPVAL PATH[@]..."
       ],
       "tip": [
-        "在文件、目录或版本上设置属性。"
+        "设置文件、目录或修订上某个属性的值。"
       ],
       "option": [
+        {
+          "name": "--changelist",
+          "alias": [
+            "--cl"
+          ],
+          "usage": [
+            "--cl, --changelist <ARG>"
+          ],
+          "tip": [
+            "仅操作更改列表 ARG 的成员"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
         {
           "name": "--encoding",
           "usage": [
             "--encoding <ARG>"
           ],
           "tip": [
-            "将属性值视为指定编码。"
+            "将取值视为使用字符集编码 ARG"
           ],
           "next": []
         },
@@ -1686,20 +2977,38 @@
             "-F, --file <ARG>"
           ],
           "tip": [
-            "从文件中读取属性值。"
+            "从文件 ARG 中读取属性值"
           ],
           "next": []
         },
         {
           "name": "--force",
+          "tip": [
+            "强制运行操作"
+          ]
+        },
+        {
+          "name": "--quiet",
           "alias": [
-            "-f"
+            "-q"
           ],
           "usage": [
-            "-f, --force"
+            "-q, --quiet"
           ],
           "tip": [
-            "强制执行操作。"
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
           ]
         },
         {
@@ -1711,7 +3020,24 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revprop",
+          "tip": [
+            "操作修订属性（配合 -r 使用）"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
           ],
           "next": []
         }
@@ -1719,33 +3045,18 @@
     },
     {
       "name": "relocate",
+      "usage": [
+        "relocate FROM-PREFIX TO-PREFIX [PATH...]",
+        "relocate TO-URL [PATH]"
+      ],
       "tip": [
-        "重新定位工作副本以指向不同的仓库 URL。"
+        "重定位工作副本，使其指向另一个仓库 URL。"
       ],
       "option": [
         {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --depth <ARG>"
-          ],
+          "name": "--ignore-externals",
           "tip": [
-            "限制操作的深度。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--non-recursive",
-          "alias": [
-            "-N"
-          ],
-          "usage": [
-            "-N, --non-recursive"
-          ],
-          "tip": [
-            "对单个目录进行操作，不递归。"
+            "忽略外部条目定义"
           ]
         }
       ]
@@ -1758,28 +3069,94 @@
         "mv"
       ],
       "usage": [
-        "mv|ren|move|rename"
+        "mv|ren|move|rename SRC[@]... DST"
       ],
       "tip": [
-        "在工作副本或仓库中移动/重命名。"
+        "移动（重命名）工作副本或仓库中的一个条目。"
       ],
       "option": [
         {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
+          "name": "--allow-mixed-revisions",
+          "tip": [
+            "允许对混合修订版本的工作副本执行操作。",
+            "不建议使用该选项！",
+            "请改用 'svn update'。"
+          ]
+        },
+        {
+          "name": "--editor-cmd",
           "usage": [
-            "-f, --force"
+            "--editor-cmd <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--encoding",
+          "usage": [
+            "--encoding <ARG>"
+          ],
+          "tip": [
+            "将取值视为使用字符集编码 ARG"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "alias": [
+            "-F"
+          ],
+          "usage": [
+            "-F, --file <ARG>"
+          ],
+          "tip": [
+            "从文件 ARG 中读取日志消息"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "强制运行操作"
           ]
+        },
+        {
+          "name": "--force-log",
+          "tip": [
+            "强制日志消息来源有效"
+          ]
+        },
+        {
+          "name": "--message",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --message <ARG>"
+          ],
+          "tip": [
+            "指定日志消息 ARG"
+          ],
+          "next": []
         },
         {
           "name": "--parents",
           "tip": [
-            "创建缺失的父目录。"
+            "创建中间层目录"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
@@ -1791,7 +3168,17 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定版本（用于仓库移动）。"
+            "已弃用并被忽略"
+          ],
+          "next": []
+        },
+        {
+          "name": "--with-revprop",
+          "usage": [
+            "--with-revprop <ARG>"
+          ],
+          "tip": [
+            "使用 name[=value] 格式在新修订中设置修订属性 ARG"
           ],
           "next": []
         }
@@ -1799,37 +3186,34 @@
     },
     {
       "name": "resolve",
+      "usage": [
+        "resolve [PATH[@]...]"
+      ],
       "tip": [
-        "解决工作副本路径上的冲突状态。"
+        "解决工作副本文件或目录的冲突。"
       ],
       "option": [
         {
           "name": "--accept",
-          "alias": [
-            "-a"
-          ],
           "usage": [
-            "-a, --accept <ARG>"
+            "--accept <ARG>"
           ],
           "tip": [
-            "指定自动冲突解决操作。",
-            "可选值: postpone, base, working, mine-full, theirs-full, edit, launch"
+            "指定自动冲突解决的来源（'base'、'working'、'mine-conflict'、'theirs-conflict'、'mine-full'、'theirs-full'）。",
+            "可能值: base, working, mine-conflict, theirs-conflict, mine-full, theirs-full"
           ],
           "next": [
             {
               "name": "base"
             },
             {
-              "name": "edit"
-            },
-            {
-              "name": "launch"
+              "name": "mine-conflict"
             },
             {
               "name": "mine-full"
             },
             {
-              "name": "postpone"
+              "name": "theirs-conflict"
             },
             {
               "name": "theirs-full"
@@ -1841,14 +3225,59 @@
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
           ],
           "next": []
         }
@@ -1856,66 +3285,156 @@
     },
     {
       "name": "resolved",
+      "usage": [
+        "resolved PATH[@]..."
+      ],
       "tip": [
-        "移除工作副本路径上的 '冲突' 状态。"
+        "移除工作副本文件或目录的冲突状态。"
       ],
       "option": [
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
         },
         {
-          "name": "--non-recursive",
+          "name": "--quiet",
           "alias": [
-            "-N"
+            "-q"
           ],
           "usage": [
-            "-N, --non-recursive"
+            "-q, --quiet"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "不打印任何信息，或仅打印摘要信息"
           ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
         }
       ]
     },
     {
       "name": "revert",
+      "usage": [
+        "revert PATH[@]..."
+      ],
       "tip": [
-        "撤销所有本地更改。"
+        "恢复工作副本的原始状态（撤销本地更改）。"
       ],
       "option": [
         {
           "name": "--changelist",
           "alias": [
-            "-c"
+            "--cl"
           ],
           "usage": [
-            "-c, --changelist <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "仅操作指定变更列表中的项目。"
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        },
+        {
+          "name": "--recursive",
+          "alias": [
+            "-R"
+          ],
+          "usage": [
+            "-R, --recursive"
+          ],
+          "tip": [
+            "递归处理，等同于 --depth=infinity"
+          ]
+        },
+        {
+          "name": "--remove-added",
+          "tip": [
+            "还原新增条目时会将其从磁盘删除"
+          ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
           ],
           "next": []
         }
@@ -1928,7 +3447,7 @@
         "st"
       ],
       "usage": [
-        "st|stat|status"
+        "st|stat|status [PATH[@]...]"
       ],
       "tip": [
         "打印工作副本文件和目录的状态。"
@@ -1937,39 +3456,56 @@
         {
           "name": "--changelist",
           "alias": [
-            "-c"
+            "--cl"
           ],
           "usage": [
-            "-c, --changelist <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "仅显示指定变更列表中的项目。"
+            "仅操作更改列表 ARG 的成员"
           ],
           "next": []
         },
         {
           "name": "--depth",
-          "alias": [
-            "-d"
-          ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
         },
         {
           "name": "--ignore-externals",
           "tip": [
-            "状态显示时忽略外部定义。"
+            "忽略外部条目定义"
+          ]
+        },
+        {
+          "name": "--incremental",
+          "tip": [
+            "输出适合拼接的格式"
           ]
         },
         {
           "name": "--no-ignore",
           "tip": [
-            "不忽略被忽略的文件。"
+            "忽略默认忽略规则以及 svn:ignore 和 svn:global-ignores 属性定义的忽略规则"
           ]
         },
         {
@@ -1981,7 +3517,7 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=immediates"
           ]
         },
         {
@@ -1993,8 +3529,22 @@
             "-q, --quiet"
           ],
           "tip": [
-            "仅打印状态摘要。"
+            "不打印未纳入版本控制的条目"
           ]
+        },
+        {
+          "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <ARG>"
+          ],
+          "tip": [
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
+          ],
+          "next": []
         },
         {
           "name": "--show-updates",
@@ -2005,7 +3555,7 @@
             "-u, --show-updates"
           ],
           "tip": [
-            "显示工作副本相对于仓库的版本状态。"
+            "显示更新信息"
           ]
         },
         {
@@ -2017,13 +3567,13 @@
             "-v, --verbose"
           ],
           "tip": [
-            "显示完整的版本信息。"
+            "打印额外信息"
           ]
         },
         {
           "name": "--xml",
           "tip": [
-            "以 XML 格式输出。"
+            "以 XML 格式输出"
           ]
         }
       ]
@@ -2034,23 +3584,20 @@
         "sw"
       ],
       "usage": [
-        "sw|switch"
+        "sw|switch URL[@PEGREV] [PATH]"
       ],
       "tip": [
-        "将工作副本更新到不同的 URL。"
+        "将工作副本更新到同一仓库中的另一个 URL。"
       ],
       "option": [
         {
           "name": "--accept",
-          "alias": [
-            "-a"
-          ],
           "usage": [
-            "-a, --accept <ARG>"
+            "--accept <ARG>"
           ],
           "tip": [
-            "指定自动冲突解决方式。",
-            "可选值: postpone, base, working, mine-full, theirs-full, edit, launch"
+            "指定自动冲突解决方式（'postpone'、'working'、'base'、'mine-conflict'、'theirs-conflict'、'mine-full'、'theirs-full'、'edit'、'launch'、'recommended'），简写为 'p'、'mc'、'tc'、'mf'、'tf'、'e'、'l'、'r'。",
+            "可能值: postpone, working, base, mine-conflict, theirs-conflict, mine-full, theirs-full, edit, launch, recommended"
           ],
           "next": [
             {
@@ -2063,10 +3610,19 @@
               "name": "launch"
             },
             {
+              "name": "mine-conflict"
+            },
+            {
               "name": "mine-full"
             },
             {
               "name": "postpone"
+            },
+            {
+              "name": "recommended"
+            },
+            {
+              "name": "theirs-conflict"
             },
             {
               "name": "theirs-full"
@@ -2077,21 +3633,55 @@
           ]
         },
         {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
+          "name": "--depth",
           "usage": [
-            "-f, --force"
+            "--depth <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
+        },
+        {
+          "name": "--diff3-cmd",
+          "usage": [
+            "--diff3-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作 merge 命令"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "将未纳入版本控制的阻碍项视为更改处理"
+          ]
+        },
+        {
+          "name": "--ignore-ancestry",
+          "tip": [
+            "允许切换到没有共同祖先的节点"
           ]
         },
         {
           "name": "--ignore-externals",
           "tip": [
-            "切换时忽略外部定义。"
+            "忽略外部条目定义"
           ]
         },
         {
@@ -2103,19 +3693,25 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
           "name": "--relocate",
-          "alias": [
-            "-s"
-          ],
-          "usage": [
-            "-s, --relocate"
-          ],
           "tip": [
-            "切换仓库位置。"
+            "已弃用；请使用 'svn relocate'"
           ]
         },
         {
@@ -2127,42 +3723,76 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "指定要切换到的版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
+        },
+        {
+          "name": "--set-depth",
+          "usage": [
+            "--set-depth <ARG>"
+          ],
+          "tip": [
+            "将工作副本的新深度设置为 ARG（'exclude'、'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: exclude, empty, files, immediates, infinity"
+          ],
+          "next": [
+            {
+              "name": "empty"
+            },
+            {
+              "name": "exclude"
+            },
+            {
+              "name": "files"
+            },
+            {
+              "name": "immediates"
+            },
+            {
+              "name": "infinity"
+            }
+          ]
         }
       ]
     },
     {
       "name": "unlock",
+      "usage": [
+        "unlock TARGET[@]..."
+      ],
       "tip": [
-        "解锁项目，使其他用户可以修改。"
+        "解锁工作副本路径或 URL。"
       ],
       "option": [
         {
-          "name": "--changelist",
-          "alias": [
-            "-c"
-          ],
-          "usage": [
-            "-c, --changelist <ARG>"
-          ],
+          "name": "--force",
           "tip": [
-            "仅操作指定变更列表中的项目。"
-          ],
-          "next": []
+            "强制解除锁"
+          ]
         },
         {
-          "name": "--force",
+          "name": "--quiet",
           "alias": [
-            "-f"
+            "-q"
           ],
           "usage": [
-            "-f, --force"
+            "-q, --quiet"
           ],
           "tip": [
-            "强制执行操作。"
+            "不打印任何信息，或仅打印摘要信息"
           ]
+        },
+        {
+          "name": "--targets",
+          "usage": [
+            "--targets <ARG>"
+          ],
+          "tip": [
+            "将文件 ARG 的内容作为附加参数传入"
+          ],
+          "next": []
         }
       ]
     },
@@ -2172,23 +3802,20 @@
         "up"
       ],
       "usage": [
-        "up|update"
+        "up|update [PATH[@]...]"
       ],
       "tip": [
-        "将仓库中的更改引入工作副本。"
+        "将更改从仓库获取到工作副本。"
       ],
       "option": [
         {
           "name": "--accept",
-          "alias": [
-            "-a"
-          ],
           "usage": [
-            "-a, --accept <ARG>"
+            "--accept <ARG>"
           ],
           "tip": [
-            "指定自动冲突解决方式。",
-            "可选值: postpone, base, working, mine-full, theirs-full, edit, launch"
+            "指定自动冲突解决方式（'postpone'、'working'、'base'、'mine-conflict'、'theirs-conflict'、'mine-full'、'theirs-full'、'edit'、'launch'、'recommended'），简写为 'p'、'mc'、'tc'、'mf'、'tf'、'e'、'l'、'r'。",
+            "可能值: postpone, working, base, mine-conflict, theirs-conflict, mine-full, theirs-full, edit, launch, recommended"
           ],
           "next": [
             {
@@ -2201,10 +3828,19 @@
               "name": "launch"
             },
             {
+              "name": "mine-conflict"
+            },
+            {
               "name": "mine-full"
             },
             {
               "name": "postpone"
+            },
+            {
+              "name": "recommended"
+            },
+            {
+              "name": "theirs-conflict"
             },
             {
               "name": "theirs-full"
@@ -2215,16 +3851,34 @@
           ]
         },
         {
-          "name": "--depth",
+          "name": "--adds-as-modification",
+          "tip": [
+            "本地新增内容会与传入的新增内容合并，而不是产生树冲突。",
+            "不建议使用该选项！",
+            "请改用 'svn resolve' 来解决树冲突。"
+          ]
+        },
+        {
+          "name": "--changelist",
           "alias": [
-            "-d"
+            "--cl"
           ],
           "usage": [
-            "-d, --depth <ARG>"
+            "--cl, --changelist <ARG>"
           ],
           "tip": [
-            "限制操作的深度。",
-            "可选值: empty, files, immediates, infinity"
+            "仅操作更改列表 ARG 的成员"
+          ],
+          "next": []
+        },
+        {
+          "name": "--depth",
+          "usage": [
+            "--depth <ARG>"
+          ],
+          "tip": [
+            "将操作限制在深度 ARG（'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: empty, files, immediates, infinity"
           ],
           "next": [
             {
@@ -2242,21 +3896,35 @@
           ]
         },
         {
-          "name": "--force",
-          "alias": [
-            "-f"
-          ],
+          "name": "--diff3-cmd",
           "usage": [
-            "-f, --force"
+            "--diff3-cmd <ARG>"
           ],
           "tip": [
-            "强制执行操作。"
+            "将 ARG 用作 merge 命令"
+          ],
+          "next": []
+        },
+        {
+          "name": "--editor-cmd",
+          "usage": [
+            "--editor-cmd <ARG>"
+          ],
+          "tip": [
+            "将 ARG 用作外部编辑器"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "将未纳入版本控制的阻碍项视为更改处理"
           ]
         },
         {
           "name": "--ignore-externals",
           "tip": [
-            "更新时忽略外部定义。"
+            "忽略外部条目定义"
           ]
         },
         {
@@ -2268,7 +3936,25 @@
             "-N, --non-recursive"
           ],
           "tip": [
-            "对单个目录进行操作，不递归。"
+            "已废弃；等同于 --depth=files"
+          ]
+        },
+        {
+          "name": "--parents",
+          "tip": [
+            "创建中间层目录"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
           ]
         },
         {
@@ -2280,34 +3966,26 @@
             "-r, --revision <ARG>"
           ],
           "tip": [
-            "更新到特定版本。"
+            "指定某个修订或一个修订范围。",
+            "修订参数可以是: NUMBER（修订号）、'{'DATE'}'（该日期起始时刻的修订）、HEAD（仓库中最新的修订）、BASE（该条目工作副本的基础修订）、COMMITTED（BASE 或之前最后一次提交）、PREV（COMMITTED 之前的那一个修订）。"
           ],
           "next": []
-        }
-      ]
-    },
-    {
-      "name": "upgrade",
-      "tip": [
-        "将工作副本格式升级到最新支持的版本。",
-        "当工作副本格式已更改时需要此操作。"
-      ],
-      "option": [
+        },
         {
-          "name": "--depth",
-          "alias": [
-            "-d"
-          ],
+          "name": "--set-depth",
           "usage": [
-            "-d, --depth <ARG>"
+            "--set-depth <ARG>"
           ],
           "tip": [
-            "限制操作的深度。",
-            "有效值: empty、files、immediates、infinity"
+            "将工作副本的新深度设置为 ARG（'exclude'、'empty'、'files'、'immediates' 或 'infinity'）。",
+            "可能值: exclude, empty, files, immediates, infinity"
           ],
           "next": [
             {
               "name": "empty"
+            },
+            {
+              "name": "exclude"
             },
             {
               "name": "files"
@@ -2321,22 +3999,57 @@
           ]
         }
       ]
+    },
+    {
+      "name": "upgrade",
+      "usage": [
+        "upgrade [WCPATH[@]...]"
+      ],
+      "tip": [
+        "升级工作副本的元数据存储格式。"
+      ],
+      "option": [
+        {
+          "name": "--compatible-version",
+          "usage": [
+            "--compatible-version <ARG>"
+          ],
+          "tip": [
+            "使用与 Subversion 版本 ARG（如 \"1.8\"、\"1.9.5\"）兼容的工作副本格式"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "不打印任何信息，或仅打印摘要信息"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--version",
+      "tip": [
+        "显示版本信息。"
+      ]
     }
   ],
   "global_option": [
-    {
-      "name": "--auth-cache",
-      "tip": [
-        "缓存认证凭据。"
-      ]
-    },
     {
       "name": "--config-dir",
       "usage": [
         "--config-dir <ARG>"
       ],
       "tip": [
-        "从指定目录读取用户配置文件。"
+        "从目录 ARG 中读取用户配置文件。"
       ],
       "next": []
     },
@@ -2346,38 +4059,40 @@
         "--config-option <ARG>"
       ],
       "tip": [
-        "设置用户配置选项，格式: FILE:OPTION:VALUE。"
+        "以 FILE:SECTION:OPTION=[VALUE] 的格式设置用户配置选项。",
+        "例如: servers:global:http-library=serf"
       ],
       "next": []
     },
     {
-      "name": "--force",
+      "name": "--force-interactive",
+      "tip": [
+        "即使标准输入不是终端设备也进行交互式提示。"
+      ]
+    },
+    {
+      "name": "--help",
       "alias": [
-        "-f"
+        "-h"
       ],
       "usage": [
-        "-f, --force"
+        "-h, --help"
       ],
       "tip": [
-        "强制执行某些操作。"
+        "显示帮助。"
       ]
     },
     {
-      "name": "--ignore-externals",
+      "name": "--no-auth-cache",
       "tip": [
-        "忽略外部定义。"
-      ]
-    },
-    {
-      "name": "--non-auth-cache",
-      "tip": [
-        "不缓存认证凭据。"
+        "不缓存身份验证令牌。"
       ]
     },
     {
       "name": "--non-interactive",
       "tip": [
-        "不提示用户输入。"
+        "不进行交互式提示。",
+        "默认仅在标准输入是终端设备时提示。"
       ]
     },
     {
@@ -2386,20 +4101,50 @@
         "--password <ARG>"
       ],
       "tip": [
-        "指定密码。"
+        "指定密码。",
+        "注意：在许多操作系统上，其他用户能够看到该密码。"
       ],
       "next": []
     },
     {
-      "name": "--quiet",
-      "alias": [
-        "-q"
-      ],
+      "name": "--password-from-stdin",
+      "tip": [
+        "从标准输入读取密码。"
+      ]
+    },
+    {
+      "name": "--trust-server-cert",
+      "tip": [
+        "已弃用；等同于 --trust-server-cert-failures=unknown-ca。"
+      ]
+    },
+    {
+      "name": "--trust-server-cert-failures",
       "usage": [
-        "-q, --quiet"
+        "--trust-server-cert-failures <ARG,...>"
       ],
       "tip": [
-        "不输出任何内容，或仅输出摘要信息。"
+        "配合 --non-interactive 使用，接受有故障的 SSL 服务器证书。",
+        "ARG 是以逗号分隔的列表，可取值：'unknown-ca'（未知颁发机构）、'cn-mismatch'（主机名不匹配）、'expired'（证书已过期）、'not-yet-valid'（证书尚未生效）、'other'（其他未单独分类的证书错误）。",
+        "可能值: unknown-ca, cn-mismatch, expired, not-yet-valid, other"
+      ],
+      "separator": ",",
+      "next": [
+        {
+          "name": "cn-mismatch"
+        },
+        {
+          "name": "expired"
+        },
+        {
+          "name": "not-yet-valid"
+        },
+        {
+          "name": "other"
+        },
+        {
+          "name": "unknown-ca"
+        }
       ]
     },
     {
@@ -2411,18 +4156,6 @@
         "指定用户名。"
       ],
       "next": []
-    },
-    {
-      "name": "--verbose",
-      "alias": [
-        "-v"
-      ],
-      "usage": [
-        "-v, --verbose"
-      ],
-      "tip": [
-        "打印额外信息。"
-      ]
     }
   ]
 }

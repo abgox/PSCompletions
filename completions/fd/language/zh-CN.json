@@ -40,6 +40,7 @@
       "tip": [
         "添加额外的必需搜索模式。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -78,12 +79,17 @@
       ]
     },
     {
-      "name": "--changed-before",
+      "name": "--change-newer-than",
+      "alias": [
+        "--changed-within",
+        "--changed-after",
+        "--newer"
+      ],
       "usage": [
-        "--changed-before <date|dur>"
+        "--newer, --changed-after, --changed-within, --change-newer-than <date|dur>"
       ],
       "tip": [
-        "按修改时间过滤（较旧的）。"
+        "按修改时间过滤（较新的）。"
       ],
       "next": [
         {
@@ -98,12 +104,16 @@
       ]
     },
     {
-      "name": "--changed-within",
+      "name": "--change-older-than",
+      "alias": [
+        "--changed-before",
+        "--older"
+      ],
       "usage": [
-        "--changed-within <date|dur>"
+        "--older, --changed-before, --change-older-than <date|dur>"
       ],
       "tip": [
-        "按修改时间过滤（较新的）。"
+        "按修改时间过滤（较旧的）。"
       ],
       "next": [
         {
@@ -141,6 +151,14 @@
       ]
     },
     {
+      "name": "--exact",
+      "tip": [
+        "执行精确匹配。",
+        "等效于 --fixed-strings，但要求模式匹配整个文件名或路径。",
+        "模式中的特殊正则字符被视为字面字符。"
+      ]
+    },
+    {
       "name": "--exact-depth",
       "usage": [
         "--exact-depth <depth>"
@@ -161,6 +179,7 @@
       "tip": [
         "排除匹配 glob 模式的文件/目录。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -200,6 +219,7 @@
       "tip": [
         "按文件扩展名过滤。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -262,8 +282,15 @@
     },
     {
       "name": "--has-results",
+      "alias": [
+        "--quiet",
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet, --has-results"
+      ],
       "tip": [
-        "--quiet 的别名。"
+        "不打印任何内容，仅返回退出码。"
       ]
     },
     {
@@ -311,6 +338,12 @@
       ]
     },
     {
+      "name": "--ignore",
+      "tip": [
+        "忽略匹配忽略规则的文件和目录（.gitignore、.ignore、.fdignore 或全局忽略文件）。"
+      ]
+    },
+    {
       "name": "--ignore-case",
       "alias": [
         "-i"
@@ -341,6 +374,18 @@
         "添加 .gitignore 格式的自定义忽略文件。"
       ],
       "next": []
+    },
+    {
+      "name": "--ignore-parent",
+      "tip": [
+        "忽略匹配父目录忽略规则的文件和目录。"
+      ]
+    },
+    {
+      "name": "--ignore-vcs",
+      "tip": [
+        "忽略匹配 .gitignore 规则的文件和目录。"
+      ]
     },
     {
       "name": "--list-details",
@@ -395,6 +440,18 @@
       "next": []
     },
     {
+      "name": "--no-follow",
+      "tip": [
+        "不跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "不在搜索结果中包含隐藏的目录和文件。"
+      ]
+    },
+    {
       "name": "--no-ignore",
       "alias": [
         "-I"
@@ -439,8 +496,10 @@
         "-o, --owner <user:group>"
       ],
       "tip": [
-        "按用户和/或所属组筛选文件。格式：[(user|uid)][:(group|gid)]。",
-        "两侧均可省略；任一侧前加 \"!\" 表示排除。",
+        "按用户和/或所属组筛选文件。",
+        "格式：[(user|uid)][:(group|gid)]。",
+        "两侧均可省略。",
+        "任一侧前加 \"!\" 表示排除。",
         "示例：--owner john | --owner :students | --owner !john:students"
       ],
       "next": [
@@ -493,21 +552,21 @@
       ]
     },
     {
-      "name": "--quiet",
-      "alias": [
-        "-q"
-      ],
-      "usage": [
-        "-q, --quiet"
-      ],
-      "tip": [
-        "不打印任何内容，仅返回退出码。"
-      ]
-    },
-    {
       "name": "--regex",
       "tip": [
         "执行基于正则表达式的搜索（默认）。"
+      ]
+    },
+    {
+      "name": "--relative-path",
+      "tip": [
+        "显示相对路径而非绝对路径。"
+      ]
+    },
+    {
+      "name": "--require-git",
+      "tip": [
+        "要求 git 仓库以遵守 gitignore 规则。"
       ]
     },
     {
@@ -518,6 +577,7 @@
       "tip": [
         "提供搜索路径作为位置参数的替代。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -593,6 +653,7 @@
       "tip": [
         "按类型过滤：f/file、d/dir、l/symlink、x/executable、e/empty。"
       ],
+      "repeat": 99,
       "next": [
         {
           "name": "b",

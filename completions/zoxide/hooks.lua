@@ -3,7 +3,7 @@ local function add_paths()
 end
 
 psc.on({
-    { command = "query" },
+    { command = "query",  multiple = true },
     { command = "add",    multiple = true },
     { command = "remove", multiple = true }
 }, add_paths)

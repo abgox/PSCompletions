@@ -2,6 +2,7 @@ local function add_known_hosts()
     local kh = psc.path(psc.env("HOME") or psc.env("USERPROFILE") or "", ".ssh", "known_hosts")
     local txt = psc.read(kh)
     if txt then
+        -- a hashed entry (|1|...) is not a name that can be typed back at -F/-R
         for line in txt:gmatch("[^\r\n]+") do
             local host = line:match("^([^%s,]+)")
             if host and not host:match("^#") and not host:match("^|") then
@@ -13,6 +14,5 @@ end
 
 psc.on({
     { option = "-F" },
-    { option = "-R" },
-    { option = "-r" }
+    { option = "-R" }
 }, add_known_hosts)

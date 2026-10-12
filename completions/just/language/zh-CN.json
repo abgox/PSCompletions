@@ -7,19 +7,6 @@
   },
   "option": [
     {
-      "name": "--dotenv-filename",
-      "alias": [
-        "-F"
-      ],
-      "usage": [
-        "-F, --dotenv-filename <DOTENV_FILENAME>"
-      ],
-      "tip": [
-        "加载额外的环境文件"
-      ],
-      "next": []
-    },
-    {
       "name": "--version",
       "alias": [
         "-V"
@@ -39,7 +26,8 @@
         "--alias-style <ALIAS_STYLE>"
       ],
       "tip": [
-        "设置列表命令的别名显示样式。"
+        "设置列表命令的别名显示样式。",
+        "可能值: left, right, separate"
       ],
       "next": [
         {
@@ -98,6 +86,17 @@
       "next": []
     },
     {
+      "name": "--clean",
+      "usage": [
+        "--clean [<RECIPE_PATH>...]"
+      ],
+      "tip": [
+        "清除 recipe 缓存。",
+        "可选地仅限于路径以 <RECIPE_PATH> 开头的 recipe。"
+      ],
+      "next": []
+    },
+    {
       "name": "--clear-shell-args",
       "tip": [
         "清除 shell 参数。"
@@ -109,7 +108,8 @@
         "--color <COLOR>"
       ],
       "tip": [
-        "输出彩色内容。"
+        "输出彩色内容。",
+        "可能值: always, auto, never"
       ],
       "next": [
         {
@@ -142,7 +142,8 @@
         "--command-color <COMMAND_COLOR>"
       ],
       "tip": [
-        "使用指定颜色回显 recipe 命令行。"
+        "使用指定颜色回显 recipe 命令行。",
+        "可能值: black, blue, cyan, green, purple, red, yellow"
       ],
       "next": [
         {
@@ -180,7 +181,8 @@
         "--completions <SHELL>"
       ],
       "tip": [
-        "打印 shell 补全脚本。"
+        "打印 shell 补全脚本。",
+        "可能值: bash, elvish, fish, nushell, powershell, zsh"
       ],
       "next": [
         {
@@ -214,9 +216,28 @@
       "next": []
     },
     {
-      "name": "--dotenv-filename",
+      "name": "--default-list",
+      "tip": [
+        "在未提供参数时列出 recipes。"
+      ]
+    },
+    {
+      "name": "--dotenv-command",
       "usage": [
-        "--dotenv-filename <DOTENV-FILENAME>"
+        "--dotenv-command <COMMAND>"
+      ],
+      "tip": [
+        "运行 <COMMAND> 并将其输出加载为环境文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--dotenv-filename",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --dotenv-filename <DOTENV_FILENAME>"
       ],
       "tip": [
         "搜索指定名称的环境文件。"
@@ -229,7 +250,7 @@
         "-E"
       ],
       "usage": [
-        "-E, --dotenv-path <DOTENV-PATH>"
+        "-E, --dotenv-path <DOTENV_PATH>"
       ],
       "tip": [
         "加载指定环境文件。"
@@ -260,7 +281,8 @@
         "--dump-format <FORMAT>"
       ],
       "tip": [
-        "设置 dump 输出格式。"
+        "设置 dump 输出格式。",
+        "可能值: json, just"
       ],
       "next": [
         {
@@ -295,7 +317,8 @@
         "--evaluate-format <FORMAT>"
       ],
       "tip": [
-        "设置 evaluate 输出格式。"
+        "设置 evaluate 输出格式。",
+        "可能值: just, shell"
       ],
       "next": [
         {
@@ -381,6 +404,16 @@
       ]
     },
     {
+      "name": "--jobs",
+      "usage": [
+        "--jobs <N>"
+      ],
+      "tip": [
+        "使用 [parallel] 属性时，最多同时运行 <N> 个 recipes。"
+      ],
+      "next": []
+    },
+    {
       "name": "--json",
       "tip": [
         "以 JSON 格式打印 justfile。"
@@ -402,11 +435,14 @@
     {
       "name": "--justfile-name",
       "usage": [
-        "--justfile-name <NAME>"
+        "--justfile-name <NAME,...>"
       ],
       "tip": [
-        "搜索指定名称的 justfile。"
+        "搜索指定名称的 justfile。",
+        "接受多个逗号分隔的值，且可重复指定。"
       ],
+      "repeat": 99,
+      "separator": ",",
       "next": []
     },
     {
@@ -544,7 +580,7 @@
         "-s"
       ],
       "usage": [
-        "-s, --show <PATH>..."
+        "-s, --show <RECIPE_PATH>..."
       ],
       "tip": [
         "显示指定 recipe。"
@@ -610,7 +646,7 @@
     {
       "name": "--usage",
       "usage": [
-        "--usage <PATH>..."
+        "--usage <RECIPE_PATH>..."
       ],
       "tip": [
         "打印 recipe 用法信息。"
@@ -633,7 +669,8 @@
       ],
       "tip": [
         "使用详细输出。"
-      ]
+      ],
+      "repeat": 99
     },
     {
       "name": "--working-directory",
@@ -641,7 +678,7 @@
         "-d"
       ],
       "usage": [
-        "-d, --working-directory <WORKING-DIRECTORY>"
+        "-d, --working-directory <WORKING_DIRECTORY>"
       ],
       "tip": [
         "使用指定工作目录。"

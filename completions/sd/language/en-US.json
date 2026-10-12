@@ -16,19 +16,22 @@
         "-A, --across"
       ],
       "tip": [
-        "Process each input as a whole rather than line by line"
+        "Process each input as a whole rather than line by line.",
+        "This allows patterns to match across line boundaries but uses more memory and prevents streaming."
       ]
     },
     {
       "name": "--fixed-strings",
       "alias": [
+        "--string-mode",
         "-F"
       ],
       "usage": [
-        "-F, --fixed-strings"
+        "-F, --string-mode, --fixed-strings"
       ],
       "tip": [
-        "Treat FIND and REPLACE_WITH args as literal strings"
+        "Treat FIND and REPLACE_WITH args as literal strings.",
+        "Without this, sd treats FIND as a regular expression."
       ]
     },
     {
@@ -40,7 +43,13 @@
         "-f, --flags <FLAGS>"
       ],
       "tip": [
-        "Regex flags (c=case-sensitive, e=no multiline, i=case-insensitive, m=multiline, s=dotall, w=word)"
+        "Regex flags. May be combined (like `-f mc`).",
+        "c - case-sensitive",
+        "e - disable multi-line matching",
+        "i - case-insensitive",
+        "m - multi-line matching",
+        "s - make `.` match newlines",
+        "w - match full words only"
       ],
       "next": []
     },
@@ -65,7 +74,7 @@
         "-n, --max-replacements <LIMIT>"
       ],
       "tip": [
-        "Limit the number of replacements per file (0 = unlimited)"
+        "Limit the number of replacements that can occur per file. 0 indicates unlimited replacements [default: 0]"
       ],
       "next": []
     },
@@ -78,7 +87,8 @@
         "-p, --preview"
       ],
       "tip": [
-        "Display changes in a human reviewable format"
+        "Display changes in a human reviewable format.",
+        "The specifics of the format are likely to change in the future."
       ]
     },
     {

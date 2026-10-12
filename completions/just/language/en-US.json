@@ -7,19 +7,6 @@
   },
   "option": [
     {
-      "name": "--dotenv-filename",
-      "alias": [
-        "-F"
-      ],
-      "usage": [
-        "-F, --dotenv-filename <DOTENV_FILENAME>"
-      ],
-      "tip": [
-        "Load additional env file"
-      ],
-      "next": []
-    },
-    {
       "name": "--version",
       "alias": [
         "-V"
@@ -39,7 +26,8 @@
         "--alias-style <ALIAS_STYLE>"
       ],
       "tip": [
-        "Set list command alias display style."
+        "Set list command alias display style.",
+        "Possible values: left, right, separate"
       ],
       "next": [
         {
@@ -98,6 +86,17 @@
       "next": []
     },
     {
+      "name": "--clean",
+      "usage": [
+        "--clean [<RECIPE_PATH>...]"
+      ],
+      "tip": [
+        "Clear recipe cache.",
+        "Optionally restricted to recipes whose path begins with <RECIPE_PATH>."
+      ],
+      "next": []
+    },
+    {
       "name": "--clear-shell-args",
       "tip": [
         "Clear shell arguments."
@@ -109,7 +108,8 @@
         "--color <COLOR>"
       ],
       "tip": [
-        "Print colorful output."
+        "Print colorful output.",
+        "Possible values: always, auto, never"
       ],
       "next": [
         {
@@ -142,7 +142,8 @@
         "--command-color <COMMAND_COLOR>"
       ],
       "tip": [
-        "Echo recipe lines in this color."
+        "Echo recipe lines in this color.",
+        "Possible values: black, blue, cyan, green, purple, red, yellow"
       ],
       "next": [
         {
@@ -180,7 +181,8 @@
         "--completions <SHELL>"
       ],
       "tip": [
-        "Print shell completion script."
+        "Print shell completion script.",
+        "Possible values: bash, elvish, fish, nushell, powershell, zsh"
       ],
       "next": [
         {
@@ -214,9 +216,28 @@
       "next": []
     },
     {
-      "name": "--dotenv-filename",
+      "name": "--default-list",
+      "tip": [
+        "List recipes when no arguments are provided."
+      ]
+    },
+    {
+      "name": "--dotenv-command",
       "usage": [
-        "--dotenv-filename <DOTENV-FILENAME>"
+        "--dotenv-command <COMMAND>"
+      ],
+      "tip": [
+        "Run <COMMAND> and load its output as an environment file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--dotenv-filename",
+      "alias": [
+        "-F"
+      ],
+      "usage": [
+        "-F, --dotenv-filename <DOTENV_FILENAME>"
       ],
       "tip": [
         "Search for environment file with this name."
@@ -229,7 +250,7 @@
         "-E"
       ],
       "usage": [
-        "-E, --dotenv-path <DOTENV-PATH>"
+        "-E, --dotenv-path <DOTENV_PATH>"
       ],
       "tip": [
         "Load this environment file."
@@ -260,7 +281,8 @@
         "--dump-format <FORMAT>"
       ],
       "tip": [
-        "Set dump format."
+        "Set dump format.",
+        "Possible values: json, just"
       ],
       "next": [
         {
@@ -295,7 +317,8 @@
         "--evaluate-format <FORMAT>"
       ],
       "tip": [
-        "Set evaluate output format."
+        "Set evaluate output format.",
+        "Possible values: just, shell"
       ],
       "next": [
         {
@@ -381,6 +404,16 @@
       ]
     },
     {
+      "name": "--jobs",
+      "usage": [
+        "--jobs <N>"
+      ],
+      "tip": [
+        "Run at most <N> recipes simultaneously with the [parallel] attribute."
+      ],
+      "next": []
+    },
+    {
       "name": "--json",
       "tip": [
         "Print justfile as JSON."
@@ -402,11 +435,14 @@
     {
       "name": "--justfile-name",
       "usage": [
-        "--justfile-name <NAME>"
+        "--justfile-name <NAME,...>"
       ],
       "tip": [
-        "Search for justfile with this name."
+        "Search for justfile with this name.",
+        "Accepts multiple comma-separated values and may be repeated."
       ],
+      "repeat": 99,
+      "separator": ",",
       "next": []
     },
     {
@@ -544,7 +580,7 @@
         "-s"
       ],
       "usage": [
-        "-s, --show <PATH>..."
+        "-s, --show <RECIPE_PATH>..."
       ],
       "tip": [
         "Show recipe at path."
@@ -610,7 +646,7 @@
     {
       "name": "--usage",
       "usage": [
-        "--usage <PATH>..."
+        "--usage <RECIPE_PATH>..."
       ],
       "tip": [
         "Print recipe usage information."
@@ -633,7 +669,8 @@
       ],
       "tip": [
         "Use verbose output."
-      ]
+      ],
+      "repeat": 99
     },
     {
       "name": "--working-directory",
@@ -641,7 +678,7 @@
         "-d"
       ],
       "usage": [
-        "-d, --working-directory <WORKING-DIRECTORY>"
+        "-d, --working-directory <WORKING_DIRECTORY>"
       ],
       "tip": [
         "Use this working directory."

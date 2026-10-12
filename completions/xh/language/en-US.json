@@ -10,7 +10,7 @@
     {
       "name": "--all",
       "tip": [
-        "Show intermediary requests/responses while following redirects"
+        "Show any intermediary requests/responses while following redirects with --follow"
       ]
     },
     {
@@ -22,7 +22,7 @@
         "-a, --auth <USER[:PASS]|TOKEN>"
       ],
       "tip": [
-        "Authenticate as USER with PASS or with TOKEN"
+        "Authenticate as USER with PASS (-A basic|digest) or with TOKEN (-A bearer)"
       ],
       "next": []
     },
@@ -35,7 +35,8 @@
         "-A, --auth-type <TYPE>"
       ],
       "tip": [
-        "Specify the auth mechanism"
+        "Specify the auth mechanism",
+        "Possible values: basic, bearer, digest"
       ],
       "next": [
         {
@@ -67,7 +68,8 @@
         "-b, --body"
       ],
       "tip": [
-        "Print only the response body"
+        "Print only the response body.",
+        "Shortcut for --print=b"
       ]
     },
     {
@@ -93,7 +95,7 @@
     {
       "name": "--check-status",
       "tip": [
-        "Exit with error status code if server replies with error"
+        "(default) Exit with an error status code if the server replies with an error"
       ]
     },
     {
@@ -106,7 +108,8 @@
       ],
       "tip": [
         "Content compressed with Deflate algorithm"
-      ]
+      ],
+      "repeat": 99
     },
     {
       "name": "--continue",
@@ -117,7 +120,8 @@
         "-c, --continue"
       ],
       "tip": [
-        "Resume an interrupted download"
+        "Resume an interrupted download.",
+        "Requires --download and --output"
       ]
     },
     {
@@ -147,7 +151,7 @@
         "-d, --download"
       ],
       "tip": [
-        "Download the body to a file"
+        "Download the body to a file instead of printing it"
       ]
     },
     {
@@ -159,7 +163,7 @@
         "-F, --follow"
       ],
       "tip": [
-        "Follow redirects"
+        "Do follow redirects"
       ]
     },
     {
@@ -171,7 +175,7 @@
         "-f, --form"
       ],
       "tip": [
-        "Serialize data items as form fields"
+        "Serialize data items from the command line as form fields"
       ]
     },
     {
@@ -234,7 +238,8 @@
         "-h, --headers"
       ],
       "tip": [
-        "Print only the response headers"
+        "Print only the response headers.",
+        "Shortcut for --print=h"
       ]
     },
     {
@@ -252,7 +257,7 @@
         "-P, --history-print <FORMAT>"
       ],
       "tip": [
-        "The same as --print but applies only to intermediary requests"
+        "The same as --print but applies only to intermediary requests/responses"
       ],
       "next": []
     },
@@ -262,7 +267,8 @@
         "--http-version <VERSION>"
       ],
       "tip": [
-        "HTTP version to use"
+        "HTTP version to use",
+        "Possible values: 1.0, 1.1, 2, 2-prior-knowledge, 3-prior-knowledge"
       ],
       "next": [
         {
@@ -340,7 +346,7 @@
         "-4, --ipv4"
       ],
       "tip": [
-        "Resolve hostname to IPv4 addresses only"
+        "Resolve hostname to ipv4 addresses only"
       ]
     },
     {
@@ -352,7 +358,7 @@
         "-6, --ipv6"
       ],
       "tip": [
-        "Resolve hostname to IPv6 addresses only"
+        "Resolve hostname to ipv6 addresses only"
       ]
     },
     {
@@ -364,7 +370,7 @@
         "-j, --json"
       ],
       "tip": [
-        "Serialize data items as a JSON object (default)"
+        "Serialize data items from the command line as a JSON object (default)"
       ]
     },
     {
@@ -373,7 +379,8 @@
         "--max-redirects <NUM>"
       ],
       "tip": [
-        "Number of redirects to follow"
+        "Number of redirects to follow.",
+        "Only respected if --follow is used"
       ],
       "next": []
     },
@@ -386,13 +393,14 @@
         "-m, --meta"
       ],
       "tip": [
-        "Print only the response metadata"
+        "Print only the response metadata.",
+        "Shortcut for --print=m"
       ]
     },
     {
       "name": "--multipart",
       "tip": [
-        "Force a multipart/form-data request even without files"
+        "Like --form, but force a multipart/form-data request even without files"
       ]
     },
     {
@@ -404,7 +412,7 @@
     {
       "name": "--offline",
       "tip": [
-        "Construct HTTP requests without sending them"
+        "Construct HTTP requests without sending them anywhere"
       ]
     },
     {
@@ -426,7 +434,8 @@
         "--pretty <STYLE>"
       ],
       "tip": [
-        "Controls output processing"
+        "Controls output processing",
+        "Possible values: all, colors, format, none"
       ],
       "next": [
         {
@@ -474,7 +483,10 @@
         "--proxy <PROTOCOL:URL>"
       ],
       "tip": [
-        "Use a proxy for a protocol"
+        "Use a proxy for a protocol."
+      ],
+      "example": [
+        "--proxy https:http://proxy.host:8080"
       ],
       "next": []
     },
@@ -488,7 +500,8 @@
       ],
       "tip": [
         "Do not print to stdout or stderr"
-      ]
+      ],
+      "repeat": 99
     },
     {
       "name": "--raw",
@@ -506,7 +519,7 @@
         "--resolve <HOST:ADDRESS>"
       ],
       "tip": [
-        "Override DNS resolution for specific domain"
+        "Override DNS resolution for specific domain to a custom IP"
       ],
       "next": []
     },
@@ -516,7 +529,7 @@
         "--response-charset <ENCODING>"
       ],
       "tip": [
-        "Override the response encoding"
+        "Override the response encoding for terminal display purposes"
       ],
       "next": []
     },
@@ -526,7 +539,7 @@
         "--response-mime <MIME>"
       ],
       "tip": [
-        "Override the response mime type"
+        "Override the response mime type for coloring and formatting for the terminal"
       ],
       "next": []
     },
@@ -536,7 +549,7 @@
         "--session <FILE>"
       ],
       "tip": [
-        "Create or reuse a session"
+        "Create, or reuse and update a session"
       ],
       "next": []
     },
@@ -546,7 +559,7 @@
         "--session-read-only <FILE>"
       ],
       "tip": [
-        "Create or read a session without updating it"
+        "Create or read a session without updating it from the request/response exchange"
       ],
       "next": []
     },
@@ -556,7 +569,8 @@
         "--ssl <VERSION>"
       ],
       "tip": [
-        "Force a particular TLS version"
+        "Force a particular TLS version",
+        "Possible values: auto, tls1, tls1.1, tls1.2, tls1.3"
       ],
       "next": [
         {
@@ -612,7 +626,8 @@
         "-s, --style <THEME>"
       ],
       "tip": [
-        "Output coloring style"
+        "Output coloring style",
+        "Possible values: auto, fruity, monokai, solarized"
       ],
       "next": [
         {
@@ -681,7 +696,8 @@
       ],
       "tip": [
         "Print the whole request as well as the response"
-      ]
+      ],
+      "repeat": 99
     },
     {
       "name": "--verify",
@@ -689,7 +705,8 @@
         "--verify <VERIFY>"
       ],
       "tip": [
-        "SSL verification (no to skip, or CA bundle path)"
+        "If \"no\", skip SSL verification.",
+        "If a file path, use it as a CA bundle"
       ],
       "next": []
     },

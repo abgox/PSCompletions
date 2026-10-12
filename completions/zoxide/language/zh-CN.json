@@ -39,33 +39,54 @@
     {
       "name": "import",
       "usage": [
-        "import [OPTIONS] --from <FROM> <PATH>"
+        "import [OPTIONS] <COMMAND>"
       ],
       "tip": [
         "从另一个应用程序导入条目"
       ],
       "option": [
         {
-          "name": "--from",
-          "usage": [
-            "--from <FROM>"
-          ],
-          "tip": [
-            "从哪个应用程序导入条目"
-          ],
-          "next": [
-            {
-              "name": "autojump"
-            },
-            {
-              "name": "z"
-            }
-          ]
-        },
-        {
           "name": "--merge",
           "tip": [
             "合并到现有数据库"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "atuin",
+          "tip": [
+            "从 atuin 导入"
+          ]
+        },
+        {
+          "name": "autojump",
+          "tip": [
+            "从 autojump 导入"
+          ]
+        },
+        {
+          "name": "fasd",
+          "tip": [
+            "从 fasd 导入"
+          ]
+        },
+        {
+          "name": "z",
+          "tip": [
+            "从 z 导入"
+          ]
+        },
+        {
+          "name": "z.lua",
+          "tip": [
+            "从 z.lua 导入"
+          ]
+        },
+        {
+          "name": "zsh-z",
+          "tip": [
+            "从 zsh-z 导入"
           ]
         }
       ]
@@ -87,14 +108,7 @@
           "tip": [
             "更改 z 和 zi 命令的前缀 [默认值: z]"
           ],
-          "next": [
-            {
-              "name": "z",
-              "tip": [
-                "默认值"
-              ]
-            }
-          ]
+          "next": []
         },
         {
           "name": "--hook",
@@ -102,7 +116,8 @@
             "--hook <HOOK>"
           ],
           "tip": [
-            "更改 zoxide 增加目录排名的频率 [默认值: pwd]"
+            "更改 zoxide 增加目录排名的频率 [默认值: pwd]",
+            "可能值: none, prompt, pwd"
           ],
           "next": [
             {
@@ -163,6 +178,18 @@
       ],
       "option": [
         {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "显示不可用目录"
+          ]
+        },
+        {
           "name": "--base-dir",
           "usage": [
             "--base-dir <path>"
@@ -183,16 +210,10 @@
           "next": []
         },
         {
-          "name": "-a",
-          "usage": [
-            "-a, --all"
+          "name": "--interactive",
+          "alias": [
+            "-i"
           ],
-          "tip": [
-            "显示不可用目录"
-          ]
-        },
-        {
-          "name": "-i",
           "usage": [
             "-i, --interactive"
           ],
@@ -201,7 +222,10 @@
           ]
         },
         {
-          "name": "-l",
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
           "usage": [
             "-l, --list"
           ],
@@ -210,7 +234,10 @@
           ]
         },
         {
-          "name": "-s",
+          "name": "--score",
+          "alias": [
+            "-s"
+          ],
           "usage": [
             "-s, --score"
           ],
@@ -230,20 +257,6 @@
       ]
     }
   ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "显示版本信息。"
-      ]
-    }
-  ],
   "global_option": [
     {
       "name": "--help",
@@ -255,6 +268,18 @@
       ],
       "tip": [
         "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "显示版本信息。"
       ]
     }
   ]

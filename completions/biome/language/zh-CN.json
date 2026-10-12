@@ -16,12 +16,32 @@
       ],
       "option": [
         {
-          "name": "--assist-enabled",
+          "name": "--arrow-parentheses",
           "usage": [
-            "--assist-enabled <true|false>"
+            "--arrow-parentheses=<always|as-needed>"
           ],
           "tip": [
-            "允许启用或禁用辅助功能。"
+            "是否在箭头函数参数周围添加括号。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--assist-enabled",
+          "usage": [
+            "--assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "允许启用或禁用辅助功能。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -39,18 +59,311 @@
           ]
         },
         {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "类 HTML 语言中的属性位置样式。",
+            "默认为 `auto`。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "将多行 HTML 或 JSX 元素的 `>` 放在最后一行末尾，而非下一行。",
+            "自闭合元素不受影响。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "默认为 `true`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "设为 true 时，仅对与 `defaultBranch` 配置相比已更改的文件进行代码检查。"
           ]
         },
         {
-          "name": "--enforce-assist",
+          "name": "--css-assist-enabled",
           "usage": [
-            "--enforce-assist <true|false>"
+            "--css-assist-enabled=<true|false>"
           ],
           "tip": [
-            "强制执行辅助操作，如果某些操作未应用则使 CLI 失败。"
+            "控制 CSS 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 CSS 圆括号和方括号内的空格。",
+            "启用后，`rgb(0, 0, 0)` 变为 `rgb( 0, 0, 0 )`，`[data-attr]` 变为 `[ data-attr ]`。",
+            "空分隔符保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 CSS 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "CSS 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-linter-enabled",
+          "usage": [
+            "--css-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 CSS 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "启用 CSS Modules 特有功能的解析。",
+            "仅当文件不以 `.module.css` 结尾时启用此功能。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "启用 Tailwind CSS 4.0 指令和函数的解析。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持分隔符内侧紧贴内容的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--enforce-assist",
+          "usage": [
+            "--enforce-assist=<true|false>"
+          ],
+          "tip": [
+            "强制执行辅助操作，如果某些操作未应用则使 CLI 失败。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -68,6 +381,56 @@
           ]
         },
         {
+          "name": "--expand",
+          "usage": [
+            "--expand=<auto|always|never>"
+          ],
+          "tip": [
+            "控制数组和对象格式化为单行还是多行。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "不对无法识别的文件类型输出诊断。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "源文件的最大字节数。Biome 忽略更大的文件。",
+            "默认为 `1 MiB`。"
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "`--write` 的别名，写入安全修复、格式化和导入排序"
@@ -76,10 +439,11 @@
         {
           "name": "--format-with-errors",
           "usage": [
-            "--format-with-errors <true|false>"
+            "--format-with-errors=<true|false>"
           ],
           "tip": [
-            "是否允许在文件有语法错误时继续格式化。"
+            "是否允许在文件有语法错误时继续格式化。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -99,10 +463,11 @@
         {
           "name": "--formatter-enabled",
           "usage": [
-            "--formatter-enabled <true|false>"
+            "--formatter-enabled=<true|false>"
           ],
           "tip": [
-            "允许启用或禁用格式化检查。"
+            "允许启用或禁用格式化检查。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -120,12 +485,1160 @@
           ]
         },
         {
-          "name": "--linter-enabled",
+          "name": "--graphql-assist-enabled",
           "usage": [
-            "--linter-enabled <true|false>"
+            "--graphql-assist-enabled=<true|false>"
           ],
           "tip": [
-            "允许启用或禁用代码检查。"
+            "控制 GraphQL 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GraphQL 文件的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "GraphQL 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-linter-enabled",
+          "usage": [
+            "--graphql-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GraphQL 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-assist-enabled",
+          "usage": [
+            "--grit-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-enabled",
+          "usage": [
+            "--grit-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-style",
+          "usage": [
+            "--grit-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-width",
+          "usage": [
+            "--grit-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-line-ending",
+          "usage": [
+            "--grit-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-line-width",
+          "usage": [
+            "--grit-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-trailing-newline",
+          "usage": [
+            "--grit-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-linter-enabled",
+          "usage": [
+            "--grit-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-assist-enabled",
+          "usage": [
+            "--html-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "HTML 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "是否将多行 HTML 标签的闭合括号放在最后一行末尾而非独占一行。",
+            "未设置时继承全局 `bracketSameLine` 设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "是否缩进 HTML 及扩展语言中的 `<script>` 和 `<style>` 标签。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "控制空元素是否自闭合。",
+            "默认为 `never`。",
+            "可能值: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "与其他语言专属尾随换行符设置不同，此选项默认为 `true`，而不继承全局设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "格式化 HTML 及扩展语言时是否考虑空白敏感度。",
+            "默认为 `css`。",
+            "可能值: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--html-linter-enabled",
+          "usage": [
+            "--html-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "使用制表符或空格缩进。",
+            "默认为 `tab`。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "缩进宽度。",
+            "默认为 `2`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-assist-enabled",
+          "usage": [
+            "--javascript-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "JSX 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持的 JavaScript 和 TypeScript 分隔符内侧的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "将二元表达式拆分为多行时，在二元运算符之前还是之后换行。",
+            "默认为 `after`。",
+            "可能值: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JavaScript 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-assist-enabled",
+          "usage": [
+            "--json-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 JSON 方括号内的空格。",
+            "启用后，`[1, 2, 3]` 变为 `[ 1, 2, 3 ]`。",
+            "空括号保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `none`。",
+            "可能值: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的注释。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的尾随逗号。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-everywhere",
+          "usage": [
+            "--jsx-everywhere=<true|false>"
+          ],
+          "tip": [
+            "启用后，`.js`、`.mjs` 和 `.cjs` 等文件可包含 JSX 语法。",
+            "默认为 `true`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JSX 中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "选择行尾符。`auto` 使用平台惯例。",
+            "默认为 `lf`。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "最大行宽。",
+            "默认为 `80`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter-enabled",
+          "usage": [
+            "--linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "允许启用或禁用代码检查。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -145,7 +1658,7 @@
         {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "仅运行给定的代码检查规则、辅助操作、规则组或域。"
@@ -160,9 +1673,47 @@
           ]
         },
         {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "控制对象属性何时加引号。",
+            "在配置中默认为 `asNeeded`（CLI 上为 `as-needed`）。",
+            "可能值: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "在每条语句后打印分号，或仅在避免自动分号插入风险所需时打印。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "使用 --changed 标志时，指定要比较的基础分支。"
@@ -172,7 +1723,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "跳过给定的代码检查规则、辅助操作、规则组或域。"
@@ -189,7 +1740,7 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "当要格式化通过 `stdin` 管道传入的代码时使用此选项。"
@@ -197,9 +1748,141 @@
           "next": []
         },
         {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `all`。",
+            "可能值: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "默认为 `true`；禁用此选项可能导致与其他工具的兼容性问题。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--unsafe",
           "tip": [
             "应用不安全的修复。应与 `--write` 或 `--fix` 一起使用"
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "使用 `.editorconfig` 文件配置格式化工具。",
+            "`biome.json` 或 `biome.jsonc` 中的设置覆盖 `.editorconfig` 设置。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "版本控制客户端。",
+            "可能值: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "项目的默认分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Biome 是否应集成版本控制客户端。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "设置 Biome 查找版本控制文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "设为 `true` 时，Biome 忽略 `.gitignore`、`.ignore` 和 Git 本地排除文件中列出的文件。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
@@ -226,12 +1909,32 @@
       ],
       "option": [
         {
-          "name": "--assist-enabled",
+          "name": "--arrow-parentheses",
           "usage": [
-            "--assist-enabled <true|false>"
+            "--arrow-parentheses=<always|as-needed>"
           ],
           "tip": [
-            "允许启用或禁用辅助功能。"
+            "是否在箭头函数参数周围添加括号。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--assist-enabled",
+          "usage": [
+            "--assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "允许启用或禁用辅助功能。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -249,18 +1952,311 @@
           ]
         },
         {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "类 HTML 语言中的属性位置样式。",
+            "默认为 `auto`。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "将多行 HTML 或 JSX 元素的 `>` 放在最后一行末尾，而非下一行。",
+            "自闭合元素不受影响。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "默认为 `true`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "设为 true 时，仅对与 `defaultBranch` 配置相比已更改的文件进行代码检查。"
           ]
         },
         {
-          "name": "--enforce-assist",
+          "name": "--css-assist-enabled",
           "usage": [
-            "--enforce-assist <true|false>"
+            "--css-assist-enabled=<true|false>"
           ],
           "tip": [
-            "强制执行辅助操作，如果某些操作未应用则使 CLI 失败。"
+            "控制 CSS 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 CSS 圆括号和方括号内的空格。",
+            "启用后，`rgb(0, 0, 0)` 变为 `rgb( 0, 0, 0 )`，`[data-attr]` 变为 `[ data-attr ]`。",
+            "空分隔符保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 CSS 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "CSS 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-linter-enabled",
+          "usage": [
+            "--css-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 CSS 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "启用 CSS Modules 特有功能的解析。",
+            "仅当文件不以 `.module.css` 结尾时启用此功能。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "启用 Tailwind CSS 4.0 指令和函数的解析。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持分隔符内侧紧贴内容的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--enforce-assist",
+          "usage": [
+            "--enforce-assist=<true|false>"
+          ],
+          "tip": [
+            "强制执行辅助操作，如果某些操作未应用则使 CLI 失败。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -278,12 +2274,63 @@
           ]
         },
         {
-          "name": "--format-with-errors",
+          "name": "--expand",
           "usage": [
-            "--format-with-errors <true|false>"
+            "--expand=<auto|always|never>"
           ],
           "tip": [
-            "是否允许在文件有语法错误时继续格式化。"
+            "控制数组和对象格式化为单行还是多行。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "不对无法识别的文件类型输出诊断。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "源文件的最大字节数。Biome 忽略更大的文件。",
+            "默认为 `1 MiB`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--format-with-errors",
+          "usage": [
+            "--format-with-errors=<true|false>"
+          ],
+          "tip": [
+            "是否允许在文件有语法错误时继续格式化。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -303,10 +2350,11 @@
         {
           "name": "--formatter-enabled",
           "usage": [
-            "--formatter-enabled <true|false>"
+            "--formatter-enabled=<true|false>"
           ],
           "tip": [
-            "允许启用或禁用格式化检查。"
+            "允许启用或禁用格式化检查。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -324,12 +2372,1160 @@
           ]
         },
         {
-          "name": "--linter-enabled",
+          "name": "--graphql-assist-enabled",
           "usage": [
-            "--linter-enabled <true|false>"
+            "--graphql-assist-enabled=<true|false>"
           ],
           "tip": [
-            "允许启用或禁用代码检查。"
+            "控制 GraphQL 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GraphQL 文件的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "GraphQL 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-linter-enabled",
+          "usage": [
+            "--graphql-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GraphQL 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-assist-enabled",
+          "usage": [
+            "--grit-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-enabled",
+          "usage": [
+            "--grit-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-style",
+          "usage": [
+            "--grit-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-width",
+          "usage": [
+            "--grit-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-line-ending",
+          "usage": [
+            "--grit-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-line-width",
+          "usage": [
+            "--grit-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GritQL 文件的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-trailing-newline",
+          "usage": [
+            "--grit-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-linter-enabled",
+          "usage": [
+            "--grit-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GritQL 文件的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-assist-enabled",
+          "usage": [
+            "--html-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "HTML 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "是否将多行 HTML 标签的闭合括号放在最后一行末尾而非独占一行。",
+            "未设置时继承全局 `bracketSameLine` 设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "是否缩进 HTML 及扩展语言中的 `<script>` 和 `<style>` 标签。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "控制空元素是否自闭合。",
+            "默认为 `never`。",
+            "可能值: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "与其他语言专属尾随换行符设置不同，此选项默认为 `true`，而不继承全局设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "格式化 HTML 及扩展语言时是否考虑空白敏感度。",
+            "默认为 `css`。",
+            "可能值: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--html-linter-enabled",
+          "usage": [
+            "--html-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "使用制表符或空格缩进。",
+            "默认为 `tab`。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "缩进宽度。",
+            "默认为 `2`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-assist-enabled",
+          "usage": [
+            "--javascript-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "JSX 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持的 JavaScript 和 TypeScript 分隔符内侧的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "将二元表达式拆分为多行时，在二元运算符之前还是之后换行。",
+            "默认为 `after`。",
+            "可能值: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JavaScript 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-assist-enabled",
+          "usage": [
+            "--json-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的辅助操作。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 JSON 方括号内的空格。",
+            "启用后，`[1, 2, 3]` 变为 `[ 1, 2, 3 ]`。",
+            "空括号保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `none`。",
+            "可能值: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的注释。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的尾随逗号。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-everywhere",
+          "usage": [
+            "--jsx-everywhere=<true|false>"
+          ],
+          "tip": [
+            "启用后，`.js`、`.mjs` 和 `.cjs` 等文件可包含 JSX 语法。",
+            "默认为 `true`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JSX 中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "选择行尾符。`auto` 使用平台惯例。",
+            "默认为 `lf`。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "最大行宽。",
+            "默认为 `80`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter-enabled",
+          "usage": [
+            "--linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "允许启用或禁用代码检查。",
+            "可能值: true, false"
           ],
           "next": [
             {
@@ -349,7 +3545,7 @@
         {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "仅运行给定的代码检查规则、辅助操作、规则组或域。"
@@ -358,9 +3554,47 @@
           "next": []
         },
         {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "控制对象属性何时加引号。",
+            "在配置中默认为 `asNeeded`（CLI 上为 `as-needed`）。",
+            "可能值: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "在每条语句后打印分号，或仅在避免自动分号插入风险所需时打印。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "使用 --changed 标志时，指定要比较的基础分支。"
@@ -370,7 +3604,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "跳过给定的代码检查规则、辅助操作、规则组或域。"
@@ -381,7 +3615,7 @@
         {
           "name": "--threads",
           "usage": [
-            "--threads <NUMBER>"
+            "--threads=NUMBER"
           ],
           "tip": [
             "要使用的线程数。适用于资源有限的 CI 环境。"
@@ -395,6 +3629,138 @@
             },
             {
               "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `all`。",
+            "可能值: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "默认为 `true`；禁用此选项可能导致与其他工具的兼容性问题。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "使用 `.editorconfig` 文件配置格式化工具。",
+            "`biome.json` 或 `biome.jsonc` 中的设置覆盖 `.editorconfig` 设置。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "版本控制客户端。",
+            "可能值: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "项目的默认分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Biome 是否应集成版本控制客户端。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "设置 Biome 查找版本控制文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "设为 `true` 时，Biome 忽略 `.gitignore`、`.ignore` 和 Git 本地排除文件中列出的文件。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
             }
           ]
         }
@@ -425,10 +3791,335 @@
       ],
       "option": [
         {
+          "name": "--arrow-parentheses",
+          "usage": [
+            "--arrow-parentheses=<always|as-needed>"
+          ],
+          "tip": [
+            "是否在箭头函数参数周围添加括号。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "类 HTML 语言中的属性位置样式。",
+            "默认为 `auto`。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "将多行 HTML 或 JSX 元素的 `>` 放在最后一行末尾，而非下一行。",
+            "自闭合元素不受影响。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "默认为 `true`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "设为 true 时，仅对与 `defaultBranch` 配置相比已更改的文件进行格式化。"
           ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 CSS 圆括号和方括号内的空格。",
+            "启用后，`rgb(0, 0, 0)` 变为 `rgb( 0, 0, 0 )`，`[data-attr]` 变为 `[ data-attr ]`。",
+            "空分隔符保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 CSS 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 CSS 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "CSS 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "启用 CSS Modules 特有功能的解析。",
+            "仅当文件不以 `.module.css` 结尾时启用此功能。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "启用 Tailwind CSS 4.0 指令和函数的解析。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持分隔符内侧紧贴内容的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--expand",
+          "usage": [
+            "--expand=<auto|always|never>"
+          ],
+          "tip": [
+            "控制数组和对象格式化为单行还是多行。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "不对无法识别的文件类型输出诊断。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "源文件的最大字节数。Biome 忽略更大的文件。",
+            "默认为 `1 MiB`。"
+          ],
+          "next": []
         },
         {
           "name": "--fix",
@@ -437,9 +4128,911 @@
           ]
         },
         {
+          "name": "--format-with-errors",
+          "usage": [
+            "--format-with-errors=<true|false>"
+          ],
+          "tip": [
+            "允许格式化包含语法错误的文件（设为 `true` 时）。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 GraphQL 文件的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 GraphQL 文件的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "GraphQL 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "HTML 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "是否将多行 HTML 标签的闭合括号放在最后一行末尾而非独占一行。",
+            "未设置时继承全局 `bracketSameLine` 设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 HTML 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "是否缩进 HTML 及扩展语言中的 `<script>` 和 `<style>` 标签。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 HTML 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "控制空元素是否自闭合。",
+            "默认为 `never`。",
+            "可能值: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "与其他语言专属尾随换行符设置不同，此选项默认为 `true`，而不继承全局设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "格式化 HTML 及扩展语言时是否考虑空白敏感度。",
+            "默认为 `css`。",
+            "可能值: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "使用制表符或空格缩进。",
+            "默认为 `tab`。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "缩进宽度。",
+            "默认为 `2`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "JSX 元素中的属性位置样式。",
+            "未设置时继承全局属性位置设置。",
+            "可能值: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时受支持的 JavaScript 和 TypeScript 分隔符内侧的空格。",
+            "不在开分隔符前或空分隔符内添加空格。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JavaScript 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "将二元表达式拆分为多行时，在二元运算符之前还是之后换行。",
+            "默认为 `after`。",
+            "可能值: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JavaScript 代码中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "是否在对象字面量的大括号内插入空格。",
+            "未设置时继承全局大括号间距设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "控制内容可放单行时 JSON 方括号内的空格。",
+            "启用后，`[1, 2, 3]` 变为 `[ 1, 2, 3 ]`。",
+            "空括号保持不变。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的格式化工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "与全局展开设置使用相同的 `auto`、`always` 和 `never` 行为。",
+            "可能值: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进样式。",
+            "未设置时继承全局缩进样式。",
+            "可能值: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的缩进宽度。",
+            "未设置时继承全局缩进宽度。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的行尾符。",
+            "未设置时继承全局行尾符。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "应用于 JSON 及扩展语言的最大行宽。",
+            "未设置时继承全局行宽。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `none`。",
+            "可能值: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "未设置时继承全局尾随换行符设置。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的注释。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的尾随逗号。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "JSX 中使用的引号类型。",
+            "默认为 `double`。",
+            "可能值: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "选择行尾符。`auto` 使用平台惯例。",
+            "默认为 `lf`。",
+            "可能值: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "最大行宽。",
+            "默认为 `80`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "控制对象属性何时加引号。",
+            "在配置中默认为 `asNeeded`（CLI 上为 `as-needed`）。",
+            "可能值: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "在每条语句后打印分号，或仅在避免自动分号插入风险所需时打印。",
+            "默认为 `always`。",
+            "可能值: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "使用 --changed 标志时，指定要比较的基础分支。"
@@ -455,12 +5048,144 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "当要格式化通过 `stdin` 管道传入的代码时使用此选项。"
           ],
           "next": []
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "在多行逗号分隔结构中尽可能打印尾随逗号。",
+            "默认为 `all`。",
+            "可能值: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "是否在文件末尾添加尾随换行符。",
+            "默认为 `true`；禁用此选项可能导致与其他工具的兼容性问题。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "使用 `.editorconfig` 文件配置格式化工具。",
+            "`biome.json` 或 `biome.jsonc` 中的设置覆盖 `.editorconfig` 设置。",
+            "默认为 `false`。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "版本控制客户端。",
+            "可能值: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "项目的默认分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Biome 是否应集成版本控制客户端。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "设置 Biome 查找版本控制文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "设为 `true` 时，Biome 忽略 `.gitignore`、`.ignore` 和 Git 本地排除文件中列出的文件。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
         },
         {
           "name": "--watch",
@@ -509,15 +5234,116 @@
           ]
         },
         {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "不对无法识别的文件类型输出诊断。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "源文件的最大字节数。Biome 忽略更大的文件。",
+            "默认为 `1 MiB`。"
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "`--write` 的别名，写入安全修复"
           ]
         },
         {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JavaScript 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "控制 JSON 及扩展语言的代码检查工具。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的注释。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "允许解析 `.json` 文件中的尾随逗号。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "仅运行给定的代码检查规则、辅助操作、规则组或域。"
@@ -534,7 +5360,7 @@
         {
           "name": "--reason",
           "usage": [
-            "--reason <STRING>"
+            "--reason=STRING"
           ],
           "tip": [
             "使用 `--suppress` 抑制诊断的原因说明。"
@@ -544,7 +5370,7 @@
         {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "使用 --changed 标志时，指定要比较的基础分支。"
@@ -554,7 +5380,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "跳过给定的代码检查规则、辅助操作、规则组或域。"
@@ -571,7 +5397,7 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "当要格式化通过 `stdin` 管道传入的代码时使用此选项。"
@@ -591,6 +5417,77 @@
           ]
         },
         {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "版本控制客户端。",
+            "可能值: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "项目的默认分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Biome 是否应集成版本控制客户端。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "设置 Biome 查找版本控制文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "设为 `true` 时，Biome 忽略 `.gitignore`、`.ignore` 和 Git 本地排除文件中列出的文件。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--watch",
           "tip": [
             "启用监视模式，当工作区中任何未排除的文件发生更改时自动重新运行代码检查。"
@@ -607,7 +5504,7 @@
     {
       "name": "lsp-proxy",
       "usage": [
-        "lsp-proxy [--watcher-kind <KIND>]"
+        "lsp-proxy [--watcher-kind=<polling|recommended|none>]"
       ],
       "tip": [
         "通过 stdin/stdout 作为语言服务器协议（LSP）的服务器。"
@@ -616,10 +5513,11 @@
         {
           "name": "--watcher-kind",
           "usage": [
-            "--watcher-kind <polling|recommended|none>"
+            "--watcher-kind=<polling|recommended|none>"
           ],
           "tip": [
-            "控制 Biome 文件监视器的行为方式。"
+            "控制 Biome 文件监视器的行为方式。",
+            "可能值: polling, recommended, none"
           ],
           "next": [
             {
@@ -645,7 +5543,7 @@
         {
           "name": "--watcher-polling-interval",
           "usage": [
-            "--watcher-polling-interval <NUMBER>"
+            "--watcher-polling-interval=NUMBER"
           ],
           "tip": [
             "轮询间隔（毫秒）。仅在使用轮询监视器时适用。"
@@ -657,7 +5555,7 @@
     {
       "name": "migrate",
       "usage": [
-        "migrate [--write] [COMMAND]"
+        "migrate [--write] [COMMAND ...]"
       ],
       "tip": [
         "在有破坏性更改时更新配置。"
@@ -737,41 +5635,152 @@
     {
       "name": "search",
       "usage": [
-        "search [-l <ARG>] <PATTERN> [PATH]..."
+        "search [-l=<css|javascript|json>] <PATTERN> [PATH]..."
       ],
       "tip": [
         "实验性功能：在项目中搜索 Grit 模式。"
       ],
       "option": [
         {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "不对无法识别的文件类型输出诊断。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "源文件的最大字节数。Biome 忽略更大的文件。",
+            "默认为 `1 MiB`。"
+          ],
+          "next": []
+        },
+        {
           "name": "--language",
           "alias": [
             "-l"
           ],
           "usage": [
-            "-l, --language <ARG>"
+            "-l, --language=<css|javascript|json>"
           ],
           "tip": [
-            "模式适用的语言。"
+            "模式适用的语言。",
+            "可能值: css, javascript, json"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "javascript"
+            },
+            {
+              "name": "json"
+            }
+          ]
         },
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "当要搜索通过 `stdin` 管道传入的代码时使用此选项。"
           ],
           "next": []
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "版本控制客户端。",
+            "可能值: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "项目的默认分支。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Biome 是否应集成版本控制客户端。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "设置 Biome 查找版本控制文件的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "设为 `true` 时，Biome 忽略 `.gitignore`、`.ignore` 和 Git 本地排除文件中列出的文件。",
+            "可能值: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
         }
       ]
     },
     {
       "name": "start",
       "usage": [
-        "start [--watcher-kind <KIND>]"
+        "start [--watcher-kind=<polling|recommended|none>]"
       ],
       "tip": [
         "启动 Biome 守护进程服务器。"
@@ -780,10 +5789,11 @@
         {
           "name": "--watcher-kind",
           "usage": [
-            "--watcher-kind <polling|recommended|none>"
+            "--watcher-kind=<polling|recommended|none>"
           ],
           "tip": [
-            "控制 Biome 文件监视器的行为方式。"
+            "控制 Biome 文件监视器的行为方式。",
+            "可能值: polling, recommended, none"
           ],
           "next": [
             {
@@ -809,7 +5819,7 @@
         {
           "name": "--watcher-polling-interval",
           "usage": [
-            "--watcher-polling-interval <NUMBER>"
+            "--watcher-polling-interval=NUMBER"
           ],
           "tip": [
             "轮询间隔（毫秒）。仅在使用轮询监视器时适用。"
@@ -837,14 +5847,29 @@
       ]
     }
   ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息"
+      ]
+    }
+  ],
   "global_option": [
     {
       "name": "--colors",
       "usage": [
-        "--colors <off|force>"
+        "--colors=<off|force>"
       ],
       "tip": [
-        "设置标记的格式化模式：`off` 以纯文本打印，`force` 强制使用 ANSI 格式。"
+        "设置标记的格式化模式：`off` 以纯文本打印，`force` 强制使用 ANSI 格式。",
+        "可能值: off, force"
       ],
       "next": [
         {
@@ -864,7 +5889,7 @@
     {
       "name": "--config-path",
       "usage": [
-        "--config-path <PATH>"
+        "--config-path=PATH"
       ],
       "tip": [
         "设置配置文件的路径，或查找 `biome.json` 的目录路径。"
@@ -874,10 +5899,11 @@
     {
       "name": "--diagnostic-level",
       "usage": [
-        "--diagnostic-level <info|warn|error>"
+        "--diagnostic-level=<info|warn|error>"
       ],
       "tip": [
-        "要显示的诊断级别。默认值：info。"
+        "要显示的诊断级别。默认值：info。",
+        "可能值: info, warn, error"
       ],
       "next": [
         {
@@ -921,7 +5947,7 @@
     {
       "name": "--log-file",
       "usage": [
-        "--log-file <STRING>"
+        "--log-file=PATH"
       ],
       "tip": [
         "将日志消息重定向到的可选路径/文件。"
@@ -931,10 +5957,11 @@
     {
       "name": "--log-kind",
       "usage": [
-        "--log-kind <pretty|compact|json>"
+        "--log-kind=<pretty|compact|json>"
       ],
       "tip": [
-        "日志的显示方式。默认值：pretty。"
+        "日志的显示方式。默认值：pretty。",
+        "可能值: pretty, compact, json"
       ],
       "next": [
         {
@@ -960,10 +5987,11 @@
     {
       "name": "--log-level",
       "usage": [
-        "--log-level <none|debug|info|warn|error>"
+        "--log-level=<none|tracing|debug|info|warn|error>"
       ],
       "tip": [
-        "日志级别。默认值：none。"
+        "日志级别。默认值：none。",
+        "可能值: none, tracing, debug, info, warn, error"
       ],
       "next": [
         {
@@ -991,6 +6019,12 @@
           ]
         },
         {
+          "name": "tracing",
+          "tip": [
+            "跟踪级别日志。"
+          ]
+        },
+        {
           "name": "warn",
           "tip": [
             "警告级别日志。"
@@ -1001,7 +6035,7 @@
     {
       "name": "--log-path",
       "usage": [
-        "--log-path <PATH>"
+        "--log-path=PATH"
       ],
       "tip": [
         "允许更改存储日志的文件夹。"
@@ -1011,7 +6045,7 @@
     {
       "name": "--log-prefix-name",
       "usage": [
-        "--log-prefix-name <STRING>"
+        "--log-prefix-name=STRING"
       ],
       "tip": [
         "日志文件的前缀名。默认值：server.log。"
@@ -1021,7 +6055,7 @@
     {
       "name": "--max-diagnostics",
       "usage": [
-        "--max-diagnostics <none|NUMBER>"
+        "--max-diagnostics=<none|NUMBER>"
       ],
       "tip": [
         "限制显示的诊断数量。默认值：20。"
@@ -1044,10 +6078,11 @@
     {
       "name": "--reporter",
       "usage": [
-        "--reporter <FORMAT>"
+        "--reporter=<default|concise|summary|json|json-pretty|github|gitlab|junit|checkstyle|rdjson|sarif>"
       ],
       "tip": [
-        "诊断输出格式。"
+        "诊断输出格式。",
+        "可能值: default, concise, summary, json, json-pretty, github, gitlab, junit, checkstyle, rdjson, sarif"
       ],
       "next": [
         {
@@ -1121,7 +6156,7 @@
     {
       "name": "--reporter-file",
       "usage": [
-        "--reporter-file <PATH>"
+        "--reporter-file=PATH"
       ],
       "tip": [
         "将报告器输出写入文件。"
@@ -1144,18 +6179,6 @@
       "name": "--verbose",
       "tip": [
         "打印额外的诊断信息，部分诊断会显示更多信息。"
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "打印版本信息"
       ]
     }
   ]

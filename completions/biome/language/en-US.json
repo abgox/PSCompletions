@@ -16,12 +16,32 @@
       ],
       "option": [
         {
-          "name": "--assist-enabled",
+          "name": "--arrow-parentheses",
           "usage": [
-            "--assist-enabled <true|false>"
+            "--arrow-parentheses=<always|as-needed>"
           ],
           "tip": [
-            "Allow enabling or disabling the assist."
+            "Whether to add parentheses around arrow function parameters.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--assist-enabled",
+          "usage": [
+            "--assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Allow enabling or disabling the assist.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -39,18 +59,311 @@
           ]
         },
         {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML-like languages.",
+            "Defaults to `auto`.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Places the `>` of a multiline HTML or JSX element at the end of the last line instead of on the next line.",
+            "Self-closing elements are unaffected.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "Defaults to `true`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "When set to true, only the files that have been changed compared to your `defaultBranch` configuration will be linted."
           ]
         },
         {
-          "name": "--enforce-assist",
+          "name": "--css-assist-enabled",
           "usage": [
-            "--enforce-assist <true|false>"
+            "--css-assist-enabled=<true|false>"
           ],
           "tip": [
-            "Allows enforcing assist, and make the CLI fail if some actions aren't applied."
+            "Controls assist actions for CSS files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside CSS parentheses and square brackets when their content fits on one line.",
+            "When enabled, `rgb(0, 0, 0)` becomes `rgb( 0, 0, 0 )` and `[data-attr]` becomes `[ data-attr ]`.",
+            "Empty delimiters are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for CSS and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to CSS and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for CSS and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in CSS code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-linter-enabled",
+          "usage": [
+            "--css-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for CSS files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of CSS Modules-specific features.",
+            "Enable this feature only when your files don't end in `.module.css`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of Tailwind CSS 4.0 directives and functions.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--enforce-assist",
+          "usage": [
+            "--enforce-assist=<true|false>"
+          ],
+          "tip": [
+            "Allows enforcing assist, and make the CLI fail if some actions aren't applied.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -68,6 +381,57 @@
           ]
         },
         {
+          "name": "--expand",
+          "usage": [
+            "--expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Controls whether arrays and objects are formatted on one line or multiple lines.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "Prevents Biome from emitting diagnostics for unrecognized file types.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "The maximum source file size in bytes.",
+            "Biome ignores larger files.",
+            "Defaults to `1 MiB`."
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "Alias for `--write`, writes safe fixes, formatting and import sorting"
@@ -76,10 +440,11 @@
         {
           "name": "--format-with-errors",
           "usage": [
-            "--format-with-errors <true|false>"
+            "--format-with-errors=<true|false>"
           ],
           "tip": [
-            "Whether formatting should be allowed to proceed if a given file has syntax errors."
+            "Whether formatting should be allowed to proceed if a given file has syntax errors.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -99,10 +464,11 @@
         {
           "name": "--formatter-enabled",
           "usage": [
-            "--formatter-enabled <true|false>"
+            "--formatter-enabled=<true|false>"
           ],
           "tip": [
-            "Allow enabling or disabling the formatter check."
+            "Allow enabling or disabling the formatter check.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -120,12 +486,1161 @@
           ]
         },
         {
-          "name": "--linter-enabled",
+          "name": "--graphql-assist-enabled",
           "usage": [
-            "--linter-enabled <true|false>"
+            "--graphql-assist-enabled=<true|false>"
           ],
           "tip": [
-            "Allow enabling or disabling the linter check."
+            "Controls assist actions for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to GraphQL files.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to GraphQL files.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to GraphQL files.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for GraphQL files.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in GraphQL code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-linter-enabled",
+          "usage": [
+            "--graphql-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-assist-enabled",
+          "usage": [
+            "--grit-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-enabled",
+          "usage": [
+            "--grit-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-style",
+          "usage": [
+            "--grit-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to GritQL files.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-width",
+          "usage": [
+            "--grit-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to GritQL files.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-line-ending",
+          "usage": [
+            "--grit-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to GritQL files.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-line-width",
+          "usage": [
+            "--grit-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for GritQL files.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-trailing-newline",
+          "usage": [
+            "--grit-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-linter-enabled",
+          "usage": [
+            "--grit-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-assist-enabled",
+          "usage": [
+            "--html-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Whether to place the closing bracket of a multiline HTML tag at the end of the last line instead of on its own line.",
+            "If unset, inherits the global `bracketSameLine` setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "Whether to indent `<script>` and `<style>` tags in HTML and languages that extend it.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to HTML and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for HTML and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "Controls whether void elements are self-closed.",
+            "Defaults to `never`.",
+            "Possible values: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Unlike other language-specific trailing newline settings, this option defaults to `true` instead of inheriting the global setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "Whether to account for whitespace sensitivity when formatting HTML and languages that extend it.",
+            "Defaults to `css`.",
+            "Possible values: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--html-linter-enabled",
+          "usage": [
+            "--html-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "Uses tabs or spaces for indentation.",
+            "Defaults to `tab`.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width.",
+            "Defaults to `2`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-assist-enabled",
+          "usage": [
+            "--javascript-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in JSX elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported JavaScript and TypeScript delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "When breaking binary expressions into multiple lines, whether to break them before or after the binary operator.",
+            "Defaults to `after`.",
+            "Possible values: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JavaScript code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-assist-enabled",
+          "usage": [
+            "--json-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside JSON square brackets when their content fits on one line.",
+            "When enabled, `[1, 2, 3]` becomes `[ 1, 2, 3 ]`.",
+            "Empty brackets are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JSON and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JSON and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `none`.",
+            "Possible values: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing comments in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing trailing commas in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-everywhere",
+          "usage": [
+            "--jsx-everywhere=<true|false>"
+          ],
+          "tip": [
+            "When enabled, files such as `.js`, `.mjs`, and `.cjs` may contain JSX syntax.",
+            "Defaults to `true`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JSX.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "Selects the line ending.",
+            "`auto` uses the platform convention.",
+            "Defaults to `lf`.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width.",
+            "Defaults to `80`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter-enabled",
+          "usage": [
+            "--linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Allow enabling or disabling the linter check.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -145,7 +1660,7 @@
         {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Run only the given lint rule, assist action, group of rules and actions, or domain."
@@ -160,9 +1675,47 @@
           ]
         },
         {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "Controls when object properties are quoted.",
+            "Defaults to `asNeeded` in configuration (`as-needed` on the CLI).",
+            "Possible values: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "Prints semicolons after every statement or only where needed to avoid automatic semicolon insertion hazards.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "Use this to specify the base branch to compare against when using the --changed flag."
@@ -172,7 +1725,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Skip the given lint rule, assist action, group of rules and actions, or domain."
@@ -189,7 +1742,7 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "Use this option when you want to format code piped from `stdin`."
@@ -197,9 +1750,141 @@
           "next": []
         },
         {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `all`.",
+            "Possible values: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Defaults to `true`; disabling this option can cause compatibility problems with other tools.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--unsafe",
           "tip": [
             "Apply unsafe fixes. Should be used with `--write` or `--fix`"
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "Uses `.editorconfig` files to configure the formatter.",
+            "Settings in `biome.json` or `biome.jsonc` override `.editorconfig` settings.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "The version control client.",
+            "Possible values: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "The project's default branch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Whether Biome should integrate with the version control client.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "Sets the directory where Biome checks for version control files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "When `true`, Biome ignores files listed in `.gitignore`, `.ignore`, and Git's local exclude file.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
           ]
         },
         {
@@ -226,12 +1911,32 @@
       ],
       "option": [
         {
-          "name": "--assist-enabled",
+          "name": "--arrow-parentheses",
           "usage": [
-            "--assist-enabled <true|false>"
+            "--arrow-parentheses=<always|as-needed>"
           ],
           "tip": [
-            "Allow enabling or disabling the assist."
+            "Whether to add parentheses around arrow function parameters.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--assist-enabled",
+          "usage": [
+            "--assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Allow enabling or disabling the assist.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -249,18 +1954,311 @@
           ]
         },
         {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML-like languages.",
+            "Defaults to `auto`.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Places the `>` of a multiline HTML or JSX element at the end of the last line instead of on the next line.",
+            "Self-closing elements are unaffected.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "Defaults to `true`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "When set to true, only the files that have been changed compared to your `defaultBranch` configuration will be linted."
           ]
         },
         {
-          "name": "--enforce-assist",
+          "name": "--css-assist-enabled",
           "usage": [
-            "--enforce-assist <true|false>"
+            "--css-assist-enabled=<true|false>"
           ],
           "tip": [
-            "Allows enforcing assist, and make the CLI fail if some actions aren't applied."
+            "Controls assist actions for CSS files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside CSS parentheses and square brackets when their content fits on one line.",
+            "When enabled, `rgb(0, 0, 0)` becomes `rgb( 0, 0, 0 )` and `[data-attr]` becomes `[ data-attr ]`.",
+            "Empty delimiters are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for CSS and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to CSS and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for CSS and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in CSS code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-linter-enabled",
+          "usage": [
+            "--css-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for CSS files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of CSS Modules-specific features.",
+            "Enable this feature only when your files don't end in `.module.css`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of Tailwind CSS 4.0 directives and functions.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--enforce-assist",
+          "usage": [
+            "--enforce-assist=<true|false>"
+          ],
+          "tip": [
+            "Allows enforcing assist, and make the CLI fail if some actions aren't applied.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -278,12 +2276,64 @@
           ]
         },
         {
-          "name": "--format-with-errors",
+          "name": "--expand",
           "usage": [
-            "--format-with-errors <true|false>"
+            "--expand=<auto|always|never>"
           ],
           "tip": [
-            "Whether formatting should be allowed to proceed if a given file has syntax errors."
+            "Controls whether arrays and objects are formatted on one line or multiple lines.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "Prevents Biome from emitting diagnostics for unrecognized file types.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "The maximum source file size in bytes.",
+            "Biome ignores larger files.",
+            "Defaults to `1 MiB`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--format-with-errors",
+          "usage": [
+            "--format-with-errors=<true|false>"
+          ],
+          "tip": [
+            "Whether formatting should be allowed to proceed if a given file has syntax errors.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -303,10 +2353,11 @@
         {
           "name": "--formatter-enabled",
           "usage": [
-            "--formatter-enabled <true|false>"
+            "--formatter-enabled=<true|false>"
           ],
           "tip": [
-            "Allow enabling or disabling the formatter check."
+            "Allow enabling or disabling the formatter check.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -324,12 +2375,1161 @@
           ]
         },
         {
-          "name": "--linter-enabled",
+          "name": "--graphql-assist-enabled",
           "usage": [
-            "--linter-enabled <true|false>"
+            "--graphql-assist-enabled=<true|false>"
           ],
           "tip": [
-            "Allow enabling or disabling the linter check."
+            "Controls assist actions for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to GraphQL files.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to GraphQL files.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to GraphQL files.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for GraphQL files.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in GraphQL code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-linter-enabled",
+          "usage": [
+            "--graphql-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-assist-enabled",
+          "usage": [
+            "--grit-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-enabled",
+          "usage": [
+            "--grit-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-style",
+          "usage": [
+            "--grit-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to GritQL files.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-indent-width",
+          "usage": [
+            "--grit-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to GritQL files.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-line-ending",
+          "usage": [
+            "--grit-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to GritQL files.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--grit-formatter-line-width",
+          "usage": [
+            "--grit-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for GritQL files.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--grit-formatter-trailing-newline",
+          "usage": [
+            "--grit-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--grit-linter-enabled",
+          "usage": [
+            "--grit-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for GritQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-assist-enabled",
+          "usage": [
+            "--html-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Whether to place the closing bracket of a multiline HTML tag at the end of the last line instead of on its own line.",
+            "If unset, inherits the global `bracketSameLine` setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "Whether to indent `<script>` and `<style>` tags in HTML and languages that extend it.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to HTML and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for HTML and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "Controls whether void elements are self-closed.",
+            "Defaults to `never`.",
+            "Possible values: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Unlike other language-specific trailing newline settings, this option defaults to `true` instead of inheriting the global setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "Whether to account for whitespace sensitivity when formatting HTML and languages that extend it.",
+            "Defaults to `css`.",
+            "Possible values: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--html-linter-enabled",
+          "usage": [
+            "--html-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "Uses tabs or spaces for indentation.",
+            "Defaults to `tab`.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width.",
+            "Defaults to `2`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-assist-enabled",
+          "usage": [
+            "--javascript-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in JSX elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported JavaScript and TypeScript delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "When breaking binary expressions into multiple lines, whether to break them before or after the binary operator.",
+            "Defaults to `after`.",
+            "Possible values: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JavaScript code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-assist-enabled",
+          "usage": [
+            "--json-assist-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls assist actions for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside JSON square brackets when their content fits on one line.",
+            "When enabled, `[1, 2, 3]` becomes `[ 1, 2, 3 ]`.",
+            "Empty brackets are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JSON and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JSON and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `none`.",
+            "Possible values: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing comments in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing trailing commas in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-everywhere",
+          "usage": [
+            "--jsx-everywhere=<true|false>"
+          ],
+          "tip": [
+            "When enabled, files such as `.js`, `.mjs`, and `.cjs` may contain JSX syntax.",
+            "Defaults to `true`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JSX.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "Selects the line ending.",
+            "`auto` uses the platform convention.",
+            "Defaults to `lf`.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width.",
+            "Defaults to `80`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--linter-enabled",
+          "usage": [
+            "--linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Allow enabling or disabling the linter check.",
+            "Possible values: true, false"
           ],
           "next": [
             {
@@ -349,7 +3549,7 @@
         {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Run only the given lint rule, assist action, group of rules and actions, or domain."
@@ -358,9 +3558,47 @@
           "next": []
         },
         {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "Controls when object properties are quoted.",
+            "Defaults to `asNeeded` in configuration (`as-needed` on the CLI).",
+            "Possible values: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "Prints semicolons after every statement or only where needed to avoid automatic semicolon insertion hazards.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "Use this to specify the base branch to compare against when using the --changed flag."
@@ -370,7 +3608,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Skip the given lint rule, assist action, group of rules and actions, or domain."
@@ -381,7 +3619,7 @@
         {
           "name": "--threads",
           "usage": [
-            "--threads <NUMBER>"
+            "--threads=NUMBER"
           ],
           "tip": [
             "The number of threads to use. Useful for CI environments with limited resources."
@@ -395,6 +3633,138 @@
             },
             {
               "name": "8"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `all`.",
+            "Possible values: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Defaults to `true`; disabling this option can cause compatibility problems with other tools.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "Uses `.editorconfig` files to configure the formatter.",
+            "Settings in `biome.json` or `biome.jsonc` override `.editorconfig` settings.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "The version control client.",
+            "Possible values: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "The project's default branch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Whether Biome should integrate with the version control client.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "Sets the directory where Biome checks for version control files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "When `true`, Biome ignores files listed in `.gitignore`, `.ignore`, and Git's local exclude file.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
             }
           ]
         }
@@ -425,10 +3795,336 @@
       ],
       "option": [
         {
+          "name": "--arrow-parentheses",
+          "usage": [
+            "--arrow-parentheses=<always|as-needed>"
+          ],
+          "tip": [
+            "Whether to add parentheses around arrow function parameters.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
+          "name": "--attribute-position",
+          "usage": [
+            "--attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML-like languages.",
+            "Defaults to `auto`.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-same-line",
+          "usage": [
+            "--bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Places the `>` of a multiline HTML or JSX element at the end of the last line instead of on the next line.",
+            "Self-closing elements are unaffected.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--bracket-spacing",
+          "usage": [
+            "--bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "Defaults to `true`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "When set to true, only the files that have been changed compared to your `defaultBranch` configuration will be formatted."
           ]
+        },
+        {
+          "name": "--css-formatter-delimiter-spacing",
+          "usage": [
+            "--css-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside CSS parentheses and square brackets when their content fits on one line.",
+            "When enabled, `rgb(0, 0, 0)` becomes `rgb( 0, 0, 0 )` and `[data-attr]` becomes `[ data-attr ]`.",
+            "Empty delimiters are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-enabled",
+          "usage": [
+            "--css-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for CSS and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-style",
+          "usage": [
+            "--css-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-indent-width",
+          "usage": [
+            "--css-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to CSS and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-line-ending",
+          "usage": [
+            "--css-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to CSS and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-line-width",
+          "usage": [
+            "--css-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for CSS and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--css-formatter-quote-style",
+          "usage": [
+            "--css-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in CSS code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--css-formatter-trailing-newline",
+          "usage": [
+            "--css-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-css-modules",
+          "usage": [
+            "--css-parse-css-modules=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of CSS Modules-specific features.",
+            "Enable this feature only when your files don't end in `.module.css`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--css-parse-tailwind-directives",
+          "usage": [
+            "--css-parse-tailwind-directives=<true|false>"
+          ],
+          "tip": [
+            "Enables parsing of Tailwind CSS 4.0 directives and functions.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--delimiter-spacing",
+          "usage": [
+            "--delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--expand",
+          "usage": [
+            "--expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Controls whether arrays and objects are formatted on one line or multiple lines.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "Prevents Biome from emitting diagnostics for unrecognized file types.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "The maximum source file size in bytes.",
+            "Biome ignores larger files.",
+            "Defaults to `1 MiB`."
+          ],
+          "next": []
         },
         {
           "name": "--fix",
@@ -437,9 +4133,912 @@
           ]
         },
         {
+          "name": "--format-with-errors",
+          "usage": [
+            "--format-with-errors=<true|false>"
+          ],
+          "tip": [
+            "Allows formatting files that contain syntax errors when set to `true`.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-enabled",
+          "usage": [
+            "--graphql-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for GraphQL files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-style",
+          "usage": [
+            "--graphql-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to GraphQL files.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-indent-width",
+          "usage": [
+            "--graphql-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to GraphQL files.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-line-ending",
+          "usage": [
+            "--graphql-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to GraphQL files.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-line-width",
+          "usage": [
+            "--graphql-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for GraphQL files.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--graphql-formatter-quote-style",
+          "usage": [
+            "--graphql-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in GraphQL code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--graphql-formatter-trailing-newline",
+          "usage": [
+            "--graphql-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-attribute-position",
+          "usage": [
+            "--html-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in HTML elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-bracket-same-line",
+          "usage": [
+            "--html-formatter-bracket-same-line=<true|false>"
+          ],
+          "tip": [
+            "Whether to place the closing bracket of a multiline HTML tag at the end of the last line instead of on its own line.",
+            "If unset, inherits the global `bracketSameLine` setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-enabled",
+          "usage": [
+            "--html-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for HTML and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-script-and-style",
+          "usage": [
+            "--html-formatter-indent-script-and-style=<true|false>"
+          ],
+          "tip": [
+            "Whether to indent `<script>` and `<style>` tags in HTML and languages that extend it.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-style",
+          "usage": [
+            "--html-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-indent-width",
+          "usage": [
+            "--html-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to HTML and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-line-ending",
+          "usage": [
+            "--html-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to HTML and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-line-width",
+          "usage": [
+            "--html-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width for HTML and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--html-formatter-self-close-void-elements",
+          "usage": [
+            "--html-formatter-self-close-void-elements=<always|never>"
+          ],
+          "tip": [
+            "Controls whether void elements are self-closed.",
+            "Defaults to `never`.",
+            "Possible values: always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-trailing-newline",
+          "usage": [
+            "--html-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Unlike other language-specific trailing newline settings, this option defaults to `true` instead of inheriting the global setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--html-formatter-whitespace-sensitivity",
+          "usage": [
+            "--html-formatter-whitespace-sensitivity=<css|strict|ignore>"
+          ],
+          "tip": [
+            "Whether to account for whitespace sensitivity when formatting HTML and languages that extend it.",
+            "Defaults to `css`.",
+            "Possible values: css, strict, ignore"
+          ],
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "ignore"
+            },
+            {
+              "name": "strict"
+            }
+          ]
+        },
+        {
+          "name": "--indent-style",
+          "usage": [
+            "--indent-style=<tab|space>"
+          ],
+          "tip": [
+            "Uses tabs or spaces for indentation.",
+            "Defaults to `tab`.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--indent-width",
+          "usage": [
+            "--indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width.",
+            "Defaults to `2`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-attribute-position",
+          "usage": [
+            "--javascript-formatter-attribute-position=<multiline|auto>"
+          ],
+          "tip": [
+            "The attribute position style in JSX elements.",
+            "If unset, inherits the global attribute position setting.",
+            "Possible values: multiline, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "multiline"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-bracket-spacing",
+          "usage": [
+            "--javascript-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-delimiter-spacing",
+          "usage": [
+            "--javascript-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces immediately inside supported JavaScript and TypeScript delimiters when their content fits on one line.",
+            "It doesn't add spaces before opening delimiters or inside empty delimiters.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-enabled",
+          "usage": [
+            "--javascript-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-expand",
+          "usage": [
+            "--javascript-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-style",
+          "usage": [
+            "--javascript-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-indent-width",
+          "usage": [
+            "--javascript-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-line-ending",
+          "usage": [
+            "--javascript-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-line-width",
+          "usage": [
+            "--javascript-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JavaScript and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--javascript-formatter-operator-linebreak",
+          "usage": [
+            "--javascript-formatter-operator-linebreak=<before|after>"
+          ],
+          "tip": [
+            "When breaking binary expressions into multiple lines, whether to break them before or after the binary operator.",
+            "Defaults to `after`.",
+            "Possible values: before, after"
+          ],
+          "next": [
+            {
+              "name": "after"
+            },
+            {
+              "name": "before"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-quote-style",
+          "usage": [
+            "--javascript-formatter-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JavaScript code.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--javascript-formatter-trailing-newline",
+          "usage": [
+            "--javascript-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-bracket-spacing",
+          "usage": [
+            "--json-formatter-bracket-spacing=<true|false>"
+          ],
+          "tip": [
+            "Whether to insert spaces inside braces in object literals.",
+            "If unset, inherits the global bracket spacing setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-delimiter-spacing",
+          "usage": [
+            "--json-formatter-delimiter-spacing=<true|false>"
+          ],
+          "tip": [
+            "Controls spaces inside JSON square brackets when their content fits on one line.",
+            "When enabled, `[1, 2, 3]` becomes `[ 1, 2, 3 ]`.",
+            "Empty brackets are unchanged.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-enabled",
+          "usage": [
+            "--json-formatter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the formatter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-expand",
+          "usage": [
+            "--json-formatter-expand=<auto|always|never>"
+          ],
+          "tip": [
+            "Uses the same `auto`, `always`, and `never` behavior as the global expansion setting.",
+            "Possible values: auto, always, never"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "auto"
+            },
+            {
+              "name": "never"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-style",
+          "usage": [
+            "--json-formatter-indent-style=<tab|space>"
+          ],
+          "tip": [
+            "The indent style applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation style.",
+            "Possible values: tab, space"
+          ],
+          "next": [
+            {
+              "name": "space"
+            },
+            {
+              "name": "tab"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-indent-width",
+          "usage": [
+            "--json-formatter-indent-width=NUMBER"
+          ],
+          "tip": [
+            "The indentation width applied to JSON and languages that extend it.",
+            "If unset, inherits the global indentation width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-line-ending",
+          "usage": [
+            "--json-formatter-line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "The line ending applied to JSON and languages that extend it.",
+            "If unset, inherits the global line ending.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-line-width",
+          "usage": [
+            "--json-formatter-line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width applied to JSON and languages that extend it.",
+            "If unset, inherits the global line width."
+          ],
+          "next": []
+        },
+        {
+          "name": "--json-formatter-trailing-commas",
+          "usage": [
+            "--json-formatter-trailing-commas=<none|all>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `none`.",
+            "Possible values: none, all"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--json-formatter-trailing-newline",
+          "usage": [
+            "--json-formatter-trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "If unset, inherits the global trailing newline setting.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing comments in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing trailing commas in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--jsx-quote-style",
+          "usage": [
+            "--jsx-quote-style=<double|single>"
+          ],
+          "tip": [
+            "The type of quotes used in JSX.",
+            "Defaults to `double`.",
+            "Possible values: double, single"
+          ],
+          "next": [
+            {
+              "name": "double"
+            },
+            {
+              "name": "single"
+            }
+          ]
+        },
+        {
+          "name": "--line-ending",
+          "usage": [
+            "--line-ending=<lf|crlf|cr|auto>"
+          ],
+          "tip": [
+            "Selects the line ending.",
+            "`auto` uses the platform convention.",
+            "Defaults to `lf`.",
+            "Possible values: lf, crlf, cr, auto"
+          ],
+          "next": [
+            {
+              "name": "auto"
+            },
+            {
+              "name": "cr"
+            },
+            {
+              "name": "crlf"
+            },
+            {
+              "name": "lf"
+            }
+          ]
+        },
+        {
+          "name": "--line-width",
+          "usage": [
+            "--line-width=NUMBER"
+          ],
+          "tip": [
+            "The maximum line width.",
+            "Defaults to `80`."
+          ],
+          "next": []
+        },
+        {
+          "name": "--quote-properties",
+          "usage": [
+            "--quote-properties=<preserve|as-needed>"
+          ],
+          "tip": [
+            "Controls when object properties are quoted.",
+            "Defaults to `asNeeded` in configuration (`as-needed` on the CLI).",
+            "Possible values: preserve, as-needed"
+          ],
+          "next": [
+            {
+              "name": "as-needed"
+            },
+            {
+              "name": "preserve"
+            }
+          ]
+        },
+        {
+          "name": "--semicolons",
+          "usage": [
+            "--semicolons=<always|as-needed>"
+          ],
+          "tip": [
+            "Prints semicolons after every statement or only where needed to avoid automatic semicolon insertion hazards.",
+            "Defaults to `always`.",
+            "Possible values: always, as-needed"
+          ],
+          "next": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "as-needed"
+            }
+          ]
+        },
+        {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "Use this to specify the base branch to compare against when using the --changed flag."
@@ -455,12 +5054,144 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "Use this option when you want to format code piped from `stdin`."
           ],
           "next": []
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas=<all|es5|none>"
+          ],
+          "tip": [
+            "Prints trailing commas wherever possible in multiline comma-separated structures.",
+            "Defaults to `all`.",
+            "Possible values: all, es5, none"
+          ],
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "es5"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "--trailing-newline",
+          "usage": [
+            "--trailing-newline=<true|false>"
+          ],
+          "tip": [
+            "Whether to add a trailing newline at the end of the file.",
+            "Defaults to `true`; disabling this option can cause compatibility problems with other tools.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--use-editorconfig",
+          "usage": [
+            "--use-editorconfig=<true|false>"
+          ],
+          "tip": [
+            "Uses `.editorconfig` files to configure the formatter.",
+            "Settings in `biome.json` or `biome.jsonc` override `.editorconfig` settings.",
+            "Defaults to `false`.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "The version control client.",
+            "Possible values: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "The project's default branch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Whether Biome should integrate with the version control client.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "Sets the directory where Biome checks for version control files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "When `true`, Biome ignores files listed in `.gitignore`, `.ignore`, and Git's local exclude file.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
         },
         {
           "name": "--watch",
@@ -509,15 +5240,117 @@
           ]
         },
         {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "Prevents Biome from emitting diagnostics for unrecognized file types.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "The maximum source file size in bytes.",
+            "Biome ignores larger files.",
+            "Defaults to `1 MiB`."
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "Alias for `--write`, writes safe fixes"
           ]
         },
         {
+          "name": "--javascript-linter-enabled",
+          "usage": [
+            "--javascript-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JavaScript and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-linter-enabled",
+          "usage": [
+            "--json-linter-enabled=<true|false>"
+          ],
+          "tip": [
+            "Controls the linter for JSON and languages that extend it.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-comments",
+          "usage": [
+            "--json-parse-allow-comments=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing comments in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--json-parse-allow-trailing-commas",
+          "usage": [
+            "--json-parse-allow-trailing-commas=<true|false>"
+          ],
+          "tip": [
+            "Allows parsing trailing commas in `.json` files.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--only",
           "usage": [
-            "--only <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--only=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Run only the given lint rule, assist action, group of rules and actions, or domain."
@@ -534,7 +5367,7 @@
         {
           "name": "--reason",
           "usage": [
-            "--reason <STRING>"
+            "--reason=STRING"
           ],
           "tip": [
             "Explanation for suppressing diagnostics with `--suppress`."
@@ -544,7 +5377,7 @@
         {
           "name": "--since",
           "usage": [
-            "--since <REF>"
+            "--since=REF"
           ],
           "tip": [
             "Use this to specify the base branch to compare against when using the --changed flag."
@@ -554,7 +5387,7 @@
         {
           "name": "--skip",
           "usage": [
-            "--skip <GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
+            "--skip=<GROUP|RULE|DOMAIN|ACTION|PLUGIN>"
           ],
           "tip": [
             "Skip the given lint rule, assist action, group of rules and actions, or domain."
@@ -571,7 +5404,7 @@
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "Use this option when you want to format code piped from `stdin`."
@@ -591,6 +5424,77 @@
           ]
         },
         {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "The version control client.",
+            "Possible values: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "The project's default branch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Whether Biome should integrate with the version control client.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "Sets the directory where Biome checks for version control files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "When `true`, Biome ignores files listed in `.gitignore`, `.ignore`, and Git's local exclude file.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
           "name": "--watch",
           "tip": [
             "Enables the watch mode to re-run the lint automatically when any non-excluded file in the workspace has changed."
@@ -607,7 +5511,7 @@
     {
       "name": "lsp-proxy",
       "usage": [
-        "lsp-proxy [--watcher-kind <KIND>]"
+        "lsp-proxy [--watcher-kind=<polling|recommended|none>]"
       ],
       "tip": [
         "Acts as a server for the Language Server Protocol over stdin/stdout."
@@ -616,10 +5520,11 @@
         {
           "name": "--watcher-kind",
           "usage": [
-            "--watcher-kind <polling|recommended|none>"
+            "--watcher-kind=<polling|recommended|none>"
           ],
           "tip": [
-            "Controls how the Biome file watcher should behave."
+            "Controls how the Biome file watcher should behave.",
+            "Possible values: polling, recommended, none"
           ],
           "next": [
             {
@@ -645,7 +5550,7 @@
         {
           "name": "--watcher-polling-interval",
           "usage": [
-            "--watcher-polling-interval <NUMBER>"
+            "--watcher-polling-interval=NUMBER"
           ],
           "tip": [
             "The polling interval in milliseconds. Only applicable when using the polling watcher."
@@ -657,7 +5562,7 @@
     {
       "name": "migrate",
       "usage": [
-        "migrate [--write] [COMMAND]"
+        "migrate [--write] [COMMAND ...]"
       ],
       "tip": [
         "Updates the configuration when there are breaking changes."
@@ -737,41 +5642,153 @@
     {
       "name": "search",
       "usage": [
-        "search [-l <ARG>] <PATTERN> [PATH]..."
+        "search [-l=<css|javascript|json>] <PATTERN> [PATH]..."
       ],
       "tip": [
         "EXPERIMENTAL: Searches for Grit patterns across a project."
       ],
       "option": [
         {
+          "name": "--files-ignore-unknown",
+          "usage": [
+            "--files-ignore-unknown=<true|false>"
+          ],
+          "tip": [
+            "Prevents Biome from emitting diagnostics for unrecognized file types.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--files-max-size",
+          "usage": [
+            "--files-max-size=NUMBER"
+          ],
+          "tip": [
+            "The maximum source file size in bytes.",
+            "Biome ignores larger files.",
+            "Defaults to `1 MiB`."
+          ],
+          "next": []
+        },
+        {
           "name": "--language",
           "alias": [
             "-l"
           ],
           "usage": [
-            "-l, --language <ARG>"
+            "-l, --language=<css|javascript|json>"
           ],
           "tip": [
-            "The language to which the pattern applies."
+            "The language to which the pattern applies.",
+            "Possible values: css, javascript, json"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "css"
+            },
+            {
+              "name": "javascript"
+            },
+            {
+              "name": "json"
+            }
+          ]
         },
         {
           "name": "--stdin-file-path",
           "usage": [
-            "--stdin-file-path <PATH>"
+            "--stdin-file-path=PATH"
           ],
           "tip": [
             "Use this option when you want to search through code piped from `stdin`."
           ],
           "next": []
+        },
+        {
+          "name": "--vcs-client-kind",
+          "usage": [
+            "--vcs-client-kind=<git>"
+          ],
+          "tip": [
+            "The version control client.",
+            "Possible values: git"
+          ],
+          "next": [
+            {
+              "name": "git"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-default-branch",
+          "usage": [
+            "--vcs-default-branch=BRANCH"
+          ],
+          "tip": [
+            "The project's default branch."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-enabled",
+          "usage": [
+            "--vcs-enabled=<true|false>"
+          ],
+          "tip": [
+            "Whether Biome should integrate with the version control client.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
+        },
+        {
+          "name": "--vcs-root",
+          "usage": [
+            "--vcs-root=PATH"
+          ],
+          "tip": [
+            "Sets the directory where Biome checks for version control files."
+          ],
+          "next": []
+        },
+        {
+          "name": "--vcs-use-ignore-file",
+          "usage": [
+            "--vcs-use-ignore-file=<true|false>"
+          ],
+          "tip": [
+            "When `true`, Biome ignores files listed in `.gitignore`, `.ignore`, and Git's local exclude file.",
+            "Possible values: true, false"
+          ],
+          "next": [
+            {
+              "name": "false"
+            },
+            {
+              "name": "true"
+            }
+          ]
         }
       ]
     },
     {
       "name": "start",
       "usage": [
-        "start [--watcher-kind <KIND>]"
+        "start [--watcher-kind=<polling|recommended|none>]"
       ],
       "tip": [
         "Starts the Biome daemon server process."
@@ -780,10 +5797,11 @@
         {
           "name": "--watcher-kind",
           "usage": [
-            "--watcher-kind <polling|recommended|none>"
+            "--watcher-kind=<polling|recommended|none>"
           ],
           "tip": [
-            "Controls how the Biome file watcher should behave."
+            "Controls how the Biome file watcher should behave.",
+            "Possible values: polling, recommended, none"
           ],
           "next": [
             {
@@ -809,7 +5827,7 @@
         {
           "name": "--watcher-polling-interval",
           "usage": [
-            "--watcher-polling-interval <NUMBER>"
+            "--watcher-polling-interval=NUMBER"
           ],
           "tip": [
             "The polling interval in milliseconds. Only applicable when using the polling watcher."
@@ -837,14 +5855,29 @@
       ]
     }
   ],
+  "option": [
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Prints version information"
+      ]
+    }
+  ],
   "global_option": [
     {
       "name": "--colors",
       "usage": [
-        "--colors <off|force>"
+        "--colors=<off|force>"
       ],
       "tip": [
-        "Set the formatting mode for markup: `off` prints as plain text, `force` forces ANSI formatting."
+        "Set the formatting mode for markup: `off` prints as plain text, `force` forces ANSI formatting.",
+        "Possible values: off, force"
       ],
       "next": [
         {
@@ -864,7 +5897,7 @@
     {
       "name": "--config-path",
       "usage": [
-        "--config-path <PATH>"
+        "--config-path=PATH"
       ],
       "tip": [
         "Set the file path to the configuration file, or the directory path to find `biome.json`."
@@ -874,10 +5907,11 @@
     {
       "name": "--diagnostic-level",
       "usage": [
-        "--diagnostic-level <info|warn|error>"
+        "--diagnostic-level=<info|warn|error>"
       ],
       "tip": [
-        "The level of diagnostics to show. Default: info."
+        "The level of diagnostics to show. Default: info.",
+        "Possible values: info, warn, error"
       ],
       "next": [
         {
@@ -921,7 +5955,7 @@
     {
       "name": "--log-file",
       "usage": [
-        "--log-file <STRING>"
+        "--log-file=PATH"
       ],
       "tip": [
         "Optional path/file to redirect log messages to."
@@ -931,10 +5965,11 @@
     {
       "name": "--log-kind",
       "usage": [
-        "--log-kind <pretty|compact|json>"
+        "--log-kind=<pretty|compact|json>"
       ],
       "tip": [
-        "What the log should look like. Default: pretty."
+        "What the log should look like. Default: pretty.",
+        "Possible values: pretty, compact, json"
       ],
       "next": [
         {
@@ -960,10 +5995,11 @@
     {
       "name": "--log-level",
       "usage": [
-        "--log-level <none|debug|info|warn|error>"
+        "--log-level=<none|tracing|debug|info|warn|error>"
       ],
       "tip": [
-        "The level of logging. Default: none."
+        "The level of logging. Default: none.",
+        "Possible values: none, tracing, debug, info, warn, error"
       ],
       "next": [
         {
@@ -991,6 +6027,12 @@
           ]
         },
         {
+          "name": "tracing",
+          "tip": [
+            "Tracing level logging."
+          ]
+        },
+        {
           "name": "warn",
           "tip": [
             "Warning level logging."
@@ -1001,7 +6043,7 @@
     {
       "name": "--log-path",
       "usage": [
-        "--log-path <PATH>"
+        "--log-path=PATH"
       ],
       "tip": [
         "Allows changing the folder where logs are stored."
@@ -1011,7 +6053,7 @@
     {
       "name": "--log-prefix-name",
       "usage": [
-        "--log-prefix-name <STRING>"
+        "--log-prefix-name=STRING"
       ],
       "tip": [
         "Prefix name for log files. Default: server.log."
@@ -1021,7 +6063,7 @@
     {
       "name": "--max-diagnostics",
       "usage": [
-        "--max-diagnostics <none|NUMBER>"
+        "--max-diagnostics=<none|NUMBER>"
       ],
       "tip": [
         "Cap the amount of diagnostics displayed. Default: 20."
@@ -1044,10 +6086,11 @@
     {
       "name": "--reporter",
       "usage": [
-        "--reporter <FORMAT>"
+        "--reporter=<default|concise|summary|json|json-pretty|github|gitlab|junit|checkstyle|rdjson|sarif>"
       ],
       "tip": [
-        "Diagnostics output format."
+        "Diagnostics output format.",
+        "Possible values: default, concise, summary, json, json-pretty, github, gitlab, junit, checkstyle, rdjson, sarif"
       ],
       "next": [
         {
@@ -1121,7 +6164,7 @@
     {
       "name": "--reporter-file",
       "usage": [
-        "--reporter-file <PATH>"
+        "--reporter-file=PATH"
       ],
       "tip": [
         "Write reporter output to a file."
@@ -1144,18 +6187,6 @@
       "name": "--verbose",
       "tip": [
         "Print additional diagnostics, and some diagnostics show more information."
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "Prints version information"
       ]
     }
   ]

@@ -9,47 +9,72 @@
     {
       "name": "cache",
       "usage": [
-        "cache [OPTIONS]"
+        "cache [OPTIONS] <--build|--clear>"
       ],
       "tip": [
-        "Customize syntaxes and themes."
+        "Modify the syntax-definition and theme cache."
       ],
       "option": [
         {
           "name": "--acknowledgements",
           "tip": [
-            "Show acknowledgements."
+            "Build acknowledgements.bin.",
+            "Requires --build."
+          ]
+        },
+        {
+          "name": "--blank",
+          "tip": [
+            "Create completely new syntax and theme sets (instead of appending to the default sets).",
+            "Requires --build."
           ]
         },
         {
           "name": "--build",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --build"
+          ],
           "tip": [
-            "Build the cache from scratch."
+            "Initialize (or update) the syntax/theme cache.",
+            "Loads from the source directory (default: the configuration directory)."
           ]
         },
         {
           "name": "--clear",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --clear"
+          ],
           "tip": [
-            "Remove the generated cache files."
+            "Remove the cached syntax definitions and themes."
           ]
         },
         {
-          "name": "--config-dir",
+          "name": "--source",
+          "usage": [
+            "--source <dir>"
+          ],
           "tip": [
-            "Show the configuration directory."
-          ]
+            "Use a different directory to load syntaxes and themes from.",
+            "Requires --build."
+          ],
+          "next": []
         },
         {
-          "name": "--data-dir",
+          "name": "--target",
+          "usage": [
+            "--target <dir>"
+          ],
           "tip": [
-            "Show the data directory."
-          ]
-        },
-        {
-          "name": "--init",
-          "tip": [
-            "Initialize the cache by reading from bat's default syntaxes and themes."
-          ]
+            "Use a different directory to store the cached syntax and theme set.",
+            "Requires --build."
+          ],
+          "next": []
         }
       ]
     }
@@ -62,50 +87,12 @@
       ]
     },
     {
-      "name": "--diagnostic",
-      "tip": [
-        "Show diagnostic information for bug reports."
-      ]
-    },
-    {
-      "name": "--list-languages",
-      "alias": [
-        "-L"
-      ],
-      "usage": [
-        "-L, --list-languages"
-      ],
-      "tip": [
-        "Display a list of supported languages."
-      ]
-    },
-    {
-      "name": "--list-themes",
-      "tip": [
-        "Display a list of supported themes."
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "Print version information."
-      ]
-    }
-  ],
-  "global_option": [
-    {
       "name": "--binary",
       "usage": [
         "--binary <behavior>"
       ],
       "tip": [
-        "How to treat binary content."
+        "How to treat binary content (default: no-printing)."
       ],
       "next": [
         {
@@ -117,6 +104,12 @@
       ]
     },
     {
+      "name": "--cache-dir",
+      "tip": [
+        "Show bat's cache directory."
+      ]
+    },
+    {
       "name": "--chop-long-lines",
       "alias": [
         "-S"
@@ -125,7 +118,8 @@
         "-S, --chop-long-lines"
       ],
       "tip": [
-        "Truncate all lines longer than screen width."
+        "Truncate all lines longer than screen width.",
+        "Alias for '--wrap=never'."
       ]
     },
     {
@@ -134,7 +128,8 @@
         "--color <when>"
       ],
       "tip": [
-        "When to use colored output."
+        "Specify when to use colored output.",
+        "The automatic mode only enables colors if an interactive terminal is detected - colors are automatically disabled if the output goes to a pipe."
       ],
       "next": [
         {
@@ -149,12 +144,50 @@
       ]
     },
     {
+      "name": "--completion",
+      "usage": [
+        "--completion <SHELL>"
+      ],
+      "tip": [
+        "Show shell completion for a certain shell.",
+        "Possible values: bash, fish, ps1, zsh"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "ps1"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "--config-dir",
+      "tip": [
+        "Show bat's configuration directory."
+      ]
+    },
+    {
+      "name": "--config-file",
+      "tip": [
+        "Show path to the configuration file."
+      ]
+    },
+    {
       "name": "--decorations",
       "usage": [
         "--decorations <when>"
       ],
       "tip": [
-        "When to use decorations specified via --style."
+        "Specify when to use the decorations that have been specified via '--style'.",
+        "The automatic mode only enables decorations if an interactive terminal is detected.",
+        "The always mode will show decorations even when piping output."
       ],
       "next": [
         {
@@ -166,6 +199,18 @@
         {
           "name": "never"
         }
+      ]
+    },
+    {
+      "name": "--diagnostics",
+      "alias": [
+        "--diagnostic"
+      ],
+      "usage": [
+        "--diagnostic, --diagnostics"
+      ],
+      "tip": [
+        "Show diagnostic information for bug reports."
       ]
     },
     {
@@ -177,7 +222,8 @@
         "-d, --diff"
       ],
       "tip": [
-        "Only show lines added/removed/modified with respect to the Git index."
+        "Only show lines that have been added/removed/modified with respect to the Git index.",
+        "Use --diff-context=N to control how much context you want to see."
       ]
     },
     {
@@ -186,7 +232,7 @@
         "--diff-context <N>"
       ],
       "tip": [
-        "Include N lines of context around added/removed/modified lines."
+        "Include N lines of context around added/removed/modified lines when using '--diff'."
       ],
       "next": []
     },
@@ -196,8 +242,11 @@
         "--file-name <name>"
       ],
       "tip": [
-        "Specify the name to display for a file."
+        "Specify the name to display for a file.",
+        "Useful when piping data to bat from STDIN when bat does not otherwise know the filename.",
+        "Note that the provided file name is also used for syntax detection."
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -209,7 +258,14 @@
         "-f, --force-colorization"
       ],
       "tip": [
-        "Alias for --decorations=always --color=always."
+        "Alias for '--decorations=always --color=always'.",
+        "This is useful if the output of bat is piped to another program, but you want to keep the colorization/decorations."
+      ]
+    },
+    {
+      "name": "--generate-config-file",
+      "tip": [
+        "Generates a default configuration file."
       ]
     },
     {
@@ -233,8 +289,13 @@
         "-H, --highlight-line <N:M>"
       ],
       "tip": [
-        "Highlight the specified line ranges."
+        "Highlight the specified line ranges with a different background color."
       ],
+      "example": [
+        "--highlight-line 40",
+        "--highlight-line 30:40"
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -243,8 +304,15 @@
         "--ignored-suffix <suffix>"
       ],
       "tip": [
-        "Ignore extension for syntax detection."
+        "Ignore extension."
       ],
+      "example": [
+        {
+          "cmd": "--ignored-suffix \".dev\" my_file.json.dev",
+          "desc": "use JSON syntax, ignoring '.dev'"
+        }
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -253,7 +321,7 @@
         "--italic-text <when>"
       ],
       "tip": [
-        "When to use ANSI sequences for italic text."
+        "Specify when to use ANSI sequences for italic text in the output."
       ],
       "next": [
         {
@@ -273,7 +341,9 @@
         "-l, --language <language>"
       ],
       "tip": [
-        "Explicitly set the language for syntax highlighting."
+        "Explicitly set the language for syntax highlighting.",
+        "The language can be specified as a name (like 'C++' or 'LaTeX') or possible file extension (like 'cpp', 'hpp' or 'md').",
+        "Use '--list-languages' to show all supported language names and file extensions."
       ],
       "next": []
     },
@@ -286,9 +356,42 @@
         "-r, --line-range <N:M>"
       ],
       "tip": [
-        "Only print the specified range of lines."
+        "Only print the specified range of lines for each file."
       ],
+      "example": [
+        {
+          "cmd": "--line-range 30:40",
+          "desc": "prints lines 30 to 40"
+        },
+        {
+          "cmd": "--line-range :40",
+          "desc": "prints lines 1 to 40"
+        },
+        {
+          "cmd": "--line-range 40:",
+          "desc": "prints lines 40 to the end of the file"
+        }
+      ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--list-languages",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --list-languages"
+      ],
+      "tip": [
+        "Display a list of supported languages for syntax highlighting."
+      ]
+    },
+    {
+      "name": "--list-themes",
+      "tip": [
+        "Display a list of supported themes for syntax highlighting."
+      ]
     },
     {
       "name": "--map-syntax",
@@ -299,9 +402,47 @@
         "-m, --map-syntax <glob:syntax>"
       ],
       "tip": [
-        "Map a glob pattern to an existing syntax name."
+        "Map a glob pattern to an existing syntax name.",
+        "The glob pattern is matched on the full path and the filename.",
+        "Note that the right-hand side is the *name* of the syntax, not a file extension."
       ],
+      "example": [
+        {
+          "cmd": "-m '*.build:Python'",
+          "desc": "highlight *.build files with the Python syntax"
+        },
+        {
+          "cmd": "-m '.myignore:Git Ignore'",
+          "desc": "highlight files named '.myignore' with the Git Ignore syntax"
+        }
+      ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "Do not use the configuration file."
+      ]
+    },
+    {
+      "name": "--no-custom-assets",
+      "tip": [
+        "Do not load custom assets."
+      ]
+    },
+    {
+      "name": "--no-paging",
+      "alias": [
+        "--no-pager",
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-pager, --no-paging"
+      ],
+      "tip": [
+        "Alias for '--paging=never'."
+      ]
     },
     {
       "name": "--nonprintable-notation",
@@ -329,7 +470,8 @@
         "-n, --number"
       ],
       "tip": [
-        "Only show line numbers, no other decorations."
+        "Only show line numbers, no other decorations.",
+        "This is an alias for '--style=numbers'."
       ]
     },
     {
@@ -338,7 +480,12 @@
         "--pager <command>"
       ],
       "tip": [
-        "Determine which pager is used."
+        "Determine which pager is used.",
+        "This option will override the PAGER and BAT_PAGER environment variables.",
+        "The default pager is 'less'."
+      ],
+      "example": [
+        "--pager \"less -RF\""
       ],
       "next": []
     },
@@ -348,7 +495,9 @@
         "--paging <when>"
       ],
       "tip": [
-        "When to use the pager."
+        "Specify when to use the pager.",
+        "To disable the pager, use '--paging=never' or its alias, '-P'.",
+        "To disable the pager permanently, set BAT_PAGING to 'never'."
       ],
       "next": [
         {
@@ -371,7 +520,8 @@
         "-p, --plain"
       ],
       "tip": [
-        "Only show plain style, no decorations."
+        "Only show plain style, no decorations.",
+        "When '-p' is used twice ('-pp'), it also disables automatic paging."
       ],
       "repeat": 2
     },
@@ -382,15 +532,18 @@
       ]
     },
     {
-      "name": "--show-all",
+      "name": "--show-nonprintable",
       "alias": [
+        "--show-all",
         "-A"
       ],
       "usage": [
-        "-A, --show-all"
+        "-A, --show-all, --show-nonprintable"
       ],
       "tip": [
-        "Show non-printable characters like space, tab or newline."
+        "Show non-printable characters like space, tab or newline.",
+        "This option can also be used to print binary files.",
+        "Use '--tabs' to control the width of the tab-placeholders."
       ]
     },
     {
@@ -402,7 +555,7 @@
         "-s, --squeeze-blank"
       ],
       "tip": [
-        "Squeeze consecutive empty lines into one."
+        "Squeeze consecutive empty lines into a single empty line."
       ]
     },
     {
@@ -411,7 +564,7 @@
         "--squeeze-limit <limit>"
       ],
       "tip": [
-        "Maximum number of consecutive empty lines to print."
+        "Set the maximum number of consecutive empty lines to be printed."
       ],
       "next": []
     },
@@ -421,7 +574,8 @@
         "--strip-ansi <when>"
       ],
       "tip": [
-        "When to strip ANSI escape sequences."
+        "Specify when to strip ANSI escape sequences from the input.",
+        "The automatic mode will remove escape sequences unless the syntax highlighting language is plain text."
       ],
       "next": [
         {
@@ -438,11 +592,14 @@
     {
       "name": "--style",
       "usage": [
-        "--style <components>"
+        "--style <components,...>"
       ],
       "tip": [
-        "Configure which elements to display."
+        "Configure which elements to display in addition to the file contents.",
+        "The argument is a comma-separated list of components to display (e.g. 'numbers,changes,grid') or a pre-defined style ('full')."
       ],
+      "repeat": 99,
+      "separator": ",",
       "next": [
         {
           "name": "auto"
@@ -488,7 +645,8 @@
         "--tabs <T>"
       ],
       "tip": [
-        "Set the tab width to T spaces."
+        "Set the tab width to T spaces.",
+        "Use a width of 0 to pass tabs through directly."
       ],
       "next": []
     },
@@ -498,7 +656,8 @@
         "--terminal-width <width>"
       ],
       "tip": [
-        "Explicitly set the width of the terminal."
+        "Explicitly set the width of the terminal instead of determining it automatically.",
+        "If prefixed with '+' or '-', the value will be treated as an offset to the actual terminal width."
       ],
       "next": []
     },
@@ -508,9 +667,26 @@
         "--theme <theme>"
       ],
       "tip": [
-        "Set the theme for syntax highlighting."
+        "Set the theme for syntax highlighting.",
+        "Use '--list-themes' to see all available themes."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "auto:always"
+        },
+        {
+          "name": "auto:system"
+        },
+        {
+          "name": "dark"
+        },
+        {
+          "name": "light"
+        }
+      ]
     },
     {
       "name": "--theme-dark",
@@ -518,7 +694,7 @@
         "--theme-dark <theme>"
       ],
       "tip": [
-        "Theme for dark background terminals."
+        "Sets the theme name for syntax highlighting used when the terminal uses a dark background."
       ],
       "next": []
     },
@@ -528,7 +704,7 @@
         "--theme-light <theme>"
       ],
       "tip": [
-        "Theme for light background terminals."
+        "Sets the theme name for syntax highlighting used when the terminal uses a light background."
       ],
       "next": []
     },
@@ -541,7 +717,20 @@
         "-u, --unbuffered"
       ],
       "tip": [
-        "Exists for POSIX-compliance reasons; the output is always unbuffered, this option is simply ignored."
+        "This option exists for POSIX-compliance reasons ('u' is for 'unbuffered').",
+        "The output is always unbuffered - this option is simply ignored."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
       ]
     },
     {
@@ -550,7 +739,8 @@
         "--wrap <mode>"
       ],
       "tip": [
-        "Specify the text-wrapping mode."
+        "Specify the text-wrapping mode (*auto*, never, character).",
+        "The '--terminal-width' option can be used in addition to control the output width."
       ],
       "next": [
         {

@@ -34,6 +34,12 @@
       "next": []
     },
     {
+      "name": "--auto-hybrid-regex",
+      "tip": [
+        "（已弃用，请使用 --engine 代替）根据模式使用的功能动态选择支持的正则表达式引擎。"
+      ]
+    },
+    {
       "name": "--before-context",
       "alias": [
         "-B"
@@ -193,20 +199,51 @@
         "-E, --encoding <ENCODING>"
       ],
       "tip": [
-        "指定要使用的文本编码。"
+        "指定要使用的文本编码。",
+        "默认为 auto，会嗅探 UTF-8 或 UTF-16 BOM。使用 none 可搜索原始字节。"
       ],
       "next": [
         {
           "name": "auto"
         },
         {
+          "name": "big5"
+        },
+        {
+          "name": "euc-jp"
+        },
+        {
+          "name": "euc-kr"
+        },
+        {
+          "name": "gb18030"
+        },
+        {
+          "name": "gbk"
+        },
+        {
+          "name": "latin1"
+        },
+        {
           "name": "none"
+        },
+        {
+          "name": "shift_jis"
         },
         {
           "name": "utf-16"
         },
         {
+          "name": "utf-16be"
+        },
+        {
+          "name": "utf-16le"
+        },
+        {
           "name": "utf-8"
+        },
+        {
+          "name": "windows-1252"
         }
       ]
     },
@@ -231,13 +268,41 @@
       ]
     },
     {
-      "name": "--exact-depth",
+      "name": "--field-context-separator",
       "usage": [
-        "--exact-depth <NUM>"
+        "--field-context-separator <SEPARATOR>"
       ],
       "tip": [
-        "仅显示精确给定深度的结果。"
+        "设置打印上下文行时的字段上下文分隔符。",
+        "它分隔文件路径、行号、列号和上下文行本身。",
+        "默认值是 - 字符。"
       ],
+      "next": []
+    },
+    {
+      "name": "--field-match-separator",
+      "usage": [
+        "--field-match-separator <SEPARATOR>"
+      ],
+      "tip": [
+        "设置打印匹配行时的字段匹配分隔符。",
+        "它分隔文件路径、行号、列号和匹配行本身。",
+        "默认值是 : 字符。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--file",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --file <PATTERNFILE>"
+      ],
+      "tip": [
+        "从给定文件中搜索模式，每行一个。"
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -325,6 +390,7 @@
       "tip": [
         "包含或排除匹配 glob 的文件和目录。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -364,6 +430,17 @@
       ]
     },
     {
+      "name": "--hostname-bin",
+      "usage": [
+        "--hostname-bin <COMMAND>"
+      ],
+      "tip": [
+        "通过运行给定可执行文件来决定 ripgrep 如何确定本机主机名。",
+        "主机名用于生成超链接。未设置时会自动检测。"
+      ],
+      "next": []
+    },
+    {
       "name": "--hyperlink-format",
       "usage": [
         "--hyperlink-format <FORMAT>"
@@ -373,19 +450,37 @@
       ],
       "next": [
         {
+          "name": "cursor"
+        },
+        {
           "name": "default"
         },
         {
           "name": "file"
         },
         {
+          "name": "grep+"
+        },
+        {
           "name": "kitty"
+        },
+        {
+          "name": "macvim"
         },
         {
           "name": "none"
         },
         {
+          "name": "textmate"
+        },
+        {
           "name": "vscode"
+        },
+        {
+          "name": "vscode-insiders"
+        },
+        {
+          "name": "vscodium"
         }
       ]
     },
@@ -397,7 +492,14 @@
       "tip": [
         "使用不区分大小写的 glob 包含或排除文件。"
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--ignore",
+      "tip": [
+        "遵守忽略文件（.gitignore、.ignore 等）。"
+      ]
     },
     {
       "name": "--ignore-case",
@@ -412,6 +514,18 @@
       ]
     },
     {
+      "name": "--ignore-dot",
+      "tip": [
+        "遵守 .ignore 和 .rgignore 文件。"
+      ]
+    },
+    {
+      "name": "--ignore-exclude",
+      "tip": [
+        "遵守仓库中手动配置文件的过滤规则，例如 git 的 .git/info/exclude。"
+      ]
+    },
+    {
       "name": "--ignore-file",
       "usage": [
         "--ignore-file <PATH>"
@@ -419,7 +533,45 @@
       "tip": [
         "指定忽略文件的路径。"
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--ignore-file-case-insensitive",
+      "tip": [
+        "不区分大小写处理忽略文件（.gitignore、.ignore 等）。",
+        "在不区分大小写的文件系统（如 Windows）上最有用。"
+      ]
+    },
+    {
+      "name": "--ignore-files",
+      "tip": [
+        "遵守 --ignore-file 标志。"
+      ]
+    },
+    {
+      "name": "--ignore-global",
+      "tip": [
+        "遵守全局忽略文件。"
+      ]
+    },
+    {
+      "name": "--ignore-messages",
+      "tip": [
+        "显示解析忽略文件的错误消息。"
+      ]
+    },
+    {
+      "name": "--ignore-parent",
+      "tip": [
+        "遵守父目录中的忽略文件。"
+      ]
+    },
+    {
+      "name": "--ignore-vcs",
+      "tip": [
+        "遵守源代码管理忽略文件。"
+      ]
     },
     {
       "name": "--include-zero",
@@ -495,12 +647,26 @@
       ]
     },
     {
+      "name": "--max-count",
+      "alias": [
+        "-m"
+      ],
+      "usage": [
+        "-m, --max-count <NUM>"
+      ],
+      "tip": [
+        "限制每个文件的匹配行数。"
+      ],
+      "next": []
+    },
+    {
       "name": "--max-depth",
       "alias": [
+        "--maxdepth",
         "-d"
       ],
       "usage": [
-        "-d, --max-depth <NUM>"
+        "-d, --maxdepth, --max-depth <NUM>"
       ],
       "tip": [
         "限制目录遍历的深度。"
@@ -518,14 +684,10 @@
       "next": []
     },
     {
-      "name": "--min-depth",
-      "usage": [
-        "--min-depth <NUM>"
-      ],
+      "name": "--messages",
       "tip": [
-        "仅显示从给定深度开始的结果。"
-      ],
-      "next": []
+        "显示文件操作失败的错误消息。"
+      ]
     },
     {
       "name": "--mmap",
@@ -552,9 +714,57 @@
       ]
     },
     {
+      "name": "--no-auto-hybrid-regex",
+      "tip": [
+        "禁用自动混合正则表达式匹配。"
+      ]
+    },
+    {
+      "name": "--no-binary",
+      "tip": [
+        "不搜索二进制文件。"
+      ]
+    },
+    {
+      "name": "--no-block-buffered",
+      "tip": [
+        "输出不使用块缓冲。"
+      ]
+    },
+    {
+      "name": "--no-byte-offset",
+      "tip": [
+        "不在每行前打印字节偏移量。"
+      ]
+    },
+    {
+      "name": "--no-column",
+      "tip": [
+        "不显示列号。"
+      ]
+    },
+    {
       "name": "--no-config",
       "tip": [
         "从不读取配置文件。"
+      ]
+    },
+    {
+      "name": "--no-context-separator",
+      "tip": [
+        "完全禁用上下文分隔符。"
+      ]
+    },
+    {
+      "name": "--no-crlf",
+      "tip": [
+        "不将 CRLF 视为行终止符。"
+      ]
+    },
+    {
+      "name": "--no-encoding",
+      "tip": [
+        "恢复为自动编码检测。"
       ]
     },
     {
@@ -570,9 +780,33 @@
       ]
     },
     {
+      "name": "--no-fixed-strings",
+      "tip": [
+        "将模式视为正则表达式而非字面量。"
+      ]
+    },
+    {
+      "name": "--no-follow",
+      "tip": [
+        "遍历目录时不跟随符号链接。"
+      ]
+    },
+    {
+      "name": "--no-glob-case-insensitive",
+      "tip": [
+        "区分大小写处理 glob 模式。"
+      ]
+    },
+    {
       "name": "--no-heading",
       "tip": [
         "不按文件分组匹配。"
+      ]
+    },
+    {
+      "name": "--no-hidden",
+      "tip": [
+        "不搜索隐藏文件和目录。"
       ]
     },
     {
@@ -588,9 +822,15 @@
       ]
     },
     {
+      "name": "--no-ignore-exclude",
+      "tip": [
+        "不遵守仓库中手动配置文件的过滤规则，例如 git 的 .git/info/exclude。"
+      ]
+    },
+    {
       "name": "--no-ignore-file-case-insensitive",
       "tip": [
-        "不区分大小写处理忽略文件。"
+        "区分大小写处理忽略文件（默认行为）。"
       ]
     },
     {
@@ -624,6 +864,30 @@
       ]
     },
     {
+      "name": "--no-include-zero",
+      "tip": [
+        "不打印为零的匹配计数。"
+      ]
+    },
+    {
+      "name": "--no-invert-match",
+      "tip": [
+        "禁用反转匹配。打印匹配的行。"
+      ]
+    },
+    {
+      "name": "--no-json",
+      "tip": [
+        "不以 JSON Lines 格式打印结果。"
+      ]
+    },
+    {
+      "name": "--no-line-buffered",
+      "tip": [
+        "输出不使用行缓冲。"
+      ]
+    },
+    {
       "name": "--no-line-number",
       "alias": [
         "-N"
@@ -633,6 +897,12 @@
       ],
       "tip": [
         "隐藏行号。"
+      ]
+    },
+    {
+      "name": "--no-max-columns-preview",
+      "tip": [
+        "不为超过最大列数限制的行打印预览。"
       ]
     },
     {
@@ -648,9 +918,76 @@
       ]
     },
     {
+      "name": "--no-multiline",
+      "tip": [
+        "禁用跨多行搜索。"
+      ]
+    },
+    {
+      "name": "--no-multiline-dotall",
+      "tip": [
+        "在多行搜索中禁用 dot all 模式。"
+      ]
+    },
+    {
+      "name": "--no-one-file-system",
+      "tip": [
+        "允许跨越文件系统边界。"
+      ]
+    },
+    {
+      "name": "--no-pcre2",
+      "tip": [
+        "不使用 PCRE2 正则表达式引擎。"
+      ]
+    },
+    {
+      "name": "--no-pcre2-unicode",
+      "tip": [
+        "（已弃用，请使用 --no-unicode 代替）",
+        "默认启用 Unicode 模式。"
+      ]
+    },
+    {
+      "name": "--no-pre",
+      "tip": [
+        "禁用由 --pre 设置的预处理器命令。"
+      ]
+    },
+    {
       "name": "--no-require-git",
       "tip": [
         "即使没有 git 仓库也遵守 gitignore 文件。"
+      ]
+    },
+    {
+      "name": "--no-search-zip",
+      "tip": [
+        "不在压缩文件中搜索。"
+      ]
+    },
+    {
+      "name": "--no-sort-files",
+      "tip": [
+        "不按文件路径排序结果。"
+      ]
+    },
+    {
+      "name": "--no-stats",
+      "tip": [
+        "不打印搜索的汇总统计信息。"
+      ]
+    },
+    {
+      "name": "--no-text",
+      "tip": [
+        "不将二进制文件当作文本搜索。"
+      ]
+    },
+    {
+      "name": "--no-trim",
+      "tip": [
+        "不删除每行开头的 ASCII 空白。"
       ]
     },
     {
@@ -696,9 +1033,16 @@
       ]
     },
     {
-      "name": "--passthru",
+      "name": "--passthrough",
+      "alias": [
+        "--passthru"
+      ],
+      "usage": [
+        "--passthru, --passthrough"
+      ],
       "tip": [
-        "同时打印匹配和不匹配的行。"
+        "同时打印匹配和不匹配的行。",
+        "这会覆盖 -C/--context、-A/--after-context 和 -B/--before-context。"
       ]
     },
     {
@@ -721,6 +1065,12 @@
       ],
       "tip": [
         "使用 PCRE2 正则表达式引擎。"
+      ]
+    },
+    {
+      "name": "--pcre2-unicode",
+      "tip": [
+        "启用 PCRE2 Unicode 模式。"
       ]
     },
     {
@@ -747,6 +1097,7 @@
       "tip": [
         "仅对匹配 glob 的文件应用 --pre。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -784,6 +1135,20 @@
       "next": []
     },
     {
+      "name": "--regexp",
+      "alias": [
+        "-e"
+      ],
+      "usage": [
+        "-e, --regexp <PATTERN>"
+      ],
+      "tip": [
+        "要搜索的模式。可以多次提供。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
       "name": "--replace",
       "alias": [
         "-r"
@@ -795,6 +1160,12 @@
         "用给定文本替换每个匹配。"
       ],
       "next": []
+    },
+    {
+      "name": "--require-git",
+      "tip": [
+        "仅在 git 仓库内遵守 gitignore 文件。"
+      ]
     },
     {
       "name": "--search-zip",
@@ -844,6 +1215,12 @@
         {
           "name": "path"
         }
+      ]
+    },
+    {
+      "name": "--sort-files",
+      "tip": [
+        "（已弃用，请使用 --sort=path 代替）按文件路径升序排序搜索结果。"
       ]
     },
     {
@@ -940,8 +1317,10 @@
         "-t, --type <TYPE>"
       ],
       "tip": [
-        "按文件类型过滤（如 py、js、html）。"
+        "按文件类型过滤（如 py、js、html）。",
+        "使用 --type-list 查看所有支持的文件类型及其对应的 glob。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -951,6 +1330,18 @@
       ],
       "tip": [
         "为特定文件类型添加新的 glob。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--type-clear",
+      "usage": [
+        "--type-clear <TYPE>"
+      ],
+      "tip": [
+        "清除之前为指定类型定义的 glob。",
+        "在此标志之后仍可重新添加 glob。"
       ],
       "next": []
     },
@@ -969,9 +1360,17 @@
         "-T, --type-not <TYPE>"
       ],
       "tip": [
-        "不搜索匹配指定类型的文件。"
+        "不搜索匹配指定类型的文件。",
+        "使用 --type-list 查看所有支持的文件类型及其对应的 glob。"
       ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--unicode",
+      "tip": [
+        "为所有模式启用 Unicode 模式。"
+      ]
     },
     {
       "name": "--unrestricted",
@@ -1015,36 +1414,6 @@
       "tip": [
         "仅显示被单词边界包围的匹配。"
       ]
-    },
-    {
-      "name": "-e",
-      "usage": [
-        "-e, --regexp <PATTERN>"
-      ],
-      "tip": [
-        "要搜索的模式。可以多次提供。"
-      ],
-      "next": []
-    },
-    {
-      "name": "-f",
-      "usage": [
-        "-f, --file <PATTERNFILE>"
-      ],
-      "tip": [
-        "从给定文件中搜索模式，每行一个。"
-      ],
-      "next": []
-    },
-    {
-      "name": "-m",
-      "usage": [
-        "-m, --max-count <NUM>"
-      ],
-      "tip": [
-        "限制每个文件的匹配行数。"
-      ],
-      "next": []
     }
   ]
 }

@@ -12,14 +12,15 @@
         "-a <rounds>"
       ],
       "tip": [
-        "Number of KDF rounds when deriving a new key from a passphrase."
+        "Number of KDF rounds when saving a private key.",
+        "The default is 32 rounds."
       ],
       "next": []
     },
     {
       "name": "-A",
       "tip": [
-        "Generate all default host key types (dsa, ecdsa, ed25519, rsa)."
+        "Generate host keys of all default key types if they do not already exist."
       ]
     },
     {
@@ -28,7 +29,8 @@
         "-b <bits>"
       ],
       "tip": [
-        "Number of bits in the key to create (default 3072 for RSA, 256 for ECDSA/ED25519)."
+        "Number of bits in the key to create.",
+        "The default is 3072 bits for RSA; ECDSA keys support 256, 384 or 521 bits."
       ],
       "next": []
     },
@@ -50,14 +52,14 @@
         "-C <comment>"
       ],
       "tip": [
-        "Provide a new comment."
+        "Provides a new comment."
       ],
       "next": []
     },
     {
       "name": "-D",
       "usage": [
-        "-D <pkcs11>"
+        "-D <pkcs11_shared_library>"
       ],
       "tip": [
         "Download the public keys provided by a PKCS#11 token."
@@ -67,7 +69,8 @@
     {
       "name": "-e",
       "tip": [
-        "Export a private or public key to a file."
+        "Read a private or public OpenSSH key file and print a public key to stdout in the format given by -m.",
+        "The default export format is RFC4716."
       ]
     },
     {
@@ -76,7 +79,8 @@
         "-E <fingerprint_hash>"
       ],
       "tip": [
-        "Hash algorithm used when displaying fingerprints."
+        "Hash algorithm used when displaying fingerprints.",
+        "The default is sha256."
       ],
       "next": [
         {
@@ -103,14 +107,15 @@
         "-F <hostname>"
       ],
       "tip": [
-        "Search a known_hosts file for a host."
+        "Search a known_hosts file for a host.",
+        "The hostname may carry an optional port ([hostname]:port)."
       ],
       "next": []
     },
     {
       "name": "-g",
       "tip": [
-        "Use generic DNS format when printing the resource record."
+        "Use generic DNS format when printing fingerprint resource records with -r."
       ]
     },
     {
@@ -122,13 +127,15 @@
     {
       "name": "-H",
       "tip": [
-        "Hash a known_hosts file."
+        "Hash a known_hosts file.",
+        "The original content is moved to a file with a .old suffix."
       ]
     },
     {
       "name": "-i",
       "tip": [
-        "Read an unencrypted private (or public) key file and print a public key to stdout."
+        "Read an unencrypted private (or public) key file in the format given by -m and print an OpenSSH public key to stdout.",
+        "The default import format is RFC4716."
       ]
     },
     {
@@ -137,32 +144,33 @@
         "-I <identity>"
       ],
       "tip": [
-        "Identity (certificate). A unique identifier that is logged by the server."
+        "Specify the key identity when signing a public key."
       ],
       "next": []
     },
     {
       "name": "-k",
       "tip": [
-        "Generate a KRL (Key Revocation List) file."
+        "Generate a KRL (Key Revocation List) file at the location given by -f, revoking every key presented on the command line."
       ]
     },
     {
       "name": "-K",
       "tip": [
-        "Download host keys from a KDC (Key Distribution Center)."
+        "Download resident keys from a FIDO authenticator to the current directory."
       ]
     },
     {
       "name": "-l",
       "tip": [
-        "Show the fingerprint of a public key file."
+        "Show the fingerprint of a public key file.",
+        "If combined with -v, a visual ASCII art representation is supplied."
       ]
     },
     {
       "name": "-L",
       "tip": [
-        "Print the contents of a certificate."
+        "Prints the contents of one or more certificates."
       ]
     },
     {
@@ -171,7 +179,8 @@
         "-m <key_format>"
       ],
       "tip": [
-        "Specify the key format when importing or exporting keys."
+        "Specify a key format for key generation, the -i (import), -e (export) conversion options, and the -p passphrase change.",
+        "The default format when exporting public keys is RFC4716."
       ],
       "next": [
         {
@@ -184,12 +193,6 @@
           "name": "PKCS8",
           "tip": [
             "PKCS#8 format."
-          ]
-        },
-        {
-          "name": "RFC1421",
-          "tip": [
-            "RFC1421 format (obsolete)."
           ]
         },
         {
@@ -229,8 +232,11 @@
         "-n <principals>"
       ],
       "tip": [
-        "Specify principals (user or host names) for a certificate."
+        "Specify one or more principals (user or host names) to be included in a certificate when signing a key.",
+        "Multiple principals may be specified, separated by commas."
       ],
+      "repeat": 99,
+      "separator": ",",
       "next": []
     },
     {
@@ -249,14 +255,17 @@
         "-O <option>"
       ],
       "tip": [
-        "Specify a key or certificate option."
+        "Specify a key or certificate option.",
+        "May be specified multiple times."
       ],
+      "repeat": 99,
       "next": []
     },
     {
       "name": "-p",
       "tip": [
-        "Change the passphrase of a private key file."
+        "Requests changing the passphrase of a private key file instead of creating a new private key.",
+        "Updating the passphrase re-encrypts the key, allowing the cipher and KDF rounds to be changed."
       ]
     },
     {
@@ -278,7 +287,8 @@
     {
       "name": "-Q",
       "tip": [
-        "Test whether a KRL is signed by the specified CA."
+        "Test whether keys have been revoked in a KRL.",
+        "If -l is also specified, the contents of the KRL are printed."
       ]
     },
     {
@@ -287,7 +297,7 @@
         "-r <hostname>"
       ],
       "tip": [
-        "Print a DNS resource record."
+        "Print the SSHFP fingerprint resource record for the specified hostname and public key file."
       ],
       "next": []
     },
@@ -297,7 +307,8 @@
         "-R <hostname>"
       ],
       "tip": [
-        "Remove all keys belonging to a hostname from a known_hosts file."
+        "Remove all keys belonging to a hostname from a known_hosts file.",
+        "The hostname may carry an optional port ([hostname]:port)."
       ],
       "next": []
     },
@@ -307,7 +318,8 @@
         "-s <ca_key>"
       ],
       "tip": [
-        "CA key for signing or verifying."
+        "Certify (sign) a public key using the specified CA key.",
+        "When generating a KRL, this specifies a path to a CA public key file."
       ],
       "next": []
     },
@@ -317,15 +329,10 @@
         "-t <type>"
       ],
       "tip": [
-        "Specify the type of key to create."
+        "Specify the type of key to create.",
+        "Also selects the signature type when signing certificates with an RSA CA key. The default is rsa-sha2-512."
       ],
       "next": [
-        {
-          "name": "dsa",
-          "tip": [
-            "Digital Signature Algorithm."
-          ]
-        },
         {
           "name": "ecdsa",
           "tip": [
@@ -351,24 +358,56 @@
           ]
         },
         {
+          "name": "mldsa44-ed25519",
+          "tip": [
+            "ML-DSA-44 key with Ed25519."
+          ]
+        },
+        {
           "name": "rsa",
           "tip": [
             "RSA key."
+          ]
+        },
+        {
+          "name": "rsa-sha2-256",
+          "tip": [
+            "RSA signature variant (SHA-256) when signing with an RSA CA key."
+          ]
+        },
+        {
+          "name": "rsa-sha2-512",
+          "tip": [
+            "RSA signature variant (SHA-512, the default) when signing with an RSA CA key."
+          ]
+        },
+        {
+          "name": "ssh-rsa",
+          "tip": [
+            "Legacy RSA SHA-1 signature. Not recommended."
           ]
         }
       ]
     },
     {
+      "name": "-u",
+      "tip": [
+        "Update a KRL: keys listed on the command line are added to the existing KRL rather than a new one being created."
+      ]
+    },
+    {
       "name": "-U",
       "tip": [
-        "Indicate that a CA key is to be used to sign host certificates instead of user certificates."
+        "Indicate that a CA key resides in an ssh-agent, for use with -s or -Y sign."
       ]
     },
     {
       "name": "-v",
       "tip": [
-        "Verbose mode."
-      ]
+        "Verbose mode. Causes ssh-keygen to print debugging messages about its progress.",
+        "Multiple -v options increase the verbosity, up to a maximum of 3."
+      ],
+      "repeat": 3
     },
     {
       "name": "-V",
@@ -376,17 +415,19 @@
         "-V <validity_interval>"
       ],
       "tip": [
-        "Specify a validity interval for a certificate."
+        "Specify a validity interval when signing a certificate.",
+        "A single time means the certificate is valid from now until that time; two times separated by a colon give an explicit interval.",
+        "Times accept YYYYMMDD[HHMM[SS]] form, or a relative time such as +52w1d, -4w:+4w or always/forever."
       ],
       "next": []
     },
     {
       "name": "-w",
       "usage": [
-        "-w <provider>"
+        "-w <library>"
       ],
       "tip": [
-        "Specify a provider for key operations."
+        "Specifies a path to a library used when creating FIDO authenticator-hosted keys, overriding the internal USB HID support."
       ],
       "next": []
     },
@@ -399,7 +440,7 @@
     {
       "name": "-Y",
       "usage": [
-        "-Y <operation>"
+        "-Y <find-principals|match-principals|check-novalidate|sign|verify>"
       ],
       "tip": [
         "SSH signature operations."
@@ -443,7 +484,8 @@
         "-z <serial_number>"
       ],
       "tip": [
-        "Specify a serial number for a certificate."
+        "Specify a serial number embedded in the certificate. The default is zero.",
+        "When generating a KRL, -z specifies a KRL version number."
       ],
       "next": []
     },
@@ -453,14 +495,21 @@
         "-Z <cipher>"
       ],
       "tip": [
-        "Specify the cipher to use for encrypting private keys."
+        "Specify the cipher to use for encrypting an OpenSSH-format private key file.",
+        "The default is aes256-ctr."
       ],
       "next": [
+        {
+          "name": "3des-cbc"
+        },
         {
           "name": "aes128-cbc"
         },
         {
           "name": "aes128-ctr"
+        },
+        {
+          "name": "aes128-gcm@openssh.com"
         },
         {
           "name": "aes192-cbc"
@@ -473,6 +522,12 @@
         },
         {
           "name": "aes256-ctr"
+        },
+        {
+          "name": "aes256-gcm@openssh.com"
+        },
+        {
+          "name": "chacha20-poly1305@openssh.com"
         }
       ]
     }

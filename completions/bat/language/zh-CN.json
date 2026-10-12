@@ -9,47 +9,72 @@
     {
       "name": "cache",
       "usage": [
-        "cache [OPTIONS]"
+        "cache [OPTIONS] <--build|--clear>"
       ],
       "tip": [
-        "自定义语法和主题。"
+        "修改语法定义和主题缓存。"
       ],
       "option": [
         {
           "name": "--acknowledgements",
           "tip": [
-            "显示致谢信息。"
+            "构建 acknowledgements.bin。",
+            "需要 --build。"
+          ]
+        },
+        {
+          "name": "--blank",
+          "tip": [
+            "创建全新的语法和主题集合（而不是追加到默认集合）。",
+            "需要 --build。"
           ]
         },
         {
           "name": "--build",
+          "alias": [
+            "-b"
+          ],
+          "usage": [
+            "-b, --build"
+          ],
           "tip": [
-            "从头构建缓存。"
+            "初始化（或更新）语法 / 主题缓存。",
+            "从源目录加载（默认为配置目录）。"
           ]
         },
         {
           "name": "--clear",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --clear"
+          ],
           "tip": [
-            "删除生成的缓存文件。"
+            "删除缓存的语法定义和主题。"
           ]
         },
         {
-          "name": "--config-dir",
+          "name": "--source",
+          "usage": [
+            "--source <dir>"
+          ],
           "tip": [
-            "显示配置目录。"
-          ]
+            "使用其他目录加载语法和主题。",
+            "需要 --build。"
+          ],
+          "next": []
         },
         {
-          "name": "--data-dir",
+          "name": "--target",
+          "usage": [
+            "--target <dir>"
+          ],
           "tip": [
-            "显示数据目录。"
-          ]
-        },
-        {
-          "name": "--init",
-          "tip": [
-            "从 bat 的默认语法和主题初始化缓存。"
-          ]
+            "使用其他目录存储缓存的语法和主题集。",
+            "需要 --build。"
+          ],
+          "next": []
         }
       ]
     }
@@ -62,50 +87,12 @@
       ]
     },
     {
-      "name": "--diagnostic",
-      "tip": [
-        "显示用于错误报告的诊断信息。"
-      ]
-    },
-    {
-      "name": "--list-languages",
-      "alias": [
-        "-L"
-      ],
-      "usage": [
-        "-L, --list-languages"
-      ],
-      "tip": [
-        "显示支持的语言列表。"
-      ]
-    },
-    {
-      "name": "--list-themes",
-      "tip": [
-        "显示支持的主题列表。"
-      ]
-    },
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "打印版本信息。"
-      ]
-    }
-  ],
-  "global_option": [
-    {
       "name": "--binary",
       "usage": [
         "--binary <behavior>"
       ],
       "tip": [
-        "如何处理二进制内容。"
+        "如何处理二进制内容（默认为 no-printing）。"
       ],
       "next": [
         {
@@ -117,6 +104,12 @@
       ]
     },
     {
+      "name": "--cache-dir",
+      "tip": [
+        "显示 bat 的缓存目录。"
+      ]
+    },
+    {
       "name": "--chop-long-lines",
       "alias": [
         "-S"
@@ -125,7 +118,8 @@
         "-S, --chop-long-lines"
       ],
       "tip": [
-        "截断所有超过屏幕宽度的行。"
+        "截断所有超过屏幕宽度的行。",
+        "'--wrap=never' 的别名。"
       ]
     },
     {
@@ -134,7 +128,8 @@
         "--color <when>"
       ],
       "tip": [
-        "何时使用彩色输出。"
+        "指定何时使用彩色输出。",
+        "自动模式仅在检测到交互式终端时启用颜色 - 如果输出进入管道会自动禁用颜色。"
       ],
       "next": [
         {
@@ -149,12 +144,50 @@
       ]
     },
     {
+      "name": "--completion",
+      "usage": [
+        "--completion <SHELL>"
+      ],
+      "tip": [
+        "显示指定 Shell 的补全脚本。",
+        "可能值: bash, fish, ps1, zsh"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "fish"
+        },
+        {
+          "name": "ps1"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "--config-dir",
+      "tip": [
+        "显示 bat 的配置目录。"
+      ]
+    },
+    {
+      "name": "--config-file",
+      "tip": [
+        "显示配置文件的路径。"
+      ]
+    },
+    {
       "name": "--decorations",
       "usage": [
         "--decorations <when>"
       ],
       "tip": [
-        "何时使用通过 --style 指定的装饰。"
+        "指定何时使用通过 --style 指定的装饰。",
+        "自动模式仅在检测到交互式终端时启用装饰。",
+        "always 模式在管道输出时也会显示装饰。"
       ],
       "next": [
         {
@@ -166,6 +199,18 @@
         {
           "name": "never"
         }
+      ]
+    },
+    {
+      "name": "--diagnostics",
+      "alias": [
+        "--diagnostic"
+      ],
+      "usage": [
+        "--diagnostic, --diagnostics"
+      ],
+      "tip": [
+        "显示用于错误报告的诊断信息。"
       ]
     },
     {
@@ -177,7 +222,8 @@
         "-d, --diff"
       ],
       "tip": [
-        "仅显示相对于 Git 索引添加/删除/修改的行。"
+        "仅显示相对于 Git 索引添加 / 删除 / 修改的行。",
+        "使用 --diff-context=N 控制要查看的上下文行数。"
       ]
     },
     {
@@ -186,7 +232,7 @@
         "--diff-context <N>"
       ],
       "tip": [
-        "在添加/删除/修改行周围包含 N 行上下文。"
+        "在添加 / 删除 / 修改行周围包含 N 行上下文（需配合 --diff 使用）。"
       ],
       "next": []
     },
@@ -196,8 +242,11 @@
         "--file-name <name>"
       ],
       "tip": [
-        "指定要显示的文件名。"
+        "指定要显示的文件名。",
+        "当从 STDIN 向 bat 输送数据且 bat 无法获知文件名时很有用。",
+        "注意，所提供的文件名也会用于语法检测。"
       ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -209,7 +258,14 @@
         "-f, --force-colorization"
       ],
       "tip": [
-        "--decorations=always --color=always 的别名。"
+        "'--decorations=always --color=always' 的别名。",
+        "当 bat 的输出被管道输送到另一个程序，但又想保留颜色和装饰时很有用。"
+      ]
+    },
+    {
+      "name": "--generate-config-file",
+      "tip": [
+        "生成默认配置文件。"
       ]
     },
     {
@@ -233,8 +289,13 @@
         "-H, --highlight-line <N:M>"
       ],
       "tip": [
-        "高亮指定的行范围。"
+        "用不同的背景色高亮指定的行范围。"
       ],
+      "example": [
+        "--highlight-line 40",
+        "--highlight-line 30:40"
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -243,8 +304,15 @@
         "--ignored-suffix <suffix>"
       ],
       "tip": [
-        "忽略扩展名进行语法检测。"
+        "忽略扩展名。"
       ],
+      "example": [
+        {
+          "cmd": "--ignored-suffix \".dev\" my_file.json.dev",
+          "desc": "使用 JSON 语法，并忽略 '.dev'"
+        }
+      ],
+      "repeat": 99,
       "next": []
     },
     {
@@ -253,7 +321,7 @@
         "--italic-text <when>"
       ],
       "tip": [
-        "何时使用 ANSI 序列显示斜体文本。"
+        "指定何时在输出中使用 ANSI 序列显示斜体文本。"
       ],
       "next": [
         {
@@ -273,7 +341,9 @@
         "-l, --language <language>"
       ],
       "tip": [
-        "显式设置语法高亮的语言。"
+        "显式设置语法高亮的语言。",
+        "语言可以指定为名称（如 'C++' 或 'LaTeX'）或可能的文件扩展名（如 'cpp'、'hpp' 或 'md'）。",
+        "使用 '--list-languages' 查看所有支持的语言名称和文件扩展名。"
       ],
       "next": []
     },
@@ -286,9 +356,42 @@
         "-r, --line-range <N:M>"
       ],
       "tip": [
-        "仅打印指定范围的行。"
+        "仅打印每个文件中指定范围的行。"
       ],
+      "example": [
+        {
+          "cmd": "--line-range 30:40",
+          "desc": "打印第 30 到 40 行"
+        },
+        {
+          "cmd": "--line-range :40",
+          "desc": "打印第 1 到 40 行"
+        },
+        {
+          "cmd": "--line-range 40:",
+          "desc": "打印从第 40 行到文件末尾"
+        }
+      ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--list-languages",
+      "alias": [
+        "-L"
+      ],
+      "usage": [
+        "-L, --list-languages"
+      ],
+      "tip": [
+        "显示支持的语法高亮语言列表。"
+      ]
+    },
+    {
+      "name": "--list-themes",
+      "tip": [
+        "显示支持的语法高亮主题列表。"
+      ]
     },
     {
       "name": "--map-syntax",
@@ -299,9 +402,47 @@
         "-m, --map-syntax <glob:syntax>"
       ],
       "tip": [
-        "将 glob 模式映射到现有语法名称。"
+        "将 glob 模式映射到现有语法名称。",
+        "glob 模式会同时匹配完整路径和文件名。",
+        "注意，等号右侧是语法的 *名称*，而不是文件扩展名。"
       ],
+      "example": [
+        {
+          "cmd": "-m '*.build:Python'",
+          "desc": "用 Python 语法高亮 *.build 文件"
+        },
+        {
+          "cmd": "-m '.myignore:Git Ignore'",
+          "desc": "用 Git Ignore 语法高亮名为 '.myignore' 的文件"
+        }
+      ],
+      "repeat": 99,
       "next": []
+    },
+    {
+      "name": "--no-config",
+      "tip": [
+        "不使用配置文件。"
+      ]
+    },
+    {
+      "name": "--no-custom-assets",
+      "tip": [
+        "不加载自定义资源。"
+      ]
+    },
+    {
+      "name": "--no-paging",
+      "alias": [
+        "--no-pager",
+        "-P"
+      ],
+      "usage": [
+        "-P, --no-pager, --no-paging"
+      ],
+      "tip": [
+        "'--paging=never' 的别名。"
+      ]
     },
     {
       "name": "--nonprintable-notation",
@@ -329,7 +470,8 @@
         "-n, --number"
       ],
       "tip": [
-        "仅显示行号，无其他装饰。"
+        "仅显示行号，无其他装饰。",
+        "这是 '--style=numbers' 的别名。"
       ]
     },
     {
@@ -338,7 +480,12 @@
         "--pager <command>"
       ],
       "tip": [
-        "确定使用哪个分页器。"
+        "确定使用哪个分页器。",
+        "该选项将覆盖 PAGER 和 BAT_PAGER 环境变量。",
+        "默认分页器是 'less'。"
+      ],
+      "example": [
+        "--pager \"less -RF\""
       ],
       "next": []
     },
@@ -348,7 +495,9 @@
         "--paging <when>"
       ],
       "tip": [
-        "何时使用分页器。"
+        "指定何时使用分页器。",
+        "要禁用分页器，请使用 '--paging=never' 或其别名 '-P'。",
+        "要永久禁用分页器，请将 BAT_PAGING 设为 'never'。"
       ],
       "next": [
         {
@@ -371,7 +520,8 @@
         "-p, --plain"
       ],
       "tip": [
-        "仅显示纯文本样式，无装饰。"
+        "仅显示纯文本样式，无装饰。",
+        "使用两次 '-p'（即 '-pp'）还会禁用自动分页。"
       ],
       "repeat": 2
     },
@@ -382,15 +532,18 @@
       ]
     },
     {
-      "name": "--show-all",
+      "name": "--show-nonprintable",
       "alias": [
+        "--show-all",
         "-A"
       ],
       "usage": [
-        "-A, --show-all"
+        "-A, --show-all, --show-nonprintable"
       ],
       "tip": [
-        "显示不可打印字符，如空格、制表符或换行符。"
+        "显示不可打印字符，如空格、制表符或换行符。",
+        "该选项也可用于打印二进制文件。",
+        "使用 '--tabs' 控制制表符占位符的宽度。"
       ]
     },
     {
@@ -402,7 +555,7 @@
         "-s, --squeeze-blank"
       ],
       "tip": [
-        "将连续空行压缩为一行。"
+        "将连续空行压缩为单个空行。"
       ]
     },
     {
@@ -411,7 +564,7 @@
         "--squeeze-limit <limit>"
       ],
       "tip": [
-        "要打印的连续空行最大数量。"
+        "设置要打印的连续空行的最大数量。"
       ],
       "next": []
     },
@@ -421,7 +574,8 @@
         "--strip-ansi <when>"
       ],
       "tip": [
-        "何时剥离 ANSI 转义序列。"
+        "指定何时从输入中剥离 ANSI 转义序列。",
+        "自动模式会删除转义序列，除非语法高亮语言是纯文本。"
       ],
       "next": [
         {
@@ -438,11 +592,14 @@
     {
       "name": "--style",
       "usage": [
-        "--style <components>"
+        "--style <components,...>"
       ],
       "tip": [
-        "配置要显示的元素。"
+        "配置除文件内容外要显示的元素。",
+        "参数是以逗号分隔的要显示的组件列表（如 'numbers,changes,grid'）或预定义样式（如 'full'）。"
       ],
+      "repeat": 99,
+      "separator": ",",
       "next": [
         {
           "name": "auto"
@@ -488,7 +645,8 @@
         "--tabs <T>"
       ],
       "tip": [
-        "将制表符宽度设置为 T 个空格。"
+        "将制表符宽度设置为 T 个空格。",
+        "宽度设为 0 则直接透传制表符。"
       ],
       "next": []
     },
@@ -498,7 +656,8 @@
         "--terminal-width <width>"
       ],
       "tip": [
-        "显式设置终端宽度。"
+        "显式设置终端宽度，而不是自动检测。",
+        "如果以 '+' 或 '-' 开头，该值将被视为相对实际终端宽度的偏移量。"
       ],
       "next": []
     },
@@ -508,9 +667,26 @@
         "--theme <theme>"
       ],
       "tip": [
-        "设置语法高亮的主题。"
+        "设置语法高亮的主题。",
+        "使用 '--list-themes' 查看所有可用主题。"
       ],
-      "next": []
+      "next": [
+        {
+          "name": "auto"
+        },
+        {
+          "name": "auto:always"
+        },
+        {
+          "name": "auto:system"
+        },
+        {
+          "name": "dark"
+        },
+        {
+          "name": "light"
+        }
+      ]
     },
     {
       "name": "--theme-dark",
@@ -518,7 +694,7 @@
         "--theme-dark <theme>"
       ],
       "tip": [
-        "深色背景终端的主题。"
+        "设置终端使用深色背景时用于语法高亮的主题名称。"
       ],
       "next": []
     },
@@ -528,7 +704,7 @@
         "--theme-light <theme>"
       ],
       "tip": [
-        "浅色背景终端的主题。"
+        "设置终端使用浅色背景时用于语法高亮的主题名称。"
       ],
       "next": []
     },
@@ -541,7 +717,20 @@
         "-u, --unbuffered"
       ],
       "tip": [
-        "为了 POSIX 兼容性而存在；输出始终是无缓冲的, 该选项会被直接忽略。"
+        "为了 POSIX 兼容性而存在（'u' 即 'unbuffered'）。",
+        "输出始终是无缓冲的，该选项会被直接忽略。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
       ]
     },
     {
@@ -550,7 +739,8 @@
         "--wrap <mode>"
       ],
       "tip": [
-        "指定文本换行模式。"
+        "指定文本换行模式（*auto*、never、character）。",
+        "可配合 '--terminal-width' 选项控制输出宽度。"
       ],
       "next": [
         {
