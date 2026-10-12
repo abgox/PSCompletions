@@ -1172,8 +1172,11 @@ mod tests {
         // `add`, so add's options (--all, --dry-run, ...) remain completable — an unknown
         // value does NOT break access to the command's options.
         let tree = git_tree();
+        // git's manifest names this node `stage` and keeps `add` as an alias, and `path`
+        // stores the canonical name — so compare against the matched node, not the typed word.
+        let node = find_command(None, &tree, "add").expect("`add` is a git subcommand alias");
         let r = resolve(&tree, &["add".into(), "xxx".into()], true);
-        assert_eq!(r.context.path, vec!["add"]);
+        assert_eq!(r.context.path, vec![node.name.clone()]);
         assert_eq!(
             r.context.tokens.last().unwrap().kind.as_str(),
             "unknown",
