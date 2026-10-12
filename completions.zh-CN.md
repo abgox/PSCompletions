@@ -210,7 +210,7 @@
 |[mknod@uutils](https://uutils.org)|创建给定 TYPE 的特殊文件 NAME|
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|安全地创建临时文件或目录，并打印其名字。|
 |[mktemp@uutils](https://uutils.org)|创建临时文件或目录|
-|[more](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/more)|逐屏显示文本文件内容。|
+|[more](https://github.com/util-linux/util-linux)|逐屏显示文本文件内容。|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 重命名为 DEST，或把多个 SOURCE 移动到 DIRECTORY 中。|
 |[mv@uutils](https://uutils.org)|将 SOURCE 移动到 DEST，或将多个 SOURCE 移动到 DIRECTORY|
 |[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|

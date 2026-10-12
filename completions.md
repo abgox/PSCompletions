@@ -210,7 +210,7 @@
 |[mknod@uutils](https://uutils.org)|Create the special file NAME of the given TYPE.|
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|Create a temporary file or directory, safely, and print its name.|
 |[mktemp@uutils](https://uutils.org)|Create a temporary file or directory.|
-|[more](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/more)|Display the contents of a text file one screen at a time.|
+|[more](https://github.com/util-linux/util-linux)|Display the contents of a text file one screen at a time.|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.|
 |[mv@uutils](https://uutils.org)|Move SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
@@ -444,6 +444,6 @@
 |[yq](https://github.com/mikefarah/yq)|A portable command-line data file processor|
 |[yt-dlp](https://github.com/yt-dlp/yt-dlp)|A feature-rich command-line audio/video downloader|
 |[zellij](https://zellij.dev)|Terminal workspace with multiple terminal panes.|
-|[zoxide](https://github.com/ajeetdsouza/zoxide)|Smarter cd command for your terminal.|
+|[zoxide](https://github.com/ajeetdsouza/zoxide)|A smarter cd command for your terminal.|
 
 <!-- prettier-ignore-end -->
