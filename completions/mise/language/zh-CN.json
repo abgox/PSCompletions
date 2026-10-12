@@ -27,7 +27,15 @@
       ]
     },
     {
-      "name": "backends",
+      "name": "backend-list",
+      "alias": [
+        "backends",
+        "backend",
+        "b"
+      ],
+      "usage": [
+        "b|backend|backends|backend-list"
+      ],
       "tip": [
         "管理后端"
       ],
@@ -60,6 +68,12 @@
     },
     {
       "name": "bootstrap",
+      "alias": [
+        "bs"
+      ],
+      "usage": [
+        "bs|bootstrap"
+      ],
       "tip": [
         "使用当前配置一键设置机器"
       ],
@@ -214,6 +228,12 @@
               "name": "include",
               "tip": [
                 "停止排除匹配某个 glob 的路径"
+              ]
+            },
+            {
+              "name": "notify",
+              "tip": [
+                "发送一条测试用的桌面通知"
               ]
             },
             {
@@ -964,7 +984,14 @@
       ]
     },
     {
-      "name": "completion",
+      "name": "completions",
+      "alias": [
+        "completion",
+        "complete"
+      ],
+      "usage": [
+        "complete|completion|completions"
+      ],
       "tip": [
         "生成 shell 补全"
       ],
@@ -980,10 +1007,11 @@
     {
       "name": "config",
       "alias": [
+        "toml",
         "cfg"
       ],
       "usage": [
-        "cfg|config"
+        "cfg|toml|config"
       ],
       "tip": [
         "管理配置文件"
@@ -1228,6 +1256,12 @@
     },
     {
       "name": "dotfiles",
+      "alias": [
+        "dot"
+      ],
+      "usage": [
+        "dot|dotfiles"
+      ],
       "tip": [
         "(deprecated) 管理 `[dotfiles]` 中的 dotfiles"
       ],
@@ -1284,6 +1318,12 @@
           "name": "include",
           "tip": [
             "停止排除匹配某个 glob 的路径"
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "发送一条测试用的桌面通知"
           ]
         },
         {
@@ -1496,6 +1536,110 @@
       ]
     },
     {
+      "name": "env-vars",
+      "alias": [
+        "set",
+        "ev"
+      ],
+      "usage": [
+        "ev|set|env-vars"
+      ],
+      "tip": [
+        "在 mise.toml 中设置环境变量"
+      ],
+      "option": [
+        {
+          "name": "--age-encrypt",
+          "tip": [
+            "[experimental] 存储前使用 age 加密值"
+          ]
+        },
+        {
+          "name": "--age-key-file",
+          "usage": [
+            "--age-key-file <PATH>"
+          ],
+          "tip": [
+            "[experimental] 用于加密的 age 身份文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--age-recipient",
+          "usage": [
+            "--age-recipient <RECIPIENT>"
+          ],
+          "tip": [
+            "[experimental] 用于加密的 age 接收者 (x25519 公钥)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--age-ssh-recipient",
+          "usage": [
+            "--age-ssh-recipient <PATH_OR_PUBKEY>"
+          ],
+          "tip": [
+            "[experimental] 用于 age 加密的 SSH 接收者 (公钥或路径)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --env <ENV>"
+          ],
+          "tip": [
+            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "要更新的 TOML 文件"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "在全局配置文件中设置环境变量"
+          ]
+        },
+        {
+          "name": "--no-redact",
+          "tip": [
+            "显示原始值而不是编辑后的密钥"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "提示输入环境变量的值"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "从 stdin 读取值（用于多行输入）"
+          ]
+        }
+      ]
+    },
+    {
       "name": "exec",
       "alias": [
         "x"
@@ -1581,10 +1725,11 @@
     {
       "name": "generate",
       "alias": [
-        "gen"
+        "gen",
+        "g"
       ],
       "usage": [
-        "gen|generate"
+        "g|gen|generate"
       ],
       "tip": [
         "为各种工具/服务生成文件"
@@ -2213,6 +2358,12 @@
       ]
     },
     {
+      "name": "installs",
+      "tip": [
+        "[experimental] 检查并选择 identity 布局的安装"
+      ]
+    },
+    {
       "name": "latest",
       "tip": [
         "获取插件的最新可用版本"
@@ -2277,101 +2428,54 @@
         "ls|list"
       ],
       "tip": [
-        "列出已安装和活动的工具版本"
+        "列出已安装和激活的工具版本"
+      ]
+    },
+    {
+      "name": "list-remote",
+      "alias": [
+        "ls-remote",
+        "list-all"
+      ],
+      "usage": [
+        "list-all|ls-remote|list-remote"
+      ],
+      "tip": [
+        "列出可安装的运行时版本"
       ],
       "option": [
         {
-          "name": "--all-sources",
+          "name": "--all",
           "tip": [
-            "显示所有已跟踪的工具配置来源"
+            "显示所有已安装的插件和版本"
           ]
         },
         {
-          "name": "--current",
-          "alias": [
-            "-c"
-          ],
+          "name": "--minimum-release-age",
           "usage": [
-            "-c, --current"
+            "--minimum-release-age <MINIMUM_RELEASE_AGE>"
           ],
           "tip": [
-            "只显示当前在 mise.toml 中指定的工具版本"
-          ]
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "只显示在全局 mise.toml 中指定的工具版本"
-          ]
-        },
-        {
-          "name": "--installed",
-          "alias": [
-            "-i"
-          ],
-          "usage": [
-            "-i, --installed"
-          ],
-          "tip": [
-            "只显示已安装的工具版本"
-          ]
-        },
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "usage": [
-            "-l, --local"
-          ],
-          "tip": [
-            "只显示在本地 mise.toml 中指定的工具版本"
-          ]
-        },
-        {
-          "name": "--missing",
-          "alias": [
-            "-m"
-          ],
-          "usage": [
-            "-m, --missing"
-          ],
-          "tip": [
-            "显示缺失的工具版本"
-          ]
-        },
-        {
-          "name": "--no-header",
-          "tip": [
-            "不显示表头"
-          ]
-        },
-        {
-          "name": "--outdated",
-          "tip": [
-            "显示版本是否过时"
-          ]
-        },
-        {
-          "name": "--prefix",
-          "usage": [
-            "--prefix <PREFIX>"
-          ],
-          "tip": [
-            "显示匹配此前缀的版本"
+            "只显示在此时间或日期之前发布的版本"
           ],
           "next": []
         },
         {
-          "name": "--prunable",
+          "name": "--no-versions-host",
           "tip": [
-            "只列出可通过 `mise prune` 清理的工具"
+            "禁用检查 mise-versions 主机"
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "在输出中包含预发布版本"
+          ]
+        },
+        {
+          "name": "--strict-metadata",
+          "tip": [
+            "如果版本元数据获取失败则失败"
           ]
         }
       ]
@@ -2434,48 +2538,6 @@
             "以逗号分隔的目标平台列表"
           ],
           "next": []
-        }
-      ]
-    },
-    {
-      "name": "ls-remote",
-      "tip": [
-        "列出可安装的运行时版本"
-      ],
-      "option": [
-        {
-          "name": "--all",
-          "tip": [
-            "显示所有已安装的插件和版本"
-          ]
-        },
-        {
-          "name": "--minimum-release-age",
-          "usage": [
-            "--minimum-release-age <MINIMUM_RELEASE_AGE>"
-          ],
-          "tip": [
-            "只显示在此时间或日期之前发布的版本"
-          ],
-          "next": []
-        },
-        {
-          "name": "--no-versions-host",
-          "tip": [
-            "禁用检查 mise-versions 主机"
-          ]
-        },
-        {
-          "name": "--prerelease",
-          "tip": [
-            "在输出中包含预发布版本"
-          ]
-        },
-        {
-          "name": "--strict-metadata",
-          "tip": [
-            "如果版本元数据获取失败则失败"
-          ]
         }
       ]
     },
@@ -2864,12 +2926,14 @@
       ]
     },
     {
-      "name": "plugins",
+      "name": "plugin-list",
       "alias": [
+        "plugins",
+        "plugin",
         "p"
       ],
       "usage": [
-        "p|plugins"
+        "p|plugin|plugins|plugin-list"
       ],
       "tip": [
         "管理插件"
@@ -3388,53 +3452,7 @@
         "rm|unuse|remove"
       ],
       "tip": [
-        "从 mise.toml 中移除已安装的工具版本"
-      ],
-      "option": [
-        {
-          "name": "--env",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --env <ENV>"
-          ],
-          "tip": [
-            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
-          ],
-          "next": []
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "使用全局配置文件而不是本地配置文件"
-          ]
-        },
-        {
-          "name": "--no-prune",
-          "tip": [
-            "不同时清理已安装的版本"
-          ]
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "指定配置文件或目录的路径"
-          ],
-          "next": []
-        }
+        "从配置文件中移除工具请求，并清理未使用的安装"
       ]
     },
     {
@@ -3654,6 +3672,12 @@
       ]
     },
     {
+      "name": "secrets",
+      "tip": [
+        "[experimental] 检查项目的 secrets 来源"
+      ]
+    },
+    {
       "name": "self-update",
       "tip": [
         "更新 mise 本身"
@@ -3675,103 +3699,6 @@
           "name": "--no-plugins",
           "tip": [
             "禁用自动更新插件"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "set",
-      "tip": [
-        "在 mise.toml 中设置环境变量"
-      ],
-      "option": [
-        {
-          "name": "--age-encrypt",
-          "tip": [
-            "[experimental] 存储前使用 age 加密值"
-          ]
-        },
-        {
-          "name": "--age-key-file",
-          "usage": [
-            "--age-key-file <PATH>"
-          ],
-          "tip": [
-            "[experimental] 用于加密的 age 身份文件"
-          ],
-          "next": []
-        },
-        {
-          "name": "--age-recipient",
-          "usage": [
-            "--age-recipient <RECIPIENT>"
-          ],
-          "tip": [
-            "[experimental] 用于加密的 age 接收者 (x25519 公钥)"
-          ],
-          "next": []
-        },
-        {
-          "name": "--age-ssh-recipient",
-          "usage": [
-            "--age-ssh-recipient <PATH_OR_PUBKEY>"
-          ],
-          "tip": [
-            "[experimental] 用于 age 加密的 SSH 接收者 (公钥或路径)"
-          ],
-          "next": []
-        },
-        {
-          "name": "--env",
-          "alias": [
-            "-E"
-          ],
-          "usage": [
-            "-E, --env <ENV>"
-          ],
-          "tip": [
-            "创建/修改环境特定的配置文件，如 .mise.<env>.toml"
-          ],
-          "next": []
-        },
-        {
-          "name": "--file",
-          "usage": [
-            "--file <FILE>"
-          ],
-          "tip": [
-            "要更新的 TOML 文件"
-          ],
-          "next": []
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "在全局配置文件中设置环境变量"
-          ]
-        },
-        {
-          "name": "--no-redact",
-          "tip": [
-            "显示原始值而不是编辑后的密钥"
-          ]
-        },
-        {
-          "name": "--prompt",
-          "tip": [
-            "提示输入环境变量的值"
-          ]
-        },
-        {
-          "name": "--stdin",
-          "tip": [
-            "从 stdin 读取值（用于多行输入）"
           ]
         }
       ]
@@ -4190,10 +4117,11 @@
     {
       "name": "tasks",
       "alias": [
+        "task",
         "t"
       ],
       "usage": [
-        "t|tasks"
+        "t|task|tasks"
       ],
       "tip": [
         "管理任务"
@@ -5107,6 +5035,13 @@
     },
     {
       "name": "tool-alias",
+      "alias": [
+        "aliases",
+        "alias"
+      ],
+      "usage": [
+        "alias|aliases|tool-alias"
+      ],
       "tip": [
         "管理工具版本别名"
       ],
@@ -5515,6 +5450,12 @@
       ]
     },
     {
+      "name": "vars",
+      "tip": [
+        "列出、设置并询问配置变量"
+      ]
+    },
+    {
       "name": "version",
       "alias": [
         "v"
@@ -5919,9 +5860,13 @@
         "--output <OUTPUT>"
       ],
       "tip": [
-        "更改任务信息的输出方式"
+        "更改输出的显示方式（仅支持 \"prefix\"）。"
       ],
-      "next": []
+      "next": [
+        {
+          "name": "prefix"
+        }
+      ]
     },
     {
       "name": "--quiet",

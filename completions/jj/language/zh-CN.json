@@ -105,18 +105,11 @@
       ],
       "option": [
         {
-          "name": "--revisions",
-          "alias": [
-            "-r"
-          ],
-          "usage": [
-            "-r, --revisions <REVSETS>"
-          ],
+          "name": "-r",
           "tip": [
-            "要编辑的修订版本",
-            "如果未指定修订版本，则默认值为 `revsets.arrange` 设置，如果它未设置则使用 `reachable(@, mutable())`"
-          ],
-          "next": []
+            "要整理的修订版本。",
+            "若未指定修订版本，默认为 `revsets.arrange` 设置。"
+          ]
         }
       ]
     },
@@ -152,7 +145,14 @@
               "tip": [
                 "要二分查找的修订版本范围"
               ],
+              "repeat": 99,
               "next": []
+            },
+            {
+              "name": "--trust-endpoints",
+              "tip": [
+                "跳过预二分检查"
+              ]
             }
           ]
         }
@@ -304,12 +304,23 @@
               "next": []
             },
             {
-              "name": "--revisions",
+              "name": "--revision",
               "alias": [
                 "-r"
               ],
               "usage": [
-                "-r, --revisions <REVSETS>"
+                "-r, --revision <REVSETS>"
+              ],
+              "tip": [
+                "显示本地目标在给定修订版本中的书签。",
+                "注意 `-r deleted_bookmark` 无效，因为 `deleted_bookmark` 没有本地目标。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--revisions",
+              "usage": [
+                "--revisions <REVSETS>"
               ],
               "tip": [
                 "仅显示本地目标在给定修订版本中的书签"
@@ -322,8 +333,8 @@
                 "--sort <SORT_KEY>"
               ],
               "tip": [
-                "根据给定键（或多个键）对书签进行排序",
-                "[可能的值: name, name-, author-name, author-name-, author-email, author-email-, author-date, author-date-, committer-name, committer-name-, committer-email, committer-email-, committer-date, committer-date-]"
+                "按给定键（或多个键）对书签排序",
+                "可能值: author-date, author-date-, author-email, author-email-, author-name, author-name-, committer-date, committer-date-, committer-email, committer-email-, committer-name, committer-name-, name, name-"
               ],
               "next": [
                 {
@@ -679,7 +690,7 @@
             "g"
           ],
           "usage": [
-            "g|get"
+            "g|get <NAME>"
           ],
           "tip": [
             "获取给定配置选项的值"
@@ -741,10 +752,55 @@
             "l"
           ],
           "usage": [
-            "l|list"
+            "l|list [<NAME>]"
           ],
           "tip": [
             "列出配置文件中设置的变量及其值"
+          ],
+          "option": [
+            {
+              "name": "--include-defaults",
+              "tip": [
+                "是否在列表中显式包含内置默认值"
+              ]
+            },
+            {
+              "name": "--include-overridden",
+              "tip": [
+                "允许打印被覆盖的值"
+              ]
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "以仓库级配置为目标"
+              ]
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "用给定模板渲染每个变量"
+              ],
+              "next": []
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "以用户级配置为目标"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "以工作区级配置为目标"
+              ]
+            }
           ],
           "next": [
             {
@@ -773,10 +829,30 @@
             "p"
           ],
           "usage": [
-            "p|path"
+            "p|path <--user|--repo|--workspace>"
           ],
           "tip": [
             "打印配置文件的路径"
+          ],
+          "option": [
+            {
+              "name": "--repo",
+              "tip": [
+                "以仓库级配置为目标"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "以用户级配置为目标"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "以工作区级配置为目标"
+              ]
+            }
           ],
           "next": [
             {
@@ -805,10 +881,40 @@
             "s"
           ],
           "usage": [
-            "s|set"
+            "s|set <--user|--repo|--workspace|--file <PATH>> <NAME> <VALUE>"
           ],
           "tip": [
             "更新配置文件以将给定选项设置为给定值"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <PATH>"
+              ],
+              "tip": [
+                "以给定路径的配置文件为目标"
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "以仓库级配置为目标"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "以用户级配置为目标"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "以工作区级配置为目标"
+              ]
+            }
           ],
           "next": [
             {
@@ -837,10 +943,40 @@
             "u"
           ],
           "usage": [
-            "u|unset"
+            "u|unset <--user|--repo|--workspace|--file <PATH>> <NAME>"
           ],
           "tip": [
             "从配置文件中删除给定选项"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <PATH>"
+              ],
+              "tip": [
+                "以给定路径的配置文件为目标"
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "以仓库级配置为目标"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "以用户级配置为目标"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "以工作区级配置为目标"
+              ]
+            }
           ],
           "next": [
             {
@@ -1462,6 +1598,66 @@
           ]
         },
         {
+          "name": "delete",
+          "usage": [
+            "delete <FILESETS>..."
+          ],
+          "tip": [
+            "从给定修订版本中删除文件"
+          ],
+          "option": [
+            {
+              "name": "--restore-descendants",
+              "tip": [
+                "变基子孙提交时保留内容（而非 diff）"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "要在其中删除文件的修订版本"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "usage": [
+            "edit <FILE>"
+          ],
+          "tip": [
+            "编辑某修订版本中文件的内容"
+          ],
+          "option": [
+            {
+              "name": "--restore-descendants",
+              "tip": [
+                "变基子孙提交时保留内容（而非 diff）"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "要在其中编辑文件的修订版本"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "list",
           "tip": [
             "列出指定修订中的文件"
@@ -1501,6 +1697,18 @@
             "搜索文件中的内容"
           ],
           "option": [
+            {
+              "name": "--line-number",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --line-number"
+              ],
+              "tip": [
+                "为每个匹配行加上其在文件内以 1 起始的行号前缀"
+              ]
+            },
             {
               "name": "--name-only",
               "tip": [
@@ -1573,6 +1781,14 @@
           "name": "track",
           "tip": [
             "开始跟踪工作副本中的指定路径"
+          ],
+          "option": [
+            {
+              "name": "--include-ignored",
+              "tip": [
+                "即使路径被忽略或过大也予以跟踪"
+              ]
+            }
           ]
         },
         {
@@ -1651,6 +1867,27 @@
               "next": []
             },
             {
+              "name": "--custom",
+              "usage": [
+                "--custom <CUSTOM>"
+              ],
+              "tip": [
+                "向 Gerrit 发送以下自定义键值（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--deadline",
+              "usage": [
+                "--deadline <DEADLINE>"
+              ],
+              "tip": [
+                "超过该期限则中止推送"
+              ],
+              "next": []
+            },
+            {
               "name": "--dry-run",
               "alias": [
                 "-n"
@@ -1660,6 +1897,29 @@
               ],
               "tip": [
                 "不实际将变更推送到 Gerrit"
+              ]
+            },
+            {
+              "name": "--edit",
+              "tip": [
+                "将变更作为 change edit 推送"
+              ]
+            },
+            {
+              "name": "--hashtag",
+              "usage": [
+                "--hashtag <HASHTAG>"
+              ],
+              "tip": [
+                "为变更应用 hashtag（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--ignore-attention-set",
+              "tip": [
+                "上传时不修改 attention set"
               ]
             },
             {
@@ -1675,6 +1935,87 @@
               ],
               "repeat": 99,
               "next": []
+            },
+            {
+              "name": "--merged",
+              "tip": [
+                "即使变更已合并也创建新变更"
+              ]
+            },
+            {
+              "name": "--message",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --message <MESSAGE>"
+              ],
+              "tip": [
+                "patch set 的描述"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-publish-comments",
+              "tip": [
+                "不发布该变更的草稿评论"
+              ]
+            },
+            {
+              "name": "--notify",
+              "usage": [
+                "--notify <NOTIFY>"
+              ],
+              "tip": [
+                "邮件通知发给谁（默认为 all）。",
+                "可能值: all, none, owner, owner-reviewers"
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "owner"
+                },
+                {
+                  "name": "owner-reviewers"
+                }
+              ]
+            },
+            {
+              "name": "--option",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --option <OPTION>"
+              ],
+              "tip": [
+                "发送 `git push -o` 选项（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--private",
+              "tip": [
+                "将变更标记为私有"
+              ]
+            },
+            {
+              "name": "--publish-comments",
+              "tip": [
+                "发布该变更的草稿评论"
+              ]
+            },
+            {
+              "name": "--ready",
+              "tip": [
+                "将变更标记为就绪（不再是 work in progress）"
+              ]
             },
             {
               "name": "--remote",
@@ -1700,6 +2041,12 @@
               "next": []
             },
             {
+              "name": "--remove-private",
+              "tip": [
+                "取消变更的私有标记"
+              ]
+            },
+            {
               "name": "--reviewer",
               "usage": [
                 "--reviewer <REVIEWER>"
@@ -1722,6 +2069,44 @@
                 "修订集，选择哪些修订发送到 Gerrit"
               ],
               "next": []
+            },
+            {
+              "name": "--skip-validation",
+              "tip": [
+                "当提供 --submit 时跳过验证"
+              ]
+            },
+            {
+              "name": "--submit",
+              "tip": [
+                "直接提交变更，跳过代码评审"
+              ]
+            },
+            {
+              "name": "--topic",
+              "usage": [
+                "--topic <TOPIC>"
+              ],
+              "tip": [
+                "为变更应用 topic"
+              ],
+              "next": []
+            },
+            {
+              "name": "--trace",
+              "usage": [
+                "--trace <TRACE>"
+              ],
+              "tip": [
+                "用于调试 Gerrit"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wip",
+              "tip": [
+                "将变更标记为 WIP（进行中）"
+              ]
             }
           ]
         }
@@ -1742,6 +2127,20 @@
             "创建一个新的仓库，该仓库由 Git 仓库的克隆支持"
           ],
           "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "要获取并用作工作副本变更父提交的分支名（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
             {
               "name": "--colocate",
               "tip": [
@@ -1764,40 +2163,20 @@
               ]
             },
             {
-              "name": "--fetch-tags",
-              "usage": [
-                "--fetch-tags <FETCH_TAGS>"
-              ],
-              "tip": [
-                "配置何时获取标签",
-                "除非另有指定，否则初始克隆将获取所有标签，而所有后续获取仅获取包含的标签。"
-              ],
-              "next": [
-                {
-                  "name": "all",
-                  "tip": [
-                    "始终获取所有标签"
-                  ]
-                },
-                {
-                  "name": "included",
-                  "tip": [
-                    "仅获取指向已传输对象的标签"
-                  ]
-                },
-                {
-                  "name": "none",
-                  "tip": [
-                    "不获取任何标签"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "--no-colocate",
               "tip": [
                 "禁用 jj 代码仓库与 git 代码仓库共存"
               ]
+            },
+            {
+              "name": "--object-hash",
+              "usage": [
+                "--object-hash <OBJECT_HASH>"
+              ],
+              "tip": [
+                "本地 Git 仓库的对象哈希算法。"
+              ],
+              "next": []
             },
             {
               "name": "--remote",
@@ -1818,6 +2197,20 @@
                   "name": "master"
                 }
               ]
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "仅获取部分标签（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
             }
           ]
         },
@@ -1890,6 +2283,20 @@
               "next": []
             },
             {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "仅获取部分标签（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
               "name": "--tracked",
               "tip": [
                 "只获取已跟踪的书签"
@@ -1934,6 +2341,16 @@
               "tip": [
                 "禁用 `jj` 仓库与 `git` 仓库共存"
               ]
+            },
+            {
+              "name": "--object-hash",
+              "usage": [
+                "--object-hash <OBJECT_HASH>"
+              ],
+              "tip": [
+                "新建 Git 仓库的对象哈希算法。"
+              ],
+              "next": []
             }
           ]
         },
@@ -1947,6 +2364,12 @@
               "name": "--all",
               "tip": [
                 "推送所有书签（包括新书签）"
+              ]
+            },
+            {
+              "name": "--allow-conflicts",
+              "tip": [
+                "允许推送包含冲突的提交"
               ]
             },
             {
@@ -2012,25 +2435,64 @@
               "next": []
             },
             {
+              "name": "--option",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --option <OPTION>"
+              ],
+              "tip": [
+                "Git push 选项"
+              ],
+              "next": []
+            },
+            {
               "name": "--remote",
               "usage": [
                 "--remote <REMOTE>"
               ],
               "tip": [
-                "要推送的远程仓库（仅支持命名的远程仓库）"
+                "要推送的远程仓库（可以重复）"
               ],
+              "repeat": 99,
               "next": []
             },
             {
-              "name": "--revisions",
+              "name": "--revision",
               "alias": [
                 "-r"
               ],
               "usage": [
-                "-r, --revisions <REVSETS>"
+                "-r, --revision <REVSETS>"
               ],
               "tip": [
-                "推送指向这些提交的书签（可以重复）"
+                "推送指向这些提交的书签与标签（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--revisions",
+              "usage": [
+                "--revisions <REVSETS>"
+              ],
+              "tip": [
+                "推送指向这些提交的书签与标签（可以重复）"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "仅推送此标签，或匹配模式的标签（可以重复）"
               ],
               "repeat": 99,
               "next": []
@@ -2332,24 +2794,12 @@
         },
         {
           "name": "--ignore-all-space",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --ignore-all-space"
-          ],
           "tip": [
             "比较行时忽略空白"
           ]
         },
         {
           "name": "--ignore-space-change",
-          "alias": [
-            "-b"
-          ],
-          "usage": [
-            "-b, --ignore-space-change"
-          ],
           "tip": [
             "比较行时忽略空白数量的变化"
           ]
@@ -2676,6 +3126,22 @@
           ],
           "option": [
             {
+              "name": "--color-words",
+              "tip": [
+                "显示词级 diff，仅以颜色标示变更"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "显示的上下文行数"
+              ],
+              "next": []
+            },
+            {
               "name": "--from",
               "alias": [
                 "-f"
@@ -2687,6 +3153,30 @@
                 "显示从此操作开始的仓库变更"
               ],
               "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "显示 Git 格式的 diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "比较行时忽略空白"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "比较行时忽略空白数量的变化"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "对每个路径，仅显示其路径"
+              ]
             },
             {
               "name": "--no-graph",
@@ -2726,6 +3216,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "仅显示匹配给定 revset 表达式的已变更修订。",
+                "若未指定修订，默认为 `revsets.op-diff-changes-in` 设置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "显示变更直方图"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "对每个路径，仅显示其被修改、添加还是删除"
+              ]
+            },
+            {
               "name": "--to",
               "alias": [
                 "-t"
@@ -2737,6 +3256,22 @@
                 "显示到此操作的仓库变更"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "用外部命令生成 diff"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "对每个路径，仅显示其变更前后的类型"
+              ]
             }
           ]
         },
@@ -2753,6 +3288,40 @@
           ],
           "option": [
             {
+              "name": "--color-words",
+              "tip": [
+                "显示词级 diff，仅以颜色标示变更"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "显示的上下文行数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "显示 Git 格式的 diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "比较行时忽略空白"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "比较行时忽略空白数量的变化"
+              ]
+            },
+            {
               "name": "--limit",
               "alias": [
                 "-n"
@@ -2764,6 +3333,12 @@
                 "限制显示的操作数量"
               ],
               "next": []
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "对每个路径，仅显示其路径"
+              ]
             },
             {
               "name": "--no-graph",
@@ -2808,6 +3383,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "仅显示匹配给定 revset 表达式的已变更修订。",
+                "若未指定修订，默认为 `revsets.op-diff-changes-in` 设置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "显示变更直方图"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "对每个路径，仅显示其被修改、添加还是删除"
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -2819,6 +3423,22 @@
                 "使用给定模板渲染每个操作"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "用外部命令生成 diff"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "对每个路径，仅显示其变更前后的类型"
+              ]
             }
           ]
         },
@@ -2851,6 +3471,27 @@
           "name": "revert",
           "tip": [
             "创建一个新操作，撤销之前的操作"
+          ],
+          "option": [
+            {
+              "name": "--what",
+              "usage": [
+                "--what <WHAT>"
+              ],
+              "tip": [
+                "实验性：将本地状态的哪些部分恢复（可以重复）。",
+                "可能值: remote-tracking, repo"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "remote-tracking"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            }
           ]
         },
         {
@@ -2859,6 +3500,46 @@
             "显示操作中的变更"
           ],
           "option": [
+            {
+              "name": "--color-words",
+              "tip": [
+                "显示词级 diff，仅以颜色标示变更"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "显示的上下文行数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "显示 Git 格式的 diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "比较行时忽略空白"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "比较行时忽略空白数量的变化"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "对每个路径，仅显示其路径"
+              ]
+            },
             {
               "name": "--no-graph",
               "alias": [
@@ -2869,6 +3550,12 @@
               ],
               "tip": [
                 "不显示图形，显示修改的变更的平面列表"
+              ]
+            },
+            {
+              "name": "--no-op-diff",
+              "tip": [
+                "不显示 operation diff"
               ]
             },
             {
@@ -2884,6 +3571,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "仅显示匹配给定 revset 表达式的已变更修订。",
+                "若未指定修订，默认为 `revsets.op-diff-changes-in` 设置。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "显示变更直方图"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "对每个路径，仅显示其被修改、添加还是删除"
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -2895,6 +3611,22 @@
                 "使用给定模板渲染操作"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "用外部命令生成 diff"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "对每个路径，仅显示其变更前后的类型"
+              ]
             }
           ]
         }
@@ -3020,18 +3752,21 @@
         },
         {
           "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "要变基的修订"
+            "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
           ],
           "next": []
         },
         {
           "name": "--revisions",
-          "alias": [
-            "-r"
-          ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "--revisions <REVSETS>"
           ],
           "tip": [
             "对给定的修订版本执行变基操作，将子修订版本变基到该修订版本的父版本上"
@@ -3073,6 +3808,14 @@
       "name": "redo",
       "tip": [
         "重做最近撤销的操作"
+      ],
+      "option": [
+        {
+          "name": "--allow-cross-workspace",
+          "tip": [
+            "允许重做在另一个工作区中执行的 undo 操作"
+          ]
+        }
       ]
     },
     {
@@ -3354,6 +4097,28 @@
           "name": "--root",
           "tip": [
             "从每个提交的工作副本根目录运行命令，而不是从调用 jj run 的子目录运行"
+          ]
+        },
+        {
+          "name": "--sparse-patterns",
+          "usage": [
+            "--sparse-patterns <SPARSE_PATTERNS>"
+          ],
+          "tip": [
+            "运行命令时如何处理 sparse patterns。",
+            "按每次 `jj run` 调用分别控制。",
+            "可能值: copy, empty, full"
+          ],
+          "next": [
+            {
+              "name": "copy"
+            },
+            {
+              "name": "empty"
+            },
+            {
+              "name": "full"
+            }
           ]
         }
       ]
@@ -3747,6 +4512,22 @@
       ],
       "option": [
         {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
+          "tip": [
+            "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
           "name": "--editor",
           "tip": [
             "打开编辑器编辑变更描述",
@@ -3853,20 +4634,6 @@
               "name": "'update'"
             }
           ]
-        },
-        {
-          "name": "--onto",
-          "alias": [
-            "-o"
-          ],
-          "usage": [
-            "-o, --onto <REVSETS>"
-          ],
-          "tip": [
-            "（实验性）用作新提交的父提交的修订版本（可重复使用以创建合并提交）"
-          ],
-          "repeat": 99,
-          "next": []
         },
         {
           "name": "--revision",
@@ -3996,6 +4763,60 @@
               "next": []
             },
             {
+              "name": "--sort",
+              "usage": [
+                "--sort <SORT_KEY>"
+              ],
+              "tip": [
+                "按给定键（或多个键）对标签排序",
+                "可能值: author-date, author-date-, author-email, author-email-, author-name, author-name-, committer-date, committer-date-, committer-email, committer-email-, committer-name, committer-name-, name, name-"
+              ],
+              "next": [
+                {
+                  "name": "author-date"
+                },
+                {
+                  "name": "author-date-"
+                },
+                {
+                  "name": "author-email"
+                },
+                {
+                  "name": "author-email-"
+                },
+                {
+                  "name": "author-name"
+                },
+                {
+                  "name": "author-name-"
+                },
+                {
+                  "name": "committer-date"
+                },
+                {
+                  "name": "committer-date-"
+                },
+                {
+                  "name": "committer-email"
+                },
+                {
+                  "name": "committer-email-"
+                },
+                {
+                  "name": "committer-name"
+                },
+                {
+                  "name": "committer-name-"
+                },
+                {
+                  "name": "name"
+                },
+                {
+                  "name": "name-"
+                }
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -4098,6 +4919,14 @@
       "name": "undo",
       "tip": [
         "撤销最近的操作"
+      ],
+      "option": [
+        {
+          "name": "--allow-cross-workspace",
+          "tip": [
+            "允许撤销在另一个工作区中执行的操作"
+          ]
+        }
       ]
     },
     {
@@ -4154,6 +4983,73 @@
           ]
         },
         {
+          "name": "diff",
+          "usage": [
+            "diff <PATH1> <PATH2>"
+          ],
+          "tip": [
+            "比较磁盘上的两个文件"
+          ],
+          "option": [
+            {
+              "name": "--color-words",
+              "tip": [
+                "显示词级 diff，仅以颜色标示变更"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "显示的上下文行数"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "显示 Git 格式的 diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --ignore-all-space"
+              ],
+              "tip": [
+                "比较行时忽略空白"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --ignore-space-change"
+              ],
+              "tip": [
+                "比较行时忽略空白数量的变化"
+              ]
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "用外部命令生成 diff"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "exec",
           "tip": [
             "通过 jj 执行外部命令"
@@ -4163,6 +5059,23 @@
           "name": "gc",
           "tip": [
             "运行后端相关的垃圾回收"
+          ],
+          "option": [
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <EXPIRE>"
+              ],
+              "tip": [
+                "时间阈值。",
+                "默认仅清理超过 2 周的过时对象与操作。"
+              ],
+              "next": [
+                {
+                  "name": "now"
+                }
+              ]
+            }
           ]
         },
         {
@@ -4204,6 +5117,12 @@
           ],
           "option": [
             {
+              "name": "--colocate",
+              "tip": [
+                "为此工作区创建对应的 Git worktree"
+              ]
+            },
+            {
               "name": "--message",
               "alias": [
                 "-m"
@@ -4227,6 +5146,12 @@
               "next": []
             },
             {
+              "name": "--no-colocate",
+              "tip": [
+                "不为此工作区创建 Git worktree"
+              ]
+            },
+            {
               "name": "--revision",
               "alias": [
                 "-r"
@@ -4245,7 +5170,8 @@
                 "--sparse-patterns <SPARSE_PATTERNS>"
               ],
               "tip": [
-                "创建新工作区时如何处理稀疏模式"
+                "创建新工作区时如何处理稀疏模式",
+                "可能值: copy, empty, full"
               ],
               "next": [
                 {
@@ -4286,6 +5212,15 @@
               ],
               "next": []
             }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <WORKSPACES>..."
+          ],
+          "tip": [
+            "从磁盘移除工作区及其工作副本文件"
           ]
         },
         {
@@ -4355,7 +5290,8 @@
         "--color <WHEN>"
       ],
       "tip": [
-        "当输出颜色时"
+        "当输出颜色时",
+        "可能值: always, auto, debug, never"
       ],
       "next": [
         {

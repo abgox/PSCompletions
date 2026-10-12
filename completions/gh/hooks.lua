@@ -126,11 +126,20 @@ local function add_workflows()
     end
 end
 
+-- `gh gist list` has no `--json`, so read the table's first column.
+-- `gh ruleset list` has no `--json`; the first column is the ruleset ID, which
+-- `gh ruleset view` accepts (probed against cli/cli's ruleset).
+local function add_rulesets()
+    for _, line in ipairs(psc.run({ "gh", "ruleset", "list" }) or {}) do
+        local id = line:match("^(%S+)")
+        if id then psc.add({ name = id, tip = line }) end
+    end
+end
+
 local function add_gists()
-    local data = psc.run({ "gh", "gist", "list", "--json", "id,description", "--limit", "50" },
-        { format = "json" }) or {}
-    for _, g in ipairs(data) do
-        if g.id then psc.add({ name = g.id, tip = g.description or "" }) end
+    for _, line in ipairs(psc.run({ "gh", "gist", "list", "--limit", "50" }) or {}) do
+        local id = line:match("^(%S+)")
+        if id then psc.add({ name = id, tip = line }) end
     end
 end
 
@@ -254,7 +263,7 @@ psc.on({
 }, add_codespaces)
 
 psc.on({
-    { command = { "extensions", "remove" } },
+    { command = { "extensions", "uninstall" } },
     { command = { "extensions", "upgrade" } },
     { command = { "extensions", "exec" } }
 }, add_extensions)
@@ -318,6 +327,10 @@ psc.on({
     { command = { "project", "item-edit" } },
     { command = { "project", "item-list" } }
 }, add_projects)
+
+psc.on({
+    { command = { "ruleset", "view" } }
+}, add_rulesets)
 
 psc.on({
     { command = { "secret", "set" } },

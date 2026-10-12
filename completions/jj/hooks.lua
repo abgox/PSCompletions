@@ -69,6 +69,16 @@ local function add_files()
     end))
 end
 
+local function add_workspaces()
+    for _, line in ipairs(psc.run({ "jj", "workspace", "list" }) or {}) do
+        local name, rest = line:match("^(.-):%s*(.-)%s*$")
+        if name then
+            if rest == "" then rest = nil end
+            psc.add({ name = name, tip = rest })
+        end
+    end
+end
+
 psc.on({
     { command = "abandon",       multiple = true },
     { command = "describe",      multiple = true },
@@ -91,7 +101,8 @@ psc.on({
     { option = "--into" },
     { option = "--change" },
     { option = "--source" },
-    { option = "--changes-in" }
+    { option = "--changes-in" },
+    { option = "--show-changes-in" }
 }, function()
     add_common_revsets()
     add_revsets()
@@ -134,5 +145,12 @@ psc.on({
 psc.on({
     { command = { "file", "annotate" } },
     { command = { "file", "show" },    multiple = true },
-    { command = { "file", "chmod" },   multiple = true }
+    { command = { "file", "chmod" },   multiple = true },
+    { command = { "file", "delete" },  multiple = true },
+    { command = { "file", "edit" } }
 }, add_files)
+
+psc.on({
+    { command = { "workspace", "remove" }, multiple = true },
+    { command = { "workspace", "forget" }, multiple = true }
+}, add_workspaces)

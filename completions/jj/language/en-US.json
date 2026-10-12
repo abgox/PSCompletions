@@ -105,18 +105,11 @@
       ],
       "option": [
         {
-          "name": "--revisions",
-          "alias": [
-            "-r"
-          ],
-          "usage": [
-            "-r, --revisions <REVSETS>"
-          ],
+          "name": "-r",
           "tip": [
-            "The revisions to edit.",
-            "If no revisions are specified, this defaults to the `revsets.arrange` setting, or `reachable(@, mutable())` if it is not set."
-          ],
-          "next": []
+            "The revisions to arrange.",
+            "If no revisions are specified, this defaults to the `revsets.arrange` setting."
+          ]
         }
       ]
     },
@@ -152,7 +145,14 @@
               "tip": [
                 "Range of revisions to bisect"
               ],
+              "repeat": 99,
               "next": []
+            },
+            {
+              "name": "--trust-endpoints",
+              "tip": [
+                "Skip the pre-bisection checks"
+              ]
             }
           ]
         }
@@ -304,12 +304,23 @@
               "next": []
             },
             {
-              "name": "--revisions",
+              "name": "--revision",
               "alias": [
                 "-r"
               ],
               "usage": [
-                "-r, --revisions <REVSETS>"
+                "-r, --revision <REVSETS>"
+              ],
+              "tip": [
+                "Show bookmarks whose local targets are in the given revisions.",
+                "Note that `-r deleted_bookmark` will not work since `deleted_bookmark` would not have a local target."
+              ],
+              "next": []
+            },
+            {
+              "name": "--revisions",
+              "usage": [
+                "--revisions <REVSETS>"
               ],
               "tip": [
                 "Show bookmarks whose local targets are in the given revisions"
@@ -323,7 +334,7 @@
               ],
               "tip": [
                 "Sort bookmarks based on the given key (or multiple keys)",
-                "[possible values: name, name-, author-name, author-name-, author-email, author-email-, author-date, author-date-, committer-name, committer-name-, committer-email, committer-email-, committer-date, committer-date-]"
+                "Possible values: author-date, author-date-, author-email, author-email-, author-name, author-name-, committer-date, committer-date-, committer-email, committer-email-, committer-name, committer-name-, name, name-"
               ],
               "next": [
                 {
@@ -679,7 +690,7 @@
             "g"
           ],
           "usage": [
-            "g|get"
+            "g|get <NAME>"
           ],
           "tip": [
             "Get the value of a given config option"
@@ -741,10 +752,55 @@
             "l"
           ],
           "usage": [
-            "l|list"
+            "l|list [<NAME>]"
           ],
           "tip": [
             "List variables set in config files, along with their values"
+          ],
+          "option": [
+            {
+              "name": "--include-defaults",
+              "tip": [
+                "Whether to explicitly include built-in default values in the list"
+              ]
+            },
+            {
+              "name": "--include-overridden",
+              "tip": [
+                "Allow printing overridden values"
+              ]
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "Target the repo-level config"
+              ]
+            },
+            {
+              "name": "--template",
+              "alias": [
+                "-T"
+              ],
+              "usage": [
+                "-T, --template <TEMPLATE>"
+              ],
+              "tip": [
+                "Render each variable using the given template"
+              ],
+              "next": []
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "Target the user-level config"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "Target the workspace-level config"
+              ]
+            }
           ],
           "next": [
             {
@@ -773,10 +829,30 @@
             "p"
           ],
           "usage": [
-            "p|path"
+            "p|path <--user|--repo|--workspace>"
           ],
           "tip": [
             "Print the paths to the config files"
+          ],
+          "option": [
+            {
+              "name": "--repo",
+              "tip": [
+                "Target the repo-level config"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "Target the user-level config"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "Target the workspace-level config"
+              ]
+            }
           ],
           "next": [
             {
@@ -805,10 +881,40 @@
             "s"
           ],
           "usage": [
-            "s|set"
+            "s|set <--user|--repo|--workspace|--file <PATH>> <NAME> <VALUE>"
           ],
           "tip": [
             "Update a config file to set the given option to a given value"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <PATH>"
+              ],
+              "tip": [
+                "Target the config file specified by the given path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "Target the repo-level config"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "Target the user-level config"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "Target the workspace-level config"
+              ]
+            }
           ],
           "next": [
             {
@@ -837,10 +943,40 @@
             "u"
           ],
           "usage": [
-            "u|unset"
+            "u|unset <--user|--repo|--workspace|--file <PATH>> <NAME>"
           ],
           "tip": [
             "Update a config file to unset the given option"
+          ],
+          "option": [
+            {
+              "name": "--file",
+              "usage": [
+                "--file <PATH>"
+              ],
+              "tip": [
+                "Target the config file specified by the given path"
+              ],
+              "next": []
+            },
+            {
+              "name": "--repo",
+              "tip": [
+                "Target the repo-level config"
+              ]
+            },
+            {
+              "name": "--user",
+              "tip": [
+                "Target the user-level config"
+              ]
+            },
+            {
+              "name": "--workspace",
+              "tip": [
+                "Target the workspace-level config"
+              ]
+            }
           ],
           "next": [
             {
@@ -1465,6 +1601,66 @@
           ]
         },
         {
+          "name": "delete",
+          "usage": [
+            "delete <FILESETS>..."
+          ],
+          "tip": [
+            "Delete files from the given revision"
+          ],
+          "option": [
+            {
+              "name": "--restore-descendants",
+              "tip": [
+                "Preserve the content (not the diff) when rebasing descendants"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "The revision to delete the files in"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "edit",
+          "usage": [
+            "edit <FILE>"
+          ],
+          "tip": [
+            "Edit the contents of a file in a revision"
+          ],
+          "option": [
+            {
+              "name": "--restore-descendants",
+              "tip": [
+                "Preserve the content (not the diff) when rebasing descendants"
+              ]
+            },
+            {
+              "name": "--revision",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --revision <REVSET>"
+              ],
+              "tip": [
+                "The revision to edit the file in"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "list",
           "tip": [
             "List files in a revision"
@@ -1504,6 +1700,18 @@
             "Search for content in files"
           ],
           "option": [
+            {
+              "name": "--line-number",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --line-number"
+              ],
+              "tip": [
+                "Prefix each matched line with its 1-based line number within the file"
+              ]
+            },
             {
               "name": "--name-only",
               "tip": [
@@ -1576,6 +1784,14 @@
           "name": "track",
           "tip": [
             "Start tracking specified paths in the working copy"
+          ],
+          "option": [
+            {
+              "name": "--include-ignored",
+              "tip": [
+                "Track paths even if they are ignored or too large"
+              ]
+            }
           ]
         },
         {
@@ -1654,6 +1870,27 @@
               "next": []
             },
             {
+              "name": "--custom",
+              "usage": [
+                "--custom <CUSTOM>"
+              ],
+              "tip": [
+                "Send the following custom keyed values to Gerrit (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--deadline",
+              "usage": [
+                "--deadline <DEADLINE>"
+              ],
+              "tip": [
+                "The deadline after which the push should be aborted"
+              ],
+              "next": []
+            },
+            {
               "name": "--dry-run",
               "alias": [
                 "-n"
@@ -1663,6 +1900,29 @@
               ],
               "tip": [
                 "Do not actually push the changes to Gerrit"
+              ]
+            },
+            {
+              "name": "--edit",
+              "tip": [
+                "Push the change as a change edit"
+              ]
+            },
+            {
+              "name": "--hashtag",
+              "usage": [
+                "--hashtag <HASHTAG>"
+              ],
+              "tip": [
+                "Apply a hashtag to the change (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--ignore-attention-set",
+              "tip": [
+                "Do not modify the attention set upon uploading"
               ]
             },
             {
@@ -1678,6 +1938,87 @@
               ],
               "repeat": 99,
               "next": []
+            },
+            {
+              "name": "--merged",
+              "tip": [
+                "Create a new change, even if the change has already been merged"
+              ]
+            },
+            {
+              "name": "--message",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --message <MESSAGE>"
+              ],
+              "tip": [
+                "The description for the patch set"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-publish-comments",
+              "tip": [
+                "Do not publish draft comments for the given change"
+              ]
+            },
+            {
+              "name": "--notify",
+              "usage": [
+                "--notify <NOTIFY>"
+              ],
+              "tip": [
+                "Who to email notifications to (defaults to all).",
+                "Possible values: all, none, owner, owner-reviewers"
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "owner"
+                },
+                {
+                  "name": "owner-reviewers"
+                }
+              ]
+            },
+            {
+              "name": "--option",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --option <OPTION>"
+              ],
+              "tip": [
+                "Send a `git push -o` option (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--private",
+              "tip": [
+                "Mark the change as private"
+              ]
+            },
+            {
+              "name": "--publish-comments",
+              "tip": [
+                "Publish draft comments for the given change"
+              ]
+            },
+            {
+              "name": "--ready",
+              "tip": [
+                "Mark the change as ready (no longer work in progress)"
+              ]
             },
             {
               "name": "--remote",
@@ -1703,6 +2044,12 @@
               "next": []
             },
             {
+              "name": "--remove-private",
+              "tip": [
+                "Unmark the change as private"
+              ]
+            },
+            {
               "name": "--reviewer",
               "usage": [
                 "--reviewer <REVIEWER>"
@@ -1725,6 +2072,44 @@
                 "The revset, selecting which revisions are sent in to Gerrit"
               ],
               "next": []
+            },
+            {
+              "name": "--skip-validation",
+              "tip": [
+                "When --submit is provided, skip performing validations"
+              ]
+            },
+            {
+              "name": "--submit",
+              "tip": [
+                "Directly submit the changes, bypassing code review"
+              ]
+            },
+            {
+              "name": "--topic",
+              "usage": [
+                "--topic <TOPIC>"
+              ],
+              "tip": [
+                "Apply a topic to the change"
+              ],
+              "next": []
+            },
+            {
+              "name": "--trace",
+              "usage": [
+                "--trace <TRACE>"
+              ],
+              "tip": [
+                "For debugging Gerrit"
+              ],
+              "next": []
+            },
+            {
+              "name": "--wip",
+              "tip": [
+                "Mark the change as WIP (work in progress)"
+              ]
             }
           ]
         }
@@ -1745,6 +2130,20 @@
             "Create a new repo backed by a clone of a Git repo"
           ],
           "option": [
+            {
+              "name": "--branch",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --branch <BRANCH>"
+              ],
+              "tip": [
+                "Name of the branch to fetch and use as the parent of the working-copy change (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
             {
               "name": "--colocate",
               "tip": [
@@ -1767,40 +2166,20 @@
               ]
             },
             {
-              "name": "--fetch-tags",
-              "usage": [
-                "--fetch-tags <FETCH_TAGS>"
-              ],
-              "tip": [
-                "Configure when to fetch tags",
-                "Unless otherwise specified, the initial clone will fetch all tags, while all subsequent fetches will only fetch included tags."
-              ],
-              "next": [
-                {
-                  "name": "all",
-                  "tip": [
-                    "Always fetch all tags"
-                  ]
-                },
-                {
-                  "name": "included",
-                  "tip": [
-                    "Only fetch tags that point to objects that are already being transmitted"
-                  ]
-                },
-                {
-                  "name": "none",
-                  "tip": [
-                    "Do not fetch any tags"
-                  ]
-                }
-              ]
-            },
-            {
               "name": "--no-colocate",
               "tip": [
                 "Disable colocation of the Jujutsu repo with the git repo"
               ]
+            },
+            {
+              "name": "--object-hash",
+              "usage": [
+                "--object-hash <OBJECT_HASH>"
+              ],
+              "tip": [
+                "Object hash algorithm for the local Git repository."
+              ],
+              "next": []
             },
             {
               "name": "--remote",
@@ -1821,6 +2200,20 @@
                   "name": "master"
                 }
               ]
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "Fetch only some of the tags (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
             }
           ]
         },
@@ -1893,6 +2286,20 @@
               "next": []
             },
             {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "Fetch only some of the tags (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
               "name": "--tracked",
               "tip": [
                 "Fetch only tracked bookmarks"
@@ -1937,6 +2344,16 @@
               "tip": [
                 "Disable colocation of the Jujutsu repo with the git repo"
               ]
+            },
+            {
+              "name": "--object-hash",
+              "usage": [
+                "--object-hash <OBJECT_HASH>"
+              ],
+              "tip": [
+                "Object hash algorithm for the newly created Git repository."
+              ],
+              "next": []
             }
           ]
         },
@@ -1950,6 +2367,12 @@
               "name": "--all",
               "tip": [
                 "Push all bookmarks (including new bookmarks)"
+              ]
+            },
+            {
+              "name": "--allow-conflicts",
+              "tip": [
+                "Allow pushing commits that contain conflicts"
               ]
             },
             {
@@ -2015,25 +2438,64 @@
               "next": []
             },
             {
+              "name": "--option",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --option <OPTION>"
+              ],
+              "tip": [
+                "Git push options"
+              ],
+              "next": []
+            },
+            {
               "name": "--remote",
               "usage": [
                 "--remote <REMOTE>"
               ],
               "tip": [
-                "The remote to push to (only named remotes are supported)"
+                "The remote(s) to push to (can be repeated)"
               ],
+              "repeat": 99,
               "next": []
             },
             {
-              "name": "--revisions",
+              "name": "--revision",
               "alias": [
                 "-r"
               ],
               "usage": [
-                "-r, --revisions <REVSETS>"
+                "-r, --revision <REVSETS>"
               ],
               "tip": [
-                "Push bookmarks pointing to these commits (can be repeated)"
+                "Push bookmarks and tags pointing to these commits (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--revisions",
+              "usage": [
+                "--revisions <REVSETS>"
+              ],
+              "tip": [
+                "Push bookmarks and tags pointing to these commits (can be repeated)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--tag",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --tag <TAG>"
+              ],
+              "tip": [
+                "Push only this tag, or tags matching a pattern (can be repeated)"
               ],
               "repeat": 99,
               "next": []
@@ -2335,24 +2797,12 @@
         },
         {
           "name": "--ignore-all-space",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --ignore-all-space"
-          ],
           "tip": [
             "Ignore whitespace when comparing lines"
           ]
         },
         {
           "name": "--ignore-space-change",
-          "alias": [
-            "-b"
-          ],
-          "usage": [
-            "-b, --ignore-space-change"
-          ],
           "tip": [
             "Ignore changes in amount of whitespace when comparing lines"
           ]
@@ -2678,6 +3128,22 @@
           ],
           "option": [
             {
+              "name": "--color-words",
+              "tip": [
+                "Show a word-level diff with changes indicated only by color"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "Number of lines of context to show"
+              ],
+              "next": []
+            },
+            {
               "name": "--from",
               "alias": [
                 "-f"
@@ -2689,6 +3155,30 @@
                 "Show repository changes from this operation"
               ],
               "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "Show a Git-format diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "Ignore whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "Ignore changes in amount of whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "For each path, show only its path"
+              ]
             },
             {
               "name": "--no-graph",
@@ -2728,6 +3218,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "Show only changed revisions matching the given revset expression",
+                "If no revisions are specified, this defaults to the `revsets.op-diff-changes-in` setting."
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "Show a histogram of the changes"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "For each path, show only whether it was modified, added, or deleted"
+              ]
+            },
+            {
               "name": "--to",
               "alias": [
                 "-t"
@@ -2739,6 +3258,22 @@
                 "Show repository changes to this operation"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "Generate diff by external command"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "For each path, show only its type before and after"
+              ]
             }
           ]
         },
@@ -2755,6 +3290,40 @@
           ],
           "option": [
             {
+              "name": "--color-words",
+              "tip": [
+                "Show a word-level diff with changes indicated only by color"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "Number of lines of context to show"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "Show a Git-format diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "Ignore whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "Ignore changes in amount of whitespace when comparing lines"
+              ]
+            },
+            {
               "name": "--limit",
               "alias": [
                 "-n"
@@ -2766,6 +3335,12 @@
                 "Limit number of operations to show"
               ],
               "next": []
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "For each path, show only its path"
+              ]
             },
             {
               "name": "--no-graph",
@@ -2810,6 +3385,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "Show only changed revisions matching the given revset expression",
+                "If no revisions are specified, this defaults to the `revsets.op-diff-changes-in` setting."
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "Show a histogram of the changes"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "For each path, show only whether it was modified, added, or deleted"
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -2821,6 +3425,22 @@
                 "Render each operation using the given template"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "Generate diff by external command"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "For each path, show only its type before and after"
+              ]
             }
           ]
         },
@@ -2853,6 +3473,27 @@
           "name": "revert",
           "tip": [
             "Create a new operation that reverts an earlier operation"
+          ],
+          "option": [
+            {
+              "name": "--what",
+              "usage": [
+                "--what <WHAT>"
+              ],
+              "tip": [
+                "EXPERIMENTAL: What portions of the local state to restore (can be repeated).",
+                "Possible values: remote-tracking, repo"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "remote-tracking"
+                },
+                {
+                  "name": "repo"
+                }
+              ]
+            }
           ]
         },
         {
@@ -2861,6 +3502,46 @@
             "Show changes to the repository in an operation"
           ],
           "option": [
+            {
+              "name": "--color-words",
+              "tip": [
+                "Show a word-level diff with changes indicated only by color"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "Number of lines of context to show"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "Show a Git-format diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "tip": [
+                "Ignore whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "tip": [
+                "Ignore changes in amount of whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--name-only",
+              "tip": [
+                "For each path, show only its path"
+              ]
+            },
             {
               "name": "--no-graph",
               "alias": [
@@ -2871,6 +3552,12 @@
               ],
               "tip": [
                 "Don't show the graph, show a flat list of modified changes"
+              ]
+            },
+            {
+              "name": "--no-op-diff",
+              "tip": [
+                "Do not show operation diff"
               ]
             },
             {
@@ -2886,6 +3573,35 @@
               ]
             },
             {
+              "name": "--show-changes-in",
+              "usage": [
+                "--show-changes-in <REVSETS>"
+              ],
+              "tip": [
+                "Show only changed revisions matching the given revset expression",
+                "If no revisions are specified, this defaults to the `revsets.op-diff-changes-in` setting."
+              ],
+              "next": []
+            },
+            {
+              "name": "--stat",
+              "tip": [
+                "Show a histogram of the changes"
+              ]
+            },
+            {
+              "name": "--summary",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --summary"
+              ],
+              "tip": [
+                "For each path, show only whether it was modified, added, or deleted"
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -2897,6 +3613,22 @@
                 "Render the operation using the given template"
               ],
               "next": []
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "Generate diff by external command"
+              ],
+              "next": []
+            },
+            {
+              "name": "--types",
+              "tip": [
+                "For each path, show only its type before and after"
+              ]
             }
           ]
         }
@@ -3022,18 +3754,21 @@
         },
         {
           "name": "--revision",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --revision <REVSETS>"
+          ],
           "tip": [
-            "Revision to rebase"
+            "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
           ],
           "next": []
         },
         {
           "name": "--revisions",
-          "alias": [
-            "-r"
-          ],
           "usage": [
-            "-r, --revisions <REVSETS>"
+            "--revisions <REVSETS>"
           ],
           "tip": [
             "Rebase the given revisions, rebasing descendants onto this revision's parent(s)"
@@ -3075,6 +3810,14 @@
       "name": "redo",
       "tip": [
         "Redo the most recently undone operation"
+      ],
+      "option": [
+        {
+          "name": "--allow-cross-workspace",
+          "tip": [
+            "Allow redoing an undo-operation that was performed in another workspace"
+          ]
+        }
       ]
     },
     {
@@ -3356,6 +4099,28 @@
           "name": "--root",
           "tip": [
             "Run the command from the working-copy root in each commit instead of from the subdirectory jj run was invoked from"
+          ]
+        },
+        {
+          "name": "--sparse-patterns",
+          "usage": [
+            "--sparse-patterns <SPARSE_PATTERNS>"
+          ],
+          "tip": [
+            "How to handle sparse patterns when running the command.",
+            "This is controlled per `jj run` invocation.",
+            "Possible values: copy, empty, full"
+          ],
+          "next": [
+            {
+              "name": "copy"
+            },
+            {
+              "name": "empty"
+            },
+            {
+              "name": "full"
+            }
           ]
         }
       ]
@@ -3750,6 +4515,22 @@
       ],
       "option": [
         {
+          "name": "--destination",
+          "alias": [
+            "--onto",
+            "-o",
+            "-d"
+          ],
+          "usage": [
+            "-o, -d, --onto, --destination <REVSETS>"
+          ],
+          "tip": [
+            "(Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
           "name": "--editor",
           "tip": [
             "Open an editor to edit the change description",
@@ -3856,20 +4637,6 @@
               "name": "'update'"
             }
           ]
-        },
-        {
-          "name": "--onto",
-          "alias": [
-            "-o"
-          ],
-          "usage": [
-            "-o, --onto <REVSETS>"
-          ],
-          "tip": [
-            "(Experimental) The revision(s) to use as parent for the new commit (can be repeated to create a merge commit)"
-          ],
-          "repeat": 99,
-          "next": []
         },
         {
           "name": "--revision",
@@ -3999,6 +4766,60 @@
               "next": []
             },
             {
+              "name": "--sort",
+              "usage": [
+                "--sort <SORT_KEY>"
+              ],
+              "tip": [
+                "Sort tags based on the given key (or multiple keys)",
+                "Possible values: author-date, author-date-, author-email, author-email-, author-name, author-name-, committer-date, committer-date-, committer-email, committer-email-, committer-name, committer-name-, name, name-"
+              ],
+              "next": [
+                {
+                  "name": "author-date"
+                },
+                {
+                  "name": "author-date-"
+                },
+                {
+                  "name": "author-email"
+                },
+                {
+                  "name": "author-email-"
+                },
+                {
+                  "name": "author-name"
+                },
+                {
+                  "name": "author-name-"
+                },
+                {
+                  "name": "committer-date"
+                },
+                {
+                  "name": "committer-date-"
+                },
+                {
+                  "name": "committer-email"
+                },
+                {
+                  "name": "committer-email-"
+                },
+                {
+                  "name": "committer-name"
+                },
+                {
+                  "name": "committer-name-"
+                },
+                {
+                  "name": "name"
+                },
+                {
+                  "name": "name-"
+                }
+              ]
+            },
+            {
               "name": "--template",
               "alias": [
                 "-T"
@@ -4101,6 +4922,14 @@
       "name": "undo",
       "tip": [
         "Undo the last operation"
+      ],
+      "option": [
+        {
+          "name": "--allow-cross-workspace",
+          "tip": [
+            "Allow undoing an operation that was performed in another workspace"
+          ]
+        }
       ]
     },
     {
@@ -4157,6 +4986,73 @@
           ]
         },
         {
+          "name": "diff",
+          "usage": [
+            "diff <PATH1> <PATH2>"
+          ],
+          "tip": [
+            "Compare two files on disk"
+          ],
+          "option": [
+            {
+              "name": "--color-words",
+              "tip": [
+                "Show a word-level diff with changes indicated only by color"
+              ]
+            },
+            {
+              "name": "--context",
+              "usage": [
+                "--context <CONTEXT>"
+              ],
+              "tip": [
+                "Number of lines of context to show"
+              ],
+              "next": []
+            },
+            {
+              "name": "--git",
+              "tip": [
+                "Show a Git-format diff"
+              ]
+            },
+            {
+              "name": "--ignore-all-space",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --ignore-all-space"
+              ],
+              "tip": [
+                "Ignore whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--ignore-space-change",
+              "alias": [
+                "-b"
+              ],
+              "usage": [
+                "-b, --ignore-space-change"
+              ],
+              "tip": [
+                "Ignore changes in amount of whitespace when comparing lines"
+              ]
+            },
+            {
+              "name": "--tool",
+              "usage": [
+                "--tool <TOOL>"
+              ],
+              "tip": [
+                "Generate diff by external command"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
           "name": "exec",
           "tip": [
             "Execute an external command via jj"
@@ -4166,6 +5062,23 @@
           "name": "gc",
           "tip": [
             "Run backend-dependent garbage collection"
+          ],
+          "option": [
+            {
+              "name": "--expire",
+              "usage": [
+                "--expire <EXPIRE>"
+              ],
+              "tip": [
+                "Time threshold",
+                "By default, only obsolete objects and operations older than 2 weeks are pruned."
+              ],
+              "next": [
+                {
+                  "name": "now"
+                }
+              ]
+            }
           ]
         },
         {
@@ -4207,6 +5120,12 @@
           ],
           "option": [
             {
+              "name": "--colocate",
+              "tip": [
+                "Create a corresponding Git worktree for this workspace"
+              ]
+            },
+            {
               "name": "--message",
               "alias": [
                 "-m"
@@ -4230,6 +5149,12 @@
               "next": []
             },
             {
+              "name": "--no-colocate",
+              "tip": [
+                "Do not create a Git worktree for this workspace"
+              ]
+            },
+            {
               "name": "--revision",
               "alias": [
                 "-r"
@@ -4248,7 +5173,8 @@
                 "--sparse-patterns <SPARSE_PATTERNS>"
               ],
               "tip": [
-                "How to handle sparse patterns when creating a new workspace"
+                "How to handle sparse patterns when creating a new workspace",
+                "Possible values: copy, empty, full"
               ],
               "next": [
                 {
@@ -4289,6 +5215,15 @@
               ],
               "next": []
             }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <WORKSPACES>..."
+          ],
+          "tip": [
+            "Remove a workspace and its working-copy files from disk"
           ]
         },
         {
@@ -4358,7 +5293,8 @@
         "--color <WHEN>"
       ],
       "tip": [
-        "When to colorize output"
+        "When to colorize output",
+        "Possible values: always, auto, debug, never"
       ],
       "next": [
         {

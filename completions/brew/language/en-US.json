@@ -36,7 +36,27 @@
     {
       "name": "--env",
       "tip": [
-        "Summarise Homebrew's build environment."
+        "Summarise Homebrew's build environment as a plain list.",
+        "If the output is sent through a pipe and no shell is specified, the list is formatted for export to bash unless --plain is passed."
+      ],
+      "option": [
+        {
+          "name": "--plain",
+          "tip": [
+            "Generate plain output even when piped."
+          ]
+        },
+        {
+          "name": "--shell",
+          "usage": [
+            "--shell=<SHELL>"
+          ],
+          "tip": [
+            "Generate a list of environment variables for the specified shell.",
+            "Use --shell=auto to detect the current shell."
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -48,6 +68,12 @@
     },
     {
       "name": "--repository",
+      "alias": [
+        "--repo"
+      ],
+      "usage": [
+        "--repo, --repository"
+      ],
       "tip": [
         "Display where Homebrew's Git repository is located.",
         "If a tap is provided, display the location of its repository."
@@ -103,6 +129,16 @@
       ]
     },
     {
+      "name": "as-brew-user",
+      "usage": [
+        "as-brew-user <COMMAND> ..."
+      ],
+      "tip": [
+        "Run a Homebrew command as the owner of HOMEBREW_PREFIX on macOS or Linux.",
+        "Uses the owner's home and a clean environment."
+      ]
+    },
+    {
       "name": "as-console-user",
       "usage": [
         "as-console-user <COMMAND> ..."
@@ -132,6 +168,30 @@
           "next": []
         },
         {
+          "name": "--audit-debug",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --audit-debug"
+          ],
+          "tip": [
+            "Enable debugging and profiling of audit methods."
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "Treat all named arguments as casks."
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "Check files that were changed from the main branch."
@@ -144,9 +204,41 @@
           ]
         },
         {
+          "name": "--except",
+          "usage": [
+            "--except <METHODS>"
+          ],
+          "tip": [
+            "Specify a comma-separated method list to skip running the methods named audit_method."
+          ],
+          "next": []
+        },
+        {
+          "name": "--except-cops",
+          "usage": [
+            "--except-cops <COPS>"
+          ],
+          "tip": [
+            "Specify a comma-separated cops list to skip checking for violations of the listed RuboCop cops."
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "Fix style violations automatically using RuboCop's auto-correct feature."
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "Treat all named arguments as formulae."
           ]
         },
         {
@@ -175,6 +267,26 @@
           ]
         },
         {
+          "name": "--only",
+          "usage": [
+            "--only <METHODS>"
+          ],
+          "tip": [
+            "Specify a comma-separated method list to only run the methods named audit_method."
+          ],
+          "next": []
+        },
+        {
+          "name": "--only-cops",
+          "usage": [
+            "--only-cops <COPS>"
+          ],
+          "tip": [
+            "Specify a comma-separated cops list to check for violations of only the listed RuboCop cops."
+          ],
+          "next": []
+        },
+        {
           "name": "--os",
           "usage": [
             "--os <OS>"
@@ -184,6 +296,14 @@
             "Pass all to audit all operating systems."
           ],
           "next": []
+        },
+        {
+          "name": "--skip-style",
+          "tip": [
+            "Skip running non-RuboCop style checks.",
+            "Useful if you plan on running brew style separately.",
+            "Enabled by default unless a formula is specified by name."
+          ]
         },
         {
           "name": "--strict",
@@ -284,15 +404,60 @@
           ]
         },
         {
+          "name": "--no-all-checks",
+          "tip": [
+            "Don't try to create an all bottle or stop a no-change upload."
+          ]
+        },
+        {
+          "name": "--no-commit",
+          "tip": [
+            "When passed with --write, a new commit will not generated after writing changes to the formula file."
+          ]
+        },
+        {
           "name": "--no-rebuild",
           "tip": [
             "Remove the rebuild version from the generated DSL."
           ]
         },
         {
+          "name": "--only-json-tab",
+          "tip": [
+            "When passed with --json, the tab will be written to the JSON file but not the bottle."
+          ]
+        },
+        {
+          "name": "--root-url",
+          "usage": [
+            "--root-url <URL>"
+          ],
+          "tip": [
+            "Use the specified URL as the root of the bottle's URL instead of Homebrew's default."
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-url-using",
+          "usage": [
+            "--root-url-using <CLASS>"
+          ],
+          "tip": [
+            "Use the specified download strategy class for downloading the bottle's URL instead of Homebrew's default."
+          ],
+          "next": []
+        },
+        {
           "name": "--skip-relocation",
           "tip": [
             "Do not check if the bottle can be marked as relocatable."
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "Write changes to the formula file.",
+            "A new commit will be generated unless --no-commit is passed."
           ]
         }
       ]
@@ -306,6 +471,12 @@
         "Display out-of-date packages and the latest version available."
       ],
       "option": [
+        {
+          "name": "--bump-synced",
+          "tip": [
+            "Bump additional formulae marked as synced with the given formulae."
+          ]
+        },
         {
           "name": "--casks",
           "alias": [
@@ -373,6 +544,16 @@
           ]
         },
         {
+          "name": "--start-with",
+          "usage": [
+            "--start-with <LETTER>"
+          ],
+          "tip": [
+            "Letter or word that the list of package results should alphabetically follow."
+          ],
+          "next": []
+        },
+        {
           "name": "--tap",
           "usage": [
             "--tap <USER>/<REPO>"
@@ -396,7 +577,7 @@
         {
           "name": "--commit",
           "tip": [
-            "When passed with --write-only, generate a new commit after writing changes."
+            "When passed with --write-only, generate a new commit after writing changes to the cask file."
           ]
         },
         {
@@ -412,6 +593,26 @@
           ]
         },
         {
+          "name": "--fork-org",
+          "usage": [
+            "--fork-org <ORG>"
+          ],
+          "tip": [
+            "Use the specified GitHub organisation for forking."
+          ],
+          "next": []
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "Prepend message to the default pull request message."
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "Don't run brew audit before opening the PR."
@@ -420,7 +621,13 @@
         {
           "name": "--no-browse",
           "tip": [
-            "Print the pull request URL instead of opening it."
+            "Print the pull request URL instead of opening in a browser."
+          ]
+        },
+        {
+          "name": "--no-fork",
+          "tip": [
+            "Don't try to fork the repository."
           ]
         },
         {
@@ -428,6 +635,76 @@
           "tip": [
             "Don't run brew style --fix before opening the PR."
           ]
+        },
+        {
+          "name": "--sha256",
+          "usage": [
+            "--sha256 <SHA256>"
+          ],
+          "tip": [
+            "Specify the SHA-256 checksum of the new download."
+          ],
+          "next": []
+        },
+        {
+          "name": "--url",
+          "usage": [
+            "--url <URL>"
+          ],
+          "tip": [
+            "Specify the URL for the new download."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "Specify the new version for the cask."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-arm",
+          "usage": [
+            "--version-arm <VERSION>"
+          ],
+          "tip": [
+            "Specify the new cask version for macOS on ARM."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-intel",
+          "usage": [
+            "--version-intel <VERSION>"
+          ],
+          "tip": [
+            "Specify the new cask version for macOS on Intel."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-linux-arm",
+          "usage": [
+            "--version-linux-arm <VERSION>"
+          ],
+          "tip": [
+            "Specify the new cask version for Linux on ARM."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-linux-intel",
+          "usage": [
+            "--version-linux-intel <VERSION>"
+          ],
+          "tip": [
+            "Specify the new cask version for Linux on Intel."
+          ],
+          "next": []
         },
         {
           "name": "--write-only",
@@ -488,7 +765,7 @@
         {
           "name": "--commit",
           "tip": [
-            "When passed with --write-only, generate a new commit after writing changes."
+            "When passed with --write-only, generate a new commit after writing changes to the formula file."
           ]
         },
         {
@@ -504,6 +781,55 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Remove all mirrors if --mirror was not specified."
+          ]
+        },
+        {
+          "name": "--fork-org",
+          "usage": [
+            "--fork-org <ORG>"
+          ],
+          "tip": [
+            "Use the specified GitHub organisation for forking."
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-dependencies",
+          "tip": [
+            "Install missing dependencies required to update resources."
+          ]
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "Prepend message to the default pull request message."
+          ],
+          "next": []
+        },
+        {
+          "name": "--mirror",
+          "usage": [
+            "--mirror <URL>"
+          ],
+          "tip": [
+            "Use the specified URL as a mirror URL.",
+            "If URL is a comma-separated list of URLs, multiple mirrors will be added."
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "Don't run brew audit before opening the PR."
@@ -512,14 +838,109 @@
         {
           "name": "--no-browse",
           "tip": [
-            "Print the pull request URL instead of opening it."
+            "Print the pull request URL instead of opening in a browser."
           ]
         },
         {
-          "name": "--no-style",
+          "name": "--no-fork",
           "tip": [
-            "Don't run brew style --fix before opening the PR."
+            "Don't try to fork the repository."
           ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "Run brew audit --online before opening the PR."
+          ]
+        },
+        {
+          "name": "--python-exclude-packages",
+          "usage": [
+            "--python-exclude-packages <PACKAGES>"
+          ],
+          "tip": [
+            "Exclude these Python packages when finding resources."
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-extra-packages",
+          "usage": [
+            "--python-extra-packages <PACKAGES>"
+          ],
+          "tip": [
+            "Include these additional Python packages when finding resources."
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-package-name",
+          "usage": [
+            "--python-package-name <NAME>"
+          ],
+          "tip": [
+            "Use the specified package-name when finding Python resources for formula.",
+            "If no package name is specified, it will be inferred from the formula's stable URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <REVISION>"
+          ],
+          "tip": [
+            "Specify the new commit revision corresponding to the specified git tag or specified version."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sha256",
+          "usage": [
+            "--sha256 <SHA256>"
+          ],
+          "tip": [
+            "Specify the SHA-256 checksum of the new download."
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "Run brew audit --strict before opening the PR."
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "Specify the new git commit tag for the formula."
+          ],
+          "next": []
+        },
+        {
+          "name": "--url",
+          "usage": [
+            "--url <URL>"
+          ],
+          "tip": [
+            "Specify the URL for the new download.",
+            "If a URL is specified, the SHA-256 checksum of the new download should also be specified."
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "Use the specified version to override the value parsed from the URL or tag.",
+            "Note that --version=0 can be used to delete an existing version override from a formula if it has become redundant."
+          ],
+          "next": []
         },
         {
           "name": "--write-only",
@@ -912,6 +1333,21 @@
           "next": []
         },
         {
+          "name": "--organisation",
+          "alias": [
+            "--organization",
+            "--org"
+          ],
+          "usage": [
+            "--org, --organisation, --organization <ORG>"
+          ],
+          "tip": [
+            "Specify the organisation to populate sources repositories from.",
+            "Omitting this flag searches the Homebrew primary repositories."
+          ],
+          "next": []
+        },
+        {
           "name": "--quarter",
           "usage": [
             "--quarter <QUARTER>"
@@ -928,6 +1364,17 @@
           ],
           "tip": [
             "Specify a comma-separated list of repositories to search."
+          ],
+          "next": []
+        },
+        {
+          "name": "--team",
+          "usage": [
+            "--team <TEAM>"
+          ],
+          "tip": [
+            "Specify the team to populate users from.",
+            "The first part of the team name will be used as the organisation."
           ],
           "next": []
         },
@@ -959,7 +1406,7 @@
         "create <URL>"
       ],
       "tip": [
-        "Generate a formula or cask for the downloadable file at URL."
+        "Generate a formula or, with --cask, a cask for the downloadable file at URL."
       ],
       "option": [
         {
@@ -990,6 +1437,18 @@
           "name": "--crystal",
           "tip": [
             "Create a basic template for a Crystal build."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Ignore errors for disallowed formula names and names that shadow aliases."
           ]
         },
         {
@@ -1047,6 +1506,16 @@
           ]
         },
         {
+          "name": "--set-license",
+          "usage": [
+            "--set-license <LICENSE>"
+          ],
+          "tip": [
+            "Explicitly set the license of the new formula."
+          ],
+          "next": []
+        },
+        {
           "name": "--set-name",
           "usage": [
             "--set-name <NAME>"
@@ -1063,6 +1532,16 @@
           ],
           "tip": [
             "Explicitly set the version of the new formula or cask."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "Generate the new formula within the given tap, specified as user/repo."
           ],
           "next": []
         },
@@ -1467,6 +1946,13 @@
       ]
     },
     {
+      "name": "environment",
+      "tip": [
+        "Summarise Homebrew's build environment as a plain list.",
+        "If the output is sent through a pipe and no shell is specified, the list is formatted for export to bash unless --plain is passed."
+      ]
+    },
+    {
       "name": "exec",
       "alias": [
         "x"
@@ -1672,6 +2158,12 @@
           "name": "--retry",
           "tip": [
             "Retry if downloading fails, up to 5 times with exponential backoff."
+          ]
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "Also download test resources and their patches for each formula."
           ]
         }
       ]
@@ -1944,8 +2436,11 @@
     },
     {
       "name": "install",
+      "alias": [
+        "instal"
+      ],
       "usage": [
-        "install <FORMULA>|<CASK> ..."
+        "instal|install <FORMULA>|<CASK> ..."
       ],
       "tip": [
         "Install a formula or cask."
@@ -2705,6 +3200,115 @@
       ]
     },
     {
+      "name": "livecheck",
+      "alias": [
+        "lc"
+      ],
+      "usage": [
+        "lc|livecheck [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "Check for newer versions of formulae and/or casks from upstream."
+      ],
+      "option": [
+        {
+          "name": "--autobump",
+          "tip": [
+            "Include packages that are autobumped by BrewTestBot.",
+            "By default these are skipped."
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "Only check casks."
+          ]
+        },
+        {
+          "name": "--extract-plist",
+          "tip": [
+            "Enable checking multiple casks with ExtractPlist strategy."
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "Only check formulae."
+          ]
+        },
+        {
+          "name": "--full-name",
+          "tip": [
+            "Print formulae and casks with fully-qualified names."
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "Check formulae and casks that are currently installed."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output information in JSON format."
+          ]
+        },
+        {
+          "name": "--newer-only",
+          "tip": [
+            "Show the latest version only if it's newer than the current formula or cask version."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Suppress warnings, don't print a progress bar for JSON output."
+          ]
+        },
+        {
+          "name": "--resources",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --resources"
+          ],
+          "tip": [
+            "Also check resources for formulae."
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "Check formulae and casks within the given tap, specified as user/repo."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "log",
       "usage": [
         "log [<FORMULA>|<CASK>]"
@@ -3041,6 +3645,36 @@
       ],
       "tip": [
         "Rerun the post-install steps for a formula."
+      ]
+    },
+    {
+      "name": "prof",
+      "usage": [
+        "prof <COMMAND> ..."
+      ],
+      "tip": [
+        "Run Homebrew with a Ruby profiler.",
+        "For example, brew prof readall."
+      ],
+      "option": [
+        {
+          "name": "--stackprof",
+          "tip": [
+            "Use stackprof instead of ruby-prof (the default)."
+          ]
+        },
+        {
+          "name": "--timings",
+          "tip": [
+            "Record machine-readable timings for Homebrew command phases."
+          ]
+        },
+        {
+          "name": "--vernier",
+          "tip": [
+            "Use vernier instead of ruby-prof (the default)."
+          ]
+        }
       ]
     },
     {
@@ -3460,6 +4094,68 @@
       ]
     },
     {
+      "name": "rubocop",
+      "tip": [
+        "Installs, configures and runs Homebrew's rubocop."
+      ]
+    },
+    {
+      "name": "ruby",
+      "usage": [
+        "ruby [(-e <TEXT>|<FILE>)]"
+      ],
+      "tip": [
+        "Run a Ruby instance with Homebrew's libraries loaded.",
+        "For example, brew ruby -e \"puts :gcc.f.deps\" or brew ruby script.rb.",
+        "Run brew ruby -- --version to pass arbitrary arguments to ruby."
+      ],
+      "option": [
+        {
+          "name": "-e",
+          "usage": [
+            "-e <TEXT>"
+          ],
+          "tip": [
+            "Execute the given text string as a script."
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <LIBRARY>"
+          ],
+          "tip": [
+            "Load a library using require."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rubydoc",
+      "usage": [
+        "rubydoc [--only-public] [--open]"
+      ],
+      "tip": [
+        "Generate Homebrew's RubyDoc documentation."
+      ],
+      "option": [
+        {
+          "name": "--only-public",
+          "tip": [
+            "Only generate public API documentation."
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "Open generated documentation in a browser."
+          ]
+        }
+      ]
+    },
+    {
       "name": "sandbox-exec",
       "usage": [
         "sandbox-exec <PATH> <COMMAND> ..."
@@ -3685,6 +4381,57 @@
       ]
     },
     {
+      "name": "sh",
+      "usage": [
+        "sh [<FILE>]"
+      ],
+      "tip": [
+        "Enter an interactive shell for Homebrew's build environment.",
+        "With --ruby, enter an interactive shell for Homebrew's Ruby environment."
+      ],
+      "option": [
+        {
+          "name": "--cmd",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --cmd <COMMAND>"
+          ],
+          "tip": [
+            "Execute commands in a non-interactive shell."
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <ENV>"
+          ],
+          "tip": [
+            "Use the standard $PATH instead of superenv's when std is passed."
+          ],
+          "next": [
+            {
+              "name": "std"
+            }
+          ]
+        },
+        {
+          "name": "--ruby",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --ruby"
+          ],
+          "tip": [
+            "Set up Homebrew's Ruby environment."
+          ]
+        }
+      ]
+    },
+    {
       "name": "shellenv",
       "usage": [
         "shellenv [<SHELL>]"
@@ -3723,6 +4470,86 @@
       ],
       "tip": [
         "Open a formula's source repository in a browser."
+      ]
+    },
+    {
+      "name": "style",
+      "usage": [
+        "style [<FILE>|<TAP>|<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "Check formulae or files for conformance to Homebrew style guidelines."
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "Treat all named arguments as casks."
+          ]
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "Check files that were changed from the main branch."
+          ]
+        },
+        {
+          "name": "--except-cops",
+          "usage": [
+            "--except-cops <COPS>"
+          ],
+          "tip": [
+            "Specify a comma-separated cops list to skip checking for violations of the listed RuboCop cops."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Fix style violations automatically using RuboCop's auto-correct feature."
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "Treat all named arguments as formulae."
+          ]
+        },
+        {
+          "name": "--only-cops",
+          "usage": [
+            "--only-cops <COPS>"
+          ],
+          "tip": [
+            "Specify a comma-separated cops list to check for violations of only the listed RuboCop cops."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reset-cache",
+          "tip": [
+            "Reset the RuboCop cache."
+          ]
+        },
+        {
+          "name": "--todo",
+          "tip": [
+            "Add rubocop:todo comments for RuboCop violations that remain after auto-correction.",
+            "Requires --fix."
+          ]
+        }
       ]
     },
     {
@@ -3832,6 +4659,507 @@
       ]
     },
     {
+      "name": "tap-new",
+      "usage": [
+        "tap-new <USER>/<REPO>"
+      ],
+      "tip": [
+        "Generate the template files for a new tap."
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <BRANCH>"
+          ],
+          "tip": [
+            "Initialise a Git repository and set up GitHub Actions workflows with the specified branch name (default: main)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--github-packages",
+          "tip": [
+            "Upload bottles to GitHub Packages."
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "Don't initialise a Git repository for the tap."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test <FORMULA> ..."
+      ],
+      "tip": [
+        "Run the test method provided by an installed formula."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Test formulae even if they are unlinked."
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "Test the HEAD version of a formula."
+          ]
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "Retain the temporary files created for the test."
+          ]
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "Retry if a testing fails."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test-bot",
+      "usage": [
+        "test-bot [<FORMULA>]"
+      ],
+      "tip": [
+        "Tests the full lifecycle of a Homebrew change to a tap (Git repository)."
+      ],
+      "option": [
+        {
+          "name": "--added-formulae",
+          "usage": [
+            "--added-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "Use these added formulae rather than running the formulae detection steps."
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-dependents-from-source",
+          "tip": [
+            "Build a limited set of dependents from source in addition to testing bottles."
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "tip": [
+            "Build from source rather than building bottles."
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "Clean all state from the Homebrew directory.",
+            "Use with care!"
+          ]
+        },
+        {
+          "name": "--deleted-formulae",
+          "usage": [
+            "--deleted-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "Use these deleted formulae rather than running the formulae detection steps."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Print what would be done rather than doing it."
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "Immediately exit on a failing step."
+          ]
+        },
+        {
+          "name": "--git-email",
+          "usage": [
+            "--git-email <EMAIL>"
+          ],
+          "tip": [
+            "Set the Git author/committer email to the given email."
+          ],
+          "next": []
+        },
+        {
+          "name": "--git-name",
+          "usage": [
+            "--git-name <NAME>"
+          ],
+          "tip": [
+            "Set the Git author/committer names to the given name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--junit",
+          "tip": [
+            "generate a JUnit XML test results file."
+          ]
+        },
+        {
+          "name": "--keep-old",
+          "tip": [
+            "Run brew bottle --keep-old to build new bottles for a single platform."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "Ask Homebrew to write verbose logs under ./logs/ and set $HOME to ./home/."
+          ]
+        },
+        {
+          "name": "--no-skip-recursive-dependents",
+          "tip": [
+            "Test recursive dependents as well.",
+            "(deprecated, this is now the default behaviour)"
+          ]
+        },
+        {
+          "name": "--only-bottles-fetch",
+          "tip": [
+            "Only run the bottles fetch steps."
+          ]
+        },
+        {
+          "name": "--only-cleanup-after",
+          "tip": [
+            "Only run the post-cleanup step.",
+            "Needs --cleanup, except in GitHub Actions."
+          ]
+        },
+        {
+          "name": "--only-cleanup-before",
+          "tip": [
+            "Only run the pre-cleanup step.",
+            "Needs --cleanup, except in GitHub Actions."
+          ]
+        },
+        {
+          "name": "--only-formulae",
+          "tip": [
+            "Only run the formulae steps."
+          ]
+        },
+        {
+          "name": "--only-formulae-dependents",
+          "tip": [
+            "Only run the formulae dependents steps."
+          ]
+        },
+        {
+          "name": "--only-formulae-detect",
+          "tip": [
+            "Only run the formulae detection steps."
+          ]
+        },
+        {
+          "name": "--only-json-tab",
+          "tip": [
+            "Run brew bottle --only-json-tab to build new bottles that do not contain a tab."
+          ]
+        },
+        {
+          "name": "--only-setup",
+          "tip": [
+            "Only run the local system setup check step."
+          ]
+        },
+        {
+          "name": "--only-tap-syntax",
+          "tip": [
+            "Only run the tap syntax check step."
+          ]
+        },
+        {
+          "name": "--publish",
+          "tip": [
+            "Publish the uploaded bottles."
+          ]
+        },
+        {
+          "name": "--root-url",
+          "usage": [
+            "--root-url <URL>"
+          ],
+          "tip": [
+            "Use the specified URL as the root of the bottle's URL instead of Homebrew's default."
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-checksum-only-audit",
+          "tip": [
+            "Don't audit checksum-only changes."
+          ]
+        },
+        {
+          "name": "--skip-dependents",
+          "tip": [
+            "Don't test any dependents."
+          ]
+        },
+        {
+          "name": "--skip-livecheck",
+          "tip": [
+            "Don't test livecheck."
+          ]
+        },
+        {
+          "name": "--skip-new",
+          "tip": [
+            "Don't pass --new to brew audit for new formulae."
+          ]
+        },
+        {
+          "name": "--skip-new-strict",
+          "tip": [
+            "Don't pass --strict to brew audit for new formulae."
+          ]
+        },
+        {
+          "name": "--skip-online-checks",
+          "tip": [
+            "Don't pass --online to brew audit and skip brew livecheck."
+          ]
+        },
+        {
+          "name": "--skip-recursive-dependents",
+          "tip": [
+            "Only test the direct dependents (default: enabled).",
+            "(deprecated, this is now the default behaviour)"
+          ]
+        },
+        {
+          "name": "--skip-relocation",
+          "tip": [
+            "Run brew bottle --skip-relocation to build new bottles that don't require relocation."
+          ]
+        },
+        {
+          "name": "--skip-revision-audit",
+          "tip": [
+            "Don't audit the revision."
+          ]
+        },
+        {
+          "name": "--skip-setup",
+          "tip": [
+            "Don't check if the local system is set up correctly."
+          ]
+        },
+        {
+          "name": "--skip-stable-version-audit",
+          "tip": [
+            "Don't audit the stable version."
+          ]
+        },
+        {
+          "name": "--skipped-or-failed-formulae",
+          "usage": [
+            "--skipped-or-failed-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "Use these skipped or failed formulae from formulae steps for a formulae dependents step."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stable",
+          "tip": [
+            "Only run the tap syntax checks needed on stable brew."
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "Use the Git repository of the given tap.",
+            "Defaults to the core tap for syntax checking."
+          ],
+          "next": []
+        },
+        {
+          "name": "--test-default-formula",
+          "tip": [
+            "Use a default testing formula when not building a tap and no other formulae are specified."
+          ]
+        },
+        {
+          "name": "--tested-formulae",
+          "usage": [
+            "--tested-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "Use these tested formulae from formulae steps for a formulae dependents step."
+          ],
+          "next": []
+        },
+        {
+          "name": "--testing-formulae",
+          "usage": [
+            "--testing-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "Use these testing formulae rather than running the formulae detection steps."
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Print test step output in real time.",
+            "Has the side effect of passing output as raw bytes instead of re-encoding in UTF-8."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tests",
+      "tip": [
+        "Run Homebrew's unit and integration tests."
+      ],
+      "option": [
+        {
+          "name": "--changed",
+          "tip": [
+            "Only runs tests on files that were changed from the main branch."
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "Generate code coverage reports."
+          ]
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "Enable debugging using ruby/debug, or surface the standard odebug output."
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "Exit early on the first failing test."
+          ]
+        },
+        {
+          "name": "--generic",
+          "tip": [
+            "Run only OS-agnostic tests."
+          ]
+        },
+        {
+          "name": "--load-only",
+          "tip": [
+            "Load each test file independently without running its examples."
+          ]
+        },
+        {
+          "name": "--no-parallel",
+          "tip": [
+            "Run tests serially."
+          ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "Include tests that use the GitHub API and tests that use any of the taps for official external commands."
+          ]
+        },
+        {
+          "name": "--only",
+          "usage": [
+            "--only <SPEC>"
+          ],
+          "tip": [
+            "Run only test_script_spec.rb.",
+            "Appending :line_number will start at a specific line."
+          ],
+          "next": []
+        },
+        {
+          "name": "--profile",
+          "usage": [
+            "--profile <N>"
+          ],
+          "tip": [
+            "Output the n slowest tests."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ruby-prof",
+          "tip": [
+            "Use ruby-prof to profile tests."
+          ]
+        },
+        {
+          "name": "--seed",
+          "usage": [
+            "--seed <SEED>"
+          ],
+          "tip": [
+            "Randomise tests with the specified value instead of a random seed."
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <SHARD>"
+          ],
+          "tip": [
+            "Run only index of total test shards."
+          ],
+          "next": []
+        },
+        {
+          "name": "--stackprof",
+          "tip": [
+            "Use stackprof to profile tests."
+          ]
+        },
+        {
+          "name": "--vernier",
+          "tip": [
+            "Use vernier to profile tests."
+          ]
+        }
+      ]
+    },
+    {
       "name": "trust",
       "usage": [
         "trust [<TARGET> ...]"
@@ -3897,6 +5225,92 @@
       ]
     },
     {
+      "name": "typecheck",
+      "alias": [
+        "tc"
+      ],
+      "usage": [
+        "tc|typecheck [<TAP> ...]"
+      ],
+      "tip": [
+        "Check for typechecking errors using Sorbet."
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <DIR>"
+          ],
+          "tip": [
+            "Typecheck all files in a specific directory."
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "Typecheck a single file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "Automatically fix type errors."
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <STRING>"
+          ],
+          "tip": [
+            "Ignores input files that contain the given string in their paths."
+          ],
+          "next": []
+        },
+        {
+          "name": "--lsp",
+          "tip": [
+            "Start the Sorbet LSP server."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Silence all non-critical errors."
+          ]
+        },
+        {
+          "name": "--suggest-typed",
+          "tip": [
+            "Try upgrading typed sigils."
+          ]
+        },
+        {
+          "name": "--update",
+          "tip": [
+            "Update RBI files."
+          ]
+        },
+        {
+          "name": "--update-all",
+          "tip": [
+            "Update all RBI files rather than just updated gems."
+          ]
+        }
+      ]
+    },
+    {
       "name": "unalias",
       "usage": [
         "unalias <ALIAS> ..."
@@ -3906,13 +5320,53 @@
       ]
     },
     {
+      "name": "unbottled",
+      "usage": [
+        "unbottled [<FORMULA> ...]"
+      ],
+      "tip": [
+        "Show the unbottled dependents of formulae."
+      ],
+      "option": [
+        {
+          "name": "--dependents",
+          "tip": [
+            "Skip getting analytics data and sort by number of dependents instead."
+          ]
+        },
+        {
+          "name": "--lost",
+          "tip": [
+            "Print the homebrew/core commits where bottles were lost in the last week."
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "Use the specified bottle tag (e.g. big_sur) instead of the current OS."
+          ],
+          "next": []
+        },
+        {
+          "name": "--total",
+          "tip": [
+            "Print the number of unbottled and total formulae."
+          ]
+        }
+      ]
+    },
+    {
       "name": "uninstall",
       "alias": [
+        "uninstal",
         "remove",
         "rm"
       ],
       "usage": [
-        "rm|remove|uninstall <FORMULA>|<CASK> ..."
+        "rm|remove|uninstal|uninstall <FORMULA>|<CASK> ..."
       ],
       "tip": [
         "Uninstall a formula or cask."
@@ -4013,6 +5467,82 @@
           ],
           "tip": [
             "Treat all named arguments as formulae."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpack",
+      "usage": [
+        "unpack <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "Unpack the files for the formula or cask into subdirectories of the current working directory."
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "Treat all named arguments as casks."
+          ]
+        },
+        {
+          "name": "--destdir",
+          "usage": [
+            "--destdir <DIR>"
+          ],
+          "tip": [
+            "Create subdirectories in the directory named by path instead."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Overwrite the destination directory if it already exists."
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "Treat all named arguments as formulae."
+          ]
+        },
+        {
+          "name": "--git",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --git"
+          ],
+          "tip": [
+            "Initialise a Git repository in the unpacked source.",
+            "This is useful for creating patches for the software."
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "Patches for formula will be applied to the unpacked source."
           ]
         }
       ]
@@ -4168,6 +5698,127 @@
       ]
     },
     {
+      "name": "update-perl-resources",
+      "usage": [
+        "update-perl-resources <FORMULA> ..."
+      ],
+      "tip": [
+        "Update versions for CPAN resource blocks in formula."
+      ],
+      "option": [
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "Continue processing even if some resources can't be resolved."
+          ]
+        },
+        {
+          "name": "--print-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print-only"
+          ],
+          "tip": [
+            "Print the updated resource blocks instead of changing formula."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update-python-resources",
+      "usage": [
+        "update-python-resources <FORMULA> ..."
+      ],
+      "tip": [
+        "Update versions for PyPI resource blocks in formula."
+      ],
+      "option": [
+        {
+          "name": "--exclude-packages",
+          "usage": [
+            "--exclude-packages <PACKAGES>"
+          ],
+          "tip": [
+            "Exclude these packages when finding resources."
+          ],
+          "next": []
+        },
+        {
+          "name": "--extra-packages",
+          "usage": [
+            "--extra-packages <PACKAGES>"
+          ],
+          "tip": [
+            "Include these additional packages when finding resources."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "Record all discovered resources, even those that can't be resolved successfully.",
+            "This option is ignored for homebrew/core formulae."
+          ]
+        },
+        {
+          "name": "--ignore-main-package-cooldown",
+          "tip": [
+            "Bypass the release cooldown for formula's own package when resolving resources.",
+            "Its dependencies still respect the cooldown.",
+            "This option is ignored for official taps."
+          ]
+        },
+        {
+          "name": "--ignore-non-pypi-packages",
+          "tip": [
+            "Don't fail if formula is not a PyPI package."
+          ]
+        },
+        {
+          "name": "--install-dependencies",
+          "tip": [
+            "Install missing dependencies required to update resources."
+          ]
+        },
+        {
+          "name": "--package-name",
+          "usage": [
+            "--package-name <NAME>"
+          ],
+          "tip": [
+            "Use the specified package-name when finding resources for formula.",
+            "If no package name is specified, it will be inferred from the formula's stable URL."
+          ],
+          "next": []
+        },
+        {
+          "name": "--print-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print-only"
+          ],
+          "tip": [
+            "Print the updated resource blocks instead of changing formula."
+          ]
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "Use the specified version when finding resources for formula.",
+            "If no version is specified, the current version for formula will be used."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "update-reset",
       "usage": [
         "update-reset [<REPOSITORY> ...]"
@@ -4175,6 +5826,47 @@
       "tip": [
         "Fetch and reset Homebrew and all tap repositories to their latest origin/HEAD.",
         "This will destroy all your uncommitted or committed changes."
+      ]
+    },
+    {
+      "name": "update-test",
+      "tip": [
+        "Run a test of brew update with a new repository clone.",
+        "If no options are passed, use origin/main as the start commit."
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "usage": [
+            "--before <DATE>"
+          ],
+          "tip": [
+            "Use the commit at the specified date as the start commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--commit",
+          "usage": [
+            "--commit <COMMIT>"
+          ],
+          "tip": [
+            "Use the specified commit as the start commit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "Retain the temporary directory containing the new repository clone."
+          ]
+        },
+        {
+          "name": "--to-tag",
+          "tip": [
+            "Set $HOMEBREW_UPDATE_TO_TAG to test updating between tags."
+          ]
+        }
       ]
     },
     {
@@ -4658,6 +6350,105 @@
       ]
     },
     {
+      "name": "vendor-gems",
+      "tip": [
+        "Install and commit Homebrew's vendored gems."
+      ],
+      "option": [
+        {
+          "name": "--no-commit",
+          "tip": [
+            "Do not generate a new commit upon completion."
+          ]
+        },
+        {
+          "name": "--update",
+          "usage": [
+            "--update=<GEMS>"
+          ],
+          "tip": [
+            "Update the specified list of vendored gems to the latest version."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify <FORMULA> ..."
+      ],
+      "tip": [
+        "Verify the build provenance of bottles using GitHub's attestation tools.",
+        "This is done by first fetching the given bottles and then verifying their provenance for homebrew/core and third-party taps that provide attestations.",
+        "Note that this command depends on the GitHub CLI. Run brew install gh."
+      ],
+      "option": [
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "Download for the given CPU architecture.",
+            "Pass all to download for all architectures."
+          ],
+          "next": []
+        },
+        {
+          "name": "--bottle-tag",
+          "usage": [
+            "--bottle-tag <TAG>"
+          ],
+          "tip": [
+            "Download a bottle for given tag."
+          ],
+          "next": []
+        },
+        {
+          "name": "--deps",
+          "tip": [
+            "Also download dependencies for any listed formula."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Remove a previously cached version and re-fetch."
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Return JSON for the attestation data for each bottle."
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "Download for the given operating system.",
+            "Pass all to download for all operating systems."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "version-install",
       "usage": [
         "version-install <FORMULA> [<VERSION>]"
@@ -4709,7 +6500,55 @@
             "--fix-type <TYPE>"
           ],
           "tip": [
-            "Filter findings by fix type: released or unreleased."
+            "Filter findings by fix type: released (official version release), patch (unreleased commit SHA), any (either), none (neither), unreleased (no released version fix).",
+            "Possible values: any, none, patch, released, unreleased"
+          ],
+          "next": [
+            {
+              "name": "any"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "patch"
+            },
+            {
+              "name": "released"
+            },
+            {
+              "name": "unreleased"
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "Output JSON."
+          ]
+        },
+        {
+          "name": "--list-skipped",
+          "tip": [
+            "List packages skipped due to missing or unsupported source URL."
+          ]
+        },
+        {
+          "name": "--max-summary",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --max-summary <N>"
+          ],
+          "tip": [
+            "Truncate summaries to n characters (default 60, 0 for no limit)."
           ],
           "next": []
         },
@@ -4723,6 +6562,33 @@
           "name": "--no-ignore-patches",
           "tip": [
             "Report vulnerabilities even when a formula patch resolves them."
+          ]
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <LEVEL>"
+          ],
+          "tip": [
+            "Only report findings at or above: low, medium, high, critical.",
+            "Possible values: critical, high, low, medium"
+          ],
+          "next": [
+            {
+              "name": "critical"
+            },
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "medium"
+            }
           ]
         }
       ]
@@ -4741,6 +6607,67 @@
           "tip": [
             "Output an explanation of how to get the command by installing a providing formula."
           ]
+        }
+      ]
+    },
+    {
+      "name": "which-update",
+      "usage": [
+        "which-update <DATABASE>"
+      ],
+      "tip": [
+        "Database update for brew which-formula."
+      ],
+      "option": [
+        {
+          "name": "--bottle-json-dir",
+          "usage": [
+            "--bottle-json-dir <DIR>"
+          ],
+          "tip": [
+            "Use generated bottle JSON files in the given directory to update formula entries."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pull-request",
+          "usage": [
+            "--pull-request <NUMBER>"
+          ],
+          "tip": [
+            "Update entries for formula changes in the given pull request number."
+          ],
+          "next": []
+        },
+        {
+          "name": "--removed-formulae-file",
+          "usage": [
+            "--removed-formulae-file <FILE>"
+          ],
+          "tip": [
+            "Remove database entries for formulae listed in the given file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPO>"
+          ],
+          "tip": [
+            "GitHub repository for --pull-request (default: $GITHUB_REPOSITORY)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary-file",
+          "usage": [
+            "--summary-file <FILE>"
+          ],
+          "tip": [
+            "Output a summary of the changes to a file."
+          ],
+          "next": []
         }
       ]
     }

@@ -36,7 +36,27 @@
     {
       "name": "--env",
       "tip": [
-        "总结 Homebrew 构建环境。"
+        "将 Homebrew 的构建环境汇总为纯文本列表。",
+        "若输出经由管道且未指定 shell，除非传入 --plain，否则列表按 bash 导出格式排布。"
+      ],
+      "option": [
+        {
+          "name": "--plain",
+          "tip": [
+            "即使经由管道也生成纯文本输出。"
+          ]
+        },
+        {
+          "name": "--shell",
+          "usage": [
+            "--shell=<SHELL>"
+          ],
+          "tip": [
+            "为指定 shell 生成环境变量列表。",
+            "用 --shell=auto 自动检测当前 shell。"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -48,6 +68,12 @@
     },
     {
       "name": "--repository",
+      "alias": [
+        "--repo"
+      ],
+      "usage": [
+        "--repo, --repository"
+      ],
       "tip": [
         "显示 Homebrew Git 仓库的位置。",
         "若提供了 tap，显示其仓库的位置。"
@@ -103,6 +129,16 @@
       ]
     },
     {
+      "name": "as-brew-user",
+      "usage": [
+        "as-brew-user <COMMAND> ..."
+      ],
+      "tip": [
+        "在 macOS 或 Linux 上以 HOMEBREW_PREFIX 属主身份运行 Homebrew 命令。",
+        "使用属主的 home 与干净环境。"
+      ]
+    },
+    {
       "name": "as-console-user",
       "usage": [
         "as-console-user <COMMAND> ..."
@@ -132,6 +168,30 @@
           "next": []
         },
         {
+          "name": "--audit-debug",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --audit-debug"
+          ],
+          "tip": [
+            "启用审计方法的调试与性能分析。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有具名参数视为 cask。"
+          ]
+        },
+        {
           "name": "--changed",
           "tip": [
             "检查相对 main 分支有变更的文件。"
@@ -144,9 +204,41 @@
           ]
         },
         {
+          "name": "--except",
+          "usage": [
+            "--except <METHODS>"
+          ],
+          "tip": [
+            "指定逗号分隔的方法列表，跳过名为 audit_method 的方法。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--except-cops",
+          "usage": [
+            "--except-cops <COPS>"
+          ],
+          "tip": [
+            "指定逗号分隔的 cops 列表，跳过对所列 RuboCop cops 违规的检查。"
+          ],
+          "next": []
+        },
+        {
           "name": "--fix",
           "tip": [
             "用 RuboCop 的自动修正功能修复风格问题。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有具名参数视为 formulae。"
           ]
         },
         {
@@ -175,6 +267,26 @@
           ]
         },
         {
+          "name": "--only",
+          "usage": [
+            "--only <METHODS>"
+          ],
+          "tip": [
+            "指定逗号分隔的方法列表，仅运行名为 audit_method 的方法。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--only-cops",
+          "usage": [
+            "--only-cops <COPS>"
+          ],
+          "tip": [
+            "指定逗号分隔的 cops 列表，仅检查所列 RuboCop cops 的违规。"
+          ],
+          "next": []
+        },
+        {
           "name": "--os",
           "usage": [
             "--os <OS>"
@@ -184,6 +296,14 @@
             "传入 all 表示审计全部操作系统。"
           ],
           "next": []
+        },
+        {
+          "name": "--skip-style",
+          "tip": [
+            "跳过运行非 RuboCop 风格检查。",
+            "若打算单独运行 brew style，此选项很有用。",
+            "除非按名称指定 formula，否则默认启用。"
+          ]
         },
         {
           "name": "--strict",
@@ -284,15 +404,60 @@
           ]
         },
         {
+          "name": "--no-all-checks",
+          "tip": [
+            "不尝试创建 all bottle，也不拦截无变更的上传。"
+          ]
+        },
+        {
+          "name": "--no-commit",
+          "tip": [
+            "与 --write 同用时，在写改动到 formula 文件后不生成新提交。"
+          ]
+        },
+        {
           "name": "--no-rebuild",
           "tip": [
             "从生成的 DSL 中删除 rebuild 版本号。"
           ]
         },
         {
+          "name": "--only-json-tab",
+          "tip": [
+            "与 --json 同用时，tab 只写入 JSON 文件而不写入 bottle。"
+          ]
+        },
+        {
+          "name": "--root-url",
+          "usage": [
+            "--root-url <URL>"
+          ],
+          "tip": [
+            "用指定 URL 作为 bottle URL 的根，而不是 Homebrew 默认值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-url-using",
+          "usage": [
+            "--root-url-using <CLASS>"
+          ],
+          "tip": [
+            "用指定下载策略类下载 bottle URL，而不是 Homebrew 默认策略。"
+          ],
+          "next": []
+        },
+        {
           "name": "--skip-relocation",
           "tip": [
             "不检查 bottle 是否可标记为 relocatable。"
+          ]
+        },
+        {
+          "name": "--write",
+          "tip": [
+            "将改动写入 formula 文件。",
+            "除非传入 --no-commit，否则会生成一个新提交。"
           ]
         }
       ]
@@ -306,6 +471,12 @@
         "显示过时的包及可用的最新版本。"
       ],
       "option": [
+        {
+          "name": "--bump-synced",
+          "tip": [
+            "连带 bump 标记为与给定 formulae 同步的其他 formulae。"
+          ]
+        },
         {
           "name": "--casks",
           "alias": [
@@ -373,6 +544,16 @@
           ]
         },
         {
+          "name": "--start-with",
+          "usage": [
+            "--start-with <LETTER>"
+          ],
+          "tip": [
+            "包结果列表在字母顺序上应跟随的字母或单词。"
+          ],
+          "next": []
+        },
+        {
           "name": "--tap",
           "usage": [
             "--tap <USER>/<REPO>"
@@ -396,7 +577,7 @@
         {
           "name": "--commit",
           "tip": [
-            "与 --write-only 联用时，写入修改后生成新提交。"
+            "与 --write-only 同用时，在写改动到 cask 文件后生成一个新提交。"
           ]
         },
         {
@@ -412,6 +593,26 @@
           ]
         },
         {
+          "name": "--fork-org",
+          "usage": [
+            "--fork-org <ORG>"
+          ],
+          "tip": [
+            "用指定 GitHub 组织进行 fork。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "在默认 pull request 消息前追加消息。"
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "开 PR 前不运行 brew audit。"
@@ -420,7 +621,13 @@
         {
           "name": "--no-browse",
           "tip": [
-            "打印 PR 链接而不打开它。"
+            "打印 pull request 链接，而不是在浏览器中打开。"
+          ]
+        },
+        {
+          "name": "--no-fork",
+          "tip": [
+            "不尝试 fork 仓库。"
           ]
         },
         {
@@ -428,6 +635,76 @@
           "tip": [
             "开 PR 前不运行 brew style --fix。"
           ]
+        },
+        {
+          "name": "--sha256",
+          "usage": [
+            "--sha256 <SHA256>"
+          ],
+          "tip": [
+            "指定新下载的 SHA-256 校验和。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--url",
+          "usage": [
+            "--url <URL>"
+          ],
+          "tip": [
+            "指定新下载的 URL。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "指定 cask 的新版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-arm",
+          "usage": [
+            "--version-arm <VERSION>"
+          ],
+          "tip": [
+            "指定 macOS on ARM 的 cask 新版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-intel",
+          "usage": [
+            "--version-intel <VERSION>"
+          ],
+          "tip": [
+            "指定 macOS on Intel 的 cask 新版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-linux-arm",
+          "usage": [
+            "--version-linux-arm <VERSION>"
+          ],
+          "tip": [
+            "指定 Linux on ARM 的 cask 新版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version-linux-intel",
+          "usage": [
+            "--version-linux-intel <VERSION>"
+          ],
+          "tip": [
+            "指定 Linux on Intel 的 cask 新版本。"
+          ],
+          "next": []
         },
         {
           "name": "--write-only",
@@ -488,7 +765,7 @@
         {
           "name": "--commit",
           "tip": [
-            "与 --write-only 联用时，写入修改后生成新提交。"
+            "与 --write-only 同用时，在写改动到 formula 文件后生成一个新提交。"
           ]
         },
         {
@@ -504,6 +781,55 @@
           ]
         },
         {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "若未指定 --mirror，则移除全部镜像。"
+          ]
+        },
+        {
+          "name": "--fork-org",
+          "usage": [
+            "--fork-org <ORG>"
+          ],
+          "tip": [
+            "用指定 GitHub 组织进行 fork。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-dependencies",
+          "tip": [
+            "安装更新 resources 所需的缺失依赖。"
+          ]
+        },
+        {
+          "name": "--message",
+          "usage": [
+            "--message <MESSAGE>"
+          ],
+          "tip": [
+            "在默认 pull request 消息前追加消息。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--mirror",
+          "usage": [
+            "--mirror <URL>"
+          ],
+          "tip": [
+            "用指定 URL 作为镜像 URL。",
+            "若 URL 为逗号分隔的 URL 列表，将添加多个镜像。"
+          ],
+          "next": []
+        },
+        {
           "name": "--no-audit",
           "tip": [
             "开 PR 前不运行 brew audit。"
@@ -512,14 +838,109 @@
         {
           "name": "--no-browse",
           "tip": [
-            "打印 PR 链接而不打开它。"
+            "打印 pull request 链接，而不是在浏览器中打开。"
           ]
         },
         {
-          "name": "--no-style",
+          "name": "--no-fork",
           "tip": [
-            "开 PR 前不运行 brew style --fix。"
+            "不尝试 fork 仓库。"
           ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "在开 PR 前运行 brew audit --online。"
+          ]
+        },
+        {
+          "name": "--python-exclude-packages",
+          "usage": [
+            "--python-exclude-packages <PACKAGES>"
+          ],
+          "tip": [
+            "在查找 resources 时排除这些 Python 包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-extra-packages",
+          "usage": [
+            "--python-extra-packages <PACKAGES>"
+          ],
+          "tip": [
+            "在查找 resources 时包含这些额外 Python 包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--python-package-name",
+          "usage": [
+            "--python-package-name <NAME>"
+          ],
+          "tip": [
+            "在为 formula 查找 Python resources 时使用指定包名。",
+            "若未指定包名，将从 formula 的 stable URL 推断。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--revision",
+          "usage": [
+            "--revision <REVISION>"
+          ],
+          "tip": [
+            "指定与所给 git tag 或所给版本对应的新 commit revision。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sha256",
+          "usage": [
+            "--sha256 <SHA256>"
+          ],
+          "tip": [
+            "指定新下载的 SHA-256 校验和。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--strict",
+          "tip": [
+            "在开 PR 前运行 brew audit --strict。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "指定 formula 的新 git commit tag。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--url",
+          "usage": [
+            "--url <URL>"
+          ],
+          "tip": [
+            "指定新下载的 URL。",
+            "若指定 URL，还应指定新下载的 SHA-256 校验和。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "用指定版本覆盖从 URL 或 tag 解析出的值。",
+            "注意 --version=0 可删除 formula 中已多余的版本覆盖。"
+          ],
+          "next": []
         },
         {
           "name": "--write-only",
@@ -912,6 +1333,21 @@
           "next": []
         },
         {
+          "name": "--organisation",
+          "alias": [
+            "--organization",
+            "--org"
+          ],
+          "usage": [
+            "--org, --organisation, --organization <ORG>"
+          ],
+          "tip": [
+            "指定用于填充来源仓库的组织。",
+            "省略此标志则搜索 Homebrew 主仓库。"
+          ],
+          "next": []
+        },
+        {
           "name": "--quarter",
           "usage": [
             "--quarter <QUARTER>"
@@ -928,6 +1364,17 @@
           ],
           "tip": [
             "指定逗号分隔的待搜索仓库列表。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--team",
+          "usage": [
+            "--team <TEAM>"
+          ],
+          "tip": [
+            "指定用于填充用户的团队。",
+            "团队名的第一部分将用作组织名。"
           ],
           "next": []
         },
@@ -959,7 +1406,7 @@
         "create <URL>"
       ],
       "tip": [
-        "为 URL 处的可下载文件生成 formula 或 cask。"
+        "为 URL 处的可下载文件生成 formula，或与 --cask 同用时生成 cask。"
       ],
       "option": [
         {
@@ -990,6 +1437,18 @@
           "name": "--crystal",
           "tip": [
             "创建 Crystal 构建的基础模板。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "忽略 formula 名不合法或遮蔽别名的错误。"
           ]
         },
         {
@@ -1047,6 +1506,16 @@
           ]
         },
         {
+          "name": "--set-license",
+          "usage": [
+            "--set-license <LICENSE>"
+          ],
+          "tip": [
+            "显式设置新 formula 的许可证。"
+          ],
+          "next": []
+        },
+        {
           "name": "--set-name",
           "usage": [
             "--set-name <NAME>"
@@ -1063,6 +1532,16 @@
           ],
           "tip": [
             "显式设置新 formula 或 cask 的版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "在给定 tap（user/repo 形式）内生成新 formula。"
           ],
           "next": []
         },
@@ -1467,6 +1946,13 @@
       ]
     },
     {
+      "name": "environment",
+      "tip": [
+        "将 Homebrew 的构建环境汇总为纯文本列表。",
+        "若输出经由管道且未指定 shell，除非传入 --plain，否则列表按 bash 导出格式排布。"
+      ]
+    },
+    {
       "name": "exec",
       "alias": [
         "x"
@@ -1672,6 +2158,12 @@
           "name": "--retry",
           "tip": [
             "下载失败时重试，最多 5 次，指数退避。"
+          ]
+        },
+        {
+          "name": "--test",
+          "tip": [
+            "同时下载每个 formula 的 test resources 及其补丁。"
           ]
         }
       ]
@@ -1944,8 +2436,11 @@
     },
     {
       "name": "install",
+      "alias": [
+        "instal"
+      ],
       "usage": [
-        "install <FORMULA>|<CASK> ..."
+        "instal|install <FORMULA>|<CASK> ..."
       ],
       "tip": [
         "安装 formula 或 cask。"
@@ -2705,6 +3200,115 @@
       ]
     },
     {
+      "name": "livecheck",
+      "alias": [
+        "lc"
+      ],
+      "usage": [
+        "lc|livecheck [<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "从上游检查 formulae 与 casks 的新版本。"
+      ],
+      "option": [
+        {
+          "name": "--autobump",
+          "tip": [
+            "包含由 BrewTestBot 自动 bump 的包。",
+            "默认跳过这些包。"
+          ]
+        },
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "仅检查 casks。"
+          ]
+        },
+        {
+          "name": "--extract-plist",
+          "tip": [
+            "启用 ExtractPlist 策略以检查多个 casks。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "仅检查 formulae。"
+          ]
+        },
+        {
+          "name": "--full-name",
+          "tip": [
+            "打印 formulae 与 casks 的全限定名。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "检查当前已安装的 formulae 与 casks。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "以 JSON 格式输出信息。"
+          ]
+        },
+        {
+          "name": "--newer-only",
+          "tip": [
+            "仅当最新版本比当前 formula 或 cask 版本更新时才显示。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "抑制警告，JSON 输出时不打印进度条。"
+          ]
+        },
+        {
+          "name": "--resources",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --resources"
+          ],
+          "tip": [
+            "同时检查 formulae 的 resources。"
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "检查给定 tap（user/repo 形式）内的 formulae 与 casks。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "log",
       "usage": [
         "log [<FORMULA>|<CASK>]"
@@ -3041,6 +3645,36 @@
       ],
       "tip": [
         "重新运行 formula 的 post-install 步骤。"
+      ]
+    },
+    {
+      "name": "prof",
+      "usage": [
+        "prof <COMMAND> ..."
+      ],
+      "tip": [
+        "用 Ruby profiler 运行 Homebrew。",
+        "例如 brew prof readall。"
+      ],
+      "option": [
+        {
+          "name": "--stackprof",
+          "tip": [
+            "用 stackprof 代替默认的 ruby-prof。"
+          ]
+        },
+        {
+          "name": "--timings",
+          "tip": [
+            "记录 Homebrew 命令各阶段机器可读的耗时。"
+          ]
+        },
+        {
+          "name": "--vernier",
+          "tip": [
+            "用 vernier 代替默认的 ruby-prof。"
+          ]
+        }
       ]
     },
     {
@@ -3460,6 +4094,68 @@
       ]
     },
     {
+      "name": "rubocop",
+      "tip": [
+        "安装、配置并运行 Homebrew 的 rubocop。"
+      ]
+    },
+    {
+      "name": "ruby",
+      "usage": [
+        "ruby [(-e <TEXT>|<FILE>)]"
+      ],
+      "tip": [
+        "运行加载了 Homebrew 库的 Ruby 实例。",
+        "例如 brew ruby -e \"puts :gcc.f.deps\" 或 brew ruby script.rb。",
+        "运行 brew ruby -- --version 可向 ruby 传递任意参数。"
+      ],
+      "option": [
+        {
+          "name": "-e",
+          "usage": [
+            "-e <TEXT>"
+          ],
+          "tip": [
+            "将给定文本串作为脚本执行。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-r",
+          "usage": [
+            "-r <LIBRARY>"
+          ],
+          "tip": [
+            "用 require 加载一个库。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "rubydoc",
+      "usage": [
+        "rubydoc [--only-public] [--open]"
+      ],
+      "tip": [
+        "生成 Homebrew 的 RubyDoc 文档。"
+      ],
+      "option": [
+        {
+          "name": "--only-public",
+          "tip": [
+            "仅生成公开 API 文档。"
+          ]
+        },
+        {
+          "name": "--open",
+          "tip": [
+            "在浏览器中打开生成的文档。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "sandbox-exec",
       "usage": [
         "sandbox-exec <PATH> <COMMAND> ..."
@@ -3685,6 +4381,57 @@
       ]
     },
     {
+      "name": "sh",
+      "usage": [
+        "sh [<FILE>]"
+      ],
+      "tip": [
+        "进入 Homebrew 构建环境的交互式 shell。",
+        "与 --ruby 同用时，进入 Homebrew Ruby 环境的交互式 shell。"
+      ],
+      "option": [
+        {
+          "name": "--cmd",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --cmd <COMMAND>"
+          ],
+          "tip": [
+            "在非交互式 shell 中执行命令。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <ENV>"
+          ],
+          "tip": [
+            "当传入 std 时，用标准 $PATH 代替 superenv 的 PATH。"
+          ],
+          "next": [
+            {
+              "name": "std"
+            }
+          ]
+        },
+        {
+          "name": "--ruby",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --ruby"
+          ],
+          "tip": [
+            "配置 Homebrew 的 Ruby 环境。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "shellenv",
       "usage": [
         "shellenv [<SHELL>]"
@@ -3723,6 +4470,86 @@
       ],
       "tip": [
         "在浏览器中打开 formula 的源码仓库。"
+      ]
+    },
+    {
+      "name": "style",
+      "usage": [
+        "style [<FILE>|<TAP>|<FORMULA>|<CASK> ...]"
+      ],
+      "tip": [
+        "检查 formulae 或文件是否符合 Homebrew 风格指南。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有具名参数视为 casks。"
+          ]
+        },
+        {
+          "name": "--changed",
+          "tip": [
+            "检查相对 main 分支有变更的文件。"
+          ]
+        },
+        {
+          "name": "--except-cops",
+          "usage": [
+            "--except-cops <COPS>"
+          ],
+          "tip": [
+            "指定逗号分隔的 cops 列表，跳过对所列 RuboCop cops 违规的检查。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "用 RuboCop 自动修正功能修复风格问题。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有具名参数视为 formulae。"
+          ]
+        },
+        {
+          "name": "--only-cops",
+          "usage": [
+            "--only-cops <COPS>"
+          ],
+          "tip": [
+            "指定逗号分隔的 cops 列表，仅检查所列 RuboCop cops 的违规。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reset-cache",
+          "tip": [
+            "重置 RuboCop 缓存。"
+          ]
+        },
+        {
+          "name": "--todo",
+          "tip": [
+            "为自动修正后仍存在的 RuboCop 违规添加 rubocop:todo 注释。",
+            "需要 --fix。"
+          ]
+        }
       ]
     },
     {
@@ -3832,6 +4659,507 @@
       ]
     },
     {
+      "name": "tap-new",
+      "usage": [
+        "tap-new <USER>/<REPO>"
+      ],
+      "tip": [
+        "为新 tap 生成模板文件。"
+      ],
+      "option": [
+        {
+          "name": "--branch",
+          "usage": [
+            "--branch <BRANCH>"
+          ],
+          "tip": [
+            "初始化 Git 仓库，并用指定分支名配置 GitHub Actions 工作流（默认 main）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--github-packages",
+          "tip": [
+            "上传 bottles 到 GitHub Packages。"
+          ]
+        },
+        {
+          "name": "--no-git",
+          "tip": [
+            "不为 tap 初始化 Git 仓库。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "usage": [
+        "test <FORMULA> ..."
+      ],
+      "tip": [
+        "运行已安装 formula 提供的 test 方法。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "即使 formulae 未链接也进行测试。"
+          ]
+        },
+        {
+          "name": "--HEAD",
+          "tip": [
+            "测试 formula 的 HEAD 版本。"
+          ]
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "保留测试创建的临时文件。"
+          ]
+        },
+        {
+          "name": "--retry",
+          "tip": [
+            "若测试失败则重试。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "test-bot",
+      "usage": [
+        "test-bot [<FORMULA>]"
+      ],
+      "tip": [
+        "测试对 tap（Git 仓库）的 Homebrew 改动的完整生命周期。"
+      ],
+      "option": [
+        {
+          "name": "--added-formulae",
+          "usage": [
+            "--added-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "使用这些 added formulae，而不运行 formulae 检测步骤。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--build-dependents-from-source",
+          "tip": [
+            "除测试 bottles 外，还从源码构建有限的 dependents。"
+          ]
+        },
+        {
+          "name": "--build-from-source",
+          "tip": [
+            "从源码构建，而不是构建 bottles。"
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "清理 Homebrew 目录中的全部状态。",
+            "请谨慎使用！"
+          ]
+        },
+        {
+          "name": "--deleted-formulae",
+          "usage": [
+            "--deleted-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "使用这些 deleted formulae，而不运行 formulae 检测步骤。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "打印将要做的事而不实际执行。"
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "遇到失败步骤立即退出。"
+          ]
+        },
+        {
+          "name": "--git-email",
+          "usage": [
+            "--git-email <EMAIL>"
+          ],
+          "tip": [
+            "把 Git 作者/提交者邮箱设为给定邮箱。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--git-name",
+          "usage": [
+            "--git-name <NAME>"
+          ],
+          "tip": [
+            "把 Git 作者/提交者名设为给定名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--junit",
+          "tip": [
+            "生成 JUnit XML 测试结果文件。"
+          ]
+        },
+        {
+          "name": "--keep-old",
+          "tip": [
+            "运行 brew bottle --keep-old 为单个平台构建新 bottles。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "让 Homebrew 把详细日志写到 ./logs/ 下，并把 $HOME 设为 ./home/。"
+          ]
+        },
+        {
+          "name": "--no-skip-recursive-dependents",
+          "tip": [
+            "同时测试递归 dependents。",
+            "（已弃用，这已是默认行为）"
+          ]
+        },
+        {
+          "name": "--only-bottles-fetch",
+          "tip": [
+            "仅运行 bottles 获取步骤。"
+          ]
+        },
+        {
+          "name": "--only-cleanup-after",
+          "tip": [
+            "仅运行清理后步骤。",
+            "需要 --cleanup，GitHub Actions 中除外。"
+          ]
+        },
+        {
+          "name": "--only-cleanup-before",
+          "tip": [
+            "仅运行清理前步骤。",
+            "需要 --cleanup，GitHub Actions 中除外。"
+          ]
+        },
+        {
+          "name": "--only-formulae",
+          "tip": [
+            "仅运行 formulae 步骤。"
+          ]
+        },
+        {
+          "name": "--only-formulae-dependents",
+          "tip": [
+            "仅运行 formulae dependents 步骤。"
+          ]
+        },
+        {
+          "name": "--only-formulae-detect",
+          "tip": [
+            "仅运行 formulae 检测步骤。"
+          ]
+        },
+        {
+          "name": "--only-json-tab",
+          "tip": [
+            "运行 brew bottle --only-json-tab 构建不含 tab 的新 bottles。"
+          ]
+        },
+        {
+          "name": "--only-setup",
+          "tip": [
+            "仅运行本地系统配置检查步骤。"
+          ]
+        },
+        {
+          "name": "--only-tap-syntax",
+          "tip": [
+            "仅运行 tap 语法检查步骤。"
+          ]
+        },
+        {
+          "name": "--publish",
+          "tip": [
+            "发布已上传的 bottles。"
+          ]
+        },
+        {
+          "name": "--root-url",
+          "usage": [
+            "--root-url <URL>"
+          ],
+          "tip": [
+            "用指定 URL 作为 bottle URL 的根，而不是 Homebrew 默认值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-checksum-only-audit",
+          "tip": [
+            "不审计仅 checksum 的变更。"
+          ]
+        },
+        {
+          "name": "--skip-dependents",
+          "tip": [
+            "不测试任何 dependents。"
+          ]
+        },
+        {
+          "name": "--skip-livecheck",
+          "tip": [
+            "不测试 livecheck。"
+          ]
+        },
+        {
+          "name": "--skip-new",
+          "tip": [
+            "对新 formulae 不向 brew audit 传递 --new。"
+          ]
+        },
+        {
+          "name": "--skip-new-strict",
+          "tip": [
+            "对新 formulae 不向 brew audit 传递 --strict。"
+          ]
+        },
+        {
+          "name": "--skip-online-checks",
+          "tip": [
+            "不向 brew audit 传递 --online，并跳过 brew livecheck。"
+          ]
+        },
+        {
+          "name": "--skip-recursive-dependents",
+          "tip": [
+            "仅测试直接 dependents（默认启用）。",
+            "（已弃用，这已是默认行为）"
+          ]
+        },
+        {
+          "name": "--skip-relocation",
+          "tip": [
+            "运行 brew bottle --skip-relocation 构建无需 relocation 的新 bottles。"
+          ]
+        },
+        {
+          "name": "--skip-revision-audit",
+          "tip": [
+            "不审计 revision。"
+          ]
+        },
+        {
+          "name": "--skip-setup",
+          "tip": [
+            "不检查本地系统是否配置正确。"
+          ]
+        },
+        {
+          "name": "--skip-stable-version-audit",
+          "tip": [
+            "不审计 stable 版本。"
+          ]
+        },
+        {
+          "name": "--skipped-or-failed-formulae",
+          "usage": [
+            "--skipped-or-failed-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "在 formulae dependents 步骤中使用 formulae 步骤中这些跳过或失败的 formulae。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stable",
+          "tip": [
+            "仅运行 stable brew 所需的 tap 语法检查。"
+          ]
+        },
+        {
+          "name": "--tap",
+          "usage": [
+            "--tap <USER>/<REPO>"
+          ],
+          "tip": [
+            "使用给定 tap 的 Git 仓库。",
+            "语法检查默认使用 core tap。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--test-default-formula",
+          "tip": [
+            "当不构建 tap 且未指定其他 formulae 时，使用默认测试 formula。"
+          ]
+        },
+        {
+          "name": "--tested-formulae",
+          "usage": [
+            "--tested-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "在 formulae dependents 步骤中使用 formulae 步骤中这些已测试的 formulae。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--testing-formulae",
+          "usage": [
+            "--testing-formulae <FORMULAE>"
+          ],
+          "tip": [
+            "使用这些 testing formulae，而不运行 formulae 检测步骤。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "实时打印测试步骤输出。",
+            "附带效果：输出以原始字节传递，而不按 UTF-8 重编码。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "tests",
+      "tip": [
+        "运行 Homebrew 的单元与集成测试。"
+      ],
+      "option": [
+        {
+          "name": "--changed",
+          "tip": [
+            "仅对相对 main 分支有变更的文件运行测试。"
+          ]
+        },
+        {
+          "name": "--coverage",
+          "tip": [
+            "生成代码覆盖率报告。"
+          ]
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "用 ruby/debug 启用调试，或显示标准 odebug 输出。"
+          ]
+        },
+        {
+          "name": "--fail-fast",
+          "tip": [
+            "遇到第一个失败测试即提前退出。"
+          ]
+        },
+        {
+          "name": "--generic",
+          "tip": [
+            "仅运行与 OS 无关的测试。"
+          ]
+        },
+        {
+          "name": "--load-only",
+          "tip": [
+            "独立加载每个测试文件而不运行其用例。"
+          ]
+        },
+        {
+          "name": "--no-parallel",
+          "tip": [
+            "串行运行测试。"
+          ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "包含使用 GitHub API 的测试，以及使用官方外部命令 taps 的测试。"
+          ]
+        },
+        {
+          "name": "--only",
+          "usage": [
+            "--only <SPEC>"
+          ],
+          "tip": [
+            "仅运行 test_script_spec.rb。",
+            "追加 :line_number 可从指定行开始。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--profile",
+          "usage": [
+            "--profile <N>"
+          ],
+          "tip": [
+            "输出最慢的 n 个测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ruby-prof",
+          "tip": [
+            "用 ruby-prof 分析测试。"
+          ]
+        },
+        {
+          "name": "--seed",
+          "usage": [
+            "--seed <SEED>"
+          ],
+          "tip": [
+            "用指定值而非随机种子随机化测试。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--shard",
+          "usage": [
+            "--shard <SHARD>"
+          ],
+          "tip": [
+            "仅运行全部测试分片中的第 index 个。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--stackprof",
+          "tip": [
+            "用 stackprof 分析测试。"
+          ]
+        },
+        {
+          "name": "--vernier",
+          "tip": [
+            "用 vernier 分析测试。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "trust",
       "usage": [
         "trust [<TARGET> ...]"
@@ -3897,6 +5225,92 @@
       ]
     },
     {
+      "name": "typecheck",
+      "alias": [
+        "tc"
+      ],
+      "usage": [
+        "tc|typecheck [<TAP> ...]"
+      ],
+      "tip": [
+        "用 Sorbet 检查类型错误。"
+      ],
+      "option": [
+        {
+          "name": "--dir",
+          "usage": [
+            "--dir <DIR>"
+          ],
+          "tip": [
+            "类型检查指定目录中的全部文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "类型检查单个文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fix",
+          "tip": [
+            "自动修复类型错误。"
+          ]
+        },
+        {
+          "name": "--ignore",
+          "usage": [
+            "--ignore <STRING>"
+          ],
+          "tip": [
+            "忽略路径中包含给定字符串的输入文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--lsp",
+          "tip": [
+            "启动 Sorbet LSP 服务器。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "静默所有非关键错误。"
+          ]
+        },
+        {
+          "name": "--suggest-typed",
+          "tip": [
+            "尝试升级 typed sigils。"
+          ]
+        },
+        {
+          "name": "--update",
+          "tip": [
+            "更新 RBI 文件。"
+          ]
+        },
+        {
+          "name": "--update-all",
+          "tip": [
+            "更新全部 RBI 文件，而不仅是已更新的 gems。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "unalias",
       "usage": [
         "unalias <ALIAS> ..."
@@ -3906,13 +5320,53 @@
       ]
     },
     {
+      "name": "unbottled",
+      "usage": [
+        "unbottled [<FORMULA> ...]"
+      ],
+      "tip": [
+        "显示 formulae 未装瓶的 dependents。"
+      ],
+      "option": [
+        {
+          "name": "--dependents",
+          "tip": [
+            "跳过获取分析数据，改为按 dependents 数量排序。"
+          ]
+        },
+        {
+          "name": "--lost",
+          "tip": [
+            "打印过去一周丢失 bottles 的 homebrew/core 提交。"
+          ]
+        },
+        {
+          "name": "--tag",
+          "usage": [
+            "--tag <TAG>"
+          ],
+          "tip": [
+            "用指定 bottle tag（如 big_sur）代替当前 OS。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--total",
+          "tip": [
+            "打印未装瓶与全部 formulae 的数量。"
+          ]
+        }
+      ]
+    },
+    {
       "name": "uninstall",
       "alias": [
+        "uninstal",
         "remove",
         "rm"
       ],
       "usage": [
-        "rm|remove|uninstall <FORMULA>|<CASK> ..."
+        "rm|remove|uninstal|uninstall <FORMULA>|<CASK> ..."
       ],
       "tip": [
         "卸载 formula 或 cask。"
@@ -4013,6 +5467,82 @@
           ],
           "tip": [
             "将所有命名参数视为 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unpack",
+      "usage": [
+        "unpack <FORMULA>|<CASK> ..."
+      ],
+      "tip": [
+        "把 formula 或 cask 的文件解包到当前工作目录的子目录中。"
+      ],
+      "option": [
+        {
+          "name": "--casks",
+          "alias": [
+            "--cask"
+          ],
+          "usage": [
+            "--cask, --casks"
+          ],
+          "tip": [
+            "将所有具名参数视为 casks。"
+          ]
+        },
+        {
+          "name": "--destdir",
+          "usage": [
+            "--destdir <DIR>"
+          ],
+          "tip": [
+            "改为在 path 所指目录中创建子目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "若目标目录已存在则覆盖。"
+          ]
+        },
+        {
+          "name": "--formulae",
+          "alias": [
+            "--formula"
+          ],
+          "usage": [
+            "--formula, --formulae"
+          ],
+          "tip": [
+            "将所有具名参数视为 formulae。"
+          ]
+        },
+        {
+          "name": "--git",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --git"
+          ],
+          "tip": [
+            "在解包后的源码中初始化 Git 仓库。",
+            "这便于为该软件制作补丁。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "tip": [
+            "formula 的补丁将被应用到解包后的源码。"
           ]
         }
       ]
@@ -4168,6 +5698,127 @@
       ]
     },
     {
+      "name": "update-perl-resources",
+      "usage": [
+        "update-perl-resources <FORMULA> ..."
+      ],
+      "tip": [
+        "更新 formula 中 CPAN resource 块的版本。"
+      ],
+      "option": [
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "即使部分 resources 无法解析也继续处理。"
+          ]
+        },
+        {
+          "name": "--print-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print-only"
+          ],
+          "tip": [
+            "打印更新后的 resource 块而不改动 formula。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update-python-resources",
+      "usage": [
+        "update-python-resources <FORMULA> ..."
+      ],
+      "tip": [
+        "更新 formula 中 PyPI resource 块的版本。"
+      ],
+      "option": [
+        {
+          "name": "--exclude-packages",
+          "usage": [
+            "--exclude-packages <PACKAGES>"
+          ],
+          "tip": [
+            "在查找 resources 时排除这些包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--extra-packages",
+          "usage": [
+            "--extra-packages <PACKAGES>"
+          ],
+          "tip": [
+            "在查找 resources 时包含这些额外包。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "记录全部发现的 resources，即使其中有无法成功解析的。",
+            "对 homebrew/core formulae 忽略此选项。"
+          ]
+        },
+        {
+          "name": "--ignore-main-package-cooldown",
+          "tip": [
+            "在解析 resources 时跳过 formula 自身包的发布冷却。",
+            "其依赖仍遵守冷却。",
+            "对官方 taps 忽略此选项。"
+          ]
+        },
+        {
+          "name": "--ignore-non-pypi-packages",
+          "tip": [
+            "若 formula 不是 PyPI 包也不报错。"
+          ]
+        },
+        {
+          "name": "--install-dependencies",
+          "tip": [
+            "安装更新 resources 所需的缺失依赖。"
+          ]
+        },
+        {
+          "name": "--package-name",
+          "usage": [
+            "--package-name <NAME>"
+          ],
+          "tip": [
+            "在为 formula 查找 resources 时使用指定包名。",
+            "若未指定包名，将从 formula 的 stable URL 推断。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--print-only",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --print-only"
+          ],
+          "tip": [
+            "打印更新后的 resource 块而不改动 formula。"
+          ]
+        },
+        {
+          "name": "--version",
+          "usage": [
+            "--version <VERSION>"
+          ],
+          "tip": [
+            "在为 formula 查找 resources 时使用指定版本。",
+            "若未指定版本，使用 formula 当前版本。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "update-reset",
       "usage": [
         "update-reset [<REPOSITORY> ...]"
@@ -4175,6 +5826,47 @@
       "tip": [
         "拉取并重置 Homebrew 及所有 tap 仓库到最新的 origin/HEAD。",
         "这将销毁你所有未提交或已提交的修改。"
+      ]
+    },
+    {
+      "name": "update-test",
+      "tip": [
+        "用新的仓库克隆运行 brew update 测试。",
+        "若不传选项，使用 origin/main 作为起始提交。"
+      ],
+      "option": [
+        {
+          "name": "--before",
+          "usage": [
+            "--before <DATE>"
+          ],
+          "tip": [
+            "用指定日期的提交作为起始提交。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--commit",
+          "usage": [
+            "--commit <COMMIT>"
+          ],
+          "tip": [
+            "用指定提交作为起始提交。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--keep-tmp",
+          "tip": [
+            "保留包含新仓库克隆的临时目录。"
+          ]
+        },
+        {
+          "name": "--to-tag",
+          "tip": [
+            "设置 $HOMEBREW_UPDATE_TO_TAG 以测试跨 tag 更新。"
+          ]
+        }
       ]
     },
     {
@@ -4658,6 +6350,105 @@
       ]
     },
     {
+      "name": "vendor-gems",
+      "tip": [
+        "安装并提交 Homebrew 的 vendored gems。"
+      ],
+      "option": [
+        {
+          "name": "--no-commit",
+          "tip": [
+            "完成后不生成新提交。"
+          ]
+        },
+        {
+          "name": "--update",
+          "usage": [
+            "--update=<GEMS>"
+          ],
+          "tip": [
+            "把指定的 vendored gems 列表更新到最新版。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "verify",
+      "usage": [
+        "verify <FORMULA> ..."
+      ],
+      "tip": [
+        "用 GitHub 的 attestation 工具验证 bottles 的构建来源。",
+        "先获取给定 bottles，再验证 homebrew/core 及提供 attestations 的第三方 taps 的来源。",
+        "注意此命令依赖 GitHub CLI，请运行 brew install gh。"
+      ],
+      "option": [
+        {
+          "name": "--arch",
+          "usage": [
+            "--arch <ARCH>"
+          ],
+          "tip": [
+            "下载给定 CPU 架构的 bottle。",
+            "传入 all 则下载全部架构的 bottle。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--bottle-tag",
+          "usage": [
+            "--bottle-tag <TAG>"
+          ],
+          "tip": [
+            "下载给定 tag 的 bottle。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--deps",
+          "tip": [
+            "同时下载所列 formula 的依赖。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "删除此前缓存的版本并重新获取。"
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "为每个 bottle 的 attestation 数据返回 JSON。"
+          ]
+        },
+        {
+          "name": "--os",
+          "usage": [
+            "--os <OS>"
+          ],
+          "tip": [
+            "下载给定 OS 的 bottle。",
+            "传入 all 则下载全部 OS 的 bottle。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
       "name": "version-install",
       "usage": [
         "version-install <FORMULA> [<VERSION>]"
@@ -4709,7 +6500,55 @@
             "--fix-type <TYPE>"
           ],
           "tip": [
-            "按修复类型过滤结果：released 或 unreleased。"
+            "按修复类型过滤发现：released（正式版本发布）、patch（未发布的 commit SHA）、any（任一）、none（皆无）、unreleased（无已发布版本修复）。",
+            "可能值：any、none、patch、released、unreleased"
+          ],
+          "next": [
+            {
+              "name": "any"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "patch"
+            },
+            {
+              "name": "released"
+            },
+            {
+              "name": "unreleased"
+            }
+          ]
+        },
+        {
+          "name": "--json",
+          "alias": [
+            "-j"
+          ],
+          "usage": [
+            "-j, --json"
+          ],
+          "tip": [
+            "输出 JSON。"
+          ]
+        },
+        {
+          "name": "--list-skipped",
+          "tip": [
+            "列出因缺失或不支持的来源 URL 而跳过的包。"
+          ]
+        },
+        {
+          "name": "--max-summary",
+          "alias": [
+            "-m"
+          ],
+          "usage": [
+            "-m, --max-summary <N>"
+          ],
+          "tip": [
+            "将摘要截断为 n 个字符（默认 60，0 表示不限）。"
           ],
           "next": []
         },
@@ -4723,6 +6562,33 @@
           "name": "--no-ignore-patches",
           "tip": [
             "即使 formula 补丁已修复漏洞也报告。"
+          ]
+        },
+        {
+          "name": "--severity",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --severity <LEVEL>"
+          ],
+          "tip": [
+            "仅报告不低于以下等级的发现：low、medium、high、critical。",
+            "可能值：critical、high、low、medium"
+          ],
+          "next": [
+            {
+              "name": "critical"
+            },
+            {
+              "name": "high"
+            },
+            {
+              "name": "low"
+            },
+            {
+              "name": "medium"
+            }
           ]
         }
       ]
@@ -4741,6 +6607,67 @@
           "tip": [
             "输出如何通过安装提供该命令的 formula 来获取它的说明。"
           ]
+        }
+      ]
+    },
+    {
+      "name": "which-update",
+      "usage": [
+        "which-update <DATABASE>"
+      ],
+      "tip": [
+        "为 brew which-formula 更新数据库。"
+      ],
+      "option": [
+        {
+          "name": "--bottle-json-dir",
+          "usage": [
+            "--bottle-json-dir <DIR>"
+          ],
+          "tip": [
+            "用给定目录中生成的 bottle JSON 文件更新 formula 条目。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pull-request",
+          "usage": [
+            "--pull-request <NUMBER>"
+          ],
+          "tip": [
+            "更新给定 pull request 编号中 formula 变更的条目。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--removed-formulae-file",
+          "usage": [
+            "--removed-formulae-file <FILE>"
+          ],
+          "tip": [
+            "删除给定文件中所列 formulae 的数据库条目。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--repository",
+          "usage": [
+            "--repository <REPO>"
+          ],
+          "tip": [
+            "--pull-request 的 GitHub 仓库（默认 $GITHUB_REPOSITORY）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary-file",
+          "usage": [
+            "--summary-file <FILE>"
+          ],
+          "tip": [
+            "把变更摘要输出到文件。"
+          ],
+          "next": []
         }
       ]
     }

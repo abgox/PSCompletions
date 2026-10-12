@@ -56,7 +56,7 @@ psc.on({
     { command = "which" },
     { command = "exec" },
     { command = "latest" },
-    { command = "ls-remote" },
+    { command = "list-remote" },
     { command = "link" }
 }, add_tools)
 
@@ -66,6 +66,6 @@ psc.on({
 }, add_tasks)
 
 psc.on({
-    { command = { "plugins", "upgrade" } },
-    { command = { "plugins", "uninstall" } }
+    { command = { "plugin-list", "upgrade" } },
+    { command = { "plugin-list", "uninstall" } }
 }, add_plugins)

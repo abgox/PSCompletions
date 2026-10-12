@@ -27,7 +27,15 @@
       ]
     },
     {
-      "name": "backends",
+      "name": "backend-list",
+      "alias": [
+        "backends",
+        "backend",
+        "b"
+      ],
+      "usage": [
+        "b|backend|backends|backend-list"
+      ],
       "tip": [
         "Manage backends"
       ],
@@ -60,6 +68,12 @@
     },
     {
       "name": "bootstrap",
+      "alias": [
+        "bs"
+      ],
+      "usage": [
+        "bs|bootstrap"
+      ],
       "tip": [
         "Set up a machine for the current config in one command"
       ],
@@ -214,6 +228,12 @@
               "name": "include",
               "tip": [
                 "Stop excluding paths matching a glob"
+              ]
+            },
+            {
+              "name": "notify",
+              "tip": [
+                "Send a test desktop notification"
               ]
             },
             {
@@ -964,7 +984,14 @@
       ]
     },
     {
-      "name": "completion",
+      "name": "completions",
+      "alias": [
+        "completion",
+        "complete"
+      ],
+      "usage": [
+        "complete|completion|completions"
+      ],
       "tip": [
         "Generate shell completions"
       ],
@@ -980,10 +1007,11 @@
     {
       "name": "config",
       "alias": [
+        "toml",
         "cfg"
       ],
       "usage": [
-        "cfg|config"
+        "cfg|toml|config"
       ],
       "tip": [
         "Manage config files"
@@ -1228,6 +1256,12 @@
     },
     {
       "name": "dotfiles",
+      "alias": [
+        "dot"
+      ],
+      "usage": [
+        "dot|dotfiles"
+      ],
       "tip": [
         "(deprecated) Manage dotfiles from `[dotfiles]`"
       ],
@@ -1284,6 +1318,12 @@
           "name": "include",
           "tip": [
             "Stop excluding paths matching a glob"
+          ]
+        },
+        {
+          "name": "notify",
+          "tip": [
+            "Send a test desktop notification"
           ]
         },
         {
@@ -1496,6 +1536,110 @@
       ]
     },
     {
+      "name": "env-vars",
+      "alias": [
+        "set",
+        "ev"
+      ],
+      "usage": [
+        "ev|set|env-vars"
+      ],
+      "tip": [
+        "Set environment variables in mise.toml"
+      ],
+      "option": [
+        {
+          "name": "--age-encrypt",
+          "tip": [
+            "[experimental] Encrypt the value with age before storing"
+          ]
+        },
+        {
+          "name": "--age-key-file",
+          "usage": [
+            "--age-key-file <PATH>"
+          ],
+          "tip": [
+            "[experimental] Age identity file for encryption"
+          ],
+          "next": []
+        },
+        {
+          "name": "--age-recipient",
+          "usage": [
+            "--age-recipient <RECIPIENT>"
+          ],
+          "tip": [
+            "[experimental] Age recipient (x25519 public key) for encryption"
+          ],
+          "next": []
+        },
+        {
+          "name": "--age-ssh-recipient",
+          "usage": [
+            "--age-ssh-recipient <PATH_OR_PUBKEY>"
+          ],
+          "tip": [
+            "[experimental] SSH recipient (public key or path) for age encryption"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-E"
+          ],
+          "usage": [
+            "-E, --env <ENV>"
+          ],
+          "tip": [
+            "Create/modify an environment-specific config file like .mise.<env>.toml"
+          ],
+          "next": []
+        },
+        {
+          "name": "--file",
+          "usage": [
+            "--file <FILE>"
+          ],
+          "tip": [
+            "The TOML file to update"
+          ],
+          "next": []
+        },
+        {
+          "name": "--global",
+          "alias": [
+            "-g"
+          ],
+          "usage": [
+            "-g, --global"
+          ],
+          "tip": [
+            "Set the environment variable in the global config file"
+          ]
+        },
+        {
+          "name": "--no-redact",
+          "tip": [
+            "Show raw values instead of redacting secrets"
+          ]
+        },
+        {
+          "name": "--prompt",
+          "tip": [
+            "Prompt for environment variable values"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "tip": [
+            "Read the value from stdin (for multiline input)"
+          ]
+        }
+      ]
+    },
+    {
       "name": "exec",
       "alias": [
         "x"
@@ -1581,10 +1725,11 @@
     {
       "name": "generate",
       "alias": [
-        "gen"
+        "gen",
+        "g"
       ],
       "usage": [
-        "gen|generate"
+        "g|gen|generate"
       ],
       "tip": [
         "Generate files for various tools/services"
@@ -2213,6 +2358,12 @@
       ]
     },
     {
+      "name": "installs",
+      "tip": [
+        "[experimental] Inspect and choose identity-layout installations"
+      ]
+    },
+    {
       "name": "latest",
       "tip": [
         "Gets the latest available version for a plugin"
@@ -2278,100 +2429,53 @@
       ],
       "tip": [
         "List installed and active tool versions"
+      ]
+    },
+    {
+      "name": "list-remote",
+      "alias": [
+        "ls-remote",
+        "list-all"
+      ],
+      "usage": [
+        "list-all|ls-remote|list-remote"
+      ],
+      "tip": [
+        "List runtime versions available for install"
       ],
       "option": [
         {
-          "name": "--all-sources",
+          "name": "--all",
           "tip": [
-            "Display all tracked config sources for tools"
+            "Show all installed plugins and versions"
           ]
         },
         {
-          "name": "--current",
-          "alias": [
-            "-c"
-          ],
+          "name": "--minimum-release-age",
           "usage": [
-            "-c, --current"
+            "--minimum-release-age <MINIMUM_RELEASE_AGE>"
           ],
           "tip": [
-            "Only show tool versions currently specified in a mise.toml"
-          ]
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "Only show tool versions currently specified in the global mise.toml"
-          ]
-        },
-        {
-          "name": "--installed",
-          "alias": [
-            "-i"
-          ],
-          "usage": [
-            "-i, --installed"
-          ],
-          "tip": [
-            "Only show tool versions that are installed"
-          ]
-        },
-        {
-          "name": "--local",
-          "alias": [
-            "-l"
-          ],
-          "usage": [
-            "-l, --local"
-          ],
-          "tip": [
-            "Only show tool versions currently specified in the local mise.toml"
-          ]
-        },
-        {
-          "name": "--missing",
-          "alias": [
-            "-m"
-          ],
-          "usage": [
-            "-m, --missing"
-          ],
-          "tip": [
-            "Display missing tool versions"
-          ]
-        },
-        {
-          "name": "--no-header",
-          "tip": [
-            "Don't display headers"
-          ]
-        },
-        {
-          "name": "--outdated",
-          "tip": [
-            "Display whether a version is outdated"
-          ]
-        },
-        {
-          "name": "--prefix",
-          "usage": [
-            "--prefix <PREFIX>"
-          ],
-          "tip": [
-            "Display versions matching this prefix"
+            "Only show versions released before this age or date"
           ],
           "next": []
         },
         {
-          "name": "--prunable",
+          "name": "--no-versions-host",
           "tip": [
-            "List only tools that can be pruned with `mise prune`"
+            "Disable checking the mise-versions host"
+          ]
+        },
+        {
+          "name": "--prerelease",
+          "tip": [
+            "Include pre-release versions in the output"
+          ]
+        },
+        {
+          "name": "--strict-metadata",
+          "tip": [
+            "Fail if release metadata fetches fail"
           ]
         }
       ]
@@ -2434,48 +2538,6 @@
             "Comma-separated list of platforms to target"
           ],
           "next": []
-        }
-      ]
-    },
-    {
-      "name": "ls-remote",
-      "tip": [
-        "List runtime versions available for install"
-      ],
-      "option": [
-        {
-          "name": "--all",
-          "tip": [
-            "Show all installed plugins and versions"
-          ]
-        },
-        {
-          "name": "--minimum-release-age",
-          "usage": [
-            "--minimum-release-age <MINIMUM_RELEASE_AGE>"
-          ],
-          "tip": [
-            "Only show versions released before this age or date"
-          ],
-          "next": []
-        },
-        {
-          "name": "--no-versions-host",
-          "tip": [
-            "Disable checking the mise-versions host"
-          ]
-        },
-        {
-          "name": "--prerelease",
-          "tip": [
-            "Include pre-release versions in the output"
-          ]
-        },
-        {
-          "name": "--strict-metadata",
-          "tip": [
-            "Fail if release metadata fetches fail"
-          ]
         }
       ]
     },
@@ -2864,12 +2926,14 @@
       ]
     },
     {
-      "name": "plugins",
+      "name": "plugin-list",
       "alias": [
+        "plugins",
+        "plugin",
         "p"
       ],
       "usage": [
-        "p|plugins"
+        "p|plugin|plugins|plugin-list"
       ],
       "tip": [
         "Manage plugins"
@@ -3388,53 +3452,7 @@
         "rm|unuse|remove"
       ],
       "tip": [
-        "Removes installed tool versions from mise.toml"
-      ],
-      "option": [
-        {
-          "name": "--env",
-          "alias": [
-            "-e"
-          ],
-          "usage": [
-            "-e, --env <ENV>"
-          ],
-          "tip": [
-            "Create/modify an environment-specific config file like .mise.<env>.toml"
-          ],
-          "next": []
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "Use the global config file instead of the local one"
-          ]
-        },
-        {
-          "name": "--no-prune",
-          "tip": [
-            "Do not also prune the installed version"
-          ]
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "Specify a path to a config file or directory"
-          ],
-          "next": []
-        }
+        "Remove tool requests from config files and prune unused installations"
       ]
     },
     {
@@ -3654,6 +3672,12 @@
       ]
     },
     {
+      "name": "secrets",
+      "tip": [
+        "[experimental] Inspect the project's secrets source"
+      ]
+    },
+    {
       "name": "self-update",
       "tip": [
         "Updates mise itself"
@@ -3675,103 +3699,6 @@
           "name": "--no-plugins",
           "tip": [
             "Disable auto-updating plugins"
-          ]
-        }
-      ]
-    },
-    {
-      "name": "set",
-      "tip": [
-        "Set environment variables in mise.toml"
-      ],
-      "option": [
-        {
-          "name": "--age-encrypt",
-          "tip": [
-            "[experimental] Encrypt the value with age before storing"
-          ]
-        },
-        {
-          "name": "--age-key-file",
-          "usage": [
-            "--age-key-file <PATH>"
-          ],
-          "tip": [
-            "[experimental] Age identity file for encryption"
-          ],
-          "next": []
-        },
-        {
-          "name": "--age-recipient",
-          "usage": [
-            "--age-recipient <RECIPIENT>"
-          ],
-          "tip": [
-            "[experimental] Age recipient (x25519 public key) for encryption"
-          ],
-          "next": []
-        },
-        {
-          "name": "--age-ssh-recipient",
-          "usage": [
-            "--age-ssh-recipient <PATH_OR_PUBKEY>"
-          ],
-          "tip": [
-            "[experimental] SSH recipient (public key or path) for age encryption"
-          ],
-          "next": []
-        },
-        {
-          "name": "--env",
-          "alias": [
-            "-E"
-          ],
-          "usage": [
-            "-E, --env <ENV>"
-          ],
-          "tip": [
-            "Create/modify an environment-specific config file like .mise.<env>.toml"
-          ],
-          "next": []
-        },
-        {
-          "name": "--file",
-          "usage": [
-            "--file <FILE>"
-          ],
-          "tip": [
-            "The TOML file to update"
-          ],
-          "next": []
-        },
-        {
-          "name": "--global",
-          "alias": [
-            "-g"
-          ],
-          "usage": [
-            "-g, --global"
-          ],
-          "tip": [
-            "Set the environment variable in the global config file"
-          ]
-        },
-        {
-          "name": "--no-redact",
-          "tip": [
-            "Show raw values instead of redacting secrets"
-          ]
-        },
-        {
-          "name": "--prompt",
-          "tip": [
-            "Prompt for environment variable values"
-          ]
-        },
-        {
-          "name": "--stdin",
-          "tip": [
-            "Read the value from stdin (for multiline input)"
           ]
         }
       ]
@@ -4190,10 +4117,11 @@
     {
       "name": "tasks",
       "alias": [
+        "task",
         "t"
       ],
       "usage": [
-        "t|tasks"
+        "t|task|tasks"
       ],
       "tip": [
         "Manage tasks"
@@ -5107,6 +5035,13 @@
     },
     {
       "name": "tool-alias",
+      "alias": [
+        "aliases",
+        "alias"
+      ],
+      "usage": [
+        "alias|aliases|tool-alias"
+      ],
       "tip": [
         "Manage tool version aliases"
       ],
@@ -5515,6 +5450,12 @@
       ]
     },
     {
+      "name": "vars",
+      "tip": [
+        "List, set, and ask for config vars"
+      ]
+    },
+    {
       "name": "version",
       "alias": [
         "v"
@@ -5919,9 +5860,13 @@
         "--output <OUTPUT>"
       ],
       "tip": [
-        "Change how tasks information is output"
+        "Change how output is displayed (only \"prefix\" is supported)."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "prefix"
+        }
+      ]
     },
     {
       "name": "--quiet",
