@@ -30,7 +30,7 @@ foreach ($CompletionName in $CompletionList) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
         continue
     }
-    $completions_list = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
+    $completions_list = (Get-ChildItem "$PSScriptRoot/../completions" -Directory).Name
     if ($CompletionName -notin $completions_list) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
         continue
@@ -44,7 +44,7 @@ foreach ($CompletionName in $CompletionList) {
     $test_dir = Join-Path $PSCompletions.path.completions $CompletionName
     if ($CompletionName -eq 'psc') {
         Remove-Item $test_dir -Recurse -Force -ErrorAction Ignore
-        $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
+        $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
         continue
     }
@@ -52,11 +52,11 @@ foreach ($CompletionName in $CompletionList) {
         $PSCompletions.write_with_color($PSCompletions.replace_content($text.exist))
         continue
     }
-    $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot\..\completions\$CompletionName" -Force
+    $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
 
     $language = $PSCompletions.get_language($CompletionName)
 
-    $config = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\config.json"))
+    $config = Get-Content -Raw -LiteralPath "$PSScriptRoot/../completions/$CompletionName/config.json" -ErrorAction Stop | ConvertFrom-Json -AsHashtable
 
     if ($config.alias -eq $null) {
         $PSCompletions.data.alias[$CompletionName] = @($CompletionName)
@@ -71,7 +71,7 @@ foreach ($CompletionName in $CompletionList) {
 
     $PSCompletions.data.list += $CompletionName
 
-    $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$PSScriptRoot\..\completions\$CompletionName\language\$language.json"))
+    $json = Get-Content -Raw -LiteralPath "$PSScriptRoot/../completions/$CompletionName/language/$language.json" -ErrorAction Stop | ConvertFrom-Json -AsHashtable
 
     foreach ($c in $json.config) {
         if ($null -eq $PSCompletions.data.config.completion) {
