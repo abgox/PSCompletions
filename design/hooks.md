@@ -438,6 +438,12 @@ This section is normative for AI and human authors. `design/hooks.md` is the sty
   than a path. Where a slot wants a path and there is nothing to enumerate, offer nothing and let
   native path completion take it.
 
+  A **CLI-filtered subset** is a separate case and is not this exception: the hook runs a command
+  whose own answer *is* the candidate set, so the set is bounded by what the user did rather than by
+  how big the repository is. It is legal only when the answer also carries something native
+  completion cannot produce — a status code, not the bare path. The two-question test that keeps it
+  apart from general path browsing is in `../authoring/hooks.md`.
+
   **The API is free; only the offering is banned.** `psc.glob` may discover the files that hold data
   the CLI cannot enumerate, provided the path never becomes the selectable value. `scoop` globs
   `**/*.json` across every bucket and offers the app **names** read out of those manifests with
@@ -450,7 +456,7 @@ This section is normative for AI and human authors. `design/hooks.md` is the sty
   it is the slot's expected kind, not the shape of the string. A path in a `tip` is explanatory
   text — it neither licenses an offering nor invalidates one.
 
-  Never register one handler that injects the same candidate list into several unrelated contexts (`{ command = "check" }, { command = "ci" }, { command = "format" }` all offering the same list) — the candidates then compete with each context's own options. A path-producing handler has no slot to be registered at. Hooks do not cover general path browsing.
+  Never register one handler that injects the same candidate list into several unrelated contexts (`{ command = "check" }, { command = "ci" }, { command = "format" }` all offering the same list) — the candidates then compete with each context's own options. A **wandering** path handler has no slot to be registered at: those contexts have nothing to do with paths, so the list is noise everywhere it lands. That is a claim about unrelated contexts, not about paths in general — a CLI-filtered subset has a real slot, and the two-question test in `../authoring/hooks.md` is what separates it from general path browsing.
 - **Target names — the longest form, and check them mechanically**: `psc.on` matches a `command` segment against the **canonical** name (`bindings.rs` calls a segment *"an exact canonical name"*) and anchors the chain at the root, so a target naming an **alias** never fires — silently, with nothing reported. A manifest that stores `add` as an alias of `stage` cannot be targeted as `command = "add"`. Which spelling to write is not a judgement call: `sort-json.ps1` puts the longest form in `name` on every run, so **write the longest form** and the script has already made it canonical. A tool whose own primary name is shorter — jj's `evolog`, mise's `ls` — is normal and is not an error, because the tool's preference is not what `psc.on` compares against. Verify with `./scripts/check-hook-targets.ps1 [name...]`, which resolves every target against the manifest; it is the only check that catches this, since `compare-json` and `validate-completion` only look at internal consistency. Nine were found this way across the repository, all of this one kind. To find a canonical name: `python3 -c "import json;d=json.load(open('completions/X/language/en-US.json'));print([(i['name'],i.get('alias')) for i in d['next']])"`.
 - **Data — never write an empty tip**: some CLIs list an option with no description at all (podman does this for `--help` in some contexts), and a parser that transcribes faithfully will emit `"tip": [""]`, which the schema rejects. Substitute a generic description or drop the field; do not pass the empty string through.
 - **One shape per producer — no plaintext retry**: read the structured form and stop there. A

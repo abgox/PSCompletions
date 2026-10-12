@@ -137,6 +137,11 @@ a simple tool like `completions/fd/`.
 - `repeat: 2` means the option can appear up to twice; use `repeat: 99` only when the
   exact limit is unknown.
 - Empty arrays must be removed entirely — do not keep `"option": []`.
+- **When adding options to a command that has no `option` field yet, create it.** Some
+  commands (like `git bisect`) are modeled with only `next` (subcommands) and no `option`
+  field. When you discover options that belong to such a command, add an `option` array and
+  populate it. This is a practical authoring note — the rule above still applies: if you
+  end up with an empty `option` array, remove it entirely.
 
 ## `config.json`
 
@@ -286,8 +291,10 @@ group, not here; if a CLI flag already covers it, it is an `option`.
 > name may well be the shorter one.
 
 **Boolean options** (no value needed): do not include `next`. A negatable `--[no-]`
-switch is modeled as **two entries** (`--foo` / `--no-foo`, each with a plain-form
-`usage`) — never a single `--[no-]` usage line.
+switch is modeled by default as **two entries** (`--foo` / `--no-foo`, each with a
+plain-form `usage`); a single `--[no-]` usage line only when the tool's own `--help`
+leads with `--[no-]` *and* both directions are in common use — see
+[`D33`](../decisions/authoring.md#d33) for the overturn condition.
 
 **Options that take a value**: use `next: [...]` when you know the value's shape (allowed
 values or representative examples), otherwise `next: []`. **A value-taking option must
@@ -302,7 +309,10 @@ expected noise, not a defect, provided the `usage` has no positional placeholder
 and evidence: [`D13`](../decisions/authoring.md#d13).
 
 **Repeatable options**: add `"repeat": N`, where N is the max number of times the option
-can appear. Use a specific number when known (e.g. `2` for `-v -v`); use `99` only when
+can appear. `repeat` counts appearances of the option itself — the menu keeps offering the
+flag until the count is reached — and says nothing about the value's shape (a
+separator-joined list is `separator`'s job, below). A boolean flag carries `repeat` only
+when the CLI tolerates the repetition (e.g. `-v -v`); use `99` only when
 the limit is unknown or effectively unlimited:
 
 ```json
@@ -338,13 +348,29 @@ An option counts as a duplicate only if it is **fully structurally identical** t
 `global_option` entry — same `name`, `alias`, `tip`, `usage`, `example`, `separator`,
 `next`, `option`, and all nested substructure. If the description or `next` differs in any
 way, they are **different** options: when you reach a subcommand context, the module uses
-the subcommand's own `option` (it overrides the `global_option`). Fix a duplicate by
+the subcommand's own `option` (it overrides the parent/root `option`, never
+`global_option`). Fix a duplicate by
 removing the subcommand or root copy and keeping the one in `global_option` — the module
 appends `global_option` at every level, so the copy is redundant, except for a flag only a
-**few** subcommands take.
+**few** subcommands take. The gates fail only the verbatim copy; a shared spelling with
+differing content is normal per R-11 and is not reported.
 
-No duplicate `name` within the same array. `compare-json.ps1` matches by `name` and
-silently overwrites duplicates without error.
+**A child either inherits its options or declares them — never both.** Option resolution
+walks up the ancestor chain and the first non-empty `option` wins outright (`option_source`
+in `core/engine/src/engine/completion.rs`; see
+[`../design/completion.md`](../design/completion.md)): a child with no `option` of its own
+is offered its nearest ancestor's (or root's) flags, while a child that declares any
+`option` sees only its own array — the parent's flags disappear from that context. Absent
+and empty count the same (empty arrays are removed outright), so the switch flips on the
+first real entry. Two consequences: never copy a parent's flags onto a child that needs
+none of its own — `zoxide import --merge` is the worked case, where all six `import`
+children accept `--merge` yet none declares it, and re-declaring it would change nothing in
+the menu while adding translation and drift cost. And when a child gains its first own flag,
+re-declare every parent flag it should keep, or those completions silently vanish.
+
+No duplicate `name` within the same array. `compare-json.ps1` reports spelling
+collisions (`name` plus each `alias`) inside one array as `DuplicateItems` — see
+[`validation.md`](validation.md).
 
 ## `tip` / `usage` / `example` format
 
@@ -353,6 +379,20 @@ Every item may carry three text arrays. `tip` is the description (shown under
 `[Example]`.
 
 - Each array element is one line; no inline line breaks.
+
+- **Split multi-sentence tips at sentence boundaries** (`R-19`). The split point is `.` /
+  `?` / `!` followed by a space and a capital letter (English), or 。/！/？/； (Chinese —
+  e.g. `说明文字。第二句` splits after `。`). Do not split mid-sentence or at commas unless
+  the result is genuinely two independent thoughts; when in doubt, keep one line.
+
+- **An inline default marker belongs to its own sentence.** CLAs write the default value in
+  parentheses at the end of the description — `Format output as: text, json. (text)`,
+  `Number of items to list per page. (30)`, glab's `(true)` / `(gitlab.com)` / `(default
+  checks 'Environment variables → Local → Global')`. Keep the value, and render it as a
+  trailing sentence in the same tip line so it reads as a statement rather than a fragment:
+  `Output format: text or json. (default text)` / `Items per page. (default 30)`. Do not
+  drop it (the default is the fact a user most wants) and do not leave the bare English
+  fragment standing alone after the split.
 - **Do not mandate trailing punctuation.** A `tip` line may end in `.`, `?`, `:`, `)`, a
   closing quote, or nothing at all. `tip` is display text — the engine never parses it, so
   a rule about it has no enforcement point. Every other rule here guards a defect the
@@ -362,6 +402,10 @@ Every item may carry three text arrays. `tip` is the description (shown under
   `validate-completion.ps1`).
 - `tip` — the description line. If `tip` exists, it should be a real description; do not
   put `U:` / `E:`-prefixed lines in it — those belong in `usage` / `example`.
+  A `tip` is shown without its surrounding help text, so it must be self-contained:
+  drop dangling cross-references (`see above`, `see below`, `as described above`) or
+  inline the referenced fact when it is short (e.g. `--cherry-mark`: `Like --cherry-pick
+  but mark equivalent commits with = rather than omitting them` — no `(see below)`).
   Experimental commands and options keep the upstream `EXPERIMENTAL:` prefix (uppercase +
   colon, e.g. `EXPERIMENTAL: Show when files were last modified.`); deprecated ones are
   noted inline (e.g. `"(deprecated, use --new-flag instead)"`). Entries that document a
@@ -377,10 +421,23 @@ Every item may carry three text arrays. `tip` is the description (shown under
     you know its shape — e.g. `--output <FILE>`, `add <PACKAGE>`. Skip it when the value's
     nature is unknown or unknowable (e.g. hook-provided free input behind `next: []`) — a
     vague usage adds nothing.
-  - **Value syntax follows the CLI**: write the value placeholder the way the tool's own
-    `--help` writes it — `--opt <VAL>` (space) by default, `--opt=<VAL>` only when the
-    CLI itself uses `=` (e.g. `esbuild --certfile=<FILE>`). Same for short flags:
-    `-U, --unified <n>` (space) unless the CLI only accepts the attached form.
+  - **One invocation shape per line; alias and value share the line.** When an item has both
+    an alias and a value shape, combine them into a single line — `ls|list [<owner>]`,
+    `-f, --format <FORMAT>` — not an alias-only line plus an invocation line. Array elements
+    are display lines, not alternatives, so a second line reads as a second shape. A genuinely
+    different invocation (e.g. `cl|changelist --remove <PATH...>` beside
+    `cl|changelist <CHANGELIST> <PATH...>`) is the case that earns a second line.
+  - **Value syntax follows the CLI**: copy the value placeholder from the tool's own `--help` —
+    its **name** as well as its separator. The tool writes `--upgrade-package <UPGRADE_PACKAGE>`,
+    so write that, not a paraphrase like `--upgrade-package <PACKAGE>`. The separator is a space
+    by default (`--opt <VAL>`), and `=` only when the CLI itself uses `=` (e.g.
+    `esbuild --certfile=<FILE>`). Same for short flags: `-U, --unified <n>` (space) unless the
+    CLI only accepts the attached form.
+  - **Transcribe the tool's argument syntax as its help prints it.** Copy the placeholder,
+    separator, and optionality markers (`<UPGRADE_PACKAGE>`, `[<owner>]`, `=`, `|`) — but not
+    bare framework boilerplate (`[command]`, `[--flags]`, `[OPTIONS]`, `[COMMAND]`) and never
+    the root command name (§`usage` starts from the current command level below); those add
+    nothing the menu does not already show.
   - **Three optional shapes are standard, not special cases:**
     - *Optional value* `--opt[=<VAL>]` — keep whatever the CLI writes, with `next: []`.
     - *Closed enumeration* `--opt=(a|b)` — the enumeration in `usage` tells the user only
@@ -419,8 +476,8 @@ Every item may carry three text arrays. `tip` is the description (shown under
 // Has argument and you know the value → usage is recommended (shows what to write)
 { "name": "--output", "usage": ["--output <FILE>"], "tip": ["Output path"], "next": [] }
 
-// Has argument but the value is unknown → usage may be omitted
-{ "name": "--script", "tip": ["Run the given script"] }  // OK — no usage
+// Has argument but the value is unknown → usage may be omitted (next is still required)
+{ "name": "--script", "tip": ["Run the given script"], "next": [] }  // OK — no usage
 
 // No alias, no argument → usage must NOT be added
 { "name": "--dry-run", "tip": ["Dry run without changes"] }  // CORRECT

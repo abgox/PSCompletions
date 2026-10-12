@@ -77,3 +77,61 @@ older synonym keeps its long form without the alias, so both stay completable. S
 
 Run `.\scripts\compare-json.ps1 <command>` for the language you translated — it must come
 back clean for both languages.
+
+### Translate from a dictionary, and never overwrite a translation
+
+A large completion repeats the same handful of descriptions many times over — `glab` needed
+936 distinct strings to cover 2 451 tips, with `Select another repository…` appearing on 161
+pages. Two consequences for the workflow:
+
+- **Build an `english tip -> translated tip` dictionary first, then apply it.** One entry
+  serves every occurrence, and the same wording gets the same translation everywhere instead
+  of drifting per page. Keys are the `tip` array joined with `\n`, so a multi-line tip is one key.
+- **Any regeneration or generation script must merge by key, never deep-copy.** Copying
+  `en-US.json` into the translated file to "fill in the structure" silently discards every
+  translation that already exists — the copy is identical to the base, which is precisely
+  what `compare-json` calls untranslated. Walk the tree and carry each existing translated
+  tip over, then apply the dictionary to what is left. A dictionary entry is only ever
+  applied where the target-language tip still equals the English tip (i.e. still
+  untranslated) — never over an existing translation.
+
+`schema` still applies: the structure must end up identical to `en-US.json`.
+
+### Scripted realignment: immutable plans, no subtree copies, no reverts
+
+Bringing a stale manifest back in line is a pipeline — harvest the CLI's truth into a table,
+diff the table into a plan, apply the plan, translate from a dictionary. Three habits keep the
+pipeline from eating its own output:
+
+- **A plan file is write-once.** Regenerating the plan after applying it overwrites it with an
+  empty diff — a verification pass reads the *current* tree, so it must write its report
+  elsewhere. The plan you applied is the record of what changed; keep it until the completion
+  is committed.
+- **Mirror structure by field, never by reference.** Copying a `next` subtree from the base
+  language into the translation replaces the translated children with untranslated ones, and a
+  subtree held by reference makes one file's edits appear in the other. Copy the language-
+  neutral fields (`usage`, `alias`, the *values* of `next`, `repeat`) and the tips from the
+  dictionary; a command tree changes only where you change it explicitly.
+- **Snapshot before applying, and recover from the snapshot.** `git checkout -- <file>`
+  restores the last *commit*, discarding every uncommitted edit — both language files and
+  `hooks.lua` at once. Copy the files aside before a large scripted pass and recover from that
+  copy; `git` is for committed states, not for undoing this morning.
+
+## Large audits (many missing options)
+
+When 20+ entries or 5+ commands need verification, batch the work instead of doing it
+in one pass. Batching changes the bookkeeping, not the evidence bar — every command and
+option still gets its own `--help` check (`R-02` … `R-08`).
+
+1. Create scratch `review/<tool>/`: a `README.md` (batch log + priority list, commands
+   sorted by missing count) and one directory per command for its help output and
+   proposed additions (`en` / `zh` JSON — options and, where applicable, subcommands).
+2. Work in batches of 3–6 commands: write `en-US.json` first, then translate (steps 1–4
+   of §Translation above), then run **all three gates** and fix every reported issue
+   before the next batch — `compare-json` alone is not enough (`validate-completion`
+   owns schema and spacing; `check-hook-targets` owns hook targets). What each report
+   means is in [`validation.md`](validation.md).
+3. Log each batch (commands covered, options added, duplicates or alias collisions hit,
+   validation result).
+4. Delete the scratch directory when the audit is done — it is working material, not
+   part of the completion.

@@ -27,11 +27,19 @@ Four layers, one job each.
 | **`AGENTS.md`** (here) | the `R-xx` rules — what must hold at all times — plus where to look | rarely |
 | **`authoring/`** | procedure and reference: collecting CLI facts, field reference, gate reports, checklists | with every new CLI quirk found |
 | **`design/`** | how the system runs today: manifest semantics, engine, hooks API, menu, protocol, `psc` CLI | when code changes |
-| **`decisions/`** | the reasons: evidence, the rejected alternative, the overturn condition | when a rule is added or changed |
+| **`decisions/`** | the reasons: evidence, the rejected alternative, the overturn condition | when a trade-off needs recording, or a rule's premise is overturned |
 
 A rule that needs its reasoning attached belongs here as one line plus a pointer to
-`decisions/authoring.md`, not as a paragraph. When you change a rule here, amend its entry
-there in the same commit.
+`decisions/authoring.md`, not as a paragraph.
+
+`decisions/` is **not** a mirror of this file. An entry belongs there when it carries something a
+rule cannot: the evidence behind the trade-off, the alternative that was rejected, and the
+condition under which the rule should be overturned — what you consult when the rules do not
+decide the case in front of you. Most rule edits need no entry; writing one anyway restates the
+rule in a second place that then drifts. Amend an entry when you change the rule it justifies,
+delete it when its premise no longer holds, and add one only when a future reader would otherwise
+have to re-derive the trade-off from scratch. A stale reason is worse than no reason: it reads as
+authority.
 
 **Canonical order: `AGENTS.md` > `authoring/` > `design/`.** The rule statement is here;
 `authoring/` adds mechanism and examples and must not offer a second wording of the same
@@ -39,7 +47,15 @@ rule.
 
 ### Routing
 
-| You are | Read |
+Editing anything under `completions/` — new, update, review, or translate — MUST read
+every file in `authoring/` (in the index order of `authoring/README.md`) and every file
+in `decisions/` before any edit, plus `design/hooks.md §9` when a `hooks.lua` exists or
+is planned. Follow references into `design/` whenever an authoring doc cites one
+(`design/completion.md` for field semantics, `design/hooks.md` for the `psc.*` API).
+The rows below do not exempt any file above, including files added later; they only say
+where to spend extra attention per task.
+
+| You are | Focus on |
 | --- | --- |
 | Writing a new completion | `authoring/collecting-info.md` → `authoring/manifest.md` → `authoring/validation.md` |
 | Gathering facts from a CLI | `authoring/collecting-info.md` |
@@ -123,6 +139,13 @@ is [`schema/completion-manifest.en-US.json`](schema/completion-manifest.en-US.js
 Commands must never carry `next: []`; value-taking options must always declare `next`.
 Machine-enforced by `compare-json.ps1`.
 
+**How you know which an option is, is collected, not assumed.** `--help` may not print a
+placeholder at all (`glab` prints none for any of its 333 flags), and a value-taking option
+mistyped as a boolean is invisible to every gate — the menu offers the flag and the next
+keystroke brings candidates for a slot that does not exist. Decide by `--help` placeholder →
+the tool's own reference → invoking it with no value, in that order; see
+`authoring/collecting-info.md` §Determining whether an option takes a value.
+
 ## Workflow
 
 1. **Generate scaffold**: `.\scripts\create-completion.ps1 <command>`.
@@ -147,7 +170,9 @@ Machine-enforced by `compare-json.ps1`.
 Run these after the gates, before declaring the task complete.
 
 - [ ] **Subcommand probe run for every command (≤2 levels)** — `R-02`.
-- [ ] **Every command-level alias the CLI lists is recorded**, no length cutoff — `R-03`.
+- [ ] **Every alias the CLI lists is recorded** — command-level and option-level, no length
+  cutoff, including spellings hidden from `--help` but documented in the tool's own reference —
+  `R-03`.
 - [ ] **Every subcommand and every option at every level is captured**, not just top-level
   `--help`.
 - [ ] **Portability audit run** — `R-12`, `R-13`, in `authoring/validation.md`.
@@ -164,25 +189,24 @@ Each is a silent failure — the validation scripts cannot see it. Evidence and 
 conditions are in [`decisions/authoring.md`](decisions/authoring.md). `R-01` is stated above,
 with the completion model.
 
-**R-00 — Surface codifiable gaps proactively.** When you encounter a gap in the authoring
-guidance, propose codifying it rather than waiting to be asked. The signals: a gate passed
-but the data was wrong (silent failure); you had to invent a technique because no guidance
-existed; you noticed the same pattern in two or more places; an existing rule needed
-reinterpretation to apply. You surface the moment; the user decides whether to adopt.
-
 **R-02 — Subcommand probe, both directions.** Run
 `<cmd> <sub> --help | grep -E 'AVAILABLE COMMANDS|^Commands:'` for every command, to 2
-levels. Output present → the manifest **must** have non-empty `next`; this one line catches
+levels. The pattern is a sample, not the rule — tools grouping pages as `CORE` / `GENERAL` /
+`TARGETED COMMANDS` need `COMMANDS\s*$` (`R-07`; see `authoring/collecting-info.md`).
+Output present → the manifest **must** have non-empty `next`; this one line catches
 the "parent modeled as a leaf" defect that both gates pass silently. Output absent while the
 manifest **does** have `next` proves nothing — judge that direction from `usage` (a
 positional placeholder means the entries are candidate values, not subcommands) and verify
 by invocation. See `authoring/collecting-info.md`.
 
-**R-03 — Command-level aliases are mandatory, not optional.** Record *every* alias the CLI
-lists — no length cutoff, no "only the popular ones". A missing alias is a functional gap:
-the user cannot discover that the short form exists. Both forms must also appear in `usage`.
-`compare-json` only validates that an *already recorded* alias has a `usage`; it never
-reports a **missing** one.
+**R-03 — Aliases are mandatory, not optional.** Record *every* alias the CLI lists —
+command-level *and* option-level — no length cutoff, no "only the popular ones". A missing alias
+is a functional gap: the user cannot discover that the short form exists. All forms must also
+appear in `usage`. `compare-json` only validates that an *already recorded* alias has a `usage`;
+it never reports a **missing** one. A spelling the tool documents but hides from `--help` is
+still an alias the CLI lists — decide by invocation (`R-06`), not by `--help`. Aliases are
+**scoped to the page that lists them**: the same short form legally belongs to different long
+options on different pages, so harvest per page and never merge into one global table.
 
 **R-04 — Upstream is authoritative.** Prerequisites, prior configuration, rarity, and being
 uninstalled here are all **not** reasons to exclude a command — the menu *is* the discovery
@@ -209,9 +233,11 @@ prose are never subcommands. Decide by what a section *is named*, not by what it
 
 **R-08 — `[possible values: a, b, c]` is the authoritative enumeration source.** It is
 machine-generated inline in the option's own description line, so it cannot mislead the way
-`(a|b)` or a trailing list can. Extract it into `next: [...]` in the CLI's own order, and
-add the trailing tip line `Possible values: a, b, c` (English) / `可能值: a, b, c`
-(Chinese, **no trailing period**). Any `--help` line carrying it yields a non-empty `next`.
+`(a|b)` or a trailing list can. Extract it into `next: [...]`, with the trailing tip line
+`Possible values: ...` (English) / `可能值: ...` (Chinese). No order is
+prescribed for either: `sort-json.ps1` reorders every named array on every run, and the tip line
+is display text. Any `--help` line carrying it yields a non-empty `next`. See
+[`D35`](decisions/authoring.md#d35).
 
 **R-09 — Hook slot rule.** Inject a value kind only where the CLI itself accepts it — check
 `--help` usage, docs, and examples, not the manifest alone. Never offer files at a context
@@ -241,10 +267,23 @@ The same principle applies to `psc.ls`: when the slot takes a **name** the CLI c
 itself, sourced from a **known directory** — `hugo --theme` with `psc.ls("themes")`, `typst init`
 over the package cache — surface `entry.name`, never `entry.path`. See `authoring/hooks.md`.
 
+A **CLI-filtered subset** is not a violation. When the hook runs a command that itself selects a
+meaningful subset of paths — `git status --porcelain` for modified files, `git ls-files` for
+tracked files, `git diff --diff-filter=U` for conflicted files — the paths are already filtered
+by the CLI, not dumped by the hook. The test is whether the path set comes from an
+indiscriminate enumeration (`psc.glob`, `psc.ls`) or from the CLI's own filtering logic.
+
 **R-11 — `global_option` is a sharing mechanism.** A flag that **many** subcommands share
 *verbatim* belongs in `global_option`, even when the root itself rejects it. When only a
 **few** take it, or the entries differ per subcommand, put it on each of those subcommands'
-own `option`. The trade-off and its measurement:
+own `option`. Options do not merge down the tree: a child with no `option` of its own
+is offered its nearest ancestor's (or root's), but the moment it declares one, the
+parent's flags disappear from that context. So never copy a parent's `option` onto a child
+that needs none of its own — and when a child gains its first flag, re-declare every
+parent flag it should keep. For a meta-flag like `--version`, decide by invocation rather than
+`--help`: run `<cmd> <sub> --version` under each subcommand — accepted (nearly) everywhere
+goes to `global_option` (offered at root too, so root loses nothing), root-only stays in
+root `option`. A `--help` that lists the flag settles nothing. The trade-off and its measurement:
 [`D16`](decisions/authoring.md#d16).
 
 **R-12 — Paths stay platform-neutral; no author-machine paths.** `tip` / `usage` / `example`
@@ -264,7 +303,9 @@ matching.
 **R-14 — `config.json` `alias` discipline.** Add `alias` only when upstream officially
 recognizes more than one name — do not reason from the project's full name. When set, the
 directory name is ignored, so **it must be repeated inside `alias`**, or that trigger
-silently dies. A directory whose name contains `@` **must** declare `alias`, because
+silently dies. The exception is a script shim (`psc-compare`, `psc-link`): the directory
+name is internal, not a command anyone types, so `alias` lists only the invoking script
+paths. A directory whose name contains `@` **must** declare `alias`, because
 triggers are first-come-first-served and nobody types `AAA@author`. Omit `.exe` / `.cmd` /
 `.bat` suffixes. See `authoring/manifest.md`.
 
@@ -283,6 +324,12 @@ its manifest — and the test is whether the value is known at authoring time, n
 are. A producer whose only candidates are constants is a `next` array, not a hook: delete the
 producer, and drop `"hooks": true` when nothing else remains.
 
+A hook that computes **dynamic tips** for constant values is not a violation. `git`'s `add_head`
+returns `{"HEAD", "FETCH_HEAD", "ORIG_HEAD", "MERGE_HEAD"}` — the values are constant, but the
+tips are computed dynamically via `git show` (commit message, date, author). This information is
+impossible to represent in a static manifest; the hook is adding value, not just supplying
+candidates.
+
 **Relocating is not verifying.** The move inherits the producer's errors, and a manifest value has
 no self-verifying source — `compare-json` and `validate-completion` check structure, never truth,
 so a clean run certifies the shape, not the content. Re-probe each value against the CLI as part of
@@ -293,6 +340,20 @@ the move; see `authoring/collecting-info.md`.
 unverified until someone probes its output against the CLI, so when you edit one, treat the
 producers you did not touch as equally unverified and re-probe them. See
 `authoring/collecting-info.md`.
+
+**R-18 — Complementary options are not aliases.** When a CLI lists `--xxx` and `--no-xxx`
+together, they are **complementary options** (enable/disable) — model them as **separate
+entries**, each with its own `name` and `tip`. The `alias` field is reserved for **true
+synonyms** — the same option under different names (`-a` / `--all`, `--color` / `--colour`,
+`-C` / `--reuse-message`). Why collapsing the pair loses meaning, and the overturn condition:
+[`D33`](decisions/authoring.md#d33).
+
+**R-19 — Tips are multi-line arrays; split multi-sentence content.** A `tip` is an array of
+lines, and each element renders as one visible line in the menu. When the source `--help`
+contains multiple sentences, split them at sentence boundaries so each line is a self-contained
+thought — a paragraph crammed into one element renders as an unreadable wall of text. The split
+points are defined in `authoring/manifest.md` §`tip` / `usage` / `example` format; rationale in
+[`D34`](decisions/authoring.md#d34).
 
 ## Format judgment calls
 

@@ -24,10 +24,11 @@ are not obvious from the top-level help.
 4. Record ALL options at every level
 ```
 
-For each subcommand record: full name, **every command-level alias**, description, every
-option (including aliases, whether it takes a value), and whether any option or
-parameter has a fixed set of allowed values — this decides how the value is encoded,
-see [`manifest.md`](manifest.md).
+For each subcommand record: full name, **every alias** (command-level and option-level),
+description, every option (including aliases, whether it takes a value), and whether any option
+or parameter has a fixed set of allowed values — this decides how the value is encoded,
+see [`manifest.md`](manifest.md). Aliases hidden from `--help` are collected separately, see
+§Aliases the `--help` hides below.
 
 > When you run `<command> <subcommand> --help`, the first line is typically the
 > description. Use it as the `tip` value.
@@ -41,6 +42,16 @@ git commit --help   # options for `commit` (it has no sub-subcommands)
 git push --help     # options for `push`
 ```
 
+### Checking for entirely missing commands
+
+An option-by-option audit never finds a command that is absent from the manifest
+altogether. Compare `help -a` (or the tool's command list) against manifest `name`
+**plus** `alias` — a command modeled as another entry's alias (e.g. `blame` under
+`annotate`) is covered. Genuinely absent entries are usually the most-used ones, which
+is why nobody noticed. A removed GUI tool, shell-library entry points, and documentation
+topics are never encoded (`R-04`, [`D5`](../decisions/authoring.md#d5)); everything else
+upstream lists gets an entry.
+
 ### Checking for description updates
 
 When collecting help, also check whether descriptions have changed:
@@ -48,6 +59,11 @@ When collecting help, also check whether descriptions have changed:
 - Commands previously marked `[experimental]` may no longer be experimental — update the
   description.
 - Descriptions may have been rewritten — update to match current help output.
+- For a command's one-line description, take the **short** description, not the first line
+  of `--help`. Some tools print the *long* description there — several paragraphs before the
+  usage line — so the short form lives in the shell-completion enumeration (`gh __complete ""`)
+  or the manual's command index. Comparing against the long text reports drift on every
+  command at once, and "fixing" it copies paragraphs into one-line tips.
 
 ## Five collection mistakes that produce wrong data silently
 
@@ -80,9 +96,9 @@ whose name ends in `COMMANDS` as the commands section and require its entries to
 command words. A blacklist (skip `FLAGS`, `ARGUMENTS`, `EXAMPLES`…) gets fooled by the
 word `gh` appearing inside an `EXAMPLES` section.
 
-## Two ways option lines silently corrupt the data
+## Three ways option lines silently corrupt the data
 
-Both produce a manifest that passes every gate and is wrong:
+All three produce a manifest that passes every gate and is wrong:
 
 ```
 --file-type string        Set file type to use for the artifact (layer)
@@ -95,6 +111,47 @@ A parser that transcribes faithfully ends up with the type name inside the `tip`
 splits one option into two entries. Take the description from the text after the flag and
 its placeholder, and anchor the flag at the start of the line.
 
+### A third trap: the value name that looks like a flag
+
+Some frameworks print the option's *value name* into the flag line, and the value name can be
+another option's spelling:
+
+```
+      --value --field            Value to set on the field named by --field
+  -f, --force --hostname         Force setup even if the host is not known
+```
+
+`--field` is not an alias of `--value`, and `--hostname` is not an alias of `--force` — both are
+the value name the framework lifted out of the description. **A word in the flag head that
+also appears in the description — verbatim (`--field` in "named by --field") or by stem
+(`--hostname` beside "host") — is a value name, not a flag of that option**; drop it
+from the flag list. Whether the option takes a value at all is a separate question (§Determining
+whether an option takes a value): the word's presence proves nothing either way — one of the two
+lines above is a boolean that carries a value-looking word, the other genuinely takes a value,
+and only invocation tells them apart.
+
+## Aliases the `--help` hides
+
+A tool often accepts spellings its `--help` does not print — `hide = true` aliases, or short
+forms the local build merged away. The parser still accepts them, so they belong in the manifest
+(`R-03`); `--help` is not the collection surface for them. The tool's own reference is: each
+option is a heading that carries every spelling, so an option documented as
+`--config-setting`, `--config-settings`, `-C` offers all three. Harvest the headings for every
+command, then let the CLI decide each one:
+
+```
+<cmd> --config-settings     # error: a value is required for '--config-setting <...>'
+                           #   → accepted; the message names the canonical option
+<cmd> --no-such-flag       # error: unexpected argument '--no-such-flag' found
+                           #   → refused; delete
+```
+
+The error naming the canonical option is the acceptance signal; `unexpected argument` is the
+refusal signal (`R-06`). Neither source alone settles it — a docs heading can outlive the code,
+and `--help` hides live spellings. Command aliases take the same probe one level out:
+`uv python i --help` answering `unrecognized subcommand` deletes the alias whatever older
+releases accepted.
+
 ## The subcommand probe
 
 For each command in the manifest — down to 2 levels, which covers nearly every tool —
@@ -103,6 +160,15 @@ run:
 ```
 <cmd> <sub> --help | grep -E 'AVAILABLE COMMANDS|^Commands:'
 ```
+
+The pattern is a sample, not the rule — `R-07` is: *a section whose name ends in `COMMANDS`*.
+One tool groups its pages as `CORE COMMANDS` / `GENERAL COMMANDS` / `TARGETED COMMANDS` /
+`ADDITIONAL COMMANDS`, so the sample pattern finds nothing while the manifest looks complete.
+Grep `COMMANDS\s*$` and read the entries as bare command words.
+
+The same page usually carries an **`ALIASES` section** listing the command's shortcuts — the
+spellings `R-03` requires that no flag list shows. Harvest it per page (see §Aliases are scoped
+to the page that lists them).
 
 **Direction 1 — a hard check.** Output present → the manifest **must** have a non-empty
 `next`. Output absent while the manifest has none → correct. This one-line check catches
@@ -125,8 +191,40 @@ So judge this direction from the command's own `usage`:
 - `usage` has **no placeholder** → the `next` entries claim to be subcommands, so
   verify.
 
-### Ground-truth verification
+### Knowing when collection is complete
 
+The traversal above tells you how to walk the tree; it does not tell you that you have
+walked all of it. Nothing in the gates does either — `compare-json` and
+`validate-completion` compare the manifest against *itself*, so a manifest with 21 of 48
+commands, or with 61 subcommands carrying no options at all, passes clean. That is not a
+hypothetical: `glab` shipped that way.
+
+So close the loop mechanically. Emit what you collected to a scratch file
+(`review/<tool>/tree.json`), then diff it against the manifest as **sets of spellings**:
+
+```
+collected command spellings  −  manifest name+alias  =  Missing   (must be empty)
+manifest name+alias          −  collected            =  Extra    (must be empty)
+```
+
+Both directions matter: `Missing` is the forgotten subtree, `Extra` is an entry the CLI
+does not accept (see `R-06`). Run the same diff for options at every level, and compare
+the *alias set* of each entry, not just the name — a command modelled without its
+`[aliases: ...]` line shows up here and nowhere else (`R-03`).
+
+The scratch directory is working material: delete it before you commit
+([`maintenance.md`](maintenance.md) §Large audits).
+
+### Aliases are scoped to the page that lists them
+
+Harvest `alias`/shorthand **per command page**, never into one global table. The same
+spelling belongs to different long forms on different pages: `glab` uses `-a` for `--all`
+on one page and `-a` for `--assignee` on another, and `-e` for both `--epic` and
+`--time-estimate`. A global map merges those and produces two options in one context
+claiming the same short form. `compare-json` catches the collision — but only after you
+have written the entries, and the fix is to re-scope, not to rename.
+
+### Ground-truth verification
 Use it in either direction, and whenever a `next` child is suspect:
 
 ```
@@ -161,6 +259,28 @@ manifest, and
 [`D16`](../decisions/authoring.md#d16) says they belong in `global_option` and there
 alone.
 
+### Placing `--version` / `--help`: probe the level, not the help text
+
+A top-level `--help` that lists `-V` says nothing about whether subcommands accept it —
+clap reprints the flag under every subcommand either way. Run the flag under each
+subcommand and read the result:
+
+| Result | Ruling |
+| --- | --- |
+| exit 0, version printed | **accepts** — accepted (nearly) everywhere goes in `global_option` |
+| `unknown argument` / `unexpected argument`, non-zero exit | **rejects** — root-only, stays in root `option` |
+
+`global_option` is offered at the root too (see
+[`design/completion.md`](../design/completion.md) §`option` vs `global_option`), so the
+global placement costs root nothing. Accepted under only a few subcommands → each of those
+subcommands' own `option`, per `R-11`. On a tool with no subcommands the placement is
+inert — leave it as is.
+
+Worked contrast: zoxide 0.10.0 prints its version under every subcommand (`zoxide add
+--version` → `zoxide-add 0.10.0`, exit 0), so its `--version` is global; git 2.56.0 refuses
+it below root (`git log --version` → `fatal: unrecognized argument`, exit 128), so its
+`--version` stays root-only.
+
 ## Enumerating option values
 
 Help text often lists an option's allowed or example values — recognize them and map them
@@ -180,10 +300,11 @@ for genuinely free-form values.
 **`[possible values: a, b, c]` is the most reliable source of all.** clap writes the
 allowed set inline in the option's own description line — it is machine-generated, not
 prose, so it cannot mislead the way a `(a|b)` or a trailing list can. Extract it into
-`next: [...]` in the CLI's own order and add the trailing tip line
-`Possible values: a, b, c` (English) / `可能值: a, b, c` (Chinese, **no trailing
-period**). A `--help` line carrying `[possible values: ...]` always yields a non-empty
-`next`.
+`next: [...]` per `R-08` and add the trailing tip line `Possible values: a, b, c` (English) /
+`可能值: a, b, c` (Chinese). Element order is not prescribed —
+`sort-json.ps1` reorders every named array on every run, and the tip line is display text
+(see [`D35`](../decisions/authoring.md#d35)). A `--help` line carrying `[possible values: ...]`
+always yields a non-empty `next`.
 
 ### When the help has no `[possible values]`
 
@@ -205,6 +326,42 @@ period**). A `--help` line carrying `[possible values: ...]` always yields a non
 illegal `ruff rule` argument. Legality depends on the slot a value fills, so when candidates move
 between options — or a hook's set moves into a manifest — verify each one against *that* option.
 
+## Determining whether an option takes a value
+
+`R-01` makes it mandatory: a value-taking option declares `next`, a boolean must not. Guessing
+wrong is a **silent** failure — no gate reads it, the menu offers the flag, and the user's next
+keystroke brings candidates for a slot that does not exist.
+
+Some tools print the shape for you (`--opt <VAL>`, `--opt=<VAL>`), so read it straight off the
+flag line. Many do not: `glab` prints **no placeholder at all** for any of its 333 flags
+(`-F --field   Add a parameter of inferred type.`), so `--help` alone cannot answer the question.
+Three sources, in order:
+
+1. **A placeholder in `--help`** — `-A, --after-context <NUM>` means value; a bare
+   `-s, --case-sensitive` means boolean.
+2. **The tool's own reference** — man page, `--help all`, online docs: an `ARGUMENTS` section or a
+   usage line that spells out the value.
+3. **Invoke it with no value** — the decisive source when 1 and 2 are silent:
+
+   ```
+   <cmd> <sub> --flag            # no value
+   ```
+
+   | Result | Ruling |
+   | --- | --- |
+   | `a value is required for '--flag <VAL>'` (wording varies by framework) | **value-taking** — declare `next` |
+   | accepted (the flag simply took effect) | **boolean** — declare no `next` |
+   | `unknown argument` / `unexpected argument` / `unrecognized ...` | **not a flag at all** — delete (`R-06`) |
+
+Run the probe against a page that lists the flag and that terminates quickly. Two caveats from
+practice: an interactive or network-bound command (`glab auth login --device`) hangs until
+timeout, so classify those from documentation instead; and a probe that errors for an unrelated
+reason (no auth, no repository) still tells you the answer, because the argument check happens
+during parsing, before the command runs.
+
+A value-taking option whose shape is genuinely unknowable still declares `next: []` — the
+placeholder in `usage` is what may be omitted (`authoring/manifest.md`).
+
 ## `separator` — prove the split, then declare it
 
 Help text saying "comma-separated" is not evidence. Three probes:
@@ -223,6 +380,20 @@ Declare it on the value-taking option and show the repeated shape in `usage`
 (`--select <RULE_CODE,...>`). `compare-json` checks only the form — comma versus pipe, via
 `usageSeparator` — and never whether the CLI actually splits, so both directions are silent wrong:
 declaring it when the CLI does not split, and omitting it when the CLI does.
+
+**Prose reading "comma-separated or repeat the flag" is evidence of `repeat`, not `separator`.**
+Several CLIs (`glab`: *"Multiple labels can be comma-separated or specified by repeating the
+flag"*) offer both spellings, which reads like a split but is not one — submitting `a,b` as a
+single value is refused and the flag is repeated instead. Run the same three probes; when the
+third shows the CLI does **not** tokenise on the comma, declare `repeat: 99` and no `separator`.
+That the option repeats *at all* is answered the same way, by prose or by a probe.
+
+**A framework's type word is not evidence either.** One prints `strings` on every list flag,
+which means the flag repeats *and* its value is comma-split at parse time — two different
+claims, neither readable off the type word. Run the three probes and declare what they show;
+where both hold, `separator` and `repeat` are both true. That the same framework's completions
+in this repo carry `repeat` alone is a record of what the probes found, not a rule about the
+framework.
 
 ## Proving what a flag does
 

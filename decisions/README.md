@@ -44,12 +44,17 @@ second wording of a rule must **not** go. The rule statement stays in `AGENTS.md
 
 ## Adding a ruling
 
-One ruling, one commit, two files:
+One ruling, one commit, two files — **when the ruling is worth a ruling**:
 
 1. Change or add the rule in `AGENTS.md` (or `design/*.md` if it is a system fact, or
    `authoring/*.md` if it is a step of the procedure rather than a rule).
-2. Add or amend the entry here — decision, where the rule lives, why, evidence, and an overturn
-   condition if one exists.
+2. Add the entry here only if it carries something the rule cannot: decision, why, evidence, and
+   an overturn condition. If all it would say is the rule again, write nothing and stop.
+
+Step 2 is a judgement, not a formality. The test is *what does this entry give a reader that the
+rule does not?* — usually the counter-example that forced the trade-off, or the condition under
+which the trade stops being worth it. Procedure, mechanics, and tooling notes belong in
+`authoring/`, `design/`, or the script's own header, not here.
 
 **Pin evidence, or drop it.** An entry here is read years later, so every observation in it has to
 survive that. Claims about the tree itself — how many completions, how many `tip` lines, what
@@ -61,6 +66,8 @@ pinned — `git` 2.53.0 had no `format-rev`, and 2.53.0 stays that way forever �
 Structural claims about the engine or a tool's design need neither, being permanent by nature.
 `AGENTS.md` carries the general form; the pinned specifics live here.
 
-The reason must never live longer than the rule it justifies. A rule edited without its entry
-here is how the two drift apart, and a drifted rule is worse than no rule: it looks authoritative
-and nobody remembers what it was defending against.
+A reason must never outlive the rule it justifies. That is a rule about *deleting*, not
+about always writing: when a rule changes, either its entry still holds — keep it — or its premise
+is gone and the entry goes with it. A stale reason is the dangerous case, because it looks
+authoritative and nobody remembers what it was defending against. A rule with no entry is merely
+undocumented; a rule whose entry survived its own overturning is actively misleading.

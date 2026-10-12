@@ -55,6 +55,28 @@ must hold:
 Where a slot wants a path and there is nothing to enumerate, offer nothing and let native path
 completion take it.
 
+The ban above covers sets the hook enumerates itself. A second case is offered all over this
+repository and is not covered by it: a **CLI-filtered subset**, where the hook runs a command whose
+own answer *is* the candidate set. The rule statement is `AGENTS.md` `R-10`; what is missing here is
+how to tell that case apart from the enumerated ones, and it takes two questions that must both
+answer yes.
+
+1. **Is the set bounded by what the user did, rather than by how big the repository is?**
+   `psc.glob("**/*.json")` and `psc.ls(".")` grow with the tree and bury the menu.
+   `git status --porcelain` returns what changed, `git ls-files` returns what is tracked,
+   `git diff --diff-filter=U` returns what is conflicted, and `svn status` returns what the working
+   copy already knows is dirty. Each is a function of the user's own actions, so it stays small in
+   a repository of any size.
+2. **Does the answer carry something native completion cannot produce?** A bare path does not —
+   the shell hands the user that as soon as they type a prefix, which is the whole reason the
+   enumerated cases are banned. A status code does: `modified`, `deleted`, `unversioned` and
+   `conflicted` are state the shell has no access to at all. Where the candidate is only a path,
+   nothing justifies the offering, so carry the status into the candidate's `tip`.
+
+A set that passes the first question and fails the second is not worth registering. A query that
+looks filtered but returns the tree has filtered nothing either, and that is the shape to watch for:
+it survives a glance and fails the first question.
+
 **`psc.glob` is a free means.** It may find the files that hold data the CLI cannot enumerate, as
 long as the path never becomes the selectable value. `scoop` globs `bucket/**/*.json` across every
 bucket, reads the manifests with `psc.json_batch`, and offers the app **names** they contain;
@@ -69,7 +91,8 @@ objection stands. And when the slot takes a path, a basename is usually a *broke
 that fails. The test is what the slot accepts, not the shape of the string. If the slot takes a
 name, offering a name is right however you derived it — `typst init` over the package cache,
 `codex resume` from session filenames, `sfsu info` from manifest filenames. If it takes a path,
-native completion owns it.
+native completion owns it — unless the CLI's own query filtered the set, which is the case directly
+above.
 
 A path in a `tip` is explanatory text. It is not what makes an offering legal, and not what makes
 one illegal.
@@ -83,6 +106,26 @@ and iterating a glob to feed `psc.run` / `psc.json` reads the tree for context r
 surfacing it. `hugo`'s `psc.ls("themes")` is the exception above, in practice.
 
 See `../design/hooks.md §9` for the full rule with worked examples.
+
+## Prove each producer's query against its own command
+
+A producer's query is a contract with **one** subcommand, and sibling subcommands do not
+honour it. `gh gist list` has no `--json` while every other `gh … list` beside it does, so a
+producer written by analogy to its neighbours returns nothing on every Tab press. Before
+registering a producer, run its exact argv and read the answer:
+
+- **A structured query** (`--format json`, `--json <fields>`) either parses or the CLI names
+  the unknown field or flag. Field validation happens client-side, so this probe works
+  without credentials and without a repository.
+- **A plaintext query** needs its column layout confirmed from the tool's source or a real
+  invocation — a column order assumed from a sibling is the same guess.
+- **An auth-gated command** that answers `403` or `missing required scopes` has still proved
+  the query shape: the argument check ran before the request did.
+
+For the tools observed so far, non-TTY table output carries **no header row** — the header
+is printed for a terminal only — so a first-column parse does not need to skip one. This is
+per-tool behaviour, not a guarantee: confirm that once, on a command that
+returns data, before relying on it for the rest.
 
 ## Targets and validation
 

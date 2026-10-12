@@ -67,3 +67,22 @@ gate says nothing about whether it compiles:
 ```
 luac -p completions/<cmd>/hooks.lua
 ```
+
+## A missing tool is a blocker, not a skip
+
+Every check above is mandatory for the task it belongs to. When a required
+tool is not found, do not quietly drop its gate and report the task as
+complete. Instead, in order:
+
+1. **Search thoroughly** — alternate names, versioned binaries,
+   and `bin` directories outside `PATH` (linuxbrew, mise shims,
+   `~/.local/bin`). One failed lookup proves nothing.
+2. **Ask before installing.** Installing a tool mutates the operator's
+   machine (global package installs, disk, network) — state what is
+   missing, which gate it blocks, and the exact install command
+   (e.g. `npm install -g ajv-cli`), then wait for confirmation.
+   Never auto-install silently.
+3. **On confirmation, install and re-run the blocked gate.** On refusal,
+   or when installation is impossible, stop and state exactly which
+   verifications were left undone — never report the task as complete
+   with a gate quietly dropped.

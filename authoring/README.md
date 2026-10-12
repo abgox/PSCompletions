@@ -10,7 +10,7 @@ because it is not needed at every step of every task.
 
 ## Who reads what
 
-- Writing or updating completions / hooks → `../AGENTS.md` first, then the docs below.
+- Editing anything under `completions/` (new, update, review, translate) → `../AGENTS.md` first, then every doc in the index below, in order, plus `../decisions/`. The reading requirement lives in `../AGENTS.md` §Routing; `design/` docs are followed by reference whenever one is cited.
 - Working on the engine / menu / CLI → `../design/`.
 - Asking *why* a rule or a mechanism is shaped the way it is → `../decisions/`.
 
@@ -46,3 +46,9 @@ because it is not needed at every step of every task.
 - **Rule statements are not duplicated here.** The rule statement is in `../AGENTS.md`;
   this directory may add mechanism, examples, and depth, but must not offer a second
   wording of the same rule.
+- **Examples, not one tool's internals.** When a rule is motivated by a particular tool, the
+  rule stays tool-neutral and the tool appears only as an example. Explaining *how a specific
+  framework produces the symptom* reads as authoritative and guides nobody else — a completion
+  for a tool built on a different framework cannot use it, and the version detail decays. Say
+  what the output looks like and what to do about it; name one tool once so the symptom is
+  recognisable.

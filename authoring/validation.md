@@ -23,6 +23,18 @@ completions.
   It is the only check that catches a dangling `psc.on` target or one written as an alias —
   both fail silently at runtime. `compare-json` and `validate-completion` look at internal
   consistency only.
+- **A duplicate spelling inside one array is reported, not silent.** `compare-json`
+  indexes every display spelling (`name` plus each `alias`) per array per language and
+  reports collisions as `DuplicateItems` — including an `alias` colliding with another
+  entry's `name`, or a spelling colliding with itself inside one item. Menu rows expand
+  from every spelling, so a collision shows twice: fix the spelling, do not rely on
+  shadowing. After any scripted edit, still assert in memory that no array contains two
+  entries sharing a spelling, then assert it again after `sort-json` (a reorder can
+  surface a collision the plan hid).
+- **Adding an alias can rename a command.** `sort-json` keeps the *longest* form as `name`, so
+  a newly recorded alias that is longer than the current name becomes the canonical one, and
+  every `psc.on` target written against the old spelling goes dangling. Re-run
+  `check-hook-targets.ps1` after any alias change, not only after hook edits.
 - **`compare-json` does not report a missing alias.** Record aliases exhaustively
   (`R-03`); nothing flags an omission.
 - **`validate-completion` only checks that `hooks.lua` exists and is non-empty** — a clean
@@ -87,19 +99,22 @@ also need a `usage` field (e.g. `all|world|everybody`).
 ### The machine checked these — confirm the gates ran clean
 
 `compare-json.ps1`, `validate-completion.ps1`, and (when hooks exist)
-`check-hook-targets.ps1` all report zero. This covers: duplicate `name` in any array;
-`next: []` on a command; missing or meaningless or too-simple `usage`; usage ordering and
-separators; `usage` repeating the root command; an option with `usage <...>` but no
-`next`; every item with an alias having a `usage`; duplicate options; `config.json`
-`alias` extensions; Chinese/English spacing; identical structure between languages; and
-schema conformance.
+`check-hook-targets.ps1` all report zero. This covers: spelling collisions (`name`/`alias`)
+in any array; an identical local copy shadowing `global_option` (R-11) — a shadow with
+differing content is intentionally silent (D36); `next: []` on a command; missing or
+meaningless or too-simple `usage`; usage ordering and separators; `usage` repeating the
+root command; an option with `usage <...>` but no `next`; every item with an alias having
+a `usage`; duplicate options; `config.json` `alias` extensions; Chinese/English spacing;
+identical structure between languages; and schema conformance.
 
 ### These need judgment — the scripts cannot see them
 
 - [ ] **Subcommand probe run for every command (≤2 levels).** `--help` shows a commands
   section ⟺ the manifest has a non-empty `next`. See `R-02` and
   [`collecting-info.md`](collecting-info.md).
-- [ ] **Every command-level alias the CLI lists is recorded**, no length cutoff. See `R-03`.
+- [ ] **Every alias the CLI lists is recorded** — command-level and option-level, no length
+  cutoff, including spellings hidden from `--help` but documented in the tool's own reference.
+  See `R-03`.
 - [ ] **Every subcommand in `--help` is in `next`**, including sub-subcommands.
 - [ ] **Every option of every subcommand is captured**, not just top-level `--help`
   options.
@@ -113,6 +128,8 @@ schema conformance.
 - [ ] **Every `tip` has a real description line**, not just a usage line.
 - [ ] **`hooks.lua` compiles** (`luac -p`) and every `psc.on` target resolves.
 - [ ] **Portability audit run** — see below.
+- [ ] **`check-hook-targets.ps1` re-run after any alias change** — a longer new alias becomes
+  the canonical `name` and strands `psc.on` targets written against the old spelling.
 
 All items satisfied = task complete.
 

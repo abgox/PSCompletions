@@ -27,9 +27,9 @@ commit — a reason must never live longer than the rule it justifies.
 | D3, D12       | [The manifest has no `name`/`alias` hierarchy](#d3-12) |
 | D30           | [Hook targets are written in the longest form](#d30) |
 | D7            | [A subcommand list must be probed, not inferred](#d7) |
-| D8            | [Every command-level alias must be recorded](#d8) |
+| D8            | [Every alias must be recorded](#d8) |
 | D9            | [Read `--help` by section](#d9) |
-| —             | [Option lines have two silent-corruption traps](#option-traps) |
+| —             | [Option lines have three silent-corruption traps](#option-traps) |
 | D10           | [Platform-specific topics stay, marked](#d10) |
 | D11           | [Paths are platform-neutral by default](#d11) |
 | D15           | [404 does not mean "cannot be installed"](#d15) |
@@ -48,18 +48,30 @@ commit — a reason must never live longer than the rule it justifies.
 | D26           | [Data-writing scripts must resolve aliases too](#d26) |
 | D27           | [Grouping psc.on specs](#d27) |
 | D28           | [A checker's own coverage must be measured](#d28) |
+| D33           | [Complementary options are not aliases](#d33) |
+| D34           | [Tips are multi-line arrays; split multi-sentence content](#d34) |
+| D35           | [No order is prescribed for enumerations](#d35) |
+| D36           | [A shadow with a differing tip is kept, silently](#d36) |
 
 <a id="d1"></a>
 
 ## Value placeholder syntax follows the CLI (D1)
 
 **Decision**: `usage` writes the value placeholder the way the tool's own `--help` writes it —
-`--opt <VAL>` with a space by default, `--opt=<VAL>` only when the CLI itself uses `=`.
+the **name** as well as the separator: `--opt <VAL>` with a space by default, `--opt=<VAL>` only
+when the CLI itself uses `=`. The name is copied, not paraphrased.
 
 **Rule lives in**: `authoring/manifest.md` §`tip` / `usage` / `example` format.
 
 **Why**: the usage line is read next to what the user is about to type. A shape the tool would
-reject is noise in the one place the user is checking the shape.
+reject is noise in the one place the user is checking the shape. A paraphrased placeholder
+(`<PACKAGE>` where the CLI writes `<UPGRADE_PACKAGE>`) is the same failure one degree softer: the
+line the user checks against the tool's own `--help` no longer matches it.
+
+**Evidence**: uv 0.13.0's manifest carried 47 paraphrased placeholders against 669 copied
+verbatim, concentrated in the `--*-package` / `--*-group` / `--output-*` families. The original
+text named only the separator, and a reviewer read the name out of scope — the ambiguity survived
+a full audit because no gate compares a placeholder against the CLI.
 
 ---
 
@@ -171,15 +183,32 @@ list` was an invented subcommand whose `--help` quietly printed its parent's hel
 
 <a id="d8"></a>
 
-## Every command-level alias must be recorded (D8)
+## Every alias must be recorded (D8)
 
-**Decision**: record every alias the CLI lists, with no length cutoff.
+**Decision**: record every alias the CLI lists — command-level *and* option-level — with no
+length cutoff. A spelling the tool documents but hides from `--help` is still an alias the CLI
+lists; decide by invocation, not by `--help`. Aliases are **scoped to the page that lists them**:
+the same short form legally belongs to different long options on different pages, so harvest per
+page and never merge into one global table.
 
-**Rule lives in**: `authoring/collecting-info.md`.
+**Rule lives in**: `AGENTS.md` `R-03`; `authoring/collecting-info.md` §Aliases the `--help`
+hides; `authoring/validation.md` §pre-completion checklist.
 
 **Why**: `compare-json` validates an alias that is already recorded but never reports a *missing*
 one, so nothing else will. A missing alias is a functional gap: the user cannot discover the
-short form exists.
+short form exists. A global alias table fails the same way in reverse: it credits a short form to
+every page, so the menu offers `auth status -t` for `--template` while the CLI gives `-t` to
+`--show-token` there.
+
+**Evidence**: uv 0.13.0 hid 58 option aliases from `--help` while its own reference listed and
+accepted every one — `--config-settings`, `--compile`, `--force-reinstall`, `--trusted-host`,
+`--no-cache-dir`, `-t` on `auth login --token`, and the pip-compat `--constraint` /
+`--requirement`. A prior audit of the same tool passed every gate with all 58 missing, because
+the rule and the checklist were both scoped to command-level aliases. The same invocation probe
+deleted 5 stale command aliases (`i`, `rm`) that the CLI answered with `unrecognized subcommand`.
+gh 2.102.0 supplied the per-page case: `-t` is `--show-token`'s short form on `gh auth status`
+but `--template`'s on almost every other page, and `gh auth status --jq` carries no `-q` at all —
+the previous gh manifest had merged both into one table and shipped the two wrong rows.
 
 ---
 
@@ -201,7 +230,7 @@ than the rule: the word `gh` appears inside an `EXAMPLES` section.
 
 <a id="option-traps"></a>
 
-## Option lines have two silent-corruption traps
+## Option lines have three silent-corruption traps
 
 **Decision**: take an option's description from the text *after* the flag and its placeholder, and
 anchor the flag at the start of the line.
@@ -211,7 +240,10 @@ anchor the flag at the start of the line.
 **Why**: in `--file-type string        Set file type…`, `string` is a placeholder, so a faithful
 transcription writes it into the tip; in `  -a, --append            Append files…`, the comma
 belongs to the short form, so a parser that treats it as a separator splits one option into two.
-Both produce a manifest that passes every gate and is wrong.
+A third trap: the value name a framework prints into the flag head (`--value --field`,
+`-f, --force --hostname`) is not a flag of that option — drop it from the flag list, and
+decide value-vs-boolean by invocation. All three produce a manifest that passes every gate
+and is wrong.
 
 ---
 
@@ -479,18 +511,29 @@ does not → official docs last, because docs lag.
 
 **Decision**: no hook offers a file path as a completion candidate. The rule is about the
 *offering*, not the API — `psc.glob` (with or without a wildcard), a `psc.ls` of the current
-directory, and a `psc.run` of `ls` all count the same. The one exception is a known directory whose
+directory, and a `psc.run` of `ls` all count the same. There are two exceptions and they must not
+be merged, because they bound the set in different currencies. The first is a known directory whose
 *names* the CLI cannot enumerate itself, surfaced as `entry.name` rather than `entry.path`
-(`psc.ls("themes")` for `hugo --theme`).
+(`psc.ls("themes")` for `hugo --theme`) — bounded by a directory that is fixed and ships with the
+tool. The second is a **CLI-filtered subset**: the hook runs a command whose own answer *is* the
+candidate set (`git status --porcelain` for modified files, `git ls-files` for tracked files), which
+is bounded by what the user did and stays small in a repository of any size. It is legal only when
+the answer also carries state native completion cannot reach — a status code, not the bare path.
 
-**Rule lives in**: `design/hooks.md` §9. The probe-tool tiering stays here: run what runs, read
-source for what does not, docs last.
+**Rule lives in**: `AGENTS.md` `R-10`. The mechanism for telling the two exceptions apart is in
+`authoring/hooks.md`; the probe-tool tiering stays here: run what runs, read source for what does
+not, docs last.
 
 **Why**: native path completion works inside the current directory and once the user has typed a
 prefix, so a hook adds nothing the shell cannot already give it — and a hook's file list is unbounded
 by construction, growing with the repository. A criterion that carves out an exception answers the
 *kind* of file and never bounds the *count*, so the exception kept needing to be narrowed until it
-was no longer a standard at all. A ban cannot be reinterpreted, which is what this rule needs.
+was no longer a standard at all. A ban cannot be reinterpreted, which is what this rule needs. The
+CLI-filtered case does not reintroduce that problem: its bound is not a kind but the user's own
+actions, so the count stays put however large the tree. Answering only the count half of it is what
+keeps the two exceptions from eating each other — a set that is filtered but returns the whole repo
+is exactly what the ban was written for, and it looks identical to the legal case until someone runs
+the query.
 
 **Evidence**: native completion reaches every one of those files once the user has typed a prefix,
 and the user normally already knows where their own config lives. The only candidate with genuine
@@ -505,8 +548,11 @@ than `.proto` files.
 survives, because it surfaces names rather than paths.
 
 **Overturn if**: a case arrives where the CLI takes a path, the file is a named artifact whose
-spelling the user cannot guess, and native completion demonstrably cannot help. Until then the
-exception list stays empty.
+spelling the user cannot guess, and native completion demonstrably cannot help. That criterion
+governs the *name* exception only; the CLI-filtered one is already licensed by `R-10` and does not
+need it. What would reopen the CLI-filtered case is a set that is filtered in form but still grows
+with the repository — a status query that recurses the whole tree returns an answer that looks
+bounded and is not, and the first question in `authoring/hooks.md` is what tells them apart.
 
 ---
 
@@ -617,3 +663,124 @@ looking at what it reports.
 files completely unchecked** while the checker reported success. The target count went from 1159
 to 1397 once it was fixed. A count of failures alone would never have shown the blind spot, because
 an unchecked target cannot fail.
+
+---
+
+<a id="d33"></a>
+
+## Complementary options are not aliases (D33)
+
+**Decision**: when a CLI lists `--xxx` and `--no-xxx` together, they are **complementary options**
+(enable/disable), not aliases. They must be modeled as **separate entries**, each with its own
+`name` and `tip`. The `alias` field is reserved for **true synonyms** — the same option under
+different names (e.g. `-a` for `--all`, `-o` for `--only`, `--colour` for `--color`).
+
+**Rule lives in**: `AGENTS.md` `R-18`.
+
+**Why**: a complementary pair where the CLI writes `--foo, --no-foo` means both forms are accepted
+by the parser, but they **set opposite values** — they are not interchangeable. Collapsing them
+into one entry with `alias: ["--no-foo"]` loses the semantic distinction: a user who types
+`--no-foo` expects to disable the feature, not to enable it under a longer name. The same applies
+to other negation patterns: `--[no-]sparse`, `--[no-]dangling`, `--gpg-sign, --no-gpg-sign`.
+
+True synonyms are options that do the exact same thing under different names — short/long forms
+(`-a` / `--all`), regional spelling variants (`--color` / `--colour`), or historical aliases
+(`-C` / `--reuse-message`). They belong in `alias` because the user expects either spelling to
+produce identical behavior.
+
+**Evidence**: during the `git` completion audit (against git 2.56.0), multiple instances of complementary options being
+incorrectly modeled as aliases were found and corrected — `--keep-cr`/`--no-keep-cr`,
+`--rerere-autoupdate`/`--no-rerere-autoupdate`, `--verify`/`--no-verify`, `--sparse`/`--no-sparse`,
+`--include-edges`/`--no-include-edges`, `--overwrite-ignore`/`--no-overwrite-ignore`,
+`--recurse-submodules`/`--no-recurse-submodules`, `--gpg-sign`/`--no-gpg-sign`. The validation
+scripts do not catch this because both forms are valid JSON and both pass `compare-json`; the
+defect is semantic, not structural.
+
+Conversely, `--color`/`--colour` are true synonyms (regional spelling variants) and should be
+modeled as aliases.
+
+**Overturn if**: a tool's own `--help` leads with `--[no-]` *and* both directions are in common
+use — then a single `[no-]` line is more honest to the CLI. Until then, the two-entry form is the
+default because it is both the existing majority and the clearest at completion time.
+
+---
+
+<a id="d34"></a>
+
+## Tips are multi-line arrays; split multi-sentence content (D34)
+
+**Decision**: a `tip` is an array of lines, and each element renders as one visible line in the
+menu. When the source `--help` contains multiple sentences, split them at sentence boundaries so
+each line is a self-contained thought. Cramming an entire paragraph into one array element defeats
+the purpose of the array and produces an unreadable wall of text in the completion menu.
+
+**Rule lives in**: `AGENTS.md` `R-19`.
+
+**Why**: the completion menu displays `tip` lines as separate lines under `[Description]`. A
+single long line is visually indistinguishable from a paragraph, while multiple short lines are
+scannable. The array format exists specifically to support this; not using it is like writing a
+novel as one sentence.
+
+**Evidence**: during the `git` completion audit (against git 2.56.0), many options had single-line tips containing
+multiple sentences. After applying the rule, the tips became more readable and the JSON structure
+better reflected the logical structure of the content.
+
+**Overturn if**: the menu implementation changes to support automatic line wrapping or paragraph
+formatting, making the array format unnecessary. Until then, manual splitting is the only way to
+control how text appears in the menu.
+
+---
+
+<a id="d35"></a>
+
+## No order is prescribed for enumerations (D35)
+
+**Decision**: value enumerations carry no order requirement. `next: [...]` is reordered by
+`sort-json.ps1` on every run whatever an author writes, and the trailing `Possible values:` tip
+line is display text — CLI order, alphabetical order, or anything else. The two are independent;
+neither has to match the other.
+
+**Rule lives in**: `AGENTS.md` `R-08`.
+
+**Why**: `scripts/sort-json.ps1` reorders every named array on every run (case-insensitive, by
+name), so authoring order in `next` is moot by construction. The alphabetical mandate this entry
+used to state was extended to the tip line by convention and had no enforcement point — the same
+reasoning that withdrew the trailing-punctuation rule in D32. A mandate about display order that
+nothing checks is a tax on the next reviewer, who has to decide whether the stale lines in front
+of them are a defect or the rule.
+
+**Evidence**: bat 0.26.1 declares `--wrap` values as `auto, never, character` (help text and the
+clap `value_parser` agree), yet the manifest holds `auto, character, never` — the script's doing,
+on every completion carrying an enumeration. uv 0.13.0's manifest held 126 `Possible values:` tip
+lines in CLI order while the paired `next` arrays were alphabetical; a review re-sorted all 126 as
+rule violations, and the operator then ruled the line's order free — candidate order is the
+engine's concern, and the tip line's order is nobody's.
+
+**Overturn if**: something starts parsing the tip line — a menu feature that groups or filters on
+it, a diff that treats its order as content. Until then the order is the author's choice.
+
+---
+
+<a id="d36"></a>
+
+## A shadow with a differing tip is kept, silently (D36)
+
+**Decision**: a subcommand option sharing a spelling with a `global_option` entry stays local
+when its content differs (a context-specific tip); only a fully identical copy is removed.
+The gates fail the identical copy and say nothing about the shadow — no report, no listing.
+
+**Rule lives in**: `authoring/manifest.md` §Duplicates (identical vs different); `AGENTS.md`
+`R-11` (differing entries go on the subcommand).
+
+**Why**: an identical copy gives the user nothing the global entry does not already say, so it
+is noise by construction. A differing tip documents what the flag means in that context,
+which the global tip understates — removing it loses information the CLI itself provides.
+
+**Evidence**: `brew install --debug` ("If brewing fails, open an interactive debugging session
+inside the temporary build directory") vs global `--debug` ("Display any debugging
+information"); `brew tests --debug` ("Enable debugging using ruby/debug, or surface the
+standard odebug output"); `brew desc -d` / `--description` vs global `-d` / `--debug`. All
+three read from the CLI's own `--help` (against Homebrew 7.0.9).
+
+**Overturn if**: a shadowing tip proves wrong against the CLI — then the tip is corrected, not
+the placement.
