@@ -280,6 +280,8 @@
 |[printf@uutils](https://uutils.org)|根据格式字符串和后续参数打印输出|
 |[prisma](https://www.prisma.io/docs/cli)|终端里的 Prisma Developer Platform。|
 |[psc](https://pscompletions.abgox.com)|PSCompletions 模块的补全。|
+|[psc-compare](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/compare-json.ps1 的补全：比较补全各语言的结构、用法与翻译。|
+|[psc-link](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/link-completion.ps1 的补全：链接补全以供本地测试。|
 |[ptx@GNU](https://www.gnu.org/software/coreutils/)|输出输入文件中各词（含上下文）的置换索引。|
 |[ptx@uutils](https://uutils.org)|生成文件内容的排序索引|
 |[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|

@@ -280,6 +280,8 @@
 |[printf@uutils](https://uutils.org)|Print output based off of the format string and proceeding arguments.|
 |[prisma](https://www.prisma.io/docs/cli)|The Prisma Developer Platform, from your terminal.|
 |[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
+|[psc-compare](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/compare-json.ps1: compare completion languages for structure, usage and translation.|
+|[psc-link](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/link-completion.ps1: link completions for local testing.|
 |[ptx@GNU](https://www.gnu.org/software/coreutils/)|Output a permuted index, including context, of the words in the input files.|
 |[ptx@uutils](https://uutils.org)|Produce a permuted index of file contents|
 |[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
