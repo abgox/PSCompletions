@@ -8,444 +8,444 @@
 
 |Completion|Description|
 |:-:|-|
-|[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
-|[act](https://github.com/nektos/act)|本地运行 GitHub Actions。|
-|[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
-|[apt](https://wiki.debian.org/Apt)|Debian 及衍生系统的命令行包管理器。|
-|[arch@GNU](https://www.gnu.org/software/coreutils/)|打印机器架构。|
-|[arch@uutils](https://uutils.org)|显示机器架构|
-|[aria2c](https://aria2.github.io)|轻量级多协议多源下载工具。|
-|[ast-grep](https://github.com/ast-grep/ast-grep)|使用 AST 模式在大规模代码中搜索与重写。|
-|[atac](https://github.com/Julien-cpsn/ATAC)|在终端中使用的简易 API 客户端|
-|[atuin](https://atuin.sh)|魔法 shell 历史记录<br>Atuin 使用 SQLite 数据库取代你现有的命令行历史记录，并为你的命令记录额外的上下文信息|
-|[aube](https://aube.jdx.dev)|一个快速的 Node.js 包管理器|
-|[aubr](https://aube.jdx.dev)|运行 package.json 中定义的脚本（aube run 独立版本）|
-|[aubx](https://aube.jdx.dev)|将包下载到临时环境并运行其二进制文件 (aube dlx 独立版)|
-|[aws](https://aws.amazon.com/cli/)|AWS 命令行界面是一个统一管理 AWS 服务的工具。|
-|[b2sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 BLAKE2b（512 位）校验和。|
-|[b2sum@uutils](https://uutils.org)|打印或校验 BLAKE2b（512 位）校验和。|
-|[b3sum](https://github.com/BLAKE3-team/BLAKE3)|计算和校验 BLAKE3 消息摘要。|
-|[base32@GNU](https://www.gnu.org/software/coreutils/)|将 FILE（未指定时为标准输入）做 Base32 编码或解码，输出到标准输出。|
-|[base32@uutils](https://uutils.org)|编码/解码数据并输出到标准输出。|
-|[base64@GNU](https://www.gnu.org/software/coreutils/)|将 FILE（未指定时为标准输入）做 Base64 编码或解码，输出到标准输出。|
-|[base64@uutils](https://uutils.org)|编码/解码数据并输出到标准输出。|
-|[basename@GNU](https://www.gnu.org/software/coreutils/)|打印 NAME，并去掉其所有开头的目录部分。|
-|[basename@uutils](https://uutils.org)|输出去除前导目录组件后的名称。|
-|[basenc@GNU](https://www.gnu.org/software/coreutils/)|将 FILE（未指定时为标准输入）用 basenc 编码或解码，输出到标准输出。|
-|[basenc@uutils](https://uutils.org)|编码/解码数据并输出到标准输出。|
-|[bat](https://github.com/sharkdp/bat)|带语法高亮和 Git 集成的 cat 替代品。|
-|[biome](https://biomejs.dev/)|Web 项目工具链。|
-|[brew](https://brew.sh)|Homebrew 是一个开源的包管理器，最初为 macOS 设计，现在还支持 Linux 和 WSL (Windows Subsystem for Linux)|
-|[buf](https://github.com/bufbuild/buf)|Buf CLI - 处理 Protocol Buffers，并管理 Buf Schema Registry (BSR) 上的资源。|
-|[bun](https://bun.sh)|JavaScript 全能工具包。|
-|[bunx](https://bun.com/docs/cli/bunx)|执行一个 npm 包可执行文件 (CLI)，如果未安装在 node_modules 中，会自动安装到全局共享缓存。|
-|[bx](https://github.com/brave/brave-search-cli)|零依赖、Token 高效的 Brave Search API 命令行工具，为 AI Agent 和大语言模型打造。|
-|[carapace](https://carapace.sh/)|多 shell 补全二进制文件|
-|[cargo](https://doc.rust-lang.org/cargo/)|Rust 包管理器。|
-|[cat@GNU](https://www.gnu.org/software/coreutils/)|把这些文件的内容拼接后写入标准输出。|
-|[cat@uutils](https://uutils.org)|将 FILE 或标准输入连接到标准输出|
-|[chcon@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的 SELinux 安全上下文改为 CONTEXT。|
-|[chcon@uutils](https://uutils.org)|将每个 FILE 的 SELinux 安全上下文更改为 CONTEXT|
-|[chezmoi](https://chezmoi.io)|在多台不同的机器上安全管理你的 dotfiles|
-|[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - 免费的 HTTP 协议文件共享服务器。|
-|[chgrp@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的所属组改为 GROUP。|
-|[chgrp@uutils](https://uutils.org)|将每个 FILE 的组更改为 GROUP|
-|[chmod@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的权限模式改为 MODE。|
-|[chmod@uutils](https://uutils.org)|将每个 FILE 的模式更改为 MODE|
-|[choco](https://chocolatey.org/)|Chocolatey 软件管理器。|
-|[chown@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的属主和/或属组改为 OWNER 和/或 GROUP。|
-|[chown@uutils](https://uutils.org)|更改文件属主和组|
-|[chroot@GNU](https://www.gnu.org/software/coreutils/)|以 NEWROOT 作为根目录运行 COMMAND。|
-|[chroot@uutils](https://uutils.org)|以 NEWROOT 为根目录运行 COMMAND|
-|[chsrc](https://chsrc.run)|全平台通用换源工具与框架。|
-|[cksum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验校验和。|
-|[cksum@uutils](https://uutils.org)|输出每个文件的 CRC 和大小。|
-|[claude](https://docs.anthropic.com/en/docs/claude-code)|Claude Code - Anthropic 的终端 AI 编程助手。|
-|[cmake](https://cmake.org)|跨平台构建系统生成器。|
-|[code](https://code.visualstudio.com)|Visual Studio Code 的命令行界面。|
-|[codewhale](https://codewhale.net)|面向 DeepSeek V4 及其他模型、由社区驱动的开源终端代码智能代理|
-|[codex](https://github.com/openai/codex)|Codex CLI - OpenAI 的 AI 编程助手。|
-|[comm@GNU](https://www.gnu.org/software/coreutils/)|逐行比较已排序的文件 FILE1 和 FILE2。|
-|[comm@uutils](https://uutils.org)|逐行比较两个已排序的文件。|
-|[conda](https://github.com/conda/conda)|二进制包和环境管理器。|
-|[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - 终端中的 AI 编程助手。|
-|[cp@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 复制为 DEST，或把多个 SOURCE 复制到 DIRECTORY 中。|
-|[cp@uutils](https://uutils.org)|将 SOURCE 复制到 DEST，或将多个 SOURCE 复制到 DIRECTORY|
-|[croc](https://github.com/schollz/croc)|轻松安全地在计算机之间传输文件。|
-|[csplit@GNU](https://www.gnu.org/software/coreutils/)|把 FILE 按一个或多个 PATTERN 切分为 'xx00'、'xx01' 等文件，并把每一部分的字节数输出到标准输出。|
-|[csplit@uutils](https://uutils.org)|按上下文行将文件分割为多个部分。|
-|[curl](https://curl.se)|用于传输数据的命令行工具和库。|
-|[cut@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中各行的选定部分打印到标准输出。|
-|[cut@uutils](https://uutils.org)|输出每行中指定的字节或字段列。|
-|[cypress](https://www.cypress.io/)|为浏览器中运行的任何内容提供快速、简单、可靠的测试。|
-|[date@GNU](https://www.gnu.org/software/coreutils/)|以给定的 FORMAT 显示日期和时间。|
-|[date@uutils](https://uutils.org)|显示或设置系统日期和时间。|
-|[dd@GNU](https://www.gnu.org/software/coreutils/)|按操作数的规定转换并格式化，从而复制文件。|
-|[dd@uutils](https://uutils.org)|复制文件系统资源，并可选择转换|
-|[delta](https://github.com/dandavison/delta)|Git 和 diff 输出的查看器。|
-|[deno](https://deno.com/)|现代 JavaScript 和 TypeScript 运行时。|
-|[df@GNU](https://www.gnu.org/software/coreutils/)|显示每个 FILE 所在文件系统的信息，默认显示所有文件系统的信息。|
-|[df@uutils](https://uutils.org)|显示每个 FILE 所在文件系统的信息，默认显示所有文件系统|
-|[diny](https://github.com/dinoDanic/diny)|一个简单的 CLI 工具，用于分析 git diff 并生成提交消息。|
-|[dir@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
-|[dir@uutils](https://uutils.org)|列出目录内容|
-|[dircolors@GNU](https://www.gnu.org/software/coreutils/)|输出用于设置 LS_COLORS 环境变量的命令。|
-|[dircolors@uutils](https://uutils.org)|输出设置 LS_COLORS 环境变量的命令。|
-|[dirname@GNU](https://www.gnu.org/software/coreutils/)|输出每个 NAME，去掉其末尾的斜杠后只保留最后一段；如果 NAME 中不含 /，则输出 '.'（表示当前目录）。|
-|[dirname@uutils](https://uutils.org)|去除文件名的最后一个组件。|
-|[docker](https://www.docker.com)|容器应用开发。|
-|[docker-compose](https://github.com/docker/compose)|使用 Docker 定义并运行多容器应用|
-|[doctl](https://github.com/digitalocean/doctl)|DigitalOcean 官方命令行工具。<br>管理 Droplet、数据库、Kubernetes、应用等资源。|
-|[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
-|[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
-|[du@GNU](https://www.gnu.org/software/coreutils/)|汇总一组 FILE 的磁盘占用，对目录递归处理。|
-|[du@uutils](https://uutils.org)|估算文件空间使用情况。|
-|[dua](https://github.com/Byron/dua-cli)|一个快速了解磁盘使用情况的工具！|
-|[duf](https://github.com/muesli/duf)|更好的 df 替代品，用于显示磁盘使用情况。|
-|[dufs](https://github.com/sigoden/dufs)|独特的实用文件服务器。|
-|[dust](https://github.com/bootandy/dust)|比 du 更直观。|
-|[echo@GNU](https://www.gnu.org/software/coreutils/)|把这些字符串回显到标准输出。|
-|[echo@uutils](https://uutils.org)|显示一行文本|
-|[eddy](https://github.com/70sh1/eddy)|简单快速的文件加密工具|
-|[env@GNU](https://www.gnu.org/software/coreutils/)|把每个 NAME 在环境中设为 VALUE，然后运行 COMMAND。|
-|[env@uutils](https://uutils.org)|设置环境中的每个 NAME 为 VALUE 并运行 COMMAND。|
-|[esbuild](https://esbuild.github.io/)|极速 JavaScript 和 CSS 打包器与压缩器。|
-|[eslint](https://eslint.org)|可插拔的 JavaScript linter。|
-|[expand@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中的制表符转换成空格，输出到标准输出。|
-|[expand@uutils](https://uutils.org)|将每个文件中的制表符转换为空格。|
-|[expr@GNU](https://www.gnu.org/software/coreutils/)|把 EXPRESSION 的值打印到标准输出。|
-|[expr@uutils](https://uutils.org)|将 EXPRESSION 的值打印到标准输出|
-|[eza](https://eza.rocks)|ls 的现代替代品。|
-|[factor@GNU](https://www.gnu.org/software/coreutils/)|打印给定整数 NUMBER 的质因数。|
-|[factor@uutils](https://uutils.org)|输出给定数字的质因数。|
-|[false@GNU](https://www.gnu.org/software/coreutils/)|以表示失败的状态码退出。|
-|[false@uutils](https://uutils.org)|返回 false，非成功的退出状态|
-|[fastfetch](https://github.com/fastfetch-cli/fastfetch)|一个类似 neofetch 的工具，用于获取系统信息并以美观的方式显示。|
-|[fd](https://github.com/sharkdp/fd)|在文件系统中查找条目的程序。|
-|[ffmpeg](https://ffmpeg.org/)|完整的跨平台音视频录制、转换和流媒体解决方案。|
-|[flutter](https://flutter.dev)|Flutter 是谷歌用于构建原生编译应用程序的 UI 工具包。|
-|[fluxdown](https://github.com/zerx-lab/FluxDown)|用于 FluxDown 的 aria2c 风格命令行下载客户端。|
-|[fmt@GNU](https://www.gnu.org/software/coreutils/)|重新格式化这些文件中的每个段落，输出到标准输出。|
-|[fmt@uutils](https://uutils.org)|将输入文件的段落重新格式化输出到标准输出。|
-|[fnm](https://github.com/Schniz/fnm)|使用 Rust 编写的快速简单的 Node.js 版本管理器。|
-|[fold@GNU](https://www.gnu.org/software/coreutils/)|折行每个 FILE 的输入内容，输出到标准输出。|
-|[fold@uutils](https://uutils.org)|将每个文件写入标准输出，同时拆分长行。|
-|[fx](https://fx.wtf)|终端 JSON 查看器|
-|[fzf](https://junegunn.github.io/fzf)|适用于任何类型列表的交互式过滤程序。|
-|[gcc](https://gcc.gnu.org)|GNU 编译器套件|
-|[gem](https://guides.rubygems.org)|RubyGems 是一个用于 Ruby 库的包管理器。|
-|[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google 的终端 AI 编程助手。|
-|[gh](https://cli.github.com/)|GitHub 命令行工具。|
-|[ghgrab](https://github.com/abhixdd/ghgrab)|一款简洁美观的终端工具，可让你在命令行界面内直接浏览并下载来自 GitHub、GitLab、Codeberg、Gitea 以及 Forgejo 的文件|
-|[git](https://git-scm.com)|分布式版本控制系统，用于跟踪源代码和其他文件的变更。|
-|[gitversion](https://gitversion.net/)|一款可依据 Git 提交历史生成语义化版本号的工具|
-|[glab](https://gitlab.com/gitlab-org/cli)|GitLab 命令行工具（开源），把 GitLab 带到你的终端。|
-|[glow](https://github.com/charmbracelet/glow)|在终端中渲染 Markdown 文件！|
-|[go](https://pkg.go.dev/cmd/go)|管理 Go 源代码的工具。|
-|[godot](https://godotengine.org)|Godot Engine - 免费开源 2D 和 3D 游戏引擎。|
-|[gpg](https://gnupg.org)|GNU Privacy Guard - 一款依据 RFC4880 规范实现的完整且免费的 OpenPGP 标准工具|
-|[gradle](https://gradle.org)|JVM 的强大构建系统。|
-|[groups@GNU](https://www.gnu.org/software/coreutils/)|打印每个 USERNAME 所属的组；未指定 USERNAME 时打印当前进程所属的组（如果组数据库已变动，结果可能不同）。|
-|[groups@uutils](https://uutils.org)|打印每个 USERNAME 的组成员关系，未指定 USERNAME 则打印当前进程的|
-|[gum](https://github.com/charmbracelet/gum)|用于编写炫酷 Shell 脚本的工具|
-|[head@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的前 10 行打印到标准输出。|
-|[head@uutils](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
-|[helm](https://helm.sh)|Kubernetes 包管理器。|
-|[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
-|[hostid@GNU](https://www.gnu.org/software/coreutils/)|打印当前主机的数字标识符（十六进制）。|
-|[hostid@uutils](https://uutils.org)|打印当前主机的数字标识符（十六进制）|
-|[hostname](https://uutils.org)|显示或设置系统主机名。|
-|[hugo](https://gohugo.io)|一个用 Go 构建的快速灵活的静态站点生成器。|
-|[hurl](https://hurl.dev)|使用纯文本运行和测试 HTTP 请求。<br>一个使用 URL 传输数据的工具。|
-|[hx](https://github.com/helix-editor/helix)|一种后现代文本编辑器|
-|[hyperfine](https://github.com/sharkdp/hyperfine)|一个命令行基准测试工具|
-|[id@GNU](https://www.gnu.org/software/coreutils/)|打印每个指定 USER 的用户和组信息；省略 USER 时打印当前进程的信息。|
-|[id@uutils](https://uutils.org)|打印每个指定 USER 的用户和组信息，省略 USER 则打印当前用户的|
-|[install@GNU](https://www.gnu.org/software/coreutils/)|这个 install 程序把文件（通常是刚编译好的）复制到你选择的目标位置。|
-|[install@uutils](https://uutils.org)|将 SOURCE 复制到 DEST，或将多个 SOURCE 复制到已存在的目录|
-|[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - Ionic 的命令行界面|
-|[istioctl](https://istio.io/)|Istio 命令行界面|
-|[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool <br>专注于正确性和性能的 jq 克隆|
-|[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - 兼容 Git 的版本控制系统。|
-|[jjui](https://idursun.github.io/jjui/)|Jujutsu 版本控制系统的文本用户界面。|
-|[join@GNU](https://www.gnu.org/software/coreutils/)|对每对连接字段相同的输入行，向标准输出写一行。|
-|[join@uutils](https://uutils.org)|按公共字段连接两个文件的行。|
-|[jq](https://jqlang.org/)|轻量灵活的命令行 JSON 处理器。|
-|[just](https://github.com/casey/just)|一个命令运行器。|
-|[k3d](https://k3d.io/)|在 docker 中运行 k3s（Rancher Lab 的最小化 Kubernetes 发行版）的轻量级包装器。|
-|[k9s](https://k9scli.io/)|K9s 是一个基于终端的用户界面，用于与你的 Kubernetes 集群交互。<br>它简化了浏览、观察和管理你部署的应用程序。|
-|[kind](https://kind.sigs.k8s.io/)|kind 是一个使用 Docker 容器 'nodes' 运行本地 Kubernetes 集群的工具。<br>kind 最初主要用于测试 Kubernetes 本身，但也可用于本地开发或 CI。|
-|[komac](https://github.com/russellbanks/Komac)|WinGet 的社区清单创建器。|
-|[kubectl](https://kubernetes.io/zh-cn/docs/reference/kubectl/)|Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。<br>kubectl 是它的命令行工具|
-|[kubectx](https://github.com/ahmetb/kubectx)|在不同 Kubernetes 上下文之间切换（kubectl config use-context）。|
-|[kubens](https://github.com/ahmetb/kubens)|在不同 Kubernetes 命名空间之间切换。|
-|[kustomize](https://github.com/kubernetes-sigs/kustomize)|定制 kubernetes YAML 配置|
-|[lark-cli](https://github.com/larksuite/cli)|Lark/飞书 CLI 工具。|
-|[lazydocker](https://github.com/jesseduffield/lazydocker)|更轻松地管理 Docker。|
-|[lazygit](https://github.com/jesseduffield/lazygit)|一个简单的 git 命令终端 UI。|
-|[lefthook](https://github.com/evilmartians/lefthook)|Git 钩子管理器。|
-|[link@GNU](https://www.gnu.org/software/coreutils/)|调用 link 函数，创建一个名为 FILE2、指向已存在的 FILE1 的链接。|
-|[link@uutils](https://uutils.org)|调用 link 函数，创建指向已存在 FILE1 的名为 FILE2 的链接|
-|[ln@GNU](https://www.gnu.org/software/coreutils/)|创建文件之间的链接。|
-|[ln@uutils](https://uutils.org)|创建文件之间的链接。|
-|[logname@GNU](https://www.gnu.org/software/coreutils/)|打印用户的登录名。|
-|[logname@uutils](https://uutils.org)|打印用户的登录名|
-|[lore](https://lore.org)|下一代开源版本控制系统。<br>专为大文件、大团队和可扩展工作流而设计。|
-|[ls@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
-|[ls@uutils](https://uutils.org)|列出目录内容|
-|[lua](https://www.lua.org/)|功能强大、高效、轻量且可嵌入的脚本语言|
-|[lychee](https://github.com/lycheeverse/lychee)|一个快速、异步的链接检查器。<br>检测本地文件和网站中的失效 URL 和邮件地址。|
-|[magick](https://imagemagick.org)|创建、编辑、合成或转换数字图像。|
-|[mcfly](https://github.com/cantino/mcfly)|在 Shell 历史记录中快速穿梭|
-|[md5sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 MD5（128 位）校验和。|
-|[md5sum@uutils](https://uutils.org)|计算和校验 MD5 消息摘要。|
-|[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - AI 驱动的编码助手。|
-|[minikube](https://minikube.sigs.k8s.io/)|提供并管理针对开发工作流程优化的本地 Kubernetes 集群。|
-|[mise](https://mise.jdx.dev/)|多语言工具版本管理器、环境变量管理器和任务运行器。|
-|[mkdir@GNU](https://www.gnu.org/software/coreutils/)|创建这些目录（如果尚未存在）。|
-|[mkdir@uutils](https://uutils.org)|如果给定的 DIRECTORY 不存在则创建|
-|[mkfifo@GNU](https://www.gnu.org/software/coreutils/)|用给定的 NAME 创建具名管道（FIFO）。|
-|[mkfifo@uutils](https://uutils.org)|以给定名称创建 FIFO|
-|[mknod@GNU](https://www.gnu.org/software/coreutils/)|创建一个名为 NAME、类型为 TYPE 的特殊文件。|
-|[mknod@uutils](https://uutils.org)|创建给定 TYPE 的特殊文件 NAME|
-|[mktemp@GNU](https://www.gnu.org/software/coreutils/)|安全地创建临时文件或目录，并打印其名字。|
-|[mktemp@uutils](https://uutils.org)|创建临时文件或目录|
-|[more](https://github.com/util-linux/util-linux)|逐屏显示文本文件内容。|
-|[mv@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 重命名为 DEST，或把多个 SOURCE 移动到 DIRECTORY 中。|
-|[mv@uutils](https://uutils.org)|将 SOURCE 移动到 DEST，或将多个 SOURCE 移动到 DIRECTORY|
-|[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|
-|[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL 命令行客户端。|
-|[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|跨平台浏览器流下载器 (HLS/DASH/Smooth)。|
-|[netlify](https://www.netlify.com)|用于管理和部署 Netlify 站点的命令行工具|
-|[netwatch](https://github.com/matthart1983/netwatch)|在终端中运行实时网络诊断。|
-|[nexttrace](https://github.com/nxtrace/NexTrace)|开源的视觉化路由追踪 CLI 工具|
-|[ngrok](https://ngrok.com/)|面向开发人员的统一入口平台。<br>将 localhost 连接到 Internet 以测试应用程序和 API。|
-|[nice@GNU](https://www.gnu.org/software/coreutils/)|以调整后的优先级运行 COMMAND，该值会影响进程调度。|
-|[nice@uutils](https://uutils.org)|以调整后的 niceness 运行 COMMAND，影响进程调度|
-|[nl@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 写入标准输出，并加上行号。|
-|[nl@uutils](https://uutils.org)|为文件行编号。|
-|[node](https://nodejs.org/)|一个免费、开源、跨平台的 JavaScript 运行时环境。|
-|[nodemon](https://github.com/remy/nodemon)|监控文件变化并自动重启 Node.js 服务器。|
-|[nohup@GNU](https://www.gnu.org/software/coreutils/)|运行 COMMAND，并忽略挂断信号。|
-|[nohup@uutils](https://uutils.org)|忽略挂断信号运行 COMMAND|
-|[nomad](https://www.nomadproject.io/)|编排容器和非容器化应用的工作负载调度器|
-|[npm](https://www.npmjs.com/)|Node.js 包管理器。|
-|[nproc@GNU](https://www.gnu.org/software/coreutils/)|打印当前进程可用的处理单元数量，该值可能小于在线处理器数量|
-|[nproc@uutils](https://uutils.org)|输出当前进程可用的核心数。|
-|[npx](https://docs.npmjs.com/cli/commands/npx)|从本地或远程 npm 包运行命令。|
-|[nrm](https://github.com/Pana/nrm)|npm 镜像源管理。|
-|[nssm](https://nssm.cc)|不坑爹的服务管理器 (Non-Sucking Service Manager)<br>可以将任意可执行程序安装为 Windows 服务并管理其运行|
-|[nu](https://github.com/nushell/nushell)|Nushell 语言与 Shell|
-|[nub](https://nubjs.com/)|一体化 Node.js 工具包: 包管理器、脚本运行器和注册表客户端。|
-|[nubx](https://nubjs.com)|从 node_modules/.bin 运行工具，本地缺失时从 registry 拉取 (更快的 npx / pnpm dlx)。|
-|[numfmt@GNU](https://www.gnu.org/software/coreutils/)|重新格式化给定的 NUMBER，未指定时读取标准输入中的数字。|
-|[numfmt@uutils](https://uutils.org)|在数字和人类可读字符串之间转换。|
-|[nvim](https://neovim.io/)|专注于可扩展性和易用性的 Vim 分支。|
-|[nvm](https://github.com/nvm-sh/nvm)|Node.js 版本管理器。|
-|[od@GNU](https://www.gnu.org/software/coreutils/)|把 FILE 以明确的表示形式（默认为八进制字节）写入标准输出。|
-|[od@uutils](https://uutils.org)|以八进制和其他格式转储文件。|
-|[oh-my-posh](https://ohmyposh.dev)|跨平台终端提示符渲染工具。|
-|[ollama](https://docs.ollama.com/cli)|本地大语言模型运行器。|
-|[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - 终端中的 AI 编程助手。|
-|[openclaw](https://docs.openclaw.ai/cli)|OpenClaw 的命令行界面 (CLI)|
-|[opencode](https://github.com/nicholaswatertank/opencode)|终端中的 AI 编程智能体。|
-|[ouch](https://github.com/ouch-org/ouch)|一个用于轻松压缩和解压文件与目录的命令行工具<br>支持格式：tar、zip、gz、7z、xz、lzma、bz2、bz3、lz4、zst、rar、br|
-|[oxfmt](https://oxc.rs)|一个极快的 JavaScript、TypeScript、JSX 和 TSX 格式化工具和代码风格指南检查器|
-|[oxlint](https://oxc.rs)|TypeScript 和 JavaScript 检查器，兼容 ESLint 配置，用于正确性和部分风格规则|
-|[packer](https://www.packer.io/)|Packer 是一个工具，用于从单一源配置为多个平台构建完全相同的机器镜像。|
-|[pandoc](https://pandoc.org)|通用文档转换器。|
-|[paste@GNU](https://www.gnu.org/software/coreutils/)|把各 FILE 中依次对应的行用 TAB 分隔后写入标准输出。|
-|[paste@uutils](https://uutils.org)|将每个文件的行按顺序对应输出到标准输出。|
-|[pathchk@GNU](https://www.gnu.org/software/coreutils/)|诊断非法或不可移植的文件名。|
-|[pathchk@uutils](https://www.gnu.org/software/coreutils/)|诊断无效或不可移植的文件名。|
-|[pdfcpu](https://github.com/pdfcpu/pdfcpu)|Go PDF 处理器<br>用于处理 PDF 文件的命令行工具|
-|[pdm](https://github.com/pdm-project/pdm)|现代 Python 包和依赖管理器。|
-|[pinky@GNU](https://www.gnu.org/software/coreutils/)|一个轻量级的 finger 程序；打印用户信息。|
-|[pinky@uutils](https://uutils.org)|在基于 Unix 的系统上显示简要用户信息|
-|[pip](https://github.com/pypa/pip)|Python 包管理器。|
-|[pixi](https://github.com/prefix-dev/pixi)|面向多平台、语言无关工作区的开发者工作流与环境管理。|
-|[playwright](https://playwright.dev/)|Web 测试和自动化框架。|
-|[pm2](https://pm2.keymetrics.io/)|Node.js 进程管理器，内置负载均衡。|
-|[pnpm](https://pnpm.io/zh/)|快速、节省磁盘空间的包管理器。|
-|[pnpx](https://pnpm.io/cli/dlx)|在临时环境中运行一个包。|
-|[podman](https://podman.io)|管理 Pod、容器和镜像。|
-|[poetry](https://python-poetry.org)|Python dependency manager and packaging tool. |
-|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|Windows PowerShell 命令行。|
-|[pr@GNU](https://www.gnu.org/software/coreutils/)|为打印把文件分页或分栏。|
-|[pr@uutils](https://uutils.org)|分页或分列 FILE 以供打印|
-|[prettier](https://prettier.io)|固执己见的代码格式化工具。|
-|[printenv@GNU](https://www.gnu.org/software/coreutils/)|打印指定环境变量 VARIABLE 的值。|
-|[printenv@uutils](https://www.gnu.org/software/coreutils/)|输出指定环境变量的值。|
-|[printf@GNU](https://www.gnu.org/software/coreutils/)|按 FORMAT 打印这些参数，或者按 OPTION 执行：|
-|[printf@uutils](https://uutils.org)|根据格式字符串和后续参数打印输出|
-|[prisma](https://www.prisma.io/docs/cli)|终端里的 Prisma Developer Platform。|
-|[psc](https://pscompletions.abgox.com)|PSCompletions 模块的补全。|
-|[psc-compare](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/compare-json.ps1 的补全：比较补全各语言的结构、用法与翻译。|
-|[psc-link](https://pscompletions.abgox.com)|PSCompletions(psc) 的开发脚本补全<br>scripts/link-completion.ps1 的补全：链接补全以供本地测试。|
-|[ptx@GNU](https://www.gnu.org/software/coreutils/)|输出输入文件中各词（含上下文）的置换索引。|
-|[ptx@uutils](https://uutils.org)|生成文件内容的排序索引|
-|[pulumi](https://www.pulumi.com/)|Pulumi - 用任意编程语言实现基础设施即代码|
-|[pwd@GNU](https://www.gnu.org/software/coreutils/)|打印当前工作目录的完整路径名。|
-|[pwd@uutils](https://uutils.org)|显示当前工作目录的完整文件名|
-|[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
-|[pytest](https://docs.pytest.org)|Python 测试框架。|
-|[python3](https://www.python.org)|Python 解释器命令行。|
-|[rclone](https://rclone.org)|在云存储提供商之间同步文件。|
-|[readlink@GNU](https://www.gnu.org/software/coreutils/)|打印符号链接的目标值或规范化后的文件名|
-|[readlink@uutils](https://uutils.org)|打印符号链接的值或规范文件名|
-|[realpath@GNU](https://www.gnu.org/software/coreutils/)|打印解析后的绝对文件名；除最后一段外的各段都必须存在|
-|[realpath@uutils](https://uutils.org)|打印解析后的路径|
-|[reasonix](https://reasonix.io)|面向终端的 DeepSeek 原生 AI 编码智能体。|
-|[restic](https://restic.net)|备份程序<br>在加密仓库中保存文件和目录的多个修订版本|
-|[resvg](https://github.com/linebender/resvg)|一个 SVG 渲染应用程序。|
-|[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - 递归搜索当前目录中匹配正则表达式的行。|
-|[rimraf](https://github.com/isaacs/rimraf)|跨平台的 Node.js `rm -rf` 工具。|
-|[rm@GNU](https://www.gnu.org/software/coreutils/)|删除（解除链接）这些文件。|
-|[rm@uutils](https://uutils.org)|删除（取消链接）FILE|
-|[rmdir@GNU](https://www.gnu.org/software/coreutils/)|删除这些目录（如果它们为空）。|
-|[rmdir@uutils](https://uutils.org)|删除 DIRECTORY（如果为空）|
-|[rsbuild](https://rsbuild.rs)|基于 Rspack 的快速可扩展现代 Web 构建工具。|
-|[rsdoctor](https://rsdoctor.rs)|AI 友好的构建分析器，让构建过程透明可见。|
-|[rslib](https://rslib.rs)|基于 Rsbuild 的库开发工具，用于创建库与 UI 组件。|
-|[rslint](https://rslint.rs)|高性能、兼容 ESLint 的 JavaScript 与 TypeScript 检查器。|
-|[rspack](https://rspack.rs)|快速的 Rust 网页打包工具，兼容现代 webpack API。|
-|[rspress](https://rspress.rs)|闪电般快速的静态站点生成器。|
-|[rstest](https://rstest.rs)|基于 Rspack 的 JavaScript 测试框架，兼容 Jest API。|
-|[ruff](https://github.com/astral-sh/ruff)|极速的 Python linter 和代码格式化工具。|
-|[runcon@GNU](https://www.gnu.org/software/coreutils/)|在不同的 SELinux 安全上下文中运行程序。|
-|[runcon@uutils](https://uutils.org)|在启用 SELinux 的系统上以指定的安全上下文运行命令|
-|[rustc](https://doc.rust-lang.org/rustc)|Rust 编译器|
-|[rustup](https://rustup.rs)|Rust 工具链安装器。|
-|[scoop](https://scoop.sh)|适用于 Windows 的命令行安装程序|
-|[scoop-checkver](https://scoop.sh)|检查 Scoop 清单更新。<br>使用 .\bin\checkver.ps1 去触发补全|
-|[scoop-install](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
-|[scoop-update](https://gitee.com/abgox/scoop-tools)|一个 PowerShell 脚本，它允许你临时使用替换之后的代理 url 来下载安装包。|
-|[sd](https://github.com/chmln/sd)|直觉化的查找与替换 CLI<br>sed 替代工具|
-|[seq@GNU](https://www.gnu.org/software/coreutils/)|从 FIRST 到 LAST 按 INCREMENT 为步长打印数字。|
-|[seq@uutils](https://uutils.org)|按 INCREMENT 步长显示从 FIRST 到 LAST 的数字|
-|[sfsu](https://github.com/winpax/sfsu)|Scoop 工具，比原生 Scoop 快 30-100 倍。|
-|[sha1sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA1（160 位）校验和。|
-|[sha1sum@uutils](https://uutils.org)|打印或检查 SHA1 校验和|
-|[sha224sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA224（224 位）校验和。|
-|[sha224sum@uutils](https://uutils.org)|打印或检查 SHA224 校验和|
-|[sha256sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA256（256 位）校验和。|
-|[sha256sum@uutils](https://uutils.org)|打印或检查 SHA256 校验和|
-|[sha384sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA384（384 位）校验和。|
-|[sha384sum@uutils](https://uutils.org)|打印或检查 SHA384 校验和|
-|[sha512sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 SHA512（512 位）校验和。|
-|[sha512sum@uutils](https://uutils.org)|打印或检查 SHA512 校验和|
-|[shred@GNU](https://www.gnu.org/software/coreutils/)|反复覆写指定的 FILE，使得即使代价高昂的硬件探测也难以恢复其中的数据。|
-|[shred@uutils](https://uutils.org)|反复覆盖指定的 FILE，使即使非常昂贵的硬件探测也难以恢复数据|
-|[shuf@GNU](https://www.gnu.org/software/coreutils/)|把输入行的一个随机排列写入标准输出。|
-|[shuf@uutils](https://uutils.org)|输出输入行的随机排列来打乱输入|
-|[sk](https://github.com/skim-rs/skim)|一款用 Rust 语言编写的命令行快速模糊查找工具|
-|[sleep@GNU](https://www.gnu.org/software/coreutils/)|暂停 NUMBER 秒，NUMBER 可以是整数或浮点数。|
-|[sleep@uutils](https://uutils.org)|暂停 NUMBER 秒|
-|[sort@GNU](https://www.gnu.org/software/coreutils/)|把所有文件排序后拼接写入标准输出。|
-|[sort@uutils](https://uutils.org)|显示所有 FILE 排序后的连接。无 FILE 或 FILE 为 - 时读取标准输入|
-|[split@GNU](https://www.gnu.org/software/coreutils/)|把 FILE 切分后输出到 PREFIXaa、PREFIXab 等文件；默认每个文件 1000 行，默认 PREFIX 是 'x'。|
-|[split@uutils](https://uutils.org)|创建包含输入连续或交错部分的输出文件|
-|[sqlite3](https://www.sqlite.org)|SQLite 命令行界面。|
-|[ssh-keygen](https://www.openssh.com)|OpenSSH 密钥生成工具。|
-|[starship](https://github.com/starship/starship)|跨平台终端提示符。|
-|[stat@GNU](https://www.gnu.org/software/coreutils/)|显示文件或文件系统的状态。|
-|[stat@uutils](https://uutils.org)|显示文件或文件系统状态|
-|[stdbuf@GNU](https://www.gnu.org/software/coreutils/)|运行 COMMAND，并修改其标准流的缓冲方式。|
-|[stdbuf@uutils](https://uutils.org)|以修改后的缓冲操作运行 COMMAND，作用于其标准流|
-|[stern](https://github.com/stern/stern)|同时 tail 多个 Kubernetes pod 与容器的日志。|
-|[stripe](https://docs.stripe.com/cli)|与 Stripe 交互的官方命令行工具。|
-|[stty@GNU](https://www.gnu.org/software/coreutils/)|打印或修改终端特性。|
-|[stty@uutils](https://uutils.org)|打印或更改终端特性|
-|[sum@GNU](https://www.gnu.org/software/coreutils/)|打印或校验 BSD（16 位）校验和。|
-|[sum@uutils](https://uutils.org)|校验文件并计数块数|
-|[svn](https://subversion.apache.org)|Subversion 版本控制系统。|
-|[swc](https://swc.rs/)|超快的 TypeScript/JavaScript 编译器。|
-|[sync@GNU](https://www.gnu.org/software/coreutils/)|把缓存中的写操作同步到持久存储|
-|[sync@uutils](https://uutils.org)|将缓存的写入同步到持久存储|
-|[tac@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 写入标准输出，最后一行在最前。|
-|[tac@uutils](https://uutils.org)|将每个文件写到标准输出，最后一行在前|
-|[tail@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的最后 10 行打印到标准输出。|
-|[tail@uutils](https://uutils.org)|将每个 FILE 的最后 10 行打印到标准输出|
-|[taze](https://github.com/antfu-collective/taze)|让你的依赖保持新鲜的现代化 CLI 工具。|
-|[tee@GNU](https://www.gnu.org/software/coreutils/)|把标准输入复制到每个 FILE，同时也输出到标准输出。|
-|[tee@uutils](https://uutils.org)|将标准输入复制到每个 FILE，同时也复制到标准输出|
-|[terraform](https://www.terraform.io)|HashiCorp Terraform - 基础设施即代码工具|
-|[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - 用于 OpenTofu/Terraform 的灵活编排工具|
-|[tig](https://github.com/jonas/tig)|Tig 是一个基于 ncurses 的 git(1) 文本界面工具。<br>它主要作为 Git 仓库浏览器使用，也可以辅助按代码块粒度暂存待提交的更改，并作为各种 Git 命令输出的分页器。|
-|[timeout@GNU](https://www.gnu.org/software/coreutils/)|启动 COMMAND，若 DURATION 之后仍在运行则将其终止。|
-|[timeout@uutils](https://uutils.org)|启动 COMMAND，超时仍在运行时杀掉它|
-|[tofu](https://opentofu.org)|开源基础设施即代码工具。|
-|[tokei](https://github.com/XAMPPRocky/tokei)|快速统计你的代码量|
-|[tombi](https://tombi-toml.github.io/tombi/)|TOML 工具包|
-|[touch@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的访问时间和修改时间更新为当前时间。|
-|[touch@uutils](https://uutils.org)|将每个 FILE 的访问和修改时间更新为当前时间|
-|[tr@GNU](https://www.gnu.org/software/coreutils/)|对标准输入中的字符做转换、压缩和/或删除，结果写入标准输出。|
-|[tr@uutils](https://uutils.org)|转换或删除字符|
-|[trivy](https://trivy.dev)|扫描容器镜像、文件系统与 Git 仓库的漏洞，以及配置问题与硬编码密钥。|
-|[true@GNU](https://www.gnu.org/software/coreutils/)|以表示成功的状态码退出。|
-|[true@uutils](https://uutils.org)|返回 true，成功的退出状态|
-|[truncate@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 的大小缩小或扩展到指定大小|
-|[truncate@uutils](https://uutils.org)|将每个文件的大小收缩或扩展到指定大小|
-|[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|TypeScript 编译器。|
-|[tsort@GNU](https://www.gnu.org/software/coreutils/)|输出一个与 FILE 中偏序一致的全序列表。|
-|[tsort@uutils](https://uutils.org)|对 FILE 中的字符串做拓扑排序|
-|[tsx](https://tsx.hirok.io)|TypeScript Execute。在 Node.js 中运行 TypeScript 的最简单方式。|
-|[tty@GNU](https://www.gnu.org/software/coreutils/)|打印与标准输入相连的终端的文件名。|
-|[tty@uutils](https://uutils.org)|打印连接到标准输入的终端的文件名|
-|[ttyd](https://github.com/tsl0922/ttyd)|在 Web 上共享终端的工具|
-|[ty](https://github.com/astral-sh/ruff)|极速的 Python 类型检查器。|
-|[typst](https://typst.app)|一个基于标记的新排版系统。|
-|[uname@GNU](https://www.gnu.org/software/coreutils/)|打印某些系统信息。|
-|[uname@uutils](https://uutils.org)|打印特定的系统信息|
-|[unexpand@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中的空白符转换为制表符，输出到标准输出。|
-|[unexpand@uutils](https://uutils.org)|将每个 FILE 中的空白转换为制表符，写到标准输出|
-|[uniq@GNU](https://www.gnu.org/software/coreutils/)|从 INPUT（或标准输入）中过滤出相邻的重复行，写入 OUTPUT（或标准输出）。|
-|[uniq@uutils](https://uutils.org)|报告或省略重复的行|
-|[unlink@GNU](https://www.gnu.org/software/coreutils/)|调用 unlink 函数，删除指定的 FILE。|
-|[unlink@uutils](https://uutils.org)|取消链接 FILE 处的文件|
-|[users@GNU](https://www.gnu.org/software/coreutils/)|根据 FILE 输出当前已登录的用户。|
-|[users@uutils](https://uutils.org)|打印当前登录到当前主机的用户名|
-|[uv](https://docs.astral.sh/uv/)|极速 Python 包和项目管理器，使用 Rust 编写。|
-|[vagrant](https://www.vagrantup.com)|用于构建和管理虚拟机环境的工具。|
-|[vault](https://www.vaultproject.io)|HashiCorp Vault - 管理机密并保护敏感数据。|
-|[vdir@GNU](https://www.gnu.org/software/coreutils/)|列出这些文件的信息（默认为当前目录）。|
-|[vdir@uutils](https://uutils.org)|列出目录内容|
-|[vercel](https://vercel.com)|用于部署和管理 Vercel 项目的命令行工具|
-|[vhs](https://github.com/charmbracelet/vhs)|你的 CLI 家庭录像机<br>从 Shell 脚本录制终端 GIF|
-|[viddy](https://github.com/sachaos/viddy)|现代 watch 命令<br>时间机器和分页器等|
-|[vite](https://github.com/vitejs/vite)|下一代前端工具链。|
-|[vitest](https://github.com/vitest-dev/vitest)|下一代测试框架。|
-|[volta](https://volta.sh)|JavaScript 工具管理器。|
-|[vp](https://viteplus.dev)|Vite+ 命令行界面。<br>创建、开发、构建、测试、检查、格式化 JavaScript 项目并管理其依赖。|
-|[vpr](https://viteplus.dev/guide/run)|独立任务运行器（等同于 `vp run`）。<br>在工作区包中运行任务。|
-|[vpx](https://viteplus.dev/guide/vpx)|执行本地或远程 npm 包中的命令。<br>运行本地可执行文件，或下载并运行远程包。|
-|[watchexec](https://github.com/watchexec/watchexec)|在监视的文件更改时执行命令<br>递归监视更改并运行命令|
-|[wc@GNU](https://www.gnu.org/software/coreutils/)|打印每个 FILE 的换行、单词和字节计数；指定多个 FILE 时还会打印一行总计。|
-|[wc@uutils](https://uutils.org)|打印每个 FILE 的换行数、词数和字节数，指定多个 FILE 时再加总计行|
-|[wget](https://www.gnu.org/software/wget/)|非交互式网络检索工具。|
-|[who@GNU](https://www.gnu.org/software/coreutils/)|打印当前已登录用户的信息。|
-|[who@uutils](https://uutils.org)|打印当前登录用户的信息|
-|[whoami@GNU](https://www.gnu.org/software/coreutils/)|打印与当前有效用户 ID 对应的用户名。|
-|[whoami@uutils](https://uutils.org)|打印当前用户名|
-|[winget](https://github.com/microsoft/winget-cli)|Windows 包管理器。|
-|[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - 一款可将任意进程、端口、容器或文件追溯至其确切启动链路的工具|
-|[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI 工具<br>在 Cloudflare 的边缘平台上部署、管理和开发|
-|[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal 辅助工具。|
-|[wsl](https://github.com/microsoft/WSL)|适用于 Linux 的 Windows 子系统。|
-|[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL 容器 CLI —— 构建、运行 WSL 内置的 Linux 容器并与之交互。|
-|[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
-|[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
-|[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
-|[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
-|[xxd](https://www.linux.org/docs/man1/xxd.html)|生成十六进制转储，或执行逆向操作|
-|[ya](https://yazi-rs.github.io/)|Yazi - 使用 Rust 编写的极速终端文件管理器。|
-|[yarn](https://classic.yarnpkg.com/)|快速、可靠、安全的依赖管理。|
-|[yazi](https://yazi-rs.github.io/)|使用 Rust 编写的极速终端文件管理器。|
-|[yes@GNU](https://www.gnu.org/software/coreutils/)|不断输出一行，由所有指定的 STRING 组成，或 'y'。|
-|[yes@uutils](https://uutils.org)|重复显示带 STRING（或 y）的行|
-|[yq](https://github.com/mikefarah/yq)|一个可移植的命令行数据文件处理器|
-|[yt-dlp](https://github.com/yt-dlp/yt-dlp)|功能丰富的命令行音视频下载工具|
-|[zellij](https://zellij.dev)|具有多终端面板的终端工作区。|
-|[zoxide](https://github.com/ajeetdsouza/zoxide)|更智能的 cd 命令。|
+|[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
+|[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
+|[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
+|[apt](https://wiki.debian.org/Apt)|A command-line package manager for Debian and derivatives.|
+|[arch@GNU](https://www.gnu.org/software/coreutils/)|Print machine architecture.|
+|[arch@uutils](https://uutils.org)|Display machine architecture|
+|[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
+|[ast-grep](https://github.com/ast-grep/ast-grep)|Search and Rewrite code at large scale using AST pattern.|
+|[atac](https://github.com/Julien-cpsn/ATAC)|A simple API client in your terminal|
+|[atuin](https://atuin.sh)|Magical shell history.<br>Atuin replaces your existing shell history with a SQLite database, and records additional context for your commands.|
+|[aube](https://aube.jdx.dev)|A fast Node.js package manager|
+|[aubr](https://aube.jdx.dev)|Run a script defined in package.json (aube run standalone)|
+|[aubx](https://aube.jdx.dev)|Fetch a package into a throwaway environment and run its binary (aube dlx standalone)|
+|[aws](https://aws.amazon.com/cli/)|The AWS Command Line Interface is a unified tool to manage your AWS services.|
+|[b2sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check BLAKE2b (512-bit) checksums.|
+|[b2sum@uutils](https://uutils.org)|Print or check BLAKE2b (512-bit) checksums.|
+|[b3sum](https://github.com/BLAKE3-team/BLAKE3)|Compute and check BLAKE3 message digests.|
+|[base32@GNU](https://www.gnu.org/software/coreutils/)|Base32 encode or decode FILE, or standard input, to standard output.|
+|[base32@uutils](https://uutils.org)|Encode/decode data and print to standard output.|
+|[base64@GNU](https://www.gnu.org/software/coreutils/)|Base64 encode or decode FILE, or standard input, to standard output.|
+|[base64@uutils](https://uutils.org)|Encode/decode data and print to standard output.|
+|[basename@GNU](https://www.gnu.org/software/coreutils/)|Print NAME with any leading directory components removed.|
+|[basename@uutils](https://uutils.org)|Print NAME with leading directory components removed.|
+|[basenc@GNU](https://www.gnu.org/software/coreutils/)|basenc encode or decode FILE, or standard input, to standard output.|
+|[basenc@uutils](https://uutils.org)|Encode/decode data and print to standard output.|
+|[bat](https://github.com/sharkdp/bat)|Cat clone with syntax highlighting and Git integration.|
+|[biome](https://biomejs.dev/)|Toolchain for web projects.|
+|[brew](https://brew.sh)|Homebrew is an open-source package manager that was originally designed for macOS and now also supports Linux and WSL (Windows Subsystem for Linux)|
+|[buf](https://github.com/bufbuild/buf)|The Buf CLI - work with Protocol Buffers and manage resources on the Buf Schema Registry (BSR).|
+|[bun](https://bun.sh)|JavaScript all-in-one toolkit.|
+|[bunx](https://bun.com/docs/cli/bunx)|Execute an npm package executable (CLI), automatically installing into a global shared cache if not installed in node_modules.|
+|[bx](https://github.com/brave/brave-search-cli)|Zero-dependency, token-efficient CLI for the Brave Search API, built for AI agents and LLMs.|
+|[carapace](https://carapace.sh/)|A multi-shell completion binary|
+|[cargo](https://doc.rust-lang.org/cargo/)|Rust package manager.|
+|[cat@GNU](https://www.gnu.org/software/coreutils/)|Concatenate FILE(s) to standard output.|
+|[cat@uutils](https://uutils.org)|Concatenate FILE(s), or standard input, to standard output|
+|[chcon@GNU](https://www.gnu.org/software/coreutils/)|Change the SELinux security context of each FILE to CONTEXT.|
+|[chcon@uutils](https://uutils.org)|Change the SELinux security context of each FILE to CONTEXT.|
+|[chezmoi](https://chezmoi.io)|Manage your dotfiles across multiple diverse machines, securely|
+|[chfs](http://iscute.cn/chfs)|CuteHttpFileServer (chfs) - a free HTTP protocol file sharing server.|
+|[chgrp@GNU](https://www.gnu.org/software/coreutils/)|Change the group of each FILE to GROUP.|
+|[chgrp@uutils](https://uutils.org)|Change the group of each FILE to GROUP.|
+|[chmod@GNU](https://www.gnu.org/software/coreutils/)|Change the mode of each FILE to MODE.|
+|[chmod@uutils](https://uutils.org)|Change the mode of each FILE to MODE.|
+|[choco](https://chocolatey.org/)|Chocolatey software manager.|
+|[chown@GNU](https://www.gnu.org/software/coreutils/)|Change the owner and/or group of each FILE to OWNER and/or GROUP.|
+|[chown@uutils](https://uutils.org)|Change file owner and group|
+|[chroot@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND with root directory set to NEWROOT.|
+|[chroot@uutils](https://uutils.org)|Run COMMAND with root directory set to NEWROOT.|
+|[chsrc](https://chsrc.run)|Change Source everywhere for every software.|
+|[cksum@GNU](https://www.gnu.org/software/coreutils/)|Print or verify checksums.|
+|[cksum@uutils](https://uutils.org)|Print CRC and size for each file.|
+|[claude](https://docs.anthropic.com/en/docs/claude-code)|Claude Code - Anthropic's AI-powered coding assistant in the terminal.|
+|[cmake](https://cmake.org)|Cross-platform build system generator.|
+|[code](https://code.visualstudio.com)|Command line interface of Visual Studio Code.|
+|[codewhale](https://codewhale.net)|Open-source, community-driven terminal coding agent for DeepSeek V4 and other models.|
+|[codex](https://github.com/openai/codex)|Codex CLI - AI-powered coding assistant by OpenAI.|
+|[comm@GNU](https://www.gnu.org/software/coreutils/)|Compare sorted files FILE1 and FILE2 line by line.|
+|[comm@uutils](https://uutils.org)|Compare two sorted files line by line.|
+|[conda](https://github.com/conda/conda)|Binary package and environment manager.|
+|[copilot](https://github.com/github/copilot-cli)|GitHub Copilot CLI - AI-powered coding assistant in the terminal.|
+|[cp@GNU](https://www.gnu.org/software/coreutils/)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
+|[cp@uutils](https://uutils.org)|Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
+|[croc](https://github.com/schollz/croc)|Easily and securely transfer files from one computer to another.|
+|[csplit@GNU](https://www.gnu.org/software/coreutils/)|Output pieces of FILE separated by PATTERN(s) to files 'xx00', 'xx01', ..., and output byte counts of each piece to standard output.|
+|[csplit@uutils](https://uutils.org)|Split a file into sections determined by context lines.|
+|[curl](https://curl.se)|Command line tool and library for transferring data with URLs.|
+|[cut@GNU](https://www.gnu.org/software/coreutils/)|Print selected parts of lines from each FILE to standard output.|
+|[cut@uutils](https://uutils.org)|Print specified byte or field columns from each line.|
+|[cypress](https://www.cypress.io/)|Fast, easy and reliable testing for anything in a browser.|
+|[date@GNU](https://www.gnu.org/software/coreutils/)|Display date and time in the given FORMAT.|
+|[date@uutils](https://uutils.org)|Print or set the system date and time.|
+|[dd@GNU](https://www.gnu.org/software/coreutils/)|Copy a file, converting and formatting according to the operands.|
+|[dd@uutils](https://uutils.org)|Copy, and optionally convert, a file system resource|
+|[delta](https://github.com/dandavison/delta)|Viewer for git and diff output.|
+|[deno](https://deno.com/)|A modern JavaScript and TypeScript runtime.|
+|[df@GNU](https://www.gnu.org/software/coreutils/)|Show information about the file system on which each FILE resides, or all file systems by default.|
+|[df@uutils](https://uutils.org)|Show information about the file system on which each FILE resides, or all file systems by default.|
+|[diny](https://github.com/dinoDanic/diny)|A simple CLI tool that analyzes git diff and generates commit messages.|
+|[dir@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
+|[dir@uutils](https://uutils.org)|List directory contents.|
+|[dircolors@GNU](https://www.gnu.org/software/coreutils/)|Output commands to set the LS_COLORS environment variable.|
+|[dircolors@uutils](https://uutils.org)|Output commands to set the LS_COLORS environment variable.|
+|[dirname@GNU](https://www.gnu.org/software/coreutils/)|Output each NAME with its last non-slash component and trailing slashes removed; if NAME contains no /'s, output '.' (meaning the current directory).|
+|[dirname@uutils](https://uutils.org)|Strip last component from file name.|
+|[docker](https://www.docker.com)|Container Application Development.|
+|[docker-compose](https://github.com/docker/compose)|Define and run multi-container applications with Docker|
+|[doctl](https://github.com/digitalocean/doctl)|DigitalOcean official CLI.<br>Manage Droplets, databases, Kubernetes, apps, and more.|
+|[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
+|[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
+|[du@GNU](https://www.gnu.org/software/coreutils/)|Summarize device usage of the set of FILEs, recursively for directories.|
+|[du@uutils](https://uutils.org)|Estimate file space usage.|
+|[dua](https://github.com/Byron/dua-cli)|A tool to learn about disk usage, fast!|
+|[duf](https://github.com/muesli/duf)|Better df alternative for displaying disk usage.|
+|[dufs](https://github.com/sigoden/dufs)|Distinctive utility file server.|
+|[dust](https://github.com/bootandy/dust)|Like du but more intuitive.|
+|[echo@GNU](https://www.gnu.org/software/coreutils/)|Echo the STRING(s) to standard output.|
+|[echo@uutils](https://uutils.org)|Display a line of text|
+|[eddy](https://github.com/70sh1/eddy)|Simple and fast file encryption|
+|[env@GNU](https://www.gnu.org/software/coreutils/)|Set each NAME to VALUE in the environment and run COMMAND.|
+|[env@uutils](https://uutils.org)|Set each NAME to VALUE in the environment and run COMMAND.|
+|[esbuild](https://esbuild.github.io/)|Extremely fast JavaScript and CSS bundler and minifier.|
+|[eslint](https://eslint.org)|Pluggable JavaScript linter.|
+|[expand@GNU](https://www.gnu.org/software/coreutils/)|Convert tabs in each FILE to spaces, writing to standard output.|
+|[expand@uutils](https://uutils.org)|Convert tabs in each FILE to spaces.|
+|[expr@GNU](https://www.gnu.org/software/coreutils/)|Print the value of EXPRESSION to standard output.|
+|[expr@uutils](https://uutils.org)|Print the value of EXPRESSION to standard output|
+|[eza](https://eza.rocks)|A modern replacement for ls.|
+|[factor@GNU](https://www.gnu.org/software/coreutils/)|Print the prime factors of each specified integer NUMBER.|
+|[factor@uutils](https://uutils.org)|Print the prime factors of the given NUMBER(s).|
+|[false@GNU](https://www.gnu.org/software/coreutils/)|Exit with a status code indicating failure.|
+|[false@uutils](https://uutils.org)|Returns false, an unsuccessful exit status.|
+|[fastfetch](https://github.com/fastfetch-cli/fastfetch)|A neofetch-like tool for fetching system information and displaying them in a pretty way.|
+|[fd](https://github.com/sharkdp/fd)|Program to find entries in your filesystem.|
+|[ffmpeg](https://ffmpeg.org/)|Complete, cross-platform solution to record, convert and stream audio and video.|
+|[flutter](https://flutter.dev)|Flutter is Google's UI toolkit for building natively compiled applications.|
+|[fluxdown](https://github.com/zerx-lab/FluxDown)|An aria2c-style command-line download client for FluxDown.|
+|[fmt@GNU](https://www.gnu.org/software/coreutils/)|Reformat each paragraph in the FILE(s), writing to standard output.|
+|[fmt@uutils](https://uutils.org)|Reformat paragraphs from input files to stdout.|
+|[fnm](https://github.com/Schniz/fnm)|Fast and simple Node.js version manager, built in Rust.|
+|[fold@GNU](https://www.gnu.org/software/coreutils/)|Wrap input lines in each FILE, writing to standard output.|
+|[fold@uutils](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
+|[fx](https://fx.wtf)|Terminal JSON viewer|
+|[fzf](https://junegunn.github.io/fzf)|Interactive filter program for any kind of list.|
+|[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
+|[gem](https://guides.rubygems.org)|RubyGems is a package manager for Ruby libraries.|
+|[gemini](https://github.com/google-gemini/gemini-cli)|Gemini CLI - Google's AI-powered coding assistant in the terminal.|
+|[gh](https://cli.github.com/)|GitHub command-line tool.|
+|[ghgrab](https://github.com/abhixdd/ghgrab)|A simple, pretty terminal tool that lets you browse and download files from GitHub, GitLab, Codeberg, Gitea, and Forgejo|
+|[git](https://git-scm.com)|A distributed version control system for tracking changes in source code and other files.|
+|[gitversion](https://gitversion.net/)|A tool that generates a Semantic Version number based on your Git history.|
+|[glab](https://gitlab.com/gitlab-org/cli)|An open source GitLab CLI tool that brings GitLab to your command line.|
+|[glow](https://github.com/charmbracelet/glow)|Render markdown on the CLI, with pizzazz!|
+|[go](https://pkg.go.dev/cmd/go)|Tool for managing Go source code.|
+|[godot](https://godotengine.org)|Godot Engine - Free and open source 2D and 3D game engine.|
+|[gpg](https://gnupg.org)|GNU Privacy Guard - A complete and free implementation of the OpenPGP standard as defined by RFC4880|
+|[gradle](https://gradle.org)|Powerful build system for the JVM.|
+|[groups@GNU](https://www.gnu.org/software/coreutils/)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups database has changed).|
+|[groups@uutils](https://uutils.org)|Print group memberships for each USERNAME or, if no USERNAME is specified, for the current process (which may differ if the groups data‐base has changed).|
+|[gum](https://github.com/charmbracelet/gum)|A tool for glamorous shell scripts|
+|[head@GNU](https://www.gnu.org/software/coreutils/)|Print the first 10 lines of each FILE to standard output.|
+|[head@uutils](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
+|[helm](https://helm.sh)|Kubernetes package manager.|
+|[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
+|[hostid@GNU](https://www.gnu.org/software/coreutils/)|Print the numeric identifier (in hexadecimal) for the current host.|
+|[hostid@uutils](https://uutils.org)|Print the numeric identifier (in hexadecimal) for the current host|
+|[hostname](https://uutils.org)|Display or set the system's host name.|
+|[hugo](https://gohugo.io)|A fast and flexible static site generator built with Go.|
+|[hurl](https://hurl.dev)|Run and test HTTP requests with plain text<br>A tool for transferring data with URLs|
+|[hx](https://github.com/helix-editor/helix)|A post-modern text editor|
+|[hyperfine](https://github.com/sharkdp/hyperfine)|A command-line benchmarking tool|
+|[id@GNU](https://www.gnu.org/software/coreutils/)|Print user and group information for each specified USER, or (when USER omitted) for the current process.|
+|[id@uutils](https://uutils.org)|Print user and group information for each specified USER, or (when USER omitted) for the current user.|
+|[install@GNU](https://www.gnu.org/software/coreutils/)|This install program copies files (often just compiled) into destination locations you choose.|
+|[install@uutils](https://uutils.org)|Copy SOURCE to DEST or multiple SOURCE(s) to the existing|
+|[ionic](https://ionicframework.com/docs/cli)|Ionic CLI - The command-line interface for Ionic|
+|[istioctl](https://istio.io/)|The Istio command-line interface|
+|[jaq](https://github.com/01mf02/jaq)|Just Another Query Tool<br>A jq clone focused on correctness and performance|
+|[jj](https://jj-vcs.github.io/)|Jujutsu (jj) - Git-compatible version control system.|
+|[jjui](https://idursun.github.io/jjui/)|Text User Interface for the Jujutsu version control system.|
+|[join@GNU](https://www.gnu.org/software/coreutils/)|For each pair of input lines with identical join fields, write a line to standard output.|
+|[join@uutils](https://uutils.org)|Join lines of two files on a common field.|
+|[jq](https://jqlang.org/)|Lightweight and flexible command-line JSON processor.|
+|[just](https://github.com/casey/just)|A command runner.|
+|[k3d](https://k3d.io/)|Lightweight wrapper to run k3s (Rancher Lab's minimal Kubernetes distribution) in docker.|
+|[k9s](https://k9scli.io/)|K9s is a terminal based UI to interact with your Kubernetes clusters.<br>It eases navigating, observing and managing your deployed applications.|
+|[kind](https://kind.sigs.k8s.io/)|kind is a tool for running local Kubernetes clusters using Docker container 'nodes'.<br>kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI.|
+|[komac](https://github.com/russellbanks/Komac)|The Community Manifest Creator for WinGet.|
+|[kubectl](https://kubernetes.io/docs/reference/kubectl/)|Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.<br>kubectl is its command-line tool.|
+|[kubectx](https://github.com/ahmetb/kubectx)|Switch between Kubernetes contexts (kubectl config use-context).|
+|[kubens](https://github.com/ahmetb/kubens)|Switch between Kubernetes namespaces.|
+|[kustomize](https://github.com/kubernetes-sigs/kustomize)|Customize kubernetes YAML configurations|
+|[lark-cli](https://github.com/larksuite/cli)|Lark/Feishu CLI tool.|
+|[lazydocker](https://github.com/jesseduffield/lazydocker)|The lazier way to manage everything docker.|
+|[lazygit](https://github.com/jesseduffield/lazygit)|A simple terminal UI for git commands.|
+|[lefthook](https://github.com/evilmartians/lefthook)|Git hooks manager.|
+|[link@GNU](https://www.gnu.org/software/coreutils/)|Call the link function to create a link named FILE2 to an existing FILE1.|
+|[link@uutils](https://uutils.org)|Call the link function to create a link named FILE2 to an existing FILE1.|
+|[ln@GNU](https://www.gnu.org/software/coreutils/)|Make links between files.|
+|[ln@uutils](https://uutils.org)|Make links between files.|
+|[logname@GNU](https://www.gnu.org/software/coreutils/)|Print the user's login name.|
+|[logname@uutils](https://uutils.org)|Print user's login name|
+|[lore](https://lore.org)|Next-generation, open-source version control system.<br>Designed for large files, large teams, and scalable workflows.|
+|[ls@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
+|[ls@uutils](https://uutils.org)|List directory contents.|
+|[lua](https://www.lua.org/)|Powerful, efficient, lightweight, embeddable scripting language|
+|[lychee](https://github.com/lycheeverse/lychee)|A fast, asynchronous link checker<br>Detects broken URLs and mail addresses in local files and websites|
+|[magick](https://imagemagick.org)|Create, edit, compose, or convert digital images.|
+|[mcfly](https://github.com/cantino/mcfly)|Fly through your shell history|
+|[md5sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check MD5 (128-bit) checksums.|
+|[md5sum@uutils](https://uutils.org)|Compute and check MD5 message digests.|
+|[mimo](https://github.com/XiaomiMiMo/MiMo-Code)|mimocode - an AI-powered coding assistant.|
+|[minikube](https://minikube.sigs.k8s.io/)|Provides and manages local Kubernetes clusters optimized for development workflows.|
+|[mise](https://mise.jdx.dev/)|Polyglot tool version manager, env vars manager and task runner.|
+|[mkdir@GNU](https://www.gnu.org/software/coreutils/)|Create the DIRECTORY(ies), if they do not already exist.|
+|[mkdir@uutils](https://uutils.org)|Create the given DIRECTORY(ies) if they do not exist|
+|[mkfifo@GNU](https://www.gnu.org/software/coreutils/)|Create named pipes (FIFOs) with the given NAMEs.|
+|[mkfifo@uutils](https://uutils.org)|Create a FIFO with the given name.|
+|[mknod@GNU](https://www.gnu.org/software/coreutils/)|Create the special file NAME of the given TYPE.|
+|[mknod@uutils](https://uutils.org)|Create the special file NAME of the given TYPE.|
+|[mktemp@GNU](https://www.gnu.org/software/coreutils/)|Create a temporary file or directory, safely, and print its name.|
+|[mktemp@uutils](https://uutils.org)|Create a temporary file or directory.|
+|[more](https://github.com/util-linux/util-linux)|Display the contents of a text file one screen at a time.|
+|[mv@GNU](https://www.gnu.org/software/coreutils/)|Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.|
+|[mv@uutils](https://uutils.org)|Move SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
+|[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
+|[mysql](https://dev.mysql.com/doc/refman/8.4/en/mysql-command-options.html)|MySQL command line client.|
+|[N_m3u8DL-RE](https://github.com/nilaoda/N_m3u8DL-RE)|Cross-platform browser stream downloader (HLS/DASH/Smooth).|
+|[netlify](https://www.netlify.com)|The Netlify CLI for managing and deploying your Netlify sites|
+|[netwatch](https://github.com/matthart1983/netwatch)|Real-time network diagnostics in your terminal.|
+|[nexttrace](https://github.com/nxtrace/NexTrace)|An open source visual route tracking CLI tool|
+|[ngrok](https://ngrok.com/)|Unified Ingress Platform for developers.<br>Connect localhost to the internet for testing applications and APIs.|
+|[nice@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND with an adjusted niceness, which affects process scheduling.|
+|[nice@uutils](https://uutils.org)|Run COMMAND with an adjusted niceness, which affects process scheduling.|
+|[nl@GNU](https://www.gnu.org/software/coreutils/)|Write each FILE to standard output, with line numbers added.|
+|[nl@uutils](https://uutils.org)|Number lines of files.|
+|[node](https://nodejs.org/)|A free, open-source, cross-platform JavaScript runtime environment.|
+|[nodemon](https://github.com/remy/nodemon)|Monitor for changes and automatically restart Node.js server.|
+|[nohup@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND, ignoring hangup signals.|
+|[nohup@uutils](https://uutils.org)|Run COMMAND ignoring hangup signals.|
+|[nomad](https://www.nomadproject.io/)|A workload scheduler that orchestrates containers and non-containerized applications|
+|[npm](https://www.npmjs.com/)|Node.js package manager.|
+|[nproc@GNU](https://www.gnu.org/software/coreutils/)|Print the number of processing units available to the current process, which may be less than the number of online processors|
+|[nproc@uutils](https://uutils.org)|Print the number of cores available to the current process.|
+|[npx](https://docs.npmjs.com/cli/commands/npx)|Run a command from a local or remote npm package.|
+|[nrm](https://github.com/Pana/nrm)|npm registry manager.|
+|[nssm](https://nssm.cc)|The Non-Sucking Service Manager<br>Install and manage any executable as a Windows service|
+|[nu](https://github.com/nushell/nushell)|The nushell language and shell|
+|[nub](https://nubjs.com/)|The all-in-one Node.js toolkit: package manager, script runner and registry client.|
+|[nubx](https://nubjs.com)|Run a tool from node_modules/.bin, fetching it from the registry on a local miss (a faster npx / pnpm dlx).|
+|[numfmt@GNU](https://www.gnu.org/software/coreutils/)|Reformat NUMBER(s), or the numbers from standard input if none are specified.|
+|[numfmt@uutils](https://uutils.org)|Convert numbers from/to human-readable strings|
+|[nvim](https://neovim.io/)|Vim-fork focused on extensibility and usability.|
+|[nvm](https://github.com/nvm-sh/nvm)|Node.js Version Manager.|
+|[od@GNU](https://www.gnu.org/software/coreutils/)|Write an unambiguous representation, octal bytes by default, of FILE to standard output.|
+|[od@uutils](https://uutils.org)|Dump files in octal and other formats.|
+|[oh-my-posh](https://ohmyposh.dev)|Cross-platform tool to render your prompt.|
+|[ollama](https://docs.ollama.com/cli)|Local large language model runner.|
+|[omp](https://github.com/can1357/oh-my-pi)|Oh My Pi - AI-powered coding assistant in the terminal.|
+|[openclaw](https://docs.openclaw.ai/cli)|The Command Line Interface (CLI) of OpenClaw|
+|[opencode](https://github.com/nicholaswatertank/opencode)|AI-powered coding agent for the terminal.|
+|[ouch](https://github.com/ouch-org/ouch)|A command-line utility for easily compressing and decompressing files and directories<br>Supported formats: tar, zip, gz, 7z, xz, lzma, bz2, bz3, lz4, zst, rar, br|
+|[oxfmt](https://oxc.rs)|An extremely fast formatter and code style guide linter for JavaScript, TypeScript, JSX, and TSX|
+|[oxlint](https://oxc.rs)|TypeScript and JavaScript linter and ESLint compatible config for correctness and some stylistic rules|
+|[packer](https://www.packer.io/)|Packer is a tool for building identical machine images for multiple platforms from a single source configuration.|
+|[pandoc](https://pandoc.org)|Universal document converter.|
+|[paste@GNU](https://www.gnu.org/software/coreutils/)|Write lines consisting of the sequentially corresponding lines from each FILE, separated by TABs, to standard output.|
+|[paste@uutils](https://uutils.org)|Write sequentially corresponding lines from each FILE to stdout.|
+|[pathchk@GNU](https://www.gnu.org/software/coreutils/)|Diagnose invalid or non-portable file names.|
+|[pathchk@uutils](https://www.gnu.org/software/coreutils/)|Diagnose invalid or unportable file names.|
+|[pdfcpu](https://github.com/pdfcpu/pdfcpu)|A Go PDF processor<br>Command-line tools for working with PDF files|
+|[pdm](https://github.com/pdm-project/pdm)|Modern Python package and dependency manager.|
+|[pinky@GNU](https://www.gnu.org/software/coreutils/)|A lightweight 'finger' program; print user information.|
+|[pinky@uutils](https://uutils.org)|Displays brief user information on Unix-based systems|
+|[pip](https://github.com/pypa/pip)|Python Package Manager.|
+|[pixi](https://github.com/prefix-dev/pixi)|Developer Workflow and Environment Management for Multi-Platform, Language-Agnostic Workspaces.|
+|[playwright](https://playwright.dev/)|Framework for web testing and automation.|
+|[pm2](https://pm2.keymetrics.io/)|Node.js process manager with built-in load balancer.|
+|[pnpm](https://pnpm.io/)|Fast, disk-space-efficient package manager.|
+|[pnpx](https://pnpm.io/cli/dlx)|Run a package in a temporary environment.|
+|[podman](https://podman.io)|Manage pods, containers and images.|
+|[poetry](https://python-poetry.org)|Python dependency manager and packaging tool.|
+|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1)|Windows PowerShell CLI.|
+|[pr@GNU](https://www.gnu.org/software/coreutils/)|Paginate or columnate FILE(s) for printing.|
+|[pr@uutils](https://uutils.org)|paginate or columnate FILE(s) for printing|
+|[prettier](https://prettier.io)|Opinionated code formatter.|
+|[printenv@GNU](https://www.gnu.org/software/coreutils/)|Print the values of the specified environment VARIABLE(s).|
+|[printenv@uutils](https://www.gnu.org/software/coreutils/)|Print the values of environment VARIABLE(s).|
+|[printf@GNU](https://www.gnu.org/software/coreutils/)|Print ARGUMENT(s) according to FORMAT, or execute according to OPTION:|
+|[printf@uutils](https://uutils.org)|Print output based off of the format string and proceeding arguments.|
+|[prisma](https://www.prisma.io/docs/cli)|The Prisma Developer Platform, from your terminal.|
+|[psc](https://pscompletions.abgox.com)|PSCompletions module's completion.|
+|[psc-compare](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/compare-json.ps1: compare completion languages for structure, usage and translation.|
+|[psc-link](https://pscompletions.abgox.com)|Developer script completions for PSCompletions (psc).<br>Completions for scripts/link-completion.ps1: link completions for local testing.|
+|[ptx@GNU](https://www.gnu.org/software/coreutils/)|Output a permuted index, including context, of the words in the input files.|
+|[ptx@uutils](https://uutils.org)|Produce a permuted index of file contents|
+|[pulumi](https://www.pulumi.com/)|Pulumi - Infrastructure as Code in any programming language|
+|[pwd@GNU](https://www.gnu.org/software/coreutils/)|Print the full filename of the current working directory.|
+|[pwd@uutils](https://uutils.org)|Display the full filename of the current working directory.|
+|[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[pytest](https://docs.pytest.org)|Python testing framework.|
+|[python3](https://www.python.org)|Python interpreter command-line.|
+|[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
+|[readlink@GNU](https://www.gnu.org/software/coreutils/)|Print value of a symbolic link or canonical file name|
+|[readlink@uutils](https://uutils.org)|Print value of a symbolic link or canonical file name.|
+|[realpath@GNU](https://www.gnu.org/software/coreutils/)|Print the resolved absolute file name; all but the last component must exist|
+|[realpath@uutils](https://uutils.org)|Print the resolved path|
+|[reasonix](https://reasonix.io)|A DeepSeek-native AI coding agent for your terminal.|
+|[restic](https://restic.net)|A backup program<br>Save multiple revisions of files and directories in an encrypted repository|
+|[resvg](https://github.com/linebender/resvg)|An SVG rendering application.|
+|[rg](https://github.com/BurntSushi/ripgrep)|ripgrep (rg) - recursively searches the current directory for lines matching a regex pattern.|
+|[rimraf](https://github.com/isaacs/rimraf)|A cross-platform `rm -rf` utility for Node.js.|
+|[rm@GNU](https://www.gnu.org/software/coreutils/)|Remove (unlink) the FILE(s).|
+|[rm@uutils](https://uutils.org)|Remove (unlink) the FILE(s)|
+|[rmdir@GNU](https://www.gnu.org/software/coreutils/)|Remove the DIRECTORY(ies), if they are empty.|
+|[rmdir@uutils](https://uutils.org)|Remove the DIRECTORY(ies), if they are empty.|
+|[rsbuild](https://rsbuild.rs)|A fast, extensible build tool for modern web development, powered by Rspack.|
+|[rsdoctor](https://rsdoctor.rs)|An AI-friendly build analyzer that makes the build process transparent.|
+|[rslib](https://rslib.rs)|An Rsbuild-based library development tool for creating libraries and UI components.|
+|[rslint](https://rslint.rs)|A high-performance, ESLint-compatible linter for JavaScript and TypeScript.|
+|[rspack](https://rspack.rs)|Fast Rust-based bundler for the web with a modernized webpack API.|
+|[rspress](https://rspress.rs)|Lightning fast static site generator.|
+|[rstest](https://rstest.rs)|A JavaScript testing framework powered by Rspack, with a Jest-compatible API.|
+|[ruff](https://github.com/astral-sh/ruff)|An extremely fast Python linter and code formatter.|
+|[runcon@GNU](https://www.gnu.org/software/coreutils/)|Run a program in a different SELinux security context.|
+|[runcon@uutils](https://uutils.org)|Run command with specified security context under SELinux enabled systems.|
+|[rustc](https://doc.rust-lang.org/rustc)|The Rust compiler|
+|[rustup](https://rustup.rs)|The Rust toolchain installer.|
+|[scoop](https://scoop.sh)|A command-line installer for Windows.|
+|[scoop-checkver](https://scoop.sh)|Check for updates to Scoop manifests.<br>Use .\bin\checkver.ps1 to trigger completions.|
+|[scoop-install](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
+|[scoop-update](https://github.com/abgox/scoop-tools)|A PowerShell script that allows you to temporarily use the replaced proxy URL to download app packages.|
+|[sd](https://github.com/chmln/sd)|An intuitive find & replace CLI<br>sed alternative|
+|[seq@GNU](https://www.gnu.org/software/coreutils/)|Print numbers from FIRST to LAST, in steps of INCREMENT.|
+|[seq@uutils](https://uutils.org)|Display numbers from FIRST to LAST, in steps of INCREMENT.|
+|[sfsu](https://github.com/winpax/sfsu)|Scoop utilities, 30-100x faster than native Scoop.|
+|[sha1sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA1 (160-bit) checksums.|
+|[sha1sum@uutils](https://uutils.org)|Print or check the SHA1 checksums|
+|[sha224sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA224 (224-bit) checksums.|
+|[sha224sum@uutils](https://uutils.org)|Print or check the SHA224 checksums|
+|[sha256sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA256 (256-bit) checksums.|
+|[sha256sum@uutils](https://uutils.org)|Print or check the SHA256 checksums|
+|[sha384sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA384 (384-bit) checksums.|
+|[sha384sum@uutils](https://uutils.org)|Print or check the SHA384 checksums|
+|[sha512sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check SHA512 (512-bit) checksums.|
+|[sha512sum@uutils](https://uutils.org)|Print or check the SHA512 checksums|
+|[shred@GNU](https://www.gnu.org/software/coreutils/)|Overwrite the specified FILE(s) repeatedly, in order to make it harder for even very expensive hardware probing to recover the data.|
+|[shred@uutils](https://uutils.org)|Overwrite the specified FILE(s) repeatedly, in order to make it harder for even very expensive hardware probing to recover the data.|
+|[shuf@GNU](https://www.gnu.org/software/coreutils/)|Write a random permutation of the input lines to standard output.|
+|[shuf@uutils](https://uutils.org)|Shuffle the input by outputting a random permutation of input lines.|
+|[sk](https://github.com/skim-rs/skim)|A fast fuzzy finder for the command line written in Rust|
+|[sleep@GNU](https://www.gnu.org/software/coreutils/)|Pause for NUMBER seconds, where NUMBER is an integer or floating-point.|
+|[sleep@uutils](https://uutils.org)|Pause for NUMBER seconds.|
+|[sort@GNU](https://www.gnu.org/software/coreutils/)|Write sorted concatenation of all FILE(s) to standard output.|
+|[sort@uutils](https://uutils.org)|Display sorted concatenation of all FILE(s). With no FILE, or when FILE is -, read standard input.|
+|[split@GNU](https://www.gnu.org/software/coreutils/)|Output pieces of FILE to PREFIXaa, PREFIXab, ...; default size is 1000 lines, and default PREFIX is 'x'.|
+|[split@uutils](https://uutils.org)|Create output files containing consecutive or interleaved sections of input|
+|[sqlite3](https://www.sqlite.org)|SQLite command line interface.|
+|[ssh-keygen](https://www.openssh.com)|OpenSSH key generation utility.|
+|[starship](https://github.com/starship/starship)|The cross-shell prompt for astronauts.|
+|[stat@GNU](https://www.gnu.org/software/coreutils/)|Display file or file system status.|
+|[stat@uutils](https://uutils.org)|Display file or file system status.|
+|[stdbuf@GNU](https://www.gnu.org/software/coreutils/)|Run COMMAND, with modified buffering operations for its standard streams.|
+|[stdbuf@uutils](https://uutils.org)|Run COMMAND, with modified buffering operations for its standard streams.|
+|[stern](https://github.com/stern/stern)|Tail multiple pods and containers from Kubernetes.|
+|[stripe](https://docs.stripe.com/cli)|The official command-line tool to interact with Stripe.|
+|[stty@GNU](https://www.gnu.org/software/coreutils/)|Print or change terminal characteristics.|
+|[stty@uutils](https://uutils.org)|Print or change terminal characteristics.|
+|[sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check BSD (16-bit) checksums.|
+|[sum@uutils](https://uutils.org)|Checksum and count the blocks in a file.|
+|[svn](https://subversion.apache.org)|Subversion version control system.|
+|[swc](https://swc.rs/)|Super-fast TypeScript/JavaScript compiler.|
+|[sync@GNU](https://www.gnu.org/software/coreutils/)|Synchronize cached writes to persistent storage|
+|[sync@uutils](https://uutils.org)|Synchronize cached writes to persistent storage|
+|[tac@GNU](https://www.gnu.org/software/coreutils/)|Write each FILE to standard output, last line first.|
+|[tac@uutils](https://uutils.org)|Write each file to standard output, last line first.|
+|[tail@GNU](https://www.gnu.org/software/coreutils/)|Print the last 10 lines of each FILE to standard output.|
+|[tail@uutils](https://uutils.org)|Print the last 10 lines of each FILE to standard output.|
+|[taze](https://github.com/antfu-collective/taze)|A modern CLI tool that keeps your deps fresh.|
+|[tee@GNU](https://www.gnu.org/software/coreutils/)|Copy standard input to each FILE, and also to standard output.|
+|[tee@uutils](https://uutils.org)|Copy standard input to each FILE, and also to standard output.|
+|[terraform](https://www.terraform.io)|HashiCorp Terraform - Infrastructure as Code tool|
+|[terragrunt](https://terragrunt.gruntwork.io)|Terragrunt - a flexible orchestration tool for OpenTofu/Terraform|
+|[tig](https://github.com/jonas/tig)|Tig is an ncurses-based text-mode interface for git(1).<br>It functions mainly as a Git repository browser, but can also assist in staging changes for commit at chunk level and act as a pager for output from various Git commands.|
+|[timeout@GNU](https://www.gnu.org/software/coreutils/)|Start COMMAND, and kill it if still running after DURATION.|
+|[timeout@uutils](https://uutils.org)|Start COMMAND, and kill it if still running after DURATION.|
+|[tofu](https://opentofu.org)|Open-source infrastructure as code tool.|
+|[tokei](https://github.com/XAMPPRocky/tokei)|Count your code, quickly|
+|[tombi](https://tombi-toml.github.io/tombi/)|TOML Toolkit|
+|[touch@GNU](https://www.gnu.org/software/coreutils/)|Update the access and modification times of each FILE to the current time.|
+|[touch@uutils](https://uutils.org)|Update the access and modification times of each FILE to the current time.|
+|[tr@GNU](https://www.gnu.org/software/coreutils/)|Translate, squeeze, and/or delete characters from standard input, writing to standard output.|
+|[tr@uutils](https://uutils.org)|Translate or delete characters|
+|[trivy](https://trivy.dev)|Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for configuration issues and hard-coded secrets.|
+|[true@GNU](https://www.gnu.org/software/coreutils/)|Exit with a status code indicating success.|
+|[true@uutils](https://uutils.org)|Returns true, a successful exit status.|
+|[truncate@GNU](https://www.gnu.org/software/coreutils/)|Shrink or extend the size of each FILE to the specified size|
+|[truncate@uutils](https://uutils.org)|Shrink or extend the size of each file to the specified size.|
+|[tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html)|The TypeScript Compiler.|
+|[tsort@GNU](https://www.gnu.org/software/coreutils/)|Write totally ordered list consistent with the partial ordering in FILE.|
+|[tsort@uutils](https://uutils.org)|Topological sort the strings in FILE.|
+|[tsx](https://tsx.hirok.io)|TypeScript Execute. The easiest way to run TypeScript in Node.js.|
+|[tty@GNU](https://www.gnu.org/software/coreutils/)|Print the file name of the terminal connected to standard input.|
+|[tty@uutils](https://uutils.org)|Print the file name of the terminal connected to standard input.|
+|[ttyd](https://github.com/tsl0922/ttyd)|A tool for sharing terminal over the web|
+|[ty](https://github.com/astral-sh/ruff)|An extremely fast Python type checker.|
+|[typst](https://typst.app)|A new markup-based typesetting system.|
+|[uname@GNU](https://www.gnu.org/software/coreutils/)|Print certain system information.|
+|[uname@uutils](https://uutils.org)|Print certain system information.|
+|[unexpand@GNU](https://www.gnu.org/software/coreutils/)|Convert blanks in each FILE to tabs, writing to standard output.|
+|[unexpand@uutils](https://uutils.org)|Convert blanks in each FILE to tabs, writing to standard output.|
+|[uniq@GNU](https://www.gnu.org/software/coreutils/)|Filter adjacent matching lines from INPUT (or standard input), writing to OUTPUT (or standard output).|
+|[uniq@uutils](https://uutils.org)|Report or omit repeated lines.|
+|[unlink@GNU](https://www.gnu.org/software/coreutils/)|Call the unlink function to remove the specified FILE.|
+|[unlink@uutils](https://uutils.org)|Unlink the file at FILE.|
+|[users@GNU](https://www.gnu.org/software/coreutils/)|Output who is currently logged in according to FILE.|
+|[users@uutils](https://uutils.org)|Print the user names of users currently logged in to the current host.|
+|[uv](https://docs.astral.sh/uv/)|Extremely fast Python package and project manager, written in Rust.|
+|[vagrant](https://www.vagrantup.com)|Tool for building and managing virtual machine environments.|
+|[vault](https://www.vaultproject.io)|HashiCorp Vault - manage secrets and protect sensitive data.|
+|[vdir@GNU](https://www.gnu.org/software/coreutils/)|List information about the FILEs (the current directory by default).|
+|[vdir@uutils](https://uutils.org)|List directory contents.|
+|[vercel](https://vercel.com)|The Vercel CLI for deploying and managing your Vercel projects|
+|[vhs](https://github.com/charmbracelet/vhs)|Your CLI home video recorder.<br>Record terminal GIFs from shell scripts|
+|[viddy](https://github.com/sachaos/viddy)|A modern watch command<br>Time machine and pager etc.|
+|[vite](https://github.com/vitejs/vite)|Next generation frontend tooling.|
+|[vitest](https://github.com/vitest-dev/vitest)|Next generation testing framework.|
+|[volta](https://volta.sh)|JavaScript tool manager.|
+|[vp](https://viteplus.dev)|Vite+ command line interface.<br>Create, develop, build, test, lint, format, and manage JavaScript projects.|
+|[vpr](https://viteplus.dev/guide/run)|Standalone task runner (equivalent to `vp run`).<br>Run tasks across workspace packages.|
+|[vpx](https://viteplus.dev/guide/vpx)|Execute a command from a local or remote npm package.<br>Run local binaries, or download and run remote packages.|
+|[watchexec](https://github.com/watchexec/watchexec)|Execute commands when watched files change<br>Recursively monitors for changes and runs commands|
+|[wc@GNU](https://www.gnu.org/software/coreutils/)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
+|[wc@uutils](https://uutils.org)|Print newline, word, and byte counts for each FILE, and a total line if more than one FILE is specified.|
+|[wget](https://www.gnu.org/software/wget/)|Non-interactive network retriever.|
+|[who@GNU](https://www.gnu.org/software/coreutils/)|Print information about users who are currently logged in.|
+|[who@uutils](https://uutils.org)|Print information about users who are currently logged in.|
+|[whoami@GNU](https://www.gnu.org/software/coreutils/)|Print the user name associated with the current effective user ID.|
+|[whoami@uutils](https://uutils.org)|Print the current username.|
+|[winget](https://github.com/microsoft/winget-cli)|Windows package manager.|
+|[witr](https://github.com/pranshuparmar/witr)|Why Is This Running - A tool that traces any process, port, container, or file back to the exact chain that started it|
+|[wrangler](https://github.com/cloudflare/workers-sdk)|Cloudflare Workers CLI tool<br>Deploy, manage, and develop on Cloudflare's edge platform|
+|[wsh](https://github.com/wavetermdev/waveterm)|Wave Terminal helper utility.|
+|[wsl](https://github.com/microsoft/WSL)|Windows Subsystem for Linux.|
+|[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL container CLI — build, run and interact with Linux containers built into WSL.|
+|[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
+|[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
+|[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
+|[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|
+|[xxd](https://www.linux.org/docs/man1/xxd.html)|Make a hex dump or do the reverse|
+|[ya](https://yazi-rs.github.io/)|Yazi - Blazing fast terminal file manager written in Rust.|
+|[yarn](https://classic.yarnpkg.com/)|Fast, reliable, and secure dependency management.|
+|[yazi](https://yazi-rs.github.io/)|Blazing fast terminal file manager written in Rust.|
+|[yes@GNU](https://www.gnu.org/software/coreutils/)|Repeatedly output a line with all specified STRING(s), or 'y'.|
+|[yes@uutils](https://uutils.org)|Repeatedly display a line with STRING (or 'y')|
+|[yq](https://github.com/mikefarah/yq)|A portable command-line data file processor|
+|[yt-dlp](https://github.com/yt-dlp/yt-dlp)|A feature-rich command-line audio/video downloader|
+|[zellij](https://zellij.dev)|Terminal workspace with multiple terminal panes.|
+|[zoxide](https://github.com/ajeetdsouza/zoxide)|A smarter cd command for your terminal.|
 
 <!-- prettier-ignore-end -->

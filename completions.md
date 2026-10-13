@@ -270,7 +270,7 @@
 |[pnpx](https://pnpm.io/cli/dlx)|Run a package in a temporary environment.|
 |[podman](https://podman.io)|Manage pods, containers and images.|
 |[poetry](https://python-poetry.org)|Python dependency manager and packaging tool.|
-|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1)|Windows PowerShell CLI.|
+|[powershell](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1)|Windows PowerShell CLI.|
 |[pr@GNU](https://www.gnu.org/software/coreutils/)|Paginate or columnate FILE(s) for printing.|
 |[pr@uutils](https://uutils.org)|paginate or columnate FILE(s) for printing|
 |[prettier](https://prettier.io)|Opinionated code formatter.|
