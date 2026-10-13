@@ -34,6 +34,9 @@ local function add_online_tags()
     add_tags(data.versions or {})
 end
 
-psc.on({ { command = "uninstall", multiple = true }, { command = "list", multiple = true } }, add_local_tags)
+psc.on({
+    { command = "uninstall", multiple = true },
+    { command = "list",      multiple = true }
+}, add_local_tags)
 
 psc.on({ command = "install", multiple = true }, add_online_tags)
