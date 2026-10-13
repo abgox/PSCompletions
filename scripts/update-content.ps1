@@ -73,7 +73,7 @@ function New-MarkdownList {
         $completionData = @{}
 
         $jsonConfig = Get-Content -Path "$($_.FullName)/config.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
-        $langList = @('en-US') + @(Get-ChildItem -Path "$($_.FullName)/language" -File -Exclude 'en-US.json' | ForEach-Object { $_.BaseName } | Sort-Object)
+        $langList = @('en-US') + @(Get-ChildItem -Path "$($_.FullName)/language" -File | Where-Object { $_.BaseName -ne 'en-US' } | ForEach-Object { $_.BaseName } | Sort-Object)
 
         foreach ($lang in $langList) {
             $completionData.$lang = Get-Content -Path "$($_.FullName)/language/$lang.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
