@@ -16,19 +16,30 @@ function Get-StringHash {
 
     if (-not (Test-Path -LiteralPath $Directory)) { return }
 
-    $files = Get-ChildItem -Path $Directory -File -Recurse | Sort-Object -Property FullName
+    $root = (Resolve-Path -LiteralPath $Directory).Path
+    $files = Get-ChildItem -Path $root -File -Recurse | ForEach-Object { $_.FullName } | Sort-Object -CaseSensitive
+
     if (-not $files) { return }
 
-    $sb = [System.Text.StringBuilder]::new()
-    foreach ($file in $files) {
-        [void]$sb.Append((Get-Content -Path $file.FullName -Raw -Encoding utf8))
+    try {
+        $sha256 = [System.Security.Cryptography.SHA256]::Create()
+        $sb = [System.Text.StringBuilder]::new()
+
+        foreach ($file in $files) { 
+            $fileHash = ($sha256.ComputeHash([System.IO.File]::ReadAllBytes($file)) | ForEach-Object -Process { $_.ToString('x2') }) -join ''
+            [void]$sb.Append([System.IO.Path]::GetRelativePath($root, $file).Replace('\', '/'))
+            [void]$sb.Append("`0")
+            [void]$sb.Append($fileHash)
+            [void]$sb.Append("`n")
+        }
+
+        $finalBytes = [System.Text.Encoding]::UTF8.GetBytes($sb.ToString())
+        $finalHashBytes = $sha256.ComputeHash($finalBytes)
     }
-
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes($sb.ToString())
-    $sha256 = [System.Security.Cryptography.SHA256]::Create()
-    $hashBytes = $sha256.ComputeHash($bytes)
-
-    ($hashBytes | ForEach-Object -Process { $_.ToString('x2') }) -join ''
+    finally {
+        if ($null -ne $sha256) { $sha256.Dispose() }
+    }
+    ($finalHashBytes | ForEach-Object -Process { $_.ToString('x2') }) -join ''
 }
 
 function Format-LanguageInfo {
@@ -62,7 +73,7 @@ function New-MarkdownList {
         $completionData = @{}
 
         $jsonConfig = Get-Content -Path "$($_.FullName)/config.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
-        $langList = @(Get-ChildItem -Path "$($_.FullName)/language" -File | ForEach-Object -Process { $_.BaseName })
+        $langList = @('en-US') + @(Get-ChildItem -Path "$($_.FullName)/language" -File -Exclude 'en-US.json' | ForEach-Object { $_.BaseName } | Sort-Object)
 
         foreach ($lang in $langList) {
             $completionData.$lang = Get-Content -Path "$($_.FullName)/language/$lang.json" -Raw -Encoding utf8 | ConvertFrom-Json -AsHashtable
@@ -126,8 +137,6 @@ Update-ReadmeFile -Language 'zh-CN'
 & $PSScriptRoot/sort-json.ps1
 
 if ($env:GITHUB_ACTIONS) {
-    $path = "$PSScriptRoot/../completions.json"
-    $old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
     $info = [ordered]@{
         count  = 0
         update = [ordered]@{}
@@ -143,13 +152,18 @@ if ($env:GITHUB_ACTIONS) {
             if ($cfg.id) {
                 $info.meta.$completion['id'] = $cfg.id
             }
+            if ($cfg.alias) {
+                $info.meta.$completion['alias'] = $cfg.alias -join ' '
+            }
         }
         Get-ChildItem "$($_.FullName)/language" -File | ForEach-Object {
-            $info.meta.$completion[$_.BaseName] = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
+            $meta = Get-Content $_.FullName -Raw -Encoding utf8 | ConvertFrom-Json | Select-Object -ExpandProperty meta
+            $meta.description = $meta.description -join "`n"
+            $info.meta.$completion[$_.BaseName] = $meta 
         }
     }
     $info.count = $info.update.Keys.Count
-    $info | ConvertTo-Json -Depth 10 | Out-File $path
+    $info | ConvertTo-Json -Depth 10 | Out-File "$PSScriptRoot/../completions.json"
 
     & $PSScriptRoot/push-change.ps1 -message 'chore: automatically update some content [skip ci]'
 }
