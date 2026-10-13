@@ -12,6 +12,8 @@
 |[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
 |[apt](https://wiki.debian.org/Apt)|A command-line package manager for Debian and derivatives.|
+|[apt-cache](https://wiki.debian.org/Apt)|Query and display package information from the local cache, without changing the system.|
+|[apt-get](https://wiki.debian.org/Apt)|APT package handling utility, the command-line back-end for package management.|
 |[arch@GNU](https://www.gnu.org/software/coreutils/)|Print machine architecture.|
 |[arch@uutils](https://uutils.org)|Display machine architecture|
 |[aria2c](https://aria2.github.io)|Lightweight multi-protocol and multi-source download utility.|
