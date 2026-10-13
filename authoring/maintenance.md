@@ -145,6 +145,12 @@ checks are all complete — draft the commit message and ask whether to commit n
 commit unilaterally: committing publishes, and batching, squashing, or holding back is the
 operator's call (`R-21` in `../AGENTS.md`).
 
+Detect the VCS before committing, and let the repository decide: when `.jj` exists at
+the repository root the repo is Jujutsu-managed — commit with `jj describe` (or
+`jj commit`) even if a `.git` directory sits beside it, since that is only jj's git
+mirror in a colocated working copy. With no `.jj`, use git. The message format below
+applies to either.
+
 One completion per commit. A batch of completions shares one commit only when every item
 takes the same action (`add`, `update`); mixed actions are split into
 separate commits, because the body carries no per-item action word.
