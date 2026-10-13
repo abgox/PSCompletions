@@ -70,6 +70,12 @@ function Sort-ConfigJson {
             $sorted[$prop] = $json.$prop
         }
     }
+    if ($sorted.Contains('alias') -and @($sorted['alias']).Count -gt 1) {
+        $sorted['alias'] = [System.Linq.Enumerable]::ToArray(
+            [System.Linq.Enumerable]::OrderBy(
+                [System.Linq.Enumerable]::Cast[object](@($sorted['alias'])),
+                [Func[object, int]] { param($x) ([string]$x).Length }))
+    }
     $sorted | ConvertTo-Json | Out-File -FilePath $Path -Encoding utf8
 }
 
