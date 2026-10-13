@@ -17,6 +17,13 @@ local function get_completion_tip(name)
     if c.url then
         table.insert(lines, "url: " .. c.url)
     end
+    local alias = data.alias[name] or meta.alias
+    if alias then
+        alias = psc.join(alias, " ")
+        if alias ~= name then
+            table.insert(lines, "alias: " .. alias)
+        end
+    end
     if c.description then
         table.insert(lines, "-----")
         table.insert(lines, psc.join(c.description, "\n"))
