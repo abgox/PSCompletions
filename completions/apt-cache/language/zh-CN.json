@@ -1,0 +1,528 @@
+{
+  "meta": {
+    "url": "https://wiki.debian.org/Apt",
+    "description": [
+      "从本地缓存查询并显示软件包信息，不改变系统状态。"
+    ]
+  },
+  "next": [
+    {
+      "name": "depends",
+      "usage": [
+        "depends <PACKAGE> ..."
+      ],
+      "tip": [
+        "列出软件包的每一条依赖。"
+      ],
+      "option": [
+        {
+          "name": "--implicit",
+          "tip": [
+            "同时显示隐式添加的依赖，而不仅是显式声明的依赖。"
+          ]
+        },
+        {
+          "name": "--important",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --important"
+          ],
+          "tip": [
+            "仅打印重要的依赖。",
+            "用于 unmet 与 depends。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "将 depends 与 rdepends 的输出限制为已安装软件包。"
+          ]
+        },
+        {
+          "name": "--no-breaks",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Breaks。"
+          ]
+        },
+        {
+          "name": "--no-conflicts",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Conflicts。"
+          ]
+        },
+        {
+          "name": "--no-depends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Depends。"
+          ]
+        },
+        {
+          "name": "--no-enhances",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Enhances。"
+          ]
+        },
+        {
+          "name": "--no-pre-depends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Pre-Depends。"
+          ]
+        },
+        {
+          "name": "--no-recommends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Recommends。"
+          ]
+        },
+        {
+          "name": "--no-replaces",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Replaces。"
+          ]
+        },
+        {
+          "name": "--no-suggests",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Suggests。"
+          ]
+        },
+        {
+          "name": "--recurse",
+          "tip": [
+            "递归打印所有提及的软件包，每个只打印一次。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "dotty",
+      "usage": [
+        "dotty <PACKAGE> ..."
+      ],
+      "tip": [
+        "为软件包关系生成 GraphViz dotty 输出。"
+      ]
+    },
+    {
+      "name": "dump",
+      "tip": [
+        "简要列出缓存中的每个软件包。",
+        "主要用于调试。"
+      ]
+    },
+    {
+      "name": "dumpavail",
+      "tip": [
+        "向 stdout 打印适用于 dpkg 的 available 列表。",
+        "供 dselect 方法使用。"
+      ]
+    },
+    {
+      "name": "gencaches",
+      "tip": [
+        "创建软件包缓存，从远程源解析软件包信息。"
+      ]
+    },
+    {
+      "name": "madison",
+      "usage": [
+        "madison <PACKAGE> ..."
+      ],
+      "tip": [
+        "以表格格式显示软件包的可用版本。"
+      ]
+    },
+    {
+      "name": "pkgnames",
+      "usage": [
+        "pkgnames [PREFIX]"
+      ],
+      "tip": [
+        "打印 APT 已知的每个软件包名。",
+        "可选前缀用于过滤名称列表。"
+      ],
+      "option": [
+        {
+          "name": "--all-names",
+          "tip": [
+            "打印所有名称，包括虚拟包与缺失的依赖。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "policy",
+      "usage": [
+        "policy [<PACKAGE> ...]"
+      ],
+      "tip": [
+        "显示策略设置与优先级选择。"
+      ]
+    },
+    {
+      "name": "rdepends",
+      "usage": [
+        "rdepends <PACKAGE> ..."
+      ],
+      "tip": [
+        "列出软件包的每一条反向依赖。"
+      ],
+      "option": [
+        {
+          "name": "--implicit",
+          "tip": [
+            "同时显示隐式添加的依赖，而不仅是显式声明的依赖。"
+          ]
+        },
+        {
+          "name": "--important",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --important"
+          ],
+          "tip": [
+            "仅打印重要的依赖。",
+            "用于 unmet 与 depends。"
+          ]
+        },
+        {
+          "name": "--installed",
+          "tip": [
+            "将 depends 与 rdepends 的输出限制为已安装软件包。"
+          ]
+        },
+        {
+          "name": "--no-breaks",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Breaks。"
+          ]
+        },
+        {
+          "name": "--no-conflicts",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Conflicts。"
+          ]
+        },
+        {
+          "name": "--no-depends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Depends。"
+          ]
+        },
+        {
+          "name": "--no-enhances",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Enhances。"
+          ]
+        },
+        {
+          "name": "--no-pre-depends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Pre-Depends。"
+          ]
+        },
+        {
+          "name": "--no-recommends",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Recommends。"
+          ]
+        },
+        {
+          "name": "--no-replaces",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Replaces。"
+          ]
+        },
+        {
+          "name": "--no-suggests",
+          "tip": [
+            "在 depends 与 rdepends 输出中省略 Suggests。"
+          ]
+        },
+        {
+          "name": "--recurse",
+          "tip": [
+            "递归打印所有提及的软件包，每个只打印一次。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search",
+      "usage": [
+        "search <REGEX> ..."
+      ],
+      "tip": [
+        "在软件包名与描述中搜索 POSIX 正则表达式。",
+        "多个参数表示同时满足的多个模式。"
+      ],
+      "option": [
+        {
+          "name": "--full",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --full"
+          ],
+          "tip": [
+            "为每个匹配项显示完整的软件包记录。"
+          ]
+        },
+        {
+          "name": "--names-only",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --names-only"
+          ],
+          "tip": [
+            "仅搜索软件包名，不搜索描述。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "usage": [
+        "show <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示指定软件包的软件包记录。"
+      ],
+      "option": [
+        {
+          "name": "--all-versions",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all-versions"
+          ],
+          "tip": [
+            "打印所有可用版本的完整记录。",
+            "这是默认行为；用 --no-all-versions 仅显示候选版本。"
+          ]
+        },
+        {
+          "name": "--no-all-versions",
+          "tip": [
+            "仅显示候选版本，不显示所有可用版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "showpkg",
+      "usage": [
+        "showpkg <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示可用版本、反向依赖与正向依赖。"
+      ]
+    },
+    {
+      "name": "showsrc",
+      "usage": [
+        "showsrc <PACKAGE> ..."
+      ],
+      "tip": [
+        "显示匹配给定软件包名的源码包记录。",
+        "显示所有版本。"
+      ],
+      "option": [
+        {
+          "name": "--only-source",
+          "tip": [
+            "仅显示源码包名。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stats",
+      "tip": [
+        "显示缓存的统计信息。",
+        "不接受更多参数。"
+      ]
+    },
+    {
+      "name": "unmet",
+      "tip": [
+        "显示软件包缓存中所有未满足依赖的摘要。"
+      ],
+      "option": [
+        {
+          "name": "--important",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --important"
+          ],
+          "tip": [
+            "仅打印重要的依赖。",
+            "用于 unmet 与 depends。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "xvcg",
+      "usage": [
+        "xvcg <PACKAGE> ..."
+      ],
+      "tip": [
+        "为软件包关系生成 xvcg 输出。",
+        "与 dotty 相同，只是面向 VCG 工具。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--audit",
+      "tip": [
+        "显示审计（与通知）消息。",
+        "覆盖安静选项对通知消息的影响，不影响进度消息。"
+      ]
+    },
+    {
+      "name": "--color",
+      "tip": [
+        "启用彩色输出。"
+      ]
+    },
+    {
+      "name": "--config-file",
+      "alias": [
+        "-c"
+      ],
+      "usage": [
+        "-c, --config-file <FILE>"
+      ],
+      "tip": [
+        "指定要使用的配置文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--generate",
+      "alias": [
+        "-g"
+      ],
+      "usage": [
+        "-g, --generate"
+      ],
+      "tip": [
+        "自动重新生成软件包缓存。",
+        "这是默认行为；用 --no-generate 关闭。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示简短的用法摘要。"
+      ]
+    },
+    {
+      "name": "--no-color",
+      "tip": [
+        "关闭彩色输出。"
+      ]
+    },
+    {
+      "name": "--no-generate",
+      "tip": [
+        "不自动重新生成软件包缓存。"
+      ]
+    },
+    {
+      "name": "--option",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --option <OPTION>"
+      ],
+      "tip": [
+        "设置任意配置选项。",
+        "语法：-o Foo::Bar=bar。可多次使用。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--pkg-cache",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --pkg-cache <FILE>"
+      ],
+      "tip": [
+        "选择存储软件包缓存的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "生成适合记录日志的输出，省略进度指示器。"
+      ]
+    },
+    {
+      "name": "--src-cache",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --src-cache <FILE>"
+      ],
+      "tip": [
+        "选择存储源码缓存的文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --version"
+      ],
+      "tip": [
+        "显示程序版本。"
+      ]
+    },
+    {
+      "name": "--with-source",
+      "usage": [
+        "--with-source <FILE>"
+      ],
+      "tip": [
+        "将给定文件添加为元数据来源。",
+        "可重复使用。"
+      ],
+      "repeat": 99,
+      "next": []
+    }
+  ]
+}
