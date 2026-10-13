@@ -123,17 +123,17 @@ function Update-ReadmeFile {
 Update-ReadmeFile -Language 'en-US'
 Update-ReadmeFile -Language 'zh-CN'
 
-& $PSScriptRoot\sort-json.ps1
+& $PSScriptRoot/sort-json.ps1
 
 if ($env:GITHUB_ACTIONS) {
-    $path = "$PSScriptRoot\..\completions.json"
+    $path = "$PSScriptRoot/../completions.json"
     $old_info = Get-Content $path -Raw | ConvertFrom-Json -AsHashtable
     $info = [ordered]@{
         count  = 0
         update = [ordered]@{}
         meta   = [ordered]@{}
     }
-    Get-ChildItem "$PSScriptRoot\..\completions" -Directory | ForEach-Object {
+    Get-ChildItem "$PSScriptRoot/../completions" -Directory | ForEach-Object {
         $completion = $_.Name
         $info.update[$completion] = Get-StringHash $_.FullName
         $info.meta[$completion] = [ordered]@{}
@@ -151,5 +151,5 @@ if ($env:GITHUB_ACTIONS) {
     $info.count = $info.update.Keys.Count
     $info | ConvertTo-Json -Depth 10 | Out-File $path
 
-    & $PSScriptRoot\push-change.ps1 -message 'chore: automatically update some content [skip ci]'
+    & $PSScriptRoot/push-change.ps1 -message 'chore: automatically update some content [skip ci]'
 }

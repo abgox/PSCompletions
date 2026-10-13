@@ -11,8 +11,8 @@
       - compare-json.ps1 -Json (all design/usage/structure/translation rules)
     Emits a structured result object. With -OutFile, writes a Markdown report in the given -Lang.
 .EXAMPLE
-    .\scripts\validate-completion.ps1 git cargo
-    .\scripts\validate-completion.ps1 -All -Lang zh-CN -OutFile result-zh.md
+    ./scripts/validate-completion.ps1 git cargo
+    ./scripts/validate-completion.ps1 -All -Lang zh-CN -OutFile result-zh.md
 #>
 
 param(
@@ -28,8 +28,8 @@ Set-StrictMode -Off
 
 $root = Split-Path -Parent $PSScriptRoot
 $completionsDir = Join-Path $root 'completions'
-$manifestSchema = Join-Path $root 'schema\completion-manifest.en-US.json'
-$configSchema = Join-Path $root 'schema\completion-config.en-US.json'
+$manifestSchema = Join-Path $root 'schema/completion-manifest.en-US.json'
+$configSchema = Join-Path $root 'schema/completion-config.en-US.json'
 
 if ($All) {
     $CompletionList = @(Get-ChildItem -LiteralPath $completionsDir -Directory | ForEach-Object { $_.Name })

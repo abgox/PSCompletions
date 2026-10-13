@@ -11,11 +11,11 @@ param(
 
 Set-StrictMode -Off
 
-. $PSScriptRoot\utils.ps1
+. $PSScriptRoot/utils.ps1
 
 # Compiled diff engine (scripts/psc-tools.cs); consumes the Hashtables parsed below.
 if (-not ('PscTools.Diff' -as [type])) {
-    try { Add-Type -Path "$PSScriptRoot\psc-tools.cs" } catch { Write-Verbose "PscTools unavailable: $_" }
+    try { Add-Type -Path "$PSScriptRoot/psc-tools.cs" } catch { Write-Verbose "PscTools unavailable: $_" }
 }
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
@@ -24,7 +24,7 @@ if (!(Test-Path -LiteralPath $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 -SkipMigration }
+if (!$PSCompletions) { . $PSScriptRoot/../module/PSCompletions/PSCompletions.ps1 -SkipMigration }
 $PSCompletions.initialize($true)
 
 $text = $text.'compare-json'
@@ -38,10 +38,10 @@ function outText {
 if (-not $BaseLang) { $BaseLang = 'en-US' }
 if (-not $CompletionList) {
     if ($All) {
-        $CompletionList = (Get-ChildItem "$PSScriptRoot\..\completions" -Directory).Name
+        $CompletionList = (Get-ChildItem "$PSScriptRoot/../completions" -Directory).Name
     }
     else {
-        $CompletionList = Get-RecentCompletions -CompletionsDir "$PSScriptRoot\..\completions"
+        $CompletionList = Get-RecentCompletions -CompletionsDir "$PSScriptRoot/../completions"
         if ($CompletionList.Count -eq 0) {
             outText $text.noRecent
             return
@@ -134,7 +134,7 @@ foreach ($CompletionName in $CompletionList) {
         outText $text.invalidLang
         continue
     }
-    & $PSScriptRoot\sort-json.ps1 $CompletionName -Quiet
+    & $PSScriptRoot/sort-json.ps1 $CompletionName -Quiet
 
     foreach ($lang in $otherLangs) {
         $targetJson = [System.IO.Path]::Combine($langDir, $lang + '.json')

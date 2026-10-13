@@ -8,9 +8,9 @@ param(
 
 Set-StrictMode -Off
 
-. $PSScriptRoot\utils.ps1
+. $PSScriptRoot/utils.ps1
 
-$completionsDir = "$PSScriptRoot\..\completions"
+$completionsDir = "$PSScriptRoot/../completions"
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
 if (!(Test-Path -LiteralPath $textPath)) {
@@ -18,7 +18,7 @@ if (!(Test-Path -LiteralPath $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
-if (!$PSCompletions) { . $PSScriptRoot\..\module\PSCompletions\PSCompletions.ps1 -SkipMigration }
+if (!$PSCompletions) { . $PSScriptRoot/../module/PSCompletions/PSCompletions.ps1 -SkipMigration }
 $PSCompletions.initialize($true)
 
 $text = $text.'sort-json'
@@ -48,7 +48,7 @@ if (-not $CompletionList) {
 # already-normalized files skip the expensive PS rebuild entirely.
 # When the type is unavailable, everything falls back to the rebuild path below.
 if (-not ('PscTools.SortCheck' -as [type])) {
-    try { Add-Type -Path "$PSScriptRoot\psc-tools.cs" } catch { Write-Verbose "SortCheck unavailable: $_" }
+    try { Add-Type -Path "$PSScriptRoot/psc-tools.cs" } catch { Write-Verbose "SortCheck unavailable: $_" }
 }
 $script:sortCheckType = 'PscTools.SortCheck' -as [type]
 
@@ -264,12 +264,12 @@ function Get-SortedJsonString {
 $allResults = @()
 
 foreach ($completion in $CompletionList) {
-    $langDir = "$completionsDir\$completion\language"
+    $langDir = "$completionsDir/$completion/language"
     if (!(Test-Path -LiteralPath $langDir)) {
         continue
     }
     # Keep config.json fields in a stable order (id, hooks, alias, language).
-    $configFile = "$completionsDir\$completion\config.json"
+    $configFile = "$completionsDir/$completion/config.json"
     if (Test-Path -LiteralPath $configFile) {
         Sort-ConfigJson -Path $configFile
     }

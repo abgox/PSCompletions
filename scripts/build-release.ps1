@@ -12,7 +12,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # Host platform/arch detection, mirroring the module's resolution logic in
-# module\PSCompletions\PSCompletions.ps1 (platform: windows/darwin/linux).
+# module/PSCompletions/PSCompletions.ps1 (platform: windows/darwin/linux).
 $hostPlatform = if ($IsWindows) { 'windows' } elseif ($IsMacOS) { 'darwin' } else { 'linux' }
 try {
     $hostArch = [System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture.ToString()
@@ -41,7 +41,7 @@ $tripleMap = @{
 $triple = $tripleMap["$Platform-$Arch"]
 $isHost = ($Platform -eq $hostPlatform) -and ($Arch -eq $hostArch)
 
-# Windows binaries carry an .exe extension; the module looks in bin\<platform>-<arch>.
+# Windows binaries carry an .exe extension; the module looks in bin/<platform>-<arch>.
 $moduleBinDir = [System.IO.Path]::Combine($PSScriptRoot, '..', 'module', 'PSCompletions', 'bin', "$Platform-$Arch")
 $ext = if ($Platform -eq 'windows') { '.exe' } else { '' }
 $artifactDir = if ($isHost) { @('target', 'release') } else { @('target', $triple, 'release') }

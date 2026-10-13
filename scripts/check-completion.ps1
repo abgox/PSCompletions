@@ -76,12 +76,12 @@ if ($changedCompletions.Count -eq 0) {
     )
 }
 else {
-    & $PSScriptRoot\sort-json.ps1 @($changedCompletions) -Quiet
+    & $PSScriptRoot/sort-json.ps1 @($changedCompletions) -Quiet
 
     $enFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-en.md')
     $zhFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-validation-zh.md')
-    $validationResults = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang en-US -OutFile $enFile
-    $null = & $PSScriptRoot\validate-completion.ps1 @($changedCompletions) -Lang zh-CN -OutFile $zhFile
+    $validationResults = & $PSScriptRoot/validate-completion.ps1 @($changedCompletions) -Lang en-US -OutFile $enFile
+    $null = & $PSScriptRoot/validate-completion.ps1 @($changedCompletions) -Lang zh-CN -OutFile $zhFile
 
     $hasIssues = @($validationResults | Where-Object { $_.hasIssues }).Count -gt 0
 
@@ -89,10 +89,10 @@ else {
     # gate looks at that.
     $hookTargets = @()
     $withHooks = @($changedCompletions | Where-Object {
-            Test-Path -LiteralPath (Join-Path $PSScriptRoot "..\completions\$_\hooks.lua")
+            Test-Path -LiteralPath (Join-Path $PSScriptRoot "../completions/$_/hooks.lua")
         })
     if ($withHooks.Count -gt 0) {
-        $hookTargets = & $PSScriptRoot\check-hook-targets.ps1 @withHooks -Json |
+        $hookTargets = & $PSScriptRoot/check-hook-targets.ps1 @withHooks -Json |
         ConvertFrom-Json
         if ($hookTargets.failures.Count -gt 0) { $hasIssues = $true }
     }
@@ -100,7 +100,7 @@ else {
     # hooks audit: hooks.lua uses psc.run / run_batch
     $hooksUsingRun = @()
     foreach ($c in $changedCompletions) {
-        $hf = Join-Path $PSScriptRoot "..\completions\$c\hooks.lua"
+        $hf = Join-Path $PSScriptRoot "../completions/$c/hooks.lua"
         if (Test-Path -LiteralPath $hf) {
             $txt = Get-Content -LiteralPath $hf -Raw -ErrorAction SilentlyContinue
             if ($txt -match 'psc\.run(_batch)?\s*\(') {
@@ -153,7 +153,7 @@ else {
             '> Please run it to sort and compare JSON, then commit the changes.',
             '>',
             '> ```powershell',
-            '> .\scripts\compare-json.ps1',
+            '> ./scripts/compare-json.ps1',
             '> ```',
             ''
         )

@@ -39,7 +39,7 @@
 
     **Line-level opt-out.** A backticked path may be an illustration rather than a
     reference — e.g. `design/menu.md` walks through path-history ranking using
-    `.\scripts\build.ps1`, a file that does not exist and is meant to be read as a
+    `./scripts/build.ps1`, a file that does not exist and is meant to be read as a
     generic path. Shape cannot tell the two apart, so put `<!-- nolink -->` somewhere in
     the same blank-line-delimited block as the reference to skip checks for it; an optional
     note may follow the word `nolink`. Suppression is block-scoped rather than line-scoped
@@ -63,10 +63,10 @@
     Emit structured output for automation instead of coloured console text.
 
 .EXAMPLE
-    .\scripts\check-doc-links.ps1
+    ./scripts/check-doc-links.ps1
 
 .EXAMPLE
-    .\scripts\check-doc-links.ps1 -Path AGENTS.md authoring -Json
+    ./scripts/check-doc-links.ps1 -Path AGENTS.md authoring -Json
 #>
 
 [CmdletBinding()]

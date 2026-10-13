@@ -10,10 +10,10 @@ fails silently: the hook simply never runs, and the slot stays empty with nothin
 reported anywhere. Both other gates pass such a file -- they only look at internal
 consistency.
 
-    .\scripts\check-hook-targets.ps1                # recently changed completions
-    .\scripts\check-hook-targets.ps1 -All           # every completion with hooks
-    .\scripts\check-hook-targets.ps1 git gh         # just these
-    .\scripts\check-hook-targets.ps1 -Json          # structured, for CI
+    ./scripts/check-hook-targets.ps1                # recently changed completions
+    ./scripts/check-hook-targets.ps1 -All           # every completion with hooks
+    ./scripts/check-hook-targets.ps1 git gh         # just these
+    ./scripts/check-hook-targets.ps1 -Json          # structured, for CI
 
 Exit code 0 when every target resolves, 1 otherwise, 2 when the arguments do not
 make sense.
