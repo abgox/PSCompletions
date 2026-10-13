@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "url": "https://docs.python.org/3/using/windows.html",
+    "description": [
+      "适用于 Windows 的 Python 安装管理器。"
+    ]
+  },
+  "next": [
+    {
+      "name": "exec",
+      "tip": [
+        "等价于上述任意一种启动方式。",
+        "如所需的运行时尚未安装，将自动安装。"
+      ],
+      "option": [
+        {
+          "name": "-3",
+          "usage": [
+            "-3<VERSION>"
+          ],
+          "tip": [
+            "等价于 -V:PythonCore\\3<VERSION>。",
+            "版本号必须以数字 3 开头，允许覆盖平台，其后可跟常规 Python 选项。",
+            "如所需的运行时尚未安装，将自动安装。"
+          ],
+          "next": []
+        },
+        {
+          "name": "-V",
+          "usage": [
+            "-V:<TAG>"
+          ],
+          "tip": [
+            "启动 <TAG> 标识的运行时，非 PythonCore 发行版需包含公司名称。",
+            "该选项之后可跟常规 Python 选项。",
+            "如所需的运行时尚未安装，将自动安装。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<CMD>]"
+      ],
+      "tip": [
+        "显示 Python 安装管理器的命令帮助。"
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <TAG> [<TAG>] ..."
+      ],
+      "tip": [
+        "下载新的 Python 运行时并设置快捷方式与其他注册信息。"
+      ],
+      "example": [
+        "py install 3",
+        "py install --force 3.13"
+      ],
+      "option": [
+        {
+          "name": "--by-id",
+          "tip": [
+            "要求 TAG 与安装 ID 完全匹配。(高级用法。)"
+          ]
+        },
+        {
+          "name": "--configure",
+          "tip": [
+            "重新运行系统配置助手。"
+          ]
+        },
+        {
+          "name": "--download",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --download=<PATH>"
+          ],
+          "tip": [
+            "准备包含一个或多个运行时的离线索引。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "仅选择运行时而不执行安装。"
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "重新下载并覆盖已有安装。"
+          ]
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "更新所有已安装版本的快捷方式与别名。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source=<URI>"
+          ],
+          "tip": [
+            "指定要使用的 index.json (install.source=...)。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --target=<PATH>"
+          ],
+          "tip": [
+            "将运行时解压到指定位置而不执行安装。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "如有更新版本则覆盖已有安装。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<FILTER>]"
+      ],
+      "tip": [
+        "显示已安装的 Python 运行时，可按条件过滤或指定格式。"
+      ],
+      "example": [
+        "py list --online 3.12"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format=<FORMAT>"
+          ],
+          "tip": [
+            "指定列表格式。(默认 table)",
+            "可能值: table, csv, json, jsonl, id, exe, prefix, url, legacy, legacy-paths, formats, config"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "列出当前配置"
+              ]
+            },
+            {
+              "name": "csv",
+              "tip": [
+                "以逗号分隔值表格形式列出"
+              ]
+            },
+            {
+              "name": "exe",
+              "tip": [
+                "列出主可执行文件路径"
+              ]
+            },
+            {
+              "name": "formats",
+              "tip": [
+                "列出可用的列表格式"
+              ]
+            },
+            {
+              "name": "id",
+              "tip": [
+                "列出运行时 ID"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "以单个 JSON 对象形式列出"
+              ]
+            },
+            {
+              "name": "jsonl",
+              "tip": [
+                "以每行一个 JSON 对象的形式列出"
+              ]
+            },
+            {
+              "name": "legacy",
+              "tip": [
+                "以旧版格式列出运行时"
+              ]
+            },
+            {
+              "name": "legacy-paths",
+              "tip": [
+                "以旧版格式列出运行时路径"
+              ]
+            },
+            {
+              "name": "prefix",
+              "tip": [
+                "列出前缀目录"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "以用户友好的表格形式列出"
+              ]
+            },
+            {
+              "name": "url",
+              "tip": [
+                "列出原始来源 URL"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--one",
+          "alias": [
+            "-1"
+          ],
+          "usage": [
+            "-1, --one"
+          ],
+          "tip": [
+            "仅显示第一个匹配过滤器的结果。"
+          ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "从默认索引列出可安装的运行时。"
+          ]
+        },
+        {
+          "name": "--only-managed",
+          "tip": [
+            "仅列出由该工具管理的 Python 安装。"
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source=<URL>"
+          ],
+          "tip": [
+            "从指定索引列出运行时。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <TAG> [<TAG>] ..."
+      ],
+      "tip": [
+        "从本机移除一个或多个运行时。"
+      ],
+      "example": [
+        "py uninstall --yes --purge"
+      ],
+      "option": [
+        {
+          "name": "--by-id",
+          "tip": [
+            "要求 TAG 与安装 ID 完全匹配。(高级用法。)"
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "移除缓存与未识别的内容，同时保留已识别的运行时。",
+            "不接受 TAG 参数。"
+          ]
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "移除所有运行时、快捷方式与缓存文件。",
+            "不接受 TAG 参数。"
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--list",
+      "tip": [
+        "以旧版格式列出已安装的运行时。",
+        "为兼容旧版启动器而保留。"
+      ]
+    },
+    {
+      "name": "--list-paths",
+      "tip": [
+        "以旧版格式列出已安装运行时可执行文件路径。",
+        "为兼容旧版启动器而保留。"
+      ]
+    },
+    {
+      "name": "-0",
+      "tip": [
+        "以旧版格式列出已安装的运行时。",
+        "为兼容旧版启动器而保留。"
+      ]
+    },
+    {
+      "name": "-0p",
+      "tip": [
+        "以旧版格式列出已安装运行时可执行文件路径。",
+        "为兼容旧版启动器而保留。"
+      ]
+    },
+    {
+      "name": "-3",
+      "usage": [
+        "-3<VERSION>"
+      ],
+      "tip": [
+        "等价于 -V:PythonCore\\3<VERSION>。",
+        "版本号必须以数字 3 开头，允许覆盖平台，其后可跟常规 Python 选项。",
+        "等价于 python3 命令。"
+      ],
+      "next": []
+    },
+    {
+      "name": "-V",
+      "usage": [
+        "-V:<TAG>"
+      ],
+      "tip": [
+        "启动 <TAG> 标识的运行时，非 PythonCore 发行版需包含公司名称。",
+        "该选项之后可跟常规 Python 选项。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "usage": [
+        "--config=<PATH>"
+      ],
+      "tip": [
+        "使用 JSON 文件覆盖配置。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "usage": [
+        "-h, -?, --help"
+      ],
+      "tip": [
+        "显示指定命令的帮助。"
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "减少输出 (log_level=30)。"
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "增加输出 (log_level=20)。"
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "始终接受确认提示 (confirm=false)。"
+      ]
+    },
+    {
+      "name": "-qq",
+      "tip": [
+        "进一步减少输出 (log_level=40)。"
+      ]
+    },
+    {
+      "name": "-vv",
+      "tip": [
+        "进一步增加输出 (log_level=10)。"
+      ]
+    }
+  ]
+}
