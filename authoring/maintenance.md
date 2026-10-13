@@ -10,8 +10,8 @@ language.
    defaults, deprecated flags.
 3. Update `en-US.json` first, then sync structural changes to `zh-CN.json` and other
    languages.
-4. Run `.\scripts\compare-json.ps1 <command>` and fix every reported issue.
-5. Re-run `.\scripts\check-hook-targets.ps1 <command>` if a `hooks.lua` exists — renaming
+4. Run `./scripts/compare-json.ps1 <command>` and fix every reported issue.
+5. Re-run `./scripts/check-hook-targets.ps1 <command>` if a `hooks.lua` exists — renaming
    or removing a manifest item breaks its `psc.on` targets silently.
 
 ### Delete only on evidence
@@ -75,7 +75,7 @@ older synonym keeps its long form without the alias, so both stay completable. S
 - **No CJK check exists.** "A translated tip should carry at least one Chinese character" is an
   author judgement, not a gate. The scripts cannot see it.
 
-Run `.\scripts\compare-json.ps1 <command>` for the language you translated — it must come
+Run `./scripts/compare-json.ps1 <command>` for the language you translated — it must come
 back clean for both languages.
 
 ### Translate from a dictionary, and never overwrite a translation
@@ -123,7 +123,7 @@ When 20+ entries or 5+ commands need verification, batch the work instead of doi
 in one pass. Batching changes the bookkeeping, not the evidence bar — every command and
 option still gets its own `--help` check (`R-02` … `R-08`).
 
-1. Create scratch `review/<tool>/`: a `README.md` (batch log + priority list, commands
+1. Create scratch `WIP/<tool>/`: a `README.md` (batch log + priority list, commands
    sorted by missing count) and one directory per command for its help output and
    proposed additions (`en` / `zh` JSON — options and, where applicable, subcommands).
 2. Work in batches of 3–6 commands: write `en-US.json` first, then translate (steps 1–4
@@ -133,5 +133,59 @@ option still gets its own `--help` check (`R-02` … `R-08`).
    means is in [`validation.md`](validation.md).
 3. Log each batch (commands covered, options added, duplicates or alias collisions hit,
    validation result).
-4. Delete the scratch directory when the audit is done — it is working material, not
-   part of the completion.
+4. Keep the scratch directory — it is working material, not part of the completion, and it
+   is exactly what a review sends work back to. Hand it over (path, file count, size) and
+   delete it only when the operator confirms (`R-20`,
+   [`working-files.md`](working-files.md)).
+
+## Proposing the commit
+
+When the operator confirms the task is done — or the gates, translation, and judgment
+checks are all complete — draft the commit message and ask whether to commit now. Never
+commit unilaterally: committing publishes, and batching, squashing, or holding back is the
+operator's call (`R-21` in `../AGENTS.md`).
+
+One completion per commit. A batch of completions shares one commit only when every item
+takes the same action (`add`, `update`); mixed actions are split into
+separate commits, because the body carries no per-item action word.
+
+Format — one completion (the first line carries everything):
+
+```
+feat(completions): add sudo@sudo-project (Sudo 1.9.16p2)
+```
+
+Format — two or more completions (the first line classifies, the body lists;
+the first line never names completions):
+
+```
+feat(completions): add
+
+- sudo@sudo-project (Sudo 1.9.16p2)
+- sudoedit@sudo-project (Sudo 1.9.16p2)
+- sudo@Microsoft (Sudo for Windows 1.0.1)
+```
+
+```
+feat(completions): update
+
+- scoop (Scoop v0.6.0)
+- abgox.scoop-i18n (2026.10.05.141200)
+```
+
+- The word after the colon is the one shared action: `add` for new completions,
+  `update` for existing ones changed for a new tool version (`fix` / `remove`
+  follow the same shape). The body lists one completion per line, no per-item
+  action word.
+- `(<Upstream> <version>)` is the CLI version the manifest was verified against — the
+  baseline the next update diffs against, not decoration. Take it from `<cmd> --version`
+  (or the tool's equivalent) run during collection. When the completion was authored from
+  docs alone with no versioned binary available, mark it approximate:
+  `(~<Upstream> <version>, docs)`.
+- Always keep the `<Upstream>` name, even when it repeats the directory stem
+  (`jjui (jjui 0.10.11)`). A conditional rule ("keep it only when it adds information")
+  costs a judgment call per line; an unconditional one costs a redundant word. And the
+  name pays off exactly where it matters: variant families sharing one command word
+  (`sudo@sudo-project (Sudo 1.9.16p2)` vs `sudo@Microsoft (Sudo for Windows 1.0.1)`),
+  or a binary whose name hides its project (`ya (Ya 26.9.1)`). `<Upstream>` is the name
+  the tool calls itself in its own version output — not the directory stem.

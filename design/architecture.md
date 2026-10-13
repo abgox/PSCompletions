@@ -33,10 +33,13 @@ PSCompletions/
 │   ├── sort-json.ps1               # normalize field order (called by compare-json)
 │   ├── validate-completion.ps1     # full validation: schema + config.json + hooks.lua + compare rules
 │   ├── check-completion.ps1        # CI/PR check: scan changed completions, post a report
+│   ├── check-doc-links.ps1         # verify doc links and cited repo paths resolve
+│   ├── check-hook-targets.ps1      # verify psc.on targets (mandatory when hooks exist)
 │   ├── link-completion.ps1         # symlink a completion into the local module for live testing
 │   ├── update-content.ps1          # CI: regenerate completions.json index + completions.md tables
 │   ├── push-change.ps1             # CI: commit/push generated content back to main
 │   ├── build-release.ps1           # local release build: cargo fmt + build (+zigbuild cross) → bin/
+│   ├── psc-tools.cs                # C# helpers compiled at runtime via Add-Type (sort-canonicality + diff for sort/compare-json)
 │   └── utils.ps1                   # shared helpers for the scripts
 ├── design/                 # This knowledge base (authoritative "how the system works")
 ├── types/                  # EmmyLua type stub for the psc.* API (editor LSP in hooks.lua)
@@ -49,7 +52,7 @@ PSCompletions/
 
 ## 3. The two Rust binaries
 
-**`core/engine` → `psc-menu`** — the runtime heart. Two modes driven by flags:
+**`core/engine` → `psc-menu`** — the runtime heart, driven by flags:
 
 - (menu mode) `psc-menu <input.json> --result <out.json>`: renders the
   interactive TUI menu, handles keyboard/mouse, and writes back the selection / cancel /
@@ -58,6 +61,8 @@ PSCompletions/
   installed-command completion runs in a **single process call**.
 - `--sort <input.json> --result <out.json>`: ranks host-provided items (native fallback)
   against the history-order files.
+- `--self-test`: CI smoke test — parses a bundled sample, builds state, exercises
+  filters and layout without touching a terminal.
 
 **`core/cli` → `psc`** — the management CLI (installed as `psc`): `add`/`rm`/`update`/
 `info`/`list`/`alias`/`completion`/`config`/`init`. It owns the **config registry** and
@@ -78,7 +83,9 @@ The CI build job (`.github/workflows/ci.yml`) produces the same binaries on its 
 runners, picking one of three commands per matrix entry (`ci.yml:103-108`): `cargo zigbuild
 --release` for the glibc-floor targets, `cargo build --release --target <triple>` for other cross
 targets, and plain `cargo build --release` for native ones. It then uploads them as build
-artifacts — the build job does not run `cargo fmt` (lint/test run as separate jobs).
+artifacts — the build job does not run `cargo fmt`, and no workflow runs Rust
+lint/tests (verify locally with `cargo test` / `clippy`; only `build-release.ps1`
+runs `cargo fmt`).
 
 ## 4. End-to-end flow
 

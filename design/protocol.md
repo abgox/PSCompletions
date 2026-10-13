@@ -70,7 +70,8 @@ menu reuses the same build path.
 ```
 - `window` — visible window (BufferSize spans the whole scrollback); layout is clipped to it.
   `null`/absent = the whole buffer is the viewport.
-- `platform` — `windows` / `unix`.
+- `platform` — `windows` / `macos` / `linux` (`darwin` names only the binary bundle
+  directory, never this field).
 
 ### `OrderInfo` (background order recompute)
 ```json
@@ -86,7 +87,7 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
 {
   "items": [ { "list_item_text": "add", "symbol": "~" } ],
   "config": { "flags": {}, "context_switch": "~", "context_stay": "?" },
-  "terminal": { "cursor": { "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
+  "terminal": { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
   "order": { "history": "...", "cmd": "git", "aliases": ["git"], "path": "..." },
   "data_dir": "<resolved data directory>",
   "order_dir": "<order cache directory>",

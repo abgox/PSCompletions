@@ -98,7 +98,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | Command | Arguments | Options | Network | Implemented in | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `add` | `<name>...` | `--all` | yes | Rust + PS wrapper | `--all` gets an interactive confirm |
-| `rm` | `<name>...` | `--all` | `--all`: no (keeps `psc`) | Rust + PS wrapper | `--all` confirms; `psc` itself is always kept |
+| `rm` | `<name>...` | `--all` | no | Rust + PS wrapper | `--all` confirms; `psc` itself is always kept |
 | `update` | `[<name>...]` | `--all`, `--old` | yes | Rust + PS wrapper | no-arg = real-time check |
 | `list` | — | — | no | Rust + PS wrapper | local aggregate; `--json` |
 | `info` | `[<name>...]` | — | no | Rust + PS wrapper | no-arg = list all installed; includes `Path` |
@@ -483,5 +483,4 @@ design/                   # design docs (this directory)
 - **Data rebuild**: `add`/`rm`/`alias` trigger a settings rebuild + `refresh_settings_after_add`
   so module state stays consistent.
 - Validation: Rust unit tests in `core/cli` cover settings/completions.json parsing and the
-  settings rebuild; the module's behavior is exercised end-to-end by `scripts/check-completion.ps1`
-  and manual smoke runs of each command.
+  settings rebuild; the module's behavior is covered by manual smoke runs of each command.

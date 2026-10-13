@@ -11,7 +11,7 @@ Rule statements are `R-xx` in `../AGENTS.md`.
 
 ## Scaffold
 
-`.\scripts\create-completion.ps1 <command>` generates:
+`./scripts/create-completion.ps1 <command>` generates:
 
 ```
 completions/<command>/
@@ -165,9 +165,8 @@ a simple tool like `completions/fd/`.
     match their input.
   - **If not set**, the directory name is used as the trigger name.
   - **If set**, the directory name is **ignored** — only the names in this array are
-    used, so **the directory name must be repeated inside it** (`alias: ["python3",
-    "python"]` for a `python3/` directory). An `alias` that omits it silently kills
-    that trigger.
+    used, so **the directory name must be repeated inside it**.
+    An `alias` that omits it silently kills that trigger.
   - **Only add `alias` when upstream officially recognizes more than one name.** Check
     what upstream actually says — do not reason from the project's full name:
     - `hx` has **no** `alias`. `helix` is only the product name (`hx --version` reports

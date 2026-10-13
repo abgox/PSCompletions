@@ -200,7 +200,7 @@ commands, or with 61 subcommands carrying no options at all, passes clean. That 
 hypothetical: `glab` shipped that way.
 
 So close the loop mechanically. Emit what you collected to a scratch file
-(`review/<tool>/tree.json`), then diff it against the manifest as **sets of spellings**:
+(`WIP/<tool>/tree.json`), then diff it against the manifest as **sets of spellings**:
 
 ```
 collected command spellings  −  manifest name+alias  =  Missing   (must be empty)
@@ -212,8 +212,8 @@ does not accept (see `R-06`). Run the same diff for options at every level, and 
 the *alias set* of each entry, not just the name — a command modelled without its
 `[aliases: ...]` line shows up here and nowhere else (`R-03`).
 
-The scratch directory is working material: delete it before you commit
-([`maintenance.md`](maintenance.md) §Large audits).
+The scratch directory is working material: it stays until the operator says otherwise
+(`R-20`, [`working-files.md`](working-files.md)).
 
 ### Aliases are scoped to the page that lists them
 

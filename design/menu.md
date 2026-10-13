@@ -139,8 +139,6 @@ Optional fields accompany `selected`/`cancel`/`input` when relevant:
 - `alternate` — whether the alternate screen was used (PowerShell then skips buffer save/restore;
   the terminal restores the main screen itself).
 
-Results travel via a temp file (atuin's `--result-file` scheme), avoiding stdout/encoding issues.
-
 ### Completion resolve → option resolution (bubbling)
 
 In build mode the engine builds a tree from the manifest (`next` = subcommands, `option` = options,
@@ -253,7 +251,7 @@ there is carried by the blinking cursor instead.
   rest dark grey); the selected row's text is prefixed with a red `>` — the only red `>`
   on screen — text shifted one column right for the "pop-out" offset — a **double focus
   marker** with the rail, moving with the selection.
-- **Selected row**: indicated by the red rail + red brackets together; the text itself is not
+- **Selected row**: indicated by the red rail + red `>` together; the text itself is not
   emphasized (bold/underline render inconsistently across terminals).
 - **Right proportional scrollbar**: same dark grey `│` as the rail/separators; height ∝
   visible/total (a large list ≈ one line, a small list fills the rail), position ∝ scroll offset
@@ -402,7 +400,7 @@ Ordering lives in the TUI process:
   keep their manifest order (stable sort).
 - **Explicit path completions rank at any depth**: candidates whose text contains `/` or `\`
   (e.g. `cd .\src\<Tab>`) rank by leaf name against `_paths.json` — the writer scores **every
-  segment** of a history path token, not just the leaf (`.\scripts\build.ps1` credits both
+  segment** of a history path token, not just the leaf (`./scripts/build.ps1` credits both
   `scripts` and `build.ps1`), and a **directory** candidate (trailing separator, e.g. `.\src\`)
   ranks under its own name (`src`). Bare-word candidates (e.g. `cd <Tab>` before any separator is
   typed) are not treated as path completions and keep their native order.

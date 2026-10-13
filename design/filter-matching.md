@@ -61,7 +61,7 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
 | `abc` | subsequence `a-b-c` | contains `abc` |
 | `^abc` | `a` anchored + `bc` subsequence | starts with `abc` |
 | `*abc` | literal `*abc` subsequence | force subsequence: `a-b-c` |
-| `^*abc` | `*` anchored + `abc` subsequence | force subsequence: `a` anchored + `bc` |
+| `^*abc` | `*` anchored + `abc` subsequence | force subsequence: literal `^abc` (same as `*^abc` below — the leading `*` is stripped first, so `^` never anchors here) |
 | `**abc` | literal `**abc` subsequence | contains literal `*abc` |
 | `^**abc` | `*` anchored + `*abc` subsequence | starts with literal `*abc` |
 | `a*b` | subsequence `a-*-b` | `a` any `b` |

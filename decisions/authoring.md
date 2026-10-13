@@ -52,6 +52,7 @@ commit — a reason must never live longer than the rule it justifies.
 | D34           | [Tips are multi-line arrays; split multi-sentence content](#d34) |
 | D35           | [No order is prescribed for enumerations](#d35) |
 | D36           | [A shadow with a differing tip is kept, silently](#d36) |
+| D37           | [Working files live in `WIP/`, deleted on confirmation](#d37) |
 
 <a id="d1"></a>
 
@@ -784,3 +785,52 @@ three read from the CLI's own `--help` (against Homebrew 7.0.9).
 
 **Overturn if**: a shadowing tip proves wrong against the CLI — then the tip is corrected, not
 the placement.
+
+---
+
+<a id="d37"></a>
+
+## Working files live in `WIP/`, deleted on confirmation (D37)
+
+**Decision**: every artifact a task generates — analysis scripts, `--help` dumps, parsed
+tables, diff plans, batch logs, translation dictionaries — goes in `WIP/<tool>/`, one
+directory per completion, and stays there until the operator confirms deletion. The author
+reports the directory at hand-off instead of tidying it away.
+
+**Rule lives in**: `AGENTS.md` `R-20`; the mechanism is `authoring/working-files.md`.
+
+**Why**: the operator reviews *after* the gates, and a review that finds a wrong value
+needs the dumps and the plan to fix it fast — the material is the cheapest rework path that
+exists, and "the audit is done" is not the moment it stops being needed. A shared system
+temp directory fails the same task in the other direction: there is no per-task isolation,
+so two completions written concurrently overwrite each other's scripts, and the collision
+surfaces only when one parses the other's data.
+
+**Evidence**: the previous guidance said the opposite in two places — the large-audit step
+read "Delete the scratch directory when the audit is done", and the collection-completeness
+section read "delete it before you commit". Both were written for tree hygiene and neither
+anticipated the review window that follows a clean gate run. The recorded failure behind the
+retention half: an agent declared a completion finished and deleted the scripts it had
+generated; the author then found defects, and the analysis had to be regenerated from zero
+because the probes, the parsed tables and the diff plan were gone. The collision half is the
+operator's own report of concurrent completions sharing one temp directory; it is recorded
+as reported, because a collision leaves nothing in the tree to point at afterwards.
+
+**Rejected alternatives**: (a) delete automatically once the gates run clean — rejected, it
+removes the rework material before anyone has looked at the manifest; (b) keep using a
+system temp directory with a per-task subdirectory — rejected, the isolation buys back the
+collision but the material is invisible to whoever reviews the work and belongs to no
+cleanup decision; (c) name the directory `review/`, the spelling the two old references
+used — rejected, that directory also holds the audit trackers at its top level, and its
+name describes the activity rather than the material; (d) name it `temp/` — rejected,
+`scripts/check-doc-links.ps1` excludes `temp/` from doc-link checks by design (its header
+names `temp/` as engine runtime scratch, not repo files), so a reference into it would go
+unchecked; (e) add `WIP/` to `.gitignore` so the tree stays clean — rejected, an ignored
+directory drops out of `git status`, which is the one place the operator sees which tasks
+still owe a cleanup, and the record itself is worth keeping visible; staging for a
+comparison stays allowed, only the pushed history is closed to it.
+
+**Overturn if**: nothing in a `WIP/<tool>/` directory is ever read a second time across
+many completions — then retention is pure disk cost, and the answer is archiving on
+confirmation, not this rule. The naming half is overturned by any tooling that starts
+resolving `WIP/` paths without reading the directory first.

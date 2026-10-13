@@ -6,13 +6,17 @@ Three gates, what each can and cannot see, and the checklists that cover the res
 
 | Gate | Command | What it checks |
 | --- | --- | --- |
-| Structure, usage, translation | `.\scripts\compare-json.ps1 <command>` | manifest shape, `usage` forms, `next` on options and commands, cross-language structure and translation completeness |
-| Schema, config, hooks presence | `.\scripts\validate-completion.ps1 <command>` | JSON schema, `config.json` fields, `hooks` flag vs `hooks.lua` presence, Chinese/English spacing |
-| Hook targets | `.\scripts\check-hook-targets.ps1 <command>` | resolves every `psc.on` target against the manifest |
+| Structure, usage, translation | `./scripts/compare-json.ps1 <command>` | manifest shape, `usage` forms, `next` on options and commands, cross-language structure and translation completeness |
+| Schema, config, hooks presence | `./scripts/validate-completion.ps1 <command>` | JSON schema, `config.json` fields, `hooks` flag vs `hooks.lua` presence, Chinese/English spacing |
+| Hook targets | `./scripts/check-hook-targets.ps1 <command>` | resolves every `psc.on` target against the manifest |
 
-Run with `<command>` to check one completion, or with `-All` for every completion (slower).
-Without arguments `compare-json.ps1` checks only recently changed or uncommitted
-completions.
+Pass `<command>` to check one completion — that is the per-task gate for the
+completion being written, updated or reviewed. `-All` sweeps every completion in
+the tree and is for repo-wide checks only: it is slow, and it reports nothing
+about a change confined to one directory, so never reach for it to confirm a
+single completion. Without arguments `compare-json.ps1` checks only recently
+changed or uncommitted completions; `validate-completion.ps1` has no such
+default and checks nothing at all without a target, so always name it.
 
 **Fix every reported item until both run clean.** After changes stabilise, re-run
 `compare-json.ps1 <command>` to confirm there are no _content_ differences.

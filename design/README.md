@@ -21,6 +21,7 @@ the knowledge base for maintainers and for AI agents working on the repo.
 | [`filter-matching.md`](filter-matching.md) | current | How the menu filter matches items (subsequence / wildcard modes, `^` and `*` semantics) | engine developers, menu users |
 | [`hooks.md`](hooks.md) | current | The Lua hooks subsystem: architecture, the **authoritative `psc.*` API reference** (context values, capability functions, prelude helpers, pitfalls, patterns, parallel primitives, security) | completion / hook authors, engine developers |
 | [`psc-cli.md`](psc-cli.md) | current | The `psc` management CLI: architecture (separate binaries, data discovery, module bridge, workspace), dispatch, per-command syntax/behavior/errors, config inventory, reset matrix | CLI / module developers, completion authors for `psc` |
+| [`e2e-testing.md`](e2e-testing.md) | current | Verifying engine/hook changes against the real binary: rebuild + deploy, driving build mode by hand, working around the blocking TUI, fixture isolation, pitfalls | engine developers |
 
 ## Conventions
 

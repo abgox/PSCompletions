@@ -49,8 +49,9 @@ verbatim by many subcommands belongs in `global_option` even if the root rejects
 | `tokens` | Completed tokens: `{ text, type, canonical? }` — excludes pending. |
 
 Each token is classified as `command` / `option` / `value` / `unknown`:
-- Known commands/options push a `command`/`option` token with a **`canonical`** = the main
-  (longest) name — alias input normalizes to it.
+- Known commands/options push a `command`/`option` token with a **`canonical`** = the
+  declared `name` (one trailing `=` stripped for attached-value options) — alias
+  input normalizes to it.
 - **Case sensitivity**: command words and option *values* match case-insensitively, but
   **options match exactly**. Short flags are case-significant in real CLIs (`git commit -c`
   reuses-and-edits a message while `-C` reuses it), so folding case let whichever option came

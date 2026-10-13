@@ -24,6 +24,7 @@ because it is not needed at every step of every task.
 | [`validation.md`](validation.md) | The three gates — what each reports and how to fix it, the pre-completion checklist, the portability audit |
 | [`maintenance.md`](maintenance.md) | Updating an existing completion for a new tool version, translating to another language |
 | [`tooling.md`](tooling.md) | `pwsh` vs `powershell.exe`, `ajv-cli`, `luac -p`, recovering schema error paths |
+| [`working-files.md`](working-files.md) | Where a task's scripts, dumps and plans live (`WIP/<tool>/`), and when they are deleted |
 
 ## Which question goes where
 

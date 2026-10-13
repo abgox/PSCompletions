@@ -132,6 +132,6 @@ returns data, before relying on it for the rest.
 `psc.on` targets refer to the `name` field of manifest items. Two defects fail silently at
 runtime and no other gate catches them — a dangling target, and a target written as an
 alias instead of a `name`. Always run
-`.\scripts\check-hook-targets.ps1 <command>` whenever a `hooks.lua` exists or was touched,
+`./scripts/check-hook-targets.ps1 <command>` whenever a `hooks.lua` exists or was touched,
 and `luac -p completions/<cmd>/hooks.lua` because nothing checks whether it compiles. See
 [`validation.md`](validation.md).
