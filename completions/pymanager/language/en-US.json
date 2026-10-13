@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "url": "https://docs.python.org/3/using/windows.html",
+    "description": [
+      "Python installation manager for Windows."
+    ]
+  },
+  "next": [
+    {
+      "name": "exec",
+      "tip": [
+        "Equivalent to any of the launch options.",
+        "The requested runtime will be installed if needed."
+      ],
+      "option": [
+        {
+          "name": "-3",
+          "usage": [
+            "-3<VERSION>"
+          ],
+          "tip": [
+            "Equivalent to -V:PythonCore\\3<VERSION>.",
+            "The version must begin with the digit 3, platform overrides are permitted, and regular Python options may follow.",
+            "The runtime will be installed if needed."
+          ],
+          "next": []
+        },
+        {
+          "name": "-V",
+          "usage": [
+            "-V:<TAG>"
+          ],
+          "tip": [
+            "Launch runtime identified by <TAG>, which should include the company name if not PythonCore.",
+            "Regular Python options may follow this option.",
+            "The runtime will be installed if needed."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [<CMD>]"
+      ],
+      "tip": [
+        "Show help for Python installation manager commands."
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <TAG> [<TAG>] ..."
+      ],
+      "tip": [
+        "Download new Python runtimes and set up shortcuts and other registration."
+      ],
+      "example": [
+        "py install 3",
+        "py install --force 3.13"
+      ],
+      "option": [
+        {
+          "name": "--by-id",
+          "tip": [
+            "Require TAG to exactly match the install ID. (For advanced use.)"
+          ]
+        },
+        {
+          "name": "--configure",
+          "tip": [
+            "Re-run the system configuration helper."
+          ]
+        },
+        {
+          "name": "--download",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --download=<PATH>"
+          ],
+          "tip": [
+            "Prepare an offline index with one or more runtimes."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Choose runtime but do not install."
+          ]
+        },
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "Re-download and overwrite existing install."
+          ]
+        },
+        {
+          "name": "--refresh",
+          "tip": [
+            "Update shortcuts and aliases for all installed versions."
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source=<URI>"
+          ],
+          "tip": [
+            "Specify index.json to use (install.source=...)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--target",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --target=<PATH>"
+          ],
+          "tip": [
+            "Extract runtime to location instead of installing."
+          ],
+          "next": []
+        },
+        {
+          "name": "--update",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --update"
+          ],
+          "tip": [
+            "Overwrite existing install if a newer version is available."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "usage": [
+        "list [<FILTER>]"
+      ],
+      "tip": [
+        "Show installed Python runtimes, optionally filtered or formatted."
+      ],
+      "example": [
+        "py list --online 3.12"
+      ],
+      "option": [
+        {
+          "name": "--format",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --format=<FORMAT>"
+          ],
+          "tip": [
+            "Specify list format. (default table)",
+            "Possible values: table, csv, json, jsonl, id, exe, prefix, url, legacy, legacy-paths, formats, config"
+          ],
+          "next": [
+            {
+              "name": "config",
+              "tip": [
+                "List the current config"
+              ]
+            },
+            {
+              "name": "csv",
+              "tip": [
+                "List as a comma-separated value table"
+              ]
+            },
+            {
+              "name": "exe",
+              "tip": [
+                "Lists the main executable path"
+              ]
+            },
+            {
+              "name": "formats",
+              "tip": [
+                "List the available list formats"
+              ]
+            },
+            {
+              "name": "id",
+              "tip": [
+                "Lists the runtime ID"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "Lists as a single JSON object"
+              ]
+            },
+            {
+              "name": "jsonl",
+              "tip": [
+                "Lists as JSON on each line"
+              ]
+            },
+            {
+              "name": "legacy",
+              "tip": [
+                "List runtimes using the old format"
+              ]
+            },
+            {
+              "name": "legacy-paths",
+              "tip": [
+                "List runtime paths using the old format"
+              ]
+            },
+            {
+              "name": "prefix",
+              "tip": [
+                "Lists the prefix directory"
+              ]
+            },
+            {
+              "name": "table",
+              "tip": [
+                "Lists as a user-friendly table"
+              ]
+            },
+            {
+              "name": "url",
+              "tip": [
+                "Lists the original source URL"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--one",
+          "alias": [
+            "-1"
+          ],
+          "usage": [
+            "-1, --one"
+          ],
+          "tip": [
+            "Only display first result that matches the filter."
+          ]
+        },
+        {
+          "name": "--online",
+          "tip": [
+            "List runtimes available to install from the default index."
+          ]
+        },
+        {
+          "name": "--only-managed",
+          "tip": [
+            "Only list Python installs managed by the tool."
+          ]
+        },
+        {
+          "name": "--source",
+          "alias": [
+            "-s"
+          ],
+          "usage": [
+            "-s, --source=<URL>"
+          ],
+          "tip": [
+            "List runtimes from a particular index."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <TAG> [<TAG>] ..."
+      ],
+      "tip": [
+        "Remove one or more runtimes from your machine."
+      ],
+      "example": [
+        "py uninstall --yes --purge"
+      ],
+      "option": [
+        {
+          "name": "--by-id",
+          "tip": [
+            "Require TAG to exactly match the install ID. (For advanced use.)"
+          ]
+        },
+        {
+          "name": "--cleanup",
+          "tip": [
+            "Remove cached and unrecognized content while preserving recognized runtimes.",
+            "Does not accept tags."
+          ]
+        },
+        {
+          "name": "--purge",
+          "tip": [
+            "Remove all runtimes, shortcuts, and cached files.",
+            "Does not accept tags."
+          ]
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--list",
+      "tip": [
+        "List installed runtimes using the legacy format.",
+        "Retained for compatibility with the old launcher."
+      ]
+    },
+    {
+      "name": "--list-paths",
+      "tip": [
+        "List installed runtime paths using the legacy format.",
+        "Retained for compatibility with the old launcher."
+      ]
+    },
+    {
+      "name": "-0",
+      "tip": [
+        "List installed runtimes using the legacy format.",
+        "Retained for compatibility with the old launcher."
+      ]
+    },
+    {
+      "name": "-0p",
+      "tip": [
+        "List installed runtime paths using the legacy format.",
+        "Retained for compatibility with the old launcher."
+      ]
+    },
+    {
+      "name": "-3",
+      "usage": [
+        "-3<VERSION>"
+      ],
+      "tip": [
+        "Equivalent to -V:PythonCore\\3<VERSION>.",
+        "The version must begin with the digit 3, platform overrides are permitted, and regular Python options may follow.",
+        "Equivalent to the python3 command."
+      ],
+      "next": []
+    },
+    {
+      "name": "-V",
+      "usage": [
+        "-V:<TAG>"
+      ],
+      "tip": [
+        "Launch runtime identified by <TAG>, which should include the company name if not PythonCore.",
+        "Regular Python options may follow this option."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--config",
+      "usage": [
+        "--config=<PATH>"
+      ],
+      "tip": [
+        "Override configuration with JSON file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h",
+        "-?"
+      ],
+      "usage": [
+        "-h, -?, --help"
+      ],
+      "tip": [
+        "Show help for a specific command."
+      ]
+    },
+    {
+      "name": "--quiet",
+      "alias": [
+        "-q"
+      ],
+      "usage": [
+        "-q, --quiet"
+      ],
+      "tip": [
+        "Less output (log_level=30)."
+      ]
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Increased output (log_level=20)."
+      ]
+    },
+    {
+      "name": "--yes",
+      "alias": [
+        "-y"
+      ],
+      "usage": [
+        "-y, --yes"
+      ],
+      "tip": [
+        "Always accept confirmation prompts (confirm=false)."
+      ]
+    },
+    {
+      "name": "-qq",
+      "tip": [
+        "Even less output (log_level=40)."
+      ]
+    },
+    {
+      "name": "-vv",
+      "tip": [
+        "Further increased output (log_level=10)."
+      ]
+    }
+  ]
+}
