@@ -14,8 +14,12 @@
     },
     {
       "name": "completions",
+      "usage": [
+        "completions <SHELL>"
+      ],
       "tip": [
-        "为你的 shell 生成 starship shell 补全到 stdout。"
+        "为你的 shell 生成 starship shell 补全到 stdout。",
+        "可能值: bash, elvish, fish, nushell, powershell, zsh"
       ],
       "next": [
         {
@@ -43,7 +47,14 @@
           ]
         },
         {
-          "name": "powershell",
+          "name": "power-shell",
+          "alias": [
+            "powershell",
+            "pwsh"
+          ],
+          "usage": [
+            "pwsh|powershell|power-shell"
+          ],
           "tip": [
             "生成 PowerShell 补全脚本。"
           ]
@@ -58,26 +69,18 @@
     },
     {
       "name": "config",
+      "usage": [
+        "config [NAME] [VALUE]"
+      ],
       "tip": [
         "编辑 starship 配置。"
-      ],
-      "option": [
-        {
-          "name": "--print",
-          "tip": [
-            "将默认配置打印到 stdout。"
-          ]
-        },
-        {
-          "name": "--starship",
-          "usage": [
-            "--starship <STARSHIP>"
-          ],
-          "tip": [
-            "指定 starship 二进制文件的路径。"
-          ],
-          "next": []
-        }
+      ]
+    },
+    {
+      "name": "config-schema",
+      "tip": [
+        "生成 starship 配置的 JSON schema。",
+        "（仅在启用 config-schema 特性编译的版本中可用）"
       ]
     },
     {
@@ -87,15 +90,41 @@
       ]
     },
     {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "打印此消息或给定子命令的帮助"
+      ]
+    },
+    {
       "name": "init",
+      "usage": [
+        "init <SHELL>"
+      ],
       "tip": [
         "打印用于执行 starship 的 shell 函数。"
+      ],
+      "option": [
+        {
+          "name": "--print-full-init",
+          "tip": [
+            "打印完整的 init 脚本，而不是每次提示符都调用 starship 的存根。"
+          ]
+        }
       ],
       "next": [
         {
           "name": "bash",
           "tip": [
             "生成 bash init 脚本。"
+          ]
+        },
+        {
+          "name": "cmd",
+          "tip": [
+            "生成 cmd init 脚本。"
           ]
         },
         {
@@ -117,21 +146,27 @@
           ]
         },
         {
-          "name": "nushell",
+          "name": "nu",
           "tip": [
-            "生成 nushell init 脚本。"
+            "生成 nu init 脚本。"
           ]
         },
         {
           "name": "powershell",
           "tip": [
-            "生成 PowerShell init 脚本。"
+            "生成 powershell init 脚本。"
           ]
         },
         {
-          "name": "termux",
+          "name": "tcsh",
           "tip": [
-            "生成 termux init 脚本。"
+            "生成 tcsh init 脚本。"
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "生成 xonsh init 脚本。"
           ]
         },
         {
@@ -144,61 +179,13 @@
     },
     {
       "name": "module",
+      "usage": [
+        "module [NAME]"
+      ],
       "tip": [
         "打印特定的提示模块。"
       ],
       "option": [
-        {
-          "name": "--cmd-duration",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --cmd-duration <CMD_DURATION>"
-          ],
-          "tip": [
-            "最后一个命令的执行时间，以毫秒为单位。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--jobs",
-          "alias": [
-            "-j"
-          ],
-          "usage": [
-            "-j, --jobs <JOBS>"
-          ],
-          "tip": [
-            "当前运行的作业数。",
-            "默认: 0"
-          ],
-          "next": [
-            {
-              "name": "1"
-            },
-            {
-              "name": "4"
-            },
-            {
-              "name": "8"
-            }
-          ]
-        },
-        {
-          "name": "--keymap",
-          "alias": [
-            "-k"
-          ],
-          "usage": [
-            "-k, --keymap <KEYMAP>"
-          ],
-          "tip": [
-            "fish/zsh/cmd 的按键映射。",
-            "默认: viins"
-          ],
-          "next": []
-        },
         {
           "name": "--list",
           "alias": [
@@ -210,136 +197,158 @@
           "tip": [
             "列出所有支持的模块。"
           ]
-        },
-        {
-          "name": "--logical-path",
-          "alias": [
-            "-P"
-          ],
-          "usage": [
-            "-P, --logical-path <LOGICAL_PATH>"
-          ],
-          "tip": [
-            "提示符应渲染的逻辑路径。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "提示符应渲染的路径。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--pipestatus",
-          "usage": [
-            "--pipestatus <PIPESTATUS>"
-          ],
-          "tip": [
-            "Bash、Fish 和 Zsh 支持返回管道中每个进程的状态码。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--shlvl",
-          "usage": [
-            "--shlvl <SHLVL>"
-          ],
-          "tip": [
-            "SHLVL 的当前值。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--status",
-          "alias": [
-            "-s"
-          ],
-          "usage": [
-            "-s, --status <STATUS_CODE>"
-          ],
-          "tip": [
-            "先前运行的命令的状态码。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--terminal-width",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --terminal-width <TERMINAL_WIDTH>"
-          ],
-          "tip": [
-            "当前交互式终端的宽度。",
-            "默认: 80"
-          ],
-          "next": []
         }
       ]
     },
     {
       "name": "preset",
+      "usage": [
+        "preset [NAME]"
+      ],
       "tip": [
-        "打印预设配置。"
+        "打印预设配置。",
+        "可能值: bracketed-segments, catppuccin-powerline, gruvbox-rainbow, jetpack, nerd-font-symbols, no-empty-icons, no-nerd-font, no-runtime-versions, pastel-powerline, plain-text-symbols, pure-preset, tokyo-night"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "alias": [
+            "-f"
+          ],
+          "usage": [
+            "-f, --force"
+          ],
+          "tip": [
+            "如果输出文件已存在，则强制覆盖。",
+            "需要 --output。"
+          ]
+        },
+        {
+          "name": "--list",
+          "alias": [
+            "-l"
+          ],
+          "usage": [
+            "-l, --list"
+          ],
+          "tip": [
+            "列出所有预设名称。",
+            "不能与 --output 同时使用。"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <OUTPUT>"
+          ],
+          "tip": [
+            "将预设输出到文件而不是 stdout。",
+            "不能与 --list 同时使用。"
+          ],
+          "next": []
+        }
       ],
       "next": [
         {
-          "name": "'Bracketed Segments'",
+          "name": "bracketed-segments",
           "tip": [
-            "使用括号段的预设。"
+            "此预设使用括号来分隔所有组件的提示符，不使用 Starship 默认的分隔词（\"via\"、\"on\" 等）。"
+          ]
+        },
+        {
+          "name": "catppuccin-powerline",
+          "tip": [
+            "该预设是在 Gruvbox Rainbow 的基础上进行最小修改，并使用了 Catppuccin 主题配色方案。"
+          ]
+        },
+        {
+          "name": "gruvbox-rainbow",
+          "tip": [
+            "此预设深受 Pastel Powerline 和 Tokyo Night 的启发。"
+          ]
+        },
+        {
+          "name": "jetpack",
+          "tip": [
+            "这是一个伪最简的预设，灵感来自 geometry 和 spaceship。"
           ]
         },
         {
           "name": "nerd-font-symbols",
           "tip": [
-            "使用 Nerd Font 符号的预设。"
+            "此预设使用 Nerd 字体的符号显示所有组件。"
+          ]
+        },
+        {
+          "name": "no-empty-icons",
+          "tip": [
+            "如果找不到工具集，此预设不显示图标。"
           ]
         },
         {
           "name": "no-nerd-font",
           "tip": [
-            "不使用 Nerd Fonts 的预设。"
+            "此预设更改多个组件的符号，使提示符中不再使用任何 Nerd Font 符号。"
           ]
         },
         {
-          "name": "no-unicode",
+          "name": "no-runtime-versions",
           "tip": [
-            "不使用 Unicode 的预设。"
+            "此预设隐藏语言运行时版本。"
           ]
         },
         {
-          "name": "paste-prompt",
+          "name": "pastel-powerline",
           "tip": [
-            "用于粘贴提示符的预设。"
-          ]
-        },
-        {
-          "name": "plain-directory",
-          "tip": [
-            "使用纯目录显示的预设。"
+            "此预设的灵感来自于 M365Princess。",
+            "它同时也演示了 Starship 的路径替换功能。"
           ]
         },
         {
           "name": "plain-text-symbols",
           "tip": [
-            "使用纯文本符号的预设。"
+            "此预设将所有组件的符号改为纯文本。",
+            "适合没有 Unicode 的环境。"
+          ]
+        },
+        {
+          "name": "pure-preset",
+          "tip": [
+            "此预设模拟 Pure 的外观和行为。"
+          ]
+        },
+        {
+          "name": "tokyo-night",
+          "tip": [
+            "此预设受 tokyo-night-vscode-theme 的启发。"
           ]
         }
       ]
     },
     {
       "name": "print-config",
+      "usage": [
+        "print-config [NAME]..."
+      ],
       "tip": [
         "打印计算后的 starship 配置。"
+      ],
+      "option": [
+        {
+          "name": "--default",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --default"
+          ],
+          "tip": [
+            "打印默认配置而不是计算后的配置"
+          ]
+        }
       ]
     },
     {
@@ -349,115 +358,33 @@
       ],
       "option": [
         {
-          "name": "--cmd-duration",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --cmd-duration <CMD_DURATION>"
-          ],
+          "name": "--continuation",
           "tip": [
-            "执行时间（毫秒）。"
-          ],
-          "next": []
+            "打印续行提示符（而不是标准的左侧提示符）"
+          ]
         },
         {
-          "name": "--jobs",
-          "alias": [
-            "-j"
-          ],
+          "name": "--profile",
           "usage": [
-            "-j, --jobs <JOBS>"
+            "--profile <PROFILE>"
           ],
           "tip": [
-            "当前运行的作业数。"
+            "使用指定的配置档名称打印提示符（而不是标准的左侧提示符）"
           ],
           "next": [
             {
-              "name": "1"
-            },
-            {
-              "name": "4"
-            },
-            {
-              "name": "8"
+              "name": "claude-code",
+              "tip": [
+                "Claude Code 状态行使用的内置配置档。"
+              ]
             }
           ]
         },
         {
-          "name": "--keymap",
-          "alias": [
-            "-k"
-          ],
-          "usage": [
-            "-k, --keymap <KEYMAP>"
-          ],
+          "name": "--right",
           "tip": [
-            "fish/zsh/cmd 的按键映射。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--logical-path",
-          "alias": [
-            "-P"
-          ],
-          "usage": [
-            "-P, --logical-path <LOGICAL_PATH>"
-          ],
-          "tip": [
-            "要渲染的逻辑路径。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "要渲染的路径。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--pipestatus",
-          "usage": [
-            "--pipestatus <PIPESTATUS>"
-          ],
-          "tip": [
-            "管道中每个进程的状态码。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--status",
-          "alias": [
-            "-s"
-          ],
-          "usage": [
-            "-s, --status <STATUS_CODE>"
-          ],
-          "tip": [
-            "先前运行的命令的状态码。"
-          ],
-          "next": []
-        },
-        {
-          "name": "--terminal-width",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --terminal-width <TERMINAL_WIDTH>"
-          ],
-          "tip": [
-            "终端的宽度。"
-          ],
-          "next": []
+            "打印右侧提示符（而不是标准的左侧提示符）"
+          ]
         }
       ]
     },
@@ -469,8 +396,12 @@
     },
     {
       "name": "statusline",
+      "usage": [
+        "statusline <PROVIDER>"
+      ],
       "tip": [
-        "使用特定配置文件打印状态行。"
+        "使用特定配置档打印状态行。",
+        "可能值: claude-code"
       ],
       "option": [
         {
@@ -479,22 +410,54 @@
             "--profile <PROFILE>"
           ],
           "tip": [
-            "要使用的状态行配置文件。"
+            "状态行使用的配置档。（默认为提供程序名称）"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "claude-code",
+              "tip": [
+                "Claude Code 状态行使用的内置配置档。"
+              ]
+            }
+          ]
         }
+      ],
+      "next": [
+        {
+          "name": "claude-code",
+          "alias": [
+            "claude"
+          ],
+          "usage": [
+            "claude|claude-code"
+          ],
+          "tip": [
+            "Claude Code 的状态行提供程序。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "time",
+      "tip": [
+        "以毫秒为单位打印当前时间。",
+        "内部命令，未在 --help 中列出。"
       ]
     },
     {
       "name": "timings",
       "tip": [
-        "打印所有活动模块的时间。"
+        "打印所有活动模块的耗时。"
       ]
     },
     {
       "name": "toggle",
+      "usage": [
+        "toggle <NAME> [VALUE]"
+      ],
       "tip": [
-        "切换给定的 starship 模块。"
+        "切换给定的 starship 模块。",
+        "要切换的配置键默认为 `disabled`。"
       ]
     }
   ],
@@ -514,6 +477,19 @@
   ],
   "global_option": [
     {
+      "name": "--cmd-duration",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --cmd-duration <CMD_DURATION>"
+      ],
+      "tip": [
+        "最后一个命令的执行时间，以毫秒为单位。"
+      ],
+      "next": []
+    },
+    {
       "name": "--help",
       "alias": [
         "-h"
@@ -524,6 +500,115 @@
       "tip": [
         "打印帮助。"
       ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs <JOBS>"
+      ],
+      "tip": [
+        "当前运行的作业数。（默认 0）"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--keymap",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keymap <KEYMAP>"
+      ],
+      "tip": [
+        "fish/zsh/cmd 的按键映射。（默认 viins）"
+      ],
+      "next": []
+    },
+    {
+      "name": "--logical-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --logical-path <LOGICAL_PATH>"
+      ],
+      "tip": [
+        "提示符应渲染的逻辑路径。",
+        "该路径应是 PATH 参数的虚拟/逻辑表示。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--path",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --path <PATH>"
+      ],
+      "tip": [
+        "提示符应渲染的路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pipestatus",
+      "usage": [
+        "--pipestatus <PIPESTATUS>"
+      ],
+      "tip": [
+        "Bash、Fish 和 Zsh 支持返回管道中每个进程的状态码。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--shlvl",
+      "usage": [
+        "--shlvl <SHLVL>"
+      ],
+      "tip": [
+        "SHLVL 的当前值，用于在 $() 中处理不当的 shell。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--status",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --status <STATUS_CODE>"
+      ],
+      "tip": [
+        "先前运行命令的状态码，作为无符号或有符号 32 位整数。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--terminal-width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --terminal-width <TERMINAL_WIDTH>"
+      ],
+      "tip": [
+        "当前交互式终端的宽度。（默认 80）"
+      ],
+      "next": []
     }
   ]
 }

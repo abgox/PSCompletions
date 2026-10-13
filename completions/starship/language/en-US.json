@@ -9,13 +9,17 @@
     {
       "name": "bug-report",
       "tip": [
-        "Create a pre-populated GitHub issue with information about your configuration."
+        "Create a pre-populated GitHub issue with information about your configuration"
       ]
     },
     {
       "name": "completions",
+      "usage": [
+        "completions <SHELL>"
+      ],
       "tip": [
-        "Generate starship shell completions for your shell to stdout."
+        "Generate starship shell completions for your shell to stdout.",
+        "Possible values: bash, elvish, fish, nushell, powershell, zsh"
       ],
       "next": [
         {
@@ -43,7 +47,14 @@
           ]
         },
         {
-          "name": "powershell",
+          "name": "power-shell",
+          "alias": [
+            "powershell",
+            "pwsh"
+          ],
+          "usage": [
+            "pwsh|powershell|power-shell"
+          ],
           "tip": [
             "Generate PowerShell completion script."
           ]
@@ -58,26 +69,18 @@
     },
     {
       "name": "config",
+      "usage": [
+        "config [NAME] [VALUE]"
+      ],
       "tip": [
         "Edit the starship configuration."
-      ],
-      "option": [
-        {
-          "name": "--print",
-          "tip": [
-            "Print the default configuration to stdout."
-          ]
-        },
-        {
-          "name": "--starship",
-          "usage": [
-            "--starship <STARSHIP>"
-          ],
-          "tip": [
-            "Specify the path to the starship binary."
-          ],
-          "next": []
-        }
+      ]
+    },
+    {
+      "name": "config-schema",
+      "tip": [
+        "Generate a schema for the starship configuration as JSON-schema.",
+        "(only in builds compiled with the config-schema feature)"
       ]
     },
     {
@@ -87,15 +90,41 @@
       ]
     },
     {
+      "name": "help",
+      "usage": [
+        "help [COMMAND]"
+      ],
+      "tip": [
+        "Print this message or the help of the given subcommand(s)"
+      ]
+    },
+    {
       "name": "init",
+      "usage": [
+        "init <SHELL>"
+      ],
       "tip": [
         "Prints the shell function used to execute starship."
+      ],
+      "option": [
+        {
+          "name": "--print-full-init",
+          "tip": [
+            "Print the full init script instead of a stub that calls starship at every prompt."
+          ]
+        }
       ],
       "next": [
         {
           "name": "bash",
           "tip": [
             "Generate bash init script."
+          ]
+        },
+        {
+          "name": "cmd",
+          "tip": [
+            "Generate cmd init script."
           ]
         },
         {
@@ -117,21 +146,27 @@
           ]
         },
         {
-          "name": "nushell",
+          "name": "nu",
           "tip": [
-            "Generate nushell init script."
+            "Generate nu init script."
           ]
         },
         {
           "name": "powershell",
           "tip": [
-            "Generate PowerShell init script."
+            "Generate powershell init script."
           ]
         },
         {
-          "name": "termux",
+          "name": "tcsh",
           "tip": [
-            "Generate termux init script."
+            "Generate tcsh init script."
+          ]
+        },
+        {
+          "name": "xonsh",
+          "tip": [
+            "Generate xonsh init script."
           ]
         },
         {
@@ -144,60 +179,49 @@
     },
     {
       "name": "module",
+      "usage": [
+        "module [NAME]"
+      ],
       "tip": [
         "Prints a specific prompt module."
       ],
       "option": [
         {
-          "name": "--cmd-duration",
+          "name": "--list",
           "alias": [
-            "-d"
+            "-l"
           ],
           "usage": [
-            "-d, --cmd-duration <CMD_DURATION>"
+            "-l, --list"
           ],
           "tip": [
-            "The execution duration of the last command, in milliseconds."
-          ],
-          "next": []
-        },
-        {
-          "name": "--jobs",
-          "alias": [
-            "-j"
-          ],
-          "usage": [
-            "-j, --jobs <JOBS>"
-          ],
-          "tip": [
-            "The number of currently running jobs.",
-            "Default: 0"
-          ],
-          "next": [
-            {
-              "name": "1"
-            },
-            {
-              "name": "4"
-            },
-            {
-              "name": "8"
-            }
+            "List out all supported modules"
           ]
-        },
+        }
+      ]
+    },
+    {
+      "name": "preset",
+      "usage": [
+        "preset [NAME]"
+      ],
+      "tip": [
+        "Prints a preset config.",
+        "Possible values: bracketed-segments, catppuccin-powerline, gruvbox-rainbow, jetpack, nerd-font-symbols, no-empty-icons, no-nerd-font, no-runtime-versions, pastel-powerline, plain-text-symbols, pure-preset, tokyo-night"
+      ],
+      "option": [
         {
-          "name": "--keymap",
+          "name": "--force",
           "alias": [
-            "-k"
+            "-f"
           ],
           "usage": [
-            "-k, --keymap <KEYMAP>"
+            "-f, --force"
           ],
           "tip": [
-            "The keymap of fish/zsh/cmd.",
-            "Default: viins"
-          ],
-          "next": []
+            "Forcibly overwrite the output file if it already exists.",
+            "Requires --output."
+          ]
         },
         {
           "name": "--list",
@@ -208,138 +232,123 @@
             "-l, --list"
           ],
           "tip": [
-            "List out all supported modules."
+            "List out all preset names.",
+            "Cannot be combined with --output."
           ]
         },
         {
-          "name": "--logical-path",
+          "name": "--output",
           "alias": [
-            "-P"
+            "-o"
           ],
           "usage": [
-            "-P, --logical-path <LOGICAL_PATH>"
+            "-o, --output <OUTPUT>"
           ],
           "tip": [
-            "The logical path that the prompt should render for."
-          ],
-          "next": []
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "The path that the prompt should render for."
-          ],
-          "next": []
-        },
-        {
-          "name": "--pipestatus",
-          "usage": [
-            "--pipestatus <PIPESTATUS>"
-          ],
-          "tip": [
-            "Bash, Fish and Zsh support returning codes for each process in a pipeline."
-          ],
-          "next": []
-        },
-        {
-          "name": "--shlvl",
-          "usage": [
-            "--shlvl <SHLVL>"
-          ],
-          "tip": [
-            "The current value of SHLVL."
-          ],
-          "next": []
-        },
-        {
-          "name": "--status",
-          "alias": [
-            "-s"
-          ],
-          "usage": [
-            "-s, --status <STATUS_CODE>"
-          ],
-          "tip": [
-            "The status code of the previously run command."
-          ],
-          "next": []
-        },
-        {
-          "name": "--terminal-width",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --terminal-width <TERMINAL_WIDTH>"
-          ],
-          "tip": [
-            "The width of the current interactive terminal.",
-            "Default: 80"
+            "Output the preset to a file instead of stdout.",
+            "Cannot be combined with --list."
           ],
           "next": []
         }
-      ]
-    },
-    {
-      "name": "preset",
-      "tip": [
-        "Prints a preset config."
       ],
       "next": [
         {
-          "name": "'Bracketed Segments'",
+          "name": "bracketed-segments",
           "tip": [
-            "Preset with bracketed segments."
+            "This preset changes the format of all the built-in modules to show their segment in brackets instead of using the default Starship wording (\"via\", \"on\", etc.)."
+          ]
+        },
+        {
+          "name": "catppuccin-powerline",
+          "tip": [
+            "This preset is a minimally modified version of Gruvbox Rainbow using the Catppuccin theme palette."
+          ]
+        },
+        {
+          "name": "gruvbox-rainbow",
+          "tip": [
+            "This preset is heavily inspired by Pastel Powerline and Tokyo Night."
+          ]
+        },
+        {
+          "name": "jetpack",
+          "tip": [
+            "This is a pseudo minimalist preset inspired by the geometry and spaceship prompts."
           ]
         },
         {
           "name": "nerd-font-symbols",
           "tip": [
-            "Preset with Nerd Font symbols."
+            "This preset changes the symbols for each module to use Nerd Font symbols."
+          ]
+        },
+        {
+          "name": "no-empty-icons",
+          "tip": [
+            "This preset does not show icons if the toolset is not found."
           ]
         },
         {
           "name": "no-nerd-font",
           "tip": [
-            "Preset without Nerd Fonts."
+            "This preset changes the symbols for several modules so that no Nerd Font symbols are used anywhere in the prompt."
           ]
         },
         {
-          "name": "no-unicode",
+          "name": "no-runtime-versions",
           "tip": [
-            "Preset without Unicode."
+            "This preset hides the version of language runtimes."
           ]
         },
         {
-          "name": "paste-prompt",
+          "name": "pastel-powerline",
           "tip": [
-            "Preset for pasting prompts."
-          ]
-        },
-        {
-          "name": "plain-directory",
-          "tip": [
-            "Preset with plain directory display."
+            "This preset is inspired by M365Princess.",
+            "It also shows how path substitution works in starship."
           ]
         },
         {
           "name": "plain-text-symbols",
           "tip": [
-            "Preset with plain text symbols."
+            "This preset changes the symbols for each module into plain text.",
+            "Great if you don't have access to Unicode."
+          ]
+        },
+        {
+          "name": "pure-preset",
+          "tip": [
+            "This preset emulates the look and behavior of Pure."
+          ]
+        },
+        {
+          "name": "tokyo-night",
+          "tip": [
+            "This preset is inspired by tokyo-night-vscode-theme."
           ]
         }
       ]
     },
     {
       "name": "print-config",
+      "usage": [
+        "print-config [NAME]..."
+      ],
       "tip": [
         "Prints the computed starship configuration."
+      ],
+      "option": [
+        {
+          "name": "--default",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --default"
+          ],
+          "tip": [
+            "Print the default instead of the computed config"
+          ]
+        }
       ]
     },
     {
@@ -349,115 +358,33 @@
       ],
       "option": [
         {
-          "name": "--cmd-duration",
-          "alias": [
-            "-d"
-          ],
-          "usage": [
-            "-d, --cmd-duration <CMD_DURATION>"
-          ],
+          "name": "--continuation",
           "tip": [
-            "The execution duration in milliseconds."
-          ],
-          "next": []
+            "Print the continuation prompt (instead of the standard left prompt)"
+          ]
         },
         {
-          "name": "--jobs",
-          "alias": [
-            "-j"
-          ],
+          "name": "--profile",
           "usage": [
-            "-j, --jobs <JOBS>"
+            "--profile <PROFILE>"
           ],
           "tip": [
-            "The number of currently running jobs."
+            "Print the prompt with the specified profile name (instead of the standard left prompt)"
           ],
           "next": [
             {
-              "name": "1"
-            },
-            {
-              "name": "4"
-            },
-            {
-              "name": "8"
+              "name": "claude-code",
+              "tip": [
+                "Built-in profile for the Claude Code statusline."
+              ]
             }
           ]
         },
         {
-          "name": "--keymap",
-          "alias": [
-            "-k"
-          ],
-          "usage": [
-            "-k, --keymap <KEYMAP>"
-          ],
+          "name": "--right",
           "tip": [
-            "The keymap of fish/zsh/cmd."
-          ],
-          "next": []
-        },
-        {
-          "name": "--logical-path",
-          "alias": [
-            "-P"
-          ],
-          "usage": [
-            "-P, --logical-path <LOGICAL_PATH>"
-          ],
-          "tip": [
-            "The logical path to render."
-          ],
-          "next": []
-        },
-        {
-          "name": "--path",
-          "alias": [
-            "-p"
-          ],
-          "usage": [
-            "-p, --path <PATH>"
-          ],
-          "tip": [
-            "The path to render."
-          ],
-          "next": []
-        },
-        {
-          "name": "--pipestatus",
-          "usage": [
-            "--pipestatus <PIPESTATUS>"
-          ],
-          "tip": [
-            "The status codes of each process in a pipeline."
-          ],
-          "next": []
-        },
-        {
-          "name": "--status",
-          "alias": [
-            "-s"
-          ],
-          "usage": [
-            "-s, --status <STATUS_CODE>"
-          ],
-          "tip": [
-            "The status code of the previously run command."
-          ],
-          "next": []
-        },
-        {
-          "name": "--terminal-width",
-          "alias": [
-            "-w"
-          ],
-          "usage": [
-            "-w, --terminal-width <TERMINAL_WIDTH>"
-          ],
-          "tip": [
-            "The width of the terminal."
-          ],
-          "next": []
+            "Print the right prompt (instead of the standard left prompt)"
+          ]
         }
       ]
     },
@@ -469,8 +396,12 @@
     },
     {
       "name": "statusline",
+      "usage": [
+        "statusline <PROVIDER>"
+      ],
       "tip": [
-        "Prints the statusline with a specific profile."
+        "Prints the statusline with a specific profile.",
+        "Possible values: claude-code"
       ],
       "option": [
         {
@@ -479,10 +410,38 @@
             "--profile <PROFILE>"
           ],
           "tip": [
-            "The statusline profile to use."
+            "The profile the statusline should use. (defaults to the provider name)"
           ],
-          "next": []
+          "next": [
+            {
+              "name": "claude-code",
+              "tip": [
+                "Built-in profile for the Claude Code statusline."
+              ]
+            }
+          ]
         }
+      ],
+      "next": [
+        {
+          "name": "claude-code",
+          "alias": [
+            "claude"
+          ],
+          "usage": [
+            "claude|claude-code"
+          ],
+          "tip": [
+            "Statusline provider for Claude Code."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "time",
+      "tip": [
+        "Prints time in milliseconds.",
+        "Internal command hidden from --help."
       ]
     },
     {
@@ -493,8 +452,12 @@
     },
     {
       "name": "toggle",
+      "usage": [
+        "toggle <NAME> [VALUE]"
+      ],
       "tip": [
-        "Toggle a given starship module."
+        "Toggle a given starship module.",
+        "The config key to toggle defaults to `disabled`."
       ]
     }
   ],
@@ -514,6 +477,19 @@
   ],
   "global_option": [
     {
+      "name": "--cmd-duration",
+      "alias": [
+        "-d"
+      ],
+      "usage": [
+        "-d, --cmd-duration <CMD_DURATION>"
+      ],
+      "tip": [
+        "The execution duration of the last command, in milliseconds"
+      ],
+      "next": []
+    },
+    {
       "name": "--help",
       "alias": [
         "-h"
@@ -524,6 +500,115 @@
       "tip": [
         "Print help."
       ]
+    },
+    {
+      "name": "--jobs",
+      "alias": [
+        "-j"
+      ],
+      "usage": [
+        "-j, --jobs <JOBS>"
+      ],
+      "tip": [
+        "The number of currently running jobs. (default 0)"
+      ],
+      "next": [
+        {
+          "name": "1"
+        },
+        {
+          "name": "4"
+        },
+        {
+          "name": "8"
+        }
+      ]
+    },
+    {
+      "name": "--keymap",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --keymap <KEYMAP>"
+      ],
+      "tip": [
+        "The keymap of fish/zsh/cmd. (default viins)"
+      ],
+      "next": []
+    },
+    {
+      "name": "--logical-path",
+      "alias": [
+        "-P"
+      ],
+      "usage": [
+        "-P, --logical-path <LOGICAL_PATH>"
+      ],
+      "tip": [
+        "The logical path that the prompt should render for.",
+        "This path should be a virtual/logical representation of the PATH argument."
+      ],
+      "next": []
+    },
+    {
+      "name": "--path",
+      "alias": [
+        "-p"
+      ],
+      "usage": [
+        "-p, --path <PATH>"
+      ],
+      "tip": [
+        "The path that the prompt should render for"
+      ],
+      "next": []
+    },
+    {
+      "name": "--pipestatus",
+      "usage": [
+        "--pipestatus <PIPESTATUS>"
+      ],
+      "tip": [
+        "Bash, Fish and Zsh support returning codes for each process in a pipeline."
+      ],
+      "next": []
+    },
+    {
+      "name": "--shlvl",
+      "usage": [
+        "--shlvl <SHLVL>"
+      ],
+      "tip": [
+        "The current value of SHLVL, for shells that mis-handle it in $()"
+      ],
+      "next": []
+    },
+    {
+      "name": "--status",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --status <STATUS_CODE>"
+      ],
+      "tip": [
+        "The status code of the previously run command as an unsigned or signed 32bit integer"
+      ],
+      "next": []
+    },
+    {
+      "name": "--terminal-width",
+      "alias": [
+        "-w"
+      ],
+      "usage": [
+        "-w, --terminal-width <TERMINAL_WIDTH>"
+      ],
+      "tip": [
+        "The width of the current interactive terminal. (default 80)"
+      ],
+      "next": []
     }
   ]
 }

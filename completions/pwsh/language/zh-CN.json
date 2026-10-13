@@ -9,13 +9,15 @@
     {
       "name": "--version",
       "alias": [
+        "-Version",
         "-v"
       ],
       "usage": [
-        "-v, --version"
+        "-v, -Version, --version"
       ],
       "tip": [
-        "显示版本信息。"
+        "显示 PowerShell 的版本。",
+        "将忽略其他参数。"
       ]
     },
     {
@@ -27,12 +29,16 @@
         "-c, -Command <-|string|scriptBlock> [args]"
       ],
       "tip": [
-        "Command 的值可以是 -、脚本块或字符串。 如果 Command 的值为 -，则将从标准输入读取命令文本。",
+        "Command 的值可以是 -、脚本块或字符串。",
+        "如果 Command 的值为 -，则将从标准输入读取命令文本。",
         "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-command---c"
       ],
       "next": [
         {
-          "name": "-"
+          "name": "-",
+          "tip": [
+            "从标准输入读取命令文本。"
+          ]
         }
       ]
     },
@@ -46,7 +52,7 @@
       ],
       "tip": [
         "使用参数执行 PowerShell 命令。",
-        "与 -Command 不同，此参数填充可供命令使用的 $args 内置 -i 变量。",
+        "与 -Command 不同，此参数填充可供命令使用的 $args 内置变量。",
         "第一个字符串是命令。 用空格分隔的其他字符串是参数。"
       ],
       "next": []
@@ -98,7 +104,7 @@
         "-e, -ec, -EncodedCommand <Base64EncodedCommand>"
       ],
       "tip": [
-        "接受命令的 Base-e64 编码字符串版本。",
+        "接受命令的 Base64 编码字符串版本。",
         "使用此参数将命令提交到需要复杂嵌套引用的 PowerShell。",
         "Base64 表示形式必须是 UTF-16LE 编码的字符串。"
       ],
@@ -116,9 +122,53 @@
       "tip": [
         "为当前会话设置默认执行策略，并将其保存在 $env:PSExecutionPolicyPreference 环境变量中。",
         "此参数不会更改持久配置的执行策略。",
-        "此参数仅适用于 Windows 计算机。在非 Windows 平台上，将忽略提供的参数和值。"
+        "此参数仅适用于 Windows 计算机。在非 Windows 平台上，将忽略提供的参数和值。",
+        "有效值: AllSigned、Bypass、Default、RemoteSigned、Restricted、Undefined、Unrestricted。"
       ],
-      "next": []
+      "next": [
+        {
+          "name": "AllSigned",
+          "tip": [
+            "仅运行签名的脚本。对未信任的发布者发出提示。"
+          ]
+        },
+        {
+          "name": "Bypass",
+          "tip": [
+            "不阻止任何内容，无警告或提示。"
+          ]
+        },
+        {
+          "name": "Default",
+          "tip": [
+            "设置默认策略：在 Windows 上为 RemoteSigned。"
+          ]
+        },
+        {
+          "name": "RemoteSigned",
+          "tip": [
+            "下载的脚本必须签名。本地脚本可直接运行。"
+          ]
+        },
+        {
+          "name": "Restricted",
+          "tip": [
+            "仅允许单个命令，不允许运行脚本。"
+          ]
+        },
+        {
+          "name": "Undefined",
+          "tip": [
+            "当前作用域未设置执行策略。"
+          ]
+        },
+        {
+          "name": "Unrestricted",
+          "tip": [
+            "允许运行未签名脚本。运行非本地脚本前发出警告。"
+          ]
+        }
+      ]
     },
     {
       "name": "-File",
@@ -129,12 +179,17 @@
         "-f, -File <filePath> [args]"
       ],
       "tip": [
-        "File 的值可以是 -,文件路径和可选参数。如果值为 -，则从标准输入读取命令。",
+        "File 的值可以是 -、文件路径和可选参数。",
+        "如果值为 -，则从标准输入读取命令。",
+        "在 Windows 上，自 PowerShell 7.2 起仅接受 .ps1 文件。",
         "详情: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
       ],
       "next": [
         {
-          "name": "-"
+          "name": "-",
+          "tip": [
+            "从标准输入读取命令。"
+          ]
         }
       ]
     },
@@ -152,6 +207,9 @@
         "有效值为 Text (文本字符串) 或 XML (序列化 CLIXML 格式)。"
       ],
       "next": [
+        {
+          "name": "None"
+        },
         {
           "name": "Text"
         },
@@ -183,7 +241,8 @@
       ],
       "tip": [
         "在 Linux 和 macOS 上，使用 /bin/sh 以登录 shell 的形式启动 PowerShell，以执行 /etc/profile 和 ~/.profile 等登录配置文件。",
-        "在 Windows 上，此开关不执行任何操作。"
+        "在 Windows 上，此开关不执行任何操作。",
+        "必须放在首位才能作为登录 shell 启动，位于其他位置时将被忽略。"
       ]
     },
     {
@@ -229,7 +288,7 @@
         "-noni, -NonInteractive"
       ],
       "tip": [
-        "此开关用于创建不应要求用户输入的会话。 ",
+        "此开关用于创建不应要求用户输入的会话。",
         "这对于在计划任务或 CI/CD 管道中运行的脚本非常有用。",
         "任何尝试使用交互式功能（如 Read-Host 或确认提示）都会导致语句终止错误而不是挂起。"
       ]
@@ -267,6 +326,9 @@
       ],
       "next": [
         {
+          "name": "None"
+        },
+        {
           "name": "Text"
         },
         {
@@ -299,7 +361,7 @@
       ],
       "tip": [
         "在 sshd_config 中用于将 PowerShell 作为 SSH 子系统运行。",
-        " 不用于任何其他用途或不受支持。"
+        "不打算用于任何其他用途，也不受支持。"
       ]
     },
     {
@@ -320,7 +382,7 @@
       "tip": [
         "为会话设置窗口样式。",
         "有效值包括 Normal、Minimized、Maximized 和 Hidden。",
-        "在非 Windows 平台上使用此参数会导致错误。"
+        "此参数仅适用于 Windows。在非 Windows 平台上使用此参数会导致错误。"
       ],
       "next": [
         {
@@ -379,12 +441,13 @@
     {
       "name": "--help",
       "alias": [
+        "-Help",
         "-?",
         "-h",
         "/?"
       ],
       "usage": [
-        "-?, -h, /?, --help"
+        "-?, -h, /?, -Help, --help"
       ],
       "tip": [
         "显示帮助信息。"

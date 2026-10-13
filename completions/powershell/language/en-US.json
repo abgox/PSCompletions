@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh?view=powershell-5.1",
+    "url": "https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1",
     "description": [
       "Windows PowerShell CLI."
     ]
@@ -13,9 +13,17 @@
       ],
       "tip": [
         "Executes the specified command (and any parameters) as if they were typed at the Windows PowerShell command prompt, then exits unless NoExit is specified.",
-        "The value of Command can be \"-\", a string, or a script block."
+        "The value of Command can be \"-\", a string, or a script block.",
+        "If the value of Command is -, the command text is read from standard input."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "-",
+          "tip": [
+            "Read command text from standard input."
+          ]
+        }
+      ]
     },
     {
       "name": "-ConfigurationName",
@@ -25,6 +33,18 @@
       "tip": [
         "Specifies the configuration endpoint that runs Windows PowerShell.",
         "This can be any endpoint registered on the local computer, including the default Windows PowerShell remote endpoint or a custom endpoint with specific user role capabilities."
+      ],
+      "next": []
+    },
+    {
+      "name": "-EncodedArguments",
+      "usage": [
+        "-EncodedArguments <Base64EncodedArguments>"
+      ],
+      "tip": [
+        "Accepts a Base64-encoded string version of command arguments.",
+        "Use this parameter to submit arguments that require complex, nested quoting.",
+        "The Base64 representation must be a UTF-16LE encoded string."
       ],
       "next": []
     },
@@ -46,9 +66,53 @@
       ],
       "tip": [
         "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.",
-        "This parameter does not change the execution policy set in the Windows PowerShell registry."
+        "This parameter does not change the execution policy set in the Windows PowerShell registry.",
+        "Valid values: AllSigned, Bypass, Default, RemoteSigned, Restricted, Undefined, Unrestricted."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "AllSigned",
+          "tip": [
+            "Only signed scripts run. Prompts before running scripts from untrusted publishers."
+          ]
+        },
+        {
+          "name": "Bypass",
+          "tip": [
+            "Nothing is blocked and there are no warnings or prompts."
+          ]
+        },
+        {
+          "name": "Default",
+          "tip": [
+            "Sets the default policy: RemoteSigned on Windows."
+          ]
+        },
+        {
+          "name": "RemoteSigned",
+          "tip": [
+            "Downloaded scripts must be signed. Local scripts run unsigned."
+          ]
+        },
+        {
+          "name": "Restricted",
+          "tip": [
+            "Permits individual commands but allows no scripts."
+          ]
+        },
+        {
+          "name": "Undefined",
+          "tip": [
+            "No execution policy is set in the current scope."
+          ]
+        },
+        {
+          "name": "Unrestricted",
+          "tip": [
+            "Unsigned scripts can run. Warns before running scripts from outside the local intranet zone."
+          ]
+        }
+      ]
     },
     {
       "name": "-File",
@@ -58,9 +122,17 @@
       "tip": [
         "Runs the specified script in the local scope (dot-sourced), so that the functions and variables created in the script are available in the current session.",
         "Provide the script file path and any arguments.",
-        "File must be the last parameter in the command, as all characters following the File parameter name are interpreted as the script file path followed by script arguments."
+        "File must be the last parameter in the command, as all characters following the File parameter name are interpreted as the script file path followed by script arguments.",
+        "An explicit boolean value for a switch parameter cannot be passed."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "-",
+          "tip": [
+            "Read commands from standard input."
+          ]
+        }
+      ]
     },
     {
       "name": "-InputFormat",
@@ -72,6 +144,9 @@
         "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
       ],
       "next": [
+        {
+          "name": "None"
+        },
         {
           "name": "Text"
         },
@@ -121,6 +196,9 @@
       ],
       "next": [
         {
+          "name": "None"
+        },
+        {
           "name": "Text"
         },
         {
@@ -143,7 +221,7 @@
       "name": "-Sta",
       "tip": [
         "Starts the shell using a single-threaded apartment.",
-        "Single-threaded apartment (STA) is the default setting."
+        "Single-threaded apartment (STA) is the default."
       ]
     },
     {
@@ -166,7 +244,8 @@
         "-WindowStyle <style>"
       ],
       "tip": [
-        "Sets the display style of the Windows PowerShell window."
+        "Sets the display style of the Windows PowerShell window.",
+        "Valid values are Normal, Minimized, Maximized, and Hidden."
       ],
       "next": [
         {
@@ -222,14 +301,14 @@
   ],
   "global_option": [
     {
-      "name": "--help",
+      "name": "-Help",
       "alias": [
         "-?",
         "-h",
         "/?"
       ],
       "usage": [
-        "-?, -h, /?, --help"
+        "-?, -h, /?, -Help"
       ],
       "tip": [
         "Show the help."

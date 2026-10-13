@@ -17,6 +17,12 @@
           "tip": [
             "Clear the cache directory"
           ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Print this message or the help of the given subcommand(s)"
+          ]
         }
       ]
     },
@@ -26,7 +32,8 @@
         "emit <NAME> [ARGS]..."
       ],
       "tip": [
-        "Emit an action to be executed by the current instance"
+        "Emit an action to be executed by the current instance",
+        "NAME is the name of the action, ARGS its arguments"
       ]
     },
     {
@@ -35,7 +42,8 @@
         "emit-to <RECEIVER> <NAME> [ARGS]..."
       ],
       "tip": [
-        "Emit an action to be executed by the specified instance"
+        "Emit an action to be executed by the specified instance",
+        "RECEIVER is the instance ID, NAME the name of the action"
       ]
     },
     {
@@ -50,7 +58,8 @@
         "exec <NAME> [ARGS]..."
       ],
       "tip": [
-        "Execute an action on the current instance and print its result"
+        "Execute an action on the current instance and print its result",
+        "NAME is the name of the action, ARGS its arguments"
       ]
     },
     {
@@ -67,14 +76,28 @@
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add [IDS]..."
+          ],
           "tip": [
             "Add packages"
           ]
         },
         {
           "name": "delete",
+          "usage": [
+            "delete [IDS]..."
+          ],
           "tip": [
             "Delete packages"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "Discard local changes made to packages while deleting"
+              ]
+            }
           ]
         },
         {
@@ -87,6 +110,14 @@
           "name": "install",
           "tip": [
             "Install all packages"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "Discard local changes made to packages while installing"
+              ]
+            }
           ]
         },
         {
@@ -97,8 +128,20 @@
         },
         {
           "name": "upgrade",
+          "usage": [
+            "upgrade [IDS]..."
+          ],
           "tip": [
-            "Upgrade all packages"
+            "Upgrade all packages",
+            "IDS are the packages to upgrade; omit them to upgrade all"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "Discard local changes made to packages while upgrading"
+              ]
+            }
           ]
         }
       ]
@@ -106,10 +149,11 @@
     {
       "name": "pub",
       "usage": [
-        "pub [OPTIONS] <KIND>"
+        "pub <KIND>"
       ],
       "tip": [
-        "Publish a message to the current instance"
+        "Publish a message to the current instance",
+        "KIND is the kind of message"
       ],
       "option": [
         {
@@ -147,10 +191,11 @@
     {
       "name": "pub-to",
       "usage": [
-        "pub-to [OPTIONS] <RECEIVER> <KIND>"
+        "pub-to <RECEIVER> <KIND>"
       ],
       "tip": [
-        "Publish a message to the specified instance"
+        "Publish a message to the specified instance",
+        "RECEIVER is the instance ID, KIND the kind of message"
       ],
       "option": [
         {
@@ -191,21 +236,8 @@
         "sub <KINDS>"
       ],
       "tip": [
-        "Subscribe to messages from all remote instances"
-      ]
-    }
-  ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "Show the version."
+        "Subscribe to messages from all remote instances",
+        "KINDS may be multiple, separated by commas"
       ]
     }
   ],
@@ -219,7 +251,19 @@
         "-h, --help"
       ],
       "tip": [
-        "Show the help."
+        "Print help"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version"
       ]
     }
   ]

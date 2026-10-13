@@ -17,6 +17,12 @@
           "tip": [
             "清除缓存目录"
           ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "打印此消息或给定子命令的帮助"
+          ]
         }
       ]
     },
@@ -26,7 +32,8 @@
         "emit <NAME> [ARGS]..."
       ],
       "tip": [
-        "发出一条要由当前实例执行的动作"
+        "发出一条要由当前实例执行的动作",
+        "NAME 是动作名称，ARGS 是其参数"
       ]
     },
     {
@@ -35,7 +42,8 @@
         "emit-to <RECEIVER> <NAME> [ARGS]..."
       ],
       "tip": [
-        "发出一条要由指定实例执行的动作"
+        "发出一条要由指定实例执行的动作",
+        "RECEIVER 是实例 ID，NAME 是动作名称"
       ]
     },
     {
@@ -50,7 +58,8 @@
         "exec <NAME> [ARGS]..."
       ],
       "tip": [
-        "在当前实例上执行动作并打印结果"
+        "在当前实例上执行动作并打印结果",
+        "NAME 是动作名称，ARGS 是其参数"
       ]
     },
     {
@@ -67,14 +76,28 @@
       "next": [
         {
           "name": "add",
+          "usage": [
+            "add [IDS]..."
+          ],
           "tip": [
             "添加包"
           ]
         },
         {
           "name": "delete",
+          "usage": [
+            "delete [IDS]..."
+          ],
           "tip": [
             "删除包"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "删除包时丢弃对包所做的本地修改"
+              ]
+            }
           ]
         },
         {
@@ -87,6 +110,14 @@
           "name": "install",
           "tip": [
             "安装所有包"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "安装包时丢弃对包所做的本地修改"
+              ]
+            }
           ]
         },
         {
@@ -97,8 +128,20 @@
         },
         {
           "name": "upgrade",
+          "usage": [
+            "upgrade [IDS]..."
+          ],
           "tip": [
-            "升级所有包"
+            "升级所有包",
+            "IDS 是要升级的包；省略则升级所有包"
+          ],
+          "option": [
+            {
+              "name": "--discard",
+              "tip": [
+                "升级包时丢弃对包所做的本地修改"
+              ]
+            }
           ]
         }
       ]
@@ -106,10 +149,11 @@
     {
       "name": "pub",
       "usage": [
-        "pub [OPTIONS] <KIND>"
+        "pub <KIND>"
       ],
       "tip": [
-        "发布一条消息到当前实例"
+        "发布一条消息到当前实例",
+        "KIND 是消息类型"
       ],
       "option": [
         {
@@ -147,10 +191,11 @@
     {
       "name": "pub-to",
       "usage": [
-        "pub-to [OPTIONS] <RECEIVER> <KIND>"
+        "pub-to <RECEIVER> <KIND>"
       ],
       "tip": [
-        "发布一条消息到指定实例"
+        "发布一条消息到指定实例",
+        "RECEIVER 是实例 ID，KIND 是消息类型"
       ],
       "option": [
         {
@@ -191,21 +236,8 @@
         "sub <KINDS>"
       ],
       "tip": [
-        "订阅所有远程实例的消息"
-      ]
-    }
-  ],
-  "option": [
-    {
-      "name": "--version",
-      "alias": [
-        "-V"
-      ],
-      "usage": [
-        "-V, --version"
-      ],
-      "tip": [
-        "显示版本信息。"
+        "订阅所有远程实例的消息",
+        "KINDS 可以有多个，用逗号分隔"
       ]
     }
   ],
@@ -219,7 +251,19 @@
         "-h, --help"
       ],
       "tip": [
-        "显示帮助信息。"
+        "打印帮助"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本"
       ]
     }
   ]

@@ -9,13 +9,15 @@
     {
       "name": "--version",
       "alias": [
+        "-Version",
         "-v"
       ],
       "usage": [
-        "-v, --version"
+        "-v, -Version, --version"
       ],
       "tip": [
-        "Show the version."
+        "Displays the version of PowerShell.",
+        "Additional parameters are ignored."
       ]
     },
     {
@@ -33,7 +35,10 @@
       ],
       "next": [
         {
-          "name": "-"
+          "name": "-",
+          "tip": [
+            "Read command text from standard input."
+          ]
         }
       ]
     },
@@ -117,9 +122,53 @@
       "tip": [
         "Sets the default execution policy for the current session and saves it in the $env:PSExecutionPolicyPreference environment variable.",
         "This parameter does not change the persistently configured execution policies.",
-        "This parameter only applies to Windows computers. On non-Windows platforms, the parameter and the value provided are ignored."
+        "This parameter only applies to Windows computers. On non-Windows platforms, the parameter and the value provided are ignored.",
+        "Valid values: AllSigned, Bypass, Default, RemoteSigned, Restricted, Undefined, Unrestricted."
       ],
-      "next": []
+      "next": [
+        {
+          "name": "AllSigned",
+          "tip": [
+            "Only signed scripts run. Prompts before running scripts from untrusted publishers."
+          ]
+        },
+        {
+          "name": "Bypass",
+          "tip": [
+            "Nothing is blocked and there are no warnings or prompts."
+          ]
+        },
+        {
+          "name": "Default",
+          "tip": [
+            "Sets the default policy: RemoteSigned on Windows."
+          ]
+        },
+        {
+          "name": "RemoteSigned",
+          "tip": [
+            "Downloaded scripts must be signed. Local scripts run unsigned."
+          ]
+        },
+        {
+          "name": "Restricted",
+          "tip": [
+            "Permits individual commands but allows no scripts."
+          ]
+        },
+        {
+          "name": "Undefined",
+          "tip": [
+            "No execution policy is set in the current scope."
+          ]
+        },
+        {
+          "name": "Unrestricted",
+          "tip": [
+            "Unsigned scripts can run. Warns before running scripts from outside the local intranet zone."
+          ]
+        }
+      ]
     },
     {
       "name": "-File",
@@ -132,11 +181,15 @@
       "tip": [
         "The value of File can be - or a filepath and optional parameters.",
         "If the value of File is -, then commands are read from standard input.",
+        "On Windows, only .ps1 files are accepted since PowerShell 7.2.",
         "Detail: https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh#-file---f"
       ],
       "next": [
         {
-          "name": "-"
+          "name": "-",
+          "tip": [
+            "Read commands from standard input."
+          ]
         }
       ]
     },
@@ -154,6 +207,9 @@
         "Valid values are \"Text\" (text strings) or \"XML\" (serialized CLIXML format)."
       ],
       "next": [
+        {
+          "name": "None"
+        },
         {
           "name": "Text"
         },
@@ -185,7 +241,8 @@
       ],
       "tip": [
         "On Linux and macOS, starts PowerShell as a login shell, using /bin/sh to execute login profiles such as /etc/profile and ~/.profile.",
-        "On Windows, this switch does nothing."
+        "On Windows, this switch does nothing.",
+        "Must come first to start PowerShell as a login shell. Ignored in any other position."
       ]
     },
     {
@@ -269,6 +326,9 @@
       ],
       "next": [
         {
+          "name": "None"
+        },
+        {
           "name": "Text"
         },
         {
@@ -322,7 +382,7 @@
       ],
       "tip": [
         "Sets the window style for the session.",
-        "Valid values are Normal, Minimized, Maximized and Hidden.",
+        "Valid values are Normal, Minimized, Maximized, and Hidden.",
         "This parameter only applies to Windows. Using this parameter on non-Windows platforms results in an error."
       ],
       "next": [
@@ -382,12 +442,13 @@
     {
       "name": "--help",
       "alias": [
+        "-Help",
         "-?",
         "-h",
         "/?"
       ],
       "usage": [
-        "-?, -h, /?, --help"
+        "-?, -h, /?, -Help, --help"
       ],
       "tip": [
         "Show the help."
