@@ -288,6 +288,7 @@
 |[pwd@GNU](https://www.gnu.org/software/coreutils/)|Print the full filename of the current working directory.|
 |[pwd@uutils](https://uutils.org)|Display the full filename of the current working directory.|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[pymanager](https://docs.python.org/3/using/windows.html)|Python installation manager for Windows.|
 |[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python3](https://www.python.org)|Python interpreter command-line.|
 |[rclone](https://rclone.org)|Syncs files to and from cloud storage providers.|
@@ -356,6 +357,9 @@
 |[stripe](https://docs.stripe.com/cli)|The official command-line tool to interact with Stripe.|
 |[stty@GNU](https://www.gnu.org/software/coreutils/)|Print or change terminal characteristics.|
 |[stty@uutils](https://uutils.org)|Print or change terminal characteristics.|
+|[sudo@Microsoft](https://github.com/microsoft/sudo)|Sudo for Windows, run a command as admin.|
+|[sudo@sudo-project](https://www.sudo.ws/)|Execute a command as another user.|
+|[sudoedit@sudo-project](https://www.sudo.ws/)|Edit files as another user.|
 |[sum@GNU](https://www.gnu.org/software/coreutils/)|Print or check BSD (16-bit) checksums.|
 |[sum@uutils](https://uutils.org)|Checksum and count the blocks in a file.|
 |[svn](https://subversion.apache.org)|Subversion version control system.|
