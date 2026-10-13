@@ -11,7 +11,8 @@ permissions:
 
 jobs:
   update-content:
-    runs-on: windows-latest
+    name: Update Content
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
@@ -21,9 +22,8 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           fetch-depth: 50
 
-      - name: Update Content
-        shell: pwsh
-        run: .\scripts\update-content.ps1
+      - shell: pwsh
+        run: ./scripts/update-content.ps1
 
   build-binaries:
     name: Build binaries (${{ matrix.platform }}-${{ matrix.arch }})
@@ -221,7 +221,7 @@ jobs:
 
       # design/*.md contains `{{ }}` (Lua table syntax) that breaks Jekyll's Liquid parser.
       - name: Remove design docs
-        run: rm -rf ./design
+        run: rm -rf ./design ./authoring ./decisions
 
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
@@ -245,9 +245,9 @@ jobs:
         with:
           src_url: git@github.com:${{ github.repository }}.git
           dst_url: |
-            - git@gitee.com:${{ github.repository }}.git
             - git@atomgit.com:${{ github.repository }}.git
+            - git@gitee.com:${{ github.repository }}.git
           src_ssh_key: ${{ secrets.SSH_PRIVATE_KEY_GITHUB }}
           dst_ssh_key: |
-            - ${{ secrets.SSH_PRIVATE_KEY_GITEE }}
             - ${{ secrets.SSH_PRIVATE_KEY_ATOMGIT }}
+            - ${{ secrets.SSH_PRIVATE_KEY_GITEE }}
