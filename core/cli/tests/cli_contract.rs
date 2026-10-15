@@ -304,6 +304,61 @@ fn json_add_and_rm_no_args_report_param_err() {
 
 // ---------- add/rm flows over the local HTTP source ----------
 
+/// Index branch layout wins when both layouts serve a valid index: the client
+/// must prefer `.../raw/index/completions.json` over `.../raw/main/...`.
+#[test]
+fn json_add_prefers_index_branch_layout() {
+    let srv = spawn_server(vec![
+        (
+            "raw/index/completions.json",
+            r#"{"update":{"demo":"v9"},"meta":{"demo":{"en-US":{"url":"https://demo.example","description":"Demo"}}}}"#.into(),
+        ),
+        (
+            "raw/main/completions.json",
+            r#"{"update":{"demo":"v1"},"meta":{"demo":{"en-US":{"url":"https://demo.example","description":"Demo"}}}}"#.into(),
+        ),
+        (
+            "raw/main/completions/demo/config.json",
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        ),
+        ("raw/main/completions/demo/language/en-US.json", "{}".into()),
+    ]);
+    let d = make_data("flow-add-index", &format!("{srv}/raw/main"));
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert_eq!(code, 0, "add failed: {out}");
+    assert_eq!(
+        std::fs::read_to_string(d.join("completions/demo/.update")).unwrap(),
+        "v9",
+        "{out}"
+    );
+}
+
+/// Legacy mirrors serving only the old layout keep working: the index-branch
+/// candidate misses (shape check rejects the not-found body) and the client
+/// falls back to `.../raw/main/completions.json`.
+#[test]
+fn json_add_falls_back_to_legacy_layout() {
+    let srv = spawn_server(vec![
+        (
+            "raw/main/completions.json",
+            r#"{"update":{"demo":"v1"},"meta":{"demo":{"en-US":{"url":"https://demo.example","description":"Demo"}}}}"#.into(),
+        ),
+        (
+            "raw/main/completions/demo/config.json",
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        ),
+        ("raw/main/completions/demo/language/en-US.json", "{}".into()),
+    ]);
+    let d = make_data("flow-add-legacy", &format!("{srv}/raw/main"));
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert_eq!(code, 0, "add failed: {out}");
+    assert_eq!(
+        std::fs::read_to_string(d.join("completions/demo/.update")).unwrap(),
+        "v1",
+        "{out}"
+    );
+}
+
 #[test]
 fn json_add_installs_from_local_source() {
     let srv = spawn_server(demo_routes());

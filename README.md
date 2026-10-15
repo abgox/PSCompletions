@@ -15,8 +15,8 @@
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
     </a>
-    <a href="./completions.md">
-        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Fmain%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
+    <a href="../index/completions.md">
+        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Findex%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
     </a>
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/dt/PSCompletions" alt="PowerShell Gallery" />
@@ -30,7 +30,7 @@
 
 A tab-completion manager for [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
 
-- [Built-in completion library.](./completions.md)
+- [Built-in completion library.](../index/completions.md)
 - [More powerful completion menu.](https://pscompletions.abgox.com/docs/completion-menu)
 - [Multilingual support: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
 - [Dynamic sorting of completion items based on command history.](https://pscompletions.abgox.com/docs/sort-completion-items)
@@ -77,7 +77,7 @@ A tab-completion manager for [PowerShell](https://microsoft.com/powershell), bui
 
 ## How to use
 
-- [Built-in completion library](./completions.md): add a completion with `psc add git`.
+- [Built-in completion library](../index/completions.md): add a completion with `psc add git`.
 - [Native completion integration](https://pscompletions.abgox.com/docs/native-completion): use PowerShell's native completions.
   - If a command has an official completion, a similar command may be run:
 

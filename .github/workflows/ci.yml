@@ -16,14 +16,30 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v6
         with:
           ref: ${{ github.event.repository.default_branch }}
           fetch-depth: 50
+          path: main
 
-      - shell: pwsh
-        run: ./scripts/update-content.ps1
+      - name: Checkout index
+        uses: actions/checkout@v6
+        with:
+          ref: index
+          fetch-depth: 50
+          path: index
+
+      - name: Update index
+        shell: pwsh
+        working-directory: ./main
+        run: ./scripts/update-content.ps1 -IndexDir ../index
+
+      - name: Push index
+        shell: pwsh
+        working-directory: ./index
+        run: |
+          ../main/scripts/push-change.ps1 -branch index -message 'chore: automatically update some content [skip ci]'
 
   build-binaries:
     name: Build binaries (${{ matrix.platform }}-${{ matrix.arch }})
@@ -216,6 +232,11 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
 
+      - name: Inject completion index
+        run: |
+          git fetch origin index --depth 1
+          git show FETCH_HEAD:completions.json > ./completions.json
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
@@ -251,3 +272,4 @@ jobs:
           dst_ssh_key: |
             - ${{ secrets.SSH_PRIVATE_KEY_ATOMGIT }}
             - ${{ secrets.SSH_PRIVATE_KEY_GITEE }}
+          branches: "main,index"

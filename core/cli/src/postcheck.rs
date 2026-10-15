@@ -4,7 +4,7 @@
 use crate::data::{Index, LibraryChanges, Settings};
 use crate::net::{
     add_completion, download_list, fetch_text, local_completion_id, refresh_settings_after_add,
-    resolve_urls,
+    resolve_index_urls, resolve_urls,
 };
 
 /// Whether the psc completion's key files exist on disk (its own manifest + config).
@@ -25,7 +25,8 @@ pub fn psc_completion_present(completions_dir: &str) -> bool {
 /// is tolerated because every later `psc init` (each session / menu start) retries it.
 pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data_dir: &str) {
     let urls = resolve_urls(settings);
-    let Ok(v) = download_list(data_dir, &urls) else {
+    // The index lives on the index branch; content files stay on the content branch.
+    let Ok(v) = download_list(data_dir, &resolve_index_urls(settings)) else {
         return;
     };
     let version = v

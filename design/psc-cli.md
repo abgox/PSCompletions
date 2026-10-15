@@ -348,7 +348,7 @@ All keys live in one object (`settings.json` → `config`), managed through `con
 
 | Key | Type / range | Default |
 | --- | --- | --- |
-| `url` | string, empty or `http(s)://…` | `""` (auto GitHub/Gitee by language) |
+| `url` | string, empty or `http(s)://…` | `""` (auto GitHub/Gitee by language; the index is fetched from the `index` branch first, then the legacy main-branch layout) |
 | `language` | string | `en-US` (Rust fallback; the module bootstraps `$PSUICulture` via `--language` at init) |
 
 **`menu`** (completion menu):

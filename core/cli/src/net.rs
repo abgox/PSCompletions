@@ -12,6 +12,40 @@ const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
 const GITHUB: &str = "https://github.com/abgox/PSCompletions/raw/main";
 const GH_PAGES: &str = "https://abgox.github.io/PSCompletions";
 
+/// Derive the index-branch variant of a content base: swap the base's last
+/// segment for `index` (`.../raw/main` -> `.../raw/index`, a custom mirror's
+/// `.../psc` -> `.../index`). Returns None for bare hosts (rewriting there
+/// would eat the hostname: `https://host` has no swappable segment).
+fn index_branch_url(base: &str) -> Option<String> {
+    let b = base.trim_end_matches('/');
+    let (head, _last) = b.rsplit_once('/')?;
+    if !head.contains("://") {
+        return None;
+    }
+    Some(format!("{head}/index"))
+}
+
+/// Index download bases: the index-branch layout first, then today's layout.
+/// New servers answer the first; legacy/custom mirrors serving the old layout
+/// answer the second. Deduped, so a base already on the index layout is tried once.
+pub fn resolve_index_urls(settings: &Settings) -> Vec<String> {
+    let bases = resolve_urls(settings);
+    let mut out = Vec::new();
+    for b in &bases {
+        if let Some(d) = index_branch_url(b) {
+            if !out.contains(&d) {
+                out.push(d);
+            }
+        }
+    }
+    for b in &bases {
+        if !out.contains(b) {
+            out.push(b.clone());
+        }
+    }
+    out
+}
+
 /// Source URLs: `config.url` if set, else defaults (zh prefers gitee first).
 pub fn resolve_urls(settings: &Settings) -> Vec<String> {
     if let Some(u) = settings.config.get("url").and_then(|v| v.as_str()) {
@@ -132,21 +166,43 @@ pub fn validate_index_shape(v: &Value) -> Result<(), String> {
 }
 
 /// Download `completions.json`, write it to `<data>/temp/completions.json`, return the parsed value.
+/// Tries each candidate base in order; the first *valid* index wins. Validity
+/// (fetch + parse + shape) decides, not mere HTTP success — an error page that
+/// happens to parse as JSON must not shadow the real index on the next candidate.
 pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
-    let text = fetch_text(urls, "completions.json")?;
-    let v: Value = serde_json::from_str(&text).map_err(|e| format!("bad completions.json: {e}"))?;
-    validate_index_shape(&v)?;
-    let tmp = format!("{data_dir}/temp");
-    std::fs::create_dir_all(&tmp).map_err(|e| e.to_string())?;
-    // Atomic replace (same scheme as settings.json): never leave a half-written index file.
-    let path = format!("{tmp}/completions.json");
-    let tmp_path = format!("{path}.{}.tmp", std::process::id());
-    std::fs::write(&tmp_path, text).map_err(|e| e.to_string())?;
-    if let Err(e) = std::fs::rename(&tmp_path, path) {
-        let _ = std::fs::remove_file(&tmp_path);
-        return Err(e.to_string());
+    let mut last_err = String::from("no index sources");
+    for base in urls {
+        let attempt = match fetch_text(&[base.clone()], "completions.json") {
+            Ok(t) => t,
+            Err(e) => {
+                last_err = format!("{base}: {e}");
+                continue;
+            }
+        };
+        let v: Value = match serde_json::from_str(&attempt) {
+            Ok(v) => v,
+            Err(e) => {
+                last_err = format!("{base}: bad completions.json: {e}");
+                continue;
+            }
+        };
+        if let Err(e) = validate_index_shape(&v) {
+            last_err = format!("{base}: {e}");
+            continue;
+        }
+        let tmp = format!("{data_dir}/temp");
+        std::fs::create_dir_all(&tmp).map_err(|e| e.to_string())?;
+        // Atomic replace (same scheme as settings.json): never leave a half-written index file.
+        let path = format!("{tmp}/completions.json");
+        let tmp_path = format!("{path}.{}.tmp", std::process::id());
+        std::fs::write(&tmp_path, attempt).map_err(|e| e.to_string())?;
+        if let Err(e) = std::fs::rename(&tmp_path, path) {
+            let _ = std::fs::remove_file(&tmp_path);
+            return Err(e.to_string());
+        }
+        return Ok(v);
     }
-    Ok(v)
+    Err(last_err)
 }
 
 /// A downloaded config.json must carry a usable stable `id` (non-empty string):
@@ -584,6 +640,40 @@ mod tests {
         let urls = resolve_urls(&s);
         assert_eq!(urls.len(), 3);
         assert!(urls[0].contains("github.com") || urls[0].contains("gitee.com"));
+    }
+
+    #[test]
+    fn index_branch_url_swaps_last_segment() {
+        assert_eq!(
+            index_branch_url("https://github.com/abgox/PSCompletions/raw/main"),
+            Some("https://github.com/abgox/PSCompletions/raw/index".into())
+        );
+        assert_eq!(
+            index_branch_url("https://mirror.example.com/psc/"),
+            Some("https://mirror.example.com/index".into())
+        );
+        // A base already on the index layout resolves to itself (deduped downstream).
+        assert_eq!(
+            index_branch_url("https://github.com/abgox/PSCompletions/raw/index"),
+            Some("https://github.com/abgox/PSCompletions/raw/index".into())
+        );
+        // Bare hosts have no swappable segment.
+        assert_eq!(index_branch_url("https://example.com"), None);
+        assert_eq!(index_branch_url("https://example.com/"), None);
+    }
+
+    #[test]
+    fn resolve_index_urls_prefers_index_layout() {
+        let mut s = Settings::default();
+        s.config["url"] = serde_json::json!("https://example.com/raw/main");
+        let urls = resolve_index_urls(&s);
+        assert_eq!(
+            urls,
+            vec![
+                "https://example.com/raw/index",
+                "https://example.com/raw/main"
+            ]
+        );
     }
 
     // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path

@@ -64,6 +64,11 @@ jobs:
           path: base
           fetch-depth: 50
 
+      - name: Inject completion index
+        run: |
+          git -C ./base fetch origin index --depth 1
+          git -C ./base show origin/index:completions.json > ./base/completions.json
+
       - name: Checkout PR head
         uses: actions/checkout@v6
         with:

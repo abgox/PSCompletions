@@ -9,7 +9,7 @@ use crate::data::{read_text, Index, LibraryChanges, Settings};
 use crate::messages::{msg_cli, msg_fmt};
 use crate::net::{
     add_completion, download_list, local_completion_id, refresh_settings_after_add,
-    rename_completion, resolve_urls,
+    rename_completion, resolve_index_urls, resolve_urls,
 };
 use crate::output::{fail, Out};
 use crate::postcheck::{fetch_module_version, record_post_check};
@@ -33,7 +33,8 @@ pub fn cmd_update(
         })
         .unwrap_or_default();
     let urls = resolve_urls(settings);
-    let list = match download_list(data_dir, &urls) {
+    // The index lives on the index branch; content files stay on the content branch.
+    let list = match download_list(data_dir, &resolve_index_urls(settings)) {
         Ok(v) => {
             *index = Index::from_value(v);
             index.remote_names()

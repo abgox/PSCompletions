@@ -150,7 +150,7 @@ function Get-RepoIndex {
             [void]$index.Add($rel)
         }
     }
-    # Files at the repo root itself (README.md, AGENTS.md, completions.json, ...).
+    # Files at the repo root itself (README.md, AGENTS.md, ...).
     Get-ChildItem $RepoRoot -File | ForEach-Object { [void]$index.Add($_.Name) }
     return $index
 }

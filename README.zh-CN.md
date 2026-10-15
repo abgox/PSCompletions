@@ -15,8 +15,8 @@
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/v/PSCompletions?label=version" alt="module version" />
     </a>
-    <a href="./completions.zh-CN.md">
-        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Fmain%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
+    <a href="../index/completions.zh-CN.md">
+        <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fabgox%2FPSCompletions%2Frefs%2Fheads%2Findex%2Fcompletions.json&query=%24.count&label=completions" alt="completions" />
     </a>
     <a href="https://www.powershellgallery.com/packages/PSCompletions">
         <img src="https://img.shields.io/powershellgallery/dt/PSCompletions" alt="PowerShell Gallery" />
@@ -30,7 +30,7 @@
 
 适用于 [PowerShell](https://microsoft.com/powershell) 的 Tab 补全管理器，基于 [Rust 和 Lua](https://pscompletions.abgox.com/docs/how-it-works) 构建。
 
-- [内置的补全库](./completions.zh-CN.md)
+- [内置的补全库](../index/completions.zh-CN.md)
 - [更强大的补全菜单](https://pscompletions.abgox.com/docs/completion-menu)
 - [多语言支持: en-US、zh-CN 等](https://pscompletions.abgox.com/docs/language)
 - [基于命令历史的补全项动态排序](https://pscompletions.abgox.com/docs/sort-completion-items)
@@ -77,7 +77,7 @@
 
 ## 使用
 
-- [内置补全库](./completions.zh-CN.md): 使用 `psc add git` 添加补全
+- [内置补全库](../index/completions.zh-CN.md): 使用 `psc add git` 添加补全
 - [原生补全集成](https://pscompletions.abgox.com/docs/native-completion): 使用 PowerShell 的原生补全
   - 如果命令存在官方补全，可以使用类似的命令:
 

@@ -1,6 +1,17 @@
 #!/usr/bin/env pwsh
 #Requires -Version 7.6.5
 
+param(
+    # Directory holding the generated index files (completions.json + tables).
+    # CI passes the `index` branch checkout so main stays free of bot commits.
+    [Parameter(Mandatory)]
+    [string]$IndexDir
+)
+
+if (-not $env:GITHUB_ACTIONS) {
+    throw 'It runs in CI only.'
+}
+
 Set-StrictMode -Off
 
 $textPath = "$PSScriptRoot/language/$PSCulture.json"
@@ -111,11 +122,11 @@ function Update-ReadmeFile {
 
     $markdownLists = New-MarkdownList
     if ($Language -eq 'en-US') {
-        $path = "$PSScriptRoot/../completions.md"
+        $path = Join-Path $IndexDir 'completions.md'
         $content = $markdownLists.'en-US'
     }
     else {
-        $path = "$PSScriptRoot/../completions.zh-CN.md"
+        $path = Join-Path $IndexDir 'completions.zh-CN.md'
         $content = $markdownLists.'zh-CN'
     }
 
@@ -164,7 +175,5 @@ if ($env:GITHUB_ACTIONS) {
         }
     }
     $info.count = $info.update.Keys.Count
-    $info | ConvertTo-Json -Depth 10 | Out-File "$PSScriptRoot/../completions.json"
-
-    & $PSScriptRoot/push-change.ps1 -message 'chore: automatically update some content [skip ci]'
+    $info | ConvertTo-Json -Depth 10 | Out-File (Join-Path $IndexDir 'completions.json')
 }

@@ -25,7 +25,6 @@ PSCompletions/
 │       └── language/
 │           ├── en-US.json  # English completion data (single source of truth)
 │           └── zh-CN.json  # Chinese translation (same structure)
-├── completions.json        # Completion index — auto-generated, DO NOT edit
 ├── schema/                 # JSON Schemas (completion-manifest, completion-config)
 ├── scripts/                # Authoring / validation / CI tooling (PowerShell)
 │   ├── create-completion.ps1       # scaffold a new completion from the template
@@ -36,8 +35,8 @@ PSCompletions/
 │   ├── check-doc-links.ps1         # verify doc links and cited repo paths resolve
 │   ├── check-hook-targets.ps1      # verify psc.on targets (mandatory when hooks exist)
 │   ├── link-completion.ps1         # symlink a completion into the local module for live testing
-│   ├── update-content.ps1          # CI: regenerate completions.json index + completions.md tables
-│   ├── push-change.ps1             # CI: commit/push generated content back to main
+│   ├── update-content.ps1          # CI: regenerate the index-branch files from completions/
+│   ├── push-change.ps1             # CI: commit/push generated content to the index branch
 │   ├── build-release.ps1           # local release build: cargo fmt + build (+zigbuild cross) → bin/
 │   ├── psc-tools.cs                # C# helpers compiled at runtime via Add-Type (sort-canonicality + diff for sort/compare-json)
 │   └── utils.ps1                   # shared helpers for the scripts
