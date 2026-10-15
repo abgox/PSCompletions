@@ -13,6 +13,8 @@ language.
 4. Run `./scripts/compare-json.ps1 <command>` and fix every reported issue.
 5. Re-run `./scripts/check-hook-targets.ps1 <command>` if a `hooks.lua` exists — renaming
    or removing a manifest item breaks its `psc.on` targets silently.
+6. Record the new CLI version in `config.json` `version` (verbatim first line of
+   `<cmd> --version`); the gate requires it.
 
 ### Delete only on evidence
 
@@ -187,8 +189,13 @@ separate commits, because the body carries no per-item action word.
 
 Format — one completion (the first line carries everything):
 
+
 ```
-feat(completions): add sudo@sudo-project (Sudo 1.9.16p2)
+feat(completions): add sudo@sudo-project
+```
+
+```
+feat(completions): update git/jj/gh
 ```
 
 Format — two or more completions (the first line classifies, the body lists;
@@ -197,31 +204,29 @@ the first line never names completions):
 ```
 feat(completions): add
 
-- sudo@sudo-project (Sudo 1.9.16p2)
-- sudoedit@sudo-project (Sudo 1.9.16p2)
-- sudo@Microsoft (Sudo for Windows 1.0.1)
+- sudo@sudo-project
+- sudoedit@sudo-project
+- sudo@Microsoft
 ```
 
 ```
 feat(completions): update
 
-- scoop (Scoop v0.6.0)
-- abgox.scoop-i18n (2026.10.05.141200)
+- scoop
+- abgox.scoop-i18n
 ```
 
 - The word after the colon is the one shared action: `add` for new completions,
   `update` for existing ones changed for a new tool version (`fix` / `remove`
   follow the same shape). The body lists one completion per line, no per-item
   action word.
-- `(<Upstream> <version>)` is the CLI version the manifest was verified against — the
-  baseline the next update diffs against, not decoration. Take it from `<cmd> --version`
-  (or the tool's equivalent) run during collection. When the completion was authored from
-  docs alone with no versioned binary available, mark it approximate:
-  `(~<Upstream> <version>, docs)`.
-- Always keep the `<Upstream>` name, even when it repeats the directory stem
-  (`jjui (jjui 0.10.11)`). A conditional rule ("keep it only when it adds information")
-  costs a judgment call per line; an unconditional one costs a redundant word. And the
-  name pays off exactly where it matters: variant families sharing one command word
-  (`sudo@sudo-project (Sudo 1.9.16p2)` vs `sudo@Microsoft (Sudo for Windows 1.0.1)`),
-  or a binary whose name hides its project (`ya (Ya 26.9.1)`). `<Upstream>` is the name
-  the tool calls itself in its own version output — not the directory stem.
+- The baseline CLI version lives in `config.json` `version`, not in the commit message:
+  the verbatim first line of `<cmd> --version` (or the tool's equivalent) run during
+  collection. Refresh it on every update — the gate requires it, and the next update
+  diffs against it. Authored from docs alone with no versioned binary available?
+  Record the docs-stated version as-is; the drift check will flag it for re-verification
+  once a real binary is on hand.
+- Quote the drafted message verbatim when asking whether to commit — no appended
+  version strings, parenthetical notes, or explanations. Anything worth saying about
+  the completion already has a home (`config.json` `version`, the handoff report);
+  restating it beside the message invites the two to drift.

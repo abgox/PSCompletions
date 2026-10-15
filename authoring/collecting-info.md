@@ -371,6 +371,20 @@ Worked contrast: zoxide 0.10.0 prints its version under every subcommand (`zoxid
 it below root (`git log --version` → `fatal: unrecognized argument`, exit 128), so its
 `--version` stays root-only.
 
+While probing, record the version into `config.json` `version` — it is the baseline
+the next update diffs against. Refresh it whenever you re-verify the completion
+against a new CLI release. What counts as "the version" is a judgment call:
+
+| Version output | Record |
+| --- | --- |
+| Full name plus number (`git 2.56.0`/`Scoop v0.6.0`) | the whole line, trimmed — **preferred**, keep the tool's own name in front; drop a trailing platform tag (`on "linux_x64"`) — it identifies the machine, not the build, and false-positives on cross-platform updates |
+| Bare number only (`1.2.3`) | the number as-is |
+| No version flag, but installed via a package manager | query the manager for the probed binary (`brew list --versions <pkg>`, `pip show <pkg>`, `npm ls <pkg>`…) — first confirm `which <cmd>` resolves to that install, or the number may describe a different copy; record per the same rules above. A manager lookup is evidence, not invention |
+| No version output at all, and no manager owns the binary | **ask the operator** which string to record — never invent one; with their word, `0.0.0` is the standing placeholder for "no version source" |
+
+"When in doubt, ask" (`AGENTS.md`) applies here: a guessed version poisons every future
+drift comparison, while `0.0.0` honestly marks "nothing to compare against yet".
+
 ## Enumerating option values
 
 Help text often lists an option's allowed or example values — recognize them and map them

@@ -3,6 +3,7 @@
   "type": "object",
   "required": [
     "id",
+    "version",
     "language"
   ],
   "definitions": {
@@ -29,6 +30,11 @@
       "markdownDescription": "Stable unique identifier for the completion.\n\n- A random UUID generated when the completion is created\n- Never changes, even if the completion is renamed (directory name changes)\n- Used by the engine to detect renames and migrate configs automatically",
       "type": "string",
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "version": {
+      "markdownDescription": "The CLI version this completion was written and checked against.\n\n- Copy the CLI's own version output verbatim (e.g. `git 2.56.0`)\n- It is the baseline for future updates: after upgrading the CLI, re-check every entry against the new output before refreshing this field",
+      "type": "string",
+      "minLength": 1
     },
     "language": {
       "markdownDescription": "Available languages.",

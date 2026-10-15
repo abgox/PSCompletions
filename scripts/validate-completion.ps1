@@ -102,6 +102,7 @@ $L = @{
         cat_usageRootPrefix    = 'Usage root prefix'
         cat_rate               = 'Translation rate'
         cfg_missingLanguage    = 'config.json is missing the "language" array'
+        cfg_missingVersion     = 'config.json is missing "version" (the CLI version this completion was written and checked against)'
         cfg_missingFile        = '{0} is missing (required)'
         cfg_langNoFile         = 'config.language has "{0}" but language/{0}.json does not exist'
         cfg_fileNoLang         = 'language/{0}.json exists but is not declared in config.language'
@@ -142,6 +143,7 @@ $L = @{
         cat_usageRootPrefix    = 'usage 根前缀'
         cat_rate               = '翻译完成度'
         cfg_missingLanguage    = 'config.json 缺少 language 数组'
+        cfg_missingVersion     = 'config.json 缺少 version（写这份补全时逐条对照过的 CLI 版本）'
         cfg_missingFile        = '缺少 {0}（必需）'
         cfg_langNoFile         = 'config.language 含 "{0}" 但 language/{0}.json 不存在'
         cfg_fileNoLang         = 'language/{0}.json 存在但 config.language 未声明'
@@ -384,6 +386,10 @@ function Get-ConfigIssues {
         foreach ($f in $LangFileNames) {
             if ($f -notin $cfgLangs) { $issues.Add(@{ code = 'cfg_fileNoLang'; args = @($f) }) }
         }
+    }
+
+    if (-not $Config.ContainsKey('version')) {
+        $issues.Add(@{ code = 'cfg_missingVersion'; args = @() })
     }
 
     if ($Config.ContainsKey('hooks')) {

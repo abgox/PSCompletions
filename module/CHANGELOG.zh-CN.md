@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- 为补全的 `config.json` 添加了 `version`，记录其所验证针对的 CLI 版本，作为未来更新的版本基线
 - 动态的 `tip` / `usage` / `example` 支持传入函数，在选中候选项时延迟求值
 - 前置的 `sudo` 在补全与历史排序中都会被跳过（`sudo git <Tab>` => `git <Tab>`）
 - 改进了 hooks API `psc.mount_items`：路径链条现在与清单结构精确对应；挂载项现在会包含别名

@@ -169,16 +169,27 @@ list — same files, organized by pattern rather than by completion.
 ```jsonc
 {
   "id": "<uuid>",
-  "language": ["en-US", "zh-CN"],
+  "version": "git 2.56.0",
+  // "hooks": true,
   // "alias": [...],
-  // "hooks": true
+  "language": ["en-US", "zh-CN"]
 }
 ```
 
 - `id` (required) — random UUID generated at creation by `create-completion.ps1`, never
   changes. The engine uses it to detect upstream renames.
+- `version` (required) — the CLI version this completion was written and checked
+  against: the baseline for future updates (see collecting-info for extraction rules: 
+  preferred form, bare numbers, package-manager fallback, and the `0.0.0` placeholder 
+  when no version source exists). Nothing parses it. When a newer version is installed, 
+  re-check the completion and refresh this field.
 - `language` (required) — language array, corresponding to files in the `language/`
   directory.
+- `hooks` (optional) — `true` means dynamic hooks are enabled by default (install writes
+  no `enable_hooks` entry, since absence already means enabled); `false` means
+  `hooks.lua` exists but is disabled by default (install writes `enable_hooks=0`; users
+  enable it with `psc completion <name> enable_hooks 1`). Omit when there is no
+  `hooks.lua`.
 - `alias` (optional) — alternative command names that trigger this completion.
   - **The directory name is the command the user actually types.** Do not name a
     directory after a project's full name when users type a shorter binary (`hx`, not
@@ -234,11 +245,6 @@ list — same files, organized by pattern rather than by completion.
     also a legal path character in URLs and on both filesystems.
   - `@local` marks a local draft (gitignored, see `.gitignore`). Unlike a dot-directory
     it is visible from a plain `ls completions/`.
-- `hooks` (optional) — `true` means dynamic hooks are enabled by default (install writes
-  no `enable_hooks` entry, since absence already means enabled); `false` means
-  `hooks.lua` exists but is disabled by default (install writes `enable_hooks=0`; users
-  enable it with `psc completion <name> enable_hooks 1`). Omit when there is no
-  `hooks.lua`.
 
 ## Field semantics in use
 

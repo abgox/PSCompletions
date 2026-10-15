@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- Added `version` in `config.json`, recording the CLI version it was verified against as the baseline for future updates.
 - Dynamic `tip` / `usage` / `example` now accept a function evaluated lazily when the item is selected.
 - A leading `sudo` is now transparent for completion and history ranking (`sudo git <Tab>` => `git <Tab>`).
 - Improved the hooks API `psc.mount_items`: the path chain now mirrors the manifest structure exactly; mounted items now include aliases.

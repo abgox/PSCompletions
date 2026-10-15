@@ -53,13 +53,13 @@ if (-not ('PscTools.SortCheck' -as [type])) {
 }
 $script:sortCheckType = 'PscTools.SortCheck' -as [type]
 
-# Reorder a completion's config.json fields: id, hooks, alias, language (others appended at end).
+# Reorder a completion's config.json fields: id, version, hooks, alias, language (others appended at end).
 function Sort-ConfigJson {
     param(
         [string]$Path
     )
     $json = Get-Content -Path $Path -Raw | ConvertFrom-Json
-    $order = @('id', 'hooks', 'alias', 'language')
+    $order = @('id', 'version', 'hooks', 'alias', 'language')
     $sorted = [ordered]@{}
     foreach ($prop in $order) {
         if ($json.PSObject.Properties.Name -contains $prop) {

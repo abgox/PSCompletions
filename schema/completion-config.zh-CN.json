@@ -3,6 +3,7 @@
   "type": "object",
   "required": [
     "id",
+    "version",
     "language"
   ],
   "definitions": {
@@ -29,6 +30,11 @@
       "markdownDescription": "补全的稳定唯一标识符。\n\n- 创建补全时生成的随机 UUID\n- 即使补全被重命名（目录名改变）也保持不变\n- 引擎用它检测重命名并自动迁移配置",
       "type": "string",
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "version": {
+      "markdownDescription": "写这份补全时，逐条对照过的 CLI 版本。\n\n- 照抄 CLI 自己的版本输出（例如 `git 2.56.0`）\n- 它是未来更新的版本基线：换了新版 CLI 后，用新版输出重新核对一遍，确认条目仍然准确再更新此字段",
+      "type": "string",
+      "minLength": 1
     },
     "language": {
       "markdownDescription": "可用的语言。",
