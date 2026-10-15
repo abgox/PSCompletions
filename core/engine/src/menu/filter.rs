@@ -40,6 +40,24 @@ pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config)
             out.push(i);
         }
     }
+    // Exact matches pin first: when the filter names an item exactly (modulo the
+    // `^` / leading-`*` markers), that item is what the user wants — ahead of mere
+    // substring/subsequence hits, stably. A filter that is still a pattern (contains
+    // `*`, e.g. `h*f`) never pins: there is no single exact name in it.
+    let mut core = filter;
+    if is_prefix {
+        core = core.strip_prefix('^').unwrap_or(core);
+    }
+    if let Some(rest) = core.strip_prefix('*') {
+        core = rest;
+    }
+    if !core.is_empty() && !core.contains('*') {
+        let (mut exact, rest): (Vec<usize>, Vec<usize>) = out
+            .into_iter()
+            .partition(|&i| items[i].list_item_text.eq_ignore_ascii_case(core));
+        exact.extend(rest);
+        return exact;
+    }
     out
 }
 
@@ -278,6 +296,20 @@ mod tests {
                 symbol: String::new(),
             })
             .collect()
+    }
+
+    #[test]
+    fn exact_match_pins_first() {
+        // The exact name jumps ahead of substring hits, both modes.
+        let its = items(&["xaby", "ab", "zabw"]);
+        assert_eq!(filter_items(&its, "AB", false, &cfg(false)), vec![1, 0, 2]);
+        assert_eq!(filter_items(&its, "AB", false, &cfg(true)), vec![1, 0, 2]);
+        // A `^`-anchored exact name pins too (order would otherwise be manifest order).
+        let its2 = items(&["abx", "ab"]);
+        assert_eq!(filter_items(&its2, "^AB", true, &cfg(false)), vec![1, 0]);
+        // A filter that is still a pattern never pins: `a*b` keeps manifest order.
+        let its3 = items(&["axb", "ab"]);
+        assert_eq!(filter_items(&its3, "a*b", false, &cfg(false)), vec![0, 1]);
     }
 
     #[test]
