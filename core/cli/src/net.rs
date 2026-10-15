@@ -103,6 +103,21 @@ pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
     Ok(v)
 }
 
+/// A downloaded config.json must carry a usable stable `id` (non-empty string):
+/// without it the completion cannot participate in rename detection or settings
+/// sync, so the download is refused before any further files are fetched.
+fn validate_config_id(config: &Value) -> Result<(), String> {
+    let ok = config
+        .get("id")
+        .and_then(|i| i.as_str())
+        .is_some_and(|s| !s.trim().is_empty());
+    if ok {
+        Ok(())
+    } else {
+        Err("bad config.json (missing stable `id`)".to_string())
+    }
+}
+
 /// Download a completion's files (config.json first, then language/*.json + hooks.lua in
 /// parallel) and write `.update`. Files are staged in `<data>/temp/<name>.<pid>.tmp` and moved
 /// into place only on full success, so a failed download never removes an already-installed
@@ -139,6 +154,7 @@ pub fn add_completion(
         let config_text = fetch_text(urls, &format!("completions/{name}/config.json"))?;
         let config: Value =
             serde_json::from_str(&config_text).map_err(|e| format!("bad config.json: {e}"))?;
+        validate_config_id(&config)?;
         std::fs::write(format!("{tmp_dir}/config.json"), &config_text)
             .map_err(|e| e.to_string())?;
 
@@ -433,6 +449,18 @@ pub fn rename_completion(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn validate_config_id_requires_usable_id() {
+        assert!(
+            validate_config_id(&serde_json::json!({"id": "7b8d1eb7", "language": ["en-US"]}))
+                .is_ok()
+        );
+        assert!(validate_config_id(&serde_json::json!({"language": ["en-US"]})).is_err());
+        assert!(validate_config_id(&serde_json::json!({"id": ""})).is_err());
+        assert!(validate_config_id(&serde_json::json!({"id": "  "})).is_err());
+        assert!(validate_config_id(&serde_json::json!({"id": 123})).is_err());
+    }
 
     #[test]
     fn validate_index_shape_accepts_real_index() {
