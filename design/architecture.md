@@ -137,8 +137,10 @@ first Tab or first `psc`, gated by `initialized`/`binary_ok`:
   sanitized `trigger_key`, and sets `initialized=true`. `param([bool]$methodsOnly)`
   skips the full bootstrap for standalone scripts that only need the helper methods (keeps
   `initialized` false).
-- Tab handler: captures buffer/cursor, `initialize()` if needed, resolves alias, builds `build`
-  context, launches `psc-menu`, applies selection via `PSConsoleReadLine::Replace`.
+- Tab handler: captures buffer/cursor, `initialize()` if needed, resolves alias (a leading
+  `sudo` — literal, a trigger word mapped to it, or a shell alias pointing at it — is skipped
+  when the wrapped command is known, so `sudo git <Tab>` completes git),
+  builds `build` context, launches `psc-menu`, applies selection via `PSConsoleReadLine::Replace`.
 - `psc` entry (`PSCompletions.psm1`): `initialize()` first, then `_forward_psc` dispatches
   `add`/`rm`/`update`/`config`/`alias`/`info`/`list`/`completion`/`init`; `render_pending`
   appends library notifications.

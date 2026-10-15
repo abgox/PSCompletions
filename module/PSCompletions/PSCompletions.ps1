@@ -64,6 +64,17 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
 
             if (!$inputs) { return }
 
+            $first = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
+            $isSudo = $first -eq 'sudo' -or $PSCompletions.data.aliasMap[$first] -eq 'sudo'
+            if (-not $isSudo -and $null -eq $PSCompletions.data.aliasMap[$first] -and $first -notmatch '[*?]') {
+                $shellTarget = (Get-Alias -Name $first -ErrorAction SilentlyContinue).Definition -replace '\.(exe|cmd|bat)$', ''
+                if ($shellTarget) { $isSudo = $shellTarget -eq 'sudo' -or $PSCompletions.data.aliasMap[$shellTarget] -eq 'sudo' }
+            }
+            if ($inputs.Count -gt 1 -and $isSudo) {
+                $wrapped = $inputs[1] -replace '\.(exe|cmd|bat)$', ''
+                if ($null -ne $PSCompletions.data.aliasMap[$wrapped]) { $inputs = @($inputs[1..($inputs.Count - 1)]) }
+            }
+
             $alias = $inputs[0]
             if ($null -eq $PSCompletions.data.aliasMap[$alias]) { $alias = $inputs[0] -replace '\.(exe|cmd|bat)$', '' }
 
