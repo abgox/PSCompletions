@@ -136,28 +136,43 @@ fn compute_scores(history: &str, aliases: &[String]) -> HashMap<String, TokenSta
         let rel_idx = rel + 1; // 1-based
         let recency = recency_weight(rel_idx, total);
         let line = line.trim_start_matches([' ', '\t']);
-        for alias in aliases {
-            if alias.is_empty() {
-                continue;
-            }
-            if let Some(rest) = strip_alias(line, alias) {
-                if rest.is_empty() {
+        // A `sudo`-wrapped line counts as two records: the original (so `sudo`
+        // itself keeps its history — e.g. Windows sudo's `run`/`config`
+        // subcommands) and the fully unwrapped remainder for the wrapped
+        // command. Options are never unwrapped through: `sudo -u <user> <cmd>`
+        // keeps the `sudo` record but credits nothing behind the options.
+        let mut variants = vec![line];
+        let mut cur = line;
+        while let Some(rest) = strip_sudo_prefix(cur) {
+            cur = rest;
+        }
+        if cur != line {
+            variants.push(cur);
+        }
+        for variant in &variants {
+            for alias in aliases {
+                if alias.is_empty() {
                     continue;
                 }
-                let toks = tokenize(rest);
-                let n = toks.len();
-                for (i, tok) in toks.iter().enumerate() {
-                    let key = normalize_key(tok);
-                    if !key.is_empty() {
-                        let s = scores.entry(key).or_insert(TokenStats {
-                            score: 0.0,
-                            last_line: 0,
-                        });
-                        s.score += recency * position_factor(i, n);
-                        s.last_line = rel_idx;
+                if let Some(rest) = strip_alias(variant, alias) {
+                    if rest.is_empty() {
+                        continue;
                     }
+                    let toks = tokenize(rest);
+                    let n = toks.len();
+                    for (i, tok) in toks.iter().enumerate() {
+                        let key = normalize_key(tok);
+                        if !key.is_empty() {
+                            let s = scores.entry(key).or_insert(TokenStats {
+                                score: 0.0,
+                                last_line: 0,
+                            });
+                            s.score += recency * position_factor(i, n);
+                            s.last_line = rel_idx;
+                        }
+                    }
+                    break;
                 }
-                break;
             }
         }
     }
@@ -234,15 +249,34 @@ fn compute_command_scores(history: &str) -> HashMap<String, TokenStats> {
         let recency = recency_weight(rel_idx, total);
         let line = line.trim_start_matches([' ', '\t']);
         let toks = tokenize(line);
-        if let Some(first) = toks.first() {
-            let key = normalize_key(first);
-            if !key.is_empty() {
-                let s = scores.entry(key).or_insert(TokenStats {
-                    score: 0.0,
-                    last_line: 0,
-                });
-                s.score += recency;
-                s.last_line = rel_idx;
+        // Two records, mirroring `compute_scores`: the literal first token (so
+        // `sudo` itself keeps its history) plus the wrapped command.
+        // Bare `sudo` (no following token) still credits `sudo`, as before.
+        let mut first_idx = 0;
+        while toks
+            .get(first_idx)
+            .is_some_and(|t| t.eq_ignore_ascii_case("sudo"))
+            && toks.get(first_idx + 1).is_some()
+        {
+            first_idx += 1;
+        }
+        let mut slots = vec![0];
+        // The wrapped slot must look like a command, not an option: `sudo -u ...`
+        // keeps only the `sudo` record (same as before), never a `-u` key.
+        if first_idx > 0 && !toks[first_idx].starts_with('-') {
+            slots.push(first_idx);
+        }
+        for i in slots {
+            if let Some(first) = toks.get(i) {
+                let key = normalize_key(first);
+                if !key.is_empty() {
+                    let s = scores.entry(key).or_insert(TokenStats {
+                        score: 0.0,
+                        last_line: 0,
+                    });
+                    s.score += recency;
+                    s.last_line = rel_idx;
+                }
             }
         }
     }
@@ -284,6 +318,14 @@ fn strip_alias<'a>(line: &'a str, alias: &str) -> Option<&'a str> {
         return None;
     }
     Some(after_trim)
+}
+
+/// Strip one leading `sudo` wrapper (`sudo <cmd> ...` → `<cmd> ...`) so history
+/// typed with privilege elevation attributes to the real command. This is just
+/// `strip_alias` with a fixed alias — same boundary rules (case-insensitive,
+/// `sudo` must be followed by whitespace + content), so bare `sudo` is left alone.
+fn strip_sudo_prefix(line: &str) -> Option<&str> {
+    strip_alias(line, "sudo")
 }
 
 /// Mimics the PowerShell `input_pattern` (`(?:"[^"]*"|'[^']*'|\S)+`):
@@ -487,6 +529,32 @@ mod tests {
         // Plain args are not path tokens.
         assert!(!s.contains_key("-platform"));
         assert!(!s.contains_key("windows"));
+    }
+
+    #[test]
+    fn sudo_prefix_attributes_to_wrapped_command() {
+        // A `sudo`-wrapped line counts as two records: the wrapper itself (so
+        // `sudo` keeps its history) and the wrapped command.
+        let stats = compute_scores("sudo git commit -m x\n", &["git".to_string()]);
+        assert!(stats["commit"].score > 0.0);
+        let sudo_stats = compute_scores("sudo git commit -m x\n", &["sudo".to_string()]);
+        assert!(sudo_stats["git"].score > 0.0);
+        let cmd = compute_command_scores("sudo git status\nsudo scoop update\n");
+        assert!(cmd.contains_key("git"));
+        assert!(cmd.contains_key("scoop"));
+        assert!(cmd.contains_key("sudo"));
+        assert!(!cmd.contains_key("status"));
+        // Newest line wins regardless of the wrapper: sudo git (newer) outranks scoop.
+        let ranked = compute_command_scores("scoop update\nsudo git status\n");
+        assert!(ranked["git"].score > ranked["scoop"].score);
+        // Bare `sudo` still credits `sudo`, as before.
+        let bare = compute_command_scores("sudo\n");
+        assert!(bare.contains_key("sudo"));
+        // Options after `sudo` are not unwrapped: only `sudo` is credited, no `-u` key.
+        let flagged = compute_command_scores("sudo -u root git status\n");
+        assert!(flagged.contains_key("sudo"));
+        assert!(!flagged.contains_key("-u"));
+        assert!(!flagged.contains_key("git"));
     }
 
     #[test]

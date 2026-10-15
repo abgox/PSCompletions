@@ -386,6 +386,11 @@ Ordering lives in the TUI process:
     The most recent use only breaks ties.
 - Only the last 1000 lines are scanned; keys lowercased and quotes stripped. The engine ranks
   items by the order-file value (descending, stable); items without a score keep their order.
+- **A `sudo`-wrapped line counts as two records**: the wrapper itself (so `sudo` keeps its
+  history — e.g. Windows sudo's `run`/`config` subcommands) plus the wrapped command
+  (`sudo git ...` also credits `git`, in the per-command file and `_commands.json`). Only a
+  bare `sudo` unwraps past the wrapper: `sudo -u <user> <cmd>` keeps the `sudo` record but
+  never credits an option-led word (`-u`) or anything behind options.
 - **Ranking sources**: non-path candidates look up the **per-command** order file first (that
   command's own history, e.g. `git.json`), then — root completions only — `_commands.json`, the
   shared command-use frequency across all commands. Path-shaped candidates bypass both and rank
