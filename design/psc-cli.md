@@ -56,6 +56,9 @@ The CLI operates on one resolved data directory. The PowerShell host resolves it
     the menu engine prunes stale files (older than 30 minutes, e.g. left by a force-closed
     terminal) in a background thread on each menu open (`cleanup_stale_menu_files`).
   - `completions/<name>/` — installed completion files (config.json, language/*.json, hooks.lua, `.update`).
+  - `temp/*.<pid>.tmp` + `completions/*.<pid>.old` — crash residue from staged downloads
+    (a killed process never cleans its own staging); swept when older than a day on
+    `add`/`update`/`init` runs (the only commands that stage anything).
   - `completions/psc/language/<lang>.json` — psc's own manifest (module-side `info` templates).
 
 ### Rename detection

@@ -9,6 +9,7 @@ use crate::commands::{
 use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
 use crate::messages::msg_cli;
+use crate::net::cleanup_stale_staging;
 use crate::output::{fail, Out};
 pub fn run(args: Vec<String>) -> ExitCode {
     let (data_arg, json, language_arg, result_arg, rest) = parse_args(&args);
@@ -31,6 +32,12 @@ pub fn run(args: Vec<String>) -> ExitCode {
     }
     let cmd = rest[0].clone();
     let args = &rest[1..];
+    // Sweep crash residue from staged downloads, but only for the commands that
+    // produce it (`add`/`update`/`init` download; the rest never stage anything).
+    // Two directory listings; never touches live data.
+    if matches!(cmd.as_str(), "add" | "update" | "init") {
+        cleanup_stale_staging(&data_dir);
+    }
     let code = match cmd.as_str() {
         "init" => cmd_init(
             &settings_path,

@@ -72,6 +72,52 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
     Err(last_err)
 }
 
+/// Crash residue from staged downloads: pid-suffixed temp files/dirs
+/// (`temp/<name>.<pid>.tmp`, incl. `completions.json.<pid>.tmp`) and aside-renamed
+/// dirs (`completions/<name>.<pid>.old`). A killed process never cleans its own.
+/// Entries older than a day are dead by definition (an active staging lives
+/// minutes); anything younger — including a concurrent `psc` mid-download, whose
+/// names differ by pid anyway — is left alone.
+pub fn cleanup_stale_staging(data_dir: &str) {
+    cleanup_stale_staging_with_age(data_dir, Duration::from_secs(24 * 60 * 60));
+}
+
+fn cleanup_stale_staging_with_age(data_dir: &str, max_age: Duration) {
+    let old_enough = |path: &std::path::Path| {
+        std::fs::metadata(path)
+            .and_then(|m| m.modified())
+            .ok()
+            .and_then(|t| std::time::SystemTime::now().duration_since(t).ok())
+            .is_some_and(|d| d >= max_age)
+    };
+    // `<base>.<pid><ext>` with a numeric pid — nothing legitimate in these
+    // directories looks like that.
+    let pid_suffixed = |name: &str, ext: &str| {
+        name.strip_suffix(ext)
+            .and_then(|base| base.rsplit('.').next())
+            .is_some_and(|p| !p.is_empty() && p.bytes().all(|b| b.is_ascii_digit()))
+    };
+    let sweep = |dir: &str, ext: &str| {
+        let Ok(entries) = std::fs::read_dir(dir) else {
+            return;
+        };
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let name = entry.file_name().to_string_lossy().into_owned();
+            if !pid_suffixed(&name, ext) || !old_enough(&path) {
+                continue;
+            }
+            if path.is_dir() {
+                let _ = std::fs::remove_dir_all(&path);
+            } else {
+                let _ = std::fs::remove_file(&path);
+            }
+        }
+    };
+    sweep(&format!("{data_dir}/temp"), ".tmp");
+    sweep(&format!("{data_dir}/completions"), ".old");
+}
+
 /// Shape check for a downloaded `completions.json`: the remote must have served an actual
 /// index (`{ update, meta }`), not a redirect page or error body that happens to parse as JSON.
 /// Without this, `psc add <name>` would report a misleading "not an available completion".
@@ -460,6 +506,49 @@ mod tests {
         assert!(validate_config_id(&serde_json::json!({"id": ""})).is_err());
         assert!(validate_config_id(&serde_json::json!({"id": "  "})).is_err());
         assert!(validate_config_id(&serde_json::json!({"id": 123})).is_err());
+    }
+
+    #[test]
+    fn cleanup_stale_staging_removes_only_pid_suffixed_residue() {
+        // Directory mtimes are not portable to fake (Windows cannot set them
+        // without backup semantics), so the threshold itself is the parameter:
+        // ZERO sweeps every residue shape (covering dir removal), a huge age
+        // keeps everything live.
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static SEQ: AtomicU64 = AtomicU64::new(0);
+        let mk = |tag: &str| {
+            let n = SEQ.fetch_add(1, Ordering::SeqCst);
+            let dir =
+                std::env::temp_dir().join(format!("psc-staging-{tag}{}{}", std::process::id(), n));
+            let _ = std::fs::remove_dir_all(&dir);
+            std::fs::create_dir_all(dir.join("temp")).unwrap();
+            std::fs::create_dir_all(dir.join("completions")).unwrap();
+            std::fs::create_dir_all(dir.join("temp/old.99999.tmp")).unwrap();
+            std::fs::write(dir.join("temp/completions.json.99999.tmp"), "{}").unwrap();
+            std::fs::create_dir_all(dir.join("completions/old.99999.old")).unwrap();
+            std::fs::create_dir_all(dir.join("temp/live.12345.tmp")).unwrap();
+            std::fs::write(dir.join("temp/completions.json"), "{}").unwrap();
+            std::fs::create_dir_all(dir.join("completions/live")).unwrap();
+            dir
+        };
+        let dir = mk("sweep");
+        cleanup_stale_staging_with_age(dir.to_str().unwrap(), std::time::Duration::ZERO);
+        assert!(!dir.join("temp/old.99999.tmp").exists());
+        assert!(!dir.join("temp/completions.json.99999.tmp").exists());
+        assert!(!dir.join("completions/old.99999.old").exists());
+        // Non-matching names survive regardless of age.
+        assert!(dir.join("temp/completions.json").exists());
+        assert!(dir.join("completions/live").exists());
+        let dir2 = mk("keep");
+        cleanup_stale_staging_with_age(
+            dir2.to_str().unwrap(),
+            std::time::Duration::from_secs(365 * 24 * 60 * 60),
+        );
+        assert!(dir2.join("temp/old.99999.tmp").exists());
+        assert!(dir2.join("temp/live.12345.tmp").exists());
+        assert!(dir2.join("completions/old.99999.old").exists());
+        let _ = std::fs::remove_dir_all(&dir);
+        let _ = std::fs::remove_dir_all(&dir2);
     }
 
     #[test]
