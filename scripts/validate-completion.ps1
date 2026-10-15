@@ -20,17 +20,54 @@ param(
     [Parameter(Position = 0, ValueFromRemainingArguments)]
     [string[]]$CompletionList,
     [switch]$All,
-    [ValidateSet('en-US', 'zh-CN')]
-    [string]$Lang = 'en-US',
-    [string]$OutFile
+    # Report wording. Empty (default) follows the machine locale: Chinese for
+    # zh* cultures, English otherwise. check-completion.ps1 always passes en-US
+    # explicitly so the PR comment is deterministic on any runner locale.
+    [string]$Lang = '',
+    [string]$OutFile,
+    # Dead psc.on targets, as reported by check-hook-targets.ps1 -Json
+    # (objects with completion/target/option/reason). A dead target never
+    # fires, so those completions count as failed, and the report shows an
+    # inline CAUTION inside their section.
+    [array]$HookTargetDetails = @(),
+    # Completions whose config.json id differs from the base checkout:
+    # changing a stable id breaks rename detection, so those completions
+    # count as failed, with an inline CAUTION inside their section.
+    [string[]]$IdChanged = @(),
+    # Completion -> base version, for completions whose version baseline
+    # changed in this PR (both sides non-empty, values differ). Rendered as
+    # old -> new on the baseline line; informational only, never a failure.
+    [System.Collections.Hashtable]$VersionChanged = @{},
+    # completion -> '`psc.run` / `psc.run_batch`' for hooks.lua files using
+    # those APIs. Shown as an inline WARNING inside their section; advisory
+    # only, never counts as a failure.
+    [System.Collections.Hashtable]$RunUsage = @{},
+    # Skip the ## title: check-completion.ps1 writes its own title and splices
+    # this report in as the body.
+    [switch]$NoTitle,
+    # Machine-readable summary for check-completion.ps1: one object per
+    # completion (name/hasIssues/hasHooks/counts/version), as JSON on stdout.
+    # Full section lines live only in the Markdown path above, so rendering
+    # stays in one place. Human-readable $results stdout is suppressed here.
+    [switch]$Json
 )
 
 Set-StrictMode -Off
+
+if ([string]::IsNullOrEmpty($Lang)) {
+    $Lang = if ($PSCulture -like 'zh*') { 'zh-CN' } else { 'en-US' }
+}
+if ($Lang -notin @('en-US', 'zh-CN')) { throw "Lang must be 'en-US' or 'zh-CN'." }
 
 $root = Split-Path -Parent $PSScriptRoot
 $completionsDir = Join-Path $root 'completions'
 $manifestSchema = Join-Path $root 'schema/completion-manifest.en-US.json'
 $configSchema = Join-Path $root 'schema/completion-config.en-US.json'
+
+# A completion with dozens of schema errors (a mistyped `next`, a duplicated key)
+# must not bury the other categories: each section shows at most this many lines,
+# then one line saying how many are left. The counts stay in the summary table.
+$MaxItemsPerSection = 10
 
 if ($All) {
     $CompletionList = @(Get-ChildItem -LiteralPath $completionsDir -Directory | ForEach-Object { $_.Name })
@@ -39,17 +76,14 @@ if ($All) {
 $L = @{
     'en-US' = @{
         title                  = 'Completion Validation'
-        checked                = 'Checked **{0}** completions | ✅ **{1}** passed | ❌ **{2}** have issues | 📝 **{3}** need careful review'
-        colCompletion          = 'Completion'
-        colSchema              = 'Schema'
-        colConfig              = 'Config'
-        colHooks               = 'Hooks'
-        colCompare             = 'Compare'
         secSchema              = 'Schema'
         secConfig              = 'Config'
         secHooks               = 'Hooks'
         secCompare             = 'Compare'
-        filesLabel             = 'Files'
+        version                = 'CLI version baseline'
+        versionChanged         = 'CLI version baseline changed'
+        versionOld             = 'old'
+        versionNew             = 'new'
         cat_missingInTarget    = 'Missing items'
         cat_extraInTarget      = 'Extra items'
         cat_typeMismatch       = 'Type mismatch'
@@ -75,22 +109,21 @@ $L = @{
         cfg_hooksFileNoFlag    = 'hooks.lua exists but config.hooks is not declared (set true or false)'
         cfg_aliasExtension     = 'config.alias "{0}" should not have a .cmd/.exe/.bat suffix'
         cfg_duplicateId        = 'config.id "{0}" is already used by "{1}" (id must be globally unique, generate a new UUID)'
+        cfg_idChanged          = 'config.id was changed (id must stay stable, restore the old id)'
         i18n_spacing           = 'Chinese and English must be separated by a space at {0}: "{1}"'
         noIssues               = 'No issues found'
+        moreItems              = '… and {0} more'
     }
     'zh-CN' = @{
         title                  = '补全检查结果'
-        checked                = '检查 **{0}** 个补全 | ✅ **{1}** 通过 | ❌ **{2}** 有问题 | 📝 **{3}** 需要仔细审查'
-        colCompletion          = '补全'
-        colSchema              = 'Schema'
-        colConfig              = '配置'
-        colHooks               = 'Hooks'
-        colCompare             = '比对'
         secSchema              = 'Schema'
-        secConfig              = '配置'
+        secConfig              = 'Config'
         secHooks               = 'Hooks'
-        secCompare             = '比对'
-        filesLabel             = '文件'
+        secCompare             = 'Compare'
+        version                = 'CLI 版本基线'
+        versionChanged         = 'CLI 版本基线已变更'
+        versionOld             = '旧'
+        versionNew             = '新'
         cat_missingInTarget    = '缺少的项'
         cat_extraInTarget      = '多余的项'
         cat_typeMismatch       = '类型不一致'
@@ -116,9 +149,58 @@ $L = @{
         cfg_hooksFileNoFlag    = 'hooks.lua 存在但 config.hooks 未声明（请设为 true 或 false）'
         cfg_aliasExtension     = 'config.alias "{0}" 不应含 .cmd/.exe/.bat 后缀'
         cfg_duplicateId        = 'config.id "{0}" 已被 "{1}" 使用（id 必须全局唯一，请生成新的 UUID）'
+        cfg_idChanged          = 'config.id 已改动（id 必须保持稳定，请还原）'
         i18n_spacing           = '中英之间需空格于 {0}："{1}"'
         noIssues               = '未发现问题'
+        moreItems              = '… 还有 {0} 条'
     }
+}
+
+function Get-Sections {
+    # One section per issue category. Render each to lines first, so the cap
+    # lives in one place instead of in every category's loop. Full (uncapped)
+    # lines; callers apply $MaxItemsPerSection when printing.
+    param($Entry, [string]$Lang)
+    $m = $L[$Lang]
+    $sections = [System.Collections.Generic.List[object]]::new()
+
+    if ($Entry.issues.schema.Count) {
+        $lines = foreach ($i in $Entry.issues.schema) {
+            if ($i.code) {
+                $tpl = $m[$i.code]
+                $txt = if ($i.args.Count) { $tpl -f $i.args } else { $tpl }
+                "$($i.file): $txt"
+            }
+            else { "$($i.file): $($i.text)" }
+        }
+        $sections.Add([pscustomobject]@{ title = $m.secSchema; lines = @($lines) })
+    }
+    if ($Entry.issues.config.Count) {
+        $lines = foreach ($i in $Entry.issues.config) {
+            if ($i.code -eq 'cfg_schema') { "$($i.args[0])" }
+            else {
+                $tpl = $m[$i.code]
+                $txt = if ($i.args.Count) { $tpl -f $i.args } else { $tpl }
+                $txt
+            }
+        }
+        $sections.Add([pscustomobject]@{ title = $m.secConfig; lines = @($lines) })
+    }
+    if ($Entry.issues.hooks.Count) {
+        $sections.Add([pscustomobject]@{ title = $m.secHooks; lines = @(foreach ($i in $Entry.issues.hooks) { "$($i.text)" }) })
+    }
+    if ($Entry.issues.compare.Count) {
+        $lines = foreach ($i in $Entry.issues.compare) {
+            if ($i.category -eq 'rate') { "[$($i.lang)] $($m.cat_rate): $($i.path)%" }
+            else {
+                $label = $m["cat_$($i.category)"]
+                if (-not $label) { $label = $i.category }
+                "[$($i.lang)] ${label}: $($i.path)"
+            }
+        }
+        $sections.Add([pscustomobject]@{ title = $m.secCompare; lines = @($lines) })
+    }
+    return $sections
 }
 
 function Get-Report {
@@ -126,82 +208,96 @@ function Get-Report {
     $m = $L[$Lang]
     $sb = [System.Text.StringBuilder]::new()
 
-    $ok = @($Results | Where-Object { -not $_.hasIssues }).Count
-    $bad = @($Results | Where-Object { $_.hasIssues }).Count
-    $hooks = @($Results | Where-Object { $_.hasHooks }).Count
-
-    [void]$sb.AppendLine("## $($m.title)")
-    [void]$sb.AppendLine('')
-    [void]$sb.AppendLine(($m.checked -f $Results.Count, $ok, $bad, $hooks))
-    [void]$sb.AppendLine('')
-
-    [void]$sb.AppendLine("| $($m.colCompletion) | $($m.colSchema) | $($m.colConfig) | $($m.colHooks) | $($m.colCompare) |")
-    [void]$sb.AppendLine('| --- | --- | --- | --- | --- |')
-    foreach ($r in $Results) {
-        $s = if ($r.issues.schema.Count) { "❌ $($r.issues.schema.Count)" } else { '✅' }
-        $c = if ($r.issues.config.Count) { "❌ $($r.issues.config.Count)" } else { '✅' }
-        $h = if (-not $r.hasHooks) { '' } elseif ($r.issues.hooks.Count) { "❌ $($r.issues.hooks.Count)" } else { '📝' }
-        $p = if ($r.issues.compare.Count) { "❌ $($r.issues.compare.Count)" } else { '✅' }
-        [void]$sb.AppendLine("| **$($r.name)** | $s | $c | $h | $p |")
+    if (-not $NoTitle) {
+        [void]$sb.AppendLine("## $($m.title)")
+        [void]$sb.AppendLine('')
     }
-    [void]$sb.AppendLine('')
 
-    foreach ($r in $Results | Where-Object { $_.hasIssues }) {
-        [void]$sb.AppendLine('<details>')
-        [void]$sb.AppendLine("<summary>❌ $($r.name)</summary>")
-        [void]$sb.AppendLine('')
-        [void]$sb.AppendLine("**$($m.filesLabel)**: $($r.files -join ', ')")
-        [void]$sb.AppendLine('')
+    # Dead-target counts, derived from the full records once.
+    $deadCounts = @{}
+    foreach ($f in $HookTargetDetails) {
+        if (-not $deadCounts.ContainsKey($f.completion)) { $deadCounts[$f.completion] = 0 }
+        $deadCounts[$f.completion] += 1
+    }
 
-        if ($r.issues.schema.Count) {
-            [void]$sb.AppendLine("**$($m.secSchema)**")
-            foreach ($i in $r.issues.schema) {
-                if ($i.code) {
-                    $tpl = $m[$i.code]
-                    $txt = if ($i.args.Count) { $tpl -f $i.args } else { $tpl }
-                    [void]$sb.AppendLine("- $($i.file): $txt")
-                }
-                else {
-                    [void]$sb.AppendLine("- $($i.file): $($i.text)")
-                }
-            }
-            [void]$sb.AppendLine('')
-        }
-        if ($r.issues.config.Count) {
-            [void]$sb.AppendLine("**$($m.secConfig)**")
-            foreach ($i in $r.issues.config) {
-                if ($i.code -eq 'cfg_schema') {
-                    [void]$sb.AppendLine("- $($i.args[0])")
-                }
-                else {
-                    $tpl = $m[$i.code]
-                    $txt = if ($i.args.Count) { $tpl -f $i.args } else { $tpl }
-                    [void]$sb.AppendLine("- $txt")
-                }
-            }
-            [void]$sb.AppendLine('')
-        }
-        if ($r.issues.hooks.Count) {
-            [void]$sb.AppendLine("**$($m.secHooks)**")
-            foreach ($i in $r.issues.hooks) { [void]$sb.AppendLine("- $($i.text)") }
-            [void]$sb.AppendLine('')
-        }
-        if ($r.issues.compare.Count) {
-            [void]$sb.AppendLine("**$($m.secCompare)**")
-            foreach ($i in $r.issues.compare) {
-                if ($i.category -eq 'rate') {
-                    [void]$sb.AppendLine("- [$($i.lang)] $($m.cat_rate): $($i.path)%")
-                }
-                else {
-                    $label = $m["cat_$($i.category)"]
-                    if (-not $label) { $label = $i.category }
-                    [void]$sb.AppendLine("- [$($i.lang)] ${label}: $($i.path)")
-                }
-            }
-            [void]$sb.AppendLine('')
-        }
-        [void]$sb.AppendLine('</details>')
+    # One section per completion, failed first — the same classification as
+    # the PR comment, so a local report reads exactly like the bot writes.
+    $ordered = @(@($Results | Where-Object { $_.hasIssues })) + @($Results | Where-Object { -not $_.hasIssues })
+    foreach ($r in $ordered) {
+        $mark = if ($r.hasIssues) { '❌ ' } else { '' }
+        [void]$sb.AppendLine("### $mark$($r.name)")
         [void]$sb.AppendLine('')
+        $sCell = if ($r.issues.schema.Count) { "❌ $($r.issues.schema.Count)" } else { '✅' }
+        $cCell = if ($r.issues.config.Count) { "❌ $($r.issues.config.Count)" } else { '✅' }
+        $deadTargets = 0
+        if ($deadCounts.ContainsKey($r.name)) { $deadTargets = $deadCounts[$r.name] }
+        $hCell = if (-not $r.hasHooks) { '—' }
+        elseif ($r.issues.hooks.Count) { "❌ $($r.issues.hooks.Count)" }
+        elseif ($deadTargets) { "❌ $deadTargets" }
+        else { '📝' }
+        $pCell = if ($r.issues.compare.Count) { "❌ $($r.issues.compare.Count)" } else { '✅' }
+        [void]$sb.AppendLine("> $($m.secSchema) $sCell · $($m.secConfig) $cCell · $($m.secHooks) $hCell · $($m.secCompare) $pCell")
+        [void]$sb.AppendLine('')
+        if ($r.version) {
+            $verLines = if ($VersionChanged.ContainsKey($r.name)) {
+                @(
+                    ('> {0}:' -f $m.versionChanged),
+                    ('> - {0}: `{1}`' -f $m.versionOld, $VersionChanged[$r.name]),
+                    ('> - {0}: `{1}`' -f $m.versionNew, $r.version)
+                )
+            }
+            else { @(('> {0}: `{1}`' -f $m.version, $r.version)) }
+            foreach ($vl in $verLines) { [void]$sb.AppendLine($vl) }
+            [void]$sb.AppendLine('')
+        }
+
+        $dead = @($HookTargetDetails | Where-Object { $_.completion -eq $r.name })
+        if ($dead.Count -gt 0) {
+            [void]$sb.AppendLine('> [!CAUTION]')
+            [void]$sb.AppendLine('>')
+            [void]$sb.AppendLine('> **Dead hook targets (`psc.on`)**')
+            [void]$sb.AppendLine('>')
+            foreach ($f in $dead) {
+                $loc = $f.target
+                if ($f.option) { $loc += " [$($f.option)]" }
+                [void]$sb.AppendLine(('> - `{0}` — {1}' -f $loc, $f.reason))
+            }
+            [void]$sb.AppendLine('')
+        }
+        if ($IdChanged -contains $r.name) {
+            [void]$sb.AppendLine('> [!CAUTION]')
+            [void]$sb.AppendLine('>')
+            [void]$sb.AppendLine('> **The id changed**')
+            [void]$sb.AppendLine('>')
+            [void]$sb.AppendLine('> - The `id` in `config.json` is not the same as before.')
+            [void]$sb.AppendLine('> - This breaks rename detection.')
+            [void]$sb.AppendLine('> - Please change it back.')
+            [void]$sb.AppendLine('')
+        }
+        if ($RunUsage.ContainsKey($r.name)) {
+            [void]$sb.AppendLine('> [!WARNING]')
+            [void]$sb.AppendLine('>')
+            [void]$sb.AppendLine(('> - `{0}` uses {1} in hooks.lua.' -f $r.name, $RunUsage[$r.name]))
+            [void]$sb.AppendLine('> - Please review the hooks code.')
+            [void]$sb.AppendLine('')
+        }
+
+        # A completion with no manifest section of its own (only a dead hook
+        # target) shows the badge and its CAUTION above, nothing more.
+        foreach ($sec in (Get-Sections -Entry $r -Lang $Lang)) {
+            [void]$sb.AppendLine("#### $($sec.title)")
+            [void]$sb.AppendLine('')
+            $shown = 0
+            foreach ($line in $sec.lines) {
+                if ($shown -ge $MaxItemsPerSection) { break }
+                [void]$sb.AppendLine("- $line")
+                $shown++
+            }
+            if ($sec.lines.Count -gt $MaxItemsPerSection) {
+                [void]$sb.AppendLine("- $($m.moreItems -f ($sec.lines.Count - $MaxItemsPerSection))")
+            }
+            [void]$sb.AppendLine('')
+        }
     }
 
     return $sb.ToString()
@@ -320,6 +416,7 @@ function Get-IdIssues {
     if ($env:GITHUB_ACTIONS -and (Test-Path -LiteralPath $baseIndex)) { $baselineFile = $baseIndex }
 
     $baselineIdToNames = @{}
+    $baselineNameToId = @{}
     try {
         if (Test-Path -LiteralPath $baselineFile) {
             $idx = Get-Content -LiteralPath $baselineFile -Raw -ErrorAction Stop | ConvertFrom-Json -AsHashtable -ErrorAction Stop
@@ -331,6 +428,7 @@ function Get-IdIssues {
                     if ($id -is [string]) {
                         if (-not $baselineIdToNames.ContainsKey($id)) { $baselineIdToNames[$id] = [System.Collections.Generic.List[object]]::new() }
                         $baselineIdToNames[$id].Add($k)
+                        if (-not $baselineNameToId.ContainsKey($k)) { $baselineNameToId[$k] = $id }
                     }
                 }
             }
@@ -381,6 +479,16 @@ function Get-IdIssues {
             if (-not $issuesByName.ContainsKey($n)) { $issuesByName[$n] = [System.Collections.Generic.List[object]]::new() }
             $issuesByName[$n].Add(@{ code = 'cfg_duplicateId'; args = @($currentOrigIds[$n], $owner) })
         }
+    }
+
+    # Stability: the same completion must keep its id. A changed id breaks
+    # rename detection and orphans per-completion settings. No baseline entry
+    # means a new completion with nothing to compare: skip it.
+    foreach ($n in @($currentIds.Keys)) {
+        if (-not $baselineNameToId.ContainsKey($n)) { continue }
+        if ($currentIds[$n] -ceq $baselineNameToId[$n]) { continue }
+        if (-not $issuesByName.ContainsKey($n)) { $issuesByName[$n] = [System.Collections.Generic.List[object]]::new() }
+        $issuesByName[$n].Add(@{ code = 'cfg_idChanged'; args = @() })
     }
 
     return $issuesByName
@@ -472,6 +580,7 @@ foreach ($name in $CompletionList) {
         hasIssues = $false
         hasHooks  = $false
         fileCount = 0
+        version   = $null
     }
 
     # Probe each path once; every check below reads these instead of re-stat'ing.
@@ -513,6 +622,9 @@ foreach ($name in $CompletionList) {
         if ($config) {
             $cfgIssues = Get-ConfigIssues -Config $config -LangFileNames $langFileNames -HasHooks $hasHooks
             foreach ($i in $cfgIssues) { $entry.issues.config.Add($i) }
+            if ($config['version'] -is [string] -and $config['version'] -ne '') {
+                $entry.version = $config['version']
+            }
         }
     }
 
@@ -561,8 +673,36 @@ if ($results.Count -gt 0) {
     }
 }
 
+# A dead psc.on target is a failure even when the manifest itself is clean.
+# A changed stable id breaks rename detection, so it fails too.
+foreach ($entry in $results) {
+    if (@($HookTargetDetails | Where-Object { $_.completion -eq $entry.name }).Count -gt 0) {
+        $entry.hasIssues = $true
+    }
+    if ($IdChanged -contains $entry.name) { $entry.hasIssues = $true }
+}
+
 if ($OutFile) {
     Get-Report -Results $results -Lang $Lang | Out-File -FilePath $OutFile -Encoding utf8
+}
+
+if ($Json) {
+    $payload = foreach ($entry in $results) {
+        [pscustomobject]@{
+            name      = $entry.name
+            hasIssues = [bool]$entry.hasIssues
+            hasHooks  = [bool]$entry.hasHooks
+            version   = $entry.version
+            counts    = [pscustomobject]@{
+                schema  = $entry.issues.schema.Count
+                config  = $entry.issues.config.Count
+                hooks   = $entry.issues.hooks.Count
+                compare = $entry.issues.compare.Count
+            }
+        }
+    }
+    if ($results.Count -eq 0) { '[]' } else { @($payload) | ConvertTo-Json -Depth 8 }
+    return
 }
 
 $results
