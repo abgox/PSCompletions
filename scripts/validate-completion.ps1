@@ -1,4 +1,5 @@
-#Requires -Version 7.0
+#!/usr/bin/env pwsh
+#Requires -Version 7.6.5
 
 <#
 .SYNOPSIS

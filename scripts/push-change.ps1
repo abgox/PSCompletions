@@ -1,3 +1,6 @@
+#!/usr/bin/env pwsh
+#Requires -Version 7.6.5
+
 param(
     [string]$branch = 'main',
     [string]$author = 'github-actions[bot]',

@@ -1,3 +1,6 @@
+#!/usr/bin/env pwsh
+#Requires -Version 7.6.5
+
 function Get-RecentCompletions {
     param(
         [string]$CompletionsDir,

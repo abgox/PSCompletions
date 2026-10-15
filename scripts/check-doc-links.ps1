@@ -1,3 +1,6 @@
+#!/usr/bin/env pwsh
+#Requires -Version 7.6.5
+
 <#
 .SYNOPSIS
     Checks that every documentation link and cited repo path in the guidance docs resolves.
