@@ -11,6 +11,7 @@
 |[7z](https://7-zip.org/)|The command line interface of 7-Zip.|
 |[act](https://github.com/nektos/act)|Run GitHub Actions locally.|
 |[adb](https://developer.android.com/tools/adb)|Android Debug Bridge command-line tool.|
+|[android](https://developer.android.com/tools/agents/android-cli)|Command-line interface for Android app development with AI agents.|
 |[apt](https://wiki.debian.org/Apt)|A command-line package manager for Debian and derivatives.|
 |[apt-cache](https://wiki.debian.org/Apt)|Query and display package information from the local cache, without changing the system.|
 |[apt-get](https://wiki.debian.org/Apt)|APT package handling utility, the command-line back-end for package management.|
@@ -80,6 +81,7 @@
 |[cut@GNU](https://www.gnu.org/software/coreutils/)|Print selected parts of lines from each FILE to standard output.|
 |[cut@uutils](https://uutils.org)|Print specified byte or field columns from each line.|
 |[cypress](https://www.cypress.io/)|Fast, easy and reliable testing for anything in a browser.|
+|[dart](https://dart.dev/tools/dart-tool)|A command-line utility for Dart development.|
 |[date@GNU](https://www.gnu.org/software/coreutils/)|Display date and time in the given FORMAT.|
 |[date@uutils](https://uutils.org)|Print or set the system date and time.|
 |[dd@GNU](https://www.gnu.org/software/coreutils/)|Copy a file, converting and formatting according to the operands.|
@@ -100,6 +102,7 @@
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean official CLI.<br>Manage Droplets, databases, Kubernetes, apps, and more.|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|Generic driver for the .NET CLI.|
 |[dsc](https://github.com/PowerShell/DSC)|An open source command line application that abstracts the management of software components declaratively and idempotently.|
+|[dsh](https://github.com/deepseek-ai/deepseek-harness)|Boot a DeepSeek Harness profile — an ordered stack of plugin-bundle patch layers under your own overrides.|
 |[du@GNU](https://www.gnu.org/software/coreutils/)|Summarize device usage of the set of FILEs, recursively for directories.|
 |[du@uutils](https://uutils.org)|Estimate file space usage.|
 |[dua](https://github.com/Byron/dua-cli)|A tool to learn about disk usage, fast!|
@@ -132,6 +135,7 @@
 |[fnm](https://github.com/Schniz/fnm)|Fast and simple Node.js version manager, built in Rust.|
 |[fold@GNU](https://www.gnu.org/software/coreutils/)|Wrap input lines in each FILE, writing to standard output.|
 |[fold@uutils](https://uutils.org)|Write each file to stdout whilst breaking long lines.|
+|[fresh](https://getfresh.dev/docs)|A terminal text editor with multi-cursor support.|
 |[fx](https://fx.wtf)|Terminal JSON viewer|
 |[fzf](https://junegunn.github.io/fzf)|Interactive filter program for any kind of list.|
 |[gcc](https://gcc.gnu.org)|The GNU Compiler Collection|
@@ -154,6 +158,7 @@
 |[head@uutils](https://uutils.org)|Print the first 10 lines of each FILE to standard output.|
 |[helm](https://helm.sh)|Kubernetes package manager.|
 |[helmfile](https://github.com/helmfile/helmfile)|Declaratively deploy Kubernetes manifests, Kustomize configs, and Charts as Helm releases|
+|[hf](https://huggingface.co/docs/huggingface_hub/en/guides/cli)|Hugging Face Hub CLI.|
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|Print the numeric identifier (in hexadecimal) for the current host.|
 |[hostid@uutils](https://uutils.org)|Print the numeric identifier (in hexadecimal) for the current host|
 |[hostname](https://uutils.org)|Display or set the system's host name.|
@@ -213,6 +218,7 @@
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|Create a temporary file or directory, safely, and print its name.|
 |[mktemp@uutils](https://uutils.org)|Create a temporary file or directory.|
 |[more](https://github.com/util-linux/util-linux)|Display the contents of a text file one screen at a time.|
+|[mpv](https://mpv.io/manual/stable)|mpv is a media player based on MPlayer and mplayer2.<br>It supports a wide variety of video file formats, audio and video codecs, and subtitle types.|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|Rename SOURCE to DEST, or move SOURCE(s) to DIRECTORY.|
 |[mv@uutils](https://uutils.org)|Move SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.|
 |[mvn](https://maven.apache.org)|Apache Maven, a software project management tool.|
@@ -290,6 +296,7 @@
 |[pwd@GNU](https://www.gnu.org/software/coreutils/)|Print the full filename of the current working directory.|
 |[pwd@uutils](https://uutils.org)|Display the full filename of the current working directory.|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell CLI.|
+|[pyenv](https://github.com/pyenv/pyenv#readme)|Simple Python version management.|
 |[pymanager](https://docs.python.org/3/using/windows.html)|Python installation manager for Windows.|
 |[pytest](https://docs.pytest.org)|Python testing framework.|
 |[python3](https://www.python.org)|Python interpreter command-line.|
@@ -440,6 +447,7 @@
 |[wsl](https://github.com/microsoft/WSL)|Windows Subsystem for Linux.|
 |[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL container CLI — build, run and interact with Linux containers built into WSL.|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal command line.|
+|[x-cmd](https://x-cmd.com)|X-CMD is a POSIX shell toolkit: 300+ modules, 500+ portable packages, 1200+ software installation recipes.|
 |[xh](https://github.com/ducaale/xh)|A friendly and fast tool for sending HTTP requests<br>HTTPie alternative written in Rust|
 |[xmake](https://xmake.io)|A cross-platform build utility based on Lua.|
 |[xpipe](https://github.com/xpipe-io/xpipe)|Connection hub to access your entire server infrastructure from your local desktop.|

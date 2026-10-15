@@ -11,6 +11,7 @@
 |[7z](https://7-zip.org/)|7-Zip 的命令行界面。|
 |[act](https://github.com/nektos/act)|本地运行 GitHub Actions。|
 |[adb](https://developer.android.com/tools/adb)|Android 调试桥命令行工具。|
+|[android](https://developer.android.com/tools/agents/android-cli)|供 AI agent 做 Android 应用开发的命令行界面。|
 |[apt](https://wiki.debian.org/Apt)|Debian 及衍生系统的命令行包管理器。|
 |[apt-cache](https://wiki.debian.org/Apt)|从本地缓存查询并显示软件包信息，不改变系统状态。|
 |[apt-get](https://wiki.debian.org/Apt)|APT 软件包处理工具，软件包管理的命令行后端。|
@@ -80,6 +81,7 @@
 |[cut@GNU](https://www.gnu.org/software/coreutils/)|把每个 FILE 中各行的选定部分打印到标准输出。|
 |[cut@uutils](https://uutils.org)|输出每行中指定的字节或字段列。|
 |[cypress](https://www.cypress.io/)|为浏览器中运行的任何内容提供快速、简单、可靠的测试。|
+|[dart](https://dart.dev/tools/dart-tool)|Dart 开发命令行工具。|
 |[date@GNU](https://www.gnu.org/software/coreutils/)|以给定的 FORMAT 显示日期和时间。|
 |[date@uutils](https://uutils.org)|显示或设置系统日期和时间。|
 |[dd@GNU](https://www.gnu.org/software/coreutils/)|按操作数的规定转换并格式化，从而复制文件。|
@@ -100,6 +102,7 @@
 |[doctl](https://github.com/digitalocean/doctl)|DigitalOcean 官方命令行工具。<br>管理 Droplet、数据库、Kubernetes、应用等资源。|
 |[dotnet](https://learn.microsoft.com/en-gb/dotnet/core/tools/dotnet)|.NET CLI 的通用驱动程序。|
 |[dsc](https://github.com/PowerShell/DSC)|一款开源命令行应用程序，可采用声明式、幂等式方式对软件组件的管理操作进行抽象封装。|
+|[dsh](https://github.com/deepseek-ai/deepseek-harness)|启动 DeepSeek Harness profile，有序叠加插件包补丁层并应用用户覆盖。|
 |[du@GNU](https://www.gnu.org/software/coreutils/)|汇总一组 FILE 的磁盘占用，对目录递归处理。|
 |[du@uutils](https://uutils.org)|估算文件空间使用情况。|
 |[dua](https://github.com/Byron/dua-cli)|一个快速了解磁盘使用情况的工具！|
@@ -132,6 +135,7 @@
 |[fnm](https://github.com/Schniz/fnm)|使用 Rust 编写的快速简单的 Node.js 版本管理器。|
 |[fold@GNU](https://www.gnu.org/software/coreutils/)|折行每个 FILE 的输入内容，输出到标准输出。|
 |[fold@uutils](https://uutils.org)|将每个文件写入标准输出，同时拆分长行。|
+|[fresh](https://getfresh.dev/docs)|支持多光标的终端文本编辑器。|
 |[fx](https://fx.wtf)|终端 JSON 查看器|
 |[fzf](https://junegunn.github.io/fzf)|适用于任何类型列表的交互式过滤程序。|
 |[gcc](https://gcc.gnu.org)|GNU 编译器套件|
@@ -154,6 +158,7 @@
 |[head@uutils](https://uutils.org)|输出每个文件的前 10 行到标准输出。|
 |[helm](https://helm.sh)|Kubernetes 包管理器。|
 |[helmfile](https://github.com/helmfile/helmfile)|以声明方式将 Kubernetes 清单、Kustomize 配置和 Charts 部署为 Helm release|
+|[hf](https://huggingface.co/docs/huggingface_hub/en/guides/cli)|Hugging Face Hub CLI。|
 |[hostid@GNU](https://www.gnu.org/software/coreutils/)|打印当前主机的数字标识符（十六进制）。|
 |[hostid@uutils](https://uutils.org)|打印当前主机的数字标识符（十六进制）|
 |[hostname](https://uutils.org)|显示或设置系统主机名。|
@@ -213,6 +218,7 @@
 |[mktemp@GNU](https://www.gnu.org/software/coreutils/)|安全地创建临时文件或目录，并打印其名字。|
 |[mktemp@uutils](https://uutils.org)|创建临时文件或目录|
 |[more](https://github.com/util-linux/util-linux)|逐屏显示文本文件内容。|
+|[mpv](https://mpv.io/manual/stable)|mpv 是基于 MPlayer 和 mplayer2 的媒体播放器。<br>支持多种视频文件格式、音频/视频编解码器与字幕类型。|
 |[mv@GNU](https://www.gnu.org/software/coreutils/)|把 SOURCE 重命名为 DEST，或把多个 SOURCE 移动到 DIRECTORY 中。|
 |[mv@uutils](https://uutils.org)|将 SOURCE 移动到 DEST，或将多个 SOURCE 移动到 DIRECTORY|
 |[mvn](https://maven.apache.org)|Apache Maven，软件项目管理工具。|
@@ -290,6 +296,7 @@
 |[pwd@GNU](https://www.gnu.org/software/coreutils/)|打印当前工作目录的完整路径名。|
 |[pwd@uutils](https://uutils.org)|显示当前工作目录的完整文件名|
 |[pwsh](https://learn.microsoft.com/powershell/module/microsoft.powershell.core/about/about_pwsh)|PowerShell 命令行。|
+|[pyenv](https://github.com/pyenv/pyenv#readme)|简单的 Python 版本管理。|
 |[pymanager](https://docs.python.org/3/using/windows.html)|适用于 Windows 的 Python 安装管理器。|
 |[pytest](https://docs.pytest.org)|Python 测试框架。|
 |[python3](https://www.python.org)|Python 解释器命令行。|
@@ -440,6 +447,7 @@
 |[wsl](https://github.com/microsoft/WSL)|适用于 Linux 的 Windows 子系统。|
 |[wslc](https://learn.microsoft.com/en-us/windows/wsl/wsl-container)|WSL 容器 CLI —— 构建、运行 WSL 内置的 Linux 容器并与之交互。|
 |[wt](https://github.com/microsoft/terminal)|Windows Terminal 命令行。|
+|[x-cmd](https://x-cmd.com)|X-CMD 是 POSIX shell 工具集：300+ 模块、500+ 可移植包、1200+ 软件安装配方。|
 |[xh](https://github.com/ducaale/xh)|一个友好且快速的 HTTP 请求发送工具。<br>用 Rust 编写的 HTTPie 替代品。|
 |[xmake](https://xmake.io)|基于 Lua 的跨平台构建工具。|
 |[xpipe](https://github.com/xpipe-io/xpipe)|连接中心，从本地桌面访问整个服务器基础设施。|
