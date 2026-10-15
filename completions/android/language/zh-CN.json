@@ -1,0 +1,2673 @@
+{
+  "meta": {
+    "url": "https://developer.android.com/tools/agents/android-cli",
+    "description": [
+      "供 AI agent 做 Android 应用开发的命令行界面。"
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "usage": [
+        "auth [-h] [COMMAND]"
+      ],
+      "tip": [
+        "认证相关命令。",
+        "登录 / 登出 Android CLI 的 Google 服务"
+      ],
+      "next": [
+        {
+          "name": "login",
+          "usage": [
+            "login [-h] [--no-use-keyring]"
+          ],
+          "tip": [
+            "登录 Android CLI 的 Google 服务"
+          ],
+          "option": [
+            {
+              "name": "--no-use-keyring",
+              "tip": [
+                "存 token 时不用 keyring"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [-h]"
+          ],
+          "tip": [
+            "登出 Android CLI 的 Google 服务"
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [-h]"
+          ],
+          "tip": [
+            "打印当前登录的账号"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [-h] [<shell>]"
+      ],
+      "tip": [
+        "给当前用户装 Android CLI 的 shell 补全配置"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [-h] [--application-id=PARAM] [--force] [--list] [--min-sdk=PARAM] [--name=PARAM] [--namespace=PARAM] [--output=PARAM] [<template-name>]"
+      ],
+      "tip": [
+        "从可用模板建新 Android 项目。",
+        "可指定项目名、输出目录、`minSdk` 和 dry-run 执行"
+      ],
+      "option": [
+        {
+          "name": "--application-id",
+          "usage": [
+            "--application-id=<PARAM>"
+          ],
+          "tip": [
+            "应用的 app ID，例如 `com.example.myapp`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "允许在非空目录建项目，会覆盖已有文件"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "列出全部可用模板"
+          ]
+        },
+        {
+          "name": "--min-sdk",
+          "usage": [
+            "--min-sdk=<PARAM>"
+          ],
+          "tip": [
+            "应用支持的 `minSdk`（默认值由模板定）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name=<PARAM>"
+          ],
+          "tip": [
+            "应用名，例如 `My Application`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace",
+          "usage": [
+            "--namespace=<PARAM>"
+          ],
+          "tip": [
+            "资源的 namespace，以及 Kotlin 源码的包名"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<PARAM>"
+          ],
+          "tip": [
+            "目标项目目录路径（默认 `.`）"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "empty-activity"
+        }
+      ]
+    },
+    {
+      "name": "describe",
+      "usage": [
+        "describe [-h] [--project_dir=PARAM]"
+      ],
+      "tip": [
+        "分析 Android 项目并生成描述性元数据。",
+        "该命令找出并输出 JSON 文件路径，这些文件描述项目结构，含构建目标及其产物位置（如 APK）。",
+        "这些信息让其他工具和命令高效定位构建产物"
+      ],
+      "option": [
+        {
+          "name": "--project_dir",
+          "usage": [
+            "--project_dir=<PARAM>"
+          ],
+          "tip": [
+            "要 describe 的项目目录"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "device",
+      "usage": [
+        "device [-h] [COMMAND]"
+      ],
+      "tip": [
+        "管理真机设备。",
+        "建远端真机预留"
+      ],
+      "next": [
+        {
+          "name": "remote",
+          "usage": [
+            "remote [-h] [--project=PARAM] [COMMAND]"
+          ],
+          "tip": [
+            "管理远端真机。",
+            "包含列出、预留、连接、管理远端设备预留的命令"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "Google Cloud 项目 ID"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "connect",
+              "usage": [
+                "connect [-h] <reservation-id>"
+              ],
+              "tip": [
+                "连到已预留的远端设备"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "usage": [
+                "create [-h] [--connect] [<codename>/<api>]"
+              ],
+              "tip": [
+                "给远端设备建预留"
+              ],
+              "option": [
+                {
+                  "name": "--connect",
+                  "tip": [
+                    "预留建好后连上该设备"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "disconnect",
+              "usage": [
+                "disconnect [-h] <reservation-id>"
+              ],
+              "tip": [
+                "断开远端设备"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "extend",
+              "usage": [
+                "extend [-h] --duration=PARAM <reservation-id>"
+              ],
+              "tip": [
+                "延长远端设备预留"
+              ],
+              "option": [
+                {
+                  "name": "--duration",
+                  "usage": [
+                    "--duration=<PARAM>"
+                  ],
+                  "tip": [
+                    "要延长预留的分钟数"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [-h] [--all] [--short] [<reservation-id>]"
+              ],
+              "tip": [
+                "列出远端设备预留"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "不论状态打印全部预留"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--short",
+                  "tip": [
+                    "只打印每个预留的 ID"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "models",
+              "usage": [
+                "models [-h]"
+              ],
+              "tip": [
+                "列出可用的远端设备型号"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "projects",
+              "usage": [
+                "projects [-h] [--all]"
+              ],
+              "tip": [
+                "列出可串流设备的 Google Cloud 项目"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "包含尚不可串流的项目"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove [-h] <reservation-id>"
+              ],
+              "tip": [
+                "删远端设备预留"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "Google Cloud 项目 ID"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "usage": [
+        "docs [-h] [COMMAND]"
+      ],
+      "tip": [
+        "从官方 Android 知识库搜取开发者文档"
+      ],
+      "next": [
+        {
+          "name": "fetch",
+          "usage": [
+            "fetch [-h] <url>"
+          ],
+          "tip": [
+            "从 `kb://` 开头的 URL 取 Android 文档文章"
+          ]
+        },
+        {
+          "name": "search",
+          "usage": [
+            "search [-h] <query>"
+          ],
+          "tip": [
+            "搜 Android 文档。",
+            "关键词用引号括起来"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "emulator",
+      "usage": [
+        "emulator [-h] [COMMAND]"
+      ],
+      "tip": [
+        "管理 Android 虚拟设备（AVD）。",
+        "包含启动、停止、列出、查看模拟器详情的命令"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [-h] [--list-profiles] [<profile>]"
+          ],
+          "tip": [
+            "建虚拟设备"
+          ],
+          "option": [
+            {
+              "name": "--list-profiles",
+              "tip": [
+                "列出可用来建设备的设备 profile"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "large_desktop"
+            },
+            {
+              "name": "medium_desktop"
+            },
+            {
+              "name": "medium_phone"
+            },
+            {
+              "name": "medium_tablet"
+            },
+            {
+              "name": "small_desktop"
+            },
+            {
+              "name": "small_phone"
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--long]"
+          ],
+          "tip": [
+            "列出可用虚拟设备"
+          ],
+          "option": [
+            {
+              "name": "--long",
+              "tip": [
+                "给更详细信息"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] [--force] <device>"
+          ],
+          "tip": [
+            "删虚拟设备"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "即使对应的 `.avd` 目录不存在，也强制删 `.ini` 文件"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start [-h] [--cold] [--headless] <device>"
+          ],
+          "tip": [
+            "启动指定虚拟设备。",
+            "模拟器完全启动、可用后该命令才返回"
+          ],
+          "option": [
+            {
+              "name": "--cold",
+              "tip": [
+                "不从快照加载，直接启动模拟器"
+              ]
+            },
+            {
+              "name": "--headless",
+              "tip": [
+                "无窗口启动模拟器"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [-h] [<device>]"
+          ],
+          "tip": [
+            "停指定虚拟设备"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [-h] [COMMAND]"
+      ],
+      "tip": [
+        "显示指定命令的帮助信息"
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [-h] [<field>]"
+      ],
+      "tip": [
+        "打印环境信息，含 SDK 位置、已连设备、配置变量"
+      ],
+      "next": [
+        {
+          "name": "launcher_version"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "version"
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [-h]"
+      ],
+      "tip": [
+        "初始化 Android CLI 环境。",
+        "建好所需的配置、目录和默认 skill"
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [-h] [--apks=PARAM] [--device=PARAM] [--install-options=PARAM] [--use-delta-install]"
+      ],
+      "tip": [
+        "在已连接设备或模拟器上装 Android 应用（一个或多个 APK），不激活任何组件；增量优化，比 `adb` 部署更快"
+      ],
+      "option": [
+        {
+          "name": "--apks",
+          "usage": [
+            "--apks=<PARAM>"
+          ],
+          "tip": [
+            "APK 路径，逗号分隔"
+          ],
+          "next": []
+        },
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "设备序列号"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-options",
+          "usage": [
+            "--install-options=<PARAM>"
+          ],
+          "tip": [
+            "传给包管理器 install 的额外选项或 flag（例如 `-g`、`-d`）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-delta-install",
+          "tip": [
+            "用快速 delta 安装（只传改过的代码和资源，加速增量更新；默认 `true`）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "layout",
+      "usage": [
+        "layout [-dhp] [--device=PARAM] [--flat] [--full] [--no-idle] [--output=PARAM]"
+      ],
+      "tip": [
+        "返回应用的 layout 树"
+      ],
+      "option": [
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "设备序列号"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --diff"
+          ],
+          "tip": [
+            "已废弃，无实际作用的 flag。",
+            "未来版本会移除"
+          ]
+        },
+        {
+          "name": "--flat",
+          "tip": [
+            "返回扁平列表而非树"
+          ]
+        },
+        {
+          "name": "--full",
+          "tip": [
+            "返回完整树，含不可交互和隐藏元素"
+          ]
+        },
+        {
+          "name": "--no-idle",
+          "tip": [
+            "取 layout 时不等 idle 状态"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<PARAM>"
+          ],
+          "tip": [
+            "把 layout 写到指定文件或目录。",
+            "省略则打印到标准输出"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pretty",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pretty"
+          ],
+          "tip": [
+            "把返回的 JSON 漂亮打印"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [-h] [--activity=PARAM] [--apks=PARAM] [--debug] [--device=PARAM] [--install-options=PARAM] [--type=PARAM] [--use-delta-install]"
+      ],
+      "tip": [
+        "在已连接设备或模拟器上构建、部署并启动 Android 应用"
+      ],
+      "option": [
+        {
+          "name": "--activity",
+          "usage": [
+            "--activity=<PARAM>"
+          ],
+          "tip": [
+            "activity 名"
+          ],
+          "next": []
+        },
+        {
+          "name": "--apks",
+          "usage": [
+            "--apks=<PARAM>"
+          ],
+          "tip": [
+            "APK 路径，逗号分隔"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "debug 模式跑"
+          ]
+        },
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "设备序列号"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-options",
+          "usage": [
+            "--install-options=<PARAM>"
+          ],
+          "tip": [
+            "传给包管理器 install 的额外选项或 flag（例如 `-g`、`-d`）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type=<PARAM>"
+          ],
+          "tip": [
+            "组件类型（`ACTIVITY`、`WATCH_FACE`、`TILE`、`COMPLICATION`、`DECLARATIVE_WATCH_FACE`、`WEAR_WIDGET`）"
+          ],
+          "next": [
+            {
+              "name": "ACTIVITY"
+            },
+            {
+              "name": "COMPLICATION"
+            },
+            {
+              "name": "DECLARATIVE_WATCH_FACE"
+            },
+            {
+              "name": "TILE"
+            },
+            {
+              "name": "WATCH_FACE"
+            },
+            {
+              "name": "WEAR_WIDGET"
+            }
+          ]
+        },
+        {
+          "name": "--use-delta-install",
+          "tip": [
+            "用快速 delta 安装（只传改过的代码和资源，加速增量更新；默认 `true`）"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "screen",
+      "usage": [
+        "screen [-h] [COMMAND]"
+      ],
+      "tip": [
+        "抓取并检查已连接设备或模拟器的屏幕"
+      ],
+      "next": [
+        {
+          "name": "capture",
+          "usage": [
+            "capture [-ah] [--debug] [--device=PARAM] [--distance=PARAM] [--edge-thresh-strong=PARAM] [--edge-thresh-weak=PARAM] [--features=PARAM] [--min-area=PARAM] [--min-nested-area=PARAM] [--min-rect=PARAM] [--min-round=PARAM] [--output=PARAM] [--threshold=PARAM]"
+          ],
+          "tip": [
+            "把设备屏幕输出成 PNG"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --annotate"
+              ],
+              "tip": [
+                "在截图上检测 UI 元素并用编号框标出来（`#1`、`#2` 等）。",
+                "这样 AI agent 和脚本可以用编号引用屏上 UI 元素，不用手算像素坐标"
+              ]
+            },
+            {
+              "name": "--debug",
+              "tip": [
+                "输出中间的 feature 检测步骤，方便调参"
+              ]
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device=<PARAM>"
+              ],
+              "tip": [
+                "设备序列号"
+              ],
+              "next": []
+            },
+            {
+              "name": "--distance",
+              "usage": [
+                "--distance=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "把检测到的形状合并成 UI feature 时的距离度量（`MIN_EUCLIDEAN` 或 `MIN_ANISOTROPIC`）。",
+                "`MIN_ANISOTROPIC` 让 y 轴纵向间距权重高于横向间距（默认 `MIN_EUCLIDEAN`）"
+              ],
+              "next": [
+                {
+                  "name": "MIN_ANISOTROPIC"
+                },
+                {
+                  "name": "MIN_EUCLIDEAN"
+                }
+              ]
+            },
+            {
+              "name": "--edge-thresh-strong",
+              "usage": [
+                "--edge-thresh-strong=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "边缘检测的强阈值（`0` 到 `1`）。",
+                "边缘太弱被忽略就调低，噪点太多就调高（默认 `0.1`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--edge-thresh-weak",
+              "usage": [
+                "--edge-thresh-weak=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "边缘检测的弱阈值（`0` 到 `1`）。",
+                "边缘太弱被忽略就调低，噪点太多就调高（默认 `0.05`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "把检测到的形状聚成 UI feature 的算法（`GREEDY` 或 `FH`）。",
+                "`GREEDY` 把距离小于 `--threshold` 的形状合成一个 feature。",
+                "`FH` 把 `--threshold` 当分割尺度参数，值越大 feature 越少越大，越小则越多越小（默认 `FH`）"
+              ],
+              "next": [
+                {
+                  "name": "FH"
+                },
+                {
+                  "name": "GREEDY"
+                }
+              ]
+            },
+            {
+              "name": "--min-area",
+              "usage": [
+                "--min-area=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "feature 检测前形状的最小面积（`dp²`）。",
+                "小于该阈值的形状会被忽略（默认 `5.0`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-nested-area",
+              "usage": [
+                "--min-nested-area=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "保留嵌套子 feature 所需的最小父 feature 面积（`dp²`）。",
+                "图标里的小细节被标成独立元素就调高（默认 `3600.0`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-rect",
+              "usage": [
+                "--min-rect=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "形状面积与其轴对齐包围盒面积的最小比值。",
+                "`--min-rect` 和 `--min-round` 都不达标的形状会被忽略（默认 `0.2`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-round",
+              "usage": [
+                "--min-round=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "形状最小圆度（`4 * PI * area / perimeter^2`，`1.0` 为正圆）。",
+                "`--min-rect` 和 `--min-round` 都不达标的形状会被忽略（默认 `0.2`）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output=<PARAM>"
+              ],
+              "tip": [
+                "把截图写到指定文件或目录"
+              ],
+              "next": []
+            },
+            {
+              "name": "--threshold",
+              "usage": [
+                "--threshold=<PARAM>"
+              ],
+              "tip": [
+                "配合 `--annotate` 用。",
+                "传给 `--features` 指定算法的聚合阈值（默认 `15`）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "resolve",
+          "usage": [
+            "resolve [-h] --screenshot=PARAM --string=PARAM"
+          ],
+          "tip": [
+            "可视化定位 UI 元素。",
+            "把标注截图里的框坐标代入字符串，把所有 `#N` 换成编号为 `N` 的框的中心坐标"
+          ],
+          "option": [
+            {
+              "name": "--screenshot",
+              "usage": [
+                "--screenshot=<PARAM>"
+              ],
+              "tip": [
+                "用 `android screen capture --annotate` 抓的截图"
+              ],
+              "next": []
+            },
+            {
+              "name": "--string",
+              "usage": [
+                "--string=<PARAM>"
+              ],
+              "tip": [
+                "要代入坐标的字符串"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk",
+      "usage": [
+        "sdk [-h] [--ignore-outdated-xmls] [--platform=PARAM] [COMMAND]"
+      ],
+      "tip": [
+        "管理 Android SDK 安装。",
+        "包含安装、更新、移除、列出可用与已装 SDK 包的命令"
+      ],
+      "option": [
+        {
+          "name": "--ignore-outdated-xmls",
+          "tip": [
+            "装或更新包时，不更新其他包的 XML 文件"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform=<PARAM>"
+          ],
+          "tip": [
+            "目标平台 `<os>_<arch>`（例如 `linux_x86_64`、`mac_arm64`、`windows_x86`），默认当前主机"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [-h] [--beta] [--canary] [--force] [--no-downgrade] <package>[@<version>]"
+          ],
+          "tip": [
+            "装 SDK 包"
+          ],
+          "option": [
+            {
+              "name": "--beta",
+              "tip": [
+                "包含 beta 包"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "包含 canary 包"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "强制降级到旧版本"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "装或更新包时，不更新其他包的 XML 文件"
+              ]
+            },
+            {
+              "name": "--no-downgrade",
+              "tip": [
+                "跳过会被降级的包"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "目标平台 `<os>_<arch>`（例如 `linux_x86_64`、`mac_arm64`、`windows_x86`），默认当前主机"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--all] [--all-versions] [--beta] [--canary] [<pattern>]"
+          ],
+          "tip": [
+            "列出已装和可用的 SDK 包"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "显示仓库里全部可用包"
+              ]
+            },
+            {
+              "name": "--all-versions",
+              "tip": [
+                "显示每个包的全部版本"
+              ]
+            },
+            {
+              "name": "--beta",
+              "tip": [
+                "包含 beta 包"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "包含 canary 包"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "装或更新包时，不更新其他包的 XML 文件"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "目标平台 `<os>_<arch>`（例如 `linux_x86_64`、`mac_arm64`、`windows_x86`），默认当前主机"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] <package>"
+          ],
+          "tip": [
+            "从 SDK 移除包"
+          ],
+          "option": [
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "装或更新包时，不更新其他包的 XML 文件"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "目标平台 `<os>_<arch>`（例如 `linux_x86_64`、`mac_arm64`、`windows_x86`），默认当前主机"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [-h] [--beta] [--canary] [--force] [--no-downgrade] [<package>]"
+          ],
+          "tip": [
+            "把一个或全部包更新到最新版"
+          ],
+          "option": [
+            {
+              "name": "--beta",
+              "tip": [
+                "包含 beta 包"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "包含 canary 包"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "强制降级到旧版本"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "装或更新包时，不更新其他包的 XML 文件"
+              ]
+            },
+            {
+              "name": "--no-downgrade",
+              "tip": [
+                "跳过会被降级的包"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "目标平台 `<os>_<arch>`（例如 `linux_x86_64`、`mac_arm64`、`windows_x86`），默认当前主机"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "usage": [
+        "skills [-h] [COMMAND]"
+      ],
+      "tip": [
+        "管理 Android CLI skill。",
+        "包含按关键词安装、移除、列出、搜索 skill 的命令"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [-h] [--agent=PARAM] [--all] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "按 ID 装指定 skill 到你的环境"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "要为其安装 skill 的 agent 列表，逗号分隔。",
+                "不指定则给所有检测到的 agent 都装 skill"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "装全部 skill"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "项目根目录路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "find",
+          "usage": [
+            "find [-h] keyword"
+          ],
+          "tip": [
+            "按关键词在仓库里搜可用 skill"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--agent=PARAM] [--long] [--project=PARAM]"
+          ],
+          "tip": [
+            "列出已装和可用的 skill"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "要列出已装 skill 的 agent 列表，逗号分隔。",
+                "不指定则列出可安装的 skill"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "用长输出格式"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "项目根目录路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] [--agent=PARAM] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "按 ID 删已装 skill"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "要为其移除 skill 的 agent 列表，逗号分隔。",
+                "不指定则给所有检测到的 agent 都删 skill"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "项目根目录路径"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [-h] [--agent=PARAM] [--all] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "更新已装 skill"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "要为其更新 skill 的 agent 列表，逗号分隔。",
+                "不指定则给所有检测到的 agent 都更新 skill"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "更新全部已装 skill"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "项目根目录路径"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "studio",
+      "usage": [
+        "studio [-h] [COMMAND]"
+      ],
+      "tip": [
+        "把 Android CLI 连到运行中的 Android Studio 实例，可分析文件、找声明与引用、渲染 Compose 预览、查库版本"
+      ],
+      "next": [
+        {
+          "name": "analyze-file",
+          "usage": [
+            "analyze-file [-h] [--pid=PARAM] [--project=PARAM] <path>"
+          ],
+          "tip": [
+            "在 Android Studio 里分析文件"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "check",
+          "usage": [
+            "check [-h]"
+          ],
+          "tip": [
+            "检查运行中的 Android Studio 实例状态"
+          ]
+        },
+        {
+          "name": "find-declaration",
+          "usage": [
+            "find-declaration [-h] [--context-file=PARAM] [--pid=PARAM] [--project=PARAM] [--short] <symbol>"
+          ],
+          "tip": [
+            "找符号的声明"
+          ],
+          "option": [
+            {
+              "name": "--context-file",
+              "usage": [
+                "--context-file=<PARAM>"
+              ],
+              "tip": [
+                "符号引用所在文件的可选路径，相对当前目录或绝对路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--short",
+              "tip": [
+                "只显示有命中的文件位置"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "find-usages",
+          "usage": [
+            "find-usages [-h] [--context-file=PARAM] [--pid=PARAM] [--project=PARAM] [--short] <symbol>"
+          ],
+          "tip": [
+            "找符号的引用"
+          ],
+          "option": [
+            {
+              "name": "--context-file",
+              "usage": [
+                "--context-file=<PARAM>"
+              ],
+              "tip": [
+                "符号引用所在文件的可选路径，相对当前目录或绝对路径"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--short",
+              "tip": [
+                "只显示有命中的文件位置"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "open-file",
+          "usage": [
+            "open-file [-h] [--pid=PARAM] [--project=PARAM] <path>"
+          ],
+          "tip": [
+            "在 Android Studio 里打开文件"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "render-compose-preview",
+          "usage": [
+            "render-compose-preview [-h] [--output-image-file=PARAM] [--pid=PARAM] [--print-semantics] [--project=PARAM] <path> <composable>"
+          ],
+          "tip": [
+            "在 Android Studio 里渲染 Compose 预览"
+          ],
+          "option": [
+            {
+              "name": "--output-image-file",
+              "usage": [
+                "--output-image-file=<PARAM>"
+              ],
+              "tip": [
+                "结果图片的写入文件名"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--print-semantics",
+              "tip": [
+                "为 `true` 则打印 semantics 树"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "version-lookup",
+          "usage": [
+            "version-lookup [-h] [--pid=PARAM] [--project=PARAM] <artifacts...>"
+          ],
+          "tip": [
+            "查 Maven 工件、Android 版本、SDK 工具的最新可用版本"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "要连的 Android Studio 实例的 PID"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "要查的、Android Studio 里打开的项目的名或路径。",
+                "用 `android studio check` 查可用项目名"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [-h] [--url=PARAM]"
+      ],
+      "tip": [
+        "把 Android CLI 更新到最新版"
+      ],
+      "option": [
+        {
+          "name": "--url",
+          "usage": [
+            "--url=<PARAM>"
+          ],
+          "tip": [
+            "下载更新的 URL"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示指定命令的帮助信息。"
+      ]
+    },
+    {
+      "name": "--no-metrics",
+      "tip": [
+        "禁用数据收集。"
+      ]
+    },
+    {
+      "name": "--sdk",
+      "usage": [
+        "--sdk=<PARAM>"
+      ],
+      "tip": [
+        "Android SDK 路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "开 verbose 输出，方便排错。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本信息并退出。"
+      ]
+    }
+  ]
+}

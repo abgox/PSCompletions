@@ -1,0 +1,657 @@
+{
+  "meta": {
+    "url": "https://getfresh.dev/docs",
+    "description": [
+      "支持多光标的终端文本编辑器。"
+    ]
+  },
+  "option": [
+    {
+      "name": "--attach",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --attach [<NAME>]"
+      ],
+      "tip": [
+        "连接到 daemon。",
+        "-a 连接当前目录，-a NAME 连接命名 daemon。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd",
+      "usage": [
+        "--cmd <COMMAND>..."
+      ],
+      "tip": [
+        "不打开文件，而是运行一条命令。",
+        "占据行尾： daemon、config、grammar、init、command、update、script、help、workspace、agent。"
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "管理 live workspace 及其 agent 状态。"
+          ],
+          "next": [
+            {
+              "name": "explain",
+              "usage": [
+                "explain <ID> [--json]"
+              ],
+              "tip": [
+                "解释 workspace 为何显示当前 agent 状态。",
+                "展示规则、证据与时机。"
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get <ID> [--json]"
+              ],
+              "tip": [
+                "显示单个 workspace。",
+                "ID 为 workspaceId、窗口编号或 dock 名称。"
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [--json]"
+              ],
+              "tip": [
+                "列出 live workspace 及其 agent 状态。"
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start <CMD> [--prompt TEXT] [--auto] [--no-teach] [--no-wait] [--timeout SECS] [--json]"
+              ],
+              "tip": [
+                "在此 workspace 中启动 CMD 并确认其已就绪。",
+                "未就绪则退出码为 1。"
+              ],
+              "option": [
+                {
+                  "name": "--auto",
+                  "tip": [
+                    "自动执行。"
+                  ]
+                },
+                {
+                  "name": "--no-teach",
+                  "tip": [
+                    "禁用教学输出。"
+                  ]
+                },
+                {
+                  "name": "--no-wait",
+                  "tip": [
+                    "不等待命令就绪。"
+                  ]
+                },
+                {
+                  "name": "--prompt",
+                  "usage": [
+                    "--prompt <TEXT>"
+                  ],
+                  "tip": [
+                    "传递给所启动命令的提示文本。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <SECS>"
+                  ],
+                  "tip": [
+                    "超时时间（秒）。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "wait",
+              "usage": [
+                "wait <ID> [--until STATE[,STATE]] [--timeout SECS] [--json]"
+              ],
+              "tip": [
+                "阻塞直到 agent 空闲或进入指定 STATE。",
+                "超时则退出码为 3。"
+              ],
+              "option": [
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <SECS>"
+                  ],
+                  "tip": [
+                    "超时时间（秒）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--until",
+                  "usage": [
+                    "--until <STATE[,STATE]>"
+                  ],
+                  "tip": [
+                    "阻塞直到 agent 进入以下状态之一。",
+                    "可能值： working、blocked、done、idle、unknown。"
+                  ],
+                  "separator": ",",
+                  "next": [
+                    {
+                      "name": "blocked",
+                      "tip": [
+                        "阻塞状态。"
+                      ]
+                    },
+                    {
+                      "name": "done",
+                      "tip": [
+                        "完成状态。"
+                      ]
+                    },
+                    {
+                      "name": "idle",
+                      "tip": [
+                        "空闲状态。"
+                      ]
+                    },
+                    {
+                      "name": "unknown",
+                      "tip": [
+                        "未知状态。"
+                      ]
+                    },
+                    {
+                      "name": "working",
+                      "tip": [
+                        "工作中状态。"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command",
+          "tip": [
+            "运行或列出已注册命令。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [QUERY]"
+              ],
+              "tip": [
+                "列出已注册命令（内置与插件）。"
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run \"<name>\""
+              ],
+              "tip": [
+                "按命令面板名称运行已注册命令。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "查看生效配置或 Fresh 使用的目录。"
+          ],
+          "next": [
+            {
+              "name": "paths",
+              "tip": [
+                "显示 Fresh 使用的目录。"
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "打印生效配置。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grammar",
+          "tip": [
+            "查看可用的语法。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出所有可用语法（含来源信息）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "功能指南与生成的参考（主题：tour、script、plugin）。"
+          ],
+          "next": [
+            {
+              "name": "plugin",
+              "tip": [
+                "编写 init.ts 与插件（TypeScript）。",
+                "自定义配置位于 ~/.config/fresh/init.ts。"
+              ]
+            },
+            {
+              "name": "script",
+              "tip": [
+                "编辑器脚本（TypeScript）。",
+                "用插件相同的 API 驱动运行中的 Fresh。"
+              ]
+            },
+            {
+              "name": "tour",
+              "tip": [
+                "引导式代码 tour。",
+                "按 JSON manifest 漫游代码库。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "初始化新的 plugin / theme / language。"
+          ],
+          "next": [
+            {
+              "name": "check",
+              "tip": [
+                "语法检查 ~/.config/fresh/init.ts 而不运行。"
+              ]
+            },
+            {
+              "name": "language",
+              "tip": [
+                "初始化新的 language。",
+                "语法高亮、LSP 与语言配置。"
+              ]
+            },
+            {
+              "name": "plugin",
+              "tip": [
+                "初始化新的 plugin。",
+                "用自定义命令与功能扩展 Fresh。"
+              ]
+            },
+            {
+              "name": "reload",
+              "tip": [
+                "在运行中的编辑器里重读并运行 init.ts。"
+              ]
+            },
+            {
+              "name": "theme",
+              "tip": [
+                "初始化新的 theme。",
+                "自定义配色与样式。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "script",
+          "tip": [
+            "用 TypeScript 驱动运行中的编辑器。",
+            "动词：api、check、run、types。"
+          ],
+          "next": [
+            {
+              "name": "api",
+              "usage": [
+                "api <query>"
+              ],
+              "tip": [
+                "按名称或描述搜索 API。"
+              ]
+            },
+            {
+              "name": "check",
+              "usage": [
+                "check [FILE|-]"
+              ],
+              "tip": [
+                "解析并检查 editor.* 名称，不运行。"
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run [FILE|-]"
+              ],
+              "tip": [
+                "在此 workspace 中求值（默认：stdin）。"
+              ]
+            },
+            {
+              "name": "types",
+              "tip": [
+                "显示 API 声明文件路径。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "session",
+          "alias": [
+            "daemon"
+          ],
+          "usage": [
+            "daemon|session"
+          ],
+          "tip": [
+            "管理后台 daemon（list、attach、new、kill、info、open-file）。",
+            "session 是旧名称，仍可用。"
+          ],
+          "next": [
+            {
+              "name": "attach",
+              "usage": [
+                "attach [NAME]"
+              ],
+              "tip": [
+                "连接到 daemon（NAME 或当前目录）。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "显示运行中的 daemon 及连接方式。"
+              ]
+            },
+            {
+              "name": "kill",
+              "usage": [
+                "kill [NAME]"
+              ],
+              "tip": [
+                "终止 daemon（当前目录或 NAME）。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出活动 daemon。"
+              ]
+            },
+            {
+              "name": "new",
+              "usage": [
+                "new <NAME>"
+              ],
+              "tip": [
+                "启动新的命名 daemon。"
+              ]
+            },
+            {
+              "name": "open-file",
+              "usage": [
+                "open-file <NAME> <FILES> [--wait]"
+              ],
+              "tip": [
+                "在 daemon 中打开文件。",
+                "--wait 会阻塞直到完成。"
+              ],
+              "option": [
+                {
+                  "name": "--wait",
+                  "tip": [
+                    "阻塞直到用户关闭弹窗或关闭 buffer。",
+                    "NAME 用 '.' 表示当前目录的 daemon。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "检查并安装更新。"
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "查看 dock 跟踪的 workspace。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [--json]"
+              ],
+              "tip": [
+                "列出 dock 跟踪的所有 workspace。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "配置文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--event-log",
+      "usage": [
+        "--event-log <LOG_FILE>"
+      ],
+      "tip": [
+        "启用事件日志，写入指定文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印帮助（用 '-h' 查看摘要）。"
+      ]
+    },
+    {
+      "name": "--locale",
+      "usage": [
+        "--locale <LOCALE>"
+      ],
+      "tip": [
+        "覆盖 locale（例如 'en'、'ja'、'zh-CN'）。"
+      ],
+      "next": [
+        {
+          "name": "en",
+          "tip": [
+            "英语。"
+          ]
+        },
+        {
+          "name": "es",
+          "tip": [
+            "西班牙语。"
+          ]
+        },
+        {
+          "name": "fr",
+          "tip": [
+            "法语。"
+          ]
+        },
+        {
+          "name": "ja",
+          "tip": [
+            "日语。"
+          ]
+        },
+        {
+          "name": "zh-CN",
+          "tip": [
+            "简体中文。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <PATH>"
+      ],
+      "tip": [
+        "编辑器诊断日志路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-init",
+      "tip": [
+        "本次启动跳过 `~/.config/fresh/init.ts`。"
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "禁用插件加载。"
+      ]
+    },
+    {
+      "name": "--no-restore",
+      "tip": [
+        "不恢复上一个 workspace。",
+        "热退出内容（未保存的修改文件与未命名 buffer）仍会恢复，以免丢失进行中的工作。"
+      ]
+    },
+    {
+      "name": "--no-upgrade-check",
+      "tip": [
+        "禁用升级检查与匿名遥测。"
+      ]
+    },
+    {
+      "name": "--restore",
+      "tip": [
+        "强制恢复上一个 workspace，覆盖配置中的 `editor.restore_previous_session = false`。",
+        "不可与 --no-restore 联用。"
+      ]
+    },
+    {
+      "name": "--safe",
+      "tip": [
+        "安全模式：跳过 init.ts 与所有插件（用于从错误配置中恢复）。"
+      ]
+    },
+    {
+      "name": "--session-name",
+      "usage": [
+        "--session-name <NAME>"
+      ],
+      "tip": [
+        "目录中已有 daemon 运行时，与 --web 配合命名独立 daemon。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--skill",
+      "usage": [
+        "--skill[=<TOPIC>]"
+      ],
+      "tip": [
+        "打印从 shell 驱动本编辑器的指南。",
+        "指南：tour、script、plugin。"
+      ],
+      "next": [
+        {
+          "name": "plugin",
+          "tip": [
+            "编写 init.ts 与插件（TypeScript）。",
+            "自定义配置位于 ~/.config/fresh/init.ts。"
+          ]
+        },
+        {
+          "name": "script",
+          "tip": [
+            "编辑器脚本（TypeScript）。",
+            "用插件相同的 API 驱动运行中的 Fresh。"
+          ]
+        },
+        {
+          "name": "tour",
+          "tip": [
+            "引导式代码 tour。",
+            "按 JSON manifest 漫游代码库。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "从 stdin 读取内容（替代以 \"-\" 为文件名）。"
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "打印版本。"
+      ]
+    },
+    {
+      "name": "--web",
+      "usage": [
+        "--web [<ADDR>]"
+      ],
+      "tip": [
+        "启动同一 daemon，并额外向浏览器提供编辑器。",
+        "仅含实验性 web 功能的构建可用。"
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--json",
+      "tip": [
+        "以 JSON 输出结果。"
+      ]
+    }
+  ]
+}

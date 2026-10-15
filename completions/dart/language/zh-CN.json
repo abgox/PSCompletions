@@ -1,0 +1,5009 @@
+{
+  "meta": {
+    "url": "https://dart.dev/tools/dart-tool",
+    "description": [
+      "Dart 开发命令行工具。"
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "usage": [
+        "analyze [<directory>]"
+      ],
+      "tip": [
+        "分析目录中的 Dart 代码。"
+      ],
+      "option": [
+        {
+          "name": "--cache=",
+          "usage": [
+            "--cache=<path>"
+          ],
+          "tip": [
+            "覆盖分析缓存的位置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--fatal-infos",
+          "tip": [
+            "将 info 级别问题视为致命。"
+          ]
+        },
+        {
+          "name": "--fatal-warnings",
+          "tip": [
+            "将 warning 级别问题视为致命。",
+            "（默认为 on）"
+          ]
+        },
+        {
+          "name": "--format=",
+          "usage": [
+            "--format=<value>"
+          ],
+          "tip": [
+            "指定显示错误的格式。"
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "默认输出格式。",
+                "该格式面向用户阅读。"
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "机器可读的 JSON 格式输出。"
+              ]
+            },
+            {
+              "name": "machine",
+              "tip": [
+                "机器可读输出。",
+                "格式为：SEVERITY|TYPE|ERROR_CODE|FILE_PATH|LINE|COLUMN|LENGTH|ERROR_MESSAGE。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--memory",
+          "tip": [
+            "退出前尝试打印内存用量。",
+            "仅 format 为 json 时打印。"
+          ]
+        },
+        {
+          "name": "--no-fatal-warnings",
+          "tip": [
+            "不将 warning 级别问题视为致命。"
+          ]
+        },
+        {
+          "name": "--no-memory",
+          "tip": [
+            "退出前不打印内存用量。"
+          ]
+        },
+        {
+          "name": "--packages=",
+          "usage": [
+            "--packages=<path>"
+          ],
+          "tip": [
+            "包解析配置文件路径，提供包名到路径的映射。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--sdk-path=",
+          "usage": [
+            "--sdk-path=<path>"
+          ],
+          "tip": [
+            "Dart SDK 路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "构建含代码资产的 Dart 应用。"
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "cli",
+          "tip": [
+            "构建带命令行界面（CLI）的 Dart 应用。"
+          ],
+          "option": [
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output=",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output=<path>"
+              ],
+              "tip": [
+                "将输出写入 <output>/bundle/。",
+                "可为绝对或相对路径。",
+                "（默认为 \"build/cli/linux_x64/\"）"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--root-package=",
+              "usage": [
+                "--root-package=<name>"
+              ],
+              "tip": [
+                "运行 hooks 的包（含其传递依赖）。",
+                "入口点在 packages 参数所列包之外时必须提供。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "编译到指定目标架构。"
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "编译到指定目标操作系统。"
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "以指定目标 sanitizer 构建。",
+                "（默认为 none）"
+              ],
+              "next": [
+                {
+                  "name": "asan"
+                },
+                {
+                  "name": "msan"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "tsan"
+                }
+              ]
+            },
+            {
+              "name": "--target=",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --target=<path>"
+              ],
+              "tip": [
+                "命令行应用的主入口文件。",
+                "必须为 Dart 文件。",
+                "省略 --target 且 bin/ 下仅有一个 Dart 文件时，使用该文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity=",
+              "usage": [
+                "--verbosity=<level>"
+              ],
+              "tip": [
+                "设置编译的详细级别。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "显示全部消息。",
+                    "（默认）"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "仅显示错误消息。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示错误、警告与 info 消息。"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "仅显示错误与警告消息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "compile",
+      "tip": [
+        "将 Dart 编译为多种格式。"
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "aot-snapshot",
+          "usage": [
+            "aot-snapshot <dart entry point>"
+          ],
+          "tip": [
+            "将 Dart 编译为 AOT 快照。",
+            "运行快照：dartaotruntime <AOT snapshot file>。"
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。",
+                "多个声明可用多个选项或逗号分隔。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "启用 assert 语句。"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "将 record 的 uses 写入 <file name>。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-debugging-info=",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --save-debugging-info=<path>"
+              ],
+              "tip": [
+                "从输出中剥离调试信息，另存到指定文件。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "编译到指定目标架构。"
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "编译到指定目标操作系统。"
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "编译到指定目标 sanitizer。",
+                "单文件可执行文件不支持 sanitizer，因其无法符号化内嵌快照。"
+              ],
+              "next": [
+                {
+                  "name": "asan"
+                },
+                {
+                  "name": "msan"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "tsan"
+                }
+              ]
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "设置编译的详细级别。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "显示全部消息。",
+                    "（默认）"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "仅显示错误消息。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示错误、警告与 info 消息。"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "仅显示错误与警告消息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exe",
+          "usage": [
+            "exe <dart entry point>"
+          ],
+          "tip": [
+            "将 Dart 编译为自包含可执行文件。"
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。",
+                "多个声明可用多个选项或逗号分隔。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "启用 assert 语句。"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "将 record 的 uses 写入 <file name>。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-debugging-info=",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --save-debugging-info=<path>"
+              ],
+              "tip": [
+                "从输出中剥离调试信息，另存到指定文件。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "编译到指定目标架构。"
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "编译到指定目标操作系统。"
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "编译到指定目标 sanitizer。",
+                "单文件可执行文件不支持 sanitizer，因其无法符号化内嵌快照。"
+              ],
+              "next": [
+                {
+                  "name": "none"
+                }
+              ]
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "设置编译的详细级别。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "显示全部消息。",
+                    "（默认）"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "仅显示错误消息。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示错误、警告与 info 消息。"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "仅显示错误与警告消息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jit-snapshot",
+          "usage": [
+            "jit-snapshot <dart entry point> [<training arguments>]"
+          ],
+          "tip": [
+            "将 Dart 编译为 JIT 快照。",
+            "可执行文件会被运行一次以生成温 JIT 快照。",
+            "运行快照：dart run <JIT file>。"
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。",
+                "多个声明可用多个选项或逗号分隔。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "启用 assert 语句。"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "设置编译的详细级别。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "显示全部消息。",
+                    "（默认）"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "仅显示错误消息。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示错误、警告与 info 消息。"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "仅显示错误与警告消息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "js",
+          "usage": [
+            "js <dart entry point>"
+          ],
+          "tip": [
+            "将 Dart 编译为 JavaScript。"
+          ],
+          "option": [
+            {
+              "name": "--categories=",
+              "usage": [
+                "--categories=<categories>"
+              ],
+              "tip": [
+                "（已废弃）用 '--server-mode' 替代 '--categories=Server'。",
+                "其他 category 值对编译器行为无影响。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--csp",
+              "tip": [
+                "禁用生成代码中的动态代码生成。",
+                "满足 CSP 限制所需（见 https://www.w3.org/TR/CSP/）。"
+              ]
+            },
+            {
+              "name": "--deferred-map=",
+              "usage": [
+                "--deferred-map=<file>"
+              ],
+              "tip": [
+                "生成 json 文件，映射每个 deferred import 到待加载 part.js 列表。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--disable-inlining",
+              "tip": [
+                "禁用内联。"
+              ]
+            },
+            {
+              "name": "--disable-native-live-type-analysis",
+              "tip": [
+                "禁用移除 dart:html 及相关库未使用 native 类型的优化。"
+              ]
+            },
+            {
+              "name": "--disable-type-inference",
+              "tip": [
+                "禁用类型推断。"
+              ]
+            },
+            {
+              "name": "--dump-info=",
+              "usage": [
+                "--dump-info[=<format>]"
+              ],
+              "tip": [
+                "生成关于产出代码的信息。",
+                "'format' 可为 'json' 或 'binary'。",
+                "可用 'package:dart2js_info' 工具查看产出数据。"
+              ],
+              "next": [
+                {
+                  "name": "binary"
+                },
+                {
+                  "name": "json"
+                }
+              ]
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "启用断言。"
+              ]
+            },
+            {
+              "name": "--enable-diagnostic-colors",
+              "tip": [
+                "诊断消息着色。"
+              ]
+            },
+            {
+              "name": "--fatal-warnings",
+              "tip": [
+                "将警告视为编译错误。"
+              ]
+            },
+            {
+              "name": "--generate-code-with-compile-time-errors",
+              "tip": [
+                "程序含编译期错误仍产出输出。",
+                "以退出码判断编译是否失败。"
+              ]
+            },
+            {
+              "name": "--help",
+              "alias": [
+                "-h",
+                "/h",
+                "/?"
+              ],
+              "usage": [
+                "-h, /h, /?, --help"
+              ],
+              "tip": [
+                "打印用法信息（加 -v 显示全部选项信息）。"
+              ]
+            },
+            {
+              "name": "--lax-runtime-type-to-string",
+              "tip": [
+                "当类类型参数仅用于 `runtimeType` 的 `toString` 时省略之。",
+                "`runtimeType.toString()` 仅用于调试时有用。",
+                "其他 `.runtimeType` 用法语义不受影响，如 `a.runtimeType == b.runtimeType`。"
+              ]
+            },
+            {
+              "name": "--libraries-spec=",
+              "usage": [
+                "--libraries-spec=<file>"
+              ],
+              "tip": [
+                "含 SDK 库规格的 .json 文件。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--minify",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --minify"
+              ],
+              "tip": [
+                "生成压缩输出。"
+              ]
+            },
+            {
+              "name": "--native-null-assertions",
+              "tip": [
+                "给 Web 库 API 加断言，确保非空 API 不返回 null。",
+                "除非传 -O3 及以上，默认为 true。"
+              ]
+            },
+            {
+              "name": "--no-frequency-based-minification",
+              "tip": [
+                "实验性。",
+                "禁用新的频率压缩命名器，改用旧命名器。"
+              ]
+            },
+            {
+              "name": "--no-source-maps",
+              "tip": [
+                "不生成 source map 文件。"
+              ]
+            },
+            {
+              "name": "--omit-implicit-checks",
+              "tip": [
+                "省略隐式运行时检查，如参数检查与隐式向下转型。",
+                "Dart 2.0 默认包含这些检查。",
+                "用此 flag 移除检查，编译器将假设检查皆成立并据此优化。",
+                "仅在充分测试确保程序无这些检查仍正常时使用。"
+              ]
+            },
+            {
+              "name": "--omit-late-names",
+              "tip": [
+                "错误信息不含 late 变量名。",
+                "从生成 JavaScript 移除 late 变量名可减小体积。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "usage": [
+                "--packages=<path>"
+              ],
+              "tip": [
+                "包解析配置文件路径，提供包名到路径的映射。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--server-mode",
+              "tip": [
+                "以服务端支持编译。",
+                "编译器使用禁用 dart:html、条件导入支持 dart:js 的库规格。"
+              ]
+            },
+            {
+              "name": "--show-package-warnings",
+              "tip": [
+                "显示包产生的警告与提示。"
+              ]
+            },
+            {
+              "name": "--suppress-hints",
+              "tip": [
+                "不显示任何提示。"
+              ]
+            },
+            {
+              "name": "--suppress-warnings",
+              "tip": [
+                "不显示任何警告。"
+              ]
+            },
+            {
+              "name": "--terse",
+              "tip": [
+                "输出诊断但不给修复建议。"
+              ]
+            },
+            {
+              "name": "--throw-on-error",
+              "tip": [
+                "检测到编译期错误则抛异常。"
+              ]
+            },
+            {
+              "name": "--trust-primitives",
+              "tip": [
+                "假设数字、字符串、列表操作输入皆合法。",
+                "编译器可据此丢弃这些操作的运行时检查。",
+                "注：类型良好的程序不保证输入合法。",
+                "如 int 索引参数可能为 null 或越界。"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "显示详细信息。"
+              ]
+            },
+            {
+              "name": "--version",
+              "tip": [
+                "显示版本信息。"
+              ]
+            },
+            {
+              "name": "-O",
+              "usage": [
+                "-O <LEVEL>"
+              ],
+              "tip": [
+                "设置编译器优化级别（默认为 -O1）。"
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "无优化（仅用于调试编译器）。"
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "默认（含全程序分析与内联）。"
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "安全的生产优化（如压缩）。"
+                  ]
+                },
+                {
+                  "name": "3",
+                  "tip": [
+                    "潜在不安全优化（详见 -h -v）。"
+                  ]
+                },
+                {
+                  "name": "4",
+                  "tip": [
+                    "更激进的不安全优化（详见 -h -v）。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "kernel",
+          "usage": [
+            "kernel <dart entry point>"
+          ],
+          "tip": [
+            "将 Dart 编译为 kernel 快照。",
+            "运行快照：dart run <kernel file>。"
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。",
+                "多个声明可用多个选项或逗号分隔。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--embed-sources",
+              "tip": [
+                "将源文件嵌入生成的 kernel 组件。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--link-platform",
+              "tip": [
+                "将 platform kernel 包含进结果文件。",
+                "'dart compile exe' 或 'dart compile aot-snapshot' 需要它。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-embed-sources",
+              "tip": [
+                "不将源文件嵌入生成的 kernel 组件。"
+              ]
+            },
+            {
+              "name": "--no-link-platform",
+              "tip": [
+                "不将 platform kernel 包含进结果文件。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "设置编译的详细级别。"
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "显示全部消息。",
+                    "（默认）"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "仅显示错误消息。"
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "显示错误、警告与 info 消息。"
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "仅显示错误与警告消息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wasm",
+          "usage": [
+            "wasm <dart entry point>"
+          ],
+          "tip": [
+            "将 Dart 编译为 WebAssembly/WasmGC 模块。"
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "定义环境声明。",
+                "多个声明可用多个选项或逗号分隔。"
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Ninja depfile 格式输出文件路径，内含编译依赖列表。",
+                "传给编译器，用于构建系统的依赖跟踪。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "启用 assert 语句。"
+              ]
+            },
+            {
+              "name": "--enable-deferred-loading",
+              "tip": [
+                "按 Dart 程序 deferred import 图产出多模块。"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "匿名方法。"
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "从外部增强声明。"
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "允许更多 Dart 语言在 const 表达式中执行。"
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "在 hooks 中启用 data assets。"
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "泛化 part，可嵌套、可导出导入。"
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "类型推断更新合集。"
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "静态元编程。"
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "更简洁的构造器。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "输出静态函数使用的参数。（无操作 - 默认启用）"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "带静态能力的扩展。"
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "无效果。",
+                    "可用于测试 --enable-experiment 命令行功能。"
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "`this` 的类型提升。"
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "更短的 import 语法。"
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "健全的型变。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--extra-compiler-option",
+              "alias": [
+                "-E"
+              ],
+              "usage": [
+                "-E, --extra-compiler-option <OPTION>"
+              ],
+              "tip": [
+                "传给 dart2wasm 编译器的额外选项。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--minify",
+              "tip": [
+                "压缩运行时需要的名称（如类名）。",
+                "影响如 `<obj>.runtimeType.toString()`）。",
+                "传入则优先于优化级别选项。"
+              ]
+            },
+            {
+              "name": "--no-enable-deferred-loading",
+              "tip": [
+                "不按 deferred import 图产出多模块。"
+              ]
+            },
+            {
+              "name": "--no-minify",
+              "tip": [
+                "不压缩运行时需要的名称。"
+              ]
+            },
+            {
+              "name": "--no-source-maps",
+              "tip": [
+                "不生成 source map 文件。"
+              ]
+            },
+            {
+              "name": "--no-strip-wasm",
+              "tip": [
+                "不剥离产出 wasm 文件的静态符号名。"
+              ]
+            },
+            {
+              "name": "--optimization-level=",
+              "alias": [
+                "-O"
+              ],
+              "usage": [
+                "-O, --optimization-level=<level>"
+              ],
+              "tip": [
+                "控制有助于减小体积、提升产出代码性能的优化。",
+                "（默认为 1）"
+              ],
+              "next": [
+                {
+                  "name": "0"
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                },
+                {
+                  "name": "4"
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "将输出写入 <file name>。",
+                "可为绝对或相对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "从指定文件读取包位置，而非 .dart_tool/package_config.json。",
+                "<path> 可为相对或绝对路径。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--phases",
+              "usage": [
+                "--phases <PHASE>"
+              ],
+              "tip": [
+                "指定运行 dart2wasm 编译器的哪些阶段。",
+                "每阶段产出部分结果，作为下阶段输入。"
+              ],
+              "next": [
+                {
+                  "name": "cfe"
+                },
+                {
+                  "name": "codegen"
+                },
+                {
+                  "name": "opt"
+                },
+                {
+                  "name": "tfa"
+                }
+              ]
+            },
+            {
+              "name": "--print-kernel",
+              "tip": [
+                "打印人类可读的 Dart kernel 调试输出"
+              ]
+            },
+            {
+              "name": "--print-wasm",
+              "tip": [
+                "打印人类可读的 wasm 调试输出"
+              ]
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "将 record 的 uses 写入 <file name>。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-memory=",
+              "usage": [
+                "--shared-memory=<page count>"
+              ],
+              "tip": [
+                "导入共享内存缓冲。",
+                "必须传入最大页数。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--source-maps",
+              "tip": [
+                "生成 source map 文件。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--standalone",
+              "tip": [
+                "编译为无 JavaScript 互操作的 WebAssembly 模块。",
+                "加载这些模块需要 Dart 专属 host import。"
+              ]
+            },
+            {
+              "name": "--strip-wasm",
+              "tip": [
+                "是否剥离产出 wasm 文件的静态符号名。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "编译期间打印调试输出。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create <directory>"
+      ],
+      "tip": [
+        "创建新的 Dart 项目。"
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "目标目录已存在时仍强制生成项目。"
+          ]
+        },
+        {
+          "name": "--list-templates",
+          "tip": [
+            "以 JSON 格式列出可用模板。"
+          ]
+        },
+        {
+          "name": "--no-pub",
+          "tip": [
+            "创建后不运行 'pub get'。"
+          ]
+        },
+        {
+          "name": "--pub",
+          "tip": [
+            "是否在创建后运行 'pub get'。",
+            "（默认为 on）"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <TEMPLATE>"
+          ],
+          "tip": [
+            "要使用的项目模板。",
+            "（默认为 console）"
+          ],
+          "next": [
+            {
+              "name": "cli",
+              "tip": [
+                "带基础参数解析的命令行应用。"
+              ]
+            },
+            {
+              "name": "console",
+              "tip": [
+                "命令行应用。"
+              ]
+            },
+            {
+              "name": "package",
+              "tip": [
+                "含共享 Dart 库的包。"
+              ]
+            },
+            {
+              "name": "server-shelf",
+              "tip": [
+                "使用 package:shelf 的服务端应用。"
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "仅用 Dart 核心库的 Web 应用。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "devtools",
+      "usage": [
+        "devtools [service protocol uri]"
+      ],
+      "tip": [
+        "打开 DevTools（可连接到已有应用）。"
+      ],
+      "option": [
+        {
+          "name": "--allow-embedding",
+          "tip": [
+            "允许将 DevTools 嵌入 iframe。"
+          ]
+        },
+        {
+          "name": "--app-size-base=",
+          "usage": [
+            "--app-size-base=<file>"
+          ],
+          "tip": [
+            "应用体积调试用的基准体积文件路径。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--app-size-test=",
+          "usage": [
+            "--app-size-test=<file>"
+          ],
+          "tip": [
+            "应用体积调试用的待测体积文件路径。",
+            "仅在同时指定 --app-size-base 时指定。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dds-host=",
+          "usage": [
+            "--dds-host=<bind-address>"
+          ],
+          "tip": [
+            "无活动 DDS 实例且提供了 VM 服务 URI 时，DDS 尝试绑定的地址。",
+            "（默认为 127.0.0.1）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dds-port=",
+          "usage": [
+            "--dds-port=<port>"
+          ],
+          "tip": [
+            "无活动 DDS 实例且提供了 VM 服务 URI 时，DDS 尝试绑定的地址。",
+            "（默认为 0）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-cors",
+          "tip": [
+            "禁用 CORS，使 DevTools 服务可与不同源的前端通信。",
+            "允许其他源访问 DevTools 服务有安全风险，传此 flag 请谨慎。"
+          ]
+        },
+        {
+          "name": "--dtd-exposed-uri=",
+          "usage": [
+            "--dtd-exposed-uri=<uri>"
+          ],
+          "tip": [
+            "已暴露给前端的 DartTooling Daemon（--dtd-uri）URI，用于前后端分离环境（如 Web 编辑器）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dtd-uri=",
+          "usage": [
+            "--dtd-uri=<uri>"
+          ],
+          "tip": [
+            "DevTools 要对接的 Dart Tooling Daemon URI。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--enable-notifications",
+          "tip": [
+            "客户端连回服务时立即请求通知权限。"
+          ]
+        },
+        {
+          "name": "--headless",
+          "tip": [
+            "让服务以 headless 模式启动 Chrome，用于自动化测试。"
+          ]
+        },
+        {
+          "name": "--host=",
+          "usage": [
+            "--host=<host>"
+          ],
+          "tip": [
+            "DevTools 服务主机名。",
+            "（默认为 localhost）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--launch-browser",
+          "tip": [
+            "启动时立即在浏览器中打开 DevTools。",
+            "（默认为 on，--machine 模式除外）"
+          ]
+        },
+        {
+          "name": "--machine",
+          "tip": [
+            "以 JSON 输出，供工具消费。"
+          ]
+        },
+        {
+          "name": "--no-allow-embedding",
+          "tip": [
+            "不允许将 DevTools 嵌入 iframe。"
+          ]
+        },
+        {
+          "name": "--no-disable-cors",
+          "tip": [
+            "不禁用 CORS。"
+          ]
+        },
+        {
+          "name": "--no-launch-browser",
+          "tip": [
+            "启动时不在浏览器中打开 DevTools。"
+          ]
+        },
+        {
+          "name": "--port=",
+          "usage": [
+            "--port=<port>"
+          ],
+          "tip": [
+            "DevTools 服务端口；传 0 自动选用空闲端口。",
+            "（默认为 9100）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--print-dtd",
+          "tip": [
+            "若 DevTools 服务托管了 Dart Tooling Daemon，打印其地址。"
+          ]
+        },
+        {
+          "name": "--record-memory-profile=",
+          "usage": [
+            "--record-memory-profile=<file>"
+          ],
+          "tip": [
+            "以 headless 模式启动 devtools，将内存采样写入指定文件。",
+            "（默认为 memory_samples.json）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--try-ports=",
+          "usage": [
+            "--try-ports=<count>"
+          ],
+          "tip": [
+            "绑定失败前按升序尝试的端口数。",
+            "（默认为 10）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "输出更多提示信息。"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "打印 DevTools 版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "usage": [
+        "doc [<directory>]"
+      ],
+      "tip": [
+        "为 Dart 项目生成 API 文档。",
+        "更多文档生成选项，见 'dartdoc_options.yaml' 文件文档 https://dart.dev/go/dartdoc-options-file。"
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "试生成文档但不保存。"
+          ]
+        },
+        {
+          "name": "--output=",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<directory>"
+          ],
+          "tip": [
+            "配置输出目录。",
+            "（默认为 \"doc/api\"）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate-links",
+          "tip": [
+            "对断链显示警告。",
+            "与 --dry-run 不兼容。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "tip": [
+        "对 Dart 源码应用自动修复。",
+        "该工具查找并修复有关联自动修复的分析问题。",
+        "预览用 'dart fix --dry-run'，应用用 'dart fix --apply'。"
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "tip": [
+            "应用提议的修改。"
+          ]
+        },
+        {
+          "name": "--code=",
+          "usage": [
+            "--code=<code1,code2,...>"
+          ],
+          "tip": [
+            "对一个（或多个）诊断码应用修复。"
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--compare-to-golden",
+          "tip": [
+            "将应用修复的结果与 golden 文件对比，用于测试。"
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "预览提议的修改，不做任何更改。"
+          ]
+        },
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "匿名方法。"
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "从外部增强声明。"
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "允许更多 Dart 语言在 const 表达式中执行。"
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "在 hooks 中启用 data assets。"
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "泛化 part，可嵌套、可导出导入。"
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "类型推断更新合集。"
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "静态元编程。"
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "更简洁的构造器。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "输出静态函数使用的参数。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "带静态能力的扩展。"
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "无效果。",
+                "可用于测试 --enable-experiment 命令行功能。"
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "`this` 的类型提升。"
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "更短的 import 语法。"
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "健全的型变。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "usage": [
+        "format <files or directories...>"
+      ],
+      "tip": [
+        "按惯用法格式化 Dart 源码。"
+      ],
+      "option": [
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "启用一个或多个实验特性。",
+            "见 dart.dev/go/experiments。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "匿名方法。"
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "从外部增强声明。"
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "允许更多 Dart 语言在 const 表达式中执行。"
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "在 hooks 中启用 data assets。"
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "泛化 part，可嵌套、可导出导入。"
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "类型推断更新合集。"
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "静态元编程。"
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "更简洁的构造器。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "输出静态函数使用的参数。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "带静态能力的扩展。"
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "无效果。",
+                "可用于测试 --enable-experiment 命令行功能。"
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "`this` 的类型提升。"
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "更短的 import 语法。"
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "健全的型变。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--follow-links",
+          "tip": [
+            "跟随文件与目录链接。",
+            "未设置则忽略链接。"
+          ]
+        },
+        {
+          "name": "--indent",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --indent <SPACES>"
+          ],
+          "tip": [
+            "首行缩进增加的空格数。",
+            "（默认为 \"0\"）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--language-version",
+          "usage": [
+            "--language-version <VERSION>"
+          ],
+          "tip": [
+            "格式化代码的语言版本。",
+            "用 \"latest\" 按最新支持版本解析。",
+            "省略则查找外围包配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <MODE>"
+          ],
+          "tip": [
+            "设置格式化输出去向。",
+            "（默认为 write）"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "以 JSON 打印代码与选区。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "丢弃输出。"
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "打印代码到终端。"
+              ]
+            },
+            {
+              "name": "write",
+              "tip": [
+                "覆盖磁盘上的格式化文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--page-width",
+          "usage": [
+            "--page-width <WIDTH>"
+          ],
+          "tip": [
+            "尽量不超过该行宽。",
+            "（默认为 \"80\"）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--selection",
+          "usage": [
+            "--selection <start:length>"
+          ],
+          "tip": [
+            "格式化时跟踪选区（\"start:length\" 形式）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--set-exit-if-changed",
+          "tip": [
+            "有格式改动则返回退出码 1。"
+          ]
+        },
+        {
+          "name": "--show",
+          "usage": [
+            "--show <WHAT>"
+          ],
+          "tip": [
+            "设置打印哪些文件名。",
+            "（默认为 changed）"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "所有访问过的文件与目录。"
+              ]
+            },
+            {
+              "name": "changed",
+              "tip": [
+                "仅格式被改动的文件名。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "不打印文件名与目录。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--stdin-name",
+          "usage": [
+            "--stdin-name <PATH>"
+          ],
+          "tip": [
+            "stdin 读入代码被视作来源的路径。",
+            "该路径用于错误信息，也用于定位外围包以推断代码语言版本。",
+            "用 --language-version 传入语言版本可跳过包配置查找。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "usage": [
+            "--summary <TYPE>"
+          ],
+          "tip": [
+            "格式化后显示指定摘要。",
+            "（默认为 line）"
+          ],
+          "next": [
+            {
+              "name": "line",
+              "tip": [
+                "单行摘要。"
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "无摘要。"
+              ]
+            },
+            {
+              "name": "profile",
+              "tip": [
+                "格式化各文件的耗时。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas <MODE>"
+          ],
+          "tip": [
+            "输入中尾逗号如何影响格式化。",
+            "（默认为 automate）"
+          ],
+          "next": [
+            {
+              "name": "automate",
+              "tip": [
+                "格式化器按是否分行自动增删尾逗号。"
+              ]
+            },
+            {
+              "name": "preserve",
+              "tip": [
+                "尾逗号强制外围结构分行。",
+                "分行时格式化器会加尾逗号，但不删除。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "与 --help 联用显示全部选项与 flag。"
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "显示 dart_style 版本。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help <command>"
+      ],
+      "tip": [
+        "显示某命令的更多信息。"
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "显示已安装工具链的诊断信息。"
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "dump",
+          "tip": [
+            "显示已安装工具链的诊断信息。",
+            "（默认；未指定子命令时选中）"
+          ],
+          "option": [
+            {
+              "name": "--no-remove-file-paths",
+              "tip": [
+                "在显示信息中保留文件路径。"
+              ]
+            },
+            {
+              "name": "--remove-file-paths",
+              "tip": [
+                "移除显示信息中的文件路径。",
+                "（默认为 on）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "record-performance",
+          "tip": [
+            "记录运行中 Dart 工具进程的性能数据。"
+          ],
+          "option": [
+            {
+              "name": "--enable-async-spans",
+              "tip": [
+                "启用 async spans。"
+              ]
+            },
+            {
+              "name": "--enable-profiler",
+              "tip": [
+                "启用 profiler。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-enable-profiler",
+              "tip": [
+                "不启用 profiler。"
+              ]
+            },
+            {
+              "name": "--output-dir",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output-dir <DIR>"
+              ],
+              "tip": [
+                "性能记录输出目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--record-new-processes",
+              "tip": [
+                "记录 recorder 之后启动的进程。"
+              ]
+            },
+            {
+              "name": "--record-only-new-processes",
+              "tip": [
+                "仅记录 recorder 之后启动的进程。"
+              ]
+            },
+            {
+              "name": "--streams",
+              "usage": [
+                "--streams <STREAM>"
+              ],
+              "tip": [
+                "要记录的流。"
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "api"
+                },
+                {
+                  "name": "compiler"
+                },
+                {
+                  "name": "compilerVerbose"
+                },
+                {
+                  "name": "dart"
+                },
+                {
+                  "name": "debugger"
+                },
+                {
+                  "name": "embedder"
+                },
+                {
+                  "name": "gc"
+                },
+                {
+                  "name": "isolate"
+                },
+                {
+                  "name": "microtask"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "按标签过滤进程。"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <package>[@<descriptor>]"
+      ],
+      "tip": [
+        "全局安装或升级 Dart CLI 工具。",
+        "可用 `<package>[@<descriptor>]` 语法从 pub.dev、git 仓库或本地路径指定包。"
+      ],
+      "option": [
+        {
+          "name": "--overwrite",
+          "tip": [
+            "覆盖同名其他包的可执行文件。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "installed",
+      "tip": [
+        "列出全局安装的 Dart CLI 工具。"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "同时列出当前未激活的包。",
+            "活动包的可执行文件在 `PATH` 上。",
+            "磁盘上有包 bundle 但 `PATH` 上无其可执行文件的为未激活。"
+          ]
+        },
+        {
+          "name": "--no-all",
+          "tip": [
+            "仅列出当前激活的包。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "显示更多命令输出。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pub",
+      "tip": [
+        "管理包。"
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "tip": [
+            "终端输出使用颜色。",
+            "连终端时默认彩色，否则无色。"
+          ]
+        },
+        {
+          "name": "--directory=",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --directory=<dir>"
+          ],
+          "tip": [
+            "在 <dir> 目录运行子命令。",
+            "（默认为 \".\"）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "终端输出不使用颜色。"
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "打印详细日志。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [<section>:]<package>[@<descriptor>] [<section>:]<package2>[@<descriptor>] ..."
+          ],
+          "tip": [
+            "向 `pubspec.yaml` 添加依赖。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "报告依赖将如何变化，不实际修改。"
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "修改根包 pubspec.yaml 后同步更新 `example/` 依赖（若存在）。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "修改根包 pubspec.yaml 后不同步更新 `example/` 依赖。"
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "不使用缓存包，改为访问网络。"
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "不在直接依赖中构建可执行文件。"
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "使用缓存包，不访问网络。"
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "在直接依赖中构建可执行文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bump",
+          "tip": [
+            "提升当前包版本号。"
+          ],
+          "next": [
+            {
+              "name": "breaking",
+              "tip": [
+                "递增到下个 breaking 版本（例 0.1.2 -> 0.2.0）。"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "报告将有何变化，不实际修改。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "major",
+              "tip": [
+                "递增 major 版本号（例 3.1.2 -> 4.0.0）。"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "报告将有何变化，不实际修改。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "minor",
+              "tip": [
+                "递增 minor 版本号（例 3.1.2 -> 3.2.0）。"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "报告将有何变化，不实际修改。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "递增 patch 版本号（例 3.1.2 -> 3.1.3）。"
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "报告将有何变化，不实际修改。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cache",
+          "tip": [
+            "管理系统缓存。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <package> [--version <constraint>] [--all]"
+              ],
+              "tip": [
+                "安装一个包。"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "安装全部匹配版本。"
+                  ]
+                },
+                {
+                  "name": "--version",
+                  "alias": [
+                    "-v"
+                  ],
+                  "usage": [
+                    "-v, --version <constraint>"
+                  ],
+                  "tip": [
+                    "版本约束。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "clean",
+              "tip": [
+                "清空全局 PUB_CACHE。"
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "不经确认。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "gc",
+              "tip": [
+                "从系统缓存裁剪未使用的包。"
+              ],
+              "option": [
+                {
+                  "name": "--collect-recent",
+                  "tip": [
+                    "同时删除 recent 文件。"
+                  ]
+                },
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "打印将被删除的文件列表。"
+                  ]
+                },
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "裁剪缓存不经确认。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "repair",
+              "tip": [
+                "重装缓存的包。"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "重装全部缓存包，而非仅当前 pubspec.lock 中的包。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "tip": [
+            "打印包依赖。"
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "tip": [
+                "是否包含 dev 依赖。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--executables",
+              "tip": [
+                "列出全部可用可执行文件。"
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 json 格式输出依赖信息。"
+              ]
+            },
+            {
+              "name": "--no-dev",
+              "tip": [
+                "不包含 dev 依赖。"
+              ]
+            },
+            {
+              "name": "--style",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --style <STYLE>"
+              ],
+              "tip": [
+                "输出展示方式。",
+                "（默认为 tree）"
+              ],
+              "next": [
+                {
+                  "name": "compact"
+                },
+                {
+                  "name": "list"
+                },
+                {
+                  "name": "tree"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "downgrade",
+          "usage": [
+            "downgrade [dependencies...]"
+          ],
+          "tip": [
+            "将当前包依赖降级到最旧版本。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "报告依赖将如何变化，不实际修改。"
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "同时在 `example/` 运行（若存在）。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "不在 `example/` 运行。"
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "不使用缓存包，改为访问网络。"
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "使用缓存包，不访问网络。"
+              ]
+            },
+            {
+              "name": "--tighten",
+              "tip": [
+                "更新 pubspec.yaml 下界以匹配解析版本。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "获取当前包依赖。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "报告依赖将如何变化，不实际修改。"
+              ]
+            },
+            {
+              "name": "--enforce-lockfile",
+              "tip": [
+                "强制 pubspec.lock。",
+                "当前 `pubspec.lock` 未精确指定 `pubspec.yaml` 的有效解析，或托管包内容哈希变化时，使 `pub get` 失败。",
+                "适用于 CI 或生产部署。"
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "同时在 `example/` 运行（若存在）。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "不在 `example/` 运行。"
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "不使用缓存包，改为访问网络。"
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "不在直接依赖中构建可执行文件。"
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "使用缓存包，不访问网络。"
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "在直接依赖中构建可执行文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "global",
+          "tip": [
+            "使用全局包。"
+          ],
+          "next": [
+            {
+              "name": "activate",
+              "usage": [
+                "activate <package> [version-constraint]"
+              ],
+              "tip": [
+                "使某包的可执行文件全局可用。"
+              ],
+              "option": [
+                {
+                  "name": "--executable",
+                  "alias": [
+                    "-x"
+                  ],
+                  "usage": [
+                    "-x, --executable <EXECUTABLE>"
+                  ],
+                  "tip": [
+                    "要放到 PATH 上的可执行文件。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--git-path",
+                  "usage": [
+                    "--git-path <PATH>"
+                  ],
+                  "tip": [
+                    "仓库中 git 包的路径。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--git-ref",
+                  "usage": [
+                    "--git-ref <REF>"
+                  ],
+                  "tip": [
+                    "要取回的 git 分支或提交。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--hosted-url",
+                  "alias": [
+                    "-u"
+                  ],
+                  "usage": [
+                    "-u, --hosted-url <URL>"
+                  ],
+                  "tip": [
+                    "包的自定义 pub 服务 URL。",
+                    "仅 `hosted` 源适用。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--no-executables",
+                  "tip": [
+                    "不把可执行文件放到 PATH 上。"
+                  ]
+                },
+                {
+                  "name": "--overwrite",
+                  "tip": [
+                    "覆盖同名其他包的可执行文件。"
+                  ]
+                },
+                {
+                  "name": "--source",
+                  "alias": [
+                    "-s"
+                  ],
+                  "usage": [
+                    "-s, --source <SOURCE>"
+                  ],
+                  "tip": [
+                    "查找包的来源。",
+                    "（默认为 hosted）"
+                  ],
+                  "next": [
+                    {
+                      "name": "git"
+                    },
+                    {
+                      "name": "hosted"
+                    },
+                    {
+                      "name": "path"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "deactivate",
+              "usage": [
+                "deactivate <package>"
+              ],
+              "tip": [
+                "移除之前激活的包。"
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出全局激活的包。"
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run <package>:<executable> [args...]"
+              ],
+              "tip": [
+                "运行全局激活包中的可执行文件。"
+              ],
+              "option": [
+                {
+                  "name": "--enable-asserts",
+                  "tip": [
+                    "启用 assert 语句。"
+                  ]
+                },
+                {
+                  "name": "--enable-experiment=",
+                  "usage": [
+                    "--enable-experiment=<experiment>"
+                  ],
+                  "tip": [
+                    "在启用指定实验的 VM 中运行可执行文件。",
+                    "（将禁用快照，启动更慢）。"
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "anonymous-methods",
+                      "tip": [
+                        "匿名方法。"
+                      ]
+                    },
+                    {
+                      "name": "augmentations",
+                      "tip": [
+                        "从外部增强声明。"
+                      ]
+                    },
+                    {
+                      "name": "const-functions",
+                      "tip": [
+                        "允许更多 Dart 语言在 const 表达式中执行。"
+                      ]
+                    },
+                    {
+                      "name": "data-assets",
+                      "tip": [
+                        "在 hooks 中启用 data assets。"
+                      ]
+                    },
+                    {
+                      "name": "enhanced-parts",
+                      "tip": [
+                        "泛化 part，可嵌套、可导出导入。"
+                      ]
+                    },
+                    {
+                      "name": "inference-update-4",
+                      "tip": [
+                        "类型推断更新合集。"
+                      ]
+                    },
+                    {
+                      "name": "macros",
+                      "tip": [
+                        "静态元编程。"
+                      ]
+                    },
+                    {
+                      "name": "primary-constructors",
+                      "tip": [
+                        "更简洁的构造器。（无操作 - 默认启用）"
+                      ]
+                    },
+                    {
+                      "name": "record-use",
+                      "tip": [
+                        "输出静态函数使用的参数。（无操作 - 默认启用）"
+                      ]
+                    },
+                    {
+                      "name": "static-extensions",
+                      "tip": [
+                        "带静态能力的扩展。"
+                      ]
+                    },
+                    {
+                      "name": "test-experiment",
+                      "tip": [
+                        "无效果。",
+                        "可用于测试 --enable-experiment 命令行功能。"
+                      ]
+                    },
+                    {
+                      "name": "this-promotion",
+                      "tip": [
+                        "`this` 的类型提升。"
+                      ]
+                    },
+                    {
+                      "name": "unquoted-imports",
+                      "tip": [
+                        "更短的 import 语法。"
+                      ]
+                    },
+                    {
+                      "name": "variance",
+                      "tip": [
+                        "健全的型变。"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--no-enable-asserts",
+                  "tip": [
+                    "不启用 assert 语句。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "登录 pub.dev。"
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "登出 pub.dev。"
+          ]
+        },
+        {
+          "name": "outdated",
+          "tip": [
+            "分析依赖，找出可升级项。"
+          ],
+          "option": [
+            {
+              "name": "--dependency-overrides",
+              "tip": [
+                "显示含 `dependency_overrides` 的解析。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--dev-dependencies",
+              "tip": [
+                "计入 dev 依赖。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "以 json 格式输出结果。"
+              ]
+            },
+            {
+              "name": "--no-dependency-overrides",
+              "tip": [
+                "不显示含 `dependency_overrides` 的解析。"
+              ]
+            },
+            {
+              "name": "--no-dev-dependencies",
+              "tip": [
+                "不计入 dev 依赖。"
+              ]
+            },
+            {
+              "name": "--no-prereleases",
+              "tip": [
+                "最新版本不含预发布。"
+              ]
+            },
+            {
+              "name": "--no-show-all",
+              "tip": [
+                "不含已满足 --mode 的依赖。"
+              ]
+            },
+            {
+              "name": "--no-transitive",
+              "tip": [
+                "不显示传递依赖。"
+              ]
+            },
+            {
+              "name": "--prereleases",
+              "tip": [
+                "最新版本包含预发布。"
+              ]
+            },
+            {
+              "name": "--show-all",
+              "tip": [
+                "包含已满足 --mode 的依赖。"
+              ]
+            },
+            {
+              "name": "--transitive",
+              "tip": [
+                "显示传递依赖。",
+                "（默认为 on）"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "发布当前包到 pub.dev。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "仅校验不发布。"
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "无错时不经确认发布。"
+              ]
+            },
+            {
+              "name": "--ignore-warnings",
+              "tip": [
+                "警告不视为致命。"
+              ]
+            },
+            {
+              "name": "--skip-validation",
+              "tip": [
+                "跳过校验与解析直接发布（忽略错误）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <package1> [<package2>...]"
+          ],
+          "tip": [
+            "从 `pubspec.yaml` 移除依赖。",
+            "执行 `dart pub remove foo bar` 将从 `dependencies` 或 `dev_dependencies` 移除 `foo` 与 `bar`。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "报告依赖将如何变化，不实际修改。"
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "同时更新 `example/` 依赖（若存在）。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "不同步更新 `example/` 依赖。"
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "不使用缓存包，改为访问网络。"
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "不在直接依赖中预编译可执行文件。"
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "使用缓存包，不访问网络。"
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "在直接依赖中预编译可执行文件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "管理托管 pub 仓库的认证 token。",
+            "Token 存于 `~/.config/dart/pub-tokens.json`。"
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <hosted-url>"
+              ],
+              "tip": [
+                "为包仓库添加认证 token。",
+                "token 用于取依赖与发布时对 <hosted-url> 鉴权。",
+                "该命令经 stdin 提示输入 secret token（用 `--env-var` 除外）。"
+              ],
+              "option": [
+                {
+                  "name": "--env-var=",
+                  "usage": [
+                    "--env-var=<VARIABLE>"
+                  ],
+                  "tip": [
+                    "请求时从该环境变量读取 secret token。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出存有 token 的服务。"
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove <hosted-url>",
+                "remove --all"
+              ],
+              "tip": [
+                "移除 <hosted-url> 包仓库的 secret token。"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "移除全部 secret token。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unpack",
+          "usage": [
+            "unpack <package-name>[@<descriptor>]"
+          ],
+          "tip": [
+            "下载包并就地解包。"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "目标目录已存在则覆盖。"
+              ]
+            },
+            {
+              "name": "--no-force",
+              "tip": [
+                "目标目录已存在不覆盖。"
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <DIR>"
+              ],
+              "tip": [
+                "下载并解包到指定目录。",
+                "（默认为 \".\"）"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "usage": [
+            "upgrade [dependencies...]"
+          ],
+          "tip": [
+            "将当前包依赖升级到最新版本。"
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "在 <dir> 目录运行。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "报告依赖将如何变化，不实际修改。"
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "同时在 `example/` 运行（若存在）。",
+                "（默认为 on）"
+              ]
+            },
+            {
+              "name": "--major-versions",
+              "tip": [
+                "升级包到最新可解析版本，并更新 pubspec.yaml。"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "不在 `example/` 运行。"
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "不使用缓存包，改为访问网络。"
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "不在直接依赖中预编译可执行文件。"
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "使用缓存包，不访问网络。"
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "在直接依赖中预编译可执行文件。"
+              ]
+            },
+            {
+              "name": "--tighten",
+              "tip": [
+                "更新 pubspec.yaml 下界以匹配解析版本。"
+              ]
+            },
+            {
+              "name": "--unlock-transitive",
+              "tip": [
+                "同时升级所列 [dependencies] 的传递依赖。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "使用 pub workspace。"
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "列出 workspace 中全部包及其目录。"
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "以 json 格式输出信息。"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [vm-options] <dart-file>|<local-pkg>|<remote-pkg>@<descriptor> <program-args...>"
+      ],
+      "tip": [
+        "从文件、本地或远程包运行 Dart 程序。"
+      ],
+      "option": [
+        {
+          "name": "--dds",
+          "tip": [
+            "使用 Dart Development Service（DDS）增强调试功能。",
+            "注：禁用 DDS 可能破坏 IDE 与其他工具的部分功能。",
+            "（默认为 on）"
+          ]
+        },
+        {
+          "name": "--define=",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --define=<key=value>"
+          ],
+          "tip": [
+            "定义环境声明。"
+          ],
+          "repeat": 99,
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--disable-service-auth-codes",
+          "tip": [
+            "禁用与 VM 服务通信的验证码要求。",
+            "验证码防范 CSRF，非防火墙后安全设备不建议禁用。"
+          ]
+        },
+        {
+          "name": "--enable-asserts",
+          "tip": [
+            "启用 assert 语句。"
+          ]
+        },
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "启用一个或多个实验特性（见 https://dart.dev/go/experiments）。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "匿名方法。"
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "从外部增强声明。"
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "允许更多 Dart 语言在 const 表达式中执行。"
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "在 hooks 中启用 data assets。"
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "泛化 part，可嵌套、可导出导入。"
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "类型推断更新合集。"
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "静态元编程。"
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "更简洁的构造器。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "输出静态函数使用的参数。（无操作 - 默认启用）"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "带静态能力的扩展。"
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "无效果。",
+                "可用于测试 --enable-experiment 命令行功能。"
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "`this` 的类型提升。"
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "更短的 import 语法。"
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "健全的型变。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--enable-service-port-fallback",
+          "tip": [
+            "VM 服务绑定指定端口失败时回落到 0，而非启动失败。"
+          ]
+        },
+        {
+          "name": "--enable-vm-service=",
+          "usage": [
+            "--enable-vm-service[=<port>[/<bind-address>]]"
+          ],
+          "tip": [
+            "启用 VM 服务并监听指定端口。",
+            "（默认端口 8181，默认绑定 localhost）"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace=",
+          "usage": [
+            "--namespace=<path>"
+          ],
+          "tip": [
+            "dart:io 调用视作文件系统根的目录。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-dds",
+          "tip": [
+            "不使用 Dart Development Service（DDS）增强调试功能。"
+          ]
+        },
+        {
+          "name": "--no-enable-asserts",
+          "tip": [
+            "不启用 assert 语句。"
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-exit",
+          "tip": [
+            "--enable-vm-service 下退出时不暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-start",
+          "tip": [
+            "--enable-vm-service 下启动时不暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-unhandled-exceptions",
+          "tip": [
+            "--enable-vm-service 下遇未处理异常不暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--no-print-dtd",
+          "tip": [
+            "不打印 Dart Tooling Daemon（DTD）连接信息。"
+          ]
+        },
+        {
+          "name": "--no-quiet",
+          "tip": [
+            "不禁用 resident 编译器启停消息打印。"
+          ]
+        },
+        {
+          "name": "--no-serve-devtools",
+          "tip": [
+            "不经 VM 服务提供 Dart DevTools 调试器与 profiler。"
+          ]
+        },
+        {
+          "name": "--no-serve-observatory",
+          "tip": [
+            "不经 VM 服务托管 Observatory。"
+          ]
+        },
+        {
+          "name": "--no-warn-on-pause-with-no-debugger",
+          "tip": [
+            "--enable-vm-service 下 isolate 无调试器 attached 而暂停时不打印警告。"
+          ]
+        },
+        {
+          "name": "--observe=",
+          "usage": [
+            "--observe[=<port>[/<bind-address>]]"
+          ],
+          "tip": [
+            "observe 是便利 flag，附带一组常用调试选项运行程序。",
+            "详见 `dart help -v run`。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--packages=",
+          "usage": [
+            "--packages=<path>"
+          ],
+          "tip": [
+            "包解析配置文件路径，提供包名到路径的映射。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause-isolates-on-exit",
+          "tip": [
+            "--enable-vm-service 下退出时暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--pause-isolates-on-start",
+          "tip": [
+            "--enable-vm-service 下启动时暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--pause-isolates-on-unhandled-exceptions",
+          "tip": [
+            "--enable-vm-service 下遇未处理异常暂停 isolate。"
+          ]
+        },
+        {
+          "name": "--print-dtd",
+          "tip": [
+            "打印 Dart Tooling Daemon（DTD）连接信息。",
+            "对 DTD 扩展开发的 DevTools 扩展作者有用。"
+          ]
+        },
+        {
+          "name": "--profile-microtasks",
+          "tip": [
+            "记录每个 microtask 信息。",
+            "已完成 microtask 信息写入 \"Microtask\" 时间线流。"
+          ]
+        },
+        {
+          "name": "--profile-startup",
+          "tip": [
+            "profiler 采样缓冲满后丢弃新采样。",
+            "未设时缓冲为环形，满后新采样覆盖最旧。",
+            "本 flag 不启用 profiler，需另行启用，如 --profiler。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "禁用 resident 编译器启停消息打印。"
+          ]
+        },
+        {
+          "name": "--resident",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --resident"
+          ],
+          "tip": [
+            "用 resident 前端编译器加速启动。",
+            "--resident-compiler-info-file 指定则用该 info 文件，否则用默认。",
+            "所选 info 文件无关联编译器则启动一个。",
+            "info 文件详见 'dart compilation-server start -h'。"
+          ]
+        },
+        {
+          "name": "--resident-compiler-info-file",
+          "usage": [
+            "--resident-compiler-info-file <FILE>"
+          ],
+          "tip": [
+            "Dart CLI 与 resident 前端编译器通信的 info 文件路径。",
+            "每个 info 文件唯一对应一个 resident 前端编译器。",
+            "省略用默认 info 文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-certs-cache=",
+          "usage": [
+            "--root-certs-cache=<path>"
+          ],
+          "tip": [
+            "含可信根证书的缓存目录，用于安全 socket 连接。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-certs-file=",
+          "usage": [
+            "--root-certs-file=<path>"
+          ],
+          "tip": [
+            "含可信根证书的文件，用于安全 socket 连接。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--serve-devtools",
+          "tip": [
+            "经 VM 服务在 <vm-service-uri>/devtools 提供 Dart DevTools 调试器与 profiler。",
+            "（默认为 on）"
+          ]
+        },
+        {
+          "name": "--serve-observatory",
+          "tip": [
+            "经 VM 服务托管 Observatory。",
+            "（默认为 on）"
+          ]
+        },
+        {
+          "name": "--timeline-recorder=",
+          "usage": [
+            "--timeline-recorder=<recorder>"
+          ],
+          "tip": [
+            "选择时间线记录器。",
+            "有效值：none、ring、endless、startup、systrace、file、callback、perfettofile。",
+            "默认为 ring。"
+          ],
+          "next": [
+            {
+              "name": "callback"
+            },
+            {
+              "name": "endless"
+            },
+            {
+              "name": "file"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "perfettofile"
+            },
+            {
+              "name": "ring"
+            },
+            {
+              "name": "startup"
+            },
+            {
+              "name": "systrace"
+            }
+          ]
+        },
+        {
+          "name": "--timeline-streams=",
+          "usage": [
+            "--timeline-streams=<str1, str2, ...>"
+          ],
+          "tip": [
+            "启用指定时间线流的记录。",
+            "有效流：all、API、Compiler、CompilerVerbose、Dart、Debugger、Embedder、GC、Isolate、Microtask、VM。",
+            "提供 --observe 时默认为 \"Compiler, Dart, GC, Microtask\"。"
+          ],
+          "separator": ",",
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "API"
+            },
+            {
+              "name": "Compiler"
+            },
+            {
+              "name": "CompilerVerbose"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Debugger"
+            },
+            {
+              "name": "Embedder"
+            },
+            {
+              "name": "GC"
+            },
+            {
+              "name": "Isolate"
+            },
+            {
+              "name": "Microtask"
+            },
+            {
+              "name": "VM"
+            }
+          ]
+        },
+        {
+          "name": "--trace-loading",
+          "tip": [
+            "启用库与脚本加载跟踪。"
+          ]
+        },
+        {
+          "name": "--verbosity",
+          "usage": [
+            "--verbosity <LEVEL>"
+          ],
+          "tip": [
+            "设置编译的详细级别。"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "显示全部消息。",
+                "（默认）"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "仅显示错误消息。"
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "显示错误、警告与 info 消息。"
+              ]
+            },
+            {
+              "name": "warning",
+              "tip": [
+                "仅显示错误与警告消息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--warn-on-pause-with-no-debugger",
+          "tip": [
+            "--enable-vm-service 下 isolate 无调试器 attached 而暂停时打印警告。"
+          ]
+        },
+        {
+          "name": "--write-service-info=",
+          "usage": [
+            "--write-service-info=<file>"
+          ],
+          "tip": [
+            "以 JSON 格式向指定文件输出连接 VM 服务所需信息。",
+            "适用于无法监听 stdout 等 VM 服务就绪消息的客户端。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "为项目运行测试。",
+        "flag 与选项由项目 package:test 依赖在运行时提供。"
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <package>"
+      ],
+      "tip": [
+        "移除全局安装的 Dart CLI 工具。",
+        "彻底删除 <package> 的全部已安装版本及放到 PATH 的可执行文件。"
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "显示更多命令输出。"
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "打印 Dart SDK 版本。"
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--diagnostics",
+      "tip": [
+        "显示工具诊断输出。"
+      ]
+    },
+    {
+      "name": "--disable-analytics",
+      "tip": [
+        "禁用 analytics。"
+      ]
+    },
+    {
+      "name": "--enable-analytics",
+      "tip": [
+        "启用 analytics。"
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "打印用法信息。"
+      ]
+    },
+    {
+      "name": "--suppress-analytics",
+      "tip": [
+        "本次 `dart *` 运行禁用 analytics，不改 analytics 配置。"
+      ]
+    }
+  ]
+}
