@@ -125,7 +125,7 @@ impl CachedTip {
 }
 
 /// Remove ANSI escape sequences (CSI: `ESC [ params final-byte`) so text renders cleanly.
-fn strip_ansi(s: &str) -> String {
+pub(crate) fn strip_ansi(s: &str) -> String {
     let mut out = String::with_capacity(s.len());
     let mut chars = s.chars().peekable();
     while let Some(c) = chars.next() {

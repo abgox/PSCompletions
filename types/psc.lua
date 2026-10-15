@@ -32,22 +32,22 @@
 ---@field name string
 --- `[Description]`: 提示文本。
 ---
---- - 接受字符串或本地化表（键为语言代码，值对应该语言文本）。
+--- - 接受字符串、本地化表（键为语言代码，值对应该语言文本），或选中时求值的函数。
 --- - 不传时默认为 `name`。传入空字符串 `""` 表示明确不要描述。
 ---
 --- `[Description]`: Tip text.
 ---
---- - Accepts a plain string or a localized table (keys are language codes).
+--- - Accepts a plain string, a localized table (keys are language codes), or a function evaluated on selection.
 --- - Defaults to `name` when omitted. Pass `""` to opt out explicitly.
----@field tip? string|psc_localized
---- `[Usage]`: 用法文本，字符串或 `{ cmd, desc }` 对象（渲染为 `cmd  # desc`）。
+---@field tip? string|psc_localized|fun():string|psc_localized|nil
+--- `[Usage]`: 用法文本，字符串、`{ cmd, desc }` 对象，或选中时求值的函数（渲染为 `cmd  # desc`）。
 ---
---- `[Usage]`: Usage text, a string or a `{ cmd, desc }` object (rendered as `cmd  # desc`).
----@field usage? string|psc_usage_example
---- `[Example]`: 示例文本，字符串或 `{ cmd, desc }` 对象（渲染为 `cmd  # desc`）。
+--- `[Usage]`: Usage text, a string, a `{ cmd, desc }` object, or a function evaluated on selection (rendered as `cmd  # desc`).
+---@field usage? string|psc_usage_example|fun():string|psc_usage_example|nil
+--- `[Example]`: 示例文本，字符串、`{ cmd, desc }` 对象，或选中时求值的函数（渲染为 `cmd  # desc`）。
 ---
---- `[Example]`: Example text, a string or a `{ cmd, desc }` object (rendered as `cmd  # desc`).
----@field example? string|psc_usage_example
+--- `[Example]`: Example text, a string, a `{ cmd, desc }` object, or a function evaluated on selection (rendered as `cmd  # desc`).
+---@field example? string|psc_usage_example|fun():string|psc_usage_example|nil
 --- 可重复使用次数。
 ---
 --- How many times it may be used.

@@ -1,7 +1,8 @@
 use crate::engine::completion;
+use crate::engine::hooks::{HookSession, LazyField};
 use crate::menu::model::{Config, Output, TerminalInfo};
 use crate::menu::protocol::CompleteInput;
-use crate::menu::state::{FilterOutcome, MenuState};
+use crate::menu::state::{strip_ansi, CachedTip, FilterOutcome, MenuState};
 use crate::menu::ui;
 use crossterm::event::{
     read, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEvent, KeyEventKind,
@@ -120,7 +121,7 @@ fn cleanup_stale_menu_files(menu_dir: &str) {
     }
 }
 
-pub fn run(input_path: &str) -> Output {
+pub fn run(input_path: &str, mut session: Option<HookSession>) -> Output {
     let input = match load_input(input_path) {
         Ok(i) => i,
         Err(e) => return Output::error(format!("failed to read input: {e}")),
@@ -345,6 +346,10 @@ pub fn run(input_path: &str) -> Output {
     if cfg.flags.enable_apply_when_single && state.filtered.len() == 1 {
         return selected_output(&state, state.filtered[0]);
     }
+    // Resolve lazy tip callbacks for the initial selection, same as below.
+    // Runs after the immediate-exit paths above so a menu that never draws
+    // spends no evaluation.
+    resolve_lazy_selected(&mut state, &mut session);
 
     let unix_fullscreen = term.platform != "windows" || use_alt;
     // Restore the system cursor to the input line on exit only in inline (non-alternate)
@@ -442,6 +447,10 @@ pub fn run(input_path: &str) -> Output {
             prev_len = state.filtered.len();
             schedule_peek(&mut state, &peek_req_tx, &mut peek_gen);
         }
+        // Evaluate lazy tip callbacks for the selected row (idempotent: rows
+        // without pending callbacks cost one scan). Runs every event so a filter
+        // edit that swaps the row under a stationary selection still resolves.
+        resolve_lazy_selected(&mut state, &mut session);
     };
 
     drop(terminal);
@@ -536,6 +545,47 @@ fn handle_key(
         _ => {}
     }
     None
+}
+
+/// Evaluate pending lazy tip/usage/example callbacks for the selected row and fold
+/// the results into the item + tip cache (same normalization as construction:
+/// ANSI-stripped, cached only when displayable). Synchronous with a per-field
+/// budget; failures resolve empty (cached, logged once by the session).
+fn resolve_lazy_selected(state: &mut MenuState, session: &mut Option<HookSession>) {
+    let Some(sess) = session else {
+        return;
+    };
+    let Some(idx) = state.selected_item_index() else {
+        return;
+    };
+    let Some(item) = state.items.get(idx) else {
+        return;
+    };
+    let resolved = sess.resolve_for(&item.completion_text.clone());
+    if resolved.is_empty() {
+        return;
+    }
+    let Some(item) = state.items.get_mut(idx) else {
+        return;
+    };
+    for (field, text) in resolved {
+        let slot = match field {
+            LazyField::Tip => &mut item.tip,
+            LazyField::Usage => &mut item.usage,
+            LazyField::Example => &mut item.example,
+        };
+        *slot = text;
+    }
+    let cached = CachedTip {
+        tip: strip_ansi(item.tip.as_deref().unwrap_or_default()),
+        usage: strip_ansi(item.usage.as_deref().unwrap_or_default()),
+        example: strip_ansi(item.example.as_deref().unwrap_or_default()),
+    };
+    if cached.has_display(state.enable_tip_usage, state.enable_tip_example) {
+        state.tip_cache.insert(idx, cached);
+    } else {
+        state.tip_cache.remove(&idx);
+    }
 }
 
 fn apply_filter(state: &mut MenuState, cfg: &Config, term: &TerminalInfo) -> Option<Action> {
@@ -668,6 +718,75 @@ impl Drop for TermGuard {
 mod tests {
     use super::*;
     use crate::menu::model::{Config, Flags, Item, Pos, Size, TerminalInfo};
+
+    fn lazy_cfg() -> Config {
+        Config {
+            filter_hint: String::new(),
+            filter_hint_stale: String::new(),
+            flags: Flags {
+                enable_list_loop: true,
+                filter_mode: "wildcard".into(),
+                enable_tip: true,
+                enable_tip_usage: true,
+                enable_tip_example: true,
+                enable_apply_when_single: false,
+                enable_apply_when_no_match: false,
+                show_mode: "auto".into(),
+                color_focus: "red".into(),
+                color_match: "cyan".into(),
+            },
+            context_switch: "~".into(),
+            context_stay: "?".into(),
+            raw_config: None,
+        }
+    }
+
+    fn lazy_term() -> TerminalInfo {
+        TerminalInfo {
+            cursor: Pos { x: 0, y: 5 },
+            buffer: Size { w: 120, h: 30 },
+            window: None,
+            platform: "linux".into(),
+        }
+    }
+
+    fn lazy_item(text: &str) -> Item {
+        Item {
+            completion_text: text.into(),
+            list_item_text: text.into(),
+            symbol: String::new(),
+            tip: None,
+            usage: None,
+            example: None,
+            result_type: None,
+            nospace: false,
+        }
+    }
+
+    #[test]
+    fn resolve_lazy_selected_folds_into_item_and_cache() {
+        // The session's tip callback resolves into the selected row only: item
+        // fields update and the tip cache gains the row; other rows stay empty.
+        let script = r#"
+            psc.add({ name = "a", tip = function() return "tip-a" end })
+        "#;
+        let ctx = crate::engine::hooks::HookContext::default();
+        let (_, sess) = crate::engine::hooks::run_hook_keepalive(&ctx, script, &[]).unwrap();
+        let mut state = MenuState::new(
+            vec![lazy_item("a"), lazy_item("b")],
+            &lazy_cfg(),
+            &lazy_term(),
+        );
+        assert!(state.tip_cache.is_empty());
+        resolve_lazy_selected(&mut state, &mut Some(sess));
+        assert_eq!(state.items[0].tip.as_deref(), Some("tip-a"));
+        assert_eq!(
+            state.tip_cache.get(&0).map(|c| c.tip.as_str()),
+            Some("tip-a")
+        );
+        assert_eq!(state.items[1].tip, None);
+        assert!(!state.tip_cache.contains_key(&1));
+    }
 
     // --- is_stale: six-branch fs matrix guarding the stale-hint feature ---
 

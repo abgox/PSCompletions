@@ -4,6 +4,7 @@
 
 ## Unreleased
 
+- Dynamic `tip` / `usage` / `example` now accept a function evaluated lazily when the item is selected.
 - A leading `sudo` is now transparent for completion and history ranking (`sudo git <Tab>` => `git <Tab>`).
 - Improved the hooks API `psc.mount_items`: the path chain now mirrors the manifest structure exactly; mounted items now include aliases.
 - Supplemented the missing `{ cmd, desc }` object form in dynamic `usage` / `example`.

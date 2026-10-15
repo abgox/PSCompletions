@@ -1202,6 +1202,81 @@ fn provide_multiple_validation() {
 }
 
 #[test]
+fn lazy_tip_resolves_on_demand_with_closure() {
+    // A function-valued tip is collected, not resolved: items read back empty and the
+    // session holds the callback (closures over hook locals work — no re-execution).
+    let script = r#"
+        local prefix = "app-"
+        psc.add({ name = "alpha", tip = function() return prefix .. "alpha-tip" end })
+        psc.add({ name = "beta", tip = "plain" })
+    "#;
+    let (items, mut sess) = super::run_hook_keepalive(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(items[0].tip, None);
+    assert_eq!(items[1].tip.as_deref(), Some("plain"));
+    assert!(sess.has_pending());
+    let r = sess.resolve_for("alpha");
+    assert_eq!(
+        r,
+        vec![(super::LazyField::Tip, Some("app-alpha-tip".to_string()))]
+    );
+    // Resolved once: a second visit finds nothing pending.
+    assert!(!sess.has_pending());
+    assert!(sess.resolve_for("alpha").is_empty());
+}
+
+#[test]
+fn lazy_usage_resolves_and_errors_cache_empty() {
+    let script = r#"
+        psc.add({ name = "u", usage = function() return "use-u" end })
+        psc.add({ name = "bad", tip = function() error("boom") end })
+        psc.add({ name = "slow", tip = function() while true do end end })
+    "#;
+    let (items, mut sess) = super::run_hook_keepalive(&ctx(), script, &empty_static()).unwrap();
+    assert!(items[0].usage.is_none());
+    let r = sess.resolve_for("u");
+    assert_eq!(
+        r,
+        vec![(super::LazyField::Usage, Some("use-u".to_string()))]
+    );
+    // A failing callback resolves empty (logged, never retried).
+    let r2 = sess.resolve_for("bad");
+    assert_eq!(r2, vec![(super::LazyField::Tip, None)]);
+    assert!(sess.resolve_for("bad").is_empty());
+    // An infinite loop is cut short by the eval budget, not hung on.
+    let r3 = sess.resolve_for_with_timeout("slow", Duration::from_millis(300));
+    assert_eq!(r3, vec![(super::LazyField::Tip, None)]);
+}
+
+#[test]
+fn lazy_direct_completions_ops_collected() {
+    // Direct `completions` table ops bypass `psc.add`; functions still register.
+    let script = r#"
+        table.insert(completions, { name = "d", tip = function() return "dt" end })
+    "#;
+    let (items, mut sess) = super::run_hook_keepalive(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(items[0].tip, None);
+    let r = sess.resolve_for("d");
+    assert_eq!(r, vec![(super::LazyField::Tip, Some("dt".to_string()))]);
+}
+
+#[test]
+fn lazy_callback_may_return_localized_table() {
+    // A callback returning a localized table resolves by session language.
+    let script = r#"
+        psc.add({ name = "l", tip = function()
+            return { ["en-US"] = "English", ["zh-CN"] = "中文" }
+        end })
+    "#;
+    let (items, mut sess) = super::run_hook_keepalive(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(items[0].tip, None);
+    let r = sess.resolve_for("l");
+    assert_eq!(
+        r,
+        vec![(super::LazyField::Tip, Some("English".to_string()))]
+    );
+}
+
+#[test]
 fn mount_items_mounts_tips_usage_example_and_no_symbol() {
     let script = r#"
         psc.add(psc.mount_items({ "next", "config", "next" }))

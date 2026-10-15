@@ -16,6 +16,7 @@ pub(crate) fn coerce_string_opt(lua: &Lua, v: Value) -> mlua::Result<Option<Stri
 }
 
 pub(crate) use super::LuaItem;
+use super::{LazyEntry, LazyField};
 /// Resolve a tip value to text: a plain string is used as-is; a **localized table**
 /// `{ ["en-US"] = "...", ["zh-CN"] = "..." }` picks the entry matching `language`
 /// (fallback `"en-US"`, then the first entry). Nil/other → None.
@@ -182,14 +183,21 @@ pub(crate) fn items_to_table(lua: &Lua, items: &[LuaItem]) -> mlua::Result<Table
 /// The external contract is `name`; `text` is an internal field and must not appear in Lua land.
 /// `usage`/`example` accept the same `{ cmd, desc }` objects as the manifest (see
 /// `resolve_usage_example`), since direct `completions` table ops bypass `psc.add`.
-pub(crate) fn table_to_items(lua: &Lua, t: &Table) -> mlua::Result<Vec<LuaItem>> {
+/// A `tip`/`usage`/`example` holding a function is NOT resolved here — it is collected
+/// into `lazy` (keyed by item text; positions shift under order-sort) for on-selection
+/// evaluation by the menu session, and reads back as empty.
+pub(crate) fn table_to_items(
+    lua: &Lua,
+    t: &Table,
+    lazy: &mut Vec<LazyEntry>,
+) -> mlua::Result<Vec<LuaItem>> {
     let mut out = Vec::new();
     for i in 1..=t.raw_len() {
         let item: Table = t.raw_get(i)?;
         let text: String = item.get("name")?;
-        let tip: Option<String> = item.get("tip")?;
-        let usage: Option<String> = resolve_usage_example(lua, item.get("usage")?)?;
-        let example: Option<String> = resolve_usage_example(lua, item.get("example")?)?;
+        let tip = take_lazy_or_string(lua, &item, "tip", LazyField::Tip, &text, lazy)?;
+        let usage = take_lazy_or_string(lua, &item, "usage", LazyField::Usage, &text, lazy)?;
+        let example = take_lazy_or_string(lua, &item, "example", LazyField::Example, &text, lazy)?;
         let symbol: Option<String> = item.get("symbol")?;
         let repeat: i32 = item
             .get::<Option<i32>>("repeat_count")?
@@ -207,6 +215,31 @@ pub(crate) fn table_to_items(lua: &Lua, t: &Table) -> mlua::Result<Vec<LuaItem>>
         });
     }
     Ok(out)
+}
+
+/// Read one description field: a function value registers a lazy entry (reads back
+/// as empty); anything else follows the existing conversion (strings as-is,
+/// `{ cmd, desc }` objects for usage/example, error otherwise).
+fn take_lazy_or_string(
+    lua: &Lua,
+    item: &Table,
+    key: &str,
+    field: LazyField,
+    text: &str,
+    lazy: &mut Vec<LazyEntry>,
+) -> mlua::Result<Option<String>> {
+    if let Value::Function(f) = item.get::<Value>(key)? {
+        lazy.push(LazyEntry {
+            key: text.to_string(),
+            field,
+            func: f,
+        });
+        return Ok(None);
+    }
+    match key {
+        "tip" => Ok(item.get::<Option<String>>(key)?),
+        _ => resolve_usage_example(lua, item.get(key)?),
+    }
 }
 
 pub(crate) use formats::{

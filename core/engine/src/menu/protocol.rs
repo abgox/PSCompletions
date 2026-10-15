@@ -268,6 +268,36 @@ pub fn item_score(
 pub fn build_candidate_items(
     input: &CompleteInput,
 ) -> Result<(Vec<hooks::LuaItem>, completion::ResolvedContext), String> {
+    build_candidate_items_inner(input, false).map(|(items, ctx, _)| (items, ctx))
+}
+
+/// Build-mode entry for the interactive menu: like `build_candidate_items` but keeps
+/// the hook VM + lazy callbacks alive for on-selection evaluation. Peeks and headless
+/// callers use the plain variant (session dropped); only the top-level menu build keeps it.
+pub fn build_candidate_items_keepalive(
+    input: &CompleteInput,
+) -> Result<
+    (
+        Vec<hooks::LuaItem>,
+        completion::ResolvedContext,
+        Option<hooks::HookSession>,
+    ),
+    String,
+> {
+    build_candidate_items_inner(input, true)
+}
+
+fn build_candidate_items_inner(
+    input: &CompleteInput,
+    keep_session: bool,
+) -> Result<
+    (
+        Vec<hooks::LuaItem>,
+        completion::ResolvedContext,
+        Option<hooks::HookSession>,
+    ),
+    String,
+> {
     let manifest = std::fs::read_to_string(&input.manifest)
         .map_err(|_| format!("manifest read failed: {}", input.manifest))?;
     let json: serde_json::Value = serde_json::from_str(crate::strip_bom(&manifest))
@@ -301,12 +331,12 @@ pub fn build_candidate_items(
         if let Some(cached) = cache_load(input, sig) {
             let mut final_items = cached;
             apply_order_sort(&mut final_items, &input.order, false);
-            return Ok((final_items, resolved.context));
+            return Ok((final_items, resolved.context, None));
         }
     }
 
     // If hooks are enabled and a hooks.lua exists, run the Lua hook to merge in dynamic items
-    let final_items = if input.hooks {
+    let (final_items, mut session) = if input.hooks {
         if let Some(hook_path) = hooks_path(&input.manifest) {
             if let Ok(script) = std::fs::read_to_string(&hook_path) {
                 // Merge config layers: global (with built-in defaults) → manifest
@@ -383,8 +413,8 @@ pub fn build_candidate_items(
                     cwd: input.cwd.clone(),
                     log_dir: input.log_dir.clone(),
                 };
-                match hooks::run_hook(&context, &script, &static_items) {
-                    Ok(items) => items,
+                match hooks::run_hook_keepalive(&context, &script, &static_items) {
+                    Ok((items, sess)) => (items, Some(sess)),
                     Err(e) => {
                         eprintln!("hook error: {e}");
                         // Surface hook failures in the debug log so authors can inspect them
@@ -401,17 +431,17 @@ pub fn build_candidate_items(
                             format!(" {path}")
                         };
                         hooks::log_hook_error(&context.log_dir, &input.cmd, &path, &e);
-                        static_items.clone()
+                        (static_items.clone(), None)
                     }
                 }
             } else {
-                static_items.clone()
+                (static_items.clone(), None)
             }
         } else {
-            static_items.clone()
+            (static_items.clone(), None)
         }
     } else {
-        static_items
+        (static_items, None)
     };
 
     // Separator-list continuation (`--exclude a,<TAB>`): every item here is a
@@ -428,12 +458,26 @@ pub fn build_candidate_items(
         }
     }
 
+    // Prune lazy callbacks of filtered-out rows against the FINAL list (repeat
+    // filtering already ran inside the hook; separator filtering ran above), then
+    // decide the cache from what actually survives.
+    if let Some(sess) = session.as_mut() {
+        sess.prune_to(&final_items);
+    }
+    let has_lazy = session.as_ref().is_some_and(|s| s.has_pending());
+
     if let Some(sig) = cache_sig {
-        cache_store(input, sig, &final_items);
+        // Lazy hooks are never cached: their tips resolve after the menu opens, which a
+        // cache hit could never replay. Re-running is cheap by design (names only —
+        // the expensive reads moved into the callbacks).
+        if !has_lazy {
+            cache_store(input, sig, &final_items);
+        }
     }
 
     apply_order_sort(&mut final_items, &input.order, false);
-    Ok((final_items, resolved.context))
+    let session = if keep_session { session } else { None };
+    Ok((final_items, resolved.context, session))
 }
 
 /// Peek where applying `candidate` at `input` lands.
@@ -1171,6 +1215,62 @@ mod tests {
         let mut c = sample_input();
         c.data = serde_json::json!({ "settings": "/tmp/x/settings.json", "completions_json": "/tmp/x/temp/completions.json" });
         assert_ne!(hook_signature(&c, mtime, None), sig, "data must change");
+    }
+
+    #[test]
+    fn lazy_hook_bypasses_result_cache() {
+        // A hook with lazy callbacks is never cached (a cache hit could not replay
+        // them), so every build re-runs it. Proved by counting hook executions via
+        // the append-only debug log; the same hook without lazy serves run 2 from cache.
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static SEQ: AtomicU64 = AtomicU64::new(0);
+        let n = SEQ.fetch_add(1, Ordering::SeqCst);
+        let dir = std::env::temp_dir().join(format!("psc-lazy-cache-{}-{n}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        let lang = dir.join("language");
+        std::fs::create_dir_all(&lang).unwrap();
+        std::fs::write(
+            lang.join("en-US.json"),
+            r#"{"next": [{"name": "install"}]}"#,
+        )
+        .unwrap();
+        let log_dir = dir.join("log");
+        std::fs::create_dir_all(&log_dir).unwrap();
+        let mut input = sample_input();
+        input.manifest = lang.join("en-US.json").to_string_lossy().to_string();
+        input.arg_tokens = vec!["install".into()];
+        input.cache_dir = dir.join("cache").to_string_lossy().to_string();
+        input.log_dir = log_dir.to_string_lossy().to_string();
+        input.global_config = serde_json::json!({ "enable_cache": true });
+        std::fs::write(
+            dir.join("hooks.lua"),
+            r#"psc.log("lazy-ran"); psc.add({ name = "dyn", tip = function() return "t" end })"#,
+        )
+        .unwrap();
+        build_candidate_items(&input).unwrap();
+        build_candidate_items(&input).unwrap();
+        let log = std::fs::read_to_string(log_dir.join("debug.log")).unwrap();
+        assert_eq!(
+            log.matches("lazy-ran").count(),
+            2,
+            "lazy hook must re-run (no cache): {log}"
+        );
+        // Control: rewriting the hook (new mtime, new signature) without lazy stores
+        // once and serves the second run from cache.
+        std::fs::write(
+            dir.join("hooks.lua"),
+            r#"psc.log("plain-ran"); psc.add({ name = "dyn" })"#,
+        )
+        .unwrap();
+        build_candidate_items(&input).unwrap();
+        build_candidate_items(&input).unwrap();
+        let log2 = std::fs::read_to_string(log_dir.join("debug.log")).unwrap();
+        assert_eq!(
+            log2.matches("plain-ran").count(),
+            1,
+            "plain hook must serve run 2 from cache: {log2}"
+        );
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]

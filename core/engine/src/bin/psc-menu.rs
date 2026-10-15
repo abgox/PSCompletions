@@ -89,7 +89,10 @@ fn main() -> ExitCode {
     // Build mode: when the host passes a manifest build context instead of items, build the
     // candidates here so the menu runs in a single process call. A build failure is reported
     // via an error result (never silently cancelled) so the host can surface it.
+    // The keepalive variant also returns the hook session (VM + lazy callbacks) for
+    // on-selection evaluation during the menu; `None` without hooks or on cache hits.
     let mut build_error: Option<String> = None;
+    let mut hook_session: Option<psc_engine::engine::hooks::HookSession> = None;
     if let Ok(text) = std::fs::read_to_string(&input_path) {
         if let Ok(mut input) = serde_json::from_str::<model::Input>(&text) {
             if input.items.is_empty() && input.build.is_some() {
@@ -103,8 +106,9 @@ fn main() -> ExitCode {
                     }
                 };
                 if let Some(ci) = ci {
-                    match build_candidate_items(&ci) {
-                        Ok((items, ctx)) => {
+                    match build_candidate_items_keepalive(&ci) {
+                        Ok((items, ctx, session)) => {
+                            hook_session = session;
                             let switch_sym = input.config.context_switch.clone();
                             let stay_sym = input.config.context_stay.clone();
                             input.items = items
@@ -148,7 +152,7 @@ fn main() -> ExitCode {
         };
     }
 
-    let out = app::run(&input_path);
+    let out = app::run(&input_path, hook_session);
 
     match std::fs::write(
         &result_path,

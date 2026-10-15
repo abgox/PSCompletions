@@ -27,7 +27,7 @@ installed packages, files, env vars) — cannot be known at authoring time. Hook
 
 ```
 Rust core process:
-  manifest parse → build tree → context resolution → seed live list (static expansion) → run Lua hook (top-level + psc.on handlers) → build items → menu → output
+  manifest parse → build tree → context resolution → seed live list (static expansion) → run Lua hook (top-level + psc.on handlers, VM kept alive for lazy tips) → build items → menu → output
 
 PowerShell thin bridge:
   capture line/cursor → write context JSON → spawn core → apply the selected item
@@ -73,13 +73,56 @@ end)
   the live list entirely (documented: do not mix a replacing return with `psc.on` in the same file;
   the engine warns when an explicit return discards `psc.on` contributions).
 - Completion item shape: `{ name, tip?, usage?, example?, repeat_count? }`.
-  `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections.
-  `repeat_count` defaults to `0` (a used item is filtered from the next menu); set N to keep
-  offering it until N uses. The field is `repeat_count` because `repeat` is a Lua keyword.
+  `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections —
+  each accepts a plain string or a `{ cmd, desc }` object (rendered `cmd  # desc`, just `cmd`
+  without `desc`), mirroring the manifest's object entries. `tip` accepts a plain string or a
+  localized table; an absent `tip` falls back to `name`. All three also accept a **function**
+  (lazy — see below); a function tip has no name-fallback (unresolved reads back empty).
 - **`text` is an engine-internal field**: everywhere a hook can see an item, it is the `name` key.
   Do not read or write `text` on items.
 - The menu performs filtering/prefix matching; hooks return the **full candidate set** via the live list.
   Dynamic items added via `psc.add`/`psc.on` are ordered **before** static items so contextual completions are visible first; history-based ranking (`order.rs`) then applies within that sequence.
+
+### Lazy `tip` / `usage` / `example` functions
+
+Pass a zero-arg function instead of a value and it is evaluated **once, when its row is
+selected** (highlighted) — not when the hook runs, not on apply:
+
+```lua
+-- scoop-style: list names now (cheap), parse each manifest on selection
+for _, app in ipairs(names) do
+    psc.add({ name = app, tip = function()
+        local m = psc.json(bucket_file(app))
+        return m and m.description
+    end })
+end
+```
+
+- The closure sees hook locals and the full `psc.*` API (upvalues are preserved —
+  the hook VM stays alive for the menu session). It returns a string, a localized
+  table (`tip`) / `{ cmd, desc }` object (`usage` / `example`), or nil (no text).
+- Each field resolves at most once and is cached; errors and timeouts resolve empty
+  (logged once to `error.log`, never retried, never fatal).
+- **Budget**: one evaluation gets 5 seconds (matches `psc.run`'s default timeout;
+  a manifest parse is milliseconds). Keep callbacks to fast local reads — evaluation
+  is synchronous on the main thread and blocks navigation while it runs. The budget
+  shares the process-global deadline slot with background symbol peeks; if the two
+  overlap, budgets may stretch or cut early — both sides degrade gracefully (empty
+  tip / missing symbol), never fatal.
+- **Result cache is bypassed** while any lazy callback is pending: cached items could
+  never replay their functions. Re-running is cheap by design (names only).
+- A callback must not rely on `psc.add` (the live list is already snapshotted —
+  appends land nowhere visible).
+
+### Async evaluation (future)
+
+Evaluation is synchronous today: a slow callback blocks navigation up to its 5 s
+budget. True separation needs a dedicated VM-owner thread (mlua values are `!Send`,
+so the session VM cannot move to a worker) with a request channel from the menu
+loop — queued per-row evaluations, current selection first, stale results dropped
+by generation, same 5 s cap per callback. Do that when real hooks (not fixtures)
+prove the synchronous hitch user-visible; until then the budget + keep-it-fast
+rule stands.
 
 ## 4. psc.\* Context Values
 

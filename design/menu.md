@@ -342,6 +342,9 @@ rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 60
 - **Caching applies to every completion** (with or without hooks) — a fast completion pays one
   extra tiny disk read, a slow one skips the rebuild. Disable per-user via
   `psc config menu enable_cache 0`.
+- **Lazy hooks bypass the cache**: a hook with pending `tip`/`usage`/`example` callbacks never
+  stores (a cache hit could not replay the functions). Re-running is cheap by design — the
+  expensive reads moved into the callbacks, so only names are rebuilt.
 
 Boolean keys are stored as JSON numbers (`1`/`0`); `psc config` accepts only `0`/`1` on input.
 
@@ -422,7 +425,7 @@ core/engine/                 # psc-menu crate: engine + TUI
     │   ├── completion.rs    # tree building + context resolution
     │   └── hooks/           # Lua hook runtime + psc.* API
     │       ├── mod.rs       # types + run_hook entry
-    │       ├── runner.rs    # sandbox + execution (deadline, instruction hook)
+    │       ├── runner.rs    # sandbox + execution (deadline, instruction hook, lazy sessions)
     │       ├── bindings.rs  # psc table construction (context values + API bindings)
     │       ├── api/         # capability functions
     │       │   ├── mod.rs   # shared helpers + re-exports

@@ -11,19 +11,29 @@ use super::{coerce_string_opt, resolve_localized, resolve_usage_example};
 /// Normalize an item table: keep the external `name` key and resolve localized fields.
 /// The internal `text` shape stays a Rust-side detail, only applied at the read-back
 /// boundary (`table_to_items`).
+/// A `tip`/`usage`/`example` holding a function is kept as-is: it becomes a lazy
+/// callback evaluated on selection (see `table_to_items`), never resolved here.
 fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Table> {
     let name: String = item.get("name")?;
     let t = lua.create_table()?;
     t.set("name", name.clone())?;
     // An absent `tip` falls back to the item's own name.
-    let tip = resolve_localized(lua, item.get::<Option<Value>>("tip")?, language)?.or(Some(name));
-    if let Some(tip) = tip {
+    let tip_value: Value = item.get("tip")?;
+    if matches!(tip_value, Value::Function(_)) {
+        t.set("tip", tip_value)?;
+    } else if let Some(tip) = resolve_localized(lua, Some(tip_value), language)?.or(Some(name)) {
         t.set("tip", tip)?;
     }
-    if let Some(u) = resolve_usage_example(lua, item.get::<Value>("usage")?)? {
+    let usage_value: Value = item.get("usage")?;
+    if matches!(usage_value, Value::Function(_)) {
+        t.set("usage", usage_value)?;
+    } else if let Some(u) = resolve_usage_example(lua, usage_value)? {
         t.set("usage", u)?;
     }
-    if let Some(e) = resolve_usage_example(lua, item.get::<Value>("example")?)? {
+    let example_value: Value = item.get("example")?;
+    if matches!(example_value, Value::Function(_)) {
+        t.set("example", example_value)?;
+    } else if let Some(e) = resolve_usage_example(lua, example_value)? {
         t.set("example", e)?;
     }
     if let Some(r) = item.get::<Option<i32>>("repeat_count")? {

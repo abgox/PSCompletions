@@ -8,7 +8,8 @@ mod runner;
 #[cfg(test)]
 mod tests;
 
-pub use runner::run_hook;
+pub(crate) use runner::run_hook_keepalive;
+pub use runner::{run_hook, HookSession};
 
 /// Append a timestamped hook error to `<log_dir>/error.log` (best-effort, never fails).
 ///
@@ -155,4 +156,23 @@ impl From<&crate::engine::completion::CompletionItem> for LuaItem {
             nospace: it.nospace,
         }
     }
+}
+
+/// Which description field a lazy callback computes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum LazyField {
+    Tip,
+    Usage,
+    Example,
+}
+
+/// One unevaluated `tip`/`usage`/`example` callback, collected at hook read-back
+/// time. Keyed by item text (not index): history-order ranking re-sorts the item
+/// list after the hook returns, so positions are stale by menu time while names
+/// are stable. The function handle is tied to its session VM (same thread only —
+/// `mlua` values are `!Send`, so a session never crosses threads).
+pub struct LazyEntry {
+    pub key: String,
+    pub field: LazyField,
+    pub func: mlua::Function,
 }
