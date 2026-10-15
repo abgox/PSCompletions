@@ -45,15 +45,7 @@ pub fn cmd_add(
             return fail(out, format!("error: {e}"), json);
         }
     };
-    let all = args.iter().any(|a| a == "--all");
-    let names: Vec<String> = if all {
-        list.clone()
-    } else {
-        args.iter()
-            .filter(|a| a.as_str() != "--all")
-            .cloned()
-            .collect()
-    };
+    let names: Vec<String> = args.to_vec();
     // Download multiple completions concurrently (shared client + bounded worker pool).
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let results: std::sync::Mutex<Vec<serde_json::Value>> = std::sync::Mutex::new(Vec::new());

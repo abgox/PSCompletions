@@ -86,7 +86,7 @@ pub fn print_help() {
     println!("  config [core|menu|context] <key> [<value>]   Get/set config");
     println!("  completion [<name> [<key> [<value>]]]        Per-completion special config");
     println!("  alias [add <name> <alias>...|rm <name> <alias>...]   Trigger aliases");
-    println!("  add <name>... | --all   rm <name>... | --all");
+    println!("  add <name>...          rm <name>... | --all");
     println!("  update [<name>... | --all | --old]");
 }
 

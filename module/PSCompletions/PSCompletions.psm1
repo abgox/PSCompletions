@@ -113,24 +113,8 @@
     switch ($arg[0]) {
         'list' { _render_list (_forward_psc -Json); $need_init = $false }
         'add' {
-            $targets = @()
-            if ($arg -contains '--all') {
-                $PSCompletions.write_with_color((_replace $PSCompletions.info.add.all_confirm))
-                while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
-                    # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
-                    # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
-                    if (-not ($PressKey.ControlKeyState -band 0x1F)) {
-                        if ($PressKey.VirtualKeyCode -eq 13) { $targets = @($PSCompletions.list) }
-                        else { $PSCompletions.write_with_color((_replace $PSCompletions.info.confirm_cancel)) }
-                        break
-                    }
-                }
-            }
-            else { $targets = @($arg[1..($arg.Count - 1)]) }
+            $targets = @($arg[1..($arg.Count - 1)])
             if ($targets.Count) {
-                if ($arg -contains '--all') {
-                    $PSCompletions.write_with_color("`n" + (_replace $PSCompletions.info.add.waiting))
-                }
                 $result = _forward_psc -Json
                 if ($null -ne $result) {
                     $PSCompletions.init_data()

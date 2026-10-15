@@ -78,7 +78,7 @@ incl. `enable_hooks`) to the new name, and removes the old directory. Renamed en
 
 - intercepts every invocation,
 - handles some commands natively in PowerShell (no-arg info page, nuclear `--reset`,
-  `config menu trigger_key` re-binding, interactive confirms for `add --all` / `rm --all`),
+  `config menu trigger_key` re-binding, interactive confirm for `rm --all`),
 - forwards the rest to the Rust binary `psc.exe` (`core/cli`) via `_forward_psc`, passing
   `--data <data dir>` (and `--json` when structured output is wanted).
 
@@ -97,7 +97,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 
 | Command | Arguments | Options | Network | Implemented in | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `add` | `<name>...` | `--all` | yes | Rust + PS wrapper | `--all` gets an interactive confirm |
+| `add` | `<name>...` | — | yes | Rust + PS wrapper | installs each named completion |
 | `rm` | `<name>...` | `--all` | no | Rust + PS wrapper | `--all` confirms; `psc` itself is always kept |
 | `update` | `[<name>...]` | `--all`, `--old` | yes | Rust + PS wrapper | no-arg = real-time check |
 | `list` | — | — | no | Rust + PS wrapper | local aggregate; `--json` |
@@ -117,10 +117,9 @@ Syntax notation: `<value>` = required argument, `[<value>]` = optional, `...` = 
 
 ```
 psc add <name>...
-psc add --all
 ```
 
-- **Behavior**: downloads the remote index, then installs each named completion. `--all` installs every available completion, with an interactive confirm.
+- **Behavior**: downloads the remote index, then installs each named completion.
   Multiple completions download concurrently (8 workers) and each completion's files
   download in parallel.
   Each installed completion: files are copied into `completions/<name>/`, `.update` records the
@@ -135,8 +134,7 @@ psc add --all
 - **Output**: with `--json`, per-completion results `{completion, ok, error}` (trigger words
   owned by another completion add `skipped: [{alias, owner}]`); plain text
   `<name>: Added.` otherwise (ownership warnings print per word). Text mode: any error → exit code `FAILURE`.
-- **PS wrapper**: computes targets (if `--all`, all known completions; else the args), shows the
-  `--all` confirm + a "please wait" notice, forwards with `--json`, then `init_data()` and renders
+- **PS wrapper**: forwards with `--json`, then `init_data()` and renders
   the rich `info.add.done` / `info.update.done` template per added completion.
 
 ### 6.2 `alias` — manage trigger aliases
@@ -447,7 +445,7 @@ on demand.
   `psc <args>` via `_forward_psc` (pass `--data <resolved data dir>`), forward stdout/stderr/exit.
 - `config menu trigger_key` re-binds PSReadLine (`Set-PSReadLineKeyHandler`) — the one host-side
   validation that stays in PowerShell (validate-then-persist).
-- Interactive confirms for `add --all` and `rm --all` in the wrapper.
+- Interactive confirm for `rm --all` in the wrapper.
 - Module self-update stays PowerShell (PowerShellGet/git).
 
 ## 11. Workspace layout (current)
