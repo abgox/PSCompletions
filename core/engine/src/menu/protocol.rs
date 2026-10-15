@@ -239,6 +239,10 @@ pub fn item_score(
     // Mirror the writer's key normalization (order.rs `normalize_key`): surrounding quotes
     // are stripped so a quoted candidate (`"#FFA500"`) matches the quote-stripped key from
     // a quoted history token (`'#ffa500'`); the path branch mirrors `path_segments`.
+    // Case: the writer keeps the original spelling, so the exact spelling is tried
+    // first (`-D` history promotes `-D`, not `-d`); the lowercased fallback is the
+    // same case-folding the filter uses, so differently-cased spellings of the
+    // same key still match.
     let text = it.text.trim_matches('"').trim_matches('\'');
     if text.contains('/') || text.contains('\\') {
         // A trailing separator (a directory candidate like `.\src\`) is ignored so the
@@ -247,14 +251,22 @@ pub fn item_score(
             .trim_end_matches(['/', '\\'])
             .rsplit(['/', '\\'])
             .next()
-            .unwrap_or("")
-            .to_lowercase();
-        return paths_order.get(&leaf).copied().unwrap_or(0);
+            .unwrap_or("");
+        if let Some(s) = paths_order.get(leaf) {
+            return *s;
+        }
+        return paths_order.get(&leaf.to_lowercase()).copied().unwrap_or(0);
     }
     // Bare words never consult `_paths.json`: a subcommand sharing a name with a directory in
     // path history (e.g. npm `test` vs a `test\` folder) must not inherit its weight.
+    if let Some(s) = cmd_order.get(text) {
+        return *s;
+    }
     let lower = text.to_lowercase();
     if let Some(s) = cmd_order.get(&lower) {
+        return *s;
+    }
+    if let Some(s) = commands_order.get(text) {
         return *s;
     }
     if let Some(s) = commands_order.get(&lower) {
@@ -968,6 +980,27 @@ mod tests {
         };
         // Without stripping, the leaf would be `foo"` and miss the key.
         assert_eq!(item_score(&quoted, &empty, &paths, &empty), 8);
+    }
+
+    #[test]
+    fn item_score_prefers_exact_case_with_lowercase_fallback() {
+        let mut cmd: HashMap<String, i64> = HashMap::new();
+        cmd.insert("-D".into(), 9);
+        cmd.insert("-d".into(), 3);
+        let empty = HashMap::new();
+        let item = |t: &str| hooks::LuaItem {
+            text: t.into(),
+            ..Default::default()
+        };
+        // Each spelling scores under its own key: `-D` history promotes `-D`, not `-d`.
+        assert_eq!(item_score(&item("-D"), &cmd, &empty, &empty), 9);
+        assert_eq!(item_score(&item("-d"), &cmd, &empty, &empty), 3);
+        // Case-folding: a key stored in one case still matches a candidate spelled
+        // in another (history `'#ffa500'` vs candidate `"#FFA500"`).
+        let mut folded: HashMap<String, i64> = HashMap::new();
+        folded.insert("-d".into(), 5);
+        assert_eq!(item_score(&item("-D"), &folded, &empty, &empty), 5);
+        assert_eq!(item_score(&item("-d"), &folded, &empty, &empty), 5);
     }
 
     #[test]

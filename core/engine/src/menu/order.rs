@@ -365,10 +365,15 @@ fn tokenize(s: &str) -> Vec<String> {
     out
 }
 
-/// Normalize a sort key: trim surrounding quotes + lowercase (the reader-side hash map is
-/// case-insensitive).
+/// Normalize a sort key: trim surrounding quotes, keep the original case.
+/// `-d` and `-D` are different options, so they accumulate separate history
+/// scores and using one promotes exactly that spelling. The reader
+/// (`protocol.rs item_score`) looks up the exact spelling first and falls back
+/// to the lowercased key — the same case-folding the filter uses, so a key
+/// stored in one case still matches a candidate spelled in another
+/// (`"#FFA500"` matches history `'#ffa500'`).
 fn normalize_key(tok: &str) -> String {
-    tok.trim_matches('"').trim_matches('\'').to_lowercase()
+    tok.trim_matches('"').trim_matches('\'').to_string()
 }
 
 /// Sort by (score desc → most-recent-use desc → key) and write to `path`. Higher rank sorts
@@ -570,6 +575,17 @@ mod tests {
         assert!(s["git"].score > s["scoop"].score);
         assert!(!s.contains_key("commit"));
         assert!(!s.contains_key("status"));
+    }
+
+    #[test]
+    fn compute_scores_keeps_option_case() {
+        // `-d` and `-D` are different options: history for one must not credit the other,
+        // so that using `-D` promotes exactly that spelling.
+        let history = "tool -d\ntool -D\ntool -D\n";
+        let s = compute_scores(history, &["tool".to_string()]);
+        assert!(s.contains_key("-D"));
+        assert!(s.contains_key("-d"));
+        assert!(s["-D"].score > s["-d"].score);
     }
 
     #[test]

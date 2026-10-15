@@ -387,7 +387,10 @@ Ordering lives in the TUI process:
   - **Position weight** `((i+1)/N)^2` — the last position (deepest selection) weights `1.0`; early
     "prefix" positions decay quadratically so `config` in `psc config menu …` is not overcounted.
     The most recent use only breaks ties.
-- Only the last 1000 lines are scanned; keys lowercased and quotes stripped. The engine ranks
+- Only the last 1000 lines are scanned; keys keep their original case with quotes
+  stripped (`-d` and `-D` score separately, so using one promotes exactly that
+  spelling). The reader tries the exact spelling first and falls back to the
+  lowercased key (the same case-folding the filter uses). The engine ranks
   items by the order-file value (descending, stable); items without a score keep their order.
 - **A `sudo`-wrapped line counts as two records**: the wrapper itself (so `sudo` keeps its
   history — e.g. Windows sudo's `run`/`config` subcommands) plus the wrapped command
