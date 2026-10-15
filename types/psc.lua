@@ -392,15 +392,17 @@ function psc.on(spec, handler) end
 ---@return psc_item[]
 function psc.items(items, fn) end
 
---- 把清单路径上指定数组的 **直接子项** 转换为补全项。
+--- 挂载静态清单中已有的内容为补全项（纯转换，需用 `psc.add` 注入）。
 ---
---- - `manifest_path`：从清单的根出发的路径，最后一段必须是 `"next"` 或 `"option"`
---- - 主要用于复用清单中已经定义好的 `next` 或 `option` 数组
+--- - 路径从清单根开始逐段匹配（大小写敏感）：对象按键名，数组按项的 `name`
+--- - 落在数组上挂载其子项，落在带 `name` 的单项上挂载该项本身，例如 `{ "next", "config", "next", "set", "next" }`
+--- - 别名展开为独立候选项，共用同一份提示
 ---
---- Converts the **direct children** of the specified array at the manifest path to completion items.
+--- Mount existing content from the static manifest as completion items (pure transform, inject via `psc.add`).
 ---
---- - `manifest_path`: a path from the manifest root; the last segment must be `"next"` or `"option"`
---- - It is mainly used to reuse the `next` or `option` arrays already defined in the list.
+--- - The path matches segment by segment from the manifest root (case-sensitive): objects by key, arrays by item `name`
+--- - Landing on an array mounts its children, landing on a single item with a `name` mounts that item, e.g. `{ "next", "config", "next", "set", "next" }`
+--- - Aliases expand as separate candidates sharing the same tip
 ---@param manifest_path_chain string[]
 ---@return psc_item[]
 function psc.mount_items(manifest_path_chain) end

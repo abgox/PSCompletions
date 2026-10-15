@@ -2,6 +2,10 @@
 
 [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- Improved the hooks API `psc.mount_items`: the path chain now mirrors the manifest structure exactly; mounted items now include aliases.
+
 ## 7.6.1
 
 - `psc.add` uses `name` as the default value for `tip`.

@@ -2,6 +2,10 @@
 
 [English](./CHANGELOG.md)
 
+## Unreleased
+
+- 改进了 hooks API `psc.mount_items`：路径链条现在与清单结构精确对应；挂载项现在会包含别名
+
 ## 7.6.1
 
 - `psc.add` 使用 `name` 作为 `tip` 的默认值

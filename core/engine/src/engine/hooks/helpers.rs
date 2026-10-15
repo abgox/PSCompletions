@@ -183,56 +183,49 @@ fn text_of(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     }
 }
 
-/// `psc.mount_items(path)` → convert the **direct children** of a manifest `next`/`option`
-/// array into completion items — a pure transform like `psc.items` (returns an array,
-/// does NOT add to `completions`; injection is the caller's job via `psc.add`). No
-/// recursion — deeper levels are reached by the engine's own `next` navigation, or by
-/// calling `mount_items` again with a longer path from the hook.
+/// `psc.mount_items(path)` → resolve `path` from the manifest root and convert the
+/// **direct children** of the array it lands on into completion items — a pure transform
+/// like `psc.items` (returns an array, does NOT add to `completions`; injection is the
+/// caller's job via `psc.add`). No recursion — deeper levels are reached by the engine's
+/// own `next` navigation, or by calling `mount_items` again with a longer path.
+///
+/// The chain mirrors the manifest structure exactly: at an object the segment is a
+/// plain key lookup (any existing key), at an array it must be an item's
+/// `name` (exact, case-sensitive). The path must land on an array (mounts its children)
+/// or on an item object with a `name` (mounts that single item); anything else mounts
+/// nothing.
 pub(crate) fn api_mount_items(lua: &Lua, path: &[String]) -> mlua::Result<Table> {
     let out = lua.create_table()?;
-    let last = path.last().map(|s| s.as_str()).unwrap_or("");
-    if last != "next" && last != "option" {
-        return Ok(out);
-    }
-    let source = last;
     let psc: Table = lua.globals().get("psc")?;
-    let manifest: Option<Table> = psc.get("manifest")?;
-    let Some(manifest) = manifest else {
+    let Some(manifest) = psc.get::<Option<Table>>("manifest")? else {
         return Ok(out);
     };
-    let first = path.first().map(|s| s.as_str()).unwrap_or("");
-    let container = manifest
-        .raw_get::<Option<Value>>(first)?
-        .and_then(|v| match v {
-            Value::Table(t) => Some(t),
-            _ => None,
-        });
-    let mut container: Option<Table> = container;
-
-    let mut node: Option<Table> = None;
-    let nav_end = path.len().saturating_sub(1);
-    for seg in path.iter().take(nav_end).skip(1) {
-        let Some(container_t) = &container else {
+    let mut cur = Value::Table(manifest);
+    for seg in path {
+        let Value::Table(t) = &cur else {
             return Ok(out);
         };
-        let Some(found) = find_named(container_t, seg)? else {
-            return Ok(out);
+        cur = match resolve_segment(t, seg)? {
+            Some(next) => next,
+            None => return Ok(out),
         };
-        node = Some(found.clone());
-        container = found.raw_get::<Option<Table>>("next")?;
     }
-    let Some(node) = node else { return Ok(out) };
-
-    let from_option = source == "option";
-    let children = if from_option {
-        node.raw_get::<Option<Table>>("option")?
-    } else {
-        node.raw_get::<Option<Table>>("next")?
-    };
-    if let Some(children) = children {
-        mount_children(lua, &children, &out)?;
+    if let Value::Table(t) = cur {
+        if t.raw_get::<Option<String>>("name")?.is_some() {
+            mount_one(lua, &t, &out)?;
+        } else {
+            mount_children(lua, &t, &out)?;
+        }
     }
     Ok(out)
+}
+
+/// One path step: an object's exact key, or an array item's `name`. Nothing else.
+fn resolve_segment(node: &Table, seg: &str) -> mlua::Result<Option<Value>> {
+    if let Some(child) = node.raw_get::<Option<Value>>(seg)? {
+        return Ok(Some(child));
+    }
+    Ok(find_named(node, seg)?.map(Value::Table))
 }
 
 fn find_named(container: &Table, name: &str) -> mlua::Result<Option<Table>> {
@@ -240,16 +233,6 @@ fn find_named(container: &Table, name: &str) -> mlua::Result<Option<Table>> {
         if let Value::Table(t) = container.raw_get::<Value>(i)? {
             if t.raw_get::<Option<String>>("name")?.as_deref() == Some(name) {
                 return Ok(Some(t));
-            }
-        }
-    }
-    for pair in container.pairs::<Value, Value>() {
-        let (k, v) = pair?;
-        if let Value::String(s) = k {
-            if s.to_str()? == name {
-                if let Value::Table(t) = v {
-                    return Ok(Some(t));
-                }
             }
         }
     }
@@ -262,21 +245,40 @@ fn mount_children(lua: &Lua, children: &Table, out: &Table) -> mlua::Result<()> 
         let Value::Table(k) = children.raw_get::<Value>(i)? else {
             continue;
         };
-        let Some(name) = k.raw_get::<Option<String>>("name")? else {
-            continue;
-        };
-        let tip = text_of(lua, k.raw_get::<Value>("tip")?)?;
-        let usage = text_of(lua, k.raw_get::<Value>("usage")?)?;
-        let example = text_of(lua, k.raw_get::<Value>("example")?)?;
+        mount_one(lua, &k, out)?;
+    }
+    Ok(())
+}
+
+/// Mount one item: copy its name/tip/usage/example. Skipped without a `name`.
+/// Aliases expand into separate items sharing the same tip, like the static menu.
+fn mount_one(lua: &Lua, k: &Table, out: &Table) -> mlua::Result<()> {
+    let Some(name) = k.raw_get::<Option<String>>("name")? else {
+        return Ok(());
+    };
+    let tip = text_of(lua, k.raw_get::<Value>("tip")?)?;
+    let usage = text_of(lua, k.raw_get::<Value>("usage")?)?;
+    let example = text_of(lua, k.raw_get::<Value>("example")?)?;
+    let mut names = vec![name];
+    if let Some(alias) = k.raw_get::<Option<Table>>("alias")? {
+        for i in 1..=alias.raw_len() {
+            if let Some(a) = alias.raw_get::<Option<String>>(i)? {
+                if !a.trim().is_empty() && !names.iter().any(|n| n == &a) {
+                    names.push(a);
+                }
+            }
+        }
+    }
+    for name in names {
         let item = lua.create_table()?;
         item.set("name", name)?;
-        if let Some(t) = tip {
+        if let Some(t) = tip.clone() {
             item.set("tip", t)?;
         }
-        if let Some(u) = usage {
+        if let Some(u) = usage.clone() {
             item.set("usage", u)?;
         }
-        if let Some(e) = example {
+        if let Some(e) = example.clone() {
             item.set("example", e)?;
         }
         let n = out.raw_len();

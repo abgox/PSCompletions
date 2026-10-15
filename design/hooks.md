@@ -129,7 +129,7 @@ array/string tools).
 | Function | Returns | Description |
 | --- | --- | --- |
 | `psc.items(elements, fn?)` | `psc_item[]` | Convert each element into a completion item. Without second arg the element itself is `name`; with a function `fn(elem)` returns the item table (`nil` skips). |
-| `psc.mount_items(manifest_path)` | `psc_item[]` | **Pure transform** (like `psc.items`): convert the **direct children** of a manifest `next`/`option` array into completion items — returns an array, does **not** add to `completions` (inject via `psc.add`); **no recursion**. The path starts from the **manifest root object** (any top-level field: `"next"`, `"info"`, ...) and descends by name to the target item — **segments match by name, exactly, case-sensitive** — e.g. `psc.mount_items({ "next", "config", "set", "next" })` = the children of `manifest.next.config.set.next`. **Intermediate segments navigate through `next` arrays only** (an `option` array cannot be traversed mid-path). The **last** element selects the source array and **must** be `"next"` or `"option"` — any other last element converts nothing. Each child keeps its `name`/`tip`/`usage`/`example`; **Deeper levels are handled by the engine's own `next` navigation** (selecting a child whose manifest entry has a `next` enters that context), or by calling `mount_items` again with a longer path built from `psc.tokens`; to convert both `next` and `option` of the same node, call twice. |
+| `psc.mount_items(manifest_path)` | `psc_item[]` | **Pure transform** (like `psc.items`): resolve `manifest_path` from the **manifest root** and convert the **direct children** of the array it lands on into completion items — returns an array, does **not** add to `completions` (inject via `psc.add`); **no recursion**. The chain mirrors the manifest structure exactly, segment by segment (exact, case-sensitive): at an **object** the segment is a plain key lookup — any key that actually exists (`next`, `option`) — and at an **array** it matches an item's `name`; no segment may be skipped. The path must land on an **array** (mounts its children) or on a single **item object** with a `name` (mounts that item); anything else converts nothing. Examples: `{ "next" }` = the root's subcommands; `{ "next", "config", "next", "set", "next" }` = the children of `manifest.next.config.next.set.next`. Each child keeps its `name`/`tip`/`usage`/`example`, with `alias` forms expanded as separate items sharing the same tip, like the static menu; **deeper levels are handled by the engine's own `next` navigation** (selecting a child whose manifest entry has a `next` enters that context), or by calling `mount_items` again with a longer path built from `psc.tokens`. |
 | `psc.add(item_or_items)` | `psc_item\|psc_item[]\|nil` | Append to the **live candidate list** (routes to the current accumulation target). `item_or_items` is a single item table or an array of tables; empty/missing `name` is skipped. Returns the stored entry table(s) **by reference** — post-call edits apply (e.g. `local e = psc.add({name="x"}); e.tip="new"`). Nil when nothing added. |
 | `psc.on(spec, handler)` | — (nothing) | Declarative registration — bind a zero-arg `handler` to a location (root / command chain / option value position). Returns nothing: injection happens only inside the handler via `psc.add` / direct `completions` ops. Fires only while the location's slot is still unfilled; `spec.multiple = true` keeps matching after it was filled. See **Declarative `psc.on`** below. |
 | `psc.token(spec?)` | `psc_token\|nil` | Find the **first** `psc.tokens` entry matching `spec` (`{name?, type?, case_sensitive?}`); `nil` spec or empty table → first token (any type); `name` filters by canonical name, `type` filters by `command`/`option`/`value`/`unknown` (e.g. `{type="command"}` checks existence of any command). Case-insensitive by default, `case_sensitive=true` for exact.|
@@ -193,7 +193,7 @@ empty array or empty name:
 psc.on({}, function()
     psc.add(psc.items(psc.run({ "git", "branch" }) or {}))              -- one item per line
     psc.add(psc.items(psc.ls("dir") or {}, function(e) return { name = e.name } end))
-    psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+    psc.add(psc.mount_items({ "next", "config", "next", "set", "next" }))
     -- return value is the stored table(s) by reference: post-call edits apply
     local e = psc.add({ name = "x" })
     e.tip = "new tip"
@@ -283,13 +283,13 @@ No explicit return needed: `nil` → live list.
 
 When several subcommands share the same value list, define the list **once** in the manifest (as
 the `next` of a chosen node, e.g. `config` → `set` → `next`) and mount it from a handler with
-`psc.mount_items({ "next", "config", "set", "next" })` — it returns the **direct children** of
+`psc.mount_items({ "next", "config", "next", "set", "next" })` — it returns the **direct children** of
 that array with their tips. This keeps the values (and their localized tips) in the manifest
 instead of hardcoding them in the hook:
 
 ```lua
 psc.on({ command = { "config", "set" } }, function()
-    psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+    psc.add(psc.mount_items({ "next", "config", "next", "set", "next" }))
 end)
 ```
 

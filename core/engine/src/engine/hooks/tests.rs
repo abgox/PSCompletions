@@ -1366,7 +1366,7 @@ fn repeat_counts_alias_as_used() {
 fn mount_items_matches_path_case_sensitively() {
     // Manifest holds both set / SET nodes — mount_items matches paths exactly; "SET" mounts its subtree
     let script = r#"
-        psc.add(psc.mount_items({ "next", "config", "SET", "next" }))
+        psc.add(psc.mount_items({ "next", "config", "next", "SET", "next" }))
 "#;
     let mut c = nested_manifest_ctx();
     let manifest = serde_json::json!({
@@ -1438,7 +1438,7 @@ fn mount_items_mounts_only_direct_children() {
 fn mount_items_source_option_mounts_option_array() {
     // A trailing "option" segment as source: mount the node's option array's direct children.
     let script = r#"
-        psc.add(psc.mount_items({ "next", "config", "flags", "option" }))
+        psc.add(psc.mount_items({ "next", "config", "next", "flags", "option" }))
 "#;
     let mut c = nested_manifest_ctx();
     c.manifest = serde_json::json!({
@@ -1486,14 +1486,101 @@ fn mount_items_roots_from_any_top_level_field() {
 }
 
 #[test]
-fn mount_items_rejects_paths_without_source_last() {
-    // The last segment is neither next nor option → invalid path, nothing is mounted
+fn mount_items_source_only_path_mounts_root_array() {
+    // A single-segment path mounts the manifest's root-level array: { "next" } yields the
+    // root's subcommands (brew's add_commands relies on this).
     let script = r#"
-        psc.add(psc.mount_items({ "next", "config", "set" }))
+        psc.add(psc.mount_items({ "next" }))
 "#;
     let out = run_hook(&nested_manifest_ctx(), script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["config"]);
+
+    // Same for a root-level option array.
+    let mut c = nested_manifest_ctx();
+    c.manifest = serde_json::json!({
+        "option": [ { "name": "--verbose" } ]
+    });
+    let out2 = run_hook(
+        &c,
+        r#"psc.add(psc.mount_items({ "option" }))"#,
+        &empty_static(),
+    )
+    .unwrap();
+    assert_eq!(out2.len(), 1);
+    assert_eq!(out2[0].text, "--verbose");
+}
+
+#[test]
+fn mount_items_chain_mirrors_manifest_structure() {
+    // The chain mirrors the manifest exactly: objects by key, arrays by item name.
+    // Segments may NOT be skipped — no implicit descent into a node's next/option.
+    let mut c = nested_manifest_ctx();
+    c.manifest = serde_json::json!({
+        "next": [{
+            "name": "config",
+            "next": [ { "name": "set", "option": [ { "name": "--color", "next": [ { "name": "auto" } ] } ] } ]
+        }]
+    });
+    // Omitting the "next" keys between nodes resolves to nothing.
+    let out = run_hook(
+        &c,
+        r#"psc.add(psc.mount_items({ "config", "set", "next" }))"#,
+        &empty_static(),
+    )
+    .unwrap();
     assert_eq!(out.len(), 0);
-    // A source-only path (no navigation segments) also yields nothing
+    // The explicit chain works; option values are reachable through the option key.
+    let out = run_hook(
+        &c,
+        r#"psc.add(psc.mount_items({ "next", "config", "next", "set", "option", "--color", "next" }))"#,
+        &empty_static(),
+    )
+    .unwrap();
+    assert_eq!(out[0].text, "auto");
+}
+
+#[test]
+fn mount_items_expands_aliases() {
+    // Aliases ride along: each mounted node yields its canonical name plus every
+    // alias (same tip), mirroring the static menu's name/alias expansion.
+    let mut c = nested_manifest_ctx();
+    c.manifest = serde_json::json!({
+        "next": [
+            { "name": "config", "alias": ["cfg"], "tip": ["Configure"], "next": [ { "name": "set" } ] },
+            { "name": "verbose", "option": [ { "name": "--all", "alias": ["-a"] } ] }
+        ]
+    });
+    let out = run_hook(
+        &c,
+        r#"psc.add(psc.mount_items({ "next" }))"#,
+        &empty_static(),
+    )
+    .unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["config", "cfg", "verbose"]);
+    assert_eq!(out[1].tip.as_deref(), Some("Configure"));
+    // Option aliases expand the same way.
+    let out2 = run_hook(
+        &c,
+        r#"psc.add(psc.mount_items({ "next", "verbose", "option" }))"#,
+        &empty_static(),
+    )
+    .unwrap();
+    let texts2: Vec<&str> = out2.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts2, vec!["--all", "-a"]);
+}
+
+#[test]
+fn mount_items_mounts_single_item_when_path_lands_on_node() {
+    // Landing on an item object (has a `name`) mounts that item itself.
+    let script = r#"
+        psc.add(psc.mount_items({ "next", "config", "next", "set" }))
+"#;
+    let out = run_hook(&nested_manifest_ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out.len(), 1);
+    assert_eq!(out[0].text, "set");
+    // No array item is named "next" at that level → nothing is mounted
     let script2 = r#"
         psc.add(psc.mount_items({ "next", "next" }))
 "#;
