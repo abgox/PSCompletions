@@ -166,14 +166,19 @@ pub(crate) fn api_token(
 }
 
 /// Resolve a tip/usage/example field (string or array) to a single string.
+/// Array elements (and the value itself) may be `{ cmd, desc }` objects, rendered
+/// like the static manifest's entries (see `super::api::resolve_usage_example`).
 fn text_of(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     match v {
         Value::Nil => Ok(None),
         Value::String(s) => Ok(Some(s.to_str()?.to_string())),
         Value::Table(t) => {
+            if t.raw_get::<Option<String>>("cmd")?.is_some() {
+                return super::api::resolve_usage_example(lua, Value::Table(t));
+            }
             let mut parts = Vec::new();
             for i in 1..=t.raw_len() {
-                if let Some(s) = coerce_string(lua, t.raw_get::<Value>(i)?)? {
+                if let Some(s) = super::api::resolve_usage_example(lua, t.raw_get::<Value>(i)?)? {
                     parts.push(s);
                 }
             }

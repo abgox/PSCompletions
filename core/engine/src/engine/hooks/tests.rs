@@ -1236,6 +1236,51 @@ fn add_supports_localized_tip() {
 }
 
 #[test]
+fn add_supports_object_usage_example() {
+    // usage/example accept the manifest's `{ cmd, desc }` object form, rendered `cmd  # desc`.
+    let script = r#"
+        psc.add({ name = "a", usage = { cmd = "a <X>", desc = "do a" }, example = { cmd = "a 1" } })
+        psc.add({ name = "b", usage = { cmd = "b <Y>" } })
+        psc.add({ name = "c", usage = { desc = "no cmd" } })
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out[0].usage.as_deref(), Some("a <X>  # do a"));
+    assert_eq!(out[0].example.as_deref(), Some("a 1"));
+    assert_eq!(out[1].usage.as_deref(), Some("b <Y>"));
+    assert_eq!(out[2].usage, None);
+}
+
+#[test]
+fn direct_completions_ops_support_object_usage_example() {
+    // Direct `completions` table ops bypass `psc.add`; the read-back boundary normalizes too.
+    let script = r#"
+        table.insert(completions, { name = "b", usage = { cmd = "b <Y>", desc = "do b" } })
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out[0].usage.as_deref(), Some("b <Y>  # do b"));
+}
+
+#[test]
+fn mount_items_renders_object_usage_example() {
+    // Manifest arrays may mix plain strings and `{ cmd, desc }` objects; both mount.
+    let script = r#"
+        psc.add(psc.mount_items({ "next" }))
+"#;
+    let mut c = ctx();
+    c.manifest = serde_json::json!({
+        "next": [{
+            "name": "pub",
+            "usage": [ "pub <KIND>", { "cmd": "pub --json <JSON>", "desc": "JSON body" } ]
+        }]
+    });
+    let out = run_hook(&c, script, &empty_static()).unwrap();
+    assert_eq!(
+        out[0].usage.as_deref(),
+        Some("pub <KIND>\npub --json <JSON>  # JSON body")
+    );
+}
+
+#[test]
 fn repeat_filters_used_dynamic_items() {
     // A used dynamic item (repeat default 0) is filtered: after `completion git --reset`, --reset is gone
     let script = r#"

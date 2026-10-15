@@ -40,14 +40,14 @@
 --- - Accepts a plain string or a localized table (keys are language codes).
 --- - Defaults to `name` when omitted. Pass `""` to opt out explicitly.
 ---@field tip? string|psc_localized
---- `[Usage]`: 用法文本。
+--- `[Usage]`: 用法文本，字符串或 `{ cmd, desc }` 对象（渲染为 `cmd  # desc`）。
 ---
---- `[Usage]`: Usage text.
----@field usage? string
---- `[Example]`: 示例文本。
+--- `[Usage]`: Usage text, a string or a `{ cmd, desc }` object (rendered as `cmd  # desc`).
+---@field usage? string|psc_usage_example
+--- `[Example]`: 示例文本，字符串或 `{ cmd, desc }` 对象（渲染为 `cmd  # desc`）。
 ---
---- `[Example]`: Example text.
----@field example? string
+--- `[Example]`: Example text, a string or a `{ cmd, desc }` object (rendered as `cmd  # desc`).
+---@field example? string|psc_usage_example
 --- 可重复使用次数。
 ---
 --- How many times it may be used.
@@ -203,10 +203,7 @@ psc.platform = "windows"
 --- Description of the completion command.
 ---@field description string[]
 
---- 清单中 usage / example 的对象形式。
----
---- Object form of usage / example in the manifest.
----@class psc_manifest_usage_example
+---@class psc_usage_example
 --- 调用语法。
 ---
 --- Invocation syntax.
@@ -235,11 +232,11 @@ psc.platform = "windows"
 --- 用法行。
 ---
 --- Usage lines.
----@field usage? (string|psc_manifest_usage_example)[]
+---@field usage? (string|psc_usage_example)[]
 --- 示例行。
 ---
 --- Example lines.
----@field example? (string|psc_manifest_usage_example)[]
+---@field example? (string|psc_usage_example)[]
 --- 该命令的选项。
 ---
 --- Options of this command.
@@ -268,11 +265,11 @@ psc.platform = "windows"
 --- 用法行。
 ---
 --- Usage lines.
----@field usage? (string|psc_manifest_usage_example)[]
+---@field usage? (string|psc_usage_example)[]
 --- 示例行。
 ---
 --- Example lines.
----@field example? (string|psc_manifest_usage_example)[]
+---@field example? (string|psc_usage_example)[]
 --- 最大重复次数。
 ---
 --- Maximum repeat count.

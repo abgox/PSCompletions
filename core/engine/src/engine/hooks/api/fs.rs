@@ -390,14 +390,13 @@ pub(crate) fn api_which(_lua: &Lua, name: String) -> mlua::Result<Option<String>
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            if base.is_file() {
-                if base
+            if base.is_file()
+                && base
                     .metadata()
                     .map(|m| m.permissions().mode() & 0o111 != 0)
                     .unwrap_or(false)
-                {
-                    return Ok(Some(base.to_string_lossy().to_string()));
-                }
+            {
+                return Ok(Some(base.to_string_lossy().to_string()));
             }
         }
     }

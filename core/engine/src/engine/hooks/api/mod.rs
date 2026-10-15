@@ -47,6 +47,33 @@ pub(crate) fn resolve_localized(
     }
 }
 
+/// Resolve a usage/example value: a plain string is used as-is; a `{ cmd, desc }`
+/// object renders as `cmd  # desc` (just `cmd` without desc, dropped without cmd) —
+/// mirroring the static manifest's object entries. Nil/other → None.
+pub(crate) fn resolve_usage_example(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
+    match v {
+        Value::Nil => Ok(None),
+        Value::String(s) => Ok(Some(s.to_str()?.to_string())),
+        Value::Table(t) => {
+            let cmd = t
+                .get::<Option<String>>("cmd")?
+                .map(|c| c.trim().to_string())
+                .filter(|c| !c.is_empty());
+            let Some(cmd) = cmd else {
+                return Ok(None);
+            };
+            let desc = t
+                .get::<Option<String>>("desc")?
+                .map(|d| d.trim().to_string())
+                .filter(|d| !d.is_empty());
+            Ok(Some(match desc {
+                Some(d) => format!("{cmd}  # {d}"),
+                None => cmd,
+            }))
+        }
+        _ => Ok(coerce_string_opt(lua, v)?),
+    }
+}
 /// Bounded worker-pool parallelism: call `f` on each input, results in input order (std threads, no deps).
 /// A panic in `f` propagates at scope exit (the worker threads are joined there), aborting the
 /// call — callers pass non-panicking closures (IO reads returning `Result`/`Option`), so this is
@@ -153,14 +180,16 @@ pub(crate) fn items_to_table(lua: &Lua, items: &[LuaItem]) -> mlua::Result<Table
 
 /// Items returned by Lua → Rust completion items.
 /// The external contract is `name`; `text` is an internal field and must not appear in Lua land.
-pub(crate) fn table_to_items(t: &Table) -> mlua::Result<Vec<LuaItem>> {
+/// `usage`/`example` accept the same `{ cmd, desc }` objects as the manifest (see
+/// `resolve_usage_example`), since direct `completions` table ops bypass `psc.add`.
+pub(crate) fn table_to_items(lua: &Lua, t: &Table) -> mlua::Result<Vec<LuaItem>> {
     let mut out = Vec::new();
     for i in 1..=t.raw_len() {
         let item: Table = t.raw_get(i)?;
         let text: String = item.get("name")?;
         let tip: Option<String> = item.get("tip")?;
-        let usage: Option<String> = item.get("usage")?;
-        let example: Option<String> = item.get("example")?;
+        let usage: Option<String> = resolve_usage_example(lua, item.get("usage")?)?;
+        let example: Option<String> = resolve_usage_example(lua, item.get("example")?)?;
         let symbol: Option<String> = item.get("symbol")?;
         let repeat: i32 = item
             .get::<Option<i32>>("repeat_count")?

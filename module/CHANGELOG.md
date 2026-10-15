@@ -5,6 +5,7 @@
 ## Unreleased
 
 - Improved the hooks API `psc.mount_items`: the path chain now mirrors the manifest structure exactly; mounted items now include aliases.
+- Supplemented the missing `{ cmd, desc }` object form in dynamic `usage` / `example`.
 
 ## 7.6.1
 

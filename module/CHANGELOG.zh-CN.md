@@ -5,6 +5,7 @@
 ## Unreleased
 
 - 改进了 hooks API `psc.mount_items`：路径链条现在与清单结构精确对应；挂载项现在会包含别名
+- 补充了动态项 `usage` / `example` 缺失的 `{ cmd, desc }` 对象形式
 
 ## 7.6.1
 

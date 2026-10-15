@@ -6,7 +6,7 @@
 
 use mlua::{Lua, Table, Value};
 
-use super::{coerce_string_opt, resolve_localized};
+use super::{coerce_string_opt, resolve_localized, resolve_usage_example};
 
 /// Normalize an item table: keep the external `name` key and resolve localized fields.
 /// The internal `text` shape stays a Rust-side detail, only applied at the read-back
@@ -20,10 +20,10 @@ fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Tab
     if let Some(tip) = tip {
         t.set("tip", tip)?;
     }
-    if let Some(u) = item.get::<Option<String>>("usage")? {
+    if let Some(u) = resolve_usage_example(lua, item.get::<Value>("usage")?)? {
         t.set("usage", u)?;
     }
-    if let Some(e) = item.get::<Option<String>>("example")? {
+    if let Some(e) = resolve_usage_example(lua, item.get::<Value>("example")?)? {
         t.set("example", e)?;
     }
     if let Some(r) = item.get::<Option<i32>>("repeat_count")? {
