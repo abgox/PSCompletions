@@ -111,6 +111,14 @@ A parser that transcribes faithfully ends up with the type name inside the `tip`
 splits one option into two entries. Take the description from the text after the flag and
 its placeholder, and anchor the flag at the start of the line.
 
+### A fourth trap: prose that starts with a flag
+
+Anchoring at the start of the line is necessary but not sufficient: a wrapped
+description continuation lands on its own line starting with `--x`
+(`--tool-call-parser lfm2").`, `--status.`), and so does an example fragment
+(`--template ...`). Harvest flag-anchored lines only below the `Options:`
+header and only at entry indent — description continuations indent deeper.
+
 ### A third trap: the value name that looks like a flag
 
 Some frameworks print the option's *value name* into the flag line, and the value name can be
@@ -129,6 +137,42 @@ from the flag list. Whether the option takes a value at all is a separate questi
 whether an option takes a value): the word's presence proves nothing either way — one of the two
 lines above is a boolean that carries a value-looking word, the other genuinely takes a value,
 and only invocation tells them apart.
+
+### Joining wrapped help lines
+
+Terminal-width wrapping breaks lines mid-token, and each break class wants a different
+join — enumerate every wrap in the corpus before choosing, because a rule tuned on one
+class silently mangles the other:
+
+- A trailing hyphen either continues an identifier (`[default: no-` + `ok]` keeps it)
+  or is hyphenation added by the wrapper (`downl-` + `oad` strips it). There is no
+  local spelling test that always separates them; in hf's 184 dumps every trailing
+  hyphen wanted keeping, so the join keeps it and says why. Whatever test you write,
+  window it to the junction — never to the whole accumulated string, which already
+  contains the option head and matches every token test (see
+  [`join-window`](../decisions/authoring.md#join-window)).
+- A mid-word split with no hyphen at all (`hugg ingface`) cannot be rejoined
+  mechanically — translate the line correctly by hand and leave the source alone.
+- A marker split across lines (`[alias:` at end of line, the name on the next) needs
+  lookahead plus consuming the continuation line; otherwise the alias is lost (an
+  `R-03` gap) and its text pollutes the tip. A marker standing alone on the next
+  line belongs to the previous entry.
+
+### Usage continuations that name other invocations
+
+A `Usage:` block often lists several invocation shapes, one per line:
+
+```
+Usage: pyenv install [-f] [-kvp] <version>[:<alias>]...
+       pyenv install [-f] [-kvp] <definition-file>[:<alias>]
+       pyenv install -l|--list [--bare]
+```
+
+Every indented line starting with the command word is a separate usage shape,
+not a wrap of the first — record each as its own `usage`, and never let one leak
+into the description. A tip reading `pyenv install [-f] ...` is a usage line
+misfiled as prose (pyenv shipped exactly that before the fix). The description
+starts after the usage block, at the first non-indented paragraph.
 
 ## Aliases the `--help` hides
 
@@ -215,6 +259,16 @@ the *alias set* of each entry, not just the name — a command modelled without 
 The scratch directory is working material: it stays until the operator says otherwise
 (`R-20`, [`working-files.md`](working-files.md)).
 
+### Save the pages you read
+
+Recommended, not required — but the kind of recommendation that pays for itself on
+the second read. As you traverse, save each `--help` page to its own file under
+`WIP/<tool>/help/` (one file per page, e.g. `root.txt`, `config.txt`). The next
+pass — yours when a gate reports something odd, or the operator's during review —
+starts from the evidence instead of re-running the CLI. This is the same directory
+`R-20` already keeps until the operator says otherwise, so there is nowhere extra
+to clean up; see [`working-files.md`](working-files.md) for the layout.
+
 ### Aliases are scoped to the page that lists them
 
 Harvest `alias`/shorthand **per command page**, never into one global table. The same
@@ -237,6 +291,24 @@ Use it in either direction, and whenever a `next` child is suspect:
 command `teams`, and `netlify teams list --help` quietly prints `teams`' own help instead
 of failing.
 
+A parent-help reprint is only half the verdict: the help pager may simply lack a page
+for a real command. Before deleting on that signal, check the dispatch table and the
+handler behind it — an arm plus a defined function with a real body means the command
+exists and only its documentation is missing (76 such cases in one tool, all kept).
+Delete only when no dispatch path and no implementation back the name.
+
+### A shared arm line is not one command
+
+A hand-written dispatcher often lists several spellings on one `case` arm. Whether
+they are aliases or distinct commands is decided by the action, mechanically: an action
+that names its handler literally (`___x_cmd_git_commit "$@"`) runs the same code for
+every spelling — true synonyms, one entry. An action that expands per spelling
+(`___x_cmd_hub_"$op"`, `___x_cmd_ajv_"$op"`) runs one function per name — distinct
+commands that happen to share a line; collapsing them loses commands no gate will
+report. Check for `$op` (or the framework's equivalent per-name expansion) before
+merging. `_`-prefixed spellings are the author's own plumbing marks, never user input —
+drop them outright (`R-04`, shell-library entry points).
+
 ### Reading the result
 
 If `MISSING` holds the CLI's primary name while `EXTRA` holds the manifest's alias, the
@@ -246,6 +318,24 @@ only a `sort-json` convention, and a CLI's own primary form may well be the shor
 The only real requirement is that **both forms appear in `usage`**, so the user recognises
 either. `psc.on` in `hooks.lua` refers to the `name` field, but that is likewise just an
 identifier.
+
+### Option-dispatched command chains
+
+Some CLIs dispatch subcommands through an option value rather than as bare words
+(`fresh --cmd daemon list`). The words after the option look like subcommands but are
+not: the ground-truth probe is the bare form — `fresh daemon list` opens a file in the
+editor, so root `next` stays empty and the chain is modelled under the option's own
+`next`.
+
+Static navigation reaches exactly one level under such an option: once an option value
+is consumed, the engine resets to the nearest command context (see
+[`design/completion.md`](../design/completion.md) §Resolve), so the menu completes
+`--cmd <TAB>` but never `--cmd daemon <TAB>` on its own. Record the deeper levels
+anyway as nested `next` / `option` (the schema allows both on a value item) — the data
+is truthful and hook-mountable — and surface them with a hook only if the depth is
+worth it: `psc.on({ option = "--cmd", multiple = true })` plus token inspection
+reaches every level the static tree cannot. Agree that scope with the operator
+before writing either half.
 
 ### An option diff must subtract the global set first
 
@@ -316,11 +406,16 @@ always yields a non-empty `next`.
    than a prefix.
 2. **A metadata subcommand with a machine-readable format.** `ruff rule --all --output-format
    json` returns 971 rules, each carrying `code`, `linter` and `name`. Look for `list`, `--all`,
-   `-o json`, `--format json`. This is the authoritative enumeration when the help has none, and it
+   `-o json`, `--format json` — or a self-completion entry point (`<cmd> --complete`),
+   which echoes the command's own flags and value candidates. This is the authoritative enumeration when the help has none, and it
    is machine-generated, so it cannot mislead the way prose can.
 3. **Probe each candidate before writing it.** Deriving a set from a code table and never running
    the CLI is how a wrong set lands: a value the CLI silently ignores looks identical to a valid
    one until you try a member that does not exist.
+4. **An error that enumerates the set.** Some CLIs answer a bad value with the full candidate
+   list (`Unknown package type 'bogus'. Valid types: plugin, theme, language`). Copy the list —
+   it is the CLI's own enumeration, as authoritative as item 2 — then still probe each member
+   per item 3 before writing it.
 
 **Validity is per slot, not per string.** `E` is a legal `ruff check --select` selector and an
 illegal `ruff rule` argument. Legality depends on the slot a value fills, so when candidates move
@@ -358,6 +453,44 @@ practice: an interactive or network-bound command (`glab auth login --device`) h
 timeout, so classify those from documentation instead; and a probe that errors for an unrelated
 reason (no auth, no repository) still tells you the answer, because the argument check happens
 during parsing, before the command runs.
+
+To test acceptance without side effects, append `--help`:
+`<cmd> <sub> --flag --help`. On a framework parser (clap, cobra, …) an unknown flag
+still fails at parse while a known one prints help and never executes — no directories
+created, no servers started, nothing applied — because the framework intercepts help
+before dispatch and a known option never consumes `--help` as its value, so the probe
+stays discriminating. On a hand-written dispatcher none of that holds (see §Probe
+containment below) — qualify the tool first, then probe. Read the error text, not the
+exit code: when the flag is consumed and the command then complains about a
+missing positional, the flag is accepted — only an error naming the flag itself
+is a rejection, and a usage dump alone decides nothing.
+
+### Probe containment
+
+`R-22` and `R-23` exist because the killer is transitive: it lives N hops away in the
+tool's own code, not in the harvest script, so reading the harvest script (D38) cannot
+see it — only reproduction reveals it. The recorded case ([`D39`](../decisions/authoring.md#d39),
+the project's second tree-wide wipe) ran a `--help`-appended probe into a dispatcher
+arm with no `-h` handling; the tool executed, printed a zero-exit non-help output, and
+removed CWD itself. Four links, none owned by the author; the probe exited 0 throughout.
+
+Three laws, in priority order:
+
+1. **Scratch CWD, always (`R-22`).** Set the shell `workdir` (or subprocess `cwd`) to a
+   scratch directory for every probe run — `/tmp/opencode/<tool>/` or `WIP/<tool>/` —
+   never the repo root. Containment does not judge the probe; it bounds the loss when the
+   judgment is wrong. Had the probe above run in scratch, the loss would have been scratch.
+2. **Qualify the parser before batch-probing (`R-23`).** A binary that is a shell script,
+   or a dispatcher read that shows `case` arms without `-h`, is hand-rolled: `--help`
+   reaches it as data. Read one dispatcher and one leaf for `-h` handling; whatever lacks
+   it goes source-only (usage lines, header comments, `case` arms — the tool's own
+   reference per §Aliases the `--help` hides), with no live probes for that subtree.
+3. **Canary the first probe of each new shape (`R-23`).** A canary is a scratch directory
+   holding a few files plus a `.git`. Run the shape once, diff before/after, and read the
+   output: help-shaped (NAME/DESCRIPTION for that command) means proceed; execution output —
+   especially a zero-exit non-help output — means stop and go source-only. The same check
+   applies to hook-producer queries before registering them (`R-17`): prove print-and-exit
+   in the canary first.
 
 A value-taking option whose shape is genuinely unknowable still declares `next: []` — the
 placeholder in `usage` is what may be omitted (`authoring/manifest.md`).
@@ -431,6 +564,10 @@ fail cannot distinguish anything, and a sound conclusion drawn from it is wrong.
 
 - If the tool uses a `help` subcommand instead of `--help`, use
   `<command> help <subcommand>`.
+- If the tool advertises a fuller help surface, harvest it too. Dart's own help
+  says "Run `dart help -v run` for details" — the verbose pages revealed dozens
+  of options the terse ones hide. Union by spelling; where both wordings exist,
+  keep the one with the fuller enum set and leave the rest alone.
 - If `--help` output is sparse or missing option descriptions, check official docs.
 - If updating an existing completion for a new version, check changelogs and release
   notes — see [`maintenance.md`](maintenance.md).

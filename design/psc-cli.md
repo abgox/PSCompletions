@@ -121,6 +121,8 @@ psc add --all
 ```
 
 - **Behavior**: downloads the remote index, then installs each named completion. `--all` installs every available completion, with an interactive confirm.
+  Multiple completions download concurrently (8 workers) and each completion's files
+  download in parallel.
   Each installed completion: files are copied into `completions/<name>/`, `.update` records the
   remote version, and settings are refreshed (`refresh_settings_after_add` builds the
   trigger-alias map). `add` always reinstalls: the whole per-completion entry (trigger
@@ -128,7 +130,8 @@ psc add --all
   `add`; customizations are reset). An already-installed name is reinstalled without error
   and still reports `Added.`.
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
-  download failure → `error: <err>`.
+  download failure → `error: <err>`. A downloaded `config.json` without a usable `id`
+  is refused — nothing lands, the installed version stays intact.
 - **Output**: with `--json`, per-completion results `{completion, ok, error}` (trigger words
   owned by another completion add `skipped: [{alias, owner}]`); plain text
   `<name>: Added.` otherwise (ownership warnings print per word). Text mode: any error → exit code `FAILURE`.
@@ -301,7 +304,7 @@ psc update --all              # update every installed completion
     `temp/change.json` (`update`) so the next startup does not re-report them.
 - **Errors**: name not installed and not in the remote list → `<name> is not an available completion.`;
   installed but not in the remote list → `<name>: Completion not added.`; download failure →
-  `error: <err>`.
+  `error: <err>`. Same `id` refusal as `add` (nothing lands on failure).
 - **Output**: with `--json`, per-completion results `{completion, ok, error}` (renames add
   `renamed_from`); plain text otherwise. Text mode: any failure → exit `FAILURE`.
 - **PS wrapper**: forwards `--all` / `--old` / the named arguments with `--json`, then renders

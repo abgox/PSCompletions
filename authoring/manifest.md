@@ -143,6 +143,27 @@ a simple tool like `completions/fd/`.
   populate it. This is a practical authoring note — the rule above still applies: if you
   end up with an empty `option` array, remove it entirely.
 
+## Reference completions
+
+When you want to see how a finished completion looks end to end — manifest shape and
+`hooks.lua` alike — start with these before browsing the other completions. Each is
+standard in the aspect named; read it for that aspect, not as a template to clone:
+
+- `git` — deep `next` nesting, command/option aliases, ref-shaped dynamic candidates
+- `jj` — `format="json"` reads, `mount_items` reuse
+- `cargo` — structured command output first (`cargo metadata`), file fallback, version tips
+- `psc-link` — Use callback functions in the `tip` to implement lazy loading
+- `scoop` — `json_batch`/`glob` over manifests, `shell=true` shims
+- `brew` — many producers over one `run_batch`, root `next` mount
+- `gh` — one JSON shape per producer, batched sibling queries, no retries
+- `mise` — `--json` machine output, `tool@version` candidates
+- `uv` — installed-subset producers matched to the slot (`uninstall` takes installed only)
+- `hf` — one flag with per-command value sets (`--flavor` under jobs vs Spaces hardware, AND-anchored option specs), machine-readable (`-q`) list queries feeding sibling slots
+
+Only after these stop answering the question at hand, broaden to the rest of
+`completions/`. For hook patterns specifically, `../design/hooks.md` §9 keeps its own
+list — same files, organized by pattern rather than by completion.
+
 ## `config.json`
 
 ```jsonc
@@ -366,6 +387,13 @@ none of its own — `zoxide import --merge` is the worked case, where all six `i
 children accept `--merge` yet none declares it, and re-declaring it would change nothing in
 the menu while adding translation and drift cost. And when a child gains its first own flag,
 re-declare every parent flag it should keep, or those completions silently vanish.
+
+A re-declaration asserts acceptance at that level: only re-declare what the page lists
+or a probe proves. An unprobed parent flag stays out — a missing suggestion costs the
+user nothing, an asserted-but-rejected row is wrong data. When sweeping a level is
+cheap, sweep it and re-declare what passes; when the level below needs an order of
+magnitude more probes, leave those pages as listed and note the gap in
+`WIP/<tool>/README.md`.
 
 No duplicate `name` within the same array. `compare-json.ps1` reports spelling
 collisions (`name` plus each `alias`) inside one array as `DuplicateItems` — see

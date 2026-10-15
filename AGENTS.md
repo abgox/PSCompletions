@@ -161,11 +161,15 @@ the tool's own reference → invoking it with no value, in that order; see
    - every item inside `option` / `global_option` with `usage <...>` **DOES** have `next`
 5. **Decide on `hooks.lua`** — see `authoring/hooks.md` and `design/hooks.md §9`. If yes,
    set `"hooks": true`; if no, leave both absent. Do not add a placeholder.
-6. **Run**: `./scripts/compare-json.ps1 <command>`.
+6. **Run both gates on `en-US.json`**: `./scripts/compare-json.ps1 <command>`
+   and `./scripts/validate-completion.ps1 <command>`. `compare-json` never
+   checks schema — a structural defect (a bare-string `next`, an empty `tip`)
+   passes it and surfaces only after translation, wasting the pass. The
+   schema bucket must be clean now; translation deltas wait for step 9.
 7. **Fix every reported issue** — see `authoring/validation.md` for what each report means.
-   Re-run step 6 until clean.
+   Re-run step 6 until clean — only then is `en-US.json` done.
 8. **Translate to `zh-CN.json`** — see `authoring/maintenance.md`.
-9. **Run again**: `./scripts/compare-json.ps1 <command>` must be clean for both languages.
+9. **Run again**: both gates must be clean for both languages.
 10. **Hand off the working files** — report what `WIP/<tool>/` holds and ask whether to
     delete it; delete only on confirmation (`R-20`). See `authoring/working-files.md`.
 11. **Propose the commit** — draft the message per `authoring/maintenance.md`
@@ -382,6 +386,22 @@ batching, squashing, or holding back is the operator's call. One completion per 
 batch shares one commit only when every item takes the same action. The message carries
 each completion's verified CLI version — the baseline the next update diffs against. See
 `authoring/maintenance.md` §Proposing the commit.
+
+**R-22 — Collection probes never run with the repo as the working directory.** Every CLI
+invocation a harvest script runs — `--help` probes, acceptance probes, producer probes
+alike — executes with `workdir` set to a scratch directory (`/tmp/opencode/<tool>/` or
+`WIP/<tool>/`), never the repo root or any irreplaceable tree. A probe that executes
+destructively against CWD then destroys scratch. See [`D39`](decisions/authoring.md#d39).
+
+**R-23 — `--help`-appended proves nothing on a hand-rolled parser.** The "appended `--help`
+never executes" guarantee holds only for framework parsers (clap, cobra, …) that intercept
+help before dispatch. A hand-written dispatcher — shell `case`, batch labels, a dynamic
+`*)` fallthrough — consumes `--help` as an ordinary argument: an option's value (`$2`), a
+positional operand, or a dispatch word, and then runs. Before batch-probing such a tool:
+read one dispatcher and one leaf to confirm `-h` handling exists; run the first probe of
+each new shape in a canary directory (a few files plus a `.git`) and diff afterwards; a
+shape that executes instead of printing help goes source-only for that subtree — no live
+probes. A zero-exit non-help output is the tell. See [`D39`](decisions/authoring.md#d39).
 
 ## Format judgment calls
 

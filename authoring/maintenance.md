@@ -45,6 +45,11 @@ older synonym keeps its long form without the alias, so both stay completable. S
 
 ## Translation (`zh-CN.json` and other languages)
 
+**Prerequisite:** `en-US.json` passes `validate-completion.ps1` (schema
+bucket) before translation starts (`AGENTS.md` step 6). `compare-json`
+does not check schema, so translating first turns every structural fix
+into a second translation pass.
+
 1. Structure must be identical to `en-US.json` — same nesting, same array order, same
    entries.
 2. Only translate `tip` / `usage` / `example` content. `name`, `alias`, `repeat`, and the
@@ -94,6 +99,26 @@ pages. Two consequences for the workflow:
   tip over, then apply the dictionary to what is left. A dictionary entry is only ever
   applied where the target-language tip still equals the English tip (i.e. still
   untranslated) — never over an existing translation.
+- **Translate mechanical lines by rule, dictionary for the rest.** `Possible values: …`,
+  `(default …)`, and template tips generated from one pattern (`Append 1 or more items
+  to the --X list.`) translate deterministically — encode them as pattern rules applied
+  first (mpv covered 724 of 3 118 lines that way; hf's enum and default lines likewise),
+  and spend the dictionary on real prose. A coverage script that fails loudly on the
+  remainder keeps the split honest.
+- **Continuation lines are dictionary keys too.** When keys are per-line rather than
+  joined, a multi-line tip contributes its fragments (`of PATH.`, `on a failed search.`)
+  as separate keys — translate each as the continuation it is, not as a standalone
+  sentence.
+- **Rebuilds invalidate positional carry-over.** Carrying a translated line by
+  position assumes the base-language array still has the shape it had when the
+  translation was written. The moment a generator rule changes a split, drops a
+  line, or joins two (an abbreviation guard, a dangling-line drop), every position
+  after the edit silently points at the wrong translation — both files stay
+  internally consistent, so no gate fires. After any rebuild, scan for it: every
+  base line that is in the dictionary but whose translation differs is suspect
+  (one option drifted by two positions this way) — realign those from the
+  dictionary. Deterministic pattern rules are immune to this; run them before
+  the carry-over, never after, so stale rule output cannot persist.
 
 `schema` still applies: the structure must end up identical to `en-US.json`.
 
@@ -150,6 +175,11 @@ the repository root the repo is Jujutsu-managed — commit with `jj describe` (o
 `jj commit`) even if a `.git` directory sits beside it, since that is only jj's git
 mirror in a colocated working copy. With no `.jj`, use git. The message format below
 applies to either.
+
+Limit the commit to this completion's directory: the working copy often holds
+other in-flight work (`WIP/<other>/`, another completion), so commit by path —
+`jj commit <dir>` (`jj commit` takes filesets), or stage only that directory
+with git — never the whole working copy.
 
 One completion per commit. A batch of completions shares one commit only when every item
 takes the same action (`add`, `update`); mixed actions are split into

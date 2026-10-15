@@ -73,7 +73,22 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
 | `*^abc` | literal `*^abc` subsequence | force subsequence: literal `^abc` |
 | `^^abc` | `^` anchored + `abc` subsequence | starts with literal `^abc` |
 
-## 4.1 Edge cases
+## 4.1 Exact match pins first
+
+When the filter names an item exactly (modulo the `^` / leading-`*` markers), that
+item sorts ahead of mere substring/subsequence hits, stably, in both modes:
+
+| Filter | Matches in order |
+| --- | --- |
+| `AB` over `xaby, ab, zabw` | `ab`, `xaby`, `zabw` |
+| `^AB` over `abx, ab` | `ab`, `abx` |
+
+A filter that is still a pattern never pins (`a*b` keeps manifest order) — there is
+no single exact name in it. Comparison is ASCII case-insensitive, like matching.
+This is what makes an exact name surface first out of thousands of
+substring hits with no extra syntax.
+
+## 4.2 Edge cases
 
 - **Empty filter** matches **every** item (the full list is returned unchanged); a filter
   consisting only of whitespace is treated as a literal string (a space cannot be typed into

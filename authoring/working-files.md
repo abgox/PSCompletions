@@ -64,6 +64,57 @@ task. So it is **never committed and never pushed**, and it is **never gitignore
    that finds a wrong value needs the dumps and the diff plan to fix it fast. Deleting
    before that point is the one thing this rule forbids.
 
+## Pipeline script hygiene
+
+Three habits that cost minutes and save re-derivations:
+
+- **Guard the entry point.** A pipeline script (`parse.py`, `gen.py`) ends with
+  `if __name__ == "__main__":`, never a bare `main()` call — a debug script that
+  imports the module to reuse one function otherwise re-runs the whole pipeline
+  and rewrites its outputs as a side effect.
+- **Re-run the full pipeline after editing any stage.** A `parsed.json` older than
+  the `parse.py` that supposedly produced it explains every "the fix had no effect"
+  mystery; when results look stale, compare mtimes before re-debugging.
+- **Script bulk insertions into manifests; parse-check after every hand edit.**
+  Appending nodes by text-splicing at an array tail silently eats closers, and
+  the parse error surfaces far from the cause. Beyond a handful of entries use
+  a load/append/dump script; either way, prove the file still parses before
+  writing the next batch.
+- **`__pycache__/` is generated output.** Python writes it beside the scripts on
+  first run; it is never reviewed and never staged — remove it with the directory.
+
+## Running a script is the dangerous step
+
+Writing a script is cheap; running it is not — a script runs with the author's
+full filesystem access, and a wrong path in a delete call destroys what no gate
+can rebuild. Think three times before every run, and treat this section as
+harder than every other rule in this file:
+
+- **Read the whole script before running it.** No blind runs — not "it looks
+  standard", not "I only changed one line". A deletion can hide in a helper, an
+  import-time side effect, or a default argument (`shutil.rmtree(path)` where
+  `path` fell back to something wide). If you did not read it, you do not run it.
+- **Never run a deletion outside `WIP/<tool>/` without explicit operator
+  confirmation.** `rm -rf`, `shutil.rmtree`, `os.remove`, `remove_dir_all`,
+  `git clean -fdx` — against anything outside the task directory, each of these
+  is a proposal, not a command: state exactly what will be removed and wait for
+  confirmation. Version control is not a safety net — the recorded incident deleted
+  `.git` along with the tree, so there was nothing to revert to, and ready-to-release
+  work was permanently lost. See [`D38`](../decisions/authoring.md#d38).
+- **Scripts write where the task needs; only removal needs confirmation.** Writing
+  is recoverable — git restores any overwritten file, so pipeline scripts do their
+  normal job (dumps under `WIP/<tool>/`, realignments into `completions/`) without
+  asking. Deletion is not: once the tree (or `.git` itself) is gone there is nothing
+  to check out from. Nothing ever writes into `.git/` directly — only git itself
+  goes there.
+- **Mutate last, preview first.** Prefer a `--dry-run` / print-the-plan pass
+  before any run that creates, moves, or rewrites files outside `WIP/`; read the
+  plan output before the real run.
+- **Python specifics.** `pathlib` writes stay under `WIP/<tool>/` (resolve the
+  path and check the prefix when it is built from variables); `subprocess` calls
+  are read with the same care as the script itself — a shell string concatenates
+  the same way in every language.
+
 ## What never happens
 
 - **Nothing is deleted unilaterally** — not when the gates pass, not at the end of a

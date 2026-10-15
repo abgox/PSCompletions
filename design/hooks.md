@@ -336,6 +336,43 @@ psc.on({ command = { "config", "set" } }, function()
 end)
 ```
 
+The same single-source rule covers a `help`-style command whose slot takes the
+tool's own subcommands (`dart help <command>`): mount the root table instead of
+duplicating it — every added or removed command would otherwise need the same edit
+in two places, in two languages, and no gate compares the two copies:
+
+```lua
+psc.on({ command = "help" }, function()
+    psc.add(psc.mount_items({ "next" }))
+end)
+```
+
+Three conditions, all required. The value set is **exactly** the static set —
+prove it by rejection (`dart help bogus` answers `Could not find a command named`
+with a non-zero exit) and by diffing the listing against the manifest. The slot
+takes **names**, not documentation — a `help` that takes topics (`gh`, `go`,
+`rclone` all do) keeps its own static `next`, even where spellings coincide.
+And the set is big enough to matter: below a handful of entries the duplication
+is cheaper than the hook file, the `hooks: true` flag, and the checker run.
+Mounting re-surfaces the manifest entries — tips and localizations included — so
+it creates no second source, which is why this is not an `R-16` violation.
+
+Mounting is not querying: it reads no runtime state and shells out to nothing,
+so it has no staleness class of its own — it goes stale exactly when the manifest
+it mounts goes stale, and the update audit that refreshes the table refreshes the
+help slot in the same edit. A hook that shells out to enumerate its values is
+different in both directions: it tracks upstream additions for free, but when its
+query shape changes it degrades to a silent empty slot that no gate re-checks
+until someone touches the hook. Static tables stale the third way (upstream adds
+a value; the `--help` diff at the next update catches it). Judge each slot by
+which staleness it can afford: mounted commands, queried dynamics, static topics.
+
+The handful threshold above is not about CPU — a mount costs none. It is about
+the disabled-hook empty slot (a user-disabled hook offers nothing; a static copy
+always works), the gate surface a hook file carries (`luac`, `check-hook-targets`,
+re-probing on every touch), and the typo radius (a wrong `mount_items` path
+converts nothing, silently). A few lines of duplication carry none of that.
+
 ### Declarative `psc.on`
 
 The core primitive of the declarative hooks style: instead of branching on context and
@@ -500,7 +537,7 @@ This section is normative for AI and human authors. `design/hooks.md` is the sty
   text — it neither licenses an offering nor invalidates one.
 
   Never register one handler that injects the same candidate list into several unrelated contexts (`{ command = "check" }, { command = "ci" }, { command = "format" }` all offering the same list) — the candidates then compete with each context's own options. A **wandering** path handler has no slot to be registered at: those contexts have nothing to do with paths, so the list is noise everywhere it lands. That is a claim about unrelated contexts, not about paths in general — a CLI-filtered subset has a real slot, and the two-question test in `../authoring/hooks.md` is what separates it from general path browsing.
-- **Target names — the longest form, and check them mechanically**: `psc.on` matches a `command` segment against the **canonical** name (`bindings.rs` calls a segment *"an exact canonical name"*) and anchors the chain at the root, so a target naming an **alias** never fires — silently, with nothing reported. A manifest that stores `add` as an alias of `stage` cannot be targeted as `command = "add"`. Which spelling to write is not a judgement call: `sort-json.ps1` puts the longest form in `name` on every run, so **write the longest form** and the script has already made it canonical. A tool whose own primary name is shorter — jj's `evolog`, mise's `ls` — is normal and is not an error, because the tool's preference is not what `psc.on` compares against. Verify with `./scripts/check-hook-targets.ps1 [name...]`, which resolves every target against the manifest; it is the only check that catches this, since `compare-json` and `validate-completion` only look at internal consistency. Nine were found this way across the repository, all of this one kind. To find a canonical name: `python3 -c "import json;d=json.load(open('completions/X/language/en-US.json'));print([(i['name'],i.get('alias')) for i in d['next']])"`.
+- **Target names — the longest form, and check them mechanically**: `psc.on` matches a `command` segment against the **canonical** name (`bindings.rs` calls a segment *"an exact canonical name"*) and anchors the chain at the root, so a target naming an **alias** never fires — silently, with nothing reported. A manifest that stores `add` as an alias of `stage` cannot be targeted as `command = "add"`. Which spelling to write is not a judgement call: `sort-json.ps1` puts the longest form in `name` on every run, so **write the longest form** and the script has already made it canonical. A tool whose own primary name is shorter — jj's `evolog`, mise's `ls` — is normal and is not an error, because the tool's preference is not what `psc.on` compares against. Verify with `./scripts/check-hook-targets.ps1 [name...]`, which resolves every target against the manifest; it is the only check that catches this, since `compare-json` and `validate-completion` only look at internal consistency. Nine were found this way across the repository, all of this one kind. To find a canonical name: `python3 -c "import json;d=json.load(open('completions/X/language/en-US.json'));print([(i['name'],i.get('alias')) for i in d['next']])"`. Copy the manifest's spelling exactly, `=` included: an attached-value option is declared `--vo=`, so the target is `option = "--vo="`, not `"--vo"` — the engine strips one trailing `=` when matching, but `check-hook-targets.ps1` resolves the target literally, so the short form fails the gate.
 - **Data — never write an empty tip**: some CLIs list an option with no description at all (podman does this for `--help` in some contexts), and a parser that transcribes faithfully will emit `"tip": [""]`, which the schema rejects. Substitute a generic description or drop the field; do not pass the empty string through.
 - **One shape per producer — no plaintext retry**: read the structured form and stop there. A
   fallback earns its keep only from *evidence that a build cannot serve the first shape*; one

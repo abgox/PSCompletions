@@ -59,6 +59,14 @@ default and checks nothing at all without a target, so always name it.
   idioms (`ipairs(psc.glob(...))`), indirect references (local variable then `name = X`), and
   produce false positives on legitimate patterns. Content enumeration requires reading the
   source; a scanner is a starting point, not a verification.
+- **Calibrate a clean gate with a negative control.** A gate reporting zero may be blind
+  rather than satisfied: break one thing on purpose (a dangling `psc.on` target, a duplicate
+  spelling, an empty `tip`) and confirm the gate fails. If it stays green, that defect class
+  goes unchecked — fix the checker (see [`D28`](../decisions/authoring.md#d28)) or record the
+  blindness in `WIP/<tool>/README.md` and verify by hand instead. Real case:
+  `check-hook-targets` counted 1 target for three `psc.on` registrations and stayed green
+  with a bogus command path, because single-spec array values were mistaken for spec
+  groups.
 
 ## `compare-json` reports
 
@@ -85,6 +93,12 @@ change a check there, update this table in the same commit.**
 
 **Option vs subcommand**: an item is treated as an option (expecting `,`) when its name
 starts with `-`, even if it lives inside a `next` array.
+
+**Only the leading forms participate.** The separator and order checks read the
+block before the first space, `=`, `[`, or `<` — everything inside placeholders
+and enum groups is invisible to them. `--empty=(stop|drop|keep)` passes because
+the checked block is just `--empty`; keep enum syntax behind one of those four
+characters and the checks stay out of your way.
 
 ### Options inside `next`
 

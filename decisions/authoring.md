@@ -53,6 +53,12 @@ commit — a reason must never live longer than the rule it justifies.
 | D35           | [No order is prescribed for enumerations](#d35) |
 | D36           | [A shadow with a differing tip is kept, silently](#d36) |
 | D37           | [Working files live in `WIP/`, deleted on confirmation](#d37) |
+| D38           | [Running a script is the dangerous step](#d38) |
+| —             | [Option-dispatched chains are recorded nested, surfaced by hook](#opt-chains) |
+| —             | [Build-dependent sets are runtime state](#build-sets) |
+| —             | [Join tests on wrapped lines are windowed to the junction](#join-window) |
+| —             | [A help command mounts the table instead of duplicating it](#mount-help) |
+| D39           | [Probes are contained because the killer is transitive](#d39) |
 
 <a id="d1"></a>
 
@@ -453,7 +459,9 @@ the flag is valid — the CLI is always the validator.
 
 **Evidence**: most of cargo's subcommands accept `--manifest-path`, but `cargo --manifest-path`
 errors. `gitk` / `gitweb` / `gui` cannot run under a Homebrew build but ship separately on
-Debian/Fedora/Arch, and `lfs` / `scalar` / `svn` follow the same shape.
+Debian/Fedora/Arch, and `lfs` / `scalar` / `svn` follow the same shape. Second datum:
+`hf --token` is listed verbatim on 133 pages of `hf` 2.2.0 and rejected on the rest
+(`hf version --token` errors), and it still belongs in `global_option`.
 
 **Note**: a contradicting third row survived in a staging copy of `design/completion.md` for
 weeks, which sent the same "misplaced flag" proposal back for review twice. The cost trade-off is
@@ -791,7 +799,6 @@ the placement.
 <a id="d37"></a>
 
 ## Working files live in `WIP/`, deleted on confirmation (D37)
-
 **Decision**: every artifact a task generates — analysis scripts, `--help` dumps, parsed
 tables, diff plans, batch logs, translation dictionaries — goes in `WIP/<tool>/`, one
 directory per completion, and stays there until the operator confirms deletion. The author
@@ -834,3 +841,200 @@ comparison stays allowed, only the pushed history is closed to it.
 many completions — then retention is pure disk cost, and the answer is archiving on
 confirmation, not this rule. The naming half is overturned by any tooling that starts
 resolving `WIP/` paths without reading the directory first.
+
+<a id="d38"></a>
+
+## Running a script is the dangerous step (D38)
+
+**Decision**: writing a script is cheap, running it is not — a script runs with the
+author's full filesystem access. Every script is read in full before it runs, and
+nothing that deletes outside `WIP/<tool>/` runs without explicit operator
+confirmation. Ordinary writes need no confirmation (git restores any overwritten
+file); deletion does, because once the tree — or `.git` itself — is gone there is
+nothing to check out from, and nothing ever writes into `.git/` directly.
+
+**Rule lives in**: `authoring/working-files.md` §Running a script is the dangerous step.
+
+**Why**: a wrong path in a delete call destroys what no gate can rebuild. Deletion can
+hide in a helper, an import-time side effect, or a default argument — skimming the
+changed lines is not reviewing the script.
+
+**Evidence**: an agent-written Python script, run without a full read, deleted this
+entire project — working tree and version control alike (`.git` included). There was
+nothing to check out, no history to consult, no reflog to mine: recovery meant
+reconstructing from memory and fragments, against extreme resistance, and it never
+truly completed. Many ready-to-release completion definitions were permanently lost.
+That was the first tree-wide wipe; a second one, with a different mechanism (a probe
+transitively triggering deletion in the tool under test), is recorded in [`D39`](#d39).
+
+**Rejected alternatives**: (a) run first, review on failure — rejected, failure here
+means data loss, and the failure mode leaves no output to review; (b) only review
+scripts that obviously delete — rejected, the delete hid behind an unreviewed path
+expression, which is exactly what "obviously" misses; (c) rely on git to recover —
+rejected, the incident deleted `.git` itself along with the tree, so there was nothing
+to revert to and ready-to-release work was permanently lost; (d) forbid
+agents from running scripts at all — rejected, collection and validation cannot be done
+without running them; the answer is review-before-run, not never-run.
+
+**Overturn if**: script execution moves into a sandbox that cannot touch the tree
+outside `WIP/<tool>/` — then the read-before-run rule relaxes to sandbox hygiene, but
+the confirmation rule for deletions stays until the sandbox itself is the thing
+being tested.
+
+---
+
+<a id="opt-chains"></a>
+
+## Option-dispatched chains are recorded nested, surfaced by hook
+
+**Decision**: when a CLI dispatches subcommands through an option value
+(`fresh --cmd daemon list`), the chain is modelled under the option's `next`
+(root `next` stays empty — the bare form is not a command), deeper levels are
+recorded as nested `next` / `option` even though static navigation cannot reach
+them, and a hook surfaces them only if the depth is worth it.
+
+**Rule lives in**: `authoring/collecting-info.md` §Option-dispatched command chains.
+Deliberately **not** an `R-xx` rule — there is no must here, only procedure and a
+scope decision that belongs to the operator.
+
+**Why**: the engine resets to the nearest command context once an option value is
+consumed (`completion.rs`), so `--cmd <TAB>` completes while
+`--cmd daemon <TAB>` statically offers nothing. Recording the tree anyway keeps
+one source of truth a hook can mount; inventing root-level subcommands instead
+would complete invocations the CLI rejects.
+
+**Evidence**: fresh 0.5.3 takes the rest of the line as one `--cmd` chain
+(repeating `--cmd` is rejected as an unknown command) and `fresh daemon list`
+opens a file, so the ten top-level words are values, not subcommands.
+
+**Overturn if**: the engine learns to navigate option-value chains — then the
+nesting becomes reachable, the hook is deleted, and this entry goes with it.
+
+---
+
+<a id="build-sets"></a>
+
+## Build-dependent sets are runtime state
+
+**Decision**: `R-16`'s "known at authoring time" test is judged per machine, not
+per author. A set that varies by build or installation — drivers, devices,
+installed components — belongs in a hook even when the author can enumerate it
+here, because a manifest frozen from one build is wrong on the next.
+
+**Rule lives in**: `AGENTS.md` `R-16` (the per-machine sentence).
+
+**Why**: the alternative is a manifest that is exactly right on the author's
+machine and silently wrong everywhere else, with no gate able to tell — the
+same failure shape `R-16` already prohibits for dynamic tips, moved one layer
+out. Size is still not the test: a hundred decoders go in a hook for the same
+reason ten drivers do.
+
+**Evidence**: mpv 0.41.0's `--vo=help` lists eleven drivers on this machine
+(`gpu-next`, `vdpau`, `xv`, `wlshm` …); other builds offer `d3d11`, `cocoa`,
+or fewer. `--audio-device=help` answers per sound server.
+
+**Overturn if**: completions gain per-build manifest variants — then each
+variant freezes its own correct set and the hook is unnecessary.
+
+---
+
+<a id="join-window"></a>
+
+## Join tests on wrapped lines are windowed to the junction
+
+**Decision**: any accept/reject test that decides how to rejoin a wrapped help line
+inspects only the junction (tens of characters around the break), never the whole
+accumulated string.
+
+**Rule lives in**: `authoring/collecting-info.md` §Joining wrapped help lines. No
+`R-xx` rule — harvest scripts are pipeline artifacts whose internals prose cannot
+enforce; this entry exists so the next author does not re-derive the failure.
+
+**Why**: the accumulated string already contains the option head, whose spelling
+matches every token test and flips the verdict. Two successive windows failed the
+same way on `[default: no-` + `revisions]`: the full-string test matched the head
+`/ --no-revisions` and stripped a hyphen that belongs to the value, and so did the
+trailing-80-characters retry — the head was inside that window too. Only the
+junction window (`out[-40:]` plus the next line) decided correctly.
+
+**Overturn if**: harvesting stops joining text blindly (a grammar-based parser that
+keeps structure instead of reflowing lines) — then there is no join test left to
+window.
+
+---
+
+<a id="mount-help"></a>
+
+## A help command mounts the table instead of duplicating it
+
+**Decision**: when a CLI's `help` command takes the tool's own subcommands as
+values, the manifest models `help` as a leaf and a hook mounts the root `next`
+at its slot. The list is defined once, never copied.
+
+**Rule lives in**: `design/hooks.md` §Mounting shared values. Not an `R-xx`
+rule — it is a conditional preference (three gating conditions), and the
+mechanism it leans on lives in design.
+
+**Why**: `R-16` bans a *second* source of constants; mounting keeps exactly one
+(the manifest — tips and localizations ride along), so the letter holds while
+the duplication cost disappears. The alternative — a verbatim copy under `help`
+— drifts on every added or removed command, in two languages, and no gate
+compares the two copies because both are internally consistent. The four
+existing `help` tables (`gh`, `go`, `rclone`, `diny`) are all documentation
+topics with zero overlap against the root commands, which is precisely the case
+that stays static: the test is set identity, not size.
+
+**Evidence**: dart 3.13.5 takes its own 15 commands at `dart help <command>`
+(`dart help bogus` is rejected); the hook is three lines plus `hooks: true`.
+
+**Overturn if**: mounted children observably stop behaving like their static
+twins (navigation, repeat filtering diverge) — then the equivalence claim fails
+and duplication returns. A gate that diffs duplicated tables would remove the
+drift half of the argument, but not the translation-doubling half.
+
+**First observed false branch**: a wrapper CLI whose `help` slot takes the
+*wrapped tool's* subcommands, not its own (`x-cmd codex help` prints native
+codex help: `Usage: codex [OPTIONS] [PROMPT]`). Mounting the module's own `next`
+there mounts the wrong table. Verify what the slot takes — the tool's own list
+or the downstream tool's — before mounting; a passthrough slot stays a leaf
+with `help [COMMAND]` usage and no hook.
+
+---
+
+<a id="d39"></a>
+
+## Probes are contained because the killer is transitive (D39)
+
+**Decision**: collection probes run with scratch CWD, never the repo (`R-22`), and
+`--help`-appended probes are trusted only on framework parsers — hand-rolled
+dispatchers get source-first plus canary treatment (`R-23`). Mechanism lives in
+`authoring/collecting-info.md` §Probe containment.
+
+**Rule lives in**: `AGENTS.md` `R-22`, `R-23`.
+
+**Why**: reading the harvest script before running it (D38) is necessary but not
+sufficient — the killer lives N hops away in the tool's own code, and no reading of
+the author's script inspects it. Only end-to-end reproduction reveals such a chain,
+which is exactly what a pre-run read cannot do. Containment bounds the loss when the
+judgment is wrong (the same probe in scratch loses scratch); shape validation catches
+the misjudgment on the first probe instead of the last.
+
+**Evidence**: this is the project's second tree-wide wipe, and it differs from the
+first in mechanism, not in cost. The first ([`D38`](#d38)) was a delete call inside the
+author's own script, run without a full read. Here the harvest script was clean and
+audited (zero delete calls, all writes under `WIP/`): it ran `x-cmd gram tarm --help` →
+a dispatcher arm with no `-h` handling ran `find '--help'`, which printed its 45-line
+help to stdout with exit 0 → a `while read` loop fed those lines to `realpath`, which
+resolves every line against the existing parent (CWD) → `[ -d CWD ]` held → tar backup
+→ `rm -rf CWD`, exit 0 throughout. Four links, none owned by the author, each
+reasonable alone.
+
+**Rejected alternatives**: (a) "read scripts harder" — rejected, the author's scripts
+were byte-clean; the defect was in the CLI under test; (b) ban live probes for
+hand-rolled CLIs — rejected, most such leaves print help fine (hundreds ran clean in
+the same session), and the ban would cost the primary evidence source for entire tool
+families; (c) trust the exit code — rejected, every link in the chain exited 0.
+
+**Overturn if**: probe execution moves into a sandbox that cannot touch the tree — then
+the CWD law relaxes to sandbox hygiene, but the canary stays as the execution detector;
+or hand-rolled dispatchers stop shipping — then the parser test collapses to a sentence.

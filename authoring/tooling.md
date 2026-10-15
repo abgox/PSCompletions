@@ -12,6 +12,17 @@ characters (`→`, `—`, Chinese text).
 Prefer the editor or write tools for file edits. If you must write files from a shell, run
 `pwsh -NoProfile` scripts.
 
+### Read `$LASTEXITCODE` only after a direct redirect
+
+Never read it at the end of a pipeline (`... | Select-Object -First N`) — a
+pipeline stage can clobber it. Probes read through a pipe returned 2, 66, and
+empty for commands whose direct-redirect code was 0, and every one had to be
+re-probed. Redirect to a file first, then read the code:
+
+```
+& dart help bogus > out.txt 2>&1; $LASTEXITCODE
+```
+
 Encoding conventions:
 
 - Rust sources are UTF-8 without BOM.

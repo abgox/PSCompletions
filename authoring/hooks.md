@@ -16,6 +16,9 @@ replacement.
 If `config.json` has `hooks: true` but no dynamic behaviour is actually needed, remove
 `hooks: true` and delete `hooks.lua`.
 
+> For which finished completions read best as models (manifest and hooks alike),
+> see [`manifest.md`](manifest.md) §Reference completions.
+
 ## The slot rule
 
 Inject a value kind only where the CLI itself accepts it — check `--help` usage, docs, and
@@ -126,6 +129,73 @@ For the tools observed so far, non-TTY table output carries **no header row** �
 is printed for a terminal only — so a first-column parse does not need to skip one. This is
 per-tool behaviour, not a guarantee: confirm that once, on a command that
 returns data, before relying on it for the rest.
+
+## An informational query feeding a sibling slot — write it, don't ask
+
+When the CLI itself offers a read-only informational command — `list`,
+`info`, `show`, `describe`, whatever the verb — whose output items are
+valid values at a sibling slot, that hook is the default, not a scope
+decision: write it without confirming first. All four must hold:
+
+- the query is read-only and side-effect free (it reports state, never
+  installs / runs / creates it);
+- each output item is provably valid at the target slot — same namespace,
+  confirmed by running the query and by the slot's own `usage` / docs
+  (`R-17`: probe each producer's query against its own command);
+- the parse reads the CLI's own output shape (one item per line, or one
+  field per line), verified against a real invocation, never assumed
+  from a sibling command's layout;
+- the slot takes names, not paths and not free text — a search box that
+  accepts anything gets no producer, however query-like the source.
+
+One tool's instance (`android`): a `skills list` whose block-start names
+feed `add` / `remove` / `update`, and an `sdk list` whose package column
+feeds `install` / `remove` / `update` — each query probed, each slot's
+`usage` carrying the matching placeholder.
+
+Confirm scope with the operator outside this shape: the query needs
+credentials or hardware absent here, its with-data output shape is
+unobservable locally, the slot kind is unclear, the query is heavyweight
+or side-effecting, or the hook wants a new `config` key (`R-15`).
+
+## Cases: the shapes that recur
+
+Positive — write the hook:
+
+- **A listing feeding its siblings.** One command enumerates a set, other
+  commands consume it: `adb devices` serials feed `-s` / `-t` and
+  `uninstall`; `android skills list` names feed `add` / `remove` /
+  `update`; installed-app names feed `scoop uninstall` / `cleanup` /
+  `update` / `cache show`. Read-only query, name-taking slots, each side
+  probed — the previous section in its everyday form.
+- **A mount instead of a copy.** A `help` taking the tool's own
+  subcommands mounts root `next` (`dart help <command>`); the copy would
+  drift in two languages with no gate comparing them. A `help` taking
+  documentation topics (`gh`, `go`) stays static — different set, no
+  mount.
+- **Runtime state the manifest cannot freeze.** Installed packages,
+  connected devices, per-build drivers: exactly right on the author's
+  machine and silently wrong everywhere else (`R-16` per-machine
+  sentence; `mpv` drivers).
+
+Negative — no hook:
+
+- **The slot takes free text.** A search box (`skills find keyword`,
+  `docs search <query>`) accepts anything; offering the known names
+  narrows nothing and misreads the slot as closed.
+- **The slot takes a path.** Native completion owns it (`R-10`):
+  `--apks`, `--project <path>`, `open-file <path>` get a `usage`
+  placeholder and nothing else.
+- **The value is user-invented or too thin.** `label create <name>` (no
+  source exists), `ssh-key delete <id>` (a round trip per keystroke for
+  a value the user already knows).
+- **The value is known at authoring time.** Fixed enums, agents, profiles
+  go in manifest `next` (`R-16`) — a producer of constants is a `next`
+  array, not a hook.
+- **The query cannot be verified here.** Auth-gated, needs absent
+  hardware, or empty locally with an unknown with-data shape (`android
+  device remote`, `studio check`, `emulator list`) — deferred with the
+  reason recorded in `WIP/<tool>/README.md`, never written blind.
 
 ## Targets and validation
 
