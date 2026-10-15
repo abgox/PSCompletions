@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "url": "https://github.com/deepseek-ai/deepseek-harness",
+    "description": [
+      "启动 DeepSeek Harness profile，有序叠加插件包补丁层并应用用户覆盖。"
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "通过 Agent Client Protocol stdio 为自动化客户端提供服务。"
+      ],
+      "example": [
+        "dsh --profile acp"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "headless",
+      "usage": [
+        "headless [task...]"
+      ],
+      "tip": [
+        "执行单个任务后退出。",
+        "答案输出到 stdout，诊断信息输出到 stderr。"
+      ],
+      "example": [
+        "dsh headless \"run the tests\""
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "将换行分隔的运行事件写入 stdout，而非最终消息。"
+          ]
+        },
+        {
+          "name": "--session-id",
+          "usage": [
+            "--session-id <id>"
+          ],
+          "tip": [
+            "接管该 id 对应的已持久化 Session。",
+            "未知 id 会报错。"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "usage": [
+        "plugin --profile <name> [args...]"
+      ],
+      "tip": [
+        "管理 profile 的插件，将剩余参数原样转发给该 profile 目录下的 pnpm。"
+      ],
+      "example": [
+        "dsh plugin --profile tui add <package>"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--profile",
+          "usage": [
+            "--profile <name>"
+          ],
+          "tip": [
+            "要管理插件的 profile。",
+            "首次使用时自动初始化。"
+          ],
+          "next": [
+            {
+              "name": "acp"
+            },
+            {
+              "name": "headless"
+            },
+            {
+              "name": "sdk"
+            },
+            {
+              "name": "sdk-minimal"
+            },
+            {
+              "name": "web"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk",
+      "tip": [
+        "通过 stdio JSON-RPC 为 DeepSeek Harness SDK 客户端提供服务。"
+      ],
+      "example": [
+        "dsh --profile sdk"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk-minimal",
+      "tip": [
+        "通过 stdio JSON-RPC 为 DeepSeek Harness SDK 客户端提供服务。"
+      ],
+      "example": [
+        "dsh --profile sdk-minimal"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "提供 DeepSeek Harness 浏览器 UI 服务。"
+      ],
+      "example": [
+        "dsh web --port 8080"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "显示此帮助。"
+          ]
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <host>"
+          ],
+          "tip": [
+            "绑定地址：本地网卡的单个具体 IPv4 或 IPv6 字面量。",
+            "不支持通配符地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-open",
+          "tip": [
+            "不在默认浏览器中打开 Web UI。"
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <port>"
+          ],
+          "tip": [
+            "监听端口。",
+            "传 0 让操作系统自动选择空闲端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--trusted-host",
+          "usage": [
+            "--trusted-host <authority...>"
+          ],
+          "tip": [
+            "/api 浏览器信任围栏额外接受的 authority（host 或 host:port，可重复）。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--dump-config",
+      "tip": [
+        "打印组合后的 profile 树并退出。"
+      ]
+    },
+    {
+      "name": "--dump-config-schema",
+      "tip": [
+        "打印 profile 条目与补丁的 JSON Schema，不挂载。"
+      ]
+    },
+    {
+      "name": "--dump-default-config",
+      "tip": [
+        "打印 profile 树，不含用户层与 --patch 覆盖层，并退出。"
+      ]
+    },
+    {
+      "name": "--from-default-profile",
+      "usage": [
+        "--from-default-profile <name>"
+      ],
+      "tip": [
+        "从内置 profile 模板初始化新的自定义 profile。"
+      ],
+      "next": [
+        {
+          "name": "acp"
+        },
+        {
+          "name": "headless"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "sdk-minimal"
+        },
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "显示启动器帮助。"
+      ]
+    },
+    {
+      "name": "--patch",
+      "usage": [
+        "--patch <path>"
+      ],
+      "tip": [
+        "profile 层之后额外应用的补丁列表覆盖层（可重复）。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <name>"
+      ],
+      "tip": [
+        "要引导的 profile，位于 $DSH_HOME/profiles 之下。"
+      ],
+      "next": [
+        {
+          "name": "acp"
+        },
+        {
+          "name": "headless"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "sdk-minimal"
+        },
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "输出版本号。"
+      ]
+    }
+  ]
+}

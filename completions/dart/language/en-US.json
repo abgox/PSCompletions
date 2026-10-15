@@ -1,0 +1,5009 @@
+{
+  "meta": {
+    "url": "https://dart.dev/tools/dart-tool",
+    "description": [
+      "A command-line utility for Dart development."
+    ]
+  },
+  "next": [
+    {
+      "name": "analyze",
+      "usage": [
+        "analyze [<directory>]"
+      ],
+      "tip": [
+        "Analyze Dart code in a directory."
+      ],
+      "option": [
+        {
+          "name": "--cache=",
+          "usage": [
+            "--cache=<path>"
+          ],
+          "tip": [
+            "Override the location of the analysis cache."
+          ],
+          "next": []
+        },
+        {
+          "name": "--fatal-infos",
+          "tip": [
+            "Treat info level issues as fatal."
+          ]
+        },
+        {
+          "name": "--fatal-warnings",
+          "tip": [
+            "Treat warning level issues as fatal.",
+            "(defaults to on)"
+          ]
+        },
+        {
+          "name": "--format=",
+          "usage": [
+            "--format=<value>"
+          ],
+          "tip": [
+            "Specifies the format to display errors."
+          ],
+          "next": [
+            {
+              "name": "default",
+              "tip": [
+                "The default output format.",
+                "This format is intended to be user consumable."
+              ]
+            },
+            {
+              "name": "json",
+              "tip": [
+                "A machine readable output in a JSON format."
+              ]
+            },
+            {
+              "name": "machine",
+              "tip": [
+                "A machine readable output.",
+                "The format is: SEVERITY|TYPE|ERROR_CODE|FILE_PATH|LINE|COLUMN|LENGTH|ERROR_MESSAGE."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--memory",
+          "tip": [
+            "Attempt to print memory usage before exiting.",
+            "Will only print if format is json."
+          ]
+        },
+        {
+          "name": "--no-fatal-warnings",
+          "tip": [
+            "Do not treat warning level issues as fatal."
+          ]
+        },
+        {
+          "name": "--no-memory",
+          "tip": [
+            "Do not attempt to print memory usage before exiting."
+          ]
+        },
+        {
+          "name": "--packages=",
+          "usage": [
+            "--packages=<path>"
+          ],
+          "tip": [
+            "The path to the package resolution configuration file, which supplies a mapping of package names into paths."
+          ],
+          "next": []
+        },
+        {
+          "name": "--sdk-path=",
+          "usage": [
+            "--sdk-path=<path>"
+          ],
+          "tip": [
+            "The path to the Dart SDK."
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "tip": [
+        "Build a Dart application including code assets."
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "cli",
+          "tip": [
+            "Build a Dart application with a command line interface (CLI)."
+          ],
+          "option": [
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output=",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output=<path>"
+              ],
+              "tip": [
+                "Write the output to <output>/bundle/.",
+                "This can be an absolute or relative path.",
+                "(defaults to \"build/cli/linux_x64/\")"
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--root-package=",
+              "usage": [
+                "--root-package=<name>"
+              ],
+              "tip": [
+                "The package for which hooks are run (including its transitive dependencies).",
+                "Must be provided if the entry point(s) are outside the packages in the packages argument."
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "Compile to a specific target architecture."
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "Compile to a specific target operating system."
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "Build with a specific target sanitizer.",
+                "(default none)"
+              ],
+              "next": [
+                {
+                  "name": "asan"
+                },
+                {
+                  "name": "msan"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "tsan"
+                }
+              ]
+            },
+            {
+              "name": "--target=",
+              "alias": [
+                "-t"
+              ],
+              "usage": [
+                "-t, --target=<path>"
+              ],
+              "tip": [
+                "The main entry-point file of the command-line application.",
+                "Must be a Dart file.",
+                "If the --target option is omitted, and there is a single Dart file in bin/, then that is used instead."
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity=",
+              "usage": [
+                "--verbosity=<level>"
+              ],
+              "tip": [
+                "Sets the verbosity level of the compilation."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Show all messages.",
+                    "(default)"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Show only error messages."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show error, warning, and info messages."
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Show only error and warning messages."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "compile",
+      "tip": [
+        "Compile Dart to various formats."
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "aot-snapshot",
+          "usage": [
+            "aot-snapshot <dart entry point>"
+          ],
+          "tip": [
+            "Compile Dart to an AOT snapshot.",
+            "To run the snapshot use: dartaotruntime <AOT snapshot file>."
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration.",
+                "To specify multiple declarations, use multiple options or use commas to separate key-value pairs."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "Enable assert statements."
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "Write the recorded uses to <file name>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-debugging-info=",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --save-debugging-info=<path>"
+              ],
+              "tip": [
+                "Remove debugging information from the output and save it separately to the specified file.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "Compile to a specific target architecture."
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "Compile to a specific target operating system."
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "Compile to a specific target sanitizer.",
+                "Sanitizers are not offered with single-file executables because the sanitizers cannot symbolize embedded snapshots."
+              ],
+              "next": [
+                {
+                  "name": "asan"
+                },
+                {
+                  "name": "msan"
+                },
+                {
+                  "name": "none"
+                },
+                {
+                  "name": "tsan"
+                }
+              ]
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "Sets the verbosity level of the compilation."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Show all messages.",
+                    "(default)"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Show only error messages."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show error, warning, and info messages."
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Show only error and warning messages."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "exe",
+          "usage": [
+            "exe <dart entry point>"
+          ],
+          "tip": [
+            "Compile Dart to a self-contained executable."
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration.",
+                "To specify multiple declarations, use multiple options or use commas to separate key-value pairs."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "Enable assert statements."
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "Write the recorded uses to <file name>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--save-debugging-info=",
+              "alias": [
+                "-S"
+              ],
+              "usage": [
+                "-S, --save-debugging-info=<path>"
+              ],
+              "tip": [
+                "Remove debugging information from the output and save it separately to the specified file.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--target-arch",
+              "usage": [
+                "--target-arch <ARCH>"
+              ],
+              "tip": [
+                "Compile to a specific target architecture."
+              ],
+              "next": [
+                {
+                  "name": "arm"
+                },
+                {
+                  "name": "arm64"
+                },
+                {
+                  "name": "ia32"
+                },
+                {
+                  "name": "riscv32"
+                },
+                {
+                  "name": "riscv64"
+                },
+                {
+                  "name": "x64"
+                }
+              ]
+            },
+            {
+              "name": "--target-os",
+              "usage": [
+                "--target-os <OS>"
+              ],
+              "tip": [
+                "Compile to a specific target operating system."
+              ],
+              "next": [
+                {
+                  "name": "android"
+                },
+                {
+                  "name": "fuchsia"
+                },
+                {
+                  "name": "ios"
+                },
+                {
+                  "name": "linux"
+                },
+                {
+                  "name": "macos"
+                },
+                {
+                  "name": "windows"
+                }
+              ]
+            },
+            {
+              "name": "--target-sanitizer",
+              "usage": [
+                "--target-sanitizer <SANITIZER>"
+              ],
+              "tip": [
+                "Compile to a specific target sanitizer.",
+                "Sanitizers are not offered with single-file executables because the sanitizers cannot symbolize embedded snapshots."
+              ],
+              "next": [
+                {
+                  "name": "none"
+                }
+              ]
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "Sets the verbosity level of the compilation."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Show all messages.",
+                    "(default)"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Show only error messages."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show error, warning, and info messages."
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Show only error and warning messages."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "jit-snapshot",
+          "usage": [
+            "jit-snapshot <dart entry point> [<training arguments>]"
+          ],
+          "tip": [
+            "Compile Dart to a JIT snapshot.",
+            "The executable will be run once to snapshot a warm JIT.",
+            "To run the snapshot use: dart run <JIT file>."
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration.",
+                "To specify multiple declarations, use multiple options or use commas to separate key-value pairs."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "Enable assert statements."
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "Sets the verbosity level of the compilation."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Show all messages.",
+                    "(default)"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Show only error messages."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show error, warning, and info messages."
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Show only error and warning messages."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "js",
+          "usage": [
+            "js <dart entry point>"
+          ],
+          "tip": [
+            "Compile Dart to JavaScript."
+          ],
+          "option": [
+            {
+              "name": "--categories=",
+              "usage": [
+                "--categories=<categories>"
+              ],
+              "tip": [
+                "(deprecated) Use '--server-mode' instead of '--categories=Server'.",
+                "All other category values have no effect on the compiler behavior."
+              ],
+              "next": []
+            },
+            {
+              "name": "--csp",
+              "tip": [
+                "Disable dynamic generation of code in the generated output.",
+                "This is necessary to satisfy CSP restrictions (see https://www.w3.org/TR/CSP/)."
+              ]
+            },
+            {
+              "name": "--deferred-map=",
+              "usage": [
+                "--deferred-map=<file>"
+              ],
+              "tip": [
+                "Generates a json file with a mapping from each deferred import to a list of the part.js files that will be loaded."
+              ],
+              "next": []
+            },
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--disable-inlining",
+              "tip": [
+                "Disable inlining."
+              ]
+            },
+            {
+              "name": "--disable-native-live-type-analysis",
+              "tip": [
+                "Disable the optimization that removes unused native types from dart:html and related libraries."
+              ]
+            },
+            {
+              "name": "--disable-type-inference",
+              "tip": [
+                "Disable type inference."
+              ]
+            },
+            {
+              "name": "--dump-info=",
+              "usage": [
+                "--dump-info[=<format>]"
+              ],
+              "tip": [
+                "Generates information about the generated code.",
+                "'format' can be either 'json' or 'binary'.",
+                "You can inspect the generated data using tools from 'package:dart2js_info'."
+              ],
+              "next": [
+                {
+                  "name": "binary"
+                },
+                {
+                  "name": "json"
+                }
+              ]
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "Enable assertions."
+              ]
+            },
+            {
+              "name": "--enable-diagnostic-colors",
+              "tip": [
+                "Add colors to diagnostic messages."
+              ]
+            },
+            {
+              "name": "--fatal-warnings",
+              "tip": [
+                "Treat warnings as compilation errors."
+              ]
+            },
+            {
+              "name": "--generate-code-with-compile-time-errors",
+              "tip": [
+                "Generates output even if the program contains compile-time errors.",
+                "Use the exit code to determine if compilation failed."
+              ]
+            },
+            {
+              "name": "--help",
+              "alias": [
+                "-h",
+                "/h",
+                "/?"
+              ],
+              "usage": [
+                "-h, /h, /?, --help"
+              ],
+              "tip": [
+                "Print this usage information (add -v for information about all options)."
+              ]
+            },
+            {
+              "name": "--lax-runtime-type-to-string",
+              "tip": [
+                "Omits reified class type arguments when these are only needed for `toString` on `runtimeType`.",
+                "This is useful if `runtimeType.toString()` is only used for debugging.",
+                "Note that semantics of other uses of `.runtimeType`, for instance `a.runtimeType == b.runtimeType`, is not affected by this flag."
+              ]
+            },
+            {
+              "name": "--libraries-spec=",
+              "usage": [
+                "--libraries-spec=<file>"
+              ],
+              "tip": [
+                "A .json file containing the SDK libraries specification."
+              ],
+              "next": []
+            },
+            {
+              "name": "--minify",
+              "alias": [
+                "-m"
+              ],
+              "usage": [
+                "-m, --minify"
+              ],
+              "tip": [
+                "Generate minified output."
+              ]
+            },
+            {
+              "name": "--native-null-assertions",
+              "tip": [
+                "Add assertions to web library APIs to ensure that non-nullable APIs do not return null.",
+                "This is set to true by default unless -O3 or higher is passed."
+              ]
+            },
+            {
+              "name": "--no-frequency-based-minification",
+              "tip": [
+                "Experimental.",
+                "Disable the new frequency based minifying namer and use the old namer instead."
+              ]
+            },
+            {
+              "name": "--no-source-maps",
+              "tip": [
+                "Do not generate a source map file."
+              ]
+            },
+            {
+              "name": "--omit-implicit-checks",
+              "tip": [
+                "Omit implicit runtime checks, such as parameter checks and implicit downcasts.",
+                "These checks are included by default in Dart 2.0.",
+                "By using this flag the checks are removed, however the compiler will assume that all such checks were valid and may use this information for optimizations.",
+                "Use this option only if you have enough testing to ensure that your program works with the checks."
+              ]
+            },
+            {
+              "name": "--omit-late-names",
+              "tip": [
+                "Do not include names of late variables in error messages.",
+                "This allows the compiler to generate smaller code by removing late variable names from the generated JavaScript."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "usage": [
+                "--packages=<path>"
+              ],
+              "tip": [
+                "Path to the package resolution configuration file, which supplies a mapping of package names to paths."
+              ],
+              "next": []
+            },
+            {
+              "name": "--server-mode",
+              "tip": [
+                "Compile with server support.",
+                "The compiler will use a library specification that disables dart:html but supports dart:js in conditional imports."
+              ]
+            },
+            {
+              "name": "--show-package-warnings",
+              "tip": [
+                "Show warnings and hints generated from packages."
+              ]
+            },
+            {
+              "name": "--suppress-hints",
+              "tip": [
+                "Do not display any hints."
+              ]
+            },
+            {
+              "name": "--suppress-warnings",
+              "tip": [
+                "Do not display any warnings."
+              ]
+            },
+            {
+              "name": "--terse",
+              "tip": [
+                "Emit diagnostics without suggestions for how to get rid of the diagnosed problems."
+              ]
+            },
+            {
+              "name": "--throw-on-error",
+              "tip": [
+                "Throw an exception if a compile-time error is detected."
+              ]
+            },
+            {
+              "name": "--trust-primitives",
+              "tip": [
+                "Assume that operations on numbers, strings, and lists have valid inputs.",
+                "This option allows the compiler to drop runtime checks for those operations.",
+                "Note: a well-typed program is not guaranteed to have valid inputs.",
+                "For example, an int index argument may be null or out of range."
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Display verbose information."
+              ]
+            },
+            {
+              "name": "--version",
+              "tip": [
+                "Display version information."
+              ]
+            },
+            {
+              "name": "-O",
+              "usage": [
+                "-O <LEVEL>"
+              ],
+              "tip": [
+                "Set the compiler optimization level (defaults to -O1)."
+              ],
+              "next": [
+                {
+                  "name": "0",
+                  "tip": [
+                    "No optimizations (only meant for debugging the compiler)."
+                  ]
+                },
+                {
+                  "name": "1",
+                  "tip": [
+                    "Default (includes whole program analyses and inlining)."
+                  ]
+                },
+                {
+                  "name": "2",
+                  "tip": [
+                    "Safe production-oriented optimizations (like minification)."
+                  ]
+                },
+                {
+                  "name": "3",
+                  "tip": [
+                    "Potentially unsafe optimizations (see -h -v for details)."
+                  ]
+                },
+                {
+                  "name": "4",
+                  "tip": [
+                    "More aggressive unsafe optimizations (see -h -v for details)."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "kernel",
+          "usage": [
+            "kernel <dart entry point>"
+          ],
+          "tip": [
+            "Compile Dart to a kernel snapshot.",
+            "To run the snapshot use: dart run <kernel file>."
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration.",
+                "To specify multiple declarations, use multiple options or use commas to separate key-value pairs."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--embed-sources",
+              "tip": [
+                "Embed source files in the generated kernel component.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--link-platform",
+              "tip": [
+                "Includes the platform kernel in the resulting kernel file.",
+                "Required for use with 'dart compile exe' or 'dart compile aot-snapshot'.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-embed-sources",
+              "tip": [
+                "Do not embed source files in the generated kernel component."
+              ]
+            },
+            {
+              "name": "--no-link-platform",
+              "tip": [
+                "Do not include the platform kernel in the resulting kernel file."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--verbosity",
+              "usage": [
+                "--verbosity <LEVEL>"
+              ],
+              "tip": [
+                "Sets the verbosity level of the compilation."
+              ],
+              "next": [
+                {
+                  "name": "all",
+                  "tip": [
+                    "Show all messages.",
+                    "(default)"
+                  ]
+                },
+                {
+                  "name": "error",
+                  "tip": [
+                    "Show only error messages."
+                  ]
+                },
+                {
+                  "name": "info",
+                  "tip": [
+                    "Show error, warning, and info messages."
+                  ]
+                },
+                {
+                  "name": "warning",
+                  "tip": [
+                    "Show only error and warning messages."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wasm",
+          "usage": [
+            "wasm <dart entry point>"
+          ],
+          "tip": [
+            "Compile Dart to a WebAssembly/WasmGC module."
+          ],
+          "option": [
+            {
+              "name": "--define=",
+              "alias": [
+                "-D"
+              ],
+              "usage": [
+                "-D, --define=<key=value>"
+              ],
+              "tip": [
+                "Define an environment declaration.",
+                "To specify multiple declarations, use multiple options or use commas to separate key-value pairs."
+              ],
+              "repeat": 99,
+              "separator": ",",
+              "next": []
+            },
+            {
+              "name": "--depfile=",
+              "usage": [
+                "--depfile=<path>"
+              ],
+              "tip": [
+                "Path to an output file in Ninja depfile format containing a list of compilation dependencies.",
+                "This is passed to the compiler to support dependency tracking in build systems."
+              ],
+              "next": []
+            },
+            {
+              "name": "--enable-asserts",
+              "tip": [
+                "Enable assert statements."
+              ]
+            },
+            {
+              "name": "--enable-deferred-loading",
+              "tip": [
+                "Emit multiple modules based on the Dart program's deferred import graph."
+              ]
+            },
+            {
+              "name": "--enable-experiment=",
+              "usage": [
+                "--enable-experiment=<experiment>"
+              ],
+              "tip": [
+                "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+              ],
+              "repeat": 99,
+              "next": [
+                {
+                  "name": "anonymous-methods",
+                  "tip": [
+                    "Anonymous methods."
+                  ]
+                },
+                {
+                  "name": "augmentations",
+                  "tip": [
+                    "Augmentations - enhancing declarations from outside."
+                  ]
+                },
+                {
+                  "name": "const-functions",
+                  "tip": [
+                    "Allow more of the Dart language to be executed in const expressions."
+                  ]
+                },
+                {
+                  "name": "data-assets",
+                  "tip": [
+                    "Enable data assets in hooks."
+                  ]
+                },
+                {
+                  "name": "enhanced-parts",
+                  "tip": [
+                    "Generalize parts to be nested and have exports/imports."
+                  ]
+                },
+                {
+                  "name": "inference-update-4",
+                  "tip": [
+                    "A bundle of updates to type inference."
+                  ]
+                },
+                {
+                  "name": "macros",
+                  "tip": [
+                    "Static meta-programming."
+                  ]
+                },
+                {
+                  "name": "primary-constructors",
+                  "tip": [
+                    "Less verbose constructors. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "record-use",
+                  "tip": [
+                    "Output arguments used by static functions. (no-op - enabled by default)"
+                  ]
+                },
+                {
+                  "name": "static-extensions",
+                  "tip": [
+                    "Extensions with static capabilities."
+                  ]
+                },
+                {
+                  "name": "test-experiment",
+                  "tip": [
+                    "Has no effect.",
+                    "Can be used for testing the --enable-experiment command line functionality."
+                  ]
+                },
+                {
+                  "name": "this-promotion",
+                  "tip": [
+                    "Type promotion for `this`."
+                  ]
+                },
+                {
+                  "name": "unquoted-imports",
+                  "tip": [
+                    "Shorter import syntax."
+                  ]
+                },
+                {
+                  "name": "variance",
+                  "tip": [
+                    "Sound variance."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--extra-compiler-option",
+              "alias": [
+                "-E"
+              ],
+              "usage": [
+                "-E, --extra-compiler-option <OPTION>"
+              ],
+              "tip": [
+                "An extra option to pass to the dart2wasm compiler."
+              ],
+              "next": []
+            },
+            {
+              "name": "--minify",
+              "tip": [
+                "Minify names that are needed at runtime (such as class names).",
+                "Affects e.g. `<obj>.runtimeType.toString()`).",
+                "If passed, this takes precedence over the optimization-level option."
+              ]
+            },
+            {
+              "name": "--no-enable-deferred-loading",
+              "tip": [
+                "Do not emit multiple modules based on the Dart program's deferred import graph."
+              ]
+            },
+            {
+              "name": "--no-minify",
+              "tip": [
+                "Do not minify names that are needed at runtime."
+              ]
+            },
+            {
+              "name": "--no-source-maps",
+              "tip": [
+                "Do not generate a source map file."
+              ]
+            },
+            {
+              "name": "--no-strip-wasm",
+              "tip": [
+                "Do not strip the resulting wasm file of static symbol names."
+              ]
+            },
+            {
+              "name": "--optimization-level=",
+              "alias": [
+                "-O"
+              ],
+              "usage": [
+                "-O, --optimization-level=<level>"
+              ],
+              "tip": [
+                "Controls optimizations that can help reduce code-size and improve performance of the generated code.",
+                "(default 1)"
+              ],
+              "next": [
+                {
+                  "name": "0"
+                },
+                {
+                  "name": "1"
+                },
+                {
+                  "name": "2"
+                },
+                {
+                  "name": "3"
+                },
+                {
+                  "name": "4"
+                }
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <file name>"
+              ],
+              "tip": [
+                "Write the output to <file name>.",
+                "This can be an absolute or relative path."
+              ],
+              "next": []
+            },
+            {
+              "name": "--packages=",
+              "alias": [
+                "-p"
+              ],
+              "usage": [
+                "-p, --packages=<path>"
+              ],
+              "tip": [
+                "Get package locations from the specified file instead of .dart_tool/package_config.json.",
+                "<path> can be relative or absolute."
+              ],
+              "next": []
+            },
+            {
+              "name": "--phases",
+              "usage": [
+                "--phases <PHASE>"
+              ],
+              "tip": [
+                "Specifies which phases of the dart2wasm compiler to run.",
+                "Each phase will emit a partial result that is then the input to the next phase."
+              ],
+              "next": [
+                {
+                  "name": "cfe"
+                },
+                {
+                  "name": "codegen"
+                },
+                {
+                  "name": "opt"
+                },
+                {
+                  "name": "tfa"
+                }
+              ]
+            },
+            {
+              "name": "--print-kernel",
+              "tip": [
+                "Print human-readable Dart kernel debug output"
+              ]
+            },
+            {
+              "name": "--print-wasm",
+              "tip": [
+                "Print human-readable wasm debug output"
+              ]
+            },
+            {
+              "name": "--recorded-uses=",
+              "usage": [
+                "--recorded-uses=<path>"
+              ],
+              "tip": [
+                "Write the recorded uses to <file name>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--shared-memory=",
+              "usage": [
+                "--shared-memory=<page count>"
+              ],
+              "tip": [
+                "Import a shared memory buffer.",
+                "The max number of pages must be passed."
+              ],
+              "next": []
+            },
+            {
+              "name": "--source-maps",
+              "tip": [
+                "Generate a source map file.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--standalone",
+              "tip": [
+                "Compile to a WebAssembly module without JavaScript interop.",
+                "Dart-specific host imports are necessary to load these modules."
+              ]
+            },
+            {
+              "name": "--strip-wasm",
+              "tip": [
+                "Whether to strip the resulting wasm file of static symbol names.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--verbose",
+              "alias": [
+                "-v"
+              ],
+              "usage": [
+                "-v, --verbose"
+              ],
+              "tip": [
+                "Print debug output during compilation."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create <directory>"
+      ],
+      "tip": [
+        "Create a new Dart project."
+      ],
+      "option": [
+        {
+          "name": "--force",
+          "tip": [
+            "Force project generation, even if the target directory already exists."
+          ]
+        },
+        {
+          "name": "--list-templates",
+          "tip": [
+            "List the available templates in JSON format."
+          ]
+        },
+        {
+          "name": "--no-pub",
+          "tip": [
+            "Do not run 'pub get' after the project has been created."
+          ]
+        },
+        {
+          "name": "--pub",
+          "tip": [
+            "Whether to run 'pub get' after the project has been created.",
+            "(defaults to on)"
+          ]
+        },
+        {
+          "name": "--template",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --template <TEMPLATE>"
+          ],
+          "tip": [
+            "The project template to use.",
+            "(default console)"
+          ],
+          "next": [
+            {
+              "name": "cli",
+              "tip": [
+                "A command-line application with basic argument parsing."
+              ]
+            },
+            {
+              "name": "console",
+              "tip": [
+                "A command-line application."
+              ]
+            },
+            {
+              "name": "package",
+              "tip": [
+                "A package containing shared Dart libraries."
+              ]
+            },
+            {
+              "name": "server-shelf",
+              "tip": [
+                "A server app using package:shelf."
+              ]
+            },
+            {
+              "name": "web",
+              "tip": [
+                "A web app that uses only core Dart libraries."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "devtools",
+      "usage": [
+        "devtools [service protocol uri]"
+      ],
+      "tip": [
+        "Open DevTools (optionally connecting to an existing application)."
+      ],
+      "option": [
+        {
+          "name": "--allow-embedding",
+          "tip": [
+            "Allow embedding DevTools inside an iframe."
+          ]
+        },
+        {
+          "name": "--app-size-base=",
+          "usage": [
+            "--app-size-base=<file>"
+          ],
+          "tip": [
+            "Path to the base app size file used for app size debugging."
+          ],
+          "next": []
+        },
+        {
+          "name": "--app-size-test=",
+          "usage": [
+            "--app-size-test=<file>"
+          ],
+          "tip": [
+            "Path to the test app size file used for app size debugging.",
+            "This file should only be specified if --app-size-base is also specified."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dds-host=",
+          "usage": [
+            "--dds-host=<bind-address>"
+          ],
+          "tip": [
+            "The address the Dart Development Service (DDS) should attempt to bind to if a DDS instance isn't active and a VM service URI is provided.",
+            "(default 127.0.0.1)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--dds-port=",
+          "usage": [
+            "--dds-port=<port>"
+          ],
+          "tip": [
+            "The address the Dart Development Service (DDS) should attempt to bind to if a DDS instance isn't active and a VM service URI is provided.",
+            "(default 0)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--disable-cors",
+          "tip": [
+            "Disable CORS so that the DevTools server can communicate with the DevTools front end served on a different origin.",
+            "Use caution when passing this flag since allowing access to the DevTools server from other origins may have security implications."
+          ]
+        },
+        {
+          "name": "--dtd-exposed-uri=",
+          "usage": [
+            "--dtd-exposed-uri=<uri>"
+          ],
+          "tip": [
+            "An optional URI for the DartTooling Daemon (--dtd-uri) that has been exposed to the front-end to support environments split across machines such as a web-based editor."
+          ],
+          "next": []
+        },
+        {
+          "name": "--dtd-uri=",
+          "usage": [
+            "--dtd-uri=<uri>"
+          ],
+          "tip": [
+            "A URI pointing to a Dart Tooling Daemon that DevTools should interface with."
+          ],
+          "next": []
+        },
+        {
+          "name": "--enable-notifications",
+          "tip": [
+            "Requests notification permissions immediately when a client connects back to the server."
+          ]
+        },
+        {
+          "name": "--headless",
+          "tip": [
+            "Causes the server to spawn Chrome in headless mode for use in automated testing."
+          ]
+        },
+        {
+          "name": "--host=",
+          "usage": [
+            "--host=<host>"
+          ],
+          "tip": [
+            "Hostname to serve DevTools on.",
+            "(default localhost)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--launch-browser",
+          "tip": [
+            "Launches DevTools in a browser immediately at start.",
+            "(defaults to on unless in --machine mode)"
+          ]
+        },
+        {
+          "name": "--machine",
+          "tip": [
+            "Sets output format to JSON for consumption in tools."
+          ]
+        },
+        {
+          "name": "--no-allow-embedding",
+          "tip": [
+            "Do not allow embedding DevTools inside an iframe."
+          ]
+        },
+        {
+          "name": "--no-disable-cors",
+          "tip": [
+            "Do not disable CORS."
+          ]
+        },
+        {
+          "name": "--no-launch-browser",
+          "tip": [
+            "Do not launch DevTools in a browser immediately at start."
+          ]
+        },
+        {
+          "name": "--port=",
+          "usage": [
+            "--port=<port>"
+          ],
+          "tip": [
+            "Port to serve DevTools on; specify 0 to automatically use any available port.",
+            "(default 9100)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--print-dtd",
+          "tip": [
+            "Print the address of the Dart Tooling Daemon, if one is hosted by the DevTools server."
+          ]
+        },
+        {
+          "name": "--record-memory-profile=",
+          "usage": [
+            "--record-memory-profile=<file>"
+          ],
+          "tip": [
+            "Start devtools headlessly and write memory profiling samples to the indicated file.",
+            "(default memory_samples.json)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--try-ports=",
+          "usage": [
+            "--try-ports=<count>"
+          ],
+          "tip": [
+            "The number of ascending ports to try binding to before failing with an error.",
+            "(default 10)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Output more informational messages."
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Prints the DevTools version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "doc",
+      "usage": [
+        "doc [<directory>]"
+      ],
+      "tip": [
+        "Generate API documentation for Dart projects.",
+        "For additional documentation generation options, see the 'dartdoc_options.yaml' file documentation at https://dart.dev/go/dartdoc-options-file."
+      ],
+      "option": [
+        {
+          "name": "--dry-run",
+          "tip": [
+            "Try to generate the docs without saving them."
+          ]
+        },
+        {
+          "name": "--output=",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<directory>"
+          ],
+          "tip": [
+            "Configure the output directory.",
+            "(defaults to \"doc/api\")"
+          ],
+          "next": []
+        },
+        {
+          "name": "--validate-links",
+          "tip": [
+            "Display warnings for broken links.",
+            "Incompatible with --dry-run."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "fix",
+      "tip": [
+        "Apply automated fixes to Dart source code.",
+        "This tool looks for and fixes analysis issues that have associated automated fixes.",
+        "To use the tool, run either 'dart fix --dry-run' for a preview of the proposed changes for a project, or 'dart fix --apply' to apply the changes."
+      ],
+      "option": [
+        {
+          "name": "--apply",
+          "tip": [
+            "Apply the proposed changes."
+          ]
+        },
+        {
+          "name": "--code=",
+          "usage": [
+            "--code=<code1,code2,...>"
+          ],
+          "tip": [
+            "Apply fixes for one (or more) diagnostic codes."
+          ],
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--compare-to-golden",
+          "tip": [
+            "Compare the result of applying fixes to a golden file for testing."
+          ]
+        },
+        {
+          "name": "--dry-run",
+          "alias": [
+            "-n"
+          ],
+          "usage": [
+            "-n, --dry-run"
+          ],
+          "tip": [
+            "Preview the proposed changes but make no changes."
+          ]
+        },
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "Anonymous methods."
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "Augmentations - enhancing declarations from outside."
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "Allow more of the Dart language to be executed in const expressions."
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "Enable data assets in hooks."
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "Generalize parts to be nested and have exports/imports."
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "A bundle of updates to type inference."
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "Static meta-programming."
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "Less verbose constructors. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "Output arguments used by static functions. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "Extensions with static capabilities."
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "Has no effect.",
+                "Can be used for testing the --enable-experiment command line functionality."
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "Type promotion for `this`."
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "Shorter import syntax."
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "Sound variance."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "format",
+      "usage": [
+        "format <files or directories...>"
+      ],
+      "tip": [
+        "Idiomatically format Dart source code."
+      ],
+      "option": [
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "Enable one or more experimental features.",
+            "See dart.dev/go/experiments."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "Anonymous methods."
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "Augmentations - enhancing declarations from outside."
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "Allow more of the Dart language to be executed in const expressions."
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "Enable data assets in hooks."
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "Generalize parts to be nested and have exports/imports."
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "A bundle of updates to type inference."
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "Static meta-programming."
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "Less verbose constructors. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "Output arguments used by static functions. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "Extensions with static capabilities."
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "Has no effect.",
+                "Can be used for testing the --enable-experiment command line functionality."
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "Type promotion for `this`."
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "Shorter import syntax."
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "Sound variance."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--follow-links",
+          "tip": [
+            "Follow links to files and directories.",
+            "If unset, links will be ignored."
+          ]
+        },
+        {
+          "name": "--indent",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --indent <SPACES>"
+          ],
+          "tip": [
+            "Add this many spaces of leading indentation.",
+            "(defaults to \"0\")"
+          ],
+          "next": []
+        },
+        {
+          "name": "--language-version",
+          "usage": [
+            "--language-version <VERSION>"
+          ],
+          "tip": [
+            "Language version of formatted code.",
+            "Use \"latest\" to parse as the latest supported version.",
+            "Omit to look for a surrounding package config."
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output <MODE>"
+          ],
+          "tip": [
+            "Set where to write formatted output.",
+            "(default write)"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "Print code and selection as JSON."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "Discard output."
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Print code to terminal."
+              ]
+            },
+            {
+              "name": "write",
+              "tip": [
+                "Overwrite formatted files on disk."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--page-width",
+          "usage": [
+            "--page-width <WIDTH>"
+          ],
+          "tip": [
+            "Try to keep lines no longer than this.",
+            "(defaults to \"80\")"
+          ],
+          "next": []
+        },
+        {
+          "name": "--selection",
+          "usage": [
+            "--selection <start:length>"
+          ],
+          "tip": [
+            "Track selection (given as \"start:length\") through formatting."
+          ],
+          "next": []
+        },
+        {
+          "name": "--set-exit-if-changed",
+          "tip": [
+            "Return exit code 1 if there are any formatting changes."
+          ]
+        },
+        {
+          "name": "--show",
+          "usage": [
+            "--show <WHAT>"
+          ],
+          "tip": [
+            "Set which filenames to print.",
+            "(default changed)"
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "All visited files and directories."
+              ]
+            },
+            {
+              "name": "changed",
+              "tip": [
+                "Only the names of files whose formatting is changed."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No file names or directories."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--stdin-name",
+          "usage": [
+            "--stdin-name <PATH>"
+          ],
+          "tip": [
+            "The path that code read from stdin is treated as coming from.",
+            "This path is used in error messages and also to locate a surrounding package to infer the code's language version.",
+            "To avoid searching for a surrounding package config, pass in a language version using --language-version."
+          ],
+          "next": []
+        },
+        {
+          "name": "--summary",
+          "usage": [
+            "--summary <TYPE>"
+          ],
+          "tip": [
+            "Show the specified summary after formatting.",
+            "(default line)"
+          ],
+          "next": [
+            {
+              "name": "line",
+              "tip": [
+                "Single-line summary."
+              ]
+            },
+            {
+              "name": "none",
+              "tip": [
+                "No summary."
+              ]
+            },
+            {
+              "name": "profile",
+              "tip": [
+                "How long it took for format each file."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--trailing-commas",
+          "usage": [
+            "--trailing-commas <MODE>"
+          ],
+          "tip": [
+            "How trailing commas in input affect formatting.",
+            "(default automate)"
+          ],
+          "next": [
+            {
+              "name": "automate",
+              "tip": [
+                "The formatter adds and removes trailing commas based on its decision to split the surrounding construct."
+              ]
+            },
+            {
+              "name": "preserve",
+              "tip": [
+                "A trailing comma forces the surrounding construct to split.",
+                "The formatter will add a trailing comma when it splits a construct but will not remove one."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show all options and flags with --help."
+          ]
+        },
+        {
+          "name": "--version",
+          "tip": [
+            "Show dart_style version."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help <command>"
+      ],
+      "tip": [
+        "Show more information about a command."
+      ]
+    },
+    {
+      "name": "info",
+      "tip": [
+        "Show diagnostic information about the installed tooling."
+      ],
+      "option": [
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "dump",
+          "tip": [
+            "Show diagnostic information about the installed tooling.",
+            "(default; selected when no subcommand is given)"
+          ],
+          "option": [
+            {
+              "name": "--no-remove-file-paths",
+              "tip": [
+                "Keep file paths in displayed information."
+              ]
+            },
+            {
+              "name": "--remove-file-paths",
+              "tip": [
+                "Remove file paths in displayed information.",
+                "(defaults to on)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "record-performance",
+          "tip": [
+            "Record performance data of running Dart tooling processes."
+          ],
+          "option": [
+            {
+              "name": "--enable-async-spans",
+              "tip": [
+                "Enable async spans."
+              ]
+            },
+            {
+              "name": "--enable-profiler",
+              "tip": [
+                "Enable profiler.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-enable-profiler",
+              "tip": [
+                "Do not enable profiler."
+              ]
+            },
+            {
+              "name": "--output-dir",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output-dir <DIR>"
+              ],
+              "tip": [
+                "Directory for recorded performance output."
+              ],
+              "next": []
+            },
+            {
+              "name": "--record-new-processes",
+              "tip": [
+                "Record processes that start after the recorder."
+              ]
+            },
+            {
+              "name": "--record-only-new-processes",
+              "tip": [
+                "Record only processes that start after the recorder."
+              ]
+            },
+            {
+              "name": "--streams",
+              "usage": [
+                "--streams <STREAM>"
+              ],
+              "tip": [
+                "Streams to record."
+              ],
+              "next": [
+                {
+                  "name": "all"
+                },
+                {
+                  "name": "api"
+                },
+                {
+                  "name": "compiler"
+                },
+                {
+                  "name": "compilerVerbose"
+                },
+                {
+                  "name": "dart"
+                },
+                {
+                  "name": "debugger"
+                },
+                {
+                  "name": "embedder"
+                },
+                {
+                  "name": "gc"
+                },
+                {
+                  "name": "isolate"
+                },
+                {
+                  "name": "microtask"
+                },
+                {
+                  "name": "vm"
+                }
+              ]
+            },
+            {
+              "name": "--tag",
+              "usage": [
+                "--tag <TAG>"
+              ],
+              "tip": [
+                "Tag to filter processes by."
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install <package>[@<descriptor>]"
+      ],
+      "tip": [
+        "Install or upgrade a Dart CLI tool for global use.",
+        "You can specify a package to install from pub.dev, a git repository, or a local path using the `<package>[@<descriptor>]` syntax."
+      ],
+      "option": [
+        {
+          "name": "--overwrite",
+          "tip": [
+            "Overwrite executables from other packages with the same name."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "installed",
+      "tip": [
+        "List globally installed Dart CLI tools."
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "alias": [
+            "-a"
+          ],
+          "usage": [
+            "-a, --all"
+          ],
+          "tip": [
+            "Also list packages which are currently not active.",
+            "Active package have executables on `PATH`.",
+            "App bundles of packages on disk which have no executables on `PATH` are non-active."
+          ]
+        },
+        {
+          "name": "--no-all",
+          "tip": [
+            "List only packages which are currently active."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Show additional command output."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pub",
+      "tip": [
+        "Work with packages."
+      ],
+      "option": [
+        {
+          "name": "--color",
+          "tip": [
+            "Use colors in terminal output.",
+            "Defaults to color when connected to a terminal, and no-color otherwise."
+          ]
+        },
+        {
+          "name": "--directory=",
+          "alias": [
+            "-C"
+          ],
+          "usage": [
+            "-C, --directory=<dir>"
+          ],
+          "tip": [
+            "Run the subcommand in the directory <dir>.",
+            "(defaults to \".\")"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-color",
+          "tip": [
+            "Do not use colors in terminal output."
+          ]
+        },
+        {
+          "name": "--verbose",
+          "alias": [
+            "-v"
+          ],
+          "usage": [
+            "-v, --verbose"
+          ],
+          "tip": [
+            "Print detailed logging."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [<section>:]<package>[@<descriptor>] [<section>:]<package2>[@<descriptor>] ..."
+          ],
+          "tip": [
+            "Add dependencies to `pubspec.yaml`."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Report what dependencies would change but don't change any."
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "Also update dependencies in `example/` after modifying pubspec.yaml in the root package (if it exists).",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "Do not update dependencies in `example/` after modifying pubspec.yaml in the root package."
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "Do not use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "Do not build executables in immediate dependencies."
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "Use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "Build executables in immediate dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "bump",
+          "tip": [
+            "Increases the version number of the current package."
+          ],
+          "next": [
+            {
+              "name": "breaking",
+              "tip": [
+                "Increment to the next breaking version (eg. 0.1.2 -> 0.2.0)."
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "Report what would change, but don't change anything."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "major",
+              "tip": [
+                "Increment the major version number (eg. 3.1.2 -> 4.0.0)."
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "Report what would change, but don't change anything."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "minor",
+              "tip": [
+                "Increment the minor version number (eg. 3.1.2 -> 3.2.0)."
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "Report what would change, but don't change anything."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "patch",
+              "tip": [
+                "Increment the patch version number (eg. 3.1.2 -> 3.1.3)."
+              ],
+              "option": [
+                {
+                  "name": "--dry-run",
+                  "alias": [
+                    "-n"
+                  ],
+                  "usage": [
+                    "-n, --dry-run"
+                  ],
+                  "tip": [
+                    "Report what would change, but don't change anything."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "cache",
+          "tip": [
+            "Work with the system cache."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <package> [--version <constraint>] [--all]"
+              ],
+              "tip": [
+                "Install a package."
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "Install all matching versions."
+                  ]
+                },
+                {
+                  "name": "--version",
+                  "alias": [
+                    "-v"
+                  ],
+                  "usage": [
+                    "-v, --version <constraint>"
+                  ],
+                  "tip": [
+                    "Version constraint."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "clean",
+              "tip": [
+                "Clears the global PUB_CACHE."
+              ],
+              "option": [
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "Don't ask for confirmation."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "gc",
+              "tip": [
+                "Prunes unused packages from the system cache."
+              ],
+              "option": [
+                {
+                  "name": "--collect-recent",
+                  "tip": [
+                    "Also delete recent files."
+                  ]
+                },
+                {
+                  "name": "--dry-run",
+                  "tip": [
+                    "Print list of files that would be deleted."
+                  ]
+                },
+                {
+                  "name": "--force",
+                  "alias": [
+                    "-f"
+                  ],
+                  "usage": [
+                    "-f, --force"
+                  ],
+                  "tip": [
+                    "Prune cache without confirmation."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "repair",
+              "tip": [
+                "Reinstall cached packages."
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "Repair all cached packages instead of only packages in the current pubspec.lock."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deps",
+          "tip": [
+            "Print package dependencies."
+          ],
+          "option": [
+            {
+              "name": "--dev",
+              "tip": [
+                "Whether to include dev dependencies.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--executables",
+              "tip": [
+                "List all available executables."
+              ]
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output dependency information in a json format."
+              ]
+            },
+            {
+              "name": "--no-dev",
+              "tip": [
+                "Do not include dev dependencies."
+              ]
+            },
+            {
+              "name": "--style",
+              "alias": [
+                "-s"
+              ],
+              "usage": [
+                "-s, --style <STYLE>"
+              ],
+              "tip": [
+                "How output should be displayed.",
+                "(default tree)"
+              ],
+              "next": [
+                {
+                  "name": "compact"
+                },
+                {
+                  "name": "list"
+                },
+                {
+                  "name": "tree"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "downgrade",
+          "usage": [
+            "downgrade [dependencies...]"
+          ],
+          "tip": [
+            "Downgrade the current package's dependencies to oldest versions."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Report what dependencies would change but don't change any."
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "Also run in `example/` (if it exists).",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "Do not run in `example/`."
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "Do not use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "Use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--tighten",
+              "tip": [
+                "Updates lower bounds in pubspec.yaml to match the resolved version."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get",
+          "tip": [
+            "Get the current package's dependencies."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Report what dependencies would change but don't change any."
+              ]
+            },
+            {
+              "name": "--enforce-lockfile",
+              "tip": [
+                "Enforce pubspec.lock.",
+                "Fail `pub get` if the current `pubspec.lock` does not exactly specify a valid resolution of `pubspec.yaml` or if any content hash of a hosted package has changed.",
+                "Useful for CI or deploying to production."
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "Also run in `example/` (if it exists).",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "Do not run in `example/`."
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "Do not use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "Do not build executables in immediate dependencies."
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "Use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "Build executables in immediate dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "global",
+          "tip": [
+            "Work with global packages."
+          ],
+          "next": [
+            {
+              "name": "activate",
+              "usage": [
+                "activate <package> [version-constraint]"
+              ],
+              "tip": [
+                "Make a package's executables globally available."
+              ],
+              "option": [
+                {
+                  "name": "--executable",
+                  "alias": [
+                    "-x"
+                  ],
+                  "usage": [
+                    "-x, --executable <EXECUTABLE>"
+                  ],
+                  "tip": [
+                    "Executable(s) to place on PATH."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--git-path",
+                  "usage": [
+                    "--git-path <PATH>"
+                  ],
+                  "tip": [
+                    "Path of git package in repository."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--git-ref",
+                  "usage": [
+                    "--git-ref <REF>"
+                  ],
+                  "tip": [
+                    "Git branch or commit to be retrieved."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--hosted-url",
+                  "alias": [
+                    "-u"
+                  ],
+                  "usage": [
+                    "-u, --hosted-url <URL>"
+                  ],
+                  "tip": [
+                    "A custom pub server URL for the package.",
+                    "Only applies when using the `hosted` source."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--no-executables",
+                  "tip": [
+                    "Do not put executables on PATH."
+                  ]
+                },
+                {
+                  "name": "--overwrite",
+                  "tip": [
+                    "Overwrite executables from other packages with the same name."
+                  ]
+                },
+                {
+                  "name": "--source",
+                  "alias": [
+                    "-s"
+                  ],
+                  "usage": [
+                    "-s, --source <SOURCE>"
+                  ],
+                  "tip": [
+                    "The source used to find the package.",
+                    "(default hosted)"
+                  ],
+                  "next": [
+                    {
+                      "name": "git"
+                    },
+                    {
+                      "name": "hosted"
+                    },
+                    {
+                      "name": "path"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "deactivate",
+              "usage": [
+                "deactivate <package>"
+              ],
+              "tip": [
+                "Remove a previously activated package."
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List globally activated packages."
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run <package>:<executable> [args...]"
+              ],
+              "tip": [
+                "Run an executable from a globally activated package."
+              ],
+              "option": [
+                {
+                  "name": "--enable-asserts",
+                  "tip": [
+                    "Enable assert statements."
+                  ]
+                },
+                {
+                  "name": "--enable-experiment=",
+                  "usage": [
+                    "--enable-experiment=<experiment>"
+                  ],
+                  "tip": [
+                    "Runs the executable in a VM with the given experiments enabled.",
+                    "(Will disable snapshotting, resulting in slower startup)."
+                  ],
+                  "repeat": 99,
+                  "next": [
+                    {
+                      "name": "anonymous-methods",
+                      "tip": [
+                        "Anonymous methods."
+                      ]
+                    },
+                    {
+                      "name": "augmentations",
+                      "tip": [
+                        "Augmentations - enhancing declarations from outside."
+                      ]
+                    },
+                    {
+                      "name": "const-functions",
+                      "tip": [
+                        "Allow more of the Dart language to be executed in const expressions."
+                      ]
+                    },
+                    {
+                      "name": "data-assets",
+                      "tip": [
+                        "Enable data assets in hooks."
+                      ]
+                    },
+                    {
+                      "name": "enhanced-parts",
+                      "tip": [
+                        "Generalize parts to be nested and have exports/imports."
+                      ]
+                    },
+                    {
+                      "name": "inference-update-4",
+                      "tip": [
+                        "A bundle of updates to type inference."
+                      ]
+                    },
+                    {
+                      "name": "macros",
+                      "tip": [
+                        "Static meta-programming."
+                      ]
+                    },
+                    {
+                      "name": "primary-constructors",
+                      "tip": [
+                        "Less verbose constructors. (no-op - enabled by default)"
+                      ]
+                    },
+                    {
+                      "name": "record-use",
+                      "tip": [
+                        "Output arguments used by static functions. (no-op - enabled by default)"
+                      ]
+                    },
+                    {
+                      "name": "static-extensions",
+                      "tip": [
+                        "Extensions with static capabilities."
+                      ]
+                    },
+                    {
+                      "name": "test-experiment",
+                      "tip": [
+                        "Has no effect.",
+                        "Can be used for testing the --enable-experiment command line functionality."
+                      ]
+                    },
+                    {
+                      "name": "this-promotion",
+                      "tip": [
+                        "Type promotion for `this`."
+                      ]
+                    },
+                    {
+                      "name": "unquoted-imports",
+                      "tip": [
+                        "Shorter import syntax."
+                      ]
+                    },
+                    {
+                      "name": "variance",
+                      "tip": [
+                        "Sound variance."
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "--no-enable-asserts",
+                  "tip": [
+                    "Do not enable assert statements."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "login",
+          "tip": [
+            "Log into pub.dev."
+          ]
+        },
+        {
+          "name": "logout",
+          "tip": [
+            "Log out of pub.dev."
+          ]
+        },
+        {
+          "name": "outdated",
+          "tip": [
+            "Analyze your dependencies to find which ones can be upgraded."
+          ],
+          "option": [
+            {
+              "name": "--dependency-overrides",
+              "tip": [
+                "Show resolutions with `dependency_overrides`.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--dev-dependencies",
+              "tip": [
+                "Take dev dependencies into account.",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--json",
+              "tip": [
+                "Output the results using a json format."
+              ]
+            },
+            {
+              "name": "--no-dependency-overrides",
+              "tip": [
+                "Do not show resolutions with `dependency_overrides`."
+              ]
+            },
+            {
+              "name": "--no-dev-dependencies",
+              "tip": [
+                "Do not take dev dependencies into account."
+              ]
+            },
+            {
+              "name": "--no-prereleases",
+              "tip": [
+                "Do not include prereleases in latest version."
+              ]
+            },
+            {
+              "name": "--no-show-all",
+              "tip": [
+                "Do not include dependencies that are already fulfilling --mode."
+              ]
+            },
+            {
+              "name": "--no-transitive",
+              "tip": [
+                "Do not show transitive dependencies."
+              ]
+            },
+            {
+              "name": "--prereleases",
+              "tip": [
+                "Include prereleases in latest version."
+              ]
+            },
+            {
+              "name": "--show-all",
+              "tip": [
+                "Include dependencies that are already fulfilling --mode."
+              ]
+            },
+            {
+              "name": "--transitive",
+              "tip": [
+                "Show transitive dependencies.",
+                "(defaults to on)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "publish",
+          "tip": [
+            "Publish the current package to pub.dev."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Validate but do not publish the package."
+              ]
+            },
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Publish without confirmation if there are no errors."
+              ]
+            },
+            {
+              "name": "--ignore-warnings",
+              "tip": [
+                "Do not treat warnings as fatal."
+              ]
+            },
+            {
+              "name": "--skip-validation",
+              "tip": [
+                "Publish without validation and resolution (this will ignore errors)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove <package1> [<package2>...]"
+          ],
+          "tip": [
+            "Removes dependencies from `pubspec.yaml`.",
+            "Invoking `dart pub remove foo bar` will remove `foo` and `bar` from either `dependencies` or `dev_dependencies` in `pubspec.yaml`."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Report what dependencies would change but don't change any."
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "Also update dependencies in `example/` (if it exists).",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "Do not update dependencies in `example/`."
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "Do not use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "Do not precompile executables in immediate dependencies."
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "Use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "Precompile executables in immediate dependencies."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "Manage authentication tokens for hosted pub repositories.",
+            "Tokens are stored in `~/.config/dart/pub-tokens.json`."
+          ],
+          "next": [
+            {
+              "name": "add",
+              "usage": [
+                "add <hosted-url>"
+              ],
+              "tip": [
+                "Add an authentication token for a package repository.",
+                "The token will be used for authorizing against <hosted-url> both when retrieving dependencies and for publishing.",
+                "This command will prompt for the secret token over stdin (unless `--env-var` is used)."
+              ],
+              "option": [
+                {
+                  "name": "--env-var=",
+                  "usage": [
+                    "--env-var=<VARIABLE>"
+                  ],
+                  "tip": [
+                    "Read the secret token from this environment variable when making requests."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List servers for which a token exists."
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove <hosted-url>",
+                "remove --all"
+              ],
+              "tip": [
+                "Remove secret token for package repository at <hosted-url>."
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "Remove all secret tokens."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unpack",
+          "usage": [
+            "unpack <package-name>[@<descriptor>]"
+          ],
+          "tip": [
+            "Downloads a package and unpacks it in place."
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "alias": [
+                "-f"
+              ],
+              "usage": [
+                "-f, --force"
+              ],
+              "tip": [
+                "Overwrite the target directory if it already exists."
+              ]
+            },
+            {
+              "name": "--no-force",
+              "tip": [
+                "Do not overwrite the target directory if it already exists."
+              ]
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output <DIR>"
+              ],
+              "tip": [
+                "Download and extract the package in the specified directory.",
+                "(defaults to \".\")"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "upgrade",
+          "usage": [
+            "upgrade [dependencies...]"
+          ],
+          "tip": [
+            "Upgrade the current package's dependencies to latest versions."
+          ],
+          "option": [
+            {
+              "name": "--directory=",
+              "alias": [
+                "-C"
+              ],
+              "usage": [
+                "-C, --directory=<dir>"
+              ],
+              "tip": [
+                "Run this in the directory <dir>."
+              ],
+              "next": []
+            },
+            {
+              "name": "--dry-run",
+              "alias": [
+                "-n"
+              ],
+              "usage": [
+                "-n, --dry-run"
+              ],
+              "tip": [
+                "Report what dependencies would change but don't change any."
+              ]
+            },
+            {
+              "name": "--example",
+              "tip": [
+                "Also run in `example/` (if it exists).",
+                "(defaults to on)"
+              ]
+            },
+            {
+              "name": "--major-versions",
+              "tip": [
+                "Upgrades packages to their latest resolvable versions, and updates pubspec.yaml."
+              ]
+            },
+            {
+              "name": "--no-example",
+              "tip": [
+                "Do not run in `example/`."
+              ]
+            },
+            {
+              "name": "--no-offline",
+              "tip": [
+                "Do not use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--no-precompile",
+              "tip": [
+                "Do not precompile executables in immediate dependencies."
+              ]
+            },
+            {
+              "name": "--offline",
+              "tip": [
+                "Use cached packages instead of accessing the network."
+              ]
+            },
+            {
+              "name": "--precompile",
+              "tip": [
+                "Precompile executables in immediate dependencies."
+              ]
+            },
+            {
+              "name": "--tighten",
+              "tip": [
+                "Updates lower bounds in pubspec.yaml to match the resolved version."
+              ]
+            },
+            {
+              "name": "--unlock-transitive",
+              "tip": [
+                "Also upgrades the transitive dependencies of the listed [dependencies]."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "Work with the pub workspace."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List all packages in the workspace, and their directory."
+              ],
+              "option": [
+                {
+                  "name": "--json",
+                  "tip": [
+                    "Output information in a json format."
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [vm-options] <dart-file>|<local-pkg>|<remote-pkg>@<descriptor> <program-args...>"
+      ],
+      "tip": [
+        "Run a Dart program from a file or a local or remote package."
+      ],
+      "option": [
+        {
+          "name": "--dds",
+          "tip": [
+            "Use the Dart Development Service (DDS) for enhanced debugging functionality.",
+            "Note: Disabling DDS may break some functionality in IDEs and other tooling.",
+            "(defaults to on)"
+          ]
+        },
+        {
+          "name": "--define=",
+          "alias": [
+            "-D"
+          ],
+          "usage": [
+            "-D, --define=<key=value>"
+          ],
+          "tip": [
+            "Define an environment declaration."
+          ],
+          "repeat": 99,
+          "separator": ",",
+          "next": []
+        },
+        {
+          "name": "--disable-service-auth-codes",
+          "tip": [
+            "Disables the requirement for an authentication code to communicate with the VM service.",
+            "Authentication codes help protect against CSRF attacks, so it is not recommended to disable them unless behind a firewall on a secure device."
+          ]
+        },
+        {
+          "name": "--enable-asserts",
+          "tip": [
+            "Enable assert statements."
+          ]
+        },
+        {
+          "name": "--enable-experiment=",
+          "usage": [
+            "--enable-experiment=<experiment>"
+          ],
+          "tip": [
+            "Enable one or more experimental features (see https://dart.dev/go/experiments)."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "anonymous-methods",
+              "tip": [
+                "Anonymous methods."
+              ]
+            },
+            {
+              "name": "augmentations",
+              "tip": [
+                "Augmentations - enhancing declarations from outside."
+              ]
+            },
+            {
+              "name": "const-functions",
+              "tip": [
+                "Allow more of the Dart language to be executed in const expressions."
+              ]
+            },
+            {
+              "name": "data-assets",
+              "tip": [
+                "Enable data assets in hooks."
+              ]
+            },
+            {
+              "name": "enhanced-parts",
+              "tip": [
+                "Generalize parts to be nested and have exports/imports."
+              ]
+            },
+            {
+              "name": "inference-update-4",
+              "tip": [
+                "A bundle of updates to type inference."
+              ]
+            },
+            {
+              "name": "macros",
+              "tip": [
+                "Static meta-programming."
+              ]
+            },
+            {
+              "name": "primary-constructors",
+              "tip": [
+                "Less verbose constructors. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "record-use",
+              "tip": [
+                "Output arguments used by static functions. (no-op - enabled by default)"
+              ]
+            },
+            {
+              "name": "static-extensions",
+              "tip": [
+                "Extensions with static capabilities."
+              ]
+            },
+            {
+              "name": "test-experiment",
+              "tip": [
+                "Has no effect.",
+                "Can be used for testing the --enable-experiment command line functionality."
+              ]
+            },
+            {
+              "name": "this-promotion",
+              "tip": [
+                "Type promotion for `this`."
+              ]
+            },
+            {
+              "name": "unquoted-imports",
+              "tip": [
+                "Shorter import syntax."
+              ]
+            },
+            {
+              "name": "variance",
+              "tip": [
+                "Sound variance."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--enable-service-port-fallback",
+          "tip": [
+            "When the VM service is told to bind to a particular port, fallback to 0 if it fails to bind instead of failing to start."
+          ]
+        },
+        {
+          "name": "--enable-vm-service=",
+          "usage": [
+            "--enable-vm-service[=<port>[/<bind-address>]]"
+          ],
+          "tip": [
+            "Enables the VM service and listens on the specified port for connections.",
+            "(default port number is 8181, default bind address is localhost)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace=",
+          "usage": [
+            "--namespace=<path>"
+          ],
+          "tip": [
+            "The path to a directory that dart:io calls will treat as the root of the filesystem."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-dds",
+          "tip": [
+            "Do not use the Dart Development Service (DDS) for enhanced debugging functionality."
+          ]
+        },
+        {
+          "name": "--no-enable-asserts",
+          "tip": [
+            "Do not enable assert statements."
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-exit",
+          "tip": [
+            "Do not pause isolates on exit when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-start",
+          "tip": [
+            "Do not pause isolates on start when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--no-pause-isolates-on-unhandled-exceptions",
+          "tip": [
+            "Do not pause isolates when an unhandled exception is encountered when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--no-print-dtd",
+          "tip": [
+            "Do not print connection details for the Dart Tooling Daemon (DTD)."
+          ]
+        },
+        {
+          "name": "--no-quiet",
+          "tip": [
+            "Do not disable the printing of messages about the resident compiler starting up / shutting down."
+          ]
+        },
+        {
+          "name": "--no-serve-devtools",
+          "tip": [
+            "Do not serve an instance of the Dart DevTools debugger and profiler via the VM service."
+          ]
+        },
+        {
+          "name": "--no-serve-observatory",
+          "tip": [
+            "Do not enable hosting Observatory through the VM Service."
+          ]
+        },
+        {
+          "name": "--no-warn-on-pause-with-no-debugger",
+          "tip": [
+            "Do not print a warning when an isolate pauses with no attached debugger when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--observe=",
+          "usage": [
+            "--observe[=<port>[/<bind-address>]]"
+          ],
+          "tip": [
+            "The observe flag is a convenience flag used to run a program with a set of common options useful for debugging.",
+            "Run `dart help -v run` for details."
+          ],
+          "next": []
+        },
+        {
+          "name": "--packages=",
+          "usage": [
+            "--packages=<path>"
+          ],
+          "tip": [
+            "The path to the package resolution configuration file, which supplies a mapping of package names into paths."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pause-isolates-on-exit",
+          "tip": [
+            "Pause isolates on exit when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--pause-isolates-on-start",
+          "tip": [
+            "Pause isolates on start when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--pause-isolates-on-unhandled-exceptions",
+          "tip": [
+            "Pause isolates when an unhandled exception is encountered when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--print-dtd",
+          "tip": [
+            "Prints connection details for the Dart Tooling Daemon (DTD).",
+            "Useful for Dart DevTools extension authors working with DTD in the extension development environment."
+          ]
+        },
+        {
+          "name": "--profile-microtasks",
+          "tip": [
+            "Record information about each microtask.",
+            "Information about completed microtasks will be written to the \"Microtask\" timeline stream."
+          ]
+        },
+        {
+          "name": "--profile-startup",
+          "tip": [
+            "Make the profiler discard new samples once the profiler sample buffer is full.",
+            "When this flag is not set, the profiler sample buffer is used as a ring buffer, meaning that once it is full, new samples start overwriting the oldest ones.",
+            "This flag itself does not enable the profiler; the profiler must be enabled separately, e.g. with --profiler."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "tip": [
+            "Disable the printing of messages about the resident compiler starting up / shutting down."
+          ]
+        },
+        {
+          "name": "--resident",
+          "alias": [
+            "-r"
+          ],
+          "usage": [
+            "-r, --resident"
+          ],
+          "tip": [
+            "Enable faster startup times by using a resident frontend compiler for compilation.",
+            "If --resident-compiler-info-file is provided in conjunction with this flag, the specified info file will be used, otherwise the default info file will be used.",
+            "If there is not already a compiler associated with the selected info file, one will be started.",
+            "Refer to 'dart compilation-server start -h' for more information about info files."
+          ]
+        },
+        {
+          "name": "--resident-compiler-info-file",
+          "usage": [
+            "--resident-compiler-info-file <FILE>"
+          ],
+          "tip": [
+            "The path to an info file that the Dart CLI will use to communicate with a resident frontend compiler.",
+            "Each unique info file is associated with a unique resident frontend compiler.",
+            "If this flag is ommitted, the default info file will be used."
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-certs-cache=",
+          "usage": [
+            "--root-certs-cache=<path>"
+          ],
+          "tip": [
+            "The path to a cache directory containing the trusted root certificates to use for secure socket connections."
+          ],
+          "next": []
+        },
+        {
+          "name": "--root-certs-file=",
+          "usage": [
+            "--root-certs-file=<path>"
+          ],
+          "tip": [
+            "The path to a file containing the trusted root certificates to use for secure socket connections."
+          ],
+          "next": []
+        },
+        {
+          "name": "--serve-devtools",
+          "tip": [
+            "Serves an instance of the Dart DevTools debugger and profiler via the VM service at <vm-service-uri>/devtools.",
+            "(defaults to on)"
+          ]
+        },
+        {
+          "name": "--serve-observatory",
+          "tip": [
+            "Enable hosting Observatory through the VM Service.",
+            "(defaults to on)"
+          ]
+        },
+        {
+          "name": "--timeline-recorder=",
+          "usage": [
+            "--timeline-recorder=<recorder>"
+          ],
+          "tip": [
+            "Selects the timeline recorder to use.",
+            "Valid recorders include: none, ring, endless, startup, systrace, file, callback, perfettofile.",
+            "Defaults to ring."
+          ],
+          "next": [
+            {
+              "name": "callback"
+            },
+            {
+              "name": "endless"
+            },
+            {
+              "name": "file"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "perfettofile"
+            },
+            {
+              "name": "ring"
+            },
+            {
+              "name": "startup"
+            },
+            {
+              "name": "systrace"
+            }
+          ]
+        },
+        {
+          "name": "--timeline-streams=",
+          "usage": [
+            "--timeline-streams=<str1, str2, ...>"
+          ],
+          "tip": [
+            "Enables recording for specific timeline streams.",
+            "Valid streams include: all, API, Compiler, CompilerVerbose, Dart, Debugger, Embedder, GC, Isolate, Microtask, VM.",
+            "Defaults to \"Compiler, Dart, GC, Microtask\" when --observe is provided."
+          ],
+          "separator": ",",
+          "next": [
+            {
+              "name": "all"
+            },
+            {
+              "name": "API"
+            },
+            {
+              "name": "Compiler"
+            },
+            {
+              "name": "CompilerVerbose"
+            },
+            {
+              "name": "Dart"
+            },
+            {
+              "name": "Debugger"
+            },
+            {
+              "name": "Embedder"
+            },
+            {
+              "name": "GC"
+            },
+            {
+              "name": "Isolate"
+            },
+            {
+              "name": "Microtask"
+            },
+            {
+              "name": "VM"
+            }
+          ]
+        },
+        {
+          "name": "--trace-loading",
+          "tip": [
+            "Enables tracing of library and script loading."
+          ]
+        },
+        {
+          "name": "--verbosity",
+          "usage": [
+            "--verbosity <LEVEL>"
+          ],
+          "tip": [
+            "Sets the verbosity level of the compilation."
+          ],
+          "next": [
+            {
+              "name": "all",
+              "tip": [
+                "Show all messages.",
+                "(default)"
+              ]
+            },
+            {
+              "name": "error",
+              "tip": [
+                "Show only error messages."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Show error, warning, and info messages."
+              ]
+            },
+            {
+              "name": "warning",
+              "tip": [
+                "Show only error and warning messages."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--warn-on-pause-with-no-debugger",
+          "tip": [
+            "Print a warning when an isolate pauses with no attached debugger when running with --enable-vm-service."
+          ]
+        },
+        {
+          "name": "--write-service-info=",
+          "usage": [
+            "--write-service-info=<file>"
+          ],
+          "tip": [
+            "Outputs information necessary to connect to the VM service to specified file in JSON format.",
+            "Useful for clients which are unable to listen to stdout for the Dart VM service listening message."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "tip": [
+        "Run tests for a project.",
+        "Flags and options are provided at runtime by the project's package:test dependency."
+      ]
+    },
+    {
+      "name": "uninstall",
+      "usage": [
+        "uninstall <package>"
+      ],
+      "tip": [
+        "Remove a globally installed Dart CLI tool.",
+        "Completely deletes all installed versions of <package> and all executables from <package> placed on PATH."
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Show additional command output."
+      ]
+    },
+    {
+      "name": "--version",
+      "tip": [
+        "Print the Dart SDK version."
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--diagnostics",
+      "tip": [
+        "Show tool diagnostic output."
+      ]
+    },
+    {
+      "name": "--disable-analytics",
+      "tip": [
+        "Disable analytics."
+      ]
+    },
+    {
+      "name": "--enable-analytics",
+      "tip": [
+        "Enable analytics."
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print this usage information."
+      ]
+    },
+    {
+      "name": "--suppress-analytics",
+      "tip": [
+        "Disallow analytics for this `dart *` run without changing the analytics configuration."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2673 @@
+{
+  "meta": {
+    "url": "https://developer.android.com/tools/agents/android-cli",
+    "description": [
+      "Command-line interface for Android app development with AI agents."
+    ]
+  },
+  "next": [
+    {
+      "name": "auth",
+      "usage": [
+        "auth [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Authentication commands.",
+        "Log in/out of Google services for Android CLI"
+      ],
+      "next": [
+        {
+          "name": "login",
+          "usage": [
+            "login [-h] [--no-use-keyring]"
+          ],
+          "tip": [
+            "Log in to Google services for Android CLI"
+          ],
+          "option": [
+            {
+              "name": "--no-use-keyring",
+              "tip": [
+                "Do not use keyring for storing tokens"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "logout",
+          "usage": [
+            "logout [-h]"
+          ],
+          "tip": [
+            "Log out from Google services for Android CLI"
+          ]
+        },
+        {
+          "name": "status",
+          "usage": [
+            "status [-h]"
+          ],
+          "tip": [
+            "Prints the currently signed-in account"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "completion",
+      "usage": [
+        "completion [-h] [<shell>]"
+      ],
+      "tip": [
+        "Installs shell autocomplete configuration for Android CLI in the current user profile"
+      ],
+      "next": [
+        {
+          "name": "bash"
+        },
+        {
+          "name": "zsh"
+        }
+      ]
+    },
+    {
+      "name": "create",
+      "usage": [
+        "create [-h] [--application-id=PARAM] [--force] [--list] [--min-sdk=PARAM] [--name=PARAM] [--namespace=PARAM] [--output=PARAM] [<template-name>]"
+      ],
+      "tip": [
+        "Creates a new Android project from available templates.",
+        "You can specify the project name, output directory, `minSdk` value, and dry-run execution"
+      ],
+      "option": [
+        {
+          "name": "--application-id",
+          "usage": [
+            "--application-id=<PARAM>"
+          ],
+          "tip": [
+            "The app ID for the app, for example `com.example.myapp`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Allow creating the project in a non-empty directory, overwriting existing files"
+          ]
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "List all available templates"
+          ]
+        },
+        {
+          "name": "--min-sdk",
+          "usage": [
+            "--min-sdk=<PARAM>"
+          ],
+          "tip": [
+            "The `minSdk` value supported by the app (the default value is defined in the template)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name=<PARAM>"
+          ],
+          "tip": [
+            "The name of the app, for example `My Application`"
+          ],
+          "next": []
+        },
+        {
+          "name": "--namespace",
+          "usage": [
+            "--namespace=<PARAM>"
+          ],
+          "tip": [
+            "The namespace for resources and package name for Kotlin source files"
+          ],
+          "next": []
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<PARAM>"
+          ],
+          "tip": [
+            "The destination project directory path (the default value is `.`)"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "empty-activity"
+        }
+      ]
+    },
+    {
+      "name": "describe",
+      "usage": [
+        "describe [-h] [--project_dir=PARAM]"
+      ],
+      "tip": [
+        "Analyzes an Android project to generate descriptive metadata.",
+        "This command identifies and outputs the paths to JSON files that detail the project's structure, including build targets and their corresponding output artifact locations (such as APKs).",
+        "This information enables other tools and commands to locate build artifacts efficiently"
+      ],
+      "option": [
+        {
+          "name": "--project_dir",
+          "usage": [
+            "--project_dir=<PARAM>"
+          ],
+          "tip": [
+            "The project directory to describe"
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "device",
+      "usage": [
+        "device [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Manage physical Android devices.",
+        "Create remote physical device reservations"
+      ],
+      "next": [
+        {
+          "name": "remote",
+          "usage": [
+            "remote [-h] [--project=PARAM] [COMMAND]"
+          ],
+          "tip": [
+            "Manage remote physical devices.",
+            "Includes commands to list, reserve, connect to, and manage remote device reservations"
+          ],
+          "option": [
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The Google Cloud project ID"
+              ],
+              "next": []
+            }
+          ],
+          "next": [
+            {
+              "name": "connect",
+              "usage": [
+                "connect [-h] <reservation-id>"
+              ],
+              "tip": [
+                "Connects to a reserved remote device"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "create",
+              "usage": [
+                "create [-h] [--connect] [<codename>/<api>]"
+              ],
+              "tip": [
+                "Creates a reservation for a remote device"
+              ],
+              "option": [
+                {
+                  "name": "--connect",
+                  "tip": [
+                    "Connects to the device once the reservation is created"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "disconnect",
+              "usage": [
+                "disconnect [-h] <reservation-id>"
+              ],
+              "tip": [
+                "Disconnects a remote device"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "extend",
+              "usage": [
+                "extend [-h] --duration=PARAM <reservation-id>"
+              ],
+              "tip": [
+                "Extends a remote device reservation"
+              ],
+              "option": [
+                {
+                  "name": "--duration",
+                  "usage": [
+                    "--duration=<PARAM>"
+                  ],
+                  "tip": [
+                    "Minutes for which the reservation is to be extended"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [-h] [--all] [--short] [<reservation-id>]"
+              ],
+              "tip": [
+                "Lists remote device reservations"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "Prints all reservations irrespective of their state"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--short",
+                  "tip": [
+                    "Prints only the ID of each reservation"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "models",
+              "usage": [
+                "models [-h]"
+              ],
+              "tip": [
+                "Lists available remote device models"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "projects",
+              "usage": [
+                "projects [-h] [--all]"
+              ],
+              "tip": [
+                "Lists Google Cloud projects available for device streaming"
+              ],
+              "option": [
+                {
+                  "name": "--all",
+                  "tip": [
+                    "Include projects that are not ready yet for streaming"
+                  ]
+                },
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "remove",
+              "usage": [
+                "remove [-h] <reservation-id>"
+              ],
+              "tip": [
+                "Removes a remote device reservation"
+              ],
+              "option": [
+                {
+                  "name": "--project",
+                  "usage": [
+                    "--project=<PARAM>"
+                  ],
+                  "tip": [
+                    "The Google Cloud project ID"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "usage": [
+        "docs [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Searches and fetches developer documentation from the official Android Knowledge Base"
+      ],
+      "next": [
+        {
+          "name": "fetch",
+          "usage": [
+            "fetch [-h] <url>"
+          ],
+          "tip": [
+            "Fetches an Android documentation article from a URL starting with `kb://`"
+          ]
+        },
+        {
+          "name": "search",
+          "usage": [
+            "search [-h] <query>"
+          ],
+          "tip": [
+            "Searches Android documentation.",
+            "Enclose keywords in quotes"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "emulator",
+      "usage": [
+        "emulator [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Manages Android Virtual Devices (AVDs).",
+        "Includes commands to start, stop, list, and view details about emulators"
+      ],
+      "next": [
+        {
+          "name": "create",
+          "usage": [
+            "create [-h] [--list-profiles] [<profile>]"
+          ],
+          "tip": [
+            "Creates a virtual device"
+          ],
+          "option": [
+            {
+              "name": "--list-profiles",
+              "tip": [
+                "Lists the device profiles that can be used to create a device"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "large_desktop"
+            },
+            {
+              "name": "medium_desktop"
+            },
+            {
+              "name": "medium_phone"
+            },
+            {
+              "name": "medium_tablet"
+            },
+            {
+              "name": "small_desktop"
+            },
+            {
+              "name": "small_phone"
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--long]"
+          ],
+          "tip": [
+            "Lists available virtual devices"
+          ],
+          "option": [
+            {
+              "name": "--long",
+              "tip": [
+                "Give more detailed information"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] [--force] <device>"
+          ],
+          "tip": [
+            "Deletes a virtual device"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Forces removal of the `.ini` file even if the corresponding `.avd` directory doesn't exist"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "start",
+          "usage": [
+            "start [-h] [--cold] [--headless] <device>"
+          ],
+          "tip": [
+            "Launches the specified virtual device.",
+            "This command returns when the emulator is fully started and ready to use"
+          ],
+          "option": [
+            {
+              "name": "--cold",
+              "tip": [
+                "Starts the emulator without loading from a snapshot"
+              ]
+            },
+            {
+              "name": "--headless",
+              "tip": [
+                "Starts the emulator without a window"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stop",
+          "usage": [
+            "stop [-h] [<device>]"
+          ],
+          "tip": [
+            "Stops the specified virtual device"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "usage": [
+        "help [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Shows the help information for a specified command"
+      ]
+    },
+    {
+      "name": "info",
+      "usage": [
+        "info [-h] [<field>]"
+      ],
+      "tip": [
+        "Prints environment information including SDK location, connected devices, and configuration variables"
+      ],
+      "next": [
+        {
+          "name": "launcher_version"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "version"
+        }
+      ]
+    },
+    {
+      "name": "init",
+      "usage": [
+        "init [-h]"
+      ],
+      "tip": [
+        "Initializes the environment for Android CLI.",
+        "Sets up required configurations, directories, and default skills"
+      ]
+    },
+    {
+      "name": "install",
+      "usage": [
+        "install [-h] [--apks=PARAM] [--device=PARAM] [--install-options=PARAM] [--use-delta-install]"
+      ],
+      "tip": [
+        "Installs an Android app (one or more APKs) on a connected device or emulator without activating any components, using incremental optimizations for faster deployment than `adb`"
+      ],
+      "option": [
+        {
+          "name": "--apks",
+          "usage": [
+            "--apks=<PARAM>"
+          ],
+          "tip": [
+            "The paths to the APKs, comma separated"
+          ],
+          "next": []
+        },
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "The device serial number"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-options",
+          "usage": [
+            "--install-options=<PARAM>"
+          ],
+          "tip": [
+            "Additional options or flags to pass to package manager install (for example, `-g`, `-d`)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--use-delta-install",
+          "tip": [
+            "Use fast delta install (speeds up incremental updates by transferring only modified code and resources; default: `true`)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "layout",
+      "usage": [
+        "layout [-dhp] [--device=PARAM] [--flat] [--full] [--no-idle] [--output=PARAM]"
+      ],
+      "tip": [
+        "Returns the layout tree of an app"
+      ],
+      "option": [
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "The device serial number"
+          ],
+          "next": []
+        },
+        {
+          "name": "--diff",
+          "alias": [
+            "-d"
+          ],
+          "usage": [
+            "-d, --diff"
+          ],
+          "tip": [
+            "Deprecated; no-op flag.",
+            "Will be removed in a future release"
+          ]
+        },
+        {
+          "name": "--flat",
+          "tip": [
+            "Returns a flat list instead of a tree"
+          ]
+        },
+        {
+          "name": "--full",
+          "tip": [
+            "Returns the full tree, including non-interactive and hidden elements"
+          ]
+        },
+        {
+          "name": "--no-idle",
+          "tip": [
+            "Don't wait for layout idle state when fetching layout"
+          ]
+        },
+        {
+          "name": "--output",
+          "alias": [
+            "-o"
+          ],
+          "usage": [
+            "-o, --output=<PARAM>"
+          ],
+          "tip": [
+            "Writes the layout to the specified file or directory.",
+            "If omitted, prints to standard output"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pretty",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --pretty"
+          ],
+          "tip": [
+            "Pretty-prints the returned JSON"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "usage": [
+        "run [-h] [--activity=PARAM] [--apks=PARAM] [--debug] [--device=PARAM] [--install-options=PARAM] [--type=PARAM] [--use-delta-install]"
+      ],
+      "tip": [
+        "Builds, deploys, and launches an Android app on a connected device or emulator"
+      ],
+      "option": [
+        {
+          "name": "--activity",
+          "usage": [
+            "--activity=<PARAM>"
+          ],
+          "tip": [
+            "The activity name"
+          ],
+          "next": []
+        },
+        {
+          "name": "--apks",
+          "usage": [
+            "--apks=<PARAM>"
+          ],
+          "tip": [
+            "The paths to the APKs, comma separated"
+          ],
+          "next": []
+        },
+        {
+          "name": "--debug",
+          "tip": [
+            "Run in debug mode"
+          ]
+        },
+        {
+          "name": "--device",
+          "usage": [
+            "--device=<PARAM>"
+          ],
+          "tip": [
+            "The device serial number"
+          ],
+          "next": []
+        },
+        {
+          "name": "--install-options",
+          "usage": [
+            "--install-options=<PARAM>"
+          ],
+          "tip": [
+            "Additional options or flags to pass to package manager install (for example, `-g`, `-d`)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type=<PARAM>"
+          ],
+          "tip": [
+            "The component type (`ACTIVITY`, `WATCH_FACE`, `TILE`, `COMPLICATION`, `DECLARATIVE_WATCH_FACE`, `WEAR_WIDGET`)"
+          ],
+          "next": [
+            {
+              "name": "ACTIVITY"
+            },
+            {
+              "name": "COMPLICATION"
+            },
+            {
+              "name": "DECLARATIVE_WATCH_FACE"
+            },
+            {
+              "name": "TILE"
+            },
+            {
+              "name": "WATCH_FACE"
+            },
+            {
+              "name": "WEAR_WIDGET"
+            }
+          ]
+        },
+        {
+          "name": "--use-delta-install",
+          "tip": [
+            "Use fast delta install (speeds up incremental updates by transferring only modified code and resources; default: `true`)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "screen",
+      "usage": [
+        "screen [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Captures and inspects the screen of a connected Android device or emulator"
+      ],
+      "next": [
+        {
+          "name": "capture",
+          "usage": [
+            "capture [-ah] [--debug] [--device=PARAM] [--distance=PARAM] [--edge-thresh-strong=PARAM] [--edge-thresh-weak=PARAM] [--features=PARAM] [--min-area=PARAM] [--min-nested-area=PARAM] [--min-rect=PARAM] [--min-round=PARAM] [--output=PARAM] [--threshold=PARAM]"
+          ],
+          "tip": [
+            "Outputs the device screen to a PNG"
+          ],
+          "option": [
+            {
+              "name": "--annotate",
+              "alias": [
+                "-a"
+              ],
+              "usage": [
+                "-a, --annotate"
+              ],
+              "tip": [
+                "Detects and labels UI elements on the screenshot with numbered bounding boxes (`#1`, `#2`, and so on).",
+                "This lets AI agents and scripts reference on-screen UI elements by label number instead of manually calculating pixel coordinates"
+              ]
+            },
+            {
+              "name": "--debug",
+              "tip": [
+                "Outputs intermediate feature detection steps for parameter tuning"
+              ]
+            },
+            {
+              "name": "--device",
+              "usage": [
+                "--device=<PARAM>"
+              ],
+              "tip": [
+                "The device serial number"
+              ],
+              "next": []
+            },
+            {
+              "name": "--distance",
+              "usage": [
+                "--distance=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Distance metric for combining detected shapes into UI features (`MIN_EUCLIDEAN` or `MIN_ANISOTROPIC`).",
+                "`MIN_ANISOTROPIC` weights vertical separation on the y-axis more heavily than horizontal separation on the x-axis (default: `MIN_EUCLIDEAN`)"
+              ],
+              "next": [
+                {
+                  "name": "MIN_ANISOTROPIC"
+                },
+                {
+                  "name": "MIN_EUCLIDEAN"
+                }
+              ]
+            },
+            {
+              "name": "--edge-thresh-strong",
+              "usage": [
+                "--edge-thresh-strong=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Strong threshold (`0` to `1`) for edge detection.",
+                "Lower this value if barely detectable edges are being ignored, or raise it if detection is too noisy (default: `0.1`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--edge-thresh-weak",
+              "usage": [
+                "--edge-thresh-weak=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Weak threshold (`0` to `1`) for edge detection.",
+                "Lower this value if barely detectable edges are being ignored, or raise it if detection is too noisy (default: `0.05`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--features",
+              "usage": [
+                "--features=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Algorithm used to group detected shapes into UI features (`GREEDY` or `FH`).",
+                "`GREEDY` combines shapes closer than `--threshold` distance into a single feature.",
+                "`FH` uses `--threshold` as the segmentation scale parameter, where higher values produce fewer, larger features and lower values produce more, smaller features (default: `FH`)"
+              ],
+              "next": [
+                {
+                  "name": "FH"
+                },
+                {
+                  "name": "GREEDY"
+                }
+              ]
+            },
+            {
+              "name": "--min-area",
+              "usage": [
+                "--min-area=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Minimum shape area in `dp²` before feature detection.",
+                "Shapes smaller than this threshold are ignored (default: `5.0`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-nested-area",
+              "usage": [
+                "--min-nested-area=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Minimum parent feature area in `dp²` required to keep nested child features.",
+                "Raise this value if small details inside icons are being labeled as separate elements (default: `3600.0`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-rect",
+              "usage": [
+                "--min-rect=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Minimum ratio of a shape's area to its axis-aligned bounding box area.",
+                "Shapes below both `--min-rect` and `--min-round` are ignored (default: `0.2`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-round",
+              "usage": [
+                "--min-round=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Minimum shape roundness (`4 * PI * area / perimeter^2`, where `1.0` is a perfect circle).",
+                "Shapes below both `--min-rect` and `--min-round` are ignored (default: `0.2`)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--output",
+              "alias": [
+                "-o"
+              ],
+              "usage": [
+                "-o, --output=<PARAM>"
+              ],
+              "tip": [
+                "Writes the screenshot to the specified file or directory"
+              ],
+              "next": []
+            },
+            {
+              "name": "--threshold",
+              "usage": [
+                "--threshold=<PARAM>"
+              ],
+              "tip": [
+                "Used with `--annotate`.",
+                "Grouping threshold passed to the algorithm specified in `--features` (default: `15`)"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "resolve",
+          "usage": [
+            "resolve [-h] --screenshot=PARAM --string=PARAM"
+          ],
+          "tip": [
+            "Targets UI elements visually.",
+            "Substitutes bounding box coordinates from an annotated screenshot into a string, replacing all instances of `#N` with the center coordinates of the bounding box labeled `N`"
+          ],
+          "option": [
+            {
+              "name": "--screenshot",
+              "usage": [
+                "--screenshot=<PARAM>"
+              ],
+              "tip": [
+                "A screenshot captured with `android screen capture --annotate`"
+              ],
+              "next": []
+            },
+            {
+              "name": "--string",
+              "usage": [
+                "--string=<PARAM>"
+              ],
+              "tip": [
+                "The string to substitute coordinates into"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk",
+      "usage": [
+        "sdk [-h] [--ignore-outdated-xmls] [--platform=PARAM] [COMMAND]"
+      ],
+      "tip": [
+        "Manages the Android SDK installation.",
+        "Includes commands to install, update, remove, and list available and installed SDK packages"
+      ],
+      "option": [
+        {
+          "name": "--ignore-outdated-xmls",
+          "tip": [
+            "When installing or updating packages, do not update other packages' XML files"
+          ]
+        },
+        {
+          "name": "--platform",
+          "usage": [
+            "--platform=<PARAM>"
+          ],
+          "tip": [
+            "Target platform `<os>_<arch>` (for example, `linux_x86_64`, `mac_arm64`, or `windows_x86`); defaults to the current host"
+          ],
+          "next": []
+        }
+      ],
+      "next": [
+        {
+          "name": "install",
+          "usage": [
+            "install [-h] [--beta] [--canary] [--force] [--no-downgrade] <package>[@<version>]"
+          ],
+          "tip": [
+            "Installs SDK packages"
+          ],
+          "option": [
+            {
+              "name": "--beta",
+              "tip": [
+                "Include beta packages"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "Include canary packages"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force downgrading to an older version"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "When installing or updating packages, do not update other packages' XML files"
+              ]
+            },
+            {
+              "name": "--no-downgrade",
+              "tip": [
+                "Skip packages that would be downgraded"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "Target platform `<os>_<arch>` (for example, `linux_x86_64`, `mac_arm64`, or `windows_x86`); defaults to the current host"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--all] [--all-versions] [--beta] [--canary] [<pattern>]"
+          ],
+          "tip": [
+            "Lists installed and available SDK packages"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Show all packages available in the repository"
+              ]
+            },
+            {
+              "name": "--all-versions",
+              "tip": [
+                "Show all versions for each package"
+              ]
+            },
+            {
+              "name": "--beta",
+              "tip": [
+                "Include beta packages"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "Include canary packages"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "When installing or updating packages, do not update other packages' XML files"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "Target platform `<os>_<arch>` (for example, `linux_x86_64`, `mac_arm64`, or `windows_x86`); defaults to the current host"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] <package>"
+          ],
+          "tip": [
+            "Removes packages from the SDK"
+          ],
+          "option": [
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "When installing or updating packages, do not update other packages' XML files"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "Target platform `<os>_<arch>` (for example, `linux_x86_64`, `mac_arm64`, or `windows_x86`); defaults to the current host"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [-h] [--beta] [--canary] [--force] [--no-downgrade] [<package>]"
+          ],
+          "tip": [
+            "Updates one or all packages to the latest version"
+          ],
+          "option": [
+            {
+              "name": "--beta",
+              "tip": [
+                "Include beta packages"
+              ]
+            },
+            {
+              "name": "--canary",
+              "tip": [
+                "Include canary packages"
+              ]
+            },
+            {
+              "name": "--force",
+              "tip": [
+                "Force downgrading to an older version"
+              ]
+            },
+            {
+              "name": "--ignore-outdated-xmls",
+              "tip": [
+                "When installing or updating packages, do not update other packages' XML files"
+              ]
+            },
+            {
+              "name": "--no-downgrade",
+              "tip": [
+                "Skip packages that would be downgraded"
+              ]
+            },
+            {
+              "name": "--platform",
+              "usage": [
+                "--platform=<PARAM>"
+              ],
+              "tip": [
+                "Target platform `<os>_<arch>` (for example, `linux_x86_64`, `mac_arm64`, or `windows_x86`); defaults to the current host"
+              ],
+              "next": [
+                {
+                  "name": "linux_x86_64"
+                },
+                {
+                  "name": "mac_arm64"
+                },
+                {
+                  "name": "windows_x86"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "skills",
+      "usage": [
+        "skills [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Manages Android CLI skills.",
+        "Includes commands to install, remove, list, and search for skills by keyword"
+      ],
+      "next": [
+        {
+          "name": "add",
+          "usage": [
+            "add [-h] [--agent=PARAM] [--all] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "Installs a specific skill by its ID to your environment"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "Comma-separated list of agents to install the skill for.",
+                "If not specified, skills are installed for all detected agents"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "Install all skills"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "Path to a project root"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "find",
+          "usage": [
+            "find [-h] keyword"
+          ],
+          "tip": [
+            "Searches for available skills in the repository matching a keyword"
+          ]
+        },
+        {
+          "name": "list",
+          "usage": [
+            "list [-h] [--agent=PARAM] [--long] [--project=PARAM]"
+          ],
+          "tip": [
+            "Lists installed and available skills"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "Comma-separated list of agents to list the installed skills for.",
+                "If not specified, skills available for installation are listed"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--long",
+              "tip": [
+                "Use long output format"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "Path to a project root"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "remove",
+          "usage": [
+            "remove [-h] [--agent=PARAM] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "Removes an installed skill by its ID"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "Comma-separated list of agents to remove the skill for.",
+                "If not specified, skills are removed for all detected agents"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "Path to a project root"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "usage": [
+            "update [-h] [--agent=PARAM] [--all] [--project=PARAM] [<skill>]"
+          ],
+          "tip": [
+            "Updates installed skills"
+          ],
+          "option": [
+            {
+              "name": "--agent",
+              "usage": [
+                "--agent <AGENT,...>"
+              ],
+              "tip": [
+                "Comma-separated list of agents to update the skill for.",
+                "If not specified, skills are updated for all detected agents"
+              ],
+              "separator": ",",
+              "next": [
+                {
+                  "name": "adal"
+                },
+                {
+                  "name": "aider-desk"
+                },
+                {
+                  "name": "amp"
+                },
+                {
+                  "name": "android-studio"
+                },
+                {
+                  "name": "antigravity"
+                },
+                {
+                  "name": "antigravity-cli"
+                },
+                {
+                  "name": "antigravity-ide"
+                },
+                {
+                  "name": "astrbot"
+                },
+                {
+                  "name": "augment"
+                },
+                {
+                  "name": "autohand-code"
+                },
+                {
+                  "name": "bob"
+                },
+                {
+                  "name": "claude-code"
+                },
+                {
+                  "name": "cline"
+                },
+                {
+                  "name": "codearts-agent"
+                },
+                {
+                  "name": "codebuddy"
+                },
+                {
+                  "name": "codemaker"
+                },
+                {
+                  "name": "codestudio"
+                },
+                {
+                  "name": "codex"
+                },
+                {
+                  "name": "command-code"
+                },
+                {
+                  "name": "common"
+                },
+                {
+                  "name": "continue"
+                },
+                {
+                  "name": "cortex-code"
+                },
+                {
+                  "name": "crush"
+                },
+                {
+                  "name": "cursor"
+                },
+                {
+                  "name": "deep-agents"
+                },
+                {
+                  "name": "devin"
+                },
+                {
+                  "name": "dexto"
+                },
+                {
+                  "name": "droid"
+                },
+                {
+                  "name": "firebender"
+                },
+                {
+                  "name": "forgecode"
+                },
+                {
+                  "name": "gemini"
+                },
+                {
+                  "name": "github-copilot"
+                },
+                {
+                  "name": "goose"
+                },
+                {
+                  "name": "hermes-agent"
+                },
+                {
+                  "name": "iflow"
+                },
+                {
+                  "name": "inference-sh"
+                },
+                {
+                  "name": "jazz"
+                },
+                {
+                  "name": "junie"
+                },
+                {
+                  "name": "kilo-code"
+                },
+                {
+                  "name": "kimi-code-cli"
+                },
+                {
+                  "name": "kiro"
+                },
+                {
+                  "name": "kode"
+                },
+                {
+                  "name": "lingma"
+                },
+                {
+                  "name": "loaf"
+                },
+                {
+                  "name": "mcpjam"
+                },
+                {
+                  "name": "mistral-vibe"
+                },
+                {
+                  "name": "moxby"
+                },
+                {
+                  "name": "mux"
+                },
+                {
+                  "name": "neovate"
+                },
+                {
+                  "name": "ona"
+                },
+                {
+                  "name": "openclaw"
+                },
+                {
+                  "name": "opencode"
+                },
+                {
+                  "name": "openhands"
+                },
+                {
+                  "name": "pi"
+                },
+                {
+                  "name": "pochi"
+                },
+                {
+                  "name": "qoder"
+                },
+                {
+                  "name": "qoder-cn"
+                },
+                {
+                  "name": "qwen-code"
+                },
+                {
+                  "name": "reasonix"
+                },
+                {
+                  "name": "replit"
+                },
+                {
+                  "name": "roo-code"
+                },
+                {
+                  "name": "rovodev"
+                },
+                {
+                  "name": "tabnine-cli"
+                },
+                {
+                  "name": "terramind"
+                },
+                {
+                  "name": "tinycloud"
+                },
+                {
+                  "name": "trae"
+                },
+                {
+                  "name": "trae-cn"
+                },
+                {
+                  "name": "universal"
+                },
+                {
+                  "name": "warp"
+                },
+                {
+                  "name": "windsurf"
+                },
+                {
+                  "name": "zed"
+                },
+                {
+                  "name": "zencoder"
+                },
+                {
+                  "name": "zenflow"
+                }
+              ]
+            },
+            {
+              "name": "--all",
+              "tip": [
+                "Update all installed skills"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "Path to a project root"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "studio",
+      "usage": [
+        "studio [-h] [COMMAND]"
+      ],
+      "tip": [
+        "Connects Android CLI to a running Android Studio instance to analyze files, find declarations and usages, render Compose previews, and look up library versions"
+      ],
+      "next": [
+        {
+          "name": "analyze-file",
+          "usage": [
+            "analyze-file [-h] [--pid=PARAM] [--project=PARAM] <path>"
+          ],
+          "tip": [
+            "Analyzes a file in Android Studio"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "check",
+          "usage": [
+            "check [-h]"
+          ],
+          "tip": [
+            "Checks the status of running Android Studio instances"
+          ]
+        },
+        {
+          "name": "find-declaration",
+          "usage": [
+            "find-declaration [-h] [--context-file=PARAM] [--pid=PARAM] [--project=PARAM] [--short] <symbol>"
+          ],
+          "tip": [
+            "Finds the declaration of a symbol"
+          ],
+          "option": [
+            {
+              "name": "--context-file",
+              "usage": [
+                "--context-file=<PARAM>"
+              ],
+              "tip": [
+                "Optional path to a file containing a reference to the symbol, relative to the current directory or absolute"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            },
+            {
+              "name": "--short",
+              "tip": [
+                "Only show the location in files with matches"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "find-usages",
+          "usage": [
+            "find-usages [-h] [--context-file=PARAM] [--pid=PARAM] [--project=PARAM] [--short] <symbol>"
+          ],
+          "tip": [
+            "Finds usages of a symbol"
+          ],
+          "option": [
+            {
+              "name": "--context-file",
+              "usage": [
+                "--context-file=<PARAM>"
+              ],
+              "tip": [
+                "Optional path to a file containing a reference to the symbol, relative to the current directory or absolute"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            },
+            {
+              "name": "--short",
+              "tip": [
+                "Only show the location in files with matches"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "open-file",
+          "usage": [
+            "open-file [-h] [--pid=PARAM] [--project=PARAM] <path>"
+          ],
+          "tip": [
+            "Opens a file in Android Studio"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "render-compose-preview",
+          "usage": [
+            "render-compose-preview [-h] [--output-image-file=PARAM] [--pid=PARAM] [--print-semantics] [--project=PARAM] <path> <composable>"
+          ],
+          "tip": [
+            "Renders a Compose preview in Android Studio"
+          ],
+          "option": [
+            {
+              "name": "--output-image-file",
+              "usage": [
+                "--output-image-file=<PARAM>"
+              ],
+              "tip": [
+                "The filename to write the resulting image to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--print-semantics",
+              "tip": [
+                "If `true`, prints out the semantics tree"
+              ]
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "version-lookup",
+          "usage": [
+            "version-lookup [-h] [--pid=PARAM] [--project=PARAM] <artifacts...>"
+          ],
+          "tip": [
+            "Looks up the latest available versions of Maven artifacts, Android versions, and SDK tools"
+          ],
+          "option": [
+            {
+              "name": "--pid",
+              "usage": [
+                "--pid=<PARAM>"
+              ],
+              "tip": [
+                "The PID of the Android Studio instance to connect to"
+              ],
+              "next": []
+            },
+            {
+              "name": "--project",
+              "usage": [
+                "--project=<PARAM>"
+              ],
+              "tip": [
+                "The name or path of the project open in Android Studio to query.",
+                "Use `android studio check` to get the names of available projects"
+              ],
+              "next": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "usage": [
+        "update [-h] [--url=PARAM]"
+      ],
+      "tip": [
+        "Updates Android CLI to the latest version"
+      ],
+      "option": [
+        {
+          "name": "--url",
+          "usage": [
+            "--url=<PARAM>"
+          ],
+          "tip": [
+            "The URL to download the update from"
+          ],
+          "next": []
+        }
+      ]
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Shows the help message for the specified command."
+      ]
+    },
+    {
+      "name": "--no-metrics",
+      "tip": [
+        "Disable data collection."
+      ]
+    },
+    {
+      "name": "--sdk",
+      "usage": [
+        "--sdk=<PARAM>"
+      ],
+      "tip": [
+        "Path to the Android SDK."
+      ],
+      "next": []
+    },
+    {
+      "name": "--verbose",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --verbose"
+      ],
+      "tip": [
+        "Enable verbose output for troubleshooting."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version information and exit."
+      ]
+    }
+  ]
+}

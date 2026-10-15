@@ -1,0 +1,657 @@
+{
+  "meta": {
+    "url": "https://getfresh.dev/docs",
+    "description": [
+      "A terminal text editor with multi-cursor support."
+    ]
+  },
+  "option": [
+    {
+      "name": "--attach",
+      "alias": [
+        "-a"
+      ],
+      "usage": [
+        "-a, --attach [<NAME>]"
+      ],
+      "tip": [
+        "Attach to a daemon.",
+        "Use -a for the current directory, -a NAME for a named daemon."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cmd",
+      "usage": [
+        "--cmd <COMMAND>..."
+      ],
+      "tip": [
+        "Run a command instead of opening files.",
+        "Takes the rest of the line: daemon, config, grammar, init, command, update, script, help, workspace, agent."
+      ],
+      "next": [
+        {
+          "name": "agent",
+          "tip": [
+            "Manage live workspaces and their agent state."
+          ],
+          "next": [
+            {
+              "name": "explain",
+              "usage": [
+                "explain <ID> [--json]"
+              ],
+              "tip": [
+                "Explain why a workspace shows its agent state.",
+                "Shows the rule, evidence, and timing."
+              ]
+            },
+            {
+              "name": "get",
+              "usage": [
+                "get <ID> [--json]"
+              ],
+              "tip": [
+                "Show one workspace.",
+                "ID is a workspaceId, window number, or dock name."
+              ]
+            },
+            {
+              "name": "list",
+              "usage": [
+                "list [--json]"
+              ],
+              "tip": [
+                "List live workspaces and their agent state."
+              ]
+            },
+            {
+              "name": "start",
+              "usage": [
+                "start <CMD> [--prompt TEXT] [--auto] [--no-teach] [--no-wait] [--timeout SECS] [--json]"
+              ],
+              "tip": [
+                "Launch CMD in this workspace and confirm it came up.",
+                "Exit 1 if it does not."
+              ],
+              "option": [
+                {
+                  "name": "--auto",
+                  "tip": [
+                    "Proceed automatically."
+                  ]
+                },
+                {
+                  "name": "--no-teach",
+                  "tip": [
+                    "Disable teaching output."
+                  ]
+                },
+                {
+                  "name": "--no-wait",
+                  "tip": [
+                    "Do not wait for the command to come up."
+                  ]
+                },
+                {
+                  "name": "--prompt",
+                  "usage": [
+                    "--prompt <TEXT>"
+                  ],
+                  "tip": [
+                    "Prompt text passed to the launched command."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <SECS>"
+                  ],
+                  "tip": [
+                    "Timeout in seconds."
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "wait",
+              "usage": [
+                "wait <ID> [--until STATE[,STATE]] [--timeout SECS] [--json]"
+              ],
+              "tip": [
+                "Block until the agent is quiet or reaches STATE.",
+                "Exit 3 on timeout."
+              ],
+              "option": [
+                {
+                  "name": "--timeout",
+                  "usage": [
+                    "--timeout <SECS>"
+                  ],
+                  "tip": [
+                    "Timeout in seconds."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--until",
+                  "usage": [
+                    "--until <STATE[,STATE]>"
+                  ],
+                  "tip": [
+                    "Block until the agent reaches one of these states.",
+                    "Possible values: working, blocked, done, idle, unknown."
+                  ],
+                  "separator": ",",
+                  "next": [
+                    {
+                      "name": "blocked",
+                      "tip": [
+                        "Blocked state."
+                      ]
+                    },
+                    {
+                      "name": "done",
+                      "tip": [
+                        "Done state."
+                      ]
+                    },
+                    {
+                      "name": "idle",
+                      "tip": [
+                        "Idle state."
+                      ]
+                    },
+                    {
+                      "name": "unknown",
+                      "tip": [
+                        "Unknown state."
+                      ]
+                    },
+                    {
+                      "name": "working",
+                      "tip": [
+                        "Working state."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command",
+          "tip": [
+            "Run or list registered commands."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [QUERY]"
+              ],
+              "tip": [
+                "List registered commands (built-in + plugin)."
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run \"<name>\""
+              ],
+              "tip": [
+                "Run a registered command by its command-palette name."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "config",
+          "tip": [
+            "Inspect the effective configuration or the directories Fresh uses."
+          ],
+          "next": [
+            {
+              "name": "paths",
+              "tip": [
+                "Show the directories used by Fresh."
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Print the effective configuration."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grammar",
+          "tip": [
+            "Inspect syntax grammars."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "tip": [
+                "List all available grammars (with source info)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "help",
+          "tip": [
+            "Feature guides with generated reference (topics: tour, script, plugin)."
+          ],
+          "next": [
+            {
+              "name": "plugin",
+              "tip": [
+                "Writing init.ts and plugins (TypeScript).",
+                "Customization lives in ~/.config/fresh/init.ts."
+              ]
+            },
+            {
+              "name": "script",
+              "tip": [
+                "Scripting the editor (TypeScript).",
+                "Drive a running Fresh with the same API plugins use."
+              ]
+            },
+            {
+              "name": "tour",
+              "tip": [
+                "Guided code tours.",
+                "Walk through a codebase from a JSON manifest."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "init",
+          "tip": [
+            "Initialize a new plugin / theme / language."
+          ],
+          "next": [
+            {
+              "name": "check",
+              "tip": [
+                "Syntax-check ~/.config/fresh/init.ts without running it."
+              ]
+            },
+            {
+              "name": "language",
+              "tip": [
+                "Initialize a new language.",
+                "Syntax highlighting, LSP, and language configuration."
+              ]
+            },
+            {
+              "name": "plugin",
+              "tip": [
+                "Initialize a new plugin.",
+                "Extend Fresh with custom commands and functionality."
+              ]
+            },
+            {
+              "name": "reload",
+              "tip": [
+                "Re-read and run init.ts in the running editor."
+              ]
+            },
+            {
+              "name": "theme",
+              "tip": [
+                "Initialize a new theme.",
+                "Custom color schemes and styling."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "script",
+          "tip": [
+            "Drive a running editor with TypeScript.",
+            "Verbs: api, check, run, types."
+          ],
+          "next": [
+            {
+              "name": "api",
+              "usage": [
+                "api <query>"
+              ],
+              "tip": [
+                "Search the API by name or description."
+              ]
+            },
+            {
+              "name": "check",
+              "usage": [
+                "check [FILE|-]"
+              ],
+              "tip": [
+                "Parse and check editor.* names, without running."
+              ]
+            },
+            {
+              "name": "run",
+              "usage": [
+                "run [FILE|-]"
+              ],
+              "tip": [
+                "Evaluate against this workspace (default: stdin)."
+              ]
+            },
+            {
+              "name": "types",
+              "tip": [
+                "Show paths of the API declaration files."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "session",
+          "alias": [
+            "daemon"
+          ],
+          "usage": [
+            "daemon|session"
+          ],
+          "tip": [
+            "Manage background daemons (list, attach, new, kill, info, open-file).",
+            "session is the older name and still works."
+          ],
+          "next": [
+            {
+              "name": "attach",
+              "usage": [
+                "attach [NAME]"
+              ],
+              "tip": [
+                "Attach to a daemon (NAME or current directory)."
+              ]
+            },
+            {
+              "name": "info",
+              "tip": [
+                "Show running daemons and how to attach."
+              ]
+            },
+            {
+              "name": "kill",
+              "usage": [
+                "kill [NAME]"
+              ],
+              "tip": [
+                "Terminate a daemon (current directory, or NAME)."
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List active daemons."
+              ]
+            },
+            {
+              "name": "new",
+              "usage": [
+                "new <NAME>"
+              ],
+              "tip": [
+                "Start a new named daemon."
+              ]
+            },
+            {
+              "name": "open-file",
+              "usage": [
+                "open-file <NAME> <FILES> [--wait]"
+              ],
+              "tip": [
+                "Open files in a daemon.",
+                "--wait blocks until done."
+              ],
+              "option": [
+                {
+                  "name": "--wait",
+                  "tip": [
+                    "Block until the user dismisses the popup or closes the buffer.",
+                    "Use '.' as NAME for the current-directory daemon."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "update",
+          "tip": [
+            "Check for and install updates."
+          ]
+        },
+        {
+          "name": "workspace",
+          "tip": [
+            "Inspect workspaces tracked by the dock."
+          ],
+          "next": [
+            {
+              "name": "list",
+              "usage": [
+                "list [--json]"
+              ],
+              "tip": [
+                "List every workspace the dock tracks."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--config",
+      "usage": [
+        "--config <PATH>"
+      ],
+      "tip": [
+        "Path to configuration file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--event-log",
+      "usage": [
+        "--event-log <LOG_FILE>"
+      ],
+      "tip": [
+        "Enable event logging to the specified file."
+      ],
+      "next": []
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Print help (see a summary with '-h')."
+      ]
+    },
+    {
+      "name": "--locale",
+      "usage": [
+        "--locale <LOCALE>"
+      ],
+      "tip": [
+        "Override the locale (e.g. 'en', 'ja', 'zh-CN')."
+      ],
+      "next": [
+        {
+          "name": "en",
+          "tip": [
+            "English."
+          ]
+        },
+        {
+          "name": "es",
+          "tip": [
+            "Spanish."
+          ]
+        },
+        {
+          "name": "fr",
+          "tip": [
+            "French."
+          ]
+        },
+        {
+          "name": "ja",
+          "tip": [
+            "Japanese."
+          ]
+        },
+        {
+          "name": "zh-CN",
+          "tip": [
+            "Simplified Chinese."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--log-file",
+      "usage": [
+        "--log-file <PATH>"
+      ],
+      "tip": [
+        "Path to log file for editor diagnostics."
+      ],
+      "next": []
+    },
+    {
+      "name": "--no-init",
+      "tip": [
+        "Skip `~/.config/fresh/init.ts` for this launch."
+      ]
+    },
+    {
+      "name": "--no-plugins",
+      "tip": [
+        "Disable plugin loading."
+      ]
+    },
+    {
+      "name": "--no-restore",
+      "tip": [
+        "Don't restore the previous workspace.",
+        "Hot-exit content (unsaved modified files and unnamed buffers) is still restored so in-progress work is not lost."
+      ]
+    },
+    {
+      "name": "--no-upgrade-check",
+      "tip": [
+        "Disable upgrade checking and anonymous telemetry."
+      ]
+    },
+    {
+      "name": "--restore",
+      "tip": [
+        "Force restore of the previous workspace, overriding `editor.restore_previous_session = false` in the config.",
+        "Cannot be combined with --no-restore."
+      ]
+    },
+    {
+      "name": "--safe",
+      "tip": [
+        "Safe mode: skip init.ts AND all plugins (recovery from a bad config)."
+      ]
+    },
+    {
+      "name": "--session-name",
+      "usage": [
+        "--session-name <NAME>"
+      ],
+      "tip": [
+        "Name a separate daemon with --web when one already runs in the directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--skill",
+      "usage": [
+        "--skill[=<TOPIC>]"
+      ],
+      "tip": [
+        "Print the guide to driving this editor from a shell.",
+        "Guides: tour, script, plugin."
+      ],
+      "next": [
+        {
+          "name": "plugin",
+          "tip": [
+            "Writing init.ts and plugins (TypeScript).",
+            "Customization lives in ~/.config/fresh/init.ts."
+          ]
+        },
+        {
+          "name": "script",
+          "tip": [
+            "Scripting the editor (TypeScript).",
+            "Drive a running Fresh with the same API plugins use."
+          ]
+        },
+        {
+          "name": "tour",
+          "tip": [
+            "Guided code tours.",
+            "Walk through a codebase from a JSON manifest."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "--stdin",
+      "tip": [
+        "Read content from stdin (alternative to using \"-\" as filename)."
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Print version."
+      ]
+    },
+    {
+      "name": "--web",
+      "usage": [
+        "--web [<ADDR>]"
+      ],
+      "tip": [
+        "Start the same daemon and additionally serve the editor to a browser.",
+        "Available in builds with the experimental web feature."
+      ],
+      "next": []
+    }
+  ],
+  "global_option": [
+    {
+      "name": "--json",
+      "tip": [
+        "Output the result as JSON."
+      ]
+    }
+  ]
+}

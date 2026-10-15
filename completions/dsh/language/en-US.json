@@ -1,0 +1,345 @@
+{
+  "meta": {
+    "url": "https://github.com/deepseek-ai/deepseek-harness",
+    "description": [
+      "Boot a DeepSeek Harness profile — an ordered stack of plugin-bundle patch layers under your own overrides."
+    ]
+  },
+  "next": [
+    {
+      "name": "acp",
+      "tip": [
+        "Serve automation clients over Agent Client Protocol stdio."
+      ],
+      "example": [
+        "dsh --profile acp"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "headless",
+      "usage": [
+        "headless [task...]"
+      ],
+      "tip": [
+        "Answer one task and exit.",
+        "The answer goes to stdout and diagnostics to stderr."
+      ],
+      "example": [
+        "dsh headless \"run the tests\""
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Write newline-delimited run events to stdout instead of the final message."
+          ]
+        },
+        {
+          "name": "--session-id",
+          "usage": [
+            "--session-id <id>"
+          ],
+          "tip": [
+            "Adopt the persisted Session with this id.",
+            "An unknown id is an error."
+          ],
+          "next": []
+        }
+      ]
+    },
+    {
+      "name": "plugin",
+      "usage": [
+        "plugin --profile <name> [args...]"
+      ],
+      "tip": [
+        "Manage a profile's plugins by forwarding the remaining arguments to pnpm in the profile directory."
+      ],
+      "example": [
+        "dsh plugin --profile tui add <package>"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--profile",
+          "usage": [
+            "--profile <name>"
+          ],
+          "tip": [
+            "The profile whose plugins to manage.",
+            "Initialized on first use."
+          ],
+          "next": [
+            {
+              "name": "acp"
+            },
+            {
+              "name": "headless"
+            },
+            {
+              "name": "sdk"
+            },
+            {
+              "name": "sdk-minimal"
+            },
+            {
+              "name": "web"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk",
+      "tip": [
+        "Serve DeepSeek Harness SDK clients over stdio JSON-RPC."
+      ],
+      "example": [
+        "dsh --profile sdk"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sdk-minimal",
+      "tip": [
+        "Serve DeepSeek Harness SDK clients over stdio JSON-RPC."
+      ],
+      "example": [
+        "dsh --profile sdk-minimal"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "web",
+      "tip": [
+        "Serve the DeepSeek Harness browser UI."
+      ],
+      "example": [
+        "dsh web --port 8080"
+      ],
+      "option": [
+        {
+          "name": "--help",
+          "alias": [
+            "-h"
+          ],
+          "usage": [
+            "-h, --help"
+          ],
+          "tip": [
+            "Show this help."
+          ]
+        },
+        {
+          "name": "--host",
+          "usage": [
+            "--host <host>"
+          ],
+          "tip": [
+            "Bind address: one concrete IPv4 or IPv6 literal of a local interface.",
+            "Wildcard addresses are rejected."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-open",
+          "tip": [
+            "Do not open the Web UI in the default browser."
+          ]
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <port>"
+          ],
+          "tip": [
+            "Listen port.",
+            "Pass 0 to let the OS pick a free one."
+          ],
+          "next": []
+        },
+        {
+          "name": "--trusted-host",
+          "usage": [
+            "--trusted-host <authority...>"
+          ],
+          "tip": [
+            "Extra authority the /api browser-trust fence accepts (host or host:port; repeatable)."
+          ],
+          "repeat": 99,
+          "next": []
+        }
+      ]
+    }
+  ],
+  "option": [
+    {
+      "name": "--dump-config",
+      "tip": [
+        "Print the composed profile tree and exit."
+      ]
+    },
+    {
+      "name": "--dump-config-schema",
+      "tip": [
+        "Print JSON Schema for profile entries and patches without mounting."
+      ]
+    },
+    {
+      "name": "--dump-default-config",
+      "tip": [
+        "Print the profile tree without its user layer or --patch overlays and exit."
+      ]
+    },
+    {
+      "name": "--from-default-profile",
+      "usage": [
+        "--from-default-profile <name>"
+      ],
+      "tip": [
+        "Initialize a new custom profile from a shipped profile template."
+      ],
+      "next": [
+        {
+          "name": "acp"
+        },
+        {
+          "name": "headless"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "sdk-minimal"
+        },
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "--help",
+      "alias": [
+        "-h"
+      ],
+      "usage": [
+        "-h, --help"
+      ],
+      "tip": [
+        "Show the launcher help."
+      ]
+    },
+    {
+      "name": "--patch",
+      "usage": [
+        "--patch <path>"
+      ],
+      "tip": [
+        "Extra patch-list overlay applied after the profile layer (repeatable)."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <name>"
+      ],
+      "tip": [
+        "The profile under $DSH_HOME/profiles to boot."
+      ],
+      "next": [
+        {
+          "name": "acp"
+        },
+        {
+          "name": "headless"
+        },
+        {
+          "name": "sdk"
+        },
+        {
+          "name": "sdk-minimal"
+        },
+        {
+          "name": "web"
+        }
+      ]
+    },
+    {
+      "name": "--version",
+      "alias": [
+        "-V"
+      ],
+      "usage": [
+        "-V, --version"
+      ],
+      "tip": [
+        "Output the version number."
+      ]
+    }
+  ]
+}
