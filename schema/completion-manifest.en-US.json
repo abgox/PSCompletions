@@ -383,6 +383,7 @@
       "properties": {
         "url": {
           "description": "Homepage or repository address of the completion command",
+          "format": "uri",
           "allOf": [
             {
               "$ref": "#/definitions/string"
@@ -390,6 +391,12 @@
             {
               "pattern": "^https?://",
               "errorMessage": "It must be a valid http/https URL"
+            },
+            {
+              "not": {
+                "pattern": "/$"
+              },
+              "errorMessage": "URL must not end with a trailing slash"
             }
           ]
         },

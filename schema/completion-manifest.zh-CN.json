@@ -383,6 +383,7 @@
       "properties": {
         "url": {
           "description": "命令的主页或仓库地址",
+          "format": "uri",
           "allOf": [
             {
               "$ref": "#/definitions/string"
@@ -390,6 +391,12 @@
             {
               "pattern": "^https?://",
               "errorMessage": "它必须是一个有效的 http/https URL"
+            },
+            {
+              "not": {
+                "pattern": "/$"
+              },
+              "errorMessage": "URL 末尾不允许带斜杠"
             }
           ]
         },
