@@ -42,6 +42,25 @@ fn empty_static() -> Vec<LuaItem> {
 }
 
 #[test]
+fn explicit_return_skips_malformed_rows_and_resolves_localized_tip() {
+    let script = r#"
+        return {
+            { name = "good", tip = { ["zh-CN"] = "好", ["en-US"] = "Good" } },
+            { text = "no-name" },
+            { name = 42 },
+            "stray",
+        }
+    "#;
+    let items = run_hook_with_timeout(&ctx(), script, &empty_static(), Duration::from_secs(2))
+        .expect("malformed rows must not abort the hook");
+    // Nameless rows and non-table rows are dropped; a numeric name coerces like `psc.add`.
+    assert_eq!(items.len(), 2);
+    assert_eq!(items[0].text, "good");
+    assert_eq!(items[0].tip.as_deref(), Some("Good"));
+    assert_eq!(items[1].text, "42");
+}
+
+#[test]
 fn sandbox_disables_system_access() {
     let lua = new_sandbox_lua().unwrap();
     let cases: &[(&str, &str)] = &[

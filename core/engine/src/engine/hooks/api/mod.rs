@@ -190,14 +190,32 @@ pub(crate) fn table_to_items(
     lua: &Lua,
     t: &Table,
     lazy: &mut Vec<LazyEntry>,
+    language: &str,
 ) -> mlua::Result<Vec<LuaItem>> {
     let mut out = Vec::new();
     for i in 1..=t.raw_len() {
-        let item: Table = t.raw_get(i)?;
-        let text: String = item.get("name")?;
-        let tip = take_lazy_or_string(lua, &item, "tip", LazyField::Tip, &text, lazy)?;
-        let usage = take_lazy_or_string(lua, &item, "usage", LazyField::Usage, &text, lazy)?;
-        let example = take_lazy_or_string(lua, &item, "example", LazyField::Example, &text, lazy)?;
+        // Malformed rows are skipped like the `psc.add` path, never aborting the hook.
+        let Ok(item) = t.raw_get::<Table>(i) else {
+            continue;
+        };
+        let Ok(name) = item.get::<Option<String>>("name") else {
+            continue;
+        };
+        let Some(text) = name.filter(|n| !n.trim().is_empty()) else {
+            continue;
+        };
+        let tip = take_lazy_or_string(lua, &item, "tip", LazyField::Tip, &text, lazy, language)?;
+        let usage =
+            take_lazy_or_string(lua, &item, "usage", LazyField::Usage, &text, lazy, language)?;
+        let example = take_lazy_or_string(
+            lua,
+            &item,
+            "example",
+            LazyField::Example,
+            &text,
+            lazy,
+            language,
+        )?;
         let symbol: Option<String> = item.get("symbol")?;
         let repeat: i32 = item
             .get::<Option<i32>>("repeat_count")?
@@ -227,6 +245,7 @@ fn take_lazy_or_string(
     field: LazyField,
     text: &str,
     lazy: &mut Vec<LazyEntry>,
+    language: &str,
 ) -> mlua::Result<Option<String>> {
     if let Value::Function(f) = item.get::<Value>(key)? {
         lazy.push(LazyEntry {
@@ -237,7 +256,7 @@ fn take_lazy_or_string(
         return Ok(None);
     }
     match key {
-        "tip" => Ok(item.get::<Option<String>>(key)?),
+        "tip" => resolve_localized(lua, Some(item.get(key)?), language),
         _ => resolve_usage_example(lua, item.get(key)?),
     }
 }

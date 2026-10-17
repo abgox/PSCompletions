@@ -258,7 +258,7 @@ pub(crate) fn run_hook_keepalive_with_timeout(
         // contribution) is the result. Reorder to put dynamic first.
         Value::Nil => {
             let snapshot = add_target.borrow().clone();
-            let all = table_to_items(&lua, &snapshot, &mut lazy)?;
+            let all = table_to_items(&lua, &snapshot, &mut lazy, &context.language)?;
             let mut dynamic = Vec::new();
             let mut stat = Vec::new();
             for item in all {
@@ -271,7 +271,7 @@ pub(crate) fn run_hook_keepalive_with_timeout(
             dynamic.extend(stat);
             dynamic
         }
-        Value::Table(t) => table_to_items(&lua, &t, &mut lazy)?,
+        Value::Table(t) => table_to_items(&lua, &t, &mut lazy, &context.language)?,
         // A stray return value (e.g. `return "x"`) is almost always a hook bug; fail loudly
         // instead of silently dropping every dynamic item.
         other => {
