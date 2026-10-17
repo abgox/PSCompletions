@@ -57,7 +57,7 @@ pub fn cmd_completion(
             let mut comp = std::mem::take(ensure_completion_map(settings));
             for n in &names {
                 // Reset back to the manifest's config defaults; empty defaults are not persisted.
-                let defaults = completion_defaults(&data_dir, n);
+                let defaults = completion_defaults(&data_dir, n, &settings.language());
                 if defaults.as_object().map(|o| o.is_empty()).unwrap_or(true) {
                     comp.remove(n.as_str());
                 } else {
@@ -95,7 +95,7 @@ pub fn cmd_completion(
             if !valid {
                 return fail(out, msg_cli(lang, "sub_cmd"), json);
             }
-            let defaults = completion_defaults(&data_dir, &name);
+            let defaults = completion_defaults(&data_dir, &name, &settings.language());
             if let Some(n) = settings
                 .config
                 .get_mut("completion")

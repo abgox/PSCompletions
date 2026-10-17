@@ -363,19 +363,35 @@ fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> 
 }
 
 /// Manifest-derived per-completion config defaults (the manifest `config` items).
-pub fn completion_defaults(data_dir: &str, name: &str) -> Value {
+/// Manifest `config` defaults for a completion. Reads the manifest in the
+/// requested language first (same selection as `build_default_data`), falling
+/// back to the manifest's first declared language.
+pub fn completion_defaults(data_dir: &str, name: &str, language: &str) -> Value {
     let mut map = serde_json::Map::new();
     let config_path = format!("{data_dir}/completions/{name}/config.json");
     if let Some(text) = crate::data::read_text(&config_path) {
         if let Ok(config) = serde_json::from_str::<Value>(&text) {
-            let lang = config
+            let declared = config
                 .get("language")
                 .and_then(|l| l.as_array())
                 .and_then(|a| a.first())
                 .and_then(|v| v.as_str())
                 .unwrap_or("en-US");
-            let manifest_path = format!("{data_dir}/completions/{name}/language/{lang}.json");
-            if let Some(text) = crate::data::read_text(&manifest_path) {
+            let requested = if language.starts_with("zh") {
+                "zh-CN"
+            } else {
+                "en-US"
+            };
+            let langs = if requested == declared {
+                vec![requested]
+            } else {
+                vec![requested, declared]
+            };
+            for lang in langs {
+                let manifest_path = format!("{data_dir}/completions/{name}/language/{lang}.json");
+                let Some(text) = crate::data::read_text(&manifest_path) else {
+                    continue;
+                };
                 if let Ok(manifest) = serde_json::from_str::<Value>(&text) {
                     if let Some(items) = manifest.get("config").and_then(|x| x.as_array()) {
                         for item in items {
@@ -386,6 +402,7 @@ pub fn completion_defaults(data_dir: &str, name: &str) -> Value {
                             }
                         }
                     }
+                    break;
                 }
             }
         }
@@ -454,47 +471,25 @@ pub fn refresh_settings_after_add(
         Vec::new()
     };
 
-    // Per-completion config defaults from the first language manifest's `config` field.
-    let lang = config
-        .get("language")
-        .and_then(|l| l.as_array())
-        .and_then(|a| a.first())
-        .and_then(|v| v.as_str())
-        .unwrap_or("en-US");
-    let manifest_path = format!("{data_dir}/completions/{name}/language/{lang}.json");
-    if let Some(text) = crate::data::read_text(&manifest_path) {
-        if let Ok(manifest) = serde_json::from_str::<Value>(&text) {
-            let defaults = manifest
-                .get("config")
-                .cloned()
-                .unwrap_or_else(|| serde_json::json!([]));
-            if let Some(items) = defaults.as_array() {
-                let mut map = serde_json::Map::new();
-                for item in items {
-                    if let Some(k) = item.get("name").and_then(|v| v.as_str()) {
-                        if let Some(v) = item.get("value") {
-                            map.insert(k.to_string(), v.clone());
-                        }
-                    }
-                }
-                if !map.is_empty() {
-                    if !settings.config.is_object() {
-                        settings.config = serde_json::json!({});
-                    }
-                    let obj = settings.config.as_object_mut().unwrap();
-                    let comp = obj
-                        .entry("completion")
-                        .or_insert_with(|| serde_json::json!({}));
-                    let c = comp.as_object_mut().unwrap();
-                    let n = c
-                        .entry(name.to_string())
-                        .or_insert_with(|| serde_json::json!({}));
-                    let existing = n.as_object_mut().unwrap();
-                    for (k, v) in map {
-                        if !existing.contains_key(&k) {
-                            existing.insert(k, v);
-                        }
-                    }
+    // Per-completion config defaults from the manifest's `config` field.
+    let lang = settings.language();
+    if let Value::Object(map) = completion_defaults(data_dir, name, &lang) {
+        if !map.is_empty() {
+            if !settings.config.is_object() {
+                settings.config = serde_json::json!({});
+            }
+            let obj = settings.config.as_object_mut().unwrap();
+            let comp = obj
+                .entry("completion")
+                .or_insert_with(|| serde_json::json!({}));
+            let c = comp.as_object_mut().unwrap();
+            let n = c
+                .entry(name.to_string())
+                .or_insert_with(|| serde_json::json!({}));
+            let existing = n.as_object_mut().unwrap();
+            for (k, v) in map {
+                if !existing.contains_key(&k) {
+                    existing.insert(k, v);
                 }
             }
         }
