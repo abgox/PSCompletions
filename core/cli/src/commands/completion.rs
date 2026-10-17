@@ -82,6 +82,10 @@ pub fn cmd_completion(
                 *obj = comp;
             }
         } else {
+            // Exactly one key per reset; surplus args are rejected like an unknown key.
+            if params.len() > 2 {
+                return fail(out, msg_cli(lang, "sub_cmd"), json);
+            }
             let name = params[0].clone();
             let key = params[1].clone();
             // Validate the key like the set path: a known key, or one already stored.
