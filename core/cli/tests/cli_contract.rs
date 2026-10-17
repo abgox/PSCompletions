@@ -359,6 +359,40 @@ fn json_add_falls_back_to_legacy_layout() {
     );
 }
 
+/// Installing a completion that is new to the fresh index must not echo it back
+/// as "new to the library": the per-item result already reported it. Unrelated
+/// newcomers are still reported.
+#[test]
+fn json_add_does_not_report_installed_as_new() {
+    let srv = spawn_server(vec![
+        (
+            "completions.json",
+            r#"{"update":{"xxx":"v1","yyy":"v1"},"meta":{"xxx":{"en-US":{"url":"https://demo.example","description":"X"}},"yyy":{"en-US":{"url":"https://demo.example","description":"Y"}}}}"#.into(),
+        ),
+        (
+            "completions/xxx/config.json",
+            r#"{"id":"xxx-id","language":["en-US"]}"#.into(),
+        ),
+        ("completions/xxx/language/en-US.json", "{}".into()),
+    ]);
+    let d = make_data("flow-add-noecho", &srv);
+    // Stale cached index: neither xxx nor yyy was known before this run.
+    std::fs::write(
+        d.join("temp/completions.json"),
+        r#"{"update":{},"meta":{}}"#,
+    )
+    .unwrap();
+    let (code, out) = psc(&d, &["--json", "add", "xxx"]);
+    assert_eq!(code, 0, "add failed: {out}");
+    assert_eq!(
+        std::fs::read_to_string(d.join("completions/xxx/.update")).unwrap(),
+        "v1",
+        "{out}"
+    );
+    let change = parse_json(&std::fs::read_to_string(d.join("temp/change.json")).unwrap());
+    assert_eq!(change["added"], serde_json::json!(["yyy"]), "{change}");
+}
+
 #[test]
 fn json_add_installs_from_local_source() {
     let srv = spawn_server(demo_routes());

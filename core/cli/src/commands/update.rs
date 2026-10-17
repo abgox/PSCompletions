@@ -335,7 +335,14 @@ pub fn cmd_update(
     };
     // Refresh the persisted post-check state (added/removed/renamed/update/module) and check the module version.
     // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
-    record_post_check(data_dir, settings, &old_list, index, &executed_renames);
+    record_post_check(
+        data_dir,
+        settings,
+        &old_list,
+        index,
+        &executed_renames,
+        &names,
+    );
     // Save first, print once: the payload must carry the save outcome, and `--json` mode owes
     // the consumer exactly one JSON document.
     let save_err = settings.save(settings_path).err();

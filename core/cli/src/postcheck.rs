@@ -78,6 +78,7 @@ pub fn compute_post_changes(
     old_list: &[String],
     index: &Index,
     executed_renames: &[(String, String)],
+    operated: &[String],
 ) -> LibraryChanges {
     let mut rename_map: std::collections::HashMap<String, String> =
         std::collections::HashMap::new();
@@ -102,6 +103,9 @@ pub fn compute_post_changes(
         .iter()
         .filter(|n| !old_list.contains(n))
         .filter(|n| !rename_vals.contains(*n))
+        // Names this command just operated on got their own per-item result lines;
+        // reporting them again as "new to the library" is pure noise.
+        .filter(|n| !operated.contains(n))
         .cloned()
         .collect();
     added.sort();
@@ -150,8 +154,16 @@ pub fn record_post_check(
     old_list: &[String],
     index: &Index,
     executed_renames: &[(String, String)],
+    operated: &[String],
 ) {
-    let mut changes = compute_post_changes(data_dir, settings, old_list, index, executed_renames);
+    let mut changes = compute_post_changes(
+        data_dir,
+        settings,
+        old_list,
+        index,
+        executed_renames,
+        operated,
+    );
     if let Some(v) = fetch_module_version(settings) {
         changes.module = Some(v);
     }
@@ -223,6 +235,7 @@ mod tests {
             &old_list,
             &index,
             &[("foo".into(), "bar".into())],
+            &[],
         );
         assert_eq!(
             changes.renamed,
@@ -263,7 +276,7 @@ mod tests {
         index.update.insert("foo".to_string(), "v1".to_string());
         let old_list = Vec::<String>::new();
 
-        let changes = compute_post_changes(data_dir, &settings, &old_list, &index, &[]);
+        let changes = compute_post_changes(data_dir, &settings, &old_list, &index, &[], &[]);
         assert_eq!(changes.added, vec!["foo".to_string()]);
         assert!(changes.removed.is_empty());
         assert!(changes.renamed.is_empty());
@@ -292,7 +305,7 @@ mod tests {
         index.ids.insert("foo".to_string(), "abc".to_string());
         index.update.insert("foo".to_string(), "v1".to_string());
 
-        record_post_check(data_dir, &settings, &[], &index, &[]);
+        record_post_check(data_dir, &settings, &[], &index, &[], &[]);
 
         let loaded = LibraryChanges::load(data_dir);
         let now = std::time::SystemTime::now()
@@ -306,6 +319,26 @@ mod tests {
             ),
             None => panic!("last_check must be written"),
         }
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn operated_names_are_not_reported_as_added() {
+        // `add xxx` right when xxx lands in the fresh index: the per-item result
+        // line already told the user, so the library diff must not report it again.
+        let base = test_base();
+        let data_dir = base.to_str().unwrap();
+        let settings = Settings {
+            alias: std::collections::HashMap::new(),
+            config: serde_json::json!({}),
+        };
+        let mut index = Index::default();
+        index.update.insert("xxx".to_string(), "v1".to_string());
+        index.update.insert("yyy".to_string(), "v1".to_string());
+
+        let changes =
+            compute_post_changes(data_dir, &settings, &[], &index, &[], &["xxx".to_string()]);
+        assert_eq!(changes.added, vec!["yyy".to_string()]);
         std::fs::remove_dir_all(&base).ok();
     }
 }

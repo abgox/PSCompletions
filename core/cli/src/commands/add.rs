@@ -126,7 +126,7 @@ pub fn cmd_add(
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
     }
-    record_post_check(data_dir, settings, &old_list, index, &[]);
+    record_post_check(data_dir, settings, &old_list, index, &[], &names);
     if json {
         let arr = results.lock().unwrap().clone();
         println!("{}", serde_json::to_string(&arr).unwrap_or_default());
