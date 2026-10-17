@@ -12,17 +12,24 @@ const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
 const GITHUB: &str = "https://github.com/abgox/PSCompletions/raw/main";
 const GH_PAGES: &str = "https://abgox.github.io/PSCompletions";
 
-/// Derive the index-branch variant of a content base: swap the base's last
-/// segment for `index` (`.../raw/main` -> `.../raw/index`, a custom mirror's
-/// `.../psc` -> `.../index`). Returns None for bare hosts (rewriting there
-/// would eat the hostname: `https://host` has no swappable segment).
+/// Derive the index-branch variant of a content base: only raw-style bases
+/// ending in the branch segment `main` qualify (`.../raw/main` ->
+/// `.../raw/index`). Anything else (Pages roots, custom path prefixes,
+/// bare hosts) has no known index layout and is tried as-is: guessing
+/// `.../index` there wastes a request at best (GH_PAGES: a 404 before the
+/// fallback heals it) and mangles the URL at worst.
 fn index_branch_url(base: &str) -> Option<String> {
     let b = base.trim_end_matches('/');
-    let (head, _last) = b.rsplit_once('/')?;
+    let (head, last) = b.rsplit_once('/')?;
     if !head.contains("://") {
         return None;
     }
-    Some(format!("{head}/index"))
+    match last {
+        "main" => Some(format!("{head}/index")),
+        // Already on the index layout: resolves to itself (deduped downstream).
+        "index" => Some(b.to_string()),
+        _ => None,
+    }
 }
 
 /// Index download bases: the index-branch layout first, then today's layout.
@@ -648,9 +655,11 @@ mod tests {
             index_branch_url("https://github.com/abgox/PSCompletions/raw/main"),
             Some("https://github.com/abgox/PSCompletions/raw/index".into())
         );
+        // Non-branch path segments have no known index layout: tried as-is.
+        assert_eq!(index_branch_url("https://mirror.example.com/psc/"), None);
         assert_eq!(
-            index_branch_url("https://mirror.example.com/psc/"),
-            Some("https://mirror.example.com/index".into())
+            index_branch_url("https://abgox.github.io/PSCompletions"),
+            None
         );
         // A base already on the index layout resolves to itself (deduped downstream).
         assert_eq!(
