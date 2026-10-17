@@ -4,7 +4,7 @@
 ///
 /// For `--data`/`--language`/`--result` with `=` form, rejects empty values (e.g. `--data=`).
 /// For space form, rejects if the next token starts with `-` (e.g. `--data --json`).
-/// Trailing slashes/backslashes on `data_dir` are trimmed (done in `main`).
+/// Trailing slashes/backslashes on `data_dir` are trimmed (`normalize_data_dir`, run.rs).
 pub fn parse_args(
     args: &[String],
 ) -> (
@@ -81,12 +81,14 @@ pub fn print_help() {
     println!("psc — PSCompletions CLI");
     println!();
     println!("Usage: psc <command> [args]  (data dir via --data <dir> or PSCOMPLETIONS_DATA_DIR)");
+    println!("  Flags: --data <dir> --json --language <tag> --result <file> (--result: init only)");
     println!("  list                   List installed completions");
     println!("  info <name>...         Show completion metadata");
     println!("  config [core|menu|context] <key> [<value>]   Get/set config");
     println!("  completion [<name> [<key> [<value>]]]        Per-completion special config");
     println!("  alias [add <name> <alias>...|rm <name> <alias>...]   Trigger aliases");
-    println!("  add <name>...          rm <name>... | --all");
+    println!("  add <name>...          Install completions");
+    println!("  rm <name>... | --all   Remove completions");
     println!("  update [<name>... | --all | --old]");
 }
 

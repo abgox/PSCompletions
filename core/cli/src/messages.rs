@@ -99,13 +99,14 @@ pub fn msg_cli(lang: &str, key: &str) -> String {
 }
 
 /// Look up a message and substitute `{name}` placeholders with the given values.
+/// An unknown key yields the key itself, never an empty error string.
 pub fn msg_fmt(lang: &str, key: &str, vars: &[(&str, &str)]) -> String {
     let zh = lang.starts_with("zh");
     let mut text = MESSAGES
         .iter()
         .find(|(k, _, _)| *k == key)
         .map(|(_, z, e)| if zh { z.to_string() } else { e.to_string() })
-        .unwrap_or_default();
+        .unwrap_or_else(|| key.to_string());
     for (k, v) in vars {
         text = text.replace(&format!("{{{k}}}"), v);
     }
@@ -126,9 +127,9 @@ mod tests {
     }
 
     #[test]
-    fn msg_cli_unknown_key_yields_empty_string() {
-        assert_eq!(msg_cli("en-US", "no_such_key"), "");
-        assert_eq!(msg_cli("zh-CN", "no_such_key"), "");
+    fn msg_cli_unknown_key_yields_key() {
+        assert_eq!(msg_cli("en-US", "no_such_key"), "no_such_key");
+        assert_eq!(msg_cli("zh-CN", "no_such_key"), "no_such_key");
     }
 
     #[test]
