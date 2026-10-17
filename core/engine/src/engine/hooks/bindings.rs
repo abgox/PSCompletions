@@ -295,7 +295,7 @@ pub(crate) fn build_psc_table(
         tokens: ctx.tokens.clone(),
         manifest: ctx.manifest.clone(),
         // Derived from tokens (kind == "option", canonical name) — the same source
-        // the old `last_option` used; identical to `ctx.opts` in production.
+        // the old `last_option` used.
         opts: ctx
             .tokens
             .iter()
@@ -378,7 +378,7 @@ struct ProvideEnv {
     /// All completed tokens (kind `command`/`option`/`value`/`unknown`), for slot gating.
     tokens: Vec<Token>,
     manifest: serde_json::Value,
-    /// Canonical names of all completed option tokens, in input order (from `ctx.opts`).
+    /// Canonical names of all completed option tokens, in input order (derived from tokens).
     opts: Vec<String>,
     injected: InjectedFlag,
     depth: OnDepth,

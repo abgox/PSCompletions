@@ -402,7 +402,6 @@ fn build_candidate_items_inner(
                                 .unwrap_or(false),
                         })
                         .unwrap_or_default(),
-                    opts: resolved.context.opts.clone(),
                     tokens: resolved
                         .context
                         .tokens

@@ -12,7 +12,6 @@ fn ctx() -> HookContext {
         path: vec!["list".into()],
         layers: vec![("command".into(), "list".into())],
         typing: Typing::default(),
-        opts: Vec::new(),
         language: "en-US".into(),
         tokens: vec![
             Token {
@@ -657,11 +656,10 @@ fn provide_and_command_option_requires_both() {
 #[test]
 fn provide_option_chain_matches_suffix() {
     // install has --color/--arch in provide_manifest(); use those for chain specs.
-    let make_ctx = |tokens: Vec<Token>, opts: Vec<&str>| {
+    let make_ctx = |tokens: Vec<Token>| {
         let mut c = root_provide_ctx();
         c.layers = vec![("command".into(), "install".into())];
         c.tokens = tokens;
-        c.opts = opts.iter().map(|s| s.to_string()).collect();
         c
     };
     let tokens = vec![
@@ -682,21 +680,21 @@ fn provide_option_chain_matches_suffix() {
         },
     ];
     // Full-chain suffix match -> injects.
-    let c = make_ctx(tokens.clone(), vec!["--color", "--arch"]);
+    let c = make_ctx(tokens.clone());
     let out = run_hook(&c, r#"psc.on({ command = "install", option = { "--color", "--arch" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
     assert_eq!(out.len(), 1);
     assert_eq!(out[0].text, "mc");
 
     // Wrong final option -> no inject.
-    let out2 = run_hook(&make_ctx(tokens.clone(), vec!["--color", "--arch"]), r#"psc.on({ command = "install", option = { "--color", "nope" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
+    let out2 = run_hook(&make_ctx(tokens.clone()), r#"psc.on({ command = "install", option = { "--color", "nope" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
     assert_eq!(out2.len(), 0);
 
     // Chain longer than the typed sequence -> no inject.
-    let out3 = run_hook(&make_ctx(tokens.clone(), vec!["--color", "--arch"]), r#"psc.on({ command = "install", option = { "x", "--color", "--arch" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
+    let out3 = run_hook(&make_ctx(tokens.clone()), r#"psc.on({ command = "install", option = { "x", "--color", "--arch" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
     assert_eq!(out3.len(), 0);
 
     // Single-string option still matches (length-1 suffix, back-compat).
-    let out4 = run_hook(&make_ctx(tokens, vec!["--color", "--arch"]), r#"psc.on({ command = "install", option = "--arch" }, function() psc.add({ name = "c1" }) end)"#, &empty_static()).unwrap();
+    let out4 = run_hook(&make_ctx(tokens), r#"psc.on({ command = "install", option = "--arch" }, function() psc.add({ name = "c1" }) end)"#, &empty_static()).unwrap();
     assert_eq!(out4.len(), 1);
 }
 
@@ -728,7 +726,6 @@ fn provide_option_chain_ignores_values_between_options() {
             canonical: Some("--arch".into()),
         },
     ];
-    c.opts = vec!["--color".into(), "--arch".into()];
     let out = run_hook(&c, r#"psc.on({ command = "install", option = { "--color", "--arch" } }, function() psc.add({ name = "mc" }) end)"#, &empty_static()).unwrap();
     assert_eq!(out.len(), 1);
 }

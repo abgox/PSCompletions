@@ -85,8 +85,6 @@ pub struct HookContext {
     /// `psc.on` location matching.
     pub layers: Vec<(String, String)>,
     pub typing: Typing,
-    /// All completed options' **canonical** names, in order.
-    pub opts: Vec<String>,
     /// Raw token list (kept for unusual cases).
     pub tokens: Vec<Token>,
     /// The current command's fully-resolved config: per-completion overrides, global config
@@ -116,7 +114,6 @@ impl Default for HookContext {
             path: Vec::new(),
             layers: Vec::new(),
             typing: Typing::default(),
-            opts: Vec::new(),
             tokens: Vec::new(),
             config: serde_json::Value::Null,
             manifest: serde_json::Value::Null,
