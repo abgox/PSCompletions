@@ -251,7 +251,9 @@ pub(crate) fn run_hook_keepalive_with_timeout(
     // For reordering: dynamic items should appear before static so users quickly see
     // the contextual completions; history-based ordering in the menu layer will then
     // apply within that merged sequence.
-    let static_texts: std::collections::HashSet<String> =
+    let static_exact: std::collections::HashSet<&str> =
+        static_items.iter().map(|i| i.text.as_str()).collect();
+    let static_folded: std::collections::HashSet<String> =
         static_items.iter().map(|i| i.text.to_lowercase()).collect();
     let mut items = match result {
         // Nothing returned → the live candidate list (static seed + every registered
@@ -262,7 +264,7 @@ pub(crate) fn run_hook_keepalive_with_timeout(
             let mut dynamic = Vec::new();
             let mut stat = Vec::new();
             for item in all {
-                if static_texts.contains(&item.text.to_lowercase()) {
+                if static_exact.contains(item.text.as_str()) {
                     stat.push(item);
                 } else {
                     dynamic.push(item);
@@ -306,7 +308,7 @@ pub(crate) fn run_hook_keepalive_with_timeout(
     }
     if !used.is_empty() {
         items.retain(|item| {
-            if static_texts.contains(&item.text.to_lowercase()) {
+            if static_folded.contains(&item.text.to_lowercase()) {
                 return true;
             }
             let used_count = used.get(&item.text.to_lowercase()).copied().unwrap_or(0);

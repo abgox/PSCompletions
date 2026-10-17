@@ -270,6 +270,22 @@ fn static_rows(texts: &[&str]) -> Vec<LuaItem> {
 }
 
 #[test]
+fn case_variant_contribution_sorts_dynamic_first() {
+    // A different-case contribution is a different row: it keeps dynamic-first
+    // ordering instead of merging into the static tail.
+    let mut c = root_provide_ctx();
+    c.layers = vec![("command".into(), "exec".into())];
+    let script = r#"
+    psc.on({ command = "exec" }, function()
+        psc.add({ name = "DLX" })
+    end)
+    "#;
+    let out = run_hook(&c, script, &static_rows(&["dlx"])).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["DLX", "dlx"]);
+}
+
+#[test]
 fn provide_injects_inside_command_context_and_stamps_repeat() {
     let mut c = root_provide_ctx();
     c.layers = vec![("command".into(), "exec".into())];
