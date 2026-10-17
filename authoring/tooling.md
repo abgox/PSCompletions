@@ -29,27 +29,37 @@ Encoding conventions:
 - PowerShell module files are UTF-8 with BOM (`utf8bom`, see
   `../.vscode/settings.json`).
 
-## `ajv-cli` is a hard dependency of `validate-completion.ps1`
+## `@jirutka/ajv-cli` is a hard dependency of `validate-completion.ps1`
 
 ```
-npm install -g ajv-cli
+npm install --global @jirutka/ajv-cli
 ```
 
 `validate-completion.ps1` throws with this install command when `ajv` is not on `PATH`.
 
-It is invoked as `ajv validate --strict=false --all-errors --errors=json`, and **each flag
-is load-bearing**:
+It is invoked as `ajv validate --strict=false --all-errors --errors=json --validate-formats=false -s <schema> -- <data>`,
+and **each flag is load-bearing**:
 
 - `--strict=false` because the schemas carry `markdownDescription` (a VSCode-only
   annotation) which strict mode rejects as an unknown keyword.
 - `--all-errors` because ajv otherwise stops at the first failure.
-- `--errors=json` because the default `js` format is a JS object literal that
-  `ConvertFrom-Json` cannot read.
+- `--errors=json` because the default `pretty` format is human-readable text that
+  `ConvertFrom-Json` cannot read. The error array goes to **stdout** (the
+  `<file> valid|invalid` summary stays on stderr).
+- `--validate-formats=false` because `format` (only `uri` on `meta.url`) has no
+  validator without the `ajv-formats` package — ajv merely warns
+  (`unknown format "uri" ignored`, two lines per file) and ignores it. The real
+  URL check is the `pattern` / `not` rules. The flag only silences the warning;
+  validation is unchanged.
+- Data files are **positional** (after `--`); the old `ajv-cli -d` flag does not
+  exist in this fork.
+- `--merge-errors` keeps its default (`true`): one concise entry per instance path
+  (`message` + `instancePath` + `schemaPath`), which is all the script consumes.
 
-Errors come back on **stderr**, with the instance path and the failing schema rule:
+Errors come back on **stdout**, with the instance path and the failing schema rule:
 
 ```
-next[35].next[0].option[3].tip[0]: must NOT be fewer than 1 characters  [#/allOf/1/items/minLength]
+next[35].next[0].option[3].tip[0]: must not be empty  [#/allOf/1/items/minLength]
 ```
 
 ### Recovering a schema error message
@@ -91,7 +101,7 @@ complete. Instead, in order:
 2. **Ask before installing.** Installing a tool mutates the operator's
    machine (global package installs, disk, network) — state what is
    missing, which gate it blocks, and the exact install command
-   (e.g. `npm install -g ajv-cli`), then wait for confirmation.
+   (e.g. `npm install --global @jirutka/ajv-cli`), then wait for confirmation.
    Never auto-install silently.
 3. **On confirmation, install and re-run the blocked gate.** On refusal,
    or when installation is impossible, stop and state exactly which

@@ -315,7 +315,7 @@ function Get-AjvPath {
 JSON Schema validator not found on PATH.
 
 Install it with:
-  npm install -g ajv-cli
+  npm install --global @jirutka/ajv-cli
 
 It is a hard dependency of validate-completion.ps1, because Test-Json reports the
 wrong path for schema errors and drops every `errorMessage` in schema/*.json --
@@ -343,13 +343,25 @@ function Get-JsonErrors {
     param([string]$FilePath, [string]$SchemaFile)
 
     $ajv = Get-AjvPath
+    # @jirutka/ajv-cli (replaces ajv-cli).
     # --strict=false: the schemas carry `markdownDescription`, a VSCode-only
     #   annotation that ajv's strict mode rejects as an unknown keyword.
-    # --errors=json: the default `js` format is a JS object literal (single
-    #   quotes, unquoted keys) and cannot be parsed as JSON.
+    # --errors=json: the default `pretty` format is human-readable text and
+    #   cannot be parsed as JSON. With `--errors=json` the error array goes to
+    #   stdout (`<file> valid|invalid` and warnings stay on stderr).
     # --all-errors: without it ajv stops at the first failure, which is exactly
     #   the round-trip-by-round-trip cost this replaced.
-    $raw = & $ajv validate --strict=false --all-errors --errors=json -s $SchemaFile -d $FilePath 2>&1
+    # Data files are positional (`--` guards paths starting with `-`); the old
+    #   ajv-cli `-d` flag no longer exists.
+    # `--merge-errors` keeps its default (true): one concise entry per instance
+    #   path (`message` + `instancePath` + `schemaPath`), which is all the
+    #   reader below consumes.
+    # --validate-formats=false: `format` (only `uri` on `meta.url`) has no
+    #   validator without the ajv-formats package, so ajv only warns
+    #   (`unknown format "uri" ignored`) and ignores it. The real URL check is
+    #   the `pattern` / `not` rules, which still fire. The flag just silences
+    #   the warning (two lines per file on stderr); validation is unchanged.
+    $raw = & $ajv validate --strict=false --all-errors --errors=json --validate-formats=false -s $SchemaFile -- $FilePath 2>&1
     $exit = $LASTEXITCODE
     if ($exit -eq 0) { return @() }
 

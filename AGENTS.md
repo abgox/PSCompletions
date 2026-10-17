@@ -434,5 +434,5 @@ that catches a dangling `psc.on` target or one written as an alias — both fail
 runtime. What each gate cannot see, and how to read every report it does produce, is in
 `authoring/validation.md`.
 
-Environment prerequisites — `pwsh` not `powershell.exe`, `ajv-cli`, `luac -p`:
+Environment prerequisites — `pwsh` not `powershell.exe`, `@jirutka/ajv-cli`, `luac -p`:
 `authoring/tooling.md`.
