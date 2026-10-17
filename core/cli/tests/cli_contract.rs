@@ -333,6 +333,37 @@ fn json_add_prefers_index_branch_layout() {
     );
 }
 
+/// Reinstalling a linked completion keeps the link and still reports success:
+/// settings refresh runs, files are untouched.
+#[test]
+fn json_add_linked_reports_added() {
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-add-linked", &srv);
+    let target = d.join("link-target/demo");
+    std::fs::create_dir_all(target.join("language")).unwrap();
+    std::fs::write(
+        target.join("config.json"),
+        r#"{"id":"demo-id","language":["en-US"]}"#,
+    )
+    .unwrap();
+    std::fs::write(target.join("language/en-US.json"), "{}").unwrap();
+    #[cfg(unix)]
+    std::os::unix::fs::symlink(&target, d.join("completions/demo")).unwrap();
+    #[cfg(windows)]
+    std::os::windows::fs::symlink_dir(&target, d.join("completions/demo")).unwrap();
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v.as_array().unwrap()[0]["ok"], true, "{out}");
+    assert!(
+        std::fs::symlink_metadata(d.join("completions/demo"))
+            .unwrap()
+            .file_type()
+            .is_symlink(),
+        "link must survive: {out}"
+    );
+}
+
 /// Legacy mirrors serving only the old layout keep working: the index-branch
 /// candidate misses (shape check rejects the not-found body) and the client
 /// falls back to `.../raw/main/completions.json`.

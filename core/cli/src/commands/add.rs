@@ -69,11 +69,29 @@ pub fn cmd_add(
             match add_completion(data_dir, name, &urls, &version) {
                 Ok(updated) => {
                     if !updated {
-                        let err = msg_cli(lang, "update_skip");
-                        if !json {
-                            out.line(&format!("{name}: {err}"));
+                        // Linked completions keep their link; settings still refresh.
+                        let mut sg = settings_lock.lock().unwrap();
+                        match refresh_settings_after_add(&mut sg, data_dir, name, true) {
+                            Err(e) => {
+                                if !json {
+                                    out.line(&format!("error: {e}"));
+                                }
+                                serde_json::json!({"completion": name, "ok": false, "error": e})
+                            }
+                            Ok(skipped) => {
+                                if !json {
+                                    out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
+                                }
+                                let mut entry = serde_json::json!({"completion": name, "ok": true});
+                                if !skipped.is_empty() {
+                                    entry["skipped"] = skipped
+                                        .iter()
+                                        .map(|(a, o)| serde_json::json!({"alias": a, "owner": o}))
+                                        .collect();
+                                }
+                                entry
+                            }
                         }
-                        serde_json::json!({"completion": name, "ok": false, "error": err})
                     } else {
                         let mut sg = settings_lock.lock().unwrap();
                         // `add` reinstalls: remote alias defaults fully overwrite.
