@@ -185,8 +185,11 @@ mod tests {
     fn name_status_counts_dangling_link_as_present() {
         #[cfg(unix)]
         {
-            let base =
-                std::env::temp_dir().join(format!("psc-validate-test-{}", std::process::id()));
+            use std::sync::atomic::{AtomicU64, Ordering};
+            static COUNTER: AtomicU64 = AtomicU64::new(0);
+            let n = COUNTER.fetch_add(1, Ordering::Relaxed);
+            let base = std::env::temp_dir()
+                .join(format!("psc-validate-dangle-{}-{n}", std::process::id()));
             let dir = base.join("completions");
             std::fs::create_dir_all(&dir).unwrap();
             std::os::unix::fs::symlink(base.join("gone"), dir.join("dangle")).unwrap();
