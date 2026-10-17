@@ -415,12 +415,17 @@ fn build_candidate_items_inner(
                     config,
                     manifest: json.clone(),
                     data: build_psc_data(input),
-                    language: input
-                        .global_config
-                        .get("language")
-                        .and_then(|v| v.as_str())
-                        .unwrap_or("en-US")
-                        .to_string(),
+                    // Tip language follows the manifest variant actually loaded (the
+                    // host resolves it per-completion first, then global): static and
+                    // hook-produced tips always agree.
+                    language: manifest_language(&input.manifest).unwrap_or_else(|| {
+                        input
+                            .global_config
+                            .get("language")
+                            .and_then(|v| v.as_str())
+                            .unwrap_or("en-US")
+                            .to_string()
+                    }),
                     cwd: input.cwd.clone(),
                     log_dir: input.log_dir.clone(),
                 };
@@ -755,6 +760,16 @@ pub fn hooks_path(manifest: &str) -> Option<String> {
         .map(|p| p.to_string_lossy().to_string())
 }
 
+/// Language variant of the loaded manifest (`<cmd>/language/<lang>.json` → `<lang>`);
+/// `None` when the path has no file stem (the caller falls back to global config).
+pub fn manifest_language(manifest: &str) -> Option<String> {
+    let stem = manifest.rsplit(['/', '\\']).next()?.strip_suffix(".json")?;
+    if stem.is_empty() {
+        return None;
+    }
+    Some(stem.to_string())
+}
+
 /// Result cache: a 10-second disk cache keyed by the completion context, so quickly re-opening
 /// the same menu reuses the built items (static resolve and/or hook output) instead of
 /// rebuilding them (scoop's ~600ms scan, etc.).
@@ -1018,6 +1033,20 @@ mod tests {
         let mut cmd: HashMap<String, i64> = HashMap::new();
         cmd.insert("test".into(), 9);
         assert_eq!(item_score(&word, &cmd, &paths, &empty), 9);
+    }
+
+    #[test]
+    fn manifest_language_reads_variant_from_path() {
+        assert_eq!(
+            manifest_language("/data/completions/git/language/zh-CN.json"),
+            Some("zh-CN".into())
+        );
+        assert_eq!(
+            manifest_language("C:\\data\\git\\language\\en-US.json"),
+            Some("en-US".into())
+        );
+        assert_eq!(manifest_language("/data/completions/git/"), None);
+        assert_eq!(manifest_language(""), None);
     }
 
     #[test]
