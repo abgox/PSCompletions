@@ -342,10 +342,13 @@ pub(crate) fn build_psc_table(
                     let type_filter: Option<String> = t.get::<Option<String>>("type")?;
                     let case_sensitive: bool =
                         t.get::<Option<bool>>("case_sensitive")?.unwrap_or(false);
-                    // Validate type filter
-                    let type_filter = type_filter.filter(|s| {
-                        matches!(s.as_str(), "command" | "option" | "value" | "unknown")
-                    });
+                    if let Some(s) = &type_filter {
+                        if !matches!(s.as_str(), "command" | "option" | "value" | "unknown") {
+                            return Err(mlua::Error::RuntimeError(format!(
+                                "psc.token: unknown type {s:?}, expected command/option/value/unknown"
+                            )));
+                        }
+                    }
                     (name, type_filter, case_sensitive)
                 }
                 _ => (None, None, false),

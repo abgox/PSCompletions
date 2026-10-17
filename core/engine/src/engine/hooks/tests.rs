@@ -2721,6 +2721,10 @@ fn split_and_input_helpers() {
 "#;
     let out5 = run_hook(&c, script4, &empty_static()).unwrap();
     assert_eq!(out5[0].text, "ok");
+    // An unknown type filter fails loudly instead of matching everything.
+    let bad = r#"return psc.token({ name = "list", type = "commad" })"#;
+    let err = run_hook(&c, bad, &empty_static()).unwrap_err();
+    assert!(err.to_string().contains("unknown type"), "{err}");
     // token matches the canonical name, so an alias counts as its main option
     let mut c2 = ctx();
     c2.tokens.push(Token {
