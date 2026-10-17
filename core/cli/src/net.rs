@@ -163,11 +163,17 @@ fn cleanup_stale_staging_with_age(data_dir: &str, max_age: Duration) {
 /// index (`{ update, meta }`), not a redirect page or error body that happens to parse as JSON.
 /// Without this, `psc add <name>` would report a misleading "not an available completion".
 pub fn validate_index_shape(v: &Value) -> Result<(), String> {
-    if v.get("update").and_then(|u| u.as_object()).is_none() {
-        return Err("bad completions.json: missing `update` object".into());
-    }
+    let update = v
+        .get("update")
+        .and_then(|u| u.as_object())
+        .ok_or("bad completions.json: missing `update` object")?;
     if v.get("meta").and_then(|m| m.as_object()).is_none() {
         return Err("bad completions.json: missing `meta` object".into());
+    }
+    // Version markers drive update detection by string comparison; a non-string
+    // value would be silently dropped downstream, disabling updates for that entry.
+    if update.values().any(|val| val.as_str().is_none()) {
+        return Err("bad completions.json: non-string `update` value".into());
     }
     Ok(())
 }
@@ -631,6 +637,10 @@ mod tests {
         assert!(validate_index_shape(&serde_json::json!([])).is_err());
         assert!(validate_index_shape(&serde_json::json!({ "update": [], "meta": {} })).is_err());
         assert!(validate_index_shape(&serde_json::json!({ "update": {}, "meta": [] })).is_err());
+        assert!(
+            validate_index_shape(&serde_json::json!({ "update": { "git": 42 }, "meta": {} }))
+                .is_err()
+        );
     }
 
     #[test]
