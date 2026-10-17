@@ -13,6 +13,7 @@ use crate::net::{
 };
 use crate::output::{fail, Out};
 use crate::postcheck::{fetch_module_version, record_post_check};
+use crate::validate::is_valid_name;
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_update(
     args: &[String],
@@ -33,7 +34,7 @@ pub fn cmd_update(
         })
         .unwrap_or_default();
     let urls = resolve_urls(settings);
-    // The index lives on the index branch; content files stay on the content branch.
+    // The index is fetched from the index branch first; content files stay on main.
     let list = match download_list(data_dir, &resolve_index_urls(settings)) {
         Ok(v) => {
             *index = Index::from_value(v);
@@ -206,9 +207,12 @@ pub fn cmd_update(
     let results: std::sync::Mutex<Vec<Value>> = std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
     run_parallel(&names, 8, |name| {
-        let known = installed.contains(name)
-            || std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
-            || list.contains(name);
+        // Reject before any filesystem probe: a name carrying separators would make
+        // the entry probe below resolve outside the library directory.
+        let known = is_valid_name(name)
+            && (installed.contains(name)
+                || std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
+                || list.contains(name));
         if !known {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
             let err = msg_cli(lang, "not_available");

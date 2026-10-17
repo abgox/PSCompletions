@@ -38,7 +38,7 @@ pub fn cmd_add(
         })
         .unwrap_or_default();
     let urls = resolve_urls(settings);
-    // The index lives on the index branch; content files stay on the content branch.
+    // The index is fetched from the index branch first; content files stay on main.
     let list = match download_list(data_dir, &resolve_index_urls(settings)) {
         Ok(v) => {
             *index = Index::from_value(v);
