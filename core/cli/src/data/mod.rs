@@ -334,11 +334,17 @@ pub fn build_default_data(completions_dir: &str, language: &str) -> Value {
         for entry in entries.flatten() {
             let name = entry.file_name().to_string_lossy().to_string();
             let dir = entry.path();
-            if !dir.is_dir() {
+            // Dirs and links count as present (a dangling link's config reads as
+            // defaults); plain files are not completion entries. A real dir without
+            // config.json is stray and stays skipped.
+            let ft = std::fs::symlink_metadata(&dir).map(|m| m.file_type());
+            let is_link = ft.as_ref().is_ok_and(|t| t.is_symlink());
+            let is_dir = ft.as_ref().is_ok_and(|t| t.is_dir());
+            if !is_link && !is_dir {
                 continue;
             }
             let config_path = dir.join("config.json");
-            if !config_path.exists() {
+            if !is_link && !config_path.exists() {
                 continue;
             }
             let c: Value = read_text(&config_path.to_string_lossy())
