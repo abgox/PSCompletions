@@ -38,6 +38,11 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "该补全没有动态 hooks。",
         "This completion has no dynamic hooks.",
     ),
+    (
+        "psc_hooks_locked",
+        "psc 自身的 hooks 不能禁用。",
+        "psc hooks cannot be disabled.",
+    ),
     ("add_done", "已添加。", "Added."),
     ("update_done", "已更新。", "Updated."),
     ("rm_done", "已移除。", "Removed."),

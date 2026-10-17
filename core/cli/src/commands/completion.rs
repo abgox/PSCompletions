@@ -264,6 +264,10 @@ pub fn cmd_completion(
             return fail(out, msg_cli(lang, "one_or_zero"), json);
         }
     }
+    // The module's management completions run on psc's own hooks.
+    if name == "psc" && key == "enable_hooks" && value.as_i64() == Some(0) {
+        return fail(out, msg_cli(lang, "psc_hooks_locked"), json);
+    }
     {
         // Recover a corrupt settings.json (reset config/completion/name entries that aren't objects)
         // to avoid an unwrap panic
