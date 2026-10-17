@@ -18,7 +18,7 @@ pub fn name_status(settings: &Settings, index: &Index, completions_dir: &str, na
         return 0;
     }
     if settings.alias.contains_key(name)
-        || std::path::Path::new(&format!("{completions_dir}/{name}")).exists()
+        || std::fs::symlink_metadata(format!("{completions_dir}/{name}")).is_ok()
     {
         return 2;
     }
@@ -179,6 +179,30 @@ mod tests {
         assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
         assert_eq!(s.alias.get("new").unwrap(), &vec!["new".to_string()]);
         std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn name_status_counts_dangling_link_as_present() {
+        #[cfg(unix)]
+        {
+            let base =
+                std::env::temp_dir().join(format!("psc-validate-test-{}", std::process::id()));
+            let dir = base.join("completions");
+            std::fs::create_dir_all(&dir).unwrap();
+            std::os::unix::fs::symlink(base.join("gone"), dir.join("dangle")).unwrap();
+            let s = Settings::default();
+            let index = Index::default();
+            assert_eq!(
+                name_status(
+                    &s,
+                    &index,
+                    base.join("completions").to_str().unwrap(),
+                    "dangle"
+                ),
+                2
+            );
+            std::fs::remove_dir_all(&base).ok();
+        }
     }
 
     #[test]
