@@ -86,10 +86,7 @@ pub fn cmd_info(
             }
             arr.push(serde_json::Value::Object(o));
         }
-        // Still output valid entries on error (partial success); skip an all-failed empty array
-        if !arr.is_empty() {
-            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-        }
+        println!("{}", serde_json::to_string(&arr).unwrap_or_default());
         return ExitCode::SUCCESS;
     }
     let mut had_error = false;
