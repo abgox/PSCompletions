@@ -219,12 +219,59 @@ pub struct LibraryChanges {
 }
 
 impl LibraryChanges {
-    /// Load from `<data>/temp/change.json`; a missing or corrupt file yields empty defaults.
+    /// Load from `<data>/temp/change.json`; a missing file yields empty defaults.
+    /// Each field parses independently: one malformed field falls back to its own
+    /// default while intact fields still load. Unparseable content is backed up
+    /// to `change.json.corrupt` like `Settings::load` / `Index::load`.
     pub fn load(data_dir: &str) -> LibraryChanges {
+        fn str_list(v: Option<&Value>) -> Vec<String> {
+            v.and_then(|x| x.as_array())
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|e| e.as_str().map(String::from))
+                        .collect()
+                })
+                .unwrap_or_default()
+        }
         let path = format!("{data_dir}/temp/change.json");
-        read_text(&path)
-            .and_then(|t| serde_json::from_str(&t).ok())
-            .unwrap_or_default()
+        let text = match read_text(&path) {
+            Some(t) => t,
+            None => return LibraryChanges::default(),
+        };
+        let v: Value = match serde_json::from_str(&text) {
+            Ok(v) => v,
+            Err(_) => {
+                let corrupt = format!("{path}.corrupt");
+                let _ = std::fs::remove_file(&corrupt);
+                if std::fs::write(&corrupt, &text).is_ok() {
+                    let _ = std::fs::remove_file(&path);
+                }
+                return LibraryChanges::default();
+            }
+        };
+        LibraryChanges {
+            update: str_list(v.get("update")),
+            added: str_list(v.get("added")),
+            removed: str_list(v.get("removed")),
+            renamed: v
+                .get("renamed")
+                .and_then(|x| x.as_array())
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|e| {
+                            e.as_array().and_then(|p| {
+                                match (p.first()?.as_str(), p.get(1)?.as_str()) {
+                                    (Some(o), Some(n)) => Some((o.to_string(), n.to_string())),
+                                    _ => None,
+                                }
+                            })
+                        })
+                        .collect()
+                })
+                .unwrap_or_default(),
+            module: v.get("module").and_then(|m| m.as_str()).map(String::from),
+            last_check: v.get("last_check").and_then(|l| l.as_u64()),
+        }
     }
 
     /// Atomically save to `<data>/temp/change.json`.
@@ -593,6 +640,26 @@ mod tests {
         std::fs::remove_file(data_dir.join("temp/change.json")).ok();
         let empty = LibraryChanges::load(&d);
         assert!(empty.update.is_empty() && empty.renamed.is_empty() && empty.module.is_none());
+        std::fs::remove_dir_all(&data_dir).ok();
+    }
+
+    #[test]
+    fn library_changes_load_keeps_intact_fields() {
+        let n = TMP_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let mut data_dir = std::env::temp_dir();
+        data_dir.push(format!("psc-data-lc-partial-{}-{n}", std::process::id()));
+        std::fs::create_dir_all(data_dir.join("temp")).unwrap();
+        let d = data_dir.to_string_lossy().to_string();
+        std::fs::write(
+            data_dir.join("temp/change.json"),
+            r#"{"update":["git"],"renamed":{"git":"git1"},"module":7,"added":[1,"x"]}"#,
+        )
+        .unwrap();
+        let loaded = LibraryChanges::load(&d);
+        assert_eq!(loaded.update, vec!["git"]);
+        assert!(loaded.renamed.is_empty());
+        assert!(loaded.module.is_none());
+        assert_eq!(loaded.added, vec!["x"]);
         std::fs::remove_dir_all(&data_dir).ok();
     }
 }
