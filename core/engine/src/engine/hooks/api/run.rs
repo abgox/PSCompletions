@@ -232,8 +232,7 @@ fn parse_env(opts: &Option<Table>) -> mlua::Result<Option<Vec<(String, String)>>
 
 /// Run a command, return its stdout lines. `None` on failure (empty argv / spawn error /
 /// timeout); `Some(lines)` on success (possibly empty stdout).
-/// `env` — optional key-value pairs injected into the child process environment (replacing
-/// the inherited env when present).
+/// `env` — optional key-value pairs merged into the child process environment.
 /// Note: stdout is drained concurrently so a full pipe buffer (>64KB) cannot block the child.
 pub(crate) fn run_cmd_raw(
     argv: &[String],
