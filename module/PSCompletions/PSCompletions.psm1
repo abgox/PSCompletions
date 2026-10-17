@@ -272,7 +272,7 @@
                     $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
                     [pscustomobject]@{
                         Name        = $_.name
-                        Alias       = $_.alias
+                        Alias       = $_.aliases -join ' '
                         Url         = $_.url
                         Description = $_.description
                         Path        = $resolvedPath

@@ -42,7 +42,7 @@ pub fn cmd_info(
             o.insert("name".into(), serde_json::json!(name));
             if let Some(aliases) = settings.alias.get(name) {
                 if !aliases.is_empty() {
-                    o.insert("alias".into(), serde_json::json!(aliases.join(" ")));
+                    o.insert("aliases".into(), serde_json::json!(aliases));
                 }
             }
             if let Some(meta) = index.meta.get(name) {

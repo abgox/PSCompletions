@@ -152,6 +152,21 @@ fn json_list_ok() {
 }
 
 #[test]
+fn json_info_reports_aliases_array() {
+    let d = make_data("json-info-aliases", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "info", "git"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    let e = v.as_array().unwrap()[0].clone();
+    assert_eq!(e["name"], "git");
+    assert_eq!(e["aliases"], serde_json::json!(["git"]), "{out}");
+    assert!(
+        e.get("alias").is_none(),
+        "joined string must be gone: {out}"
+    );
+}
+
+#[test]
 fn json_info_unknown_entry_is_name_free_error() {
     let d = make_data("json-info-bad", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "info", "zzz-nope"]);
