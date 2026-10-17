@@ -70,7 +70,7 @@ pub fn cmd_completion(
                         .entry(n.clone())
                         .or_insert_with(|| serde_json::json!({}));
                     if let Some(o) = entry.as_object_mut() {
-                        o.insert("enable_hooks".to_string(), serde_json::json!(false));
+                        o.insert("enable_hooks".to_string(), serde_json::json!(0));
                     }
                 }
             }
@@ -110,7 +110,7 @@ pub fn cmd_completion(
                         // `enable_hooks` has no manifest default; resetting it re-applies
                         // the config.json declaration (a `hooks: false` completion stays off).
                         if key == "enable_hooks" && hooks_declared_disabled(&data_dir, &name) {
-                            n.insert("enable_hooks".to_string(), serde_json::json!(false));
+                            n.insert("enable_hooks".to_string(), serde_json::json!(0));
                         } else {
                             n.remove(&key);
                         }

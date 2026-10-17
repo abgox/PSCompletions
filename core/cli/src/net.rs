@@ -510,7 +510,7 @@ pub fn refresh_settings_after_add(
             .or_insert_with(|| serde_json::json!({}));
         n.as_object_mut()
             .unwrap()
-            .insert("enable_hooks".to_string(), serde_json::json!(false));
+            .insert("enable_hooks".to_string(), serde_json::json!(0));
     }
     Ok(skipped)
 }
@@ -754,17 +754,17 @@ mod tests {
         )
         .unwrap();
         let mut s = Settings::default();
-        // First install: `hooks: false` seeds enable_hooks=false (disabled by default).
+        // First install: `hooks: false` seeds enable_hooks=0 (disabled by default).
         let skipped =
             refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x", true).unwrap();
         assert!(skipped.is_empty());
-        assert_eq!(s.config["completion"]["x"]["enable_hooks"], false);
+        assert_eq!(s.config["completion"]["x"]["enable_hooks"], 0);
         // Update (patch): an existing entry is never rewritten (the user's opt-in survives).
-        s.config["completion"]["x"]["enable_hooks"] = serde_json::json!(true);
+        s.config["completion"]["x"]["enable_hooks"] = serde_json::json!(1);
         let skipped =
             refresh_settings_after_add(&mut s, base.to_str().unwrap(), "x", false).unwrap();
         assert!(skipped.is_empty());
-        assert_eq!(s.config["completion"]["x"]["enable_hooks"], true);
+        assert_eq!(s.config["completion"]["x"]["enable_hooks"], 1);
         std::fs::remove_dir_all(&base).ok();
     }
 
