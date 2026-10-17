@@ -364,6 +364,21 @@ fn json_add_linked_reports_added() {
     );
 }
 
+/// Named update of an installed-but-off-index completion reports an error
+/// (bulk `--all` still skips it silently).
+#[test]
+fn json_update_named_off_index_errors() {
+    let srv = spawn_server(vec![(
+        "completions.json",
+        r#"{"update":{},"meta":{}}"#.into(),
+    )]);
+    let d = make_data("flow-update-offindex", &srv);
+    let (code, out) = psc(&d, &["--json", "update", "git"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v.as_array().unwrap()[0]["ok"], false, "{out}");
+}
+
 /// Legacy mirrors serving only the old layout keep working: the index-branch
 /// candidate misses (shape check rejects the not-found body) and the client
 /// falls back to `.../raw/main/completions.json`.

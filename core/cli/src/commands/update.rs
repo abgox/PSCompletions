@@ -198,6 +198,8 @@ pub fn cmd_update(
     } else {
         named
     };
+    // Bulk modes skip off-index completions silently; a named target reports it.
+    let is_bulk = all || old;
     let installed: std::collections::HashSet<String> = settings.list().into_iter().collect();
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let had_error = std::sync::atomic::AtomicBool::new(false);
@@ -205,7 +207,7 @@ pub fn cmd_update(
     let index_ref: &Index = index;
     run_parallel(&names, 8, |name| {
         let known = installed.contains(name)
-            || std::path::Path::new(&format!("{data_dir}/completions/{name}")).exists()
+            || std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
             || list.contains(name);
         if !known {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
@@ -252,6 +254,18 @@ pub fn cmd_update(
             return;
         }
         if !list.contains(name) {
+            if is_bulk {
+                return;
+            }
+            had_error.store(true, std::sync::atomic::Ordering::SeqCst);
+            let err = msg_cli(lang, "no_completion");
+            results
+                .lock()
+                .unwrap()
+                .push(json!({"completion": name, "ok": false, "error": err}));
+            if !json {
+                out.line(&format!("{name}: {err}"));
+            }
             return;
         }
         let version = index_ref.update.get(name).cloned().unwrap_or_default();
