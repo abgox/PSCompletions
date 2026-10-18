@@ -396,6 +396,39 @@ fn json_add_repairs_a_non_object_config_entry() {
 }
 
 #[test]
+fn json_add_dedups_repeated_names() {
+    // `add demo demo` is one install: two workers would stage into the same pid-suffixed
+    // directory in the same process, and one would delete the other's.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("json-add-dedup", &srv);
+    let (code, out) = psc(&d, &["--json", "add", "demo", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(
+        v["data"]["completions"].as_array().unwrap().len(),
+        1,
+        "{out}"
+    );
+    assert!(v_ok(&v), "{out}");
+    assert!(d.join("completions/demo").exists(), "{out}");
+}
+
+#[test]
+fn json_rm_dedups_repeated_names() {
+    let d = make_data("json-rm-dedup", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "rm", "git", "git"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(
+        v["data"]["completions"].as_array().unwrap().len(),
+        1,
+        "{out}"
+    );
+    assert!(v_ok(&v), "{out}");
+    assert!(!d.join("completions/git").exists(), "{out}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

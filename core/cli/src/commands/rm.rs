@@ -40,7 +40,7 @@ pub fn cmd_rm(
         names.retain(|n| n != "psc");
         names
     } else {
-        args.iter().filter(|a| *a != "--all").cloned().collect()
+        crate::commands::dedup_names(args.iter().filter(|a| *a != "--all").cloned())
     };
     if names.is_empty() {
         if all {

@@ -192,11 +192,11 @@ pub fn cmd_update(
     }
     let all = args.iter().any(|a| a == "--all");
     let old = args.iter().any(|a| a == "--old");
-    let named: Vec<String> = args
-        .iter()
-        .filter(|a| *a != "--all" && *a != "--old")
-        .cloned()
-        .collect();
+    let named = crate::commands::dedup_names(
+        args.iter()
+            .filter(|a| *a != "--all" && *a != "--old")
+            .cloned(),
+    );
     // `--all` force-updates every installed completion; `--old` updates only the out-of-date
     // ones; named targets are re-fetched unconditionally (naming a completion IS the intent to
     // reinstall it).

@@ -35,3 +35,13 @@ where
         }
     });
 }
+
+/// Drop repeated names, keeping the first occurrence: `add demo demo` is one install, not two
+/// workers racing on the same pid-suffixed staging directory (and `rm git git` is one removal).
+pub fn dedup_names(names: impl IntoIterator<Item = String>) -> Vec<String> {
+    let mut seen = std::collections::HashSet::new();
+    names
+        .into_iter()
+        .filter(|n| seen.insert(n.clone()))
+        .collect()
+}

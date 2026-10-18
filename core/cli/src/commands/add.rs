@@ -55,7 +55,7 @@ pub fn cmd_add(
             );
         }
     };
-    let names: Vec<String> = args.to_vec();
+    let names = crate::commands::dedup_names(args.iter().cloned());
     // Download multiple completions concurrently (shared client + bounded worker pool).
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let results: std::sync::Mutex<Vec<serde_json::Value>> = std::sync::Mutex::new(Vec::new());
