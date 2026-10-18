@@ -7,7 +7,7 @@ use serde_json::Value;
 
 use crate::data::{read_text, Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{fail, Out};
+use crate::output::{err, meta, Out};
 
 /// Completion name status: 2=installed/local link (alias set or dir on disk), 1=remote-only, 0=unknown.
 /// All subcommands that accept a completion name share this same determination.
@@ -44,23 +44,39 @@ pub fn is_valid_name(name: &str) -> bool {
 
 /// Validate a completion name uniformly and report errors. `need_installed`: whether the command
 /// requires the completion to be installed (rm/update/completion/alias).
-/// Returns the error message when the name is invalid.
-pub fn name_error(lang: &str, name: &str, status: u8, need_installed: bool) -> Option<String> {
-    if !is_valid_name(name) {
-        return Some(format!("{name} {}", msg_cli(lang, "not_available")));
-    }
-    if status == 0 {
-        return Some(format!("{name} {}", msg_cli(lang, "not_available")));
+///
+/// Returns the stable `code` a machine branches on together with the message a human reads
+/// (design/json.md): `not_available` for a name that is not usable, `not_installed` for one that
+/// exists remotely but is not installed here.
+pub fn name_error(
+    lang: &str,
+    name: &str,
+    status: u8,
+    need_installed: bool,
+) -> Option<(&'static str, String)> {
+    if !is_valid_name(name) || status == 0 {
+        return Some((
+            "not_available",
+            format!("{name} {}", msg_cli(lang, "not_available")),
+        ));
     }
     if need_installed && status == 1 {
-        return Some(format!("{name}: {}", msg_cli(lang, "no_completion")));
+        return Some((
+            "not_installed",
+            format!("{name}: {}", msg_cli(lang, "no_completion")),
+        ));
     }
     None
 }
 
-/// Parameter-count validation error: routed through the output contract (`fail`).
-pub fn param_err(out: &Out, lang: &str, json: bool) -> ExitCode {
-    fail(out, msg_cli(lang, "param_min"), json)
+/// Parameter-count validation error: the envelope's `too_few_params`, a usage error (exit 2).
+pub fn param_err(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+    let msg = msg_cli(lang, "param_min");
+    if json {
+        return err("too_few_params", &msg, None, &meta(None, data_dir), true);
+    }
+    out.line(&msg);
+    ExitCode::from(2)
 }
 
 /// `<data>` dir from the settings path (`<data>/settings.json`).

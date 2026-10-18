@@ -2,30 +2,40 @@
 
 use std::process::ExitCode;
 
-use crate::data::Settings;
-use crate::output::Out;
+use serde_json::json;
 
-pub fn cmd_list(settings: &Settings, out: &Out, json: bool) -> ExitCode {
-    if json {
-        let arr: Vec<serde_json::Value> = settings
-            .list()
-            .iter()
-            .map(|name| {
-                let aliases = settings.alias.get(name).cloned().unwrap_or_default();
-                serde_json::json!({ "completion": name, "aliases": aliases })
+use crate::data::Settings;
+use crate::output::{meta, ok, Out};
+
+pub fn cmd_list(settings: &Settings, data_dir: &str, out: &Out, json: bool) -> ExitCode {
+    // One data model, two renderings (design/json.md): the text mode prints what the JSON carries.
+    let items: Vec<serde_json::Value> = settings
+        .list()
+        .iter()
+        .map(|name| {
+            json!({
+                "name": name,
+                "alias": settings.alias.get(name).cloned().unwrap_or_default(),
             })
-            .collect();
-        println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-        return ExitCode::SUCCESS;
+        })
+        .collect();
+    if json {
+        return ok(
+            &json!({ "completions": items }),
+            &meta(Some(items.len()), data_dir),
+        );
     }
-    for name in settings.list() {
-        let aliases = settings.alias.get(&name).cloned().unwrap_or_default();
-        // All trigger words, exactly like this command's JSON branch (`{"completion": …,
-        // "aliases": …}`) and like PS's `_render_list`, which renders that JSON. Filtering out
-        // the completion's own name made `psc list` disagree with `psc alias` for no visible
-        // reason.
+    for item in &items {
+        let name = item["name"].as_str().unwrap_or_default();
+        let aliases: Vec<&str> = item["alias"]
+            .as_array()
+            .map(|a| a.iter().filter_map(|v| v.as_str()).collect())
+            .unwrap_or_default();
+        // All trigger words, exactly like this command's JSON and like PS's `_render_list`, which
+        // renders that JSON. Filtering out the completion's own name made `psc list` disagree with
+        // `psc alias` for no visible reason.
         if aliases.is_empty() {
-            out.line(&name);
+            out.line(name);
         } else {
             out.line(&format!("{name}: {}", aliases.join(", ")));
         }

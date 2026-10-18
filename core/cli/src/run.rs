@@ -10,9 +10,9 @@ use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
 use crate::messages::msg_cli;
 use crate::net::cleanup_stale_staging;
-use crate::output::{fail, Out};
+use crate::output::{fail, meta, Out};
 pub fn run(args: Vec<String>) -> ExitCode {
-    let (data_arg, json, language_arg, result_arg, rest) = parse_args(&args);
+    let (data_arg, json, language_arg, result_arg, yes, rest) = parse_args(&args);
     let Some(data_dir) = data_arg.or_else(|| std::env::var("PSCOMPLETIONS_DATA_DIR").ok()) else {
         eprintln!("psc: no data dir (pass --data <dir> or set PSCOMPLETIONS_DATA_DIR)");
         return ExitCode::FAILURE;
@@ -40,6 +40,21 @@ pub fn run(args: Vec<String>) -> ExitCode {
     if matches!(cmd.as_str(), "add" | "update" | "init") {
         cleanup_stale_staging(&data_dir);
     }
+    // Destructive operations need explicit authorisation (design/json.md §7): the hosts ask the
+    // human and add `--yes`, so a caller driving the engine directly must say so itself. The
+    // engine never prompts — it stops with `needs_confirmation` and exit 2.
+    let destructive =
+        args.iter().any(|a| a == "--reset") || (cmd == "rm" && args.iter().any(|a| a == "--all"));
+    if destructive && !yes {
+        return fail(
+            &out,
+            "needs_confirmation",
+            &msg_cli(&lang, "needs_confirmation"),
+            json,
+            &meta(None, &data_dir),
+            true,
+        );
+    }
     let code = match cmd.as_str() {
         "init" => cmd_init(
             &settings_path,
@@ -50,11 +65,11 @@ pub fn run(args: Vec<String>) -> ExitCode {
             result_arg.as_deref(),
             &out,
         ),
-        "list" => cmd_list(&settings, &out, json),
+        "list" => cmd_list(&settings, &data_dir, &out, json),
         // Internal, like `init`: the hosts render their `info` templates through the engine, so
         // the `{{…}}` grammar has exactly one implementation.
         "tpl" => cmd_tpl(args, &completions_dir, &lang, &settings),
-        "info" => cmd_info(args, &settings, &index, &completions_dir, &out, json),
+        "info" => cmd_info(args, &settings, &index, &completions_dir, &lang, &out, json),
         "config" => cmd_config(args, &settings_path, &mut settings, &lang, &out, json),
         "completion" => cmd_completion(
             args,
@@ -104,7 +119,15 @@ pub fn run(args: Vec<String>) -> ExitCode {
             &out,
             json,
         ),
-        _ => fail(&out, msg_cli(&lang, "sub_cmd"), json),
+        // An unknown command is a usage error: `invalid_subcommand`, exit 2.
+        _ => fail(
+            &out,
+            "invalid_subcommand",
+            &msg_cli(&lang, "sub_cmd"),
+            json,
+            &meta(None, &data_dir),
+            true,
+        ),
     };
     code
 }

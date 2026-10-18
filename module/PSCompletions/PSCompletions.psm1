@@ -6,6 +6,28 @@
 
     $arg = $args
 
+    # A flags-only invocation (bare `psc`, or `psc --json`) is not a command execution: it keeps
+    # the module's info page below, exactly like the bare call (design/json.md §8). So the
+    # machine contract only applies once a command word is there.
+    $hasCmd = $false
+    foreach ($a in $arg) {
+        if (-not ([string]$a).StartsWith('-')) { $hasCmd = $true; break }
+    }
+
+    # `--json` anywhere in the invocation is the machine contract: hand it to the engine as it is
+    # and print what it says — no rendering, no color, and no prompt (design/json.md §7). The
+    # shell bridges do the same, so a caller gets parseable JSON from every host.
+    if ($hasCmd -and $arg -contains '--json') {
+        $pscBinary = $PSCompletions.psc_binary()
+        if ($pscBinary) {
+            $oldEncoding = [Console]::OutputEncoding
+            [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+            try { & $pscBinary --data $PSCompletions.path.dir.data @($arg) }
+            finally { [Console]::OutputEncoding = $oldEncoding }
+        }
+        return
+    }
+
     # Must live in the psm1 (module session state): the renderer is pure, but the
     # call must resolve here so future host-specific lookups keep working.
     function _replace {
@@ -39,11 +61,18 @@
             return
         }
         $dataDir = $PSCompletions.path.dir.data
+        # The engine never prompts: it refuses a destructive operation unless it is authorised
+        # (design/json.md §7). The host is the one that asks the human, so it supplies the
+        # authorisation here — the single place the module calls the engine. `rm --all` has
+        # already been confirmed by the case that called this; a group `--reset` is not
+        # destructive enough to ask about, so the host simply says yes.
+        $destructive = ($arg -contains '--reset') -or (($arg | Select-Object -First 1) -eq 'rm' -and ($arg -contains '--all'))
+        $authorised = if ($destructive) { @('--yes') } else { @() }
         # psc emits UTF-8, but PowerShell decodes native output via [Console]::OutputEncoding (GBK on Chinese systems); switch temporarily
         $oldEncoding = [Console]::OutputEncoding
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
         try {
-            $raw = & $pscBinary --data $dataDir $(if ($Json) { '--json' }) @($arg) 2>&1
+            $raw = & $pscBinary --data $dataDir $(if ($Json) { '--json' }) @($arg) @($authorised) 2>&1
             $exit = $LASTEXITCODE
         }
         finally {
@@ -54,6 +83,20 @@
             }) -join "`n"
         # Render binary errors uniformly in red and stop — check exit before Json
         if ($exit -ne 0) {
+            if ($Json) {
+                # A partial failure (`ok:false` per item) is not a whole-command error: hand the
+                # payload back so the caller renders the items. Only an envelope carrying an
+                # `error` is shown as one red line.
+                try {
+                    $parsed = $text | ConvertFrom-Json
+                    if ($null -ne $parsed.data) { return $parsed.data }
+                    if ($parsed.error.message) {
+                        $PSCompletions.write_with_color((_replace "<@Red>$($parsed.error.message)"))
+                        return
+                    }
+                }
+                catch { }
+            }
             if ($text.Trim()) {
                 $PSCompletions.write_with_color((_replace "<@Red>$($text.Trim())"))
             }
@@ -61,7 +104,8 @@
         }
         if ($Json -and $text.Trim()) {
             try {
-                return $text | ConvertFrom-Json
+                # The envelope's payload: `data` is what this command's caller renders.
+                return ($text | ConvertFrom-Json).data
             }
             catch {
                 return @{ ok = $false; error = $_.Exception.Message }
@@ -87,7 +131,7 @@
     function _render_list {
         param($rows)
         foreach ($row in $rows) {
-            [pscustomobject]@{ Completion = $row.completion; Alias = $row.aliases }
+            [pscustomobject]@{ Completion = $row.name; Alias = $row.alias }
         }
     }
     # Build the add/update done-template context: trigger aliases plus the
@@ -134,16 +178,17 @@
     }
     $need_init = $true
     switch ($arg[0]) {
-        'list' { _render_list (_forward_psc -Json); $need_init = $false }
+        'list' { _render_list ((_forward_psc -Json).completions); $need_init = $false }
         'add' {
             $targets = @($arg[1..($arg.Count - 1)])
             if ($targets.Count) {
-                $result = _forward_psc -Json
-                if ($null -ne $result) {
+                # The payload names its collection; each item carries its name and a stable code.
+                $rows = @((_forward_psc -Json).completions)
+                if ($rows.Count) {
                     $PSCompletions.init_data()
-                    foreach ($r in @($result)) {
+                    foreach ($r in $rows) {
                         if ($r.ok) {
-                            _render_completion_done $r.completion 'add'
+                            _render_completion_done $r.name 'add'
                             foreach ($s in $r.skipped) {
                                 if (!$s) { continue }
                                 $alias = $s.alias
@@ -152,7 +197,7 @@
                             }
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.name) { "$($r.name): " })$($r.error.message)"))
                         }
                     }
                 }
@@ -175,15 +220,16 @@
             }
             else { $targets = @($arg[1..($arg.Count - 1)]) }
             if ($targets.Count) {
-                $result = _forward_psc -Json
-                if ($null -ne $result) {
+                # The payload names its collection; each item carries its name and a stable code.
+                $rows = @((_forward_psc -Json).completions)
+                if ($rows.Count) {
                     $PSCompletions.init_data()
-                    foreach ($r in @($result)) {
+                    foreach ($r in $rows) {
                         if ($r.ok) {
-                            _render_completion_done $r.completion 'rm'
+                            _render_completion_done $r.name 'rm'
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.name) { "$($r.name): " })$($r.error.message)"))
                         }
                     }
                 }
@@ -226,25 +272,25 @@
                 $PSCompletions.pending_skip_library = $true
             }
             else {
-                # --all / --old / named update: the CLI returns per-completion JSON results.
-                $result = _forward_psc -Json
-                if ($null -eq $result) {
+                # --all / --old / named update: the payload names its per-completion collection.
+                $rows = @((_forward_psc -Json).completions)
+                if (-not $rows.Count) {
                     $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
                 }
                 else {
                     $PSCompletions.init_data()
                     $anyOk = $false
                     $migratedRenamed = @()
-                    foreach ($r in @($result)) {
+                    foreach ($r in $rows) {
                         if ($r.ok) {
                             $anyOk = $true
                             if ($r.renamed_from) {
-                                $migratedRenamed += , @($r.renamed_from, $r.completion)
+                                $migratedRenamed += , @($r.renamed_from, $r.name)
                                 # Migrated rename: display "old -> new", resolve config/alias from the real name.
-                                _render_completion_done $r.completion 'update' "$($r.renamed_from) -> $($r.completion)"
+                                _render_completion_done $r.name 'update' "$($r.renamed_from) -> $($r.name)"
                             }
                             else {
-                                _render_completion_done $r.completion 'update'
+                                _render_completion_done $r.name 'update'
                             }
                             foreach ($s in $r.skipped) {
                                 if (!$s) { continue }
@@ -254,10 +300,10 @@
                             }
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.name) { "$($r.name): " })$($r.error.message)"))
                         }
                     }
-                    if (-not $anyOk -and -not @($result).Count) {
+                    if (-not $anyOk -and -not $rows.Count) {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
                     }
                     # Consume only the renames actually migrated this run (from the CLI results);
@@ -287,15 +333,16 @@
             $need_init = $false
         }
         'info' {
-            _forward_psc -Json | ForEach-Object {
+            # The payload names its collection; each entry carries the fixed key set.
+            (_forward_psc -Json).completions | ForEach-Object {
                 if ($_.ok -eq $false) {
-                    $PSCompletions.write_with_color((_replace "<@Red>$(if ($_.name) { "$($_.name): " })$($_.error)"))
+                    $PSCompletions.write_with_color((_replace "<@Red>$(if ($_.name) { "$($_.name): " })$($_.error.message)"))
                 }
                 else {
                     $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
                     [pscustomobject]@{
                         Name        = $_.name
-                        Alias       = $_.aliases -join ' '
+                        Alias       = $_.alias -join ' '
                         Url         = $_.url
                         Description = $_.description
                         Path        = $resolvedPath
@@ -308,10 +355,10 @@
         }
         'alias' {
             if ($arg.Count -eq 1) {
-                # No args = list all trigger aliases, wrapped as objects like list
-                _forward_psc -Json | ForEach-Object {
-                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
-                    else { [pscustomobject]@{ Completion = $_.completion; Alias = $_.aliases } }
+                # No args = list all trigger aliases, wrapped as objects like list. The payload
+                # names the collection; each entry carries the completion and its words.
+                (_forward_psc -Json).aliases | ForEach-Object {
+                    [pscustomobject]@{ Completion = $_.name; Alias = $_.alias }
                 }
                 $need_init = $false
             }
@@ -330,9 +377,10 @@
                 }
             }
             elseif ($arg.Count -le 2) {
-                _forward_psc -Json | ForEach-Object {
-                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
-                    else { [pscustomobject]@{ Key = $_.key; Value = $_.value } }
+                # The payload names its collection; a whole-command failure is the envelope's,
+                # which _forward_psc has already reported in red.
+                (_forward_psc -Json).config | ForEach-Object {
+                    [pscustomobject]@{ Key = $_.key; Value = $_.value }
                 }
                 $need_init = $false
             }
@@ -379,10 +427,13 @@
                 $need_init = $false
             }
             elseif ($arg.Count -le 2) {
-                # No args / <name>: list special config, wrapped as objects
-                _forward_psc -Json | ForEach-Object {
-                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
-                    else { [pscustomobject]@{ Completion = $_.completion; Config = $_.config } }
+                # No args / <name>: the payload names its collection; each entry carries the
+                # completion and its config.
+                $res = _forward_psc -Json
+                # PowerShell cannot pipe an `if` statement: pick the rows first, then pipe them.
+                $rows = if ($arg.Count -eq 1) { @($res.completions) } else { @($res) }
+                $rows | ForEach-Object {
+                    [pscustomobject]@{ Completion = $_.name; Config = $_.config }
                 }
                 $need_init = $false
             }

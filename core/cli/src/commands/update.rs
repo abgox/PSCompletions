@@ -11,7 +11,7 @@ use crate::net::{
     add_completion, download_list, local_completion_id, refresh_settings_after_add,
     rename_completion, resolve_index_urls, resolve_urls,
 };
-use crate::output::{fail, Out};
+use crate::output::{fail, meta, ok, Out};
 use crate::postcheck::{fetch_module_version, record_post_check};
 use crate::validate::is_valid_name;
 #[allow(clippy::too_many_arguments)]
@@ -41,7 +41,14 @@ pub fn cmd_update(
             index.remote_names()
         }
         Err(e) => {
-            return fail(out, format!("error: {e}"), json);
+            return fail(
+                out,
+                "network",
+                &format!("error: {e}"),
+                json,
+                &meta(None, data_dir),
+                false,
+            );
         }
     };
     // Rename detection: a locally installed completion whose stable id now maps to a different remote name has been renamed upstream.
@@ -169,15 +176,16 @@ pub fn cmd_update(
             out.line(&msg_cli(lang, "update_no"));
         }
         if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({
+            // The library-change report (the same four lists `change.json` carries), not a
+            // per-completion result set.
+            return ok(
+                &json!({
                     "update": update_no_rename,
                     "added": added,
                     "removed": removed,
                     "renamed": renamed.iter().map(|(a, b)| json!([a, b])).collect::<Vec<_>>(),
-                }))
-                .unwrap_or_default()
+                }),
+                &meta(None, data_dir),
             );
         }
         return ExitCode::SUCCESS;
@@ -216,10 +224,11 @@ pub fn cmd_update(
         if !known {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
             let err = msg_cli(lang, "not_available");
-            results
-                .lock()
-                .unwrap()
-                .push(json!({"completion": name, "ok": false, "error": err}));
+            results.lock().unwrap().push(json!({
+                "name": name,
+                "ok": false,
+                "error": { "code": "not_available", "message": err },
+            }));
             if !json {
                 out.line(&format!("{name}: {err}"));
             }
@@ -234,7 +243,7 @@ pub fn cmd_update(
                 Ok(()) => {
                     if json {
                         results.lock().unwrap().push(json!({
-                            "completion": new_name, "ok": true, "renamed_from": name
+                            "name": new_name, "ok": true, "renamed_from": name
                         }));
                     } else {
                         out.line(&format!(
@@ -246,10 +255,11 @@ pub fn cmd_update(
                 Err(e) => {
                     had_error.store(true, std::sync::atomic::Ordering::SeqCst);
                     if json {
-                        results
-                            .lock()
-                            .unwrap()
-                            .push(json!({"completion": name, "ok": false, "error": e}));
+                        results.lock().unwrap().push(json!({
+                            "name": name,
+                            "ok": false,
+                            "error": { "code": "network", "message": e },
+                        }));
                     } else {
                         out.line(&format!("{name}: error: {e}"));
                     }
@@ -263,10 +273,11 @@ pub fn cmd_update(
             }
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
             let err = msg_cli(lang, "no_completion");
-            results
-                .lock()
-                .unwrap()
-                .push(json!({"completion": name, "ok": false, "error": err}));
+            results.lock().unwrap().push(json!({
+                "name": name,
+                "ok": false,
+                "error": { "code": "not_available", "message": err },
+            }));
             if !json {
                 out.line(&format!("{name}: {err}"));
             }
@@ -276,11 +287,14 @@ pub fn cmd_update(
         match add_completion(data_dir, name, &urls, &version) {
             Ok(updated) => {
                 if !updated {
+                    // A local link is a deliberate choice, not an error: reported, but it does
+                    // not fail the run (unlike `add`, which calls the same case a success).
                     let err = msg_cli(lang, "update_skip");
-                    results
-                        .lock()
-                        .unwrap()
-                        .push(json!({"completion": name, "ok": false, "error": err}));
+                    results.lock().unwrap().push(json!({
+                        "name": name,
+                        "ok": false,
+                        "error": { "code": "not_updated", "message": err },
+                    }));
                     if !json {
                         out.line(&format!("{name}: {err}"));
                     }
@@ -292,17 +306,18 @@ pub fn cmd_update(
                     Err(e) => {
                         had_error.store(true, std::sync::atomic::Ordering::SeqCst);
                         if json {
-                            results
-                                .lock()
-                                .unwrap()
-                                .push(json!({"completion": name, "ok": false, "error": e}));
+                            results.lock().unwrap().push(json!({
+                                "name": name,
+                                "ok": false,
+                                "error": { "code": "io", "message": e },
+                            }));
                         } else {
                             out.line(&format!("error: {e}"));
                         }
                     }
                     Ok(skipped) => {
                         if json {
-                            let mut entry = json!({"completion": name, "ok": true});
+                            let mut entry = json!({"name": name, "ok": true});
                             if !skipped.is_empty() {
                                 entry["skipped"] = skipped
                                     .iter()
@@ -325,10 +340,11 @@ pub fn cmd_update(
             Err(e) => {
                 had_error.store(true, std::sync::atomic::Ordering::SeqCst);
                 if json {
-                    results
-                        .lock()
-                        .unwrap()
-                        .push(json!({"completion": name, "ok": false, "error": e}));
+                    results.lock().unwrap().push(json!({
+                        "name": name,
+                        "ok": false,
+                        "error": { "code": "network", "message": e },
+                    }));
                 } else {
                     out.line(&format!("{name}: error: {e}"));
                 }
@@ -343,7 +359,7 @@ pub fn cmd_update(
             .iter()
             .filter_map(|v| {
                 let from = v.get("renamed_from").and_then(|x| x.as_str());
-                let to = v.get("completion").and_then(|x| x.as_str());
+                let to = v.get("name").and_then(|x| x.as_str());
                 match (from, to) {
                     (Some(f), Some(t)) => Some((f.to_string(), t.to_string())),
                     _ => None,
@@ -364,19 +380,33 @@ pub fn cmd_update(
     // Save first, print once: the payload must carry the save outcome, and `--json` mode owes
     // the consumer exactly one JSON document.
     let save_err = settings.save(settings_path).err();
-    if json {
-        let mut results = results.lock().unwrap().clone();
-        if let Some(e) = save_err {
-            results.push(serde_json::json!({"ok": false, "error": e}));
-        }
-        println!("{}", serde_json::to_string(&results).unwrap_or_default());
-        return ExitCode::SUCCESS;
-    }
     if let Some(e) = save_err {
-        out.line(&format!("error: {e}"));
-        return ExitCode::FAILURE;
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(
+            out,
+            "io",
+            &format!("error: {e}"),
+            json,
+            &meta(None, data_dir),
+            false,
+        );
     }
-    if had_error.load(std::sync::atomic::Ordering::SeqCst) {
+    let results = results.lock().unwrap().clone();
+    let had_error = had_error.load(std::sync::atomic::Ordering::SeqCst);
+    if json {
+        let count = results.len();
+        ok(
+            &json!({ "completions": results }),
+            &meta(Some(count), data_dir),
+        );
+        // Any failed item fails the run (design/json.md §6).
+        return if had_error {
+            ExitCode::FAILURE
+        } else {
+            ExitCode::SUCCESS
+        };
+    }
+    if had_error {
         ExitCode::FAILURE
     } else {
         ExitCode::SUCCESS

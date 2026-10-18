@@ -93,7 +93,8 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | Flag | Meaning |
 | --- | --- |
 | `--data <dir>` / `--data=<dir>` | Data directory. The PowerShell host always passes its resolved directory; when invoking the binary directly, this overrides `PSCOMPLETIONS_DATA_DIR`. |
-| `--json` | Structured JSON output (used by the PowerShell wrapper). |
+| `--json` | Structured JSON output (used by the PowerShell wrapper) — the contract is [`json.md`](json.md). |
+| `--yes` | Authorise a destructive operation (`rm --all`, any `--reset`). The engine never prompts: the hosts ask the human and add this flag themselves. |
 | `--language <lang>` | Only used by `init` (bootstrap default language when settings are missing). |
 | `--result <file>` | Only used by `init` (write the init JSON payload to a file). |
 
@@ -102,17 +103,20 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | Command | Arguments | Options | Network | Implemented in | Notes |
 | --- | --- | --- | --- | --- | --- |
 | `add` | `<name>...` | — | yes | Rust + PS wrapper | installs each named completion |
-| `rm` | `<name>...` | `--all` | no | Rust + PS wrapper | `--all` confirms; `psc` itself is always kept |
+| `rm` | `<name>...` | `--all` | no | Rust + PS wrapper | `--all` is confirmed by the host, which then passes `--yes`; `psc` itself is always kept |
 | `update` | `[<name>...]` | `--all`, `--old` | yes | Rust + PS wrapper | no-arg = real-time check |
 | `list` | — | — | no | Rust + PS wrapper | local aggregate; `--json` |
 | `info` | `[<name>...]` | — | no | Rust + PS wrapper | no-arg = list all installed; includes `Path` |
 | `config` | `[core\|menu\|context] <key> [<value>]` | `--reset` | no | Rust + PS wrapper | all config keys, grouped |
 | `completion` | `[<name> [<key> [<value>]]]` | `--reset` | no | Rust + PS wrapper | per-completion special config |
 | `alias` | `[add <name> <alias>...\|rm <name> <alias>...]` | `--reset` | no | Rust + PS wrapper | no-arg lists all |
-| `--reset` | — | — | no | **PS only** | nuclear reset, top-level flag |
+| `--reset` | — | — | no | **Host only** | nuclear reset, performed by the host itself — it never reaches the engine |
 | `init` | — | — | on missing psc files | Rust | internal, module bootstrap |
 | `tpl` | `<dotted.info.path>` | `--ctx <json>`, `--no-color` | no | Rust | internal, renders one `info` template for a host |
 | *(no args)* | — | — | — | PS | re-init + interactive info page |
+
+Every destructive operation (`rm --all`, any `--reset`) needs `--yes` in the engine; the hosts ask
+the human and add it themselves ([`json.md`](json.md) §7).
 
 ## 6. Per-command reference
 
@@ -136,9 +140,10 @@ psc add <name>...
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`. A downloaded `config.json` without a usable `id`
   is refused — nothing lands, the installed version stays intact.
-- **Output**: with `--json`, per-completion results `{completion, ok, error}` (trigger words
-  owned by another completion add `skipped: [{alias, owner}]`); plain text
-  `<name>: Added.` otherwise (ownership warnings print per word). Text mode: any error → exit code `FAILURE`.
+- **Output**: with `--json`, `data.completions` carries one result per name — `{name, ok, error?}`
+  (trigger words owned by another completion add `skipped: [{alias, owner}]`); plain text
+  `<name>: Added.` otherwise (ownership warnings print per word). A failed item fails the run:
+  exit code `1` ([`json.md`](json.md) §6).
 - **PS wrapper**: forwards with `--json`, then `init_data()` and renders
   the rich `info.add.done` / `info.update.done` template per added completion.
 
@@ -151,7 +156,7 @@ psc alias rm  <name> <alias>...
 psc alias --reset                   # restore every completion's aliases
 ```
 
-- **Behavior**: no-arg lists `name: alias1 alias2` (JSON: `[{completion, aliases}]`).
+- **Behavior**: no-arg lists `name: alias1 alias2` (JSON: `{"aliases": [{name, alias}]}`).
   Trigger aliases only open the completion menu — they never create execution
   aliases (execution aliases are the user's own `Set-Alias` business).
   `add`/`rm` operate on a single installed completion (the name must be in `settings.alias`).
@@ -163,13 +168,14 @@ psc alias --reset                   # restore every completion's aliases
   completion stays with its earlier owner — the newcomer skips it with an ownership warning
   (`alias_owned`, naming the owner; move it with `alias rm <owner> <word>` first if intended).
 - **Validation (rm)**: refuses to remove the last remaining alias of a completion (`alias_unique`).
-- **JSON payloads**: `add` → `[{name, ok, added}]`, with per-alias failures as
-  `{alias, ok: false, error}` entries alongside the final success entry; `rm` → `{name, ok, removed}`;
-  `alias <add|rm> <name> --reset` → `{name, ok, reset}`; `alias --reset` → `{ok, reset}` where
-  `reset` is `[{name, aliases}]`. Every reset payload also carries `skipped: [{alias, owner}]`
-  when a word stayed with an earlier owner (the `alias_owned` warning in text mode).
-- **Errors**: too few params → `Too few parameters.`; name not installed →
-  `<name>: Completion not added.`; per-alias errors: `has_wildcard`, `alias_owned`, `alias_exist`.
+- **JSON payloads** ([`json.md`](json.md) §8): `add` → `{name, alias, rejected}`, where each
+  rejected word carries `{alias, error: {code, message}}`; `rm` → `{name, alias}`;
+  `alias <add|rm> <name> --reset` → `{name, alias, skipped}`; `alias --reset` → `{aliases, skipped}`.
+  `skipped` holds `[{alias, owner}]` for a word that stayed with an earlier owner (the
+  `alias_owned` warning in text mode).
+- **Errors**: the envelope's `code` is `too_few_params` / `invalid_subcommand` / `not_installed`;
+  per-alias codes are `alias_wildcard`, `alias_reserved`, `alias_exists`, `alias_owned`,
+  `alias_not_found`, `alias_unique`.
 - **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects;
   `add`/`update` results render per-word `skipped: [{alias, owner}]` ownership warnings from the `info.alias.skipped` template.
 
@@ -193,8 +199,12 @@ psc completion <name> <key> --reset  # reset one key (exactly one; surplus args 
   they power the module's management completions.
 - **Validation**: `<name>` must be installed; `enable_`/`disable_` keys accept only the numbers
   `0`/`1` and are stored as JSON numbers (same as `config` boolean keys).
-- **Output**: no-arg → `name: language=zh-CN enable_tip=0` (JSON: `[{completion, config}]`);
-  get → `key: value` (JSON `{completion, key, value}`); set → `Completion config updated.`.
+- **Output**: no-arg → `name: language=zh-CN enable_tip=0`
+  (JSON: `{"completions": [{name, config}]}`); get → `key: value`
+  (JSON: `{"name", "key", "value"}`); set → `Completion config updated.`
+  (JSON: `{"name", "key", "value", "old"}` — the item the get answers with, plus the value it
+  replaced); `--reset` → the resulting state, the same shape the read of that scope answers with
+  ([`json.md`](json.md) §8).
 - **PS wrapper**: `completion <name> <key>` (3 args) prints the value only; reset/set forwards raw.
 
 ### 6.4 `config` — module configuration
@@ -213,9 +223,11 @@ psc config <group> <key> --reset      # reset one key
 - **Validation** (in Rust): `language` non-empty; `url` empty or `http(s)://…`;
   `show_mode` ∈ `auto|inline-follow|altscreen-follow|altscreen-top|altscreen-bottom`; `filter_mode` ∈ `subsequence|wildcard`;
   `enable_*` values `0`/`1`. Boolean keys are stored as JSON numbers (`1`/`0`).
-- **Output**: list → per group a `[group]` header, then `  key: value` per line
-  (JSON: `[{group, key, value}, …]`); get → `key: value` (JSON `{key, value}`); set →
-  `Module config updated.`
+- **Output**: list → per group a `[group]` header and then its `key: value` rows, both at
+  column 0 (JSON: `{"config": [{group, key, value}…]}`); get → `key: value` (JSON `{"key", "value"}`); set →
+  `Module config updated.` (JSON `{"key", "value", "old"}` — the item the get answers with, plus the
+  value it replaced); `--reset` → the resulting state, the same shape the read of that scope answers
+  with ([`json.md`](json.md) §8).
 - **PS wrapper**: no-arg → objects `{Key, Value}`; `config <group> <key>` (2 args) prints the
   value only; `--reset`/set forwards raw. Setting `trigger_key` re-binds PSReadLine
   (`Set-PSReadLineKeyHandler`) — validated via an actual binding attempt before Rust persists it.
@@ -231,10 +243,11 @@ psc info <name>...      # per-name metadata
   per entry). Per name, prints (when present): `Name`, `Alias`, `Url`, `Description` (from
   remote index meta, localized), `Path` (if installed), `Update` (remote version in `.update`),
   `Updated` (unix timestamp of `.update`).
-- **Errors**: a name that is neither installed/linked nor in the
-  remote library → `<name> is not an available completion.` (text mode: `FAILURE`; `--json`
-  always exits 0 with per-item `ok: false` entries).
-  `--json` entries are `{name, aliases[], url?, description?, path?, update?, updated?}`.
+- **Errors**: a name that is neither installed/linked nor in the remote library →
+  `<name> is not an available completion.`; in both modes the run exits `1` (a failed entry fails
+  the run, [`json.md`](json.md) §6). The `--json` entry is
+  `{name, ok, alias, url, description, path, update, updated}` with `null` for an absent field and
+  `{code, message}` for the failure.
 - **PS wrapper**: no-arg → objects `{Name, Alias, Url, Description, Path, Update, Updated}`;
   per-name → same format with `Updated` as a local `DateTimeOffset`.
 
@@ -244,8 +257,10 @@ psc info <name>...      # per-name metadata
 psc list
 ```
 
-- **Behavior**: prints installed completion names plus extra trigger aliases: `name  alias1 alias2`.
-- **Output**: text default; `--json` → `[{completion, aliases}]`.
+- **Behavior**: prints the completions **recorded in `settings.alias`** plus their trigger aliases:
+  `name  alias1, alias2`. A directory dropped into `completions/` by hand is not listed here — it was
+  never recorded — but `rm` still removes it, because `rm` works from the directory (below).
+- **Output**: text default; `--json` → `{"completions": [{name, alias}]}`.
 - **PS wrapper**: → `{Completion, Alias}`.
 
 ### 6.7 `rm` — remove completions
@@ -255,8 +270,8 @@ psc rm <name>...
 psc rm --all                # --all absorbs co-args: extras are ignored
 ```
 
-- **Behavior**: `--all` removes every installed completion except `psc` itself (interactive
-  confirm; `psc` is kept — it is the module's own completion and init re-adds it anyway, so no
+- **Behavior**: `--all` removes every installed completion except `psc` itself (the host
+  confirms and passes `--yes`; `psc` is kept — it is the module's own completion and init re-adds it anyway, so no
   network re-fetch happens here); otherwise the named ones. Each removal drops the entry from
   `settings.alias` and `config.completion`, drops the name from every notification list in
   `temp/change.json` (`update`/`added`/`removed`/`renamed`), and removes
@@ -279,10 +294,11 @@ psc rm --all                # --all absorbs co-args: extras are ignored
 - **Errors**: no args → `Too few parameters.`; name in neither the registry nor the remote
   library → `<name> is not an available completion.`; in the remote library but not installed →
   `<name>: Completion not added.`
-- **Output**: the Rust binary prints `Removed.` once — only if at least one completion was
-  actually removed (a fully-failed `rm` prints only the errors); the PS
-  wrapper renders `info.rm.done` per removed completion. Text mode: any error → exit code
-  `FAILURE`.
+- **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (an empty
+  `rm --all` is a successful no-op with an empty list); the Rust binary prints `Removed.` once in
+  text mode — only if at least one completion was actually removed (a fully-failed `rm` prints only
+  the errors) — and the PS wrapper renders `info.rm.done` per removed completion. A failed item
+  fails the run: exit code `1`.
 
 ### 6.8 `update` — update completions
 
@@ -316,20 +332,25 @@ psc update --all              # update every installed completion
 - **Errors**: name not installed and not in the remote list → `<name> is not an available completion.`;
   installed but not in the remote list → `<name>: Completion not added.`; download failure →
   `error: <err>`. Same `id` refusal as `add` (nothing lands on failure).
-- **Output**: with `--json`, per-completion results `{completion, ok, error}` (renames add
-  `renamed_from`); plain text otherwise. Text mode: any failure → exit `FAILURE`.
+- **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (a migrated
+  rename adds `renamed_from`); the no-argument check answers the four library-change lists
+  (`update` / `added` / `removed` / `renamed`) instead; plain text otherwise. A failed item fails
+  the run: exit `1`. A locally-linked completion is reported (`ok: false`, code `not_updated`) but
+  does not fail the run — a link is a deliberate choice, not an error.
 - **PS wrapper**: forwards `--all` / `--old` / the named arguments with `--json`, then renders
   `info.update.done` per successful result (migrated renames show `old -> new` in the name line),
   red errors for failures — so a partial failure still shows the successful ones.
 
-### 6.9 `--reset` — nuclear reset (PowerShell only, top-level flag)
+### 6.9 `--reset` — nuclear reset (host-only, top-level flag)
 
 ```
 psc --reset
 ```
 
-- Implemented in the psm1 switch (not Rust). Shows an interactive confirmation; on Enter it
-  deletes the resolved data directory contents, restores the bundled `psc` completion, and re-initializes.
+- Implemented by the hosts (not Rust): the PowerShell switch and each shell bridge. Shows an
+  interactive confirmation; on Enter it deletes the resolved data directory contents, restores the
+  bundled `psc` completion, and re-initializes. It never reaches the engine, so it needs no
+  `--yes`.
 
 
 ### 6.10 `init` — internal command (not user-facing)
@@ -483,19 +504,22 @@ on demand.
   stderr — the module path always passes `--data`, so this never happens in normal use.)
 - Text by default; every command accepts `--json`, except the internal `tpl`, which exists to hand
   back text.
-- **Output contract (two modes, no exceptions)**:
+- **Output contract (two modes, no exceptions)** — the full specification is
+  [`json.md`](json.md):
   - **Text mode** (no `--json`): human-readable lines; success/failure is expressed by the
     exit code.
-  - **`--json` mode**: stdout is **always valid JSON and the exit code is always 0**. Errors are
-    expressed inside the JSON payload — whole-command failures as a single
-    `{"ok": false, "error": "..."}` object (parameter errors, bad subcommands, download
-    failures), per-item failures as `ok: false` entries in the result array (`add`/`rm`/`update`
-    /`info`). This lets the PowerShell wrapper uniformly parse output and render errors without
-    branching on exit codes.
-  - **Sole exemption**: bare `psc` (no command) prints the usage help and exits `0` in both modes.
-    It is not a command execution — there is no failure to express and no documented JSON help
-    shape — so `--json` is ignored there. The module never reaches this path (its `default` branch
-    renders help itself without spawning `psc`).
+  - **`--json` mode**: stdout is **always valid JSON** — exactly one envelope object per run
+    (`{ok, data, meta}`, or `{ok: false, error: {code, message, details?}, meta}`), never a bare
+    array. A whole-command failure is the envelope's `error`; a per-item failure is an `ok: false`
+    entry inside `data` (`add` / `rm` / `update` / `info`). The PowerShell wrapper and the shell
+    bridges render that payload without branching on exit codes.
+  - **Exit codes** apply in both modes: `0` everything succeeded, `1` something failed (including
+    any per-item failure), `2` a usage/parameter error or a destructive operation without `--yes`.
+    The exit code is the signal a script sees without parsing the payload.
+  - **Sole exemption**: a `psc` invocation with no command word — bare, or flags only
+    (`psc --json`) — is not a command execution: there is no failure to express. The engine prints
+    its usage text and exits `0`; every host shows the module's **info page** instead (the engine
+    cannot render it, since the module version it prints lives in the module directory).
 - ANSI color when stdout is a TTY, stripped otherwise. The internal `tpl` is the exception: it
   colors by default and takes `--no-color`, because its callers capture stdout, where a TTY test
   would answer "no" and silently drop the color.
@@ -506,7 +530,8 @@ on demand.
   `psc <args>` via `_forward_psc` (pass `--data <resolved data dir>`), forward stdout/stderr/exit.
 - `config menu trigger_key` re-binds PSReadLine (`Set-PSReadLineKeyHandler`) — the one host-side
   validation that stays in PowerShell (validate-then-persist).
-- Interactive confirm for `rm --all` in the wrapper.
+- Interactive confirm for `rm --all` in the wrapper, which then adds `--yes`; a group `--reset`
+  is authorised outright (not destructive enough to ask about) — see [`json.md`](json.md) §7.
 - Module self-update stays PowerShell (PowerShellGet/git).
 
 ## 11. Workspace layout (current)
@@ -528,7 +553,7 @@ core/
         ├── data/         # settings/index/library-changes + config registry
         ├── net.rs        # downloads, mirror fallback, staged commits
         ├── input.rs      # argv parsing + data-dir normalization + help text
-        ├── output.rs     # Out sink, <@Tag> color markup, --json contract fail()
+        ├── output.rs     # Out sink, <@Tag> color markup, --json envelope (ok/err/fail/meta)
         ├── messages.rs   # embedded bilingual CLI messages (msg_cli)
         ├── validate.rs   # completion-name status/validation helpers
         ├── postcheck.rs  # change.json diff + psc self-heal + module version fetch

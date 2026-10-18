@@ -1,5 +1,5 @@
 //! Output rendering: the `Out` sink, `<@Tag>` color markup, and the JSON-contract
-//! failure exit (`fail`).
+//! failure exit (`err` / `fail`).
 
 use std::io::IsTerminal;
 use std::process::ExitCode;
@@ -79,22 +79,92 @@ fn strip_colors(s: &str) -> String {
     out
 }
 
-/// Emit a whole-command failure per the output contract and return the matching exit code:
-/// JSON mode → in-band `{"ok": false, "error": ...}` + exit 0; text mode → plain line +
-/// exit FAILURE. Every early-return validation/runtime error must go through this so a
-/// `--json` consumer always gets parseable output.
-pub fn fail(out: &Out, msg: String, json: bool) -> ExitCode {
+/// A whole-command failure in both modes: the text mode prints the message, the JSON mode the
+/// envelope with a stable `code` beside it. `usage` selects the exit code — a usage error is `2`,
+/// anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
+pub fn fail(
+    out: &Out,
+    code: &str,
+    msg: &str,
+    json: bool,
+    meta: &serde_json::Value,
+    usage: bool,
+) -> ExitCode {
     if json {
-        println!(
-            "{}",
-            serde_json::to_string(&serde_json::json!({ "ok": false, "error": msg }))
-                .unwrap_or_default()
-        );
-        ExitCode::SUCCESS
+        return err(code, msg, None, meta, usage);
+    }
+    out.line(msg);
+    if usage {
+        ExitCode::from(2)
     } else {
-        out.line(&msg);
         ExitCode::FAILURE
     }
+}
+
+/// The `--json` envelope: every command answers with one object — `ok`, the payload in `data`,
+/// and `meta` about this run — so a caller never has to guess the shape (design/json.md).
+pub fn ok(data: &serde_json::Value, meta: &serde_json::Value) -> ExitCode {
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({ "ok": true, "data": data, "meta": meta }))
+            .unwrap_or_default()
+    );
+    ExitCode::SUCCESS
+}
+
+/// A failure, in the envelope's `error` object: a stable `code` a machine branches on, a
+/// `message` a human reads (localized), and optional `details` for the parts. `usage` selects the
+/// exit code: a usage error is `2`, anything else `1`.
+pub fn err(
+    code: &str,
+    message: &str,
+    details: Option<serde_json::Value>,
+    meta: &serde_json::Value,
+    usage: bool,
+) -> ExitCode {
+    let mut error = serde_json::json!({ "code": code, "message": message });
+    if let Some(d) = details {
+        error["details"] = d;
+    }
+    println!(
+        "{}",
+        serde_json::to_string(&serde_json::json!({ "ok": false, "error": error, "meta": meta }))
+            .unwrap_or_default()
+    );
+    if usage {
+        ExitCode::from(2)
+    } else {
+        ExitCode::FAILURE
+    }
+}
+
+/// `meta`: the payload's item count (when it has one) plus where this run reads from — the
+/// directories and files, in the same vocabulary the host and the module use. The two log files
+/// are derived here: the engine writes them, so the module does not carry them.
+pub fn meta(count: Option<usize>, data_dir: &str) -> serde_json::Value {
+    let temp = format!("{data_dir}/temp");
+    let mut m = serde_json::json!({
+        "dir": {
+            "data": data_dir,
+            "completions": format!("{data_dir}/completions"),
+            "temp": temp,
+            "menu": format!("{temp}/menu"),
+            "cache": format!("{temp}/cache"),
+            "log": format!("{temp}/log"),
+            "order": format!("{temp}/order"),
+        },
+        "file": {
+            "settings": format!("{data_dir}/settings.json"),
+            "completions": format!("{temp}/completions.json"),
+            "change": format!("{temp}/change.json"),
+            "debug": format!("{temp}/log/debug.log"),
+            "error": format!("{temp}/log/error.log"),
+        },
+    });
+    if let Some(n) = count {
+        m["count"] = serde_json::json!(n);
+    }
+    m
 }
 
 #[cfg(test)]
@@ -118,17 +188,38 @@ mod tests {
     }
 
     #[test]
-    fn render_follows_the_color_flag() {
-        let plain = Out { color: false };
-        assert_eq!(plain.render("<@Cyan>cyan"), "cyan");
+    fn meta_names_the_paths_the_way_the_module_does() {
+        let m = meta(Some(2), "/d");
+        assert_eq!(m["count"], serde_json::json!(2));
+        assert_eq!(m["dir"]["data"], serde_json::json!("/d"));
+        assert_eq!(m["dir"]["completions"], serde_json::json!("/d/completions"));
+        assert_eq!(m["dir"]["log"], serde_json::json!("/d/temp/log"));
+        assert_eq!(
+            m["file"]["completions"],
+            serde_json::json!("/d/temp/completions.json")
+        );
+        assert_eq!(
+            m["file"]["debug"],
+            serde_json::json!("/d/temp/log/debug.log")
+        );
+        assert_eq!(
+            m["file"]["error"],
+            serde_json::json!("/d/temp/log/error.log")
+        );
+        // No count for a payload that has none (a write, a single value).
+        assert!(meta(None, "/d").get("count").is_none());
     }
 
     #[test]
-    fn fail_uses_exit_codes_per_mode() {
-        let out = Out::new();
-        // JSON mode: in-band error, exit SUCCESS (contract: --json always exits 0).
-        assert_eq!(fail(&out, "boom".into(), true), ExitCode::SUCCESS);
-        // Text mode: plain line + FAILURE. (Output goes to captured stdout.)
-        assert_eq!(fail(&out, "boom".into(), false), ExitCode::FAILURE);
+    fn err_uses_the_usage_exit_code() {
+        let m = serde_json::json!({});
+        assert_eq!(err("bad_flag", "nope", None, &m, true), ExitCode::from(2));
+        assert_eq!(err("io", "nope", None, &m, false), ExitCode::FAILURE);
+    }
+
+    #[test]
+    fn render_follows_the_color_flag() {
+        let plain = Out { color: false };
+        assert_eq!(plain.render("<@Cyan>cyan"), "cyan");
     }
 }

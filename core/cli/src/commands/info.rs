@@ -6,17 +6,18 @@ use serde_json::json;
 
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::Out;
+use crate::output::{meta, ok, Out};
 use crate::validate::{name_error, name_status};
 pub fn cmd_info(
     args: &[String],
     settings: &Settings,
     index: &Index,
     completions_dir: &str,
+    lang: &str,
     out: &Out,
     json: bool,
 ) -> ExitCode {
-    let lang = settings.language();
+    let lang = lang.to_string();
     let owned;
     let args: &[String] = if args.is_empty() {
         let mut v: Vec<String> = settings.alias.keys().cloned().collect();
@@ -27,29 +28,32 @@ pub fn cmd_info(
         args
     };
     if json {
-        let mut arr = Vec::new();
+        let mut entries = Vec::new();
         for name in args {
             let status = name_status(settings, index, completions_dir, name);
             if name_error(&lang, name, status, false).is_some() {
-                // Error text stays name-free: the module (and any consumer) renders
-                // `name: error` itself, mirroring the add/rm/update entry shape.
-                arr.push(
-                    json!({"name": name, "ok": false, "error": msg_cli(&lang, "not_available")}),
-                );
+                // The message stays name-free: the host renders `name: message` itself.
+                entries.push(json!({
+                    "name": name,
+                    "ok": false,
+                    "error": { "code": "not_available", "message": msg_cli(&lang, "not_available") },
+                }));
                 continue;
             }
-            let mut o = serde_json::Map::new();
-            o.insert("name".into(), serde_json::json!(name));
-            if let Some(aliases) = settings.alias.get(name) {
-                if !aliases.is_empty() {
-                    o.insert("aliases".into(), serde_json::json!(aliases));
+            // One fixed key set, `null` where a field is absent (design/json.md §3): a caller never
+            // has to test whether a key is there.
+            let mut alias = serde_json::Value::Null;
+            if let Some(a) = settings.alias.get(name) {
+                if !a.is_empty() {
+                    alias = json!(a);
                 }
             }
+            let mut url = serde_json::Value::Null;
+            let mut description = serde_json::Value::Null;
             if let Some(meta) = index.meta.get(name) {
-                let c = meta.get(&lang).or_else(|| meta.get("en-US"));
-                if let Some(c) = c {
-                    if let Some(url) = c.get("url").and_then(|u| u.as_str()) {
-                        o.insert("url".into(), serde_json::json!(url));
+                if let Some(c) = meta.get(&lang).or_else(|| meta.get("en-US")) {
+                    if let Some(u) = c.get("url").and_then(|u| u.as_str()) {
+                        url = json!(u);
                     }
                     if let Some(desc) = c.get("description") {
                         let d = match desc {
@@ -62,36 +66,65 @@ pub fn cmd_info(
                             _ => String::new(),
                         };
                         if !d.is_empty() {
-                            o.insert("description".into(), serde_json::json!(d));
+                            description = json!(d);
                         }
                     }
                 }
             }
             let path = format!("{completions_dir}/{name}");
+            let mut path_v = serde_json::Value::Null;
+            let mut update = serde_json::Value::Null;
+            let mut updated = serde_json::Value::Null;
             if std::path::Path::new(&path).exists() {
-                o.insert("path".into(), serde_json::json!(path));
+                path_v = json!(path);
                 if let Ok(t) = std::fs::read_to_string(format!("{path}/.update")) {
                     let t = t.trim();
                     if !t.is_empty() {
-                        o.insert("update".into(), serde_json::json!(t));
+                        update = json!(t);
                     }
                 }
-                if let Ok(meta) = std::fs::metadata(format!("{path}/.update")) {
-                    if let Ok(mt) = meta.modified() {
+                if let Ok(m) = std::fs::metadata(format!("{path}/.update")) {
+                    if let Ok(mt) = m.modified() {
                         if let Ok(d) = mt.duration_since(std::time::UNIX_EPOCH) {
-                            o.insert("updated".into(), serde_json::json!(d.as_secs()));
+                            updated = json!(d.as_secs());
                         }
                     }
                 }
             }
-            arr.push(serde_json::Value::Object(o));
+            entries.push(json!({
+                "name": name,
+                "ok": true,
+                "alias": alias,
+                "url": url,
+                "description": description,
+                "path": path_v,
+                "update": update,
+                "updated": updated,
+            }));
         }
-        println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-        return ExitCode::SUCCESS;
+        let had_error = entries.iter().any(|e| e["ok"] != true);
+        let count = entries.len();
+        let data = json!({ "completions": entries });
+        ok(
+            &data,
+            &meta(
+                Some(count),
+                completions_dir.trim_end_matches("/completions"),
+            ),
+        );
+        // A failed entry fails this invocation (design/json.md §6): the exit code is the signal a
+        // script sees without parsing the payload.
+        return if had_error {
+            ExitCode::FAILURE
+        } else {
+            ExitCode::SUCCESS
+        };
     }
-    // A completion is a group, exactly like `config`'s groups: `[name]` then two-space-indented
-    // `Label: value` rows. Naming it on the command line drops the header (`psc info git`), and
-    // the `Name:` row is gone either way — the caller or the header already said it.
+    // A completion is a group, exactly like `config`'s groups: `[name]` then `key: value` rows.
+    // The key names *are* the labels — semantic, identical to the JSON's, and the same in every
+    // language (design/json.md §2) — so there is no label table to keep in step. Naming it on the
+    // command line drops the header, and the `name` row is gone either way: the caller or the
+    // header already said it.
     let mut had_error = false;
     let single = args.len() == 1;
     // One level is enough: a `[name]` heading already delimits, and the rows never indent (the
@@ -102,21 +135,21 @@ pub fn cmd_info(
             out.line(&format!("[{name}]"));
         }
         let status = name_status(settings, index, completions_dir, name);
-        if let Some(e) = name_error(&lang, name, status, false) {
+        if let Some((_code, e)) = name_error(&lang, name, status, false) {
             out.line(&e);
             had_error = true;
             continue;
         }
         if let Some(aliases) = settings.alias.get(name) {
             if !aliases.is_empty() {
-                field(msg_cli(&lang, "info_alias"), &aliases.join(", "));
+                field("alias: ".to_string(), &aliases.join(", "));
             }
         }
         if let Some(meta) = index.meta.get(name) {
             let c = meta.get(&lang).or_else(|| meta.get("en-US"));
             if let Some(c) = c {
                 if let Some(url) = c.get("url").and_then(|u| u.as_str()) {
-                    field(msg_cli(&lang, "info_url"), url);
+                    field("url: ".to_string(), url);
                 }
                 if let Some(desc) = c.get("description") {
                     let d = match desc {
@@ -129,24 +162,24 @@ pub fn cmd_info(
                         _ => String::new(),
                     };
                     if !d.is_empty() {
-                        field(msg_cli(&lang, "info_description"), &d);
+                        field("description: ".to_string(), &d);
                     }
                 }
             }
         }
         let path = format!("{completions_dir}/{name}");
         if std::path::Path::new(&path).exists() {
-            field(msg_cli(&lang, "info_path"), &path);
+            field("path: ".to_string(), &path);
             if let Ok(t) = std::fs::read_to_string(format!("{path}/.update")) {
                 let t = t.trim();
                 if !t.is_empty() {
-                    field(msg_cli(&lang, "info_update_hash"), t);
+                    field("update: ".to_string(), t);
                 }
             }
             if let Ok(meta) = std::fs::metadata(format!("{path}/.update")) {
                 if let Ok(mt) = meta.modified() {
                     if let Ok(d) = mt.duration_since(std::time::UNIX_EPOCH) {
-                        field(msg_cli(&lang, "info_updated"), &d.as_secs().to_string());
+                        field("updated: ".to_string(), &d.as_secs().to_string());
                     }
                 }
             }

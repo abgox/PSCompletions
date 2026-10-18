@@ -10,13 +10,11 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "无效的子命令: {{Token}}。可用: {{Valid}}",
         "Invalid subcommand: {{Token}}. Valid: {{Valid}}",
     ),
-    ("info_name", "名称: ", "Name: "),
-    ("info_alias", "别名: ", "Alias: "),
-    ("info_url", "网址: ", "Url: "),
-    ("info_description", "描述: ", "Description: "),
-    ("info_path", "路径: ", "Path: "),
-    ("info_update_hash", "更新哈希: ", "Update hash: "),
-    ("info_updated", "更新时间: ", "Updated: "),
+    (
+        "needs_confirmation",
+        "该操作具有破坏性，需要确认：请加 --yes 以授权。",
+        "This operation is destructive and needs confirmation: pass --yes to authorise it.",
+    ),
     ("no_completion", "尚未添加该补全。", "Completion not added."),
     (
         "not_available",

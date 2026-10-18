@@ -2,7 +2,7 @@
 
 use std::process::ExitCode;
 
-use serde_json::Value;
+use serde_json::{json, Value};
 
 use crate::commands::run_parallel;
 use crate::data::{read_text, Index, Settings};
@@ -10,7 +10,7 @@ use crate::messages::{msg_cli, msg_fmt};
 use crate::net::{
     add_completion, download_list, refresh_settings_after_add, resolve_index_urls, resolve_urls,
 };
-use crate::output::{fail, Out};
+use crate::output::{fail, meta, ok, Out};
 use crate::postcheck::record_post_check;
 use crate::validate::param_err;
 
@@ -26,7 +26,7 @@ pub fn cmd_add(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return param_err(out, lang, json);
+        return param_err(out, lang, json, data_dir);
     }
     // Snapshot the pre-operation update keys so the post-check can diff added/removed/renamed.
     let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))
@@ -45,7 +45,14 @@ pub fn cmd_add(
             index.remote_names()
         }
         Err(e) => {
-            return fail(out, format!("error: {e}"), json);
+            return fail(
+                out,
+                "network",
+                &format!("error: {e}"),
+                json,
+                &meta(None, data_dir),
+                false,
+            );
         }
     };
     let names: Vec<String> = args.to_vec();
@@ -60,9 +67,9 @@ pub fn cmd_add(
                 out.line(&format!("{name} {}", msg_cli(lang, "not_available")));
             }
             serde_json::json!({
-                "completion": name,
+                "name": name,
                 "ok": false,
-                "error": msg_cli(lang, "not_available")
+                "error": { "code": "not_available", "message": msg_cli(lang, "not_available") }
             })
         } else {
             let version = index_ref.update.get(name).cloned().unwrap_or_default();
@@ -76,13 +83,13 @@ pub fn cmd_add(
                                 if !json {
                                     out.line(&format!("error: {e}"));
                                 }
-                                serde_json::json!({"completion": name, "ok": false, "error": e})
+                                serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
                             Ok(skipped) => {
                                 if !json {
                                     out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
                                 }
-                                let mut entry = serde_json::json!({"completion": name, "ok": true});
+                                let mut entry = serde_json::json!({"name": name, "ok": true});
                                 if !skipped.is_empty() {
                                     entry["skipped"] = skipped
                                         .iter()
@@ -100,7 +107,7 @@ pub fn cmd_add(
                                 if !json {
                                     out.line(&format!("error: {e}"));
                                 }
-                                serde_json::json!({"completion": name, "ok": false, "error": e})
+                                serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
                             Ok(skipped) => {
                                 if !json {
@@ -112,7 +119,7 @@ pub fn cmd_add(
                                         ));
                                     }
                                 }
-                                let mut entry = serde_json::json!({"completion": name, "ok": true});
+                                let mut entry = serde_json::json!({"name": name, "ok": true});
                                 if !skipped.is_empty() {
                                     entry["skipped"] = skipped
                                         .iter()
@@ -128,29 +135,39 @@ pub fn cmd_add(
                     if !json {
                         out.line(&format!("{name}: error: {e}"));
                     }
-                    serde_json::json!({"completion": name, "ok": false, "error": e})
+                    serde_json::json!({"name": name, "ok": false, "error": {"code": "network", "message": e}})
                 }
             }
         };
         results.lock().unwrap().push(entry);
     });
     if let Err(e) = settings.save(settings_path) {
-        if json {
-            let mut arr = results.lock().unwrap().clone();
-            arr.push(serde_json::json!({"ok": false, "error": e}));
-            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-            return ExitCode::SUCCESS;
-        }
-        out.line(&format!("error: {e}"));
-        return ExitCode::FAILURE;
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(
+            out,
+            "io",
+            &format!("error: {e}"),
+            json,
+            &meta(None, data_dir),
+            false,
+        );
     }
     record_post_check(data_dir, settings, &old_list, index, &[], &names);
+    let results = results.lock().unwrap().clone();
+    let had_error = results.iter().any(|v| v["ok"] != true);
     if json {
-        let arr = results.lock().unwrap().clone();
-        println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-        return ExitCode::SUCCESS;
+        let count = results.len();
+        ok(
+            &json!({ "completions": results }),
+            &meta(Some(count), data_dir),
+        );
+        // Any failed item fails the run (design/json.md §6).
+        return if had_error {
+            ExitCode::FAILURE
+        } else {
+            ExitCode::SUCCESS
+        };
     }
-    let had_error = results.lock().unwrap().iter().any(|v| v["ok"] != true);
     if had_error {
         ExitCode::FAILURE
     } else {

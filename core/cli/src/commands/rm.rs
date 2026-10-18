@@ -4,7 +4,7 @@ use std::process::ExitCode;
 
 use crate::data::{remove_completion_entry, Index, LibraryChanges, Settings};
 use crate::messages::msg_cli;
-use crate::output::Out;
+use crate::output::{fail, meta, ok, Out};
 use crate::validate::{name_status, param_err};
 
 #[allow(clippy::too_many_arguments)]
@@ -19,7 +19,7 @@ pub fn cmd_rm(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return param_err(out, lang, json);
+        return param_err(out, lang, json, data_dir);
     }
     let all = args.iter().any(|a| a == "--all");
     let completions_dir = format!("{data_dir}/completions");
@@ -44,29 +44,37 @@ pub fn cmd_rm(
     };
     if names.is_empty() {
         if all {
+            // `rm --all` with nothing to remove is a successful no-op, not an error.
             if json {
-                println!("[]");
+                return ok(
+                    &serde_json::json!({ "completions": [] }),
+                    &meta(Some(0), data_dir),
+                );
             }
             return ExitCode::SUCCESS;
         }
-        return param_err(out, lang, json);
+        return param_err(out, lang, json, data_dir);
     }
     let mut results: Vec<serde_json::Value> = Vec::new();
     let mut removed_any = false;
     for name in &names {
         let status = name_status(settings, index, &completions_dir, name);
         let invalid = if status == 0 {
-            Some(msg_cli(lang, "not_available"))
+            Some(("not_available", msg_cli(lang, "not_available")))
         } else if status == 1 {
-            Some(msg_cli(lang, "no_completion"))
+            Some(("not_installed", msg_cli(lang, "no_completion")))
         } else {
             None
         };
-        if let Some(msg) = invalid {
+        if let Some((code, msg)) = invalid {
             if !json {
                 out.line(&format!("{name}: {msg}"));
             }
-            results.push(serde_json::json!({"completion": name, "ok": false, "error": msg}));
+            results.push(serde_json::json!({
+                "name": name,
+                "ok": false,
+                "error": { "code": code, "message": msg }
+            }));
             continue;
         }
         remove_completion_entry(data_dir, name);
@@ -79,7 +87,7 @@ pub fn cmd_rm(
         {
             comp.remove(name);
         }
-        results.push(serde_json::json!({"completion": name, "ok": true}));
+        results.push(serde_json::json!({"name": name, "ok": true}));
     }
     // Drop removed completions from every persisted notification list: a name the
     // user just removed must not keep surfacing as new/removed/renamed/out-of-date.
@@ -92,23 +100,34 @@ pub fn cmd_rm(
         .retain(|(o, n)| !names.iter().any(|x| x == o || x == n));
     changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
-        if json {
-            let mut arr = results.clone();
-            arr.push(serde_json::json!({"ok": false, "error": e}));
-            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
-            return ExitCode::SUCCESS;
-        }
-        out.line(&format!("error: {e}"));
-        return ExitCode::FAILURE;
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(
+            out,
+            "io",
+            &format!("error: {e}"),
+            json,
+            &meta(None, data_dir),
+            false,
+        );
     }
+    let had_error = results.iter().any(|v| v["ok"] != true);
     if json {
-        println!("{}", serde_json::to_string(&results).unwrap_or_default());
-        return ExitCode::SUCCESS;
+        let count = results.len();
+        ok(
+            &serde_json::json!({ "completions": results }),
+            &meta(Some(count), data_dir),
+        );
+        // Any failed item fails the run (design/json.md §6).
+        return if had_error {
+            ExitCode::FAILURE
+        } else {
+            ExitCode::SUCCESS
+        };
     }
     if removed_any {
         out.line(&msg_cli(lang, "rm_done"));
     }
-    if results.iter().any(|v| v["ok"] != true) {
+    if had_error {
         ExitCode::FAILURE
     } else {
         ExitCode::SUCCESS

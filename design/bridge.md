@@ -128,7 +128,9 @@ Add a per-shell directory only if that invariant actually breaks.
   error handling (non-zero renders red text and stops), `--json` parsing with fallback,
   per-command result rendering, post-command `init_data` refresh, interactive confirms
   (`rm --all`, `--reset`), and host side-effects that the CLI cannot do itself
-  (trigger-key rebind, psc seed restore).
+  (trigger-key rebind, psc seed restore). A confirmed destructive operation is then
+  **authorised**: the host adds `--yes` to the invocation, because the engine never prompts
+  ([`json.md`](json.md) §7).
 - **Output shape follows the host.** A **text host** (bash, zsh) prints the CLI's text: a
   table would still be text, so passthrough *is* that host's form and re-rendering it buys
   nothing. A **structured host** (PowerShell, nushell) should consume `--json` and emit
@@ -148,7 +150,9 @@ Add a per-shell directory only if that invariant actually breaks.
 - **`--json` anywhere in the invocation means the machine contract.** The bridge hands the whole
   invocation to the engine uncolored and renders nothing itself, so a caller always gets
   parseable JSON — `psc config core language --json` and `psc rm <name> --json` included.
-  Asserted by `json-is-never-coloured` in all three suites.
+  The check sits **before** the confirms, so a machine caller is never prompted: it gets the
+  engine's `needs_confirmation` refusal instead ([`json.md`](json.md) §7). Asserted by
+  `json-is-never-colored` in all three suites.
 
 ## 8. Notifications
 
@@ -187,7 +191,7 @@ errors. The evidence and the alternatives are in [`decisions/bridge.md#d40`](../
 | 4 | process spawn with inherited TTY **in the shell's own process group**, stderr line watch, kill, GUID/unique names |
 | 5 | terminal geometry (cursor, buffer, **visible window**), region save/restore **or** always-alternate-screen, cursor repositioning, output-encoding switch |
 | 6 | word-boundary replace, suffix/quote rules (**container → separator, never a space**; attached `=`; `nospace`; a following word), unescaping host candidates before filesystem/display use, typed-result mapping (for native items) |
-| 7 | exit-code capture, colored output, single-key confirm prompt — or, on a structured host, `--json` parsing that yields host values instead of text |
+| 7 | exit-code capture, colored output, single-key confirm prompt plus the `--yes` that authorises what it confirmed — or, on a structured host, `--json` parsing that yields host values instead of text |
 | 8 | persistent JSON state file read/write |
 
 A shell missing region save/restore can still port by always using the alternate screen
@@ -247,8 +251,10 @@ The cross-cutting lessons, in one place:
 - **`psc`'s own completion is a special citizen.** Its hooks need `data`
   (settings/index/completions paths + live config); an empty build context yields an
   empty `add` menu.
-- **Gates live host-side.** `enable_hooks`, manifest language, `sudo` unwrap, `rm --all`
-  confirm, watchdog, notification tail, `min_area` — the CLI does none of them. Also
+- **Gates live host-side.** `enable_hooks`, manifest language, `sudo` unwrap, the `rm --all`
+  confirmation prompt, watchdog, notification tail, `min_area` — the CLI does none of them. (The
+  *authorisation* behind that prompt is the engine's: it refuses a destructive operation without
+  `--yes`, which the host supplies once the human has confirmed — [`json.md`](json.md) §7.) Also
   wire the **menu config** (filter/show mode, tip toggles, hint text, switch/stay
   symbols, sort-by-history) — they are host-supplied and silently default if omitted.
 - **Word replacement covers the whole token.** Applying with the cursor mid-word must
@@ -346,8 +352,9 @@ What remains is what a script cannot see. Walk it once per bridge, per shell:
 
 **Interactive and time-shaped flows** (a script can call the function; only a human sees the real keypress)
 
-- Both confirms (`rm --all`, `--reset`): the prompt reads correctly, a bare Enter cancels
-  (nothing is deleted), any other key proceeds.
+- Both confirms (`rm --all`, `--reset`): the prompt reads correctly, a bare Enter confirms (the
+  operation proceeds, and for `rm --all` the host then adds `--yes`), any other key cancels with
+  nothing deleted.
 - A real `add`/`update` on a slow or failing network: items appear as they finish, failures are
   red, the exit code is non-zero.
 - The notification tail: pending state appends after a management command; `added`/`removed`

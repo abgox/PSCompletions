@@ -8,7 +8,7 @@ use crate::data::config::{validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use crate::data::{default_config, Settings};
 use crate::messages::msg_cli;
 use crate::net::is_official_source;
-use crate::output::Out;
+use crate::output::{fail, meta, ok, Out};
 
 /// The value alone, unquoted: a single-key read answers with the value itself (`v=$(psc config
 /// <group> <key>)`), while the listings keep `value_str`'s shell-style quoting so an empty or
@@ -47,6 +47,36 @@ fn config_get(settings: &Settings, key: &str) -> String {
     settings.config.get(key).map(value_str).unwrap_or_default()
 }
 
+/// The items a `config` listing answers with, optionally narrowed to one group or one key. A
+/// reset reports the same items, so this is the one place the shape is built.
+fn config_items(
+    settings: &Settings,
+    group: Option<&str>,
+    key: Option<&str>,
+) -> Vec<serde_json::Value> {
+    CONFIG_KEYS
+        .iter()
+        .filter(|d| group.is_none_or(|g| d.group == g) && key.is_none_or(|k| d.key == k))
+        .map(|d| {
+            json!({
+                "group": d.group,
+                "key": d.key,
+                "value": raw_value(settings, d.key),
+            })
+        })
+        .collect()
+}
+
+/// The raw stored value: numbers stay numbers and an absent key is `null` — the display form
+/// (`value_str`'s quoting) belongs to the text mode only.
+fn raw_value(settings: &Settings, key: &str) -> serde_json::Value {
+    settings
+        .config
+        .get(key)
+        .cloned()
+        .unwrap_or(serde_json::Value::Null)
+}
+
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_config(
     args: &[String],
@@ -56,6 +86,8 @@ pub fn cmd_config(
     out: &Out,
     json: bool,
 ) -> ExitCode {
+    let data_dir = crate::validate::data_dir_of(settings_path);
+    let m = || meta(None, &data_dir);
     if args.iter().any(|a| a == "--reset") {
         let defaults = default_config(&settings.language());
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
@@ -77,18 +109,14 @@ pub fn cmd_config(
             // `config <group> --reset`: reset every config item in that group
             let group = params[0].as_str();
             if !CONFIG_GROUPS.contains(&group) {
-                if json {
-                    println!(
-                        "{}",
-                        serde_json::to_string(
-                            &json!({"ok": false, "error": msg_cli(lang, "sub_cmd")})
-                        )
-                        .unwrap_or_default()
-                    );
-                    return ExitCode::SUCCESS;
-                }
-                out.line(&msg_cli(lang, "sub_cmd"));
-                return ExitCode::FAILURE;
+                return fail(
+                    out,
+                    "invalid_subcommand",
+                    &msg_cli(lang, "sub_cmd"),
+                    json,
+                    &m(),
+                    true,
+                );
             }
             if !settings.config.is_object() {
                 settings.config = serde_json::json!({});
@@ -110,32 +138,24 @@ pub fn cmd_config(
                 .iter()
                 .find(|d| d.group == group && d.key == key)
             else {
-                if json {
-                    println!(
-                        "{}",
-                        serde_json::to_string(
-                            &json!({"ok": false, "error": msg_cli(lang, "sub_cmd")})
-                        )
-                        .unwrap_or_default()
-                    );
-                    return ExitCode::SUCCESS;
-                }
-                out.line(&msg_cli(lang, "sub_cmd"));
-                return ExitCode::FAILURE;
+                return fail(
+                    out,
+                    "invalid_subcommand",
+                    &msg_cli(lang, "sub_cmd"),
+                    json,
+                    &m(),
+                    true,
+                );
             };
             if def.key == "language" {
-                if json {
-                    println!(
-                        "{}",
-                        serde_json::to_string(
-                            &json!({"ok": false, "error": msg_cli(lang, "language_no_reset")})
-                        )
-                        .unwrap_or_default()
-                    );
-                    return ExitCode::SUCCESS;
-                }
-                out.line(&msg_cli(lang, "language_no_reset"));
-                return ExitCode::FAILURE;
+                return fail(
+                    out,
+                    "language_no_reset",
+                    &msg_cli(lang, "language_no_reset"),
+                    json,
+                    &m(),
+                    true,
+                );
             }
             if !settings.config.is_object() {
                 settings.config = serde_json::json!({});
@@ -150,35 +170,30 @@ pub fn cmd_config(
                 .unwrap()
                 .insert(def.key.to_string(), value);
         } else {
-            if json {
-                println!(
-                    "{}",
-                    serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
-                        .unwrap_or_default()
-                );
-                return ExitCode::SUCCESS;
-            }
-            out.line(&msg_cli(lang, "sub_cmd"));
-            return ExitCode::FAILURE;
+            return fail(
+                out,
+                "invalid_subcommand",
+                &msg_cli(lang, "sub_cmd"),
+                json,
+                &m(),
+                true,
+            );
         }
         if let Err(e) = settings.save(settings_path) {
-            if json {
-                println!(
-                    "{}",
-                    serde_json::to_string(&json!({"ok": false, "error": e.to_string()}))
-                        .unwrap_or_default()
-                );
-                return ExitCode::SUCCESS;
-            }
-            out.line(&format!("error: {e}"));
-            return ExitCode::FAILURE;
+            return fail(out, "io", &format!("error: {e}"), json, &m(), false);
         }
         if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({"ok": true})).unwrap_or_default()
-            );
-            return ExitCode::SUCCESS;
+            // A reset answers the same shape the read of that scope answers with — the resulting
+            // state (design/json.md §8).
+            if params.len() <= 1 {
+                let entries = config_items(settings, params.first().map(|p| p.as_str()), None);
+                let count = entries.len();
+                let data = json!({ "config": entries });
+                return ok(&data, &meta(Some(count), &data_dir));
+            }
+            let key = params[1].as_str();
+            let data = json!({ "key": key, "value": raw_value(settings, key) });
+            return ok(&data, &meta(None, &data_dir));
         }
         out.line(&msg_cli(lang, "config_done"));
         return ExitCode::SUCCESS;
@@ -186,13 +201,10 @@ pub fn cmd_config(
     // No args: list everything (grouped by group)
     if args.is_empty() {
         if json {
-            let arr: Vec<serde_json::Value> = CONFIG_KEYS
-                .iter()
-                .map(|d| {
-                    serde_json::json!({ "group": d.group, "key": d.key, "value": config_get(settings, d.key) })
-                })
-                .collect();
-            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
+            let entries = config_items(settings, None, None);
+            let count = entries.len();
+            let data = json!({ "config": entries });
+            return ok(&data, &meta(Some(count), &data_dir));
         } else {
             for group in CONFIG_GROUPS {
                 out.line(&format!("[{group}]"));
@@ -210,27 +222,15 @@ pub fn cmd_config(
         let msg = msg_cli(lang, "sub_cmd_named")
             .replace("{{Token}}", group)
             .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
-        if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({"ok": false, "error": msg})).unwrap_or_default()
-            );
-            return ExitCode::SUCCESS;
-        }
-        out.line(&msg);
-        return ExitCode::FAILURE;
+        return fail(out, "invalid_subcommand", &msg, json, &m(), true);
     }
     // `config <group>`: list that group
     if args.len() == 1 {
         if json {
-            let arr: Vec<serde_json::Value> = CONFIG_KEYS
-                .iter()
-                .filter(|d| d.group == group)
-                .map(|d| {
-                    serde_json::json!({ "group": d.group, "key": d.key, "value": config_get(settings, d.key) })
-                })
-                .collect();
-            println!("{}", serde_json::to_string(&arr).unwrap_or_default());
+            let entries = config_items(settings, Some(group), None);
+            let count = entries.len();
+            let data = json!({ "config": entries });
+            return ok(&data, &meta(Some(count), &data_dir));
         } else {
             // The caller named the group, so repeating `[group]` is noise; keys sit at column 0.
             for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
@@ -244,24 +244,20 @@ pub fn cmd_config(
         .iter()
         .find(|d| d.group == group && d.key == key)
     else {
-        if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
-                    .unwrap_or_default()
-            );
-            return ExitCode::SUCCESS;
-        }
-        out.line(&msg_cli(lang, "sub_cmd"));
-        return ExitCode::FAILURE;
+        return fail(
+            out,
+            "invalid_subcommand",
+            &msg_cli(lang, "sub_cmd"),
+            json,
+            &m(),
+            true,
+        );
     };
     // get
     if args.len() == 2 {
         if json {
-            println!(
-                "{}",
-                serde_json::json!({ "key": key, "value": config_get(settings, key) })
-            );
+            let data = json!({ "key": key, "value": raw_value(settings, key) });
+            return ok(&data, &meta(None, &data_dir));
         } else {
             // The key was just typed, so the value alone (and unquoted) is the answer.
             let v = settings.config.get(key).map(value_raw).unwrap_or_default();
@@ -270,17 +266,18 @@ pub fn cmd_config(
         return ExitCode::SUCCESS;
     }
     let Some(value) = validate_value(def, &args[2]) else {
-        if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "config_val")}))
-                    .unwrap_or_default()
-            );
-            return ExitCode::SUCCESS;
-        }
-        out.line(&msg_cli(lang, "config_val"));
-        return ExitCode::FAILURE;
+        return fail(
+            out,
+            "config_value",
+            &msg_cli(lang, "config_val"),
+            json,
+            &m(),
+            true,
+        );
     };
+    // What this write answers with: the item a read of that key returns, plus what the value was
+    // before — `null` when the key had none (design/json.md §8).
+    let old = raw_value(settings, key);
     // A corrupt `config` (e.g. `{"config": 123}`) must not turn a set into a silent no-op.
     if !settings.config.is_object() {
         settings.config = serde_json::json!({});
@@ -298,16 +295,7 @@ pub fn cmd_config(
             Some(())
         });
     if let Err(e) = settings.save(settings_path) {
-        if json {
-            println!(
-                "{}",
-                serde_json::to_string(&json!({"ok": false, "error": e.to_string()}))
-                    .unwrap_or_default()
-            );
-            return ExitCode::SUCCESS;
-        }
-        out.line(&format!("error: {e}"));
-        return ExitCode::FAILURE;
+        return fail(out, "io", &format!("error: {e}"), json, &m(), false);
     }
     // A custom source is unreviewed: warn once it takes effect.
     let untrusted = group == "core"
@@ -320,12 +308,13 @@ pub fn cmd_config(
             )
         });
     if json {
-        let mut obj = serde_json::json!({"ok": true});
+        // The item a read of that key answers with, plus what it was before. An unreviewed
+        // source's notice rides alongside it, so a caller can surface it without parsing prose.
+        let mut data = json!({ "key": key, "value": value, "old": old });
         if untrusted {
-            obj["warning"] = serde_json::json!(msg_cli(lang, "url_untrusted"));
+            data["warning"] = json!(msg_cli(lang, "url_untrusted"));
         }
-        println!("{}", serde_json::to_string(&obj).unwrap_or_default());
-        return ExitCode::SUCCESS;
+        return ok(&data, &meta(None, &data_dir));
     }
     out.line(&msg_cli(lang, "config_done"));
     if untrusted {
