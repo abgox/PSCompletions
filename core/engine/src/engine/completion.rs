@@ -632,12 +632,20 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
             if value_consumed || pending_new_command {
                 let cmd_idx = layers.iter().rposition(|(kind, _)| kind == "command");
                 if let Some(idx) = cmd_idx {
-                    if let Some(cmd_node) = stack.get(idx) {
+                    // Copy the node out before truncating: the three views of the walk —
+                    // `layers` (hook position), `stack` (option resolution), `ctx` (command
+                    // lookup) — must all reset together, or the option context stays current.
+                    let cmd_node = stack.get(idx).copied();
+                    if let Some(cmd_node) = cmd_node {
                         add_next_if_not_seen(&mut candidates, &cmd_node.next, &seen);
+                        ctx = Some(cmd_node);
                     }
+                    stack.truncate(idx + 1);
                     layers.truncate(idx + 1);
                 } else {
                     add_next_if_not_seen(&mut candidates, &tree.next, &seen);
+                    ctx = None;
+                    stack.clear();
                     layers.clear();
                 }
             } else {
@@ -1108,6 +1116,35 @@ mod tests {
             Some(&("option".to_string(), "--tag".to_string())),
             "layers: {:?}",
             r.context.layers
+        );
+    }
+
+    #[test]
+    fn pending_command_after_an_option_resets_to_the_command_context() {
+        // `cmd --fmt stage<TAB>`: the pending word is a known subcommand of the parent command,
+        // so the context must reset to `cmd` — its subcommands come back (including the pending
+        // one, re-offered), and the option's own sub-options do not leak.
+        use serde_json::json;
+        let tree = build_tree(&json!({
+            "next": [ { "name": "cmd", "next": [ { "name": "stage" }, { "name": "commit" } ],
+                        "option": [ { "name": "--fmt",
+                                      "next": [ { "name": "json" } ],
+                                      "option": [ { "name": "--sub" } ] } ] } ]
+        }));
+        let r = resolve(
+            &tree,
+            &["cmd".into(), "--fmt".into(), "stage".into()],
+            false,
+        );
+        let texts: Vec<&str> = r.items.iter().map(|i| i.text.as_str()).collect();
+        assert!(texts.contains(&"commit"), "subcommands missing: {texts:?}");
+        assert!(
+            texts.contains(&"stage"),
+            "pending command not re-offered: {texts:?}"
+        );
+        assert!(
+            !texts.contains(&"--sub"),
+            "option sub-options leaked: {texts:?}"
         );
     }
 
