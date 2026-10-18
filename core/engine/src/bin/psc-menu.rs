@@ -9,6 +9,16 @@ const USAGE: &str = "usage: psc-menu <input.json> --result <output.json>";
 /// Result path for the panic hook, so a crash still writes the error state to output.json.
 static RESULT_PATH: OnceLock<std::path::PathBuf> = OnceLock::new();
 
+/// Persist the built items back into the host's input file, which `app::run` then re-reads.
+/// A failure here must reach `build_error`, never be swallowed: the file would keep the host's
+/// original `items: []`, `app::run` would return a plain `cancel`, and the host would have no
+/// way to tell why the menu did not open.
+fn write_build_result<T: serde::Serialize>(path: &str, input: &T) -> Result<(), String> {
+    let json =
+        serde_json::to_string(input).map_err(|e| format!("failed to encode build result: {e}"))?;
+    std::fs::write(path, json).map_err(|e| format!("failed to write build result: {e}"))
+}
+
 fn run_sort_mode(args: &[String]) -> ExitCode {
     let (Some(input_path), Some(result_path)) =
         (get_flag(args, "--sort"), get_flag(args, "--result"))
@@ -127,8 +137,8 @@ fn main() -> ExitCode {
                                     .filter(|t| !t.is_empty())
                                     .map(|t| format!("^{t}"));
                             }
-                            if let Ok(json) = serde_json::to_string(&input) {
-                                let _ = std::fs::write(&input_path, json);
+                            if let Err(e) = write_build_result(&input_path, &input) {
+                                build_error = Some(e);
                             }
                         }
                         Err(e) => build_error = Some(e.to_string()),
@@ -247,3 +257,19 @@ const SAMPLE_INPUT: &str = r##"{
     "platform": "windows"
   }
 }"##;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn write_build_result_reports_an_unwritable_path() {
+        // A directory as the target makes the write fail on every platform.
+        let dir = std::env::temp_dir().join(format!("psc-menu-write-test-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let err = write_build_result(dir.to_str().unwrap(), &serde_json::json!({"items": []}))
+            .unwrap_err();
+        assert!(err.contains("failed to write build result"), "{err}");
+        std::fs::remove_dir_all(&dir).ok();
+    }
+}
