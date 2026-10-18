@@ -16,7 +16,7 @@ pub mod update;
 pub fn run_parallel<T, F>(items: &[T], workers: usize, work: F)
 where
     T: Sync,
-    F: Fn(&T) + Sync,
+    F: Fn(usize, &T) + Sync,
 {
     if items.is_empty() {
         return;
@@ -30,7 +30,9 @@ where
                 if i >= items.len() {
                     break;
                 }
-                work(&items[i]);
+                // The index rides along so a caller can slot its result by argument position:
+                // workers finish in any order, and a report follows the arguments.
+                work(i, &items[i]);
             });
         }
     });

@@ -600,6 +600,9 @@ Two levels only, and **a form never repeats what the caller already named**:
 
 Rules that hold across all of them:
 
+- **A per-item report follows the arguments, not the finish order.** `add` and `update` run their
+  names on a worker pool; each result — its text line and its entry in the JSON array alike — is
+  emitted in argument order.
 - **`description` is the one field that can carry several lines, and it always starts on its own**:
   the label alone (`description:`), then the value — one line or several, one rule. The value is a
   string, in the index's own form (a completion's `meta.description` is an array, joined with `\n`),

@@ -659,6 +659,59 @@ fn json_info_renders_a_multi_line_description_as_a_block() {
 }
 
 #[test]
+fn json_add_reports_in_argument_order_not_finish_order() {
+    // A worker finishes when it finishes, so the report must slot its line and its entry by
+    // argument position: `demo` downloads while `zzz-nope` fails at once, and the failure used to
+    // print first.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-add-order", &srv);
+    let (code, out) = psc(&d, &["add", "demo", "zzz-nope"]);
+    assert_eq!(code, 1, "{out}");
+    let lines: Vec<&str> = out
+        .lines()
+        .filter(|l| l.starts_with("demo:") || l.starts_with("zzz-nope:"))
+        .collect();
+    assert_eq!(
+        lines,
+        vec!["demo: Added.", "zzz-nope: is not an available completion."],
+        "{out}"
+    );
+
+    let (_, js) = psc(&d, &["--json", "add", "demo", "zzz-nope"]);
+    let v = parse_json(&js);
+    assert_eq!(v["data"]["completions"][0]["name"], "demo", "{js}");
+    assert_eq!(v["data"]["completions"][1]["name"], "zzz-nope", "{js}");
+}
+
+#[test]
+fn json_update_reports_in_argument_order_not_finish_order() {
+    // The same rule as `add`: a worker finishes when it finishes, so each result — its text line
+    // and its JSON entry — follows the argument order.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-update-order", &srv);
+    psc(&d, &["add", "demo"]);
+    let (code, out) = psc(&d, &["update", "demo", "zzz-nope"]);
+    assert_eq!(code, 1, "{out}");
+    let lines: Vec<&str> = out
+        .lines()
+        .filter(|l| l.starts_with("demo:") || l.starts_with("zzz-nope:"))
+        .collect();
+    assert_eq!(
+        lines,
+        vec![
+            "demo: Updated.",
+            "zzz-nope: is not an available completion."
+        ],
+        "{out}"
+    );
+
+    let (_, js) = psc(&d, &["--json", "update", "demo", "zzz-nope"]);
+    let v = parse_json(&js);
+    assert_eq!(v["data"]["completions"][0]["name"], "demo", "{js}");
+    assert_eq!(v["data"]["completions"][1]["name"], "zzz-nope", "{js}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

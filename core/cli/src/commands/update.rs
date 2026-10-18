@@ -216,9 +216,13 @@ pub fn cmd_update(
     // Every processed name lands here, in both modes: the text mode prints its own line and the
     // JSON mode serializes this (the shape `add` / `rm` use), so "nothing was reported" is
     // `results.is_empty()` and the executed-rename list below is populated either way.
-    let results: std::sync::Mutex<Vec<Value>> = std::sync::Mutex::new(Vec::new());
+    // Workers finish in any order, so each result takes a slot per argument position: the report —
+    // text lines and the JSON array alike — follows the arguments.
+    let results: std::sync::Mutex<Vec<(usize, Vec<String>, Value)>> =
+        std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
-    run_parallel(&names, 8, |name| {
+    run_parallel(&names, 8, |i, name| {
+        let mut lines: Vec<String> = Vec::new();
         // Reject before any filesystem probe: a name carrying separators would make
         // the entry probe below resolve outside the library directory.
         let known = is_valid_name(name)
@@ -228,14 +232,18 @@ pub fn cmd_update(
         if !known {
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
             let err = msg_cli(lang, "not_available");
-            results.lock().unwrap().push(json!({
-                "name": name,
-                "ok": false,
-                "error": { "code": "not_available", "message": err },
-            }));
             if !json {
-                out.line(&format!("{name}: {err}"));
+                lines.push(format!("{name}: {err}"));
             }
+            results.lock().unwrap().push((
+                i,
+                lines.clone(),
+                json!({
+                    "name": name,
+                    "ok": false,
+                    "error": { "code": "not_available", "message": err },
+                }),
+            ));
             return;
         }
         // Renamed upstream: migrate the old install (download new files, move settings, drop the old directory) instead of a plain update.
@@ -245,26 +253,34 @@ pub fn cmd_update(
             let mut sg = settings_lock.lock().unwrap();
             match rename_completion(&mut sg, data_dir, name, &new_name, &urls, &version) {
                 Ok(()) => {
-                    results.lock().unwrap().push(json!({
-                        "name": new_name, "ok": true, "renamed_from": name
-                    }));
                     if !json {
-                        out.line(&format!(
+                        lines.push(format!(
                             "{name}: {} {new_name}",
                             msg_cli(lang, "rename_done")
                         ));
                     }
+                    results.lock().unwrap().push((
+                        i,
+                        lines.clone(),
+                        json!({
+                            "name": new_name, "ok": true, "renamed_from": name
+                        }),
+                    ));
                 }
                 Err(e) => {
                     had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                    results.lock().unwrap().push(json!({
-                        "name": name,
-                        "ok": false,
-                        "error": { "code": "network", "message": e },
-                    }));
                     if !json {
-                        out.line(&format!("{name}: error: {e}"));
+                        lines.push(format!("{name}: error: {e}"));
                     }
+                    results.lock().unwrap().push((
+                        i,
+                        lines.clone(),
+                        json!({
+                            "name": name,
+                            "ok": false,
+                            "error": { "code": "network", "message": e },
+                        }),
+                    ));
                 }
             }
             return;
@@ -277,14 +293,18 @@ pub fn cmd_update(
             // Installed here, absent from the library: neither `not_available` (nowhere) nor
             // `not_installed` (never added). The code and the message say the same thing.
             let err = msg_cli(lang, "not_in_library");
-            results.lock().unwrap().push(json!({
-                "name": name,
-                "ok": false,
-                "error": { "code": "not_in_library", "message": err },
-            }));
             if !json {
-                out.line(&format!("{name}: {err}"));
+                lines.push(format!("{name}: {err}"));
             }
+            results.lock().unwrap().push((
+                i,
+                lines.clone(),
+                json!({
+                    "name": name,
+                    "ok": false,
+                    "error": { "code": "not_in_library", "message": err },
+                }),
+            ));
             return;
         }
         let version = index_ref.update.get(name).cloned().unwrap_or_default();
@@ -294,14 +314,18 @@ pub fn cmd_update(
                     // A local link is a deliberate choice, not an error: reported, but it does
                     // not fail the run (unlike `add`, which calls the same case a success).
                     let err = msg_cli(lang, "update_skip");
-                    results.lock().unwrap().push(json!({
-                        "name": name,
-                        "ok": false,
-                        "error": { "code": "not_updated", "message": err },
-                    }));
                     if !json {
-                        out.line(&format!("{name}: {err}"));
+                        lines.push(format!("{name}: {err}"));
                     }
+                    results.lock().unwrap().push((
+                        i,
+                        lines.clone(),
+                        json!({
+                            "name": name,
+                            "ok": false,
+                            "error": { "code": "not_updated", "message": err },
+                        }),
+                    ));
                     return;
                 }
                 let mut sg = settings_lock.lock().unwrap();
@@ -309,37 +333,46 @@ pub fn cmd_update(
                 match refresh_settings_after_add(&mut sg, data_dir, name, false) {
                     Err(e) => {
                         had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                        results.lock().unwrap().push(json!({
-                            "name": name,
-                            "ok": false,
-                            "error": { "code": "io", "message": e },
-                        }));
                         if !json {
                             // The name, like every other per-item line.
-                            out.line(&format!("{name}: error: {e}"));
+                            lines.push(format!("{name}: error: {e}"));
                         }
+                        results.lock().unwrap().push((
+                            i,
+                            lines.clone(),
+                            json!({
+                                "name": name,
+                                "ok": false,
+                                "error": { "code": "io", "message": e },
+                            }),
+                        ));
                     }
                     Ok(_) => {
-                        results
-                            .lock()
-                            .unwrap()
-                            .push(json!({"name": name, "ok": true}));
                         if !json {
-                            out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
+                            lines.push(format!("{name}: {}", msg_cli(lang, "update_done")));
                         }
+                        results.lock().unwrap().push((
+                            i,
+                            lines.clone(),
+                            json!({"name": name, "ok": true}),
+                        ));
                     }
                 }
             }
             Err(e) => {
                 had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                results.lock().unwrap().push(json!({
-                    "name": name,
-                    "ok": false,
-                    "error": { "code": "network", "message": e },
-                }));
                 if !json {
-                    out.line(&format!("{name}: error: {e}"));
+                    lines.push(format!("{name}: error: {e}"));
                 }
+                results.lock().unwrap().push((
+                    i,
+                    lines.clone(),
+                    json!({
+                        "name": name,
+                        "ok": false,
+                        "error": { "code": "network", "message": e },
+                    }),
+                ));
             }
         }
     });
@@ -349,7 +382,7 @@ pub fn cmd_update(
         let results = results.lock().unwrap();
         results
             .iter()
-            .filter_map(|v| {
+            .filter_map(|(_, _, v)| {
                 let from = v.get("renamed_from").and_then(|x| x.as_str());
                 let to = v.get("name").and_then(|x| x.as_str());
                 match (from, to) {
@@ -383,12 +416,15 @@ pub fn cmd_update(
             false,
         );
     }
-    let results = results.lock().unwrap().clone();
+    let mut results = results.lock().unwrap().clone();
+    // The slot is the argument position; workers finish in any order.
+    results.sort_by_key(|(i, _, _)| *i);
     let had_error = had_error.load(std::sync::atomic::Ordering::SeqCst);
     if json {
-        let count = results.len();
+        let entries: Vec<Value> = results.iter().map(|(_, _, v)| v.clone()).collect();
+        let count = entries.len();
         ok(
-            &json!({ "completions": results }),
+            &json!({ "completions": entries }),
             &meta(Some(count), data_dir),
         );
         // Any failed item fails the run (design/json.md §6).
@@ -397,6 +433,11 @@ pub fn cmd_update(
         } else {
             ExitCode::SUCCESS
         };
+    }
+    for (_, lines, _) in &results {
+        for l in lines {
+            out.line(l);
+        }
     }
     if results.is_empty() {
         // Nothing was selected (everything current, or nothing eligible). The module answers an

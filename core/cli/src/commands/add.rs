@@ -58,13 +58,17 @@ pub fn cmd_add(
     let names = crate::commands::dedup_names(args.iter().cloned());
     // Download multiple completions concurrently (shared client + bounded worker pool).
     let settings_lock = std::sync::Mutex::new(&mut *settings);
-    let results: std::sync::Mutex<Vec<serde_json::Value>> = std::sync::Mutex::new(Vec::new());
+    // Workers finish in any order, so each result takes a slot per argument position: the report —
+    // text lines and the JSON array alike — follows the arguments.
+    let results: std::sync::Mutex<Vec<(usize, Vec<String>, serde_json::Value)>> =
+        std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
-    run_parallel(&names, 8, |name| {
+    run_parallel(&names, 8, |i, name| {
+        let mut lines: Vec<String> = Vec::new();
         let entry = if !list.contains(name) {
             // Not in the remote library: report + mark failure
             if !json {
-                out.line(&format!("{name}: {}", msg_cli(lang, "not_available")));
+                lines.push(format!("{name}: {}", msg_cli(lang, "not_available")));
             }
             serde_json::json!({
                 "name": name,
@@ -81,13 +85,13 @@ pub fn cmd_add(
                         match refresh_settings_after_add(&mut sg, data_dir, name, true) {
                             Err(e) => {
                                 if !json {
-                                    out.line(&format!("error: {e}"));
+                                    lines.push(format!("{name}: error: {e}"));
                                 }
                                 serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
                             Ok(_) => {
                                 if !json {
-                                    out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
+                                    lines.push(format!("{name}: {}", msg_cli(lang, "add_done")));
                                 }
                                 serde_json::json!({"name": name, "ok": true})
                             }
@@ -98,13 +102,13 @@ pub fn cmd_add(
                         match refresh_settings_after_add(&mut sg, data_dir, name, true) {
                             Err(e) => {
                                 if !json {
-                                    out.line(&format!("error: {e}"));
+                                    lines.push(format!("{name}: error: {e}"));
                                 }
                                 serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
                             Ok(_) => {
                                 if !json {
-                                    out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
+                                    lines.push(format!("{name}: {}", msg_cli(lang, "add_done")));
                                 }
                                 serde_json::json!({"name": name, "ok": true})
                             }
@@ -113,13 +117,13 @@ pub fn cmd_add(
                 }
                 Err(e) => {
                     if !json {
-                        out.line(&format!("{name}: error: {e}"));
+                        lines.push(format!("{name}: error: {e}"));
                     }
                     serde_json::json!({"name": name, "ok": false, "error": {"code": "network", "message": e}})
                 }
             }
         };
-        results.lock().unwrap().push(entry);
+        results.lock().unwrap().push((i, lines, entry));
     });
     if let Err(e) = settings.save(settings_path) {
         // Nothing was persisted: that is the whole command's failure, not one item's.
@@ -133,12 +137,16 @@ pub fn cmd_add(
         );
     }
     record_post_check(data_dir, settings, &old_list, index, &[], &names);
-    let results = results.lock().unwrap().clone();
-    let had_error = results.iter().any(|v| v["ok"] != true);
+    let mut results = results.lock().unwrap().clone();
+    // The slot is the argument position; workers finish in any order.
+    results.sort_by_key(|(i, _, _)| *i);
+    let had_error = results.iter().any(|(_, _, v)| v["ok"] != true);
     if json {
-        let count = results.len();
+        let entries: Vec<serde_json::Value> =
+            results.iter().map(|(_, _, v)| v.clone()).collect();
+        let count = entries.len();
         ok(
-            &json!({ "completions": results }),
+            &json!({ "completions": entries }),
             &meta(Some(count), data_dir),
         );
         // Any failed item fails the run (design/json.md §6).
@@ -147,6 +155,11 @@ pub fn cmd_add(
         } else {
             ExitCode::SUCCESS
         };
+    }
+    for (_, lines, _) in &results {
+        for l in lines {
+            out.line(l);
+        }
     }
     if had_error {
         ExitCode::FAILURE
