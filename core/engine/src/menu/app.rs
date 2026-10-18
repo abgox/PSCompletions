@@ -15,6 +15,7 @@ use ratatui::layout::Rect;
 use ratatui::{Terminal, TerminalOptions, Viewport};
 use std::io::Write;
 use std::sync::mpsc;
+use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
 /// Check if change.json's last_check is stale (>7 days or missing).
@@ -662,14 +663,44 @@ fn load_input(path: &str) -> Result<crate::menu::model::Input, String> {
     serde_json::from_str(&data).map_err(|e| e.to_string())
 }
 
-/// Restores the terminal when dropped, even during unwinding.
-struct TermGuard {
+/// What `TermGuard::install` changed about the terminal, so a **panic** can put it back too.
+///
+/// The release profile sets `panic = "abort"`, so a panicking menu never runs the guard's `Drop`:
+/// without this, a menu that dies inside the alternate screen and raw mode leaves the user's shell
+/// looking dead (no echo, no cursor) until they run `reset`. Recorded here rather than read off the
+/// guard, because the panic hook cannot reach the guard.
+static TERM_STATE: Mutex<Option<TermState>> = Mutex::new(None);
+
+struct TermState {
     unix_fullscreen: bool,
-    /// Where to move the system cursor before showing it again (the input-line position the
-    /// menu was opened from). Moving it back first prevents it flashing at the last drawn
-    /// spot (e.g. under the description container after cycling items).
+    /// Where to move the system cursor before showing it again (the input-line position the menu
+    /// was opened from). Moving it back first prevents it flashing at the last drawn spot (e.g.
+    /// under the description container after cycling items).
     restore_cursor: Option<(u16, u16)>,
 }
+
+/// Put the terminal back the way `TermGuard::install` found it: mouse capture off, cursor at the
+/// input line, alternate screen left, cursor visible, raw mode off.
+///
+/// The **one** implementation behind both the guard's `Drop` and the menu's panic hook — they must
+/// not drift, because on a panic the hook is the only thing that runs. Idempotent: a second call
+/// (or one after a clean exit) just re-applies the same harmless state.
+pub fn restore_terminal() {
+    let state = TERM_STATE.lock().ok().and_then(|mut held| held.take());
+    let _ = crossterm::execute!(std::io::stdout(), DisableMouseCapture);
+    if let Some((x, y)) = state.as_ref().and_then(|s| s.restore_cursor) {
+        let _ = crossterm::execute!(std::io::stdout(), crossterm::cursor::MoveTo(x, y));
+    }
+    if state.as_ref().is_some_and(|s| s.unix_fullscreen) {
+        let _ = crossterm::execute!(std::io::stdout(), LeaveAlternateScreen);
+    }
+    let _ = crossterm::execute!(std::io::stdout(), crossterm::cursor::Show);
+    let _ = disable_raw_mode();
+}
+
+/// Restores the terminal when dropped, even during unwinding. The state it needs lives in
+/// `TERM_STATE`, so `restore_terminal` can do the same work when a panic aborts the process.
+struct TermGuard;
 
 impl TermGuard {
     fn install(
@@ -691,26 +722,19 @@ impl TermGuard {
                 crossterm::execute!(std::io::stdout(), crossterm::cursor::MoveTo(0, alt_start_y));
         }
         let _ = crossterm::execute!(std::io::stdout(), EnableMouseCapture);
-        TermGuard {
-            unix_fullscreen,
-            restore_cursor,
+        if let Ok(mut held) = TERM_STATE.lock() {
+            *held = Some(TermState {
+                unix_fullscreen,
+                restore_cursor,
+            });
         }
+        TermGuard
     }
 }
 
 impl Drop for TermGuard {
     fn drop(&mut self) {
-        let _ = crossterm::execute!(std::io::stdout(), DisableMouseCapture);
-        if let Some((x, y)) = self.restore_cursor {
-            // Move back to the input line before showing, so the cursor never flashes at a
-            // menu-drawn position on exit.
-            let _ = crossterm::execute!(std::io::stdout(), crossterm::cursor::MoveTo(x, y));
-        }
-        if self.unix_fullscreen {
-            let _ = crossterm::execute!(std::io::stdout(), LeaveAlternateScreen);
-        }
-        let _ = crossterm::execute!(std::io::stdout(), crossterm::cursor::Show);
-        let _ = disable_raw_mode();
+        restore_terminal();
     }
 }
 
@@ -1000,5 +1024,28 @@ mod tests {
         assert_eq!(s.filter, "^c");
         assert!(s.is_prefix);
         assert!(!s.filtered.is_empty());
+    }
+
+    /// The guard's `Drop` is not the only way the terminal gets restored: with `panic = "abort"`
+    /// (release) a panicking menu never drops, so the panic hook calls `restore_terminal` instead.
+    /// Pin the record-and-take pair they rely on — without it the hook would restore nothing.
+    ///
+    /// The terminal effects themselves are not observable here (and `--panic-test` panics before
+    /// the menu takes the terminal), so this covers the mechanism, not the escape codes.
+    #[test]
+    fn the_guard_records_what_a_panic_must_undo() {
+        let guard = TermGuard::install(true, 3, Some((1, 2)));
+        assert!(
+            TERM_STATE.lock().unwrap().is_some(),
+            "install must record the state for the panic hook"
+        );
+        restore_terminal();
+        assert!(
+            TERM_STATE.lock().unwrap().is_none(),
+            "restore_terminal must consume the record"
+        );
+        drop(guard);
+        // Idempotent: a second restore (the hook after a clean drop) is a harmless re-apply.
+        restore_terminal();
     }
 }

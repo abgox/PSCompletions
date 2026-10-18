@@ -462,9 +462,13 @@ The workspace `core/Cargo.toml` sets the release profile: `opt-level = "z"`, `lt
 
 ## 8. Robustness
 
-- release uses `panic = "abort"` (so `catch_unwind` is inert); `main` installs a **panic hook**
-  that writes `{"status":"error"}` to output.json before aborting, so a crash never looks like a
-  silent death (diagnose with `--panic-test`).
+- release uses `panic = "abort"` (so `catch_unwind` is inert), which also means a panicking menu
+  never runs `TermGuard::drop`. `main` installs a **panic hook** that (a) puts the terminal back —
+  raw mode off, cursor shown, alternate screen left — through the same `restore_terminal` the
+  guard's `Drop` calls, so the two cannot drift, and (b) writes `{"status":"error"}` to output.json
+  before aborting, so a crash leaves neither a dead shell nor a silent death.
+  `--panic-test` panics **before** the menu takes the terminal, so it exercises (b) only; (a) is
+  pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
 - The `HBT` heartbeat writes to stderr with non-panicking `writeln!`; a closed pipe does not crash.
 - PowerShell: a process that exits cleanly without output.json is treated as **cancel** (usually
   the user Ctrl+C'ing the subprocess) — no RawUI fallback; timeout/exception still fail.

@@ -83,6 +83,10 @@ fn main() -> ExitCode {
 
     let _ = RESULT_PATH.set(std::path::PathBuf::from(&result_path));
     std::panic::set_hook(Box::new(|info| {
+        // The release profile sets `panic = "abort"`, so `TermGuard::drop` never runs: put the
+        // terminal back here (raw mode off, cursor shown, alternate screen left) before aborting,
+        // or the user's shell is left looking dead until they run `reset`.
+        psc_engine::menu::app::restore_terminal();
         if let Some(path) = RESULT_PATH.get() {
             let out = model::Output::error(format!("panic in menu: {info}"));
             if let Ok(json) = serde_json::to_string(&out) {

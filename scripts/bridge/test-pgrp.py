@@ -283,6 +283,48 @@ def run_trigger(shell):
           not shell_errors(sess), ','.join(shell_errors(sess)))
 
 
+def run_panic_hook():
+    """The panic hook must still write its error result.
+
+    `--panic-test` panics *before* the menu takes the terminal (design/menu.md §8), so this cannot
+    observe the terminal half of the hook — the pty's termios would read the same either way. What
+    it observes is the half a crashing menu owes its host: the result file. The terminal half is
+    pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
+    """
+    machine = os.uname().machine
+    arch = 'arm64' if machine in ('aarch64', 'arm64') else 'x64'
+    plat = 'darwin' if sys.platform == 'darwin' else 'linux'
+    binary = os.path.join(ROOT, 'module', 'PSCompletions', 'bin',
+                          '%s-%s' % (plat, arch), 'psc-menu')
+    if not os.path.exists(binary):
+        print('skip panic restore: %s missing' % binary)
+        return
+    scratch = '/tmp/psc-panic-restore-test'
+    os.makedirs(scratch, exist_ok=True)
+    result = os.path.join(scratch, 'result.json')
+    if os.path.exists(result):
+        os.remove(result)
+
+    pid, master = pty.fork()
+    if pid == 0:
+        os.execv(binary, [binary, '--input', os.path.join(scratch, 'in.json'),
+                          '--result', result, '--panic-test'])
+    while True:
+        r, _, _ = select.select([master], [], [], 0.2)
+        if r:
+            try:
+                os.read(master, 65536)
+            except OSError:
+                break
+        if os.waitpid(pid, os.WNOHANG)[0]:
+            break
+
+    lflag = termios.tcgetattr(master)[3]
+    del lflag  # the terminal is not what this trigger can observe; see the docstring
+    text = open(result).read() if os.path.exists(result) else ''
+    check('panic: the hook writes the error result', 'panic in menu' in text, text[:120])
+
+
 def main():
     if not os.path.exists(BRIDGE):
         print('FAIL bridge not found: %s' % BRIDGE)
@@ -296,6 +338,7 @@ def main():
         run_trigger('fish')
     else:
         print('skip fish: not on PATH')
+    run_panic_hook()
     print('--- pass=%d fail=%d ---' % (PASS, FAIL))
     return 1 if FAIL else 0
 
