@@ -24,7 +24,10 @@ pub fn cmd_init(
     // invocation — a usage error, not a silent success. `init` has no `--json` form (its payload
     // goes to `--result`), so the message goes to stdout and the exit code carries the verdict.
     if !args.is_empty() {
-        out.line(&crate::messages::msg_cli(&settings.language(), "too_many_params"));
+        out.line(&crate::messages::msg_cli(
+            &settings.language(),
+            "too_many_params",
+        ));
         return ExitCode::from(2);
     }
     let settings_exist = std::path::Path::new(settings_path).exists();

@@ -450,6 +450,32 @@ fn json_list_and_init_reject_arguments_they_do_not_take() {
 }
 
 #[test]
+fn json_set_paths_reject_surplus_arguments() {
+    // `config <group> <key> <value>` and `completion <name> <key> <value>` must not drop whatever
+    // follows the value in silence — the reset form of the same command already rejects it.
+    let d = make_data("json-set-surplus", "http://127.0.0.1:9");
+    for argv in [
+        vec!["--json", "config", "menu", "color_focus", "blue", "JUNK"],
+        vec!["--json", "completion", "git", "enable_tip", "1", "JUNK"],
+        vec![
+            "--json", "config", "core", "language", "--reset", "extra", "--yes",
+        ],
+    ] {
+        let (code, out) = psc(&d, &argv);
+        assert_eq!(code, 2, "{argv:?} → {out}");
+        assert_eq!(
+            parse_json(&out)["error"]["code"],
+            "too_many_params",
+            "{out}"
+        );
+    }
+    // A legal set still succeeds.
+    let (code, out) = psc(&d, &["--json", "config", "menu", "color_focus", "blue"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(parse_json(&out)["ok"], true, "{out}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

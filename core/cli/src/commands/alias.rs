@@ -7,7 +7,7 @@ use serde_json::json;
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
 use crate::output::{fail, meta, ok, Out};
-use crate::validate::{data_dir_of, name_error, name_status, too_few_params, reset_alias};
+use crate::validate::{data_dir_of, name_error, name_status, reset_alias, too_few_params};
 
 /// The entry every listing and every write answers with (design/json.md): the completion's name
 /// and its trigger words — singular inside the item, exactly as `config.json` spells it.

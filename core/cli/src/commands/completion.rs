@@ -106,16 +106,10 @@ pub fn cmd_completion(
                 *obj = comp;
             }
         } else {
-            // Exactly one key per reset; surplus args are rejected like an unknown key.
+            // Exactly one key per reset; surplus args are a parameter-count error, not a
+            // subcommand one.
             if params.len() > 2 {
-                return fail(
-                    out,
-                    "invalid_subcommand",
-                    &msg_cli(lang, "invalid_subcommand"),
-                    json,
-                    &meta(None, &data_dir),
-                    true,
-                );
+                return crate::validate::too_many_params(out, lang, json, &data_dir);
             }
             let name = params[0].clone();
             let key = params[1].clone();
@@ -341,6 +335,11 @@ pub fn cmd_completion(
             out.line(&get(&key));
         }
         return ExitCode::SUCCESS;
+    }
+    // `completion <name> <key> <value>` takes exactly three arguments: anything after the value is
+    // a usage error, exactly as the reset form rejects it.
+    if args.len() > 3 {
+        return crate::validate::too_many_params(out, lang, json, &data_dir);
     }
     let value: serde_json::Value = match args[2].parse::<i64>() {
         Ok(n) => serde_json::Value::Number(n.into()),

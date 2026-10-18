@@ -62,6 +62,11 @@ pub fn cmd_config(
     if args.iter().any(|a| a == "--reset") {
         let defaults = default_config(&settings.language());
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
+        // A reset takes at most `<group> <key>`: more is a parameter-count error, not a silent
+        // no-op (the chain below has no fallback branch).
+        if params.len() > 2 {
+            return crate::validate::too_many_params(out, lang, json, &data_dir);
+        }
         if params.is_empty() {
             if !settings.config.is_object() {
                 settings.config = serde_json::json!({});
@@ -235,6 +240,11 @@ pub fn cmd_config(
             out.line(&v);
         }
         return ExitCode::SUCCESS;
+    }
+    // `config <group> <key> <value>` takes exactly three arguments: anything after the value is a
+    // usage error, exactly as the reset form rejects it.
+    if args.len() > 3 {
+        return crate::validate::too_many_params(out, lang, json, &data_dir);
     }
     let Some(value) = validate_value(def, &args[2]) else {
         return fail(
