@@ -65,6 +65,9 @@ each renderer (unknown color → reset).
   `'`). A value that is genuinely empty never reaches the filter — an empty value is treated as
   absent, so the tag renders nothing.
   Filters are a pipeline, applied left to right; an unknown one keeps the token.
+- A **container** value (array/object) is data like any other: it renders as its **JSON text**,
+  with or without a filter — the same "value printed as-is" rule. A template that wants a list on
+  screen iterates it with `{{#each}}`.
 - `{{! … }}` — a comment, dropped; it ends at the first `}}`.
 - `{{> Path}}` — render another `info.<Path>` template with the same context.
 - `\{{` — a literal `{{`; the backslash is dropped.

@@ -207,10 +207,7 @@ fn resolve(expr: &str, ctx: &Value, item: Option<&Value>, state: &mut State) -> 
             other => other,
         };
         if filters.is_empty() {
-            return match value {
-                Value::Object(_) | Value::Array(_) => Some(String::new()),
-                other => Some(value_text(&other)),
-            };
+            return Some(value_text(&value));
         }
         let mut text = value_text(&value);
         for f in filters {
@@ -306,7 +303,7 @@ fn take_block(toks: &[Tok], i: usize) -> Block {
         if let Tok::Tag(t) = &toks[j] {
             if BLOCK_OPENERS
                 .iter()
-                .any(|k| t.starts_with(&format!("#{k} ")))
+                .any(|k| t.starts_with(&format!("#{k} ")) || t == &format!("#{k}"))
             {
                 depth += 1;
             }
@@ -364,8 +361,10 @@ fn split_spec(rest: &str) -> Vec<String> {
 }
 
 /// `path [limit=N] [sep='…']` — whitespace-separated parameters, so a separator may contain a
-/// space (`sep=' '`) or a newline.
-fn parse_each(spec: &str) -> (String, Option<usize>, Option<String>) {
+/// space (`sep=' '`) or a newline. `None` when the spec cannot be read as one (an empty path, or a
+/// `|` filter): the caller then keeps the whole block verbatim (templates.md: a spec that is not a
+/// path renders literally, never silently dropped).
+fn parse_each(spec: &str) -> Option<(String, Option<usize>, Option<String>)> {
     let mut chars = spec.chars().peekable();
     let mut path = String::new();
     while let Some(&c) = chars.peek() {
@@ -390,11 +389,9 @@ fn parse_each(spec: &str) -> (String, Option<usize>, Option<String>) {
         }
     }
     if path.is_empty() || path.contains('|') {
-        // Not a `path …` spec: treat the whole thing as the path, so the lookup misses and the
-        // block falls to its `else` branch.
-        return (spec.to_string(), None, None);
+        return None;
     }
-    (path, limit, sep)
+    Some((path, limit, sep))
 }
 
 /// The source text of a block from its opening token to its close, for a directive the renderer
@@ -478,40 +475,60 @@ fn render_tokens(toks: &[Tok], ctx: &mut Value, item: Option<&Value>, state: &mu
             i += 1;
             continue;
         }
+        if BLOCK_OPENERS.iter().any(|k| tag == &format!("#{k}")) {
+            // A block directive with no spec cannot be read: keep the whole block, closer included
+            // (templates.md: a block that cannot be read keeps its whole block, body included).
+            // Handling it here is also what stops the closer being swallowed by the skip rule below.
+            let b = take_block(toks, i);
+            note(state, tag, "kept verbatim (unreadable directive)");
+            out.push_str(&block_source(toks, i, &b));
+            i = b.next;
+            continue;
+        }
         if tag.starts_with("#each ") {
             let b = take_block(toks, i);
-            let (path, limit, sep) = parse_each(&b.spec);
+            let Some((path, limit, sep)) = parse_each(&b.spec) else {
+                // A spec that is not a path cannot be read: keep the whole block, closer included.
+                note(state, &b.spec, "kept verbatim (unreadable directive)");
+                out.push_str(&block_source(toks, i, &b));
+                i = b.next;
+                continue;
+            };
             let items = lookup(&path, ctx, item, state);
-            state.more = 0;
-            let list = match &items {
+            let (text, more) = match &items {
                 Look::Literal => {
                     note(state, &b.spec, "kept verbatim (unreadable directive)");
-                    out.push_str(&block_source(toks, i, &b));
-                    None
+                    (block_source(toks, i, &b), 0)
                 }
-                Look::Found(Value::Array(a)) if !a.is_empty() => Some(a.clone()),
+                Look::Found(Value::Array(a)) if !a.is_empty() => {
+                    let (shown, more): (&[Value], usize) = match limit {
+                        Some(l) if a.len() > l => (&a[..l], a.len() - l),
+                        _ => (&a[..], 0),
+                    };
+                    let parts: Vec<String> = shown
+                        .iter()
+                        .map(|it| render_tokens(&toks[b.body.0..b.body.1], ctx, Some(it), state))
+                        .collect();
+                    (
+                        match &sep {
+                            Some(s) => parts.join(s),
+                            None => parts.concat(),
+                        },
+                        more,
+                    )
+                }
                 _ => {
-                    if let Some((s, e)) = b.alt {
-                        out.push_str(&render_tokens(&toks[s..e], ctx, item, state));
-                    }
-                    None
+                    let text = match b.alt {
+                        Some((s, e)) => render_tokens(&toks[s..e], ctx, item, state),
+                        None => String::new(),
+                    };
+                    (text, 0)
                 }
             };
-            if let Some(a) = list {
-                let (shown, more): (&[Value], usize) = match limit {
-                    Some(l) if a.len() > l => (&a[..l], a.len() - l),
-                    _ => (&a[..], 0),
-                };
-                state.more = more;
-                let parts: Vec<String> = shown
-                    .iter()
-                    .map(|it| render_tokens(&toks[b.body.0..b.body.1], ctx, Some(it), state))
-                    .collect();
-                out.push_str(&match &sep {
-                    Some(s) => parts.join(s),
-                    None => parts.concat(),
-                });
-            }
+            // `@more` belongs to *this* loop, so it is written only once the body has run: a nested
+            // `each` sets its own, and the tail after `{{/each}}` must read this level's count.
+            state.more = more;
+            out.push_str(&text);
             i = b.next;
             continue;
         }
@@ -595,6 +612,19 @@ const KNOWN_AT_NAMES: [&str; 1] = ["more"];
 /// `psc tpl --lint`: static findings for one template. Each line names the offending tag; an
 /// empty result means the template is well-formed. Lint the *joined* text, since a block may open
 /// in one line of the `info` list and close in another.
+/// The `.`/`@` checks every path shares — as a plain tag or inside a directive's spec: a `.`-path
+/// needs an enclosing `each`, and an `@`-name must be one the renderer defines.
+fn lint_path_shape(path: &str, open: &[String], out: &mut Vec<String>) {
+    if path.starts_with('.') && !open.iter().any(|k| k == "each") {
+        out.push(format!("{path} — no enclosing `#each`"));
+    }
+    if let Some(name) = path.strip_prefix('@') {
+        if !KNOWN_AT_NAMES.contains(&name) {
+            out.push(format!("{path} — not a name the renderer defines"));
+        }
+    }
+}
+
 pub fn lint(text: &str) -> Vec<String> {
     let mut out = Vec::new();
     let mut open: Vec<String> = Vec::new();
@@ -619,6 +649,7 @@ pub fn lint(text: &str) -> Vec<String> {
                 if !is_path(path) {
                     out.push(format!("{tag} — not a path"));
                 }
+                lint_path_shape(path, &open, &mut out);
             } else {
                 if spec.contains('|') {
                     out.push(format!("{tag} — conditions chain with `or`, not `|`"));
@@ -629,6 +660,7 @@ pub fn lint(text: &str) -> Vec<String> {
                         out.push(format!("{tag} — not a path"));
                         break;
                     }
+                    lint_path_shape(path, &open, &mut out);
                 }
             }
             open.push(kind.to_string());
@@ -658,14 +690,7 @@ pub fn lint(text: &str) -> Vec<String> {
                 out.push(format!("{tag} — not an expression"));
                 break;
             }
-            if path.starts_with('.') && !open.iter().any(|k| k == "each") {
-                out.push(format!("{path} — no enclosing `#each`"));
-            }
-            if let Some(name) = path.strip_prefix('@') {
-                if !KNOWN_AT_NAMES.contains(&name) {
-                    out.push(format!("{path} — not a name the renderer defines"));
-                }
-            }
+            lint_path_shape(path, &open, &mut out);
             for f in steps {
                 if !KNOWN_FILTERS.contains(&f) {
                     out.push(format!("{f} — unknown filter"));
@@ -773,8 +798,15 @@ mod tests {
         assert_eq!(r("{{N}}", &json!({"N": 100})), "100");
         assert_eq!(r("{{N}}", &json!({"N": true})), "1");
         assert_eq!(r("{{N}}", &json!({"N": false})), "0");
-        assert_eq!(r("{{N}}", &json!({"N": [1, 2]})), "");
-        assert_eq!(r("{{N}}", &json!({"N": {"a": 1}})), "");
+        // A container is data like any other value: printed as-is (JSON), with or without a filter.
+        // Rendering it empty without a filter but as JSON with one was the inconsistency this pins
+        // shut — the test's own name said `value_text` while its assertions said `""`.
+        assert_eq!(r("{{N}}", &json!({"N": [1, 2]})), "[1,2]");
+        assert_eq!(r("{{N}}", &json!({"N": {"a": 1}})), r#"{"a":1}"#);
+        // The filter sees that same text; a container's JSON has no surrounding whitespace, so
+        // `quote` is a no-op on it (it exists for padded scalars, which it does quote).
+        assert_eq!(r("{{N|quote}}", &json!({"N": [1, 2]})), "[1,2]");
+        assert_eq!(r("{{N|quote}}", &json!({"N": " a "})), "\" a \"");
     }
 
     #[test]
@@ -1062,5 +1094,57 @@ mod tests {
             out.contains("<@Cyan>"),
             "the caller finishes the coloring: {out}"
         );
+    }
+
+    /// A directive spec that is not a path cannot be read, so the whole block renders literally —
+    /// closer included. It used to be taken as a path, so the lookup missed and the body fell to the
+    /// `else` branch (or vanished) with nothing to explain it.
+    #[test]
+    fn an_unreadable_each_spec_keeps_the_whole_block() {
+        let ctx = json!({"A": ["x", "y"]});
+        assert_eq!(
+            r("{{#each A|quote}}[{{.}}]{{/each}}", &ctx),
+            "{{#each A|quote}}[{{.}}]{{/each}}"
+        );
+        assert_eq!(
+            lint("{{#each A|quote}}x{{/each}}"),
+            vec!["#each A|quote — not a path"]
+        );
+    }
+
+    /// A known directive with no spec at all is the same kind of unreadable block. It used to emit
+    /// the opener literally and then swallow the closer (the closer matched the "skip closers" rule),
+    /// so the output was neither the source nor a render.
+    #[test]
+    fn a_spec_less_directive_keeps_the_whole_block_too() {
+        let ctx = json!({"A": 1});
+        assert_eq!(r("{{#if}}body{{/if}}", &ctx), "{{#if}}body{{/if}}");
+        assert_eq!(r("{{#each}}body{{/each}}", &ctx), "{{#each}}body{{/each}}");
+        assert_eq!(lint("{{#if}}x{{/if}}"), vec!["#if — needs a path"]);
+    }
+
+    /// `@more` belongs to the loop whose tail reads it: a nested capped `each` must not leave its own
+    /// count behind for the outer `{{/each}}`.
+    #[test]
+    fn at_more_belongs_to_the_enclosing_loop() {
+        let ctx = json!({"Outer": [{"Inner": ["a", "b", "c"]}, {"Inner": []}]});
+        let tpl = "{{#each Outer limit=1}}[{{#each .Inner limit=1}}{{.}}{{/each}}]{{/each}}more={{@more}}";
+        assert_eq!(r(tpl, &ctx), "[a]more=1");
+    }
+
+    /// The lint applies the `.`/`@` rules to a directive's spec too, not only to a plain tag.
+    #[test]
+    fn lint_checks_the_shape_of_a_directive_spec() {
+        assert_eq!(
+            lint("{{#if .X}}x{{/if}}"),
+            vec![".X — no enclosing `#each`"]
+        );
+        assert_eq!(
+            lint("{{#unless @bogus}}x{{/unless}}"),
+            vec!["@bogus — not a name the renderer defines"]
+        );
+        // Inside an `each` the `.`-path is legal, and `@more` is a defined name.
+        assert!(lint("{{#each Rows}}{{#if .X}}x{{/if}}{{/each}}").is_empty());
+        assert!(lint("{{#if @more}}x{{/if}}").is_empty());
     }
 }
