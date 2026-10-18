@@ -2943,6 +2943,22 @@ fn contains_pattern_mode_handles_string_and_array() {
 }
 
 #[test]
+fn contains_treats_a_malformed_pattern_as_no_match() {
+    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it
+    // degrades to empty", and a predicate degrades to `false`. `string.find` raises on a malformed
+    // pattern (a trailing `%`, an unfinished class), and that used to take the whole hook down.
+    let script = r#"
+    return {
+        { name = tostring(psc.contains("abc", "%", { pattern = true })) },
+        { name = tostring(psc.contains({ "abc" }, "%[", { pattern = true })) },
+    }
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["false", "false"]);
+}
+
+#[test]
 fn items_skips_empty_and_blank_strings() {
     // `psc.items` without fn uses each string element as the name; empty/blank strings are
     // skipped (they carry no usable name).

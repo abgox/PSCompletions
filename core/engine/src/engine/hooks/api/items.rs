@@ -243,13 +243,22 @@ pub(crate) fn api_contains(
         })?;
         for h in haystacks {
             if let Value::String(s) = h {
-                let text = s.to_str()?.to_string();
+                // A non-UTF-8 Lua string is bad input, not a crash (§7 item 0).
+                let Ok(text) = s.to_str() else {
+                    continue;
+                };
+                let text = text.to_string();
                 let (text_check, needle_check) = if case_sensitive {
                     (text, needle.clone())
                 } else {
                     (text.to_lowercase(), needle.to_lowercase())
                 };
-                let r: Value = find.call((text_check, needle_check))?;
+                // `string.find` raises on a malformed pattern; a predicate degrades to `false`
+                // instead of taking the hook down with it.
+                let r: Value = match find.call((text_check, needle_check)) {
+                    Ok(r) => r,
+                    Err(_) => return Ok(false),
+                };
                 if !matches!(r, Value::Nil) {
                     return Ok(true);
                 }
@@ -261,7 +270,11 @@ pub(crate) fn api_contains(
     // Exact mode: string equality or array membership, case-insensitive by default.
     // String haystack is exact equality (not substring); use pattern=true for substring/pattern.
     if let Value::String(s) = &v {
-        let hay = s.to_str()?.to_string();
+        // A non-UTF-8 Lua string is bad input, not a crash (§7 item 0): nothing matches it.
+        let Ok(hay) = s.to_str() else {
+            return Ok(false);
+        };
+        let hay = hay.to_string();
         let (hay_check, needle_check) = if case_sensitive {
             (hay, target)
         } else {
