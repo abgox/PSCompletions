@@ -157,33 +157,43 @@ function Get-Manifest {
     Get-Content -Path $p -Encoding utf8 -Raw | ConvertFrom-Json
 }
 
-# canonical path (joined by space) -> item, plus alias path -> canonical path.
+# canonical command path (joined by space) -> item, plus alias path -> canonical path.
 # Paths are space-joined strings rather than tuples so they can key a hashtable;
 # a subcommand name cannot contain a space unless quoted, and a quoted one keeps
 # its quotes, so the join stays unambiguous.
+#
+# Only **command-position** nodes are indexed: a `next` entry of the root or of a
+# command. A `next` entry of an *option* is a candidate value, and an
+# `option`/`global_option` entry is an option -- neither can ever match a
+# `command = ...` target (the engine rejects them), so indexing them here would
+# let a spec that can never fire pass. The walk still descends through them.
 function Get-IndexPaths {
     param($Doc)
     $paths = New-CaseTable
     $aliases = New-CaseTable
     $paths[''] = $Doc
     $stack = [System.Collections.Stack]::new()
-    $stack.Push(@{ Node = $Doc; Path = '' })
+    $stack.Push(@{ Node = $Doc; Path = ''; NotCommand = $false })
     while ($stack.Count -gt 0) {
         $frame = $stack.Pop()
         foreach ($key in @('next', 'option', 'global_option')) {
             $items = Get-Prop $frame.Node $key
             if (!$items) { continue }
+            # A `next` under an option is a value; anything else is an option.
+            $notCommand = ($key -ne 'next') -or $frame.NotCommand
             foreach ($item in $items) {
                 $p = if ($frame.Path) { $frame.Path + ' ' + $item.name } else { $item.name }
-                $paths[$p] = $item
-                $ialias = Get-Prop $item 'alias'
-                if ($ialias) {
-                    foreach ($a in $ialias) {
-                        $ap = if ($frame.Path) { $frame.Path + ' ' + $a } else { $a }
-                        if (!$aliases.ContainsKey($ap)) { $aliases[$ap] = $p }
+                if (!$notCommand) {
+                    $paths[$p] = $item
+                    $ialias = Get-Prop $item 'alias'
+                    if ($ialias) {
+                        foreach ($a in $ialias) {
+                            $ap = if ($frame.Path) { $frame.Path + ' ' + $a } else { $a }
+                            if (!$aliases.ContainsKey($ap)) { $aliases[$ap] = $p }
+                        }
                     }
                 }
-                $stack.Push(@{ Node = $item; Path = $p })
+                $stack.Push(@{ Node = $item; Path = $p; NotCommand = $notCommand })
             }
         }
     }
@@ -383,11 +393,21 @@ function Test-HookTargets {
             continue
         }
         else {
+            # A name the manifest declares as an option can never fire as a command
+            # target: the engine validates by position and reports the same thing.
+            $optNames = Get-AllOptionNames $doc
+            $last = $t.command[-1]
+            $reason = if ($optNames.Contains($last)) {
+                (msg 'optionAsCommand' -Vars @{ Name = $last })
+            }
+            else {
+                (msg 'noPath')
+            }
             $bad.Add([pscustomobject]@{
                     completion = $Name
                     target     = $p
                     option     = ($t.option -join ',')
-                    reason     = (msg 'noPath')
+                    reason     = $reason
                 })
             continue
         }
