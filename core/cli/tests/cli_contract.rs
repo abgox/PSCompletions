@@ -184,6 +184,37 @@ fn json_info_unknown_entry_is_name_free_error() {
 }
 
 #[test]
+fn json_config_custom_url_warns() {
+    let d = make_data("json-cfg-url", "http://127.0.0.1:9");
+    let (code, out) = psc(
+        &d,
+        &["--json", "config", "core", "url", "https://evil.example/x"],
+    );
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    assert!(
+        !v["warning"].as_str().unwrap_or_default().is_empty(),
+        "{out}"
+    );
+    // An official candidate carries no warning.
+    let (code, out) = psc(
+        &d,
+        &[
+            "--json",
+            "config",
+            "core",
+            "url",
+            "https://github.com/abgox/PSCompletions/raw/main",
+        ],
+    );
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    assert!(v.get("warning").is_none(), "{out}");
+}
+
+#[test]
 fn json_config_bad_group() {
     let d = make_data("json-cfg-group", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "config", "badgroup"]);

@@ -39,6 +39,11 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "This completion has no dynamic hooks.",
     ),
     (
+        "url_untrusted",
+        "警告：正在使用非官方补全源，其 hooks.lua 将以你的权限执行，请确认你信任该来源。",
+        "Warning: using a non-official completion source; its hooks.lua will run with your privileges. Proceed only if you trust it.",
+    ),
+    (
         "psc_hooks_locked",
         "psc 自身的 hooks 不能禁用。",
         "psc hooks cannot be disabled.",

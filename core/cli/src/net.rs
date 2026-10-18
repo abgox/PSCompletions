@@ -53,6 +53,64 @@ pub fn resolve_index_urls(settings: &Settings) -> Vec<String> {
     out
 }
 
+/// Official `config.url` candidates from the installed psc manifest
+/// (`config core url` value list): the manifest is the user-facing source of truth.
+/// Falls back to the static default bases when the manifest is unreadable.
+/// Names are stored quoted in the manifest; comparison strips one quote pair.
+pub fn official_sources(data_dir: &str, language: &str) -> Vec<String> {
+    fn child<'a>(node: &'a Value, name: &str) -> Option<&'a Value> {
+        node.get("next")?
+            .as_array()?
+            .iter()
+            .find(|n| n.get("name").and_then(|x| x.as_str()) == Some(name))
+    }
+    let mut out = vec![GITEE.to_string(), GITHUB.to_string(), GH_PAGES.to_string()];
+    let lang_file = if language.starts_with("zh") {
+        "zh-CN"
+    } else {
+        "en-US"
+    };
+    let path = format!("{data_dir}/completions/psc/language/{lang_file}.json");
+    if let Some(text) = crate::data::read_text(&path) {
+        if let Ok(manifest) = serde_json::from_str::<Value>(&text) {
+            let root = Value::Object({
+                let mut m = serde_json::Map::new();
+                m.insert(
+                    "next".into(),
+                    manifest.get("next").cloned().unwrap_or(Value::Null),
+                );
+                m
+            });
+            if let Some(urls) = child(&root, "config")
+                .and_then(|n| child(n, "core"))
+                .and_then(|n| child(n, "url"))
+                .and_then(|n| n.get("next"))
+                .and_then(|n| n.as_array())
+            {
+                for v in urls {
+                    if let Some(name) = v.get("name").and_then(|n| n.as_str()) {
+                        let u = name.trim().trim_matches('"').trim_end_matches('/');
+                        if !u.is_empty() && !out.iter().any(|o| o == u) {
+                            out.push(u.to_string());
+                        }
+                    }
+                }
+            }
+        }
+    }
+    out
+}
+
+/// Whether a `config.url` value is an official source: empty (auto) or listed in
+/// the psc manifest candidates / static default bases. Anything else is unreviewed.
+pub fn is_official_source(data_dir: &str, language: &str, url: &str) -> bool {
+    let u = url.trim();
+    u.is_empty()
+        || official_sources(data_dir, language)
+            .iter()
+            .any(|o| o == u.trim_end_matches('/'))
+}
+
 /// Source URLs: `config.url` if set, else defaults (zh prefers gitee first).
 pub fn resolve_urls(settings: &Settings) -> Vec<String> {
     if let Some(u) = settings.config.get("url").and_then(|v| v.as_str()) {
@@ -185,7 +243,7 @@ pub fn validate_index_shape(v: &Value) -> Result<(), String> {
 pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
     let mut last_err = String::from("no index sources");
     for base in urls {
-        let attempt = match fetch_text(&[base.clone()], "completions.json") {
+        let attempt = match fetch_text(std::slice::from_ref(base), "completions.json") {
             Ok(t) => t,
             Err(e) => {
                 last_err = format!("{base}: {e}");
@@ -674,6 +732,37 @@ mod tests {
         // Bare hosts have no swappable segment.
         assert_eq!(index_branch_url("https://example.com"), None);
         assert_eq!(index_branch_url("https://example.com/"), None);
+    }
+
+    #[test]
+    fn official_sources_reads_psc_manifest_candidates() {
+        let base = test_base();
+        let dir = base.join("completions/psc/language");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("en-US.json"),
+            r#"{"next":[{"name":"config","next":[{"name":"core","next":[{"name":"url","next":[{"name":"\"https://mirror.example/x\""},{"name":"\"\""}]}]}]}]}"#,
+        )
+        .unwrap();
+        let src = official_sources(base.to_str().unwrap(), "en-US");
+        assert!(src.contains(&"https://mirror.example/x".to_string()));
+        assert!(is_official_source(
+            base.to_str().unwrap(),
+            "en-US",
+            "https://mirror.example/x"
+        ));
+        assert!(!is_official_source(
+            base.to_str().unwrap(),
+            "en-US",
+            "https://evil.example/y"
+        ));
+        // Empty (auto) never warns; static bases survive without a manifest.
+        assert!(is_official_source(base.to_str().unwrap(), "en-US", ""));
+        std::fs::remove_dir_all(&base).ok();
+        let bare = test_base();
+        let src = official_sources(bare.to_str().unwrap(), "en-US");
+        assert_eq!(src.len(), 3);
+        std::fs::remove_dir_all(&bare).ok();
     }
 
     #[test]

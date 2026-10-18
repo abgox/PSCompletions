@@ -7,6 +7,7 @@ use serde_json::{json, Value};
 use crate::data::config::{validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use crate::data::{default_config, Settings};
 use crate::messages::msg_cli;
+use crate::net::is_official_source;
 use crate::output::Out;
 
 pub(crate) fn value_str(v: &Value) -> String {
@@ -292,13 +293,27 @@ pub fn cmd_config(
         out.line(&format!("error: {e}"));
         return ExitCode::FAILURE;
     }
+    // A custom source is unreviewed: warn once it takes effect.
+    let untrusted = group == "core"
+        && key == "url"
+        && value.as_str().is_some_and(|u| {
+            !is_official_source(
+                &crate::validate::data_dir_of(settings_path),
+                &settings.language(),
+                u,
+            )
+        });
     if json {
-        println!(
-            "{}",
-            serde_json::to_string(&json!({"ok": true})).unwrap_or_default()
-        );
+        let mut obj = serde_json::json!({"ok": true});
+        if untrusted {
+            obj["warning"] = serde_json::json!(msg_cli(lang, "url_untrusted"));
+        }
+        println!("{}", serde_json::to_string(&obj).unwrap_or_default());
         return ExitCode::SUCCESS;
     }
     out.line(&msg_cli(lang, "config_done"));
+    if untrusted {
+        out.line(&msg_cli(lang, "url_untrusted"));
+    }
     ExitCode::SUCCESS
 }
