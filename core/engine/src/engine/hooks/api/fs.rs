@@ -111,10 +111,10 @@ pub(crate) fn api_ls_batch(lua: &Lua, cwd: &str, dirs: Vec<String>) -> mlua::Res
     Ok(t)
 }
 
-/// `psc.glob(pattern)` → array of matching file paths (relative to `cwd`; absolute
-/// patterns ignore `cwd`). The pattern may contain `*`/`?`/`**` and `{a,b}` alternation
-/// (via `globset`, like `ripgrep`); nil for an invalid pattern (strict failure
-/// semantics; a valid pattern with no match yields an empty array).
+/// `psc.glob(pattern)` → array of matching file paths, always **absolute** (the pattern is
+/// resolved against `cwd`; an absolute pattern ignores it). The pattern may contain `*`/`?`/`**`
+/// and `{a,b}` alternation (via `globset`, like `ripgrep`); nil for an invalid pattern (strict
+/// failure semantics; a valid pattern with no match yields an empty array).
 /// The walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (via `ignore` crate,
 /// like `ripgrep`): ignored files are never returned. `hidden` is `false` so dotfiles
 /// like `.env.*` still match when the pattern asks for them.
