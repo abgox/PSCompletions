@@ -161,7 +161,12 @@
     function _render_completion_done {
         param([string]$completion, [string]$kind, [string]$display = '')
         if ($kind -in @('add', 'update')) {
+            # Each of these renders a multi-line block, so consecutive blocks are separated by a
+            # blank line — the same gap the templates put between their own repeated items
+            # (design/templates.md). `rm`'s done is one line per completion and stays tight.
+            if ($script:_done_block) { $PSCompletions.write_with_color('') }
             $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done (_done_ctx $completion $display)))
+            $script:_done_block = $true
             return
         }
         $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done @{ Completion = $completion }))
@@ -176,6 +181,7 @@
                 $rows = @((_forward_psc -Json).completions)
                 if ($rows.Count) {
                     $PSCompletions.init_data()
+                    $script:_done_block = $false
                     foreach ($r in $rows) {
                         if ($r.ok) {
                             _render_completion_done $r.name 'add'
@@ -264,6 +270,7 @@
                 else {
                     $PSCompletions.init_data()
                     $anyOk = $false
+                    $script:_done_block = $false
                     $migratedRenamed = @()
                     foreach ($r in $rows) {
                         if ($r.ok) {
