@@ -705,6 +705,17 @@ fn text_info_unknown_fails_with_message() {
 }
 
 #[test]
+fn text_language_flag_overrides_messages() {
+    // `--language` must change the *messages* too, not only `init`'s payload: with the flag set
+    // to zh-CN the same failure reads in Chinese.
+    let d = make_data("txt-lang-flag", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--language", "zh-CN", "config", "badgroup"]);
+    assert_eq!(code, 1);
+    assert!(out.contains("无效的子命令"), "{out}");
+    assert!(!out.contains("Invalid subcommand"), "{out}");
+}
+
+#[test]
 fn text_config_bad_group_fails() {
     let d = make_data("txt-cfg-group", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["config", "badgroup"]);

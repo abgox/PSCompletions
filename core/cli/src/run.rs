@@ -23,7 +23,11 @@ pub fn run(args: Vec<String>) -> ExitCode {
     let completions_dir = format!("{data_dir}/completions");
     let mut settings = Settings::load(&settings_path).unwrap_or_default();
     let mut index = Index::load(&completions_json).unwrap_or_default();
-    let lang = settings.language();
+    // `--language` is this run's override for the message language (and for anything that renders
+    // with it); `init` still receives the raw flag. Never written back: `settings` is untouched.
+    let lang = language_arg
+        .clone()
+        .unwrap_or_else(|| settings.language());
     let out = Out::new();
 
     if rest.is_empty() {
