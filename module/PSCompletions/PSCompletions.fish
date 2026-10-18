@@ -1401,7 +1401,7 @@ function psc
     # `psc --self-update` (root-level flag): the engine detects how this copy was installed and
     # says what updates it — a script install is updated right there, the rest is a command to run.
     if test "$argv[1]" = --self-update
-        _psc_run_status --self-update
+        _psc_plain --self-update
         return $status
     end
     # `psc --reset` (PowerShell-only flag): confirm, wipe the data dir, re-seed.
