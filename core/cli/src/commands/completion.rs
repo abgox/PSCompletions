@@ -9,7 +9,9 @@ use crate::messages::msg_cli;
 use crate::net::completion_defaults;
 use crate::output::{fail, meta, ok, Out};
 use crate::output::{key_line, value_quoted};
-use crate::validate::{data_dir_of, ensure_completion_map, name_error, name_status};
+use crate::validate::{
+    data_dir_of, ensure_completion_entry, ensure_completion_map, name_error, name_status,
+};
 
 const COMPLETION_KEYS: &[&str] = &[
     "language",
@@ -132,12 +134,10 @@ pub fn cmd_completion(
                 );
             }
             let defaults = completion_defaults(&data_dir, &name, &settings.language());
-            if let Some(n) = settings
-                .config
-                .get_mut("completion")
-                .and_then(|c| c.get_mut(&name))
-                .and_then(|n| n.as_object_mut())
             {
+                // Ensure the entry like the whole-scope reset above does: without it, a completion
+                // with no stored config skipped this block entirely and still answered `ok: true`.
+                let n = ensure_completion_entry(settings, &name);
                 match defaults.get(&key) {
                     Some(v) => {
                         n.insert(key.clone(), v.clone());

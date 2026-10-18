@@ -1293,6 +1293,39 @@ fn json_completion_writes_are_in_band() {
 }
 
 #[test]
+fn json_completion_key_reset_actually_resets() {
+    // A key reset on a completion with no stored config must still write the manifest's default.
+    // The path used to look the map up without ensuring it, answer `ok: true` and change nothing.
+    let d = make_data("json-completion-key-reset", "http://127.0.0.1:9");
+    // The manifest default lives in the *language* file, as a `config` array of {name, value}.
+    std::fs::write(
+        d.join("completions/git/language/en-US.json"),
+        r#"{"config":[{"name":"enable_tip","value":1}]}"#,
+    )
+    .unwrap();
+    let (code, out) = psc(
+        &d,
+        &[
+            "--json",
+            "completion",
+            "git",
+            "enable_tip",
+            "--reset",
+            "--yes",
+        ],
+    );
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(parse_json(&out)["ok"], true, "{out}");
+    let settings: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(d.join("settings.json")).unwrap()).unwrap();
+    assert_eq!(
+        settings["config"]["completion"]["git"]["enable_tip"],
+        serde_json::json!(1),
+        "the reset must store the manifest default instead of silently doing nothing"
+    );
+}
+
+#[test]
 fn json_self_update_reports_an_unmanaged_copy() {
     // The test binary is not installed by anything, so the method is `unknown` and the payload
     // names the routes a user should take. `commands` is the part a machine acts on; the version
