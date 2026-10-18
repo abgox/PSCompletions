@@ -241,11 +241,14 @@ psc info <name>...      # per-name metadata
 ```
 
 - **Behavior**: no-arg lists all installed completions (same as `list` but with full metadata
-  per entry). Per name, prints (when present): `Name`, `Alias`, `Url`, `Description` (from
-  remote index meta, localized), `Path` (if installed), `Update` (remote version in `.update`),
-  `Updated` (unix timestamp of `.update`).
+  per entry). Per name, prints (when present): `Alias`, `Url`, `Path` (if installed), `Update`
+  (remote version in `.update`), `Updated` (unix timestamp of `.update`), and **last**
+  `Description` (from remote index meta, localized) — last because it is the one value authored as
+  lines, and a multi-line block between single-line rows reads as a break in the record.
 - **Errors**: a name that is neither installed/linked nor in the remote library →
-  `<name>: is not an available completion.`; in both modes the run exits `1` (a failed entry fails
+  `<name>: is not an available completion.` A failed entry is an **error line**, not a block entry:
+  it names itself and takes no `[name]` heading, even when other names in the run succeed. In both
+  modes the run exits `1` (a failed entry fails
   the run, [`json.md`](json.md) §6). The `--json` entry is
   `{name, ok, alias, url, description, path, update, updated}` with `null` for an absent field and
   `{code, message}` for the failure.
@@ -597,6 +600,10 @@ Two levels only, and **a form never repeats what the caller already named**:
 
 Rules that hold across all of them:
 
+- **`description` is the one field that can carry several lines, and it always starts on its own**:
+  the label alone (`description:`), then the value — one line or several, one rule. The value is a
+  string, in the index's own form (a completion's `meta.description` is an array, joined with `\n`),
+  and the JSON reports that same string.
 - **Color is status, never data.** Only messages that report an action (`add`, `rm`, `update`,
   the setters, `init`) are colored; every query is plain text.
 - **A listing keeps an empty or space-padded value visible** (`url: ""`) — the shell convention

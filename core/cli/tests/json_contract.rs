@@ -587,6 +587,78 @@ fn json_list_and_alias_render_an_empty_alias_list_the_same_way() {
 }
 
 #[test]
+fn json_info_block_names_a_failed_entry_once() {
+    // A failure is an error line, not a block entry: it names itself and takes no `[name]` heading,
+    // even when the run's other names succeed. Single-name mode reads the same way.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-info-block-name", &srv);
+    psc(&d, &["add", "demo"]);
+
+    let (code, out) = psc(&d, &["info", "demo", "zzz-nope"]);
+    assert_eq!(code, 1, "{out}");
+    assert!(out.contains("[demo]"), "{out}");
+    assert!(!out.contains("[zzz-nope]"), "{out}");
+    assert!(
+        out.contains("zzz-nope: is not an available completion."),
+        "{out}"
+    );
+
+    let (_, single) = psc(&d, &["info", "zzz-nope"]);
+    assert!(
+        single.contains("zzz-nope: is not an available completion."),
+        "{single}"
+    );
+}
+
+#[test]
+fn json_info_renders_a_multi_line_description_as_a_block() {
+    // `description` is the one value authored as several lines, so it renders as the label alone
+    // and then its lines at column 0 — a row shape of its own, not a general rule (another field
+    // gets its own decision when it appears). The JSON keeps the index's array (`json.md` §3:
+    // JSON does no display work).
+    let srv = spawn_server(vec![
+        (
+            "completions.json",
+            r#"{"update":{"demo":"v1"},"meta":{"demo":{"en-US":{"url":"https://demo.example","description":"First line.\nSecond line."}}}}"#.into(),
+        ),
+        (
+            "completions/demo/config.json",
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        ),
+        ("completions/demo/language/en-US.json", "{}".into()),
+    ]);
+    let d = make_data("flow-info-description", &srv);
+    psc(&d, &["add", "demo"]);
+
+    let (_, out) = psc(&d, &["info", "demo"]);
+    assert!(
+        out.contains("description:\nFirst line.\nSecond line.\n"),
+        "{out}"
+    );
+    assert!(!out.contains("description: First line."), "{out}");
+    // It is the last row: a multi-line block between single-line rows reads as a break.
+    assert!(
+        out.find("description:").unwrap() > out.find("path:").unwrap(),
+        "{out}"
+    );
+
+    let (_, js) = psc(&d, &["--json", "info", "demo"]);
+    assert_eq!(
+        parse_json(&js)["data"]["completions"][0]["description"],
+        serde_json::json!("First line.\nSecond line."),
+        "{js}"
+    );
+
+    // One line reads the same way: the label stands alone, the value follows on its own line.
+    let srv2 = spawn_server(demo_routes());
+    let d2 = make_data("flow-info-description-one", &srv2);
+    psc(&d2, &["add", "demo"]);
+    let (_, one) = psc(&d2, &["info", "demo"]);
+    assert!(one.contains("description:\nDemo\n"), "{one}");
+    assert!(!one.contains("description: Demo"), "{one}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);
@@ -728,7 +800,10 @@ fn json_update_named_off_index_errors() {
         "{out}"
     );
     let (_, text) = psc(&d, &["update", "git"]);
-    assert!(text.contains("git: is not in the completion library."), "{text}");
+    assert!(
+        text.contains("git: is not in the completion library."),
+        "{text}"
+    );
 }
 
 /// Legacy mirrors serving only the old layout keep working: the index-branch

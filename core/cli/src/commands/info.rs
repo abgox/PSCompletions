@@ -80,6 +80,8 @@ pub fn cmd_info(
                     if let Some(u) = c.get("url").and_then(|u| u.as_str()) {
                         url = json!(u);
                     }
+                    // The value is reported as a string — the index's own form; a completion's
+                    // `meta.description` is an array, joined the same way (with `\n`).
                     if let Some(desc) = c.get("description") {
                         let d = match desc {
                             serde_json::Value::String(s) => s.clone(),
@@ -156,20 +158,24 @@ pub fn cmd_info(
     // same rule as an ini section, where a value sits at column 0).
     let field = |label: String, value: &str| out.line(&format!("{label}{value}"));
     for name in args {
-        if !single {
-            out.line(&format!("[{name}]"));
-        }
         let status = name_status(settings, index, completions_dir, name);
+        // A failure is an error line, not a block entry: it names itself, so it takes no `[name]`
+        // heading — the shape single-name mode already uses.
         if let Some((_code, e)) = name_error(&lang, name, status, false) {
             out.line(&e);
             had_error = true;
             continue;
+        }
+        if !single {
+            out.line(&format!("[{name}]"));
         }
         if let Some(aliases) = settings.alias.get(name) {
             if !aliases.is_empty() {
                 field("alias: ".to_string(), &aliases.join(", "));
             }
         }
+        // The description is the one value authored as lines, so it is emitted last
+        let mut description: Option<String> = None;
         if let Some(meta) = index.meta.get(name) {
             let c = meta.get(&lang).or_else(|| meta.get("en-US"));
             if let Some(c) = c {
@@ -187,7 +193,7 @@ pub fn cmd_info(
                         _ => String::new(),
                     };
                     if !d.is_empty() {
-                        field("description: ".to_string(), &d);
+                        description = Some(d);
                     }
                 }
             }
@@ -208,6 +214,11 @@ pub fn cmd_info(
                     }
                 }
             }
+        }
+        if let Some(d) = description {
+            // The label stands alone and the value starts on the next line — one rule for one line and for several.
+            out.line("description:");
+            out.line(&d);
         }
     }
     if had_error {
