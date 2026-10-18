@@ -343,6 +343,11 @@ pub fn add_completion(
         if let Some(langs) = config.get("language").and_then(|l| l.as_array()) {
             for lang in langs {
                 if let Some(l) = lang.as_str() {
+                    // The tag names both a URL segment and a local file: reject one carrying
+                    // separators, so nothing lands outside the staging dir.
+                    if !is_valid_name(l) {
+                        return Err(format!("invalid language tag in config.json: {l}"));
+                    }
                     jobs.push((
                         format!("completions/{name}/language/{l}.json"),
                         format!("{language_dir}/{l}.json"),
@@ -359,38 +364,17 @@ pub fn add_completion(
             ));
         }
 
-        let results: Vec<Result<String, String>> = std::thread::scope(|s| {
-            let urls = &urls;
-            let jobs = &jobs;
-            let mut out: Vec<Option<Result<String, String>>> = vec![None; jobs.len()];
-            let handles: Vec<_> = jobs
-                .iter()
-                .enumerate()
-                .map(|(i, (url_path, _, _))| s.spawn(move || (i, fetch_text(urls, url_path))))
-                .collect();
-            for h in handles {
-                if let Ok((i, r)) = h.join() {
-                    out[i] = Some(r);
-                }
-                // Err: slot stays None → Err below
-            }
-            out.into_iter()
-                .map(|o| {
-                    o.unwrap_or(Err(
-                        "thread panic while fetching completion file".to_string()
-                    ))
-                })
-                .collect()
-        });
-
-        for (i, r) in results.iter().enumerate() {
-            match r {
-                Ok(text) => std::fs::write(&jobs[i].1, text).map_err(|e| e.to_string())?,
+        // Fetched one after another: a completion ships a handful of files, and the parallelism
+        // that matters is across completions (`add`'s run_parallel). A thread per file would let
+        // a hostile config.json decide how many threads to spawn.
+        for (url_path, local_path, is_hooks) in &jobs {
+            match fetch_text(urls, url_path) {
+                Ok(text) => std::fs::write(local_path, text).map_err(|e| e.to_string())?,
                 Err(e) => {
                     // hooks.lua may be missing remotely (not yet synced): degrade to static
                     // completions; the next update fills it in.
-                    if !jobs[i].2 {
-                        return Err(e.to_string());
+                    if !*is_hooks {
+                        return Err(e);
                     }
                 }
             }

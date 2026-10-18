@@ -521,6 +521,29 @@ fn json_update_named_updates_version_marker() {
 }
 
 #[test]
+fn json_add_rejects_a_language_entry_that_escapes_the_staging_dir() {
+    // A downloaded config.json is remote input: its `language` entries name both a URL segment
+    // and a local file, so a traversing tag must be rejected instead of written outside.
+    let srv = spawn_server(vec![
+        (
+            "completions.json",
+            r#"{"update":{"demo":"v1"},"meta":{}}"#.into(),
+        ),
+        (
+            "completions/demo/config.json",
+            r#"{"id":"demo-id","language":["../../../evil"]}"#.into(),
+        ),
+    ]);
+    let d = make_data("json-add-evil-lang", &srv);
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert!(
+        !d.join("evil.json").exists(),
+        "language tag escaped the staging dir"
+    );
+    assert_ne!(code, 0, "{out}");
+}
+
+#[test]
 fn json_update_save_failure_still_emits_one_document() {
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-update-savefail", &srv);
