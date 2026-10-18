@@ -20,6 +20,13 @@ pub struct Input {
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,
+    /// Items mode: the line's tokens after the command word, the pending one included, plus
+    /// whether it is already finished. The engine derives `initial_filter` from these the same
+    /// way build mode does, so every host fills the filter by one rule (and one implementation).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub arg_tokens: Vec<String>,
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub treat_last_as_complete: bool,
     /// Manifest build context (`CompleteInput`), present when the host wants the engine to
     /// build the candidate items itself instead of passing them; used so the engine builds
     /// the candidates and renders the menu in a single process call.

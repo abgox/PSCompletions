@@ -135,6 +135,26 @@ fn main() -> ExitCode {
                     }
                 }
             }
+
+            // Items mode (a host's own candidate list): fill the filter from the pending word,
+            // exactly as build mode does from its context. `with_initial_filter` ignores a filter
+            // that matches nothing, so a path slot — whose items display leaves — opens unfiltered.
+            if input.build.is_none() && input.initial_filter.is_none() {
+                if !input.treat_last_as_complete {
+                    if let Some(last) = input.arg_tokens.last() {
+                        if !last.is_empty() {
+                            input.initial_filter = Some(format!("^{last}"));
+                        }
+                    }
+                }
+                if input.initial_filter.is_some() {
+                    // Rewrite like the build branch: keeps the modes symmetric and lets a suite
+                    // read back what the engine decided.
+                    if let Ok(json) = serde_json::to_string(&input) {
+                        let _ = std::fs::write(&input_path, json);
+                    }
+                }
+            }
         }
     }
 

@@ -289,17 +289,20 @@ impl MenuState {
     }
 
     /// Prefill the filter box (e.g. `^<pending>`) and filter the list, cursor at the end.
+    ///
+    /// The filter is a **hint, not a command**: when it matches nothing the menu keeps the full
+    /// list and opens unfiltered. Hosts hand us the pending word blindly (there is no way for a
+    /// bridge to know what a given item list will match), and a path slot's items display leaves
+    /// (`az zdir/`), so a genuine prefix is often absent — emptying the menu instead would be far
+    /// worse than showing it whole.
     pub fn with_initial_filter(&mut self, filter: &str, cfg: &Config, term: &TerminalInfo) {
         if filter.is_empty() {
             return;
         }
-        self.filter = filter.to_string();
-        let matched = filter_items(&self.items, &self.filter, filter.starts_with('^'), cfg);
-        if matched.is_empty() {
-            self.filtered = Vec::new();
-            self.selected = 0;
+        if filter_items(&self.items, filter, filter.starts_with('^'), cfg).is_empty() {
             return;
         }
+        self.filter = filter.to_string();
         self.last_insert = true;
         self.apply_filter(cfg, term);
         self.cursor = self.char_count();

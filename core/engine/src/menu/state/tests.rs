@@ -627,11 +627,15 @@ fn prefix_derived_from_filter_no_toggle() {
 }
 
 #[test]
-fn with_initial_filter_no_match_closes_menu() {
+fn with_initial_filter_no_match_keeps_full_list() {
+    // A hint that matches nothing must not empty the menu: hosts pass the pending word blindly,
+    // and items display leaves, so a path slot has no genuine prefix to offer.
     let c = cfg(false);
-    let mut s = MenuState::new(items(10), &c, &term());
-    s.with_initial_filter("^X", &c, &term());
-    assert!(s.filtered.is_empty());
+    let term = term();
+    let mut s = MenuState::new(items(10), &c, &term);
+    s.with_initial_filter("^X", &c, &term);
+    assert_eq!(s.filtered.len(), 10);
+    assert!(s.filter.is_empty());
 }
 
 #[test]
