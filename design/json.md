@@ -75,7 +75,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
   statuses and listings alike, so the same failure never reads two ways. The JSON item keeps `name`
   in its own field, so its `message` never repeats it.
 - The codes in use: `too_few_params`, `too_many_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`,
-  `not_installed`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
+  `not_installed`, `not_in_library`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
   `language_no_reset`, `alias_wildcard`, `alias_reserved`,
   `alias_not_found`, `settings_corrupt`, `io`, `network`.
 

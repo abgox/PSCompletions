@@ -335,7 +335,8 @@ psc update --all              # update every installed completion
   - After any successful update, the remaining out-of-date names are written back to
     `temp/change.json` (`update`) so the next startup does not re-report them.
 - **Errors**: name not installed and not in the remote list → `<name>: is not an available completion.`;
-  installed but not in the remote list → `<name>: Completion not added.`; download failure →
+  installed but not in the remote list → `<name>: is not in the completion library.` (code
+  `not_in_library`); download failure →
   `error: <err>`. Same `id` refusal as `add` (nothing lands on failure).
 - **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (a migrated
   rename adds `renamed_from`); the no-argument check answers the four library-change lists

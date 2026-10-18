@@ -687,6 +687,9 @@ fn json_add_linked_reports_added() {
 
 #[test]
 fn json_update_named_off_index_errors() {
+    // `git` is installed here while the library does not carry it: neither `not_available` (nowhere)
+    // nor `not_installed` (never added) describes that, and the code must agree with the message a
+    // human reads.
     let srv = spawn_server(vec![(
         "completions.json",
         r#"{"update":{},"meta":{}}"#.into(),
@@ -697,9 +700,15 @@ fn json_update_named_off_index_errors() {
     let v = parse_json(&out);
     assert_eq!(v["data"]["completions"][0]["ok"], false, "{out}");
     assert_eq!(
-        v["data"]["completions"][0]["error"]["code"], "not_available",
+        v["data"]["completions"][0]["error"]["code"], "not_in_library",
         "{out}"
     );
+    assert_eq!(
+        v["data"]["completions"][0]["error"]["message"], "is not in the completion library.",
+        "{out}"
+    );
+    let (_, text) = psc(&d, &["update", "git"]);
+    assert!(text.contains("git: is not in the completion library."), "{text}");
 }
 
 /// Legacy mirrors serving only the old layout keep working: the index-branch

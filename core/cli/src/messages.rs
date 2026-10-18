@@ -22,6 +22,11 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "不是一个可用的补全。",
         "is not an available completion.",
     ),
+    (
+        "not_in_library",
+        "不在补全库中。",
+        "is not in the completion library.",
+    ),
     ("config_done", "配置修改成功。", "Config updated."),
     (
         "completion_done",

@@ -274,11 +274,13 @@ pub fn cmd_update(
                 return;
             }
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            let err = msg_cli(lang, "not_installed");
+            // Installed here, absent from the library: neither `not_available` (nowhere) nor
+            // `not_installed` (never added). The code and the message say the same thing.
+            let err = msg_cli(lang, "not_in_library");
             results.lock().unwrap().push(json!({
                 "name": name,
                 "ok": false,
-                "error": { "code": "not_available", "message": err },
+                "error": { "code": "not_in_library", "message": err },
             }));
             if !json {
                 out.line(&format!("{name}: {err}"));
