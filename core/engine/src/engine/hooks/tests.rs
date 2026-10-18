@@ -60,6 +60,27 @@ fn explicit_return_skips_malformed_rows_and_resolves_localized_tip() {
 }
 
 #[test]
+fn a_wrong_typed_optional_field_skips_the_row_not_the_hook() {
+    // §3: malformed rows are skipped, never fatal; §7.0: bad input degrades, never crashes. The
+    // three fields below used to abort the whole item build, so one hook typo took every
+    // candidate with it — the static seed included.
+    let script = r#"
+        return {
+            { name = "good", symbol = "s", nospace = true },
+            { name = "bad-symbol", symbol = {} },
+            { name = "bad-repeat", repeat_count = {} },
+            { name = "also-good" },
+        }
+    "#;
+    let items = run_hook_with_timeout(&ctx(), script, &empty_static(), Duration::from_secs(2))
+        .expect("a wrong-typed optional field must not abort the hook");
+    let names: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(names, vec!["good", "also-good"]);
+    assert_eq!(items[0].symbol.as_deref(), Some("s"));
+    assert!(items[0].nospace);
+}
+
+#[test]
 fn sandbox_disables_system_access() {
     let lua = new_sandbox_lua().unwrap();
     let cases: &[(&str, &str)] = &[

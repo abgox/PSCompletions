@@ -216,11 +216,20 @@ pub(crate) fn table_to_items(
             lazy,
             language,
         )?;
-        let symbol: Option<String> = item.get("symbol")?;
-        let repeat: i32 = item
-            .get::<Option<i32>>("repeat_count")?
-            .or(item.get::<Option<i32>>("repeat")?)
-            .unwrap_or(0);
+        // A wrong-typed `symbol` / `repeat_count` marks the row malformed, not the hook (§3, §7.0):
+        // skipped like a missing `name`, so one typo cannot take the static candidates with it.
+        // (`nospace` needs no guard — Lua truthiness makes `bool` total.)
+        let Ok(symbol) = item.get::<Option<String>>("symbol") else {
+            continue;
+        };
+        let repeat = match item.get::<Option<i32>>("repeat_count") {
+            Ok(Some(v)) => Some(v),
+            Err(_) => continue,
+            Ok(None) => match item.get::<Option<i32>>("repeat") {
+                Ok(v) => v,
+                Err(_) => continue,
+            },
+        };
         let nospace: bool = item.get::<Option<bool>>("nospace")?.unwrap_or(false);
         out.push(LuaItem {
             text,
@@ -228,7 +237,7 @@ pub(crate) fn table_to_items(
             usage,
             example,
             symbol,
-            repeat,
+            repeat: repeat.unwrap_or(0),
             nospace,
         });
     }
