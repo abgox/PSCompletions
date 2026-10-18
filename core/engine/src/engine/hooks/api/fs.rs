@@ -135,10 +135,6 @@ pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
 /// worst case imperceptible.
 pub(crate) const GLOB_BUDGET: Duration = Duration::from_millis(500);
 
-/// How often the walk checks whether it is out of time. Every entry would put a clock read in
-/// the per-file path; every 256 entries keeps that negligible while reacting in low milliseconds.
-const GLOB_POLL_INTERVAL: usize = 256;
-
 /// When a walk must stop: its own budget, or whatever is left of the hook's deadline, whichever
 /// comes first. `hook_deadline` is a parameter (rather than read from the process-global slot) so
 /// the composition is testable without shared state.
@@ -253,14 +249,17 @@ pub(crate) fn glob_walk(
 
     let mut out = Vec::new();
     let mut seen = std::collections::HashSet::new();
-    let mut visited: usize = 0;
     for entry in walker {
         // A recursive glob is a native walk: it burns wall-clock time without executing one
         // Lua instruction, so the VM instruction-count hook can never interrupt it. Checking
         // the clock here is what keeps a huge/deep tree from freezing the menu (the same
         // reason `psc.run` checks the deadline — see `api/run.rs`).
-        visited += 1;
-        if visited.is_multiple_of(GLOB_POLL_INTERVAL) && Instant::now() >= stop_at {
+        //
+        // Checked on **every** entry: polling every N entries left a gap in which a small tree
+        // (fewer entries than the interval) walked to the end with the deadline long past, and on
+        // a slow filesystem that gap is a stall the user feels. `Instant::now()` costs nothing
+        // beside the walk itself.
+        if Instant::now() >= stop_at {
             break;
         }
         let Ok(entry) = entry else { continue };

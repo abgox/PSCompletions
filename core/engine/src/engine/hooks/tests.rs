@@ -2512,6 +2512,23 @@ fn glob_walk_cuts_short_at_stop_instant() {
 }
 
 #[test]
+fn glob_walk_honors_the_deadline_before_any_poll_interval() {
+    // The clock used to be read only every 256 entries, so a tree smaller than that walked to the
+    // end with the deadline long past — on a slow filesystem that gap is a stall the user feels.
+    // Every entry is checked now, so a past deadline stops the walk at the first one.
+    let base = std::env::temp_dir().join("psc-glob-deadline-small");
+    let _ = std::fs::remove_dir_all(&base);
+    make_files(&base, 100, "s", ".txt");
+    let matcher = test_matcher(&base, "s", ".txt");
+    let past = std::time::Instant::now() - Duration::from_secs(1);
+    assert!(
+        glob_walk(&base, &matcher, None, past).is_empty(),
+        "a past deadline must stop the walk at the first entry"
+    );
+    let _ = std::fs::remove_dir_all(&base);
+}
+
+#[test]
 fn glob_stop_at_takes_the_earlier_bound() {
     // A glob must never outlast the hook it runs in, but it also has its own (much shorter)
     // budget so a menu never waits seconds. Whichever bound lands first wins.
