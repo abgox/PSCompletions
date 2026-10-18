@@ -1,4 +1,144 @@
-[简体中文](./CHANGELOG.zh-CN.md)
+English | [简体中文](./CHANGELOG.zh-CN.md)
+
+## 7.6.1
+
+- `psc.add` uses `name` as the default value for `tip`.
+- Fixed the menu freezing when a hook globbed a very large or deeply nested directory tree.
+- Other optimizations and fixes.
+
+## 7.6.0
+
+- Moved the data directory out of the module folder by default; set `PSCOMPLETIONS_DATA_DIR` to override it.
+  - Windows: `%APPDATA%\com.abgox\PSCompletions`
+  - macOS: `~/Library/Application Support/com.abgox/PSCompletions`
+  - Linux: `${XDG_DATA_HOME:-$HOME/.local/share}/com.abgox/PSCompletions`
+- Filter prompt no longer uses the `focus` semantic color.
+- Fixed menu selection delays caused by dynamic hooks.
+- Other optimizations and fixes.
+
+## 7.5.2
+
+- Fixed a crash when history lines contain multi-byte characters.
+- Fixed the selected row scrolling out of view when the menu list shrinks.
+- Other optimizations and fixes.
+
+## 7.5.1
+
+- Improved the semantics of [completion predict symbol](https://pscompletions.abgox.com/docs/completion-predict-symbol).
+- Other optimizations and fixes.
+
+## 7.5.0
+
+- Hooks API：added JSON5 support to `psc.json`.
+- Removed execution-alias auto-import and the real-command conflict check when adding aliases.
+  - `psc alias` now only decides which trigger aliases open the completion menu.
+  - Add your own `Set-Alias` if you need execution aliases.
+- Supported both `--opt=value` and `--opt value` for option values.
+- Supported separator-joined option values (`--exclude a,b,c`): defined by `separator`.
+- Other optimizations and fixes.
+
+## 7.4.0
+
+- Hooks API: added `psc.on`/`psc.path`, removed `psc.set_symbol`/`psc.set_tip` and other changes.
+- [Completion predict symbols](https://pscompletions.abgox.com/docs/completion-predict-symbol) moved to menu async unified computation.
+- Other optimizations and fixes.
+
+## 7.3.2
+
+- Improved the sorting issue of completion items.
+- Reduced the glibc dependency version for psc‑menu.
+- Other optimizations and fixes.
+
+## 7.3.1
+
+- Fixed initialization failing when `$PSUICulture` is empty (e.g. Linux).
+
+## 7.3.0
+
+- Deferred module initialization to first completion trigger, greatly reducing import time.
+- Update checks now run inline after command execution instead of a background job.
+- Menu filter now shows a stale-update hint when the last `psc update` is older than 7 days.
+- Module and completion library status notifications now display after command execution.
+- Removed `enable_auto_alias_setup`: trigger aliases are now always set via `temp/alias.csv`.
+- Hooks API: `psc.run`/`psc.run_batch` now support `env` and `capture_fd` options.
+- CLI: `psc info` without arguments now lists all installed completions.
+- Other optimizations and fixes.
+
+## 7.2.0
+
+- Added `color_focus` and `color_match` config keys to customize TUI menu colors (named colors + RGB).
+- Added string shorthand for `psc.items` — pass `"stay"` or `"switch"` to set symbol on all items.
+- Fixed `psc.platform` returning `"unix"` instead of `"macos"` / `"linux"` on non-Windows.
+- Fixed `psc.contains` pattern mode ignoring `case_sensitive` option.
+
+## 7.1.0
+
+- Improved the output of completion state changes and the update logic.
+- Added a stable `id` to every completion's `config.json`, enabling rename detection and automatic migration.
+
+## 7.0.3
+
+- Fixed `psc.run` executing in the terminal's startup directory instead of the current working directory.
+
+## 7.0.2
+
+- Fixed duplicate output when updating completions.
+- Unified the values of boolean configuration to 1/0.
+
+## 7.0.1
+
+- Fixed the command parameter verification error.
+- Fixed the color of command output.
+
+## 7.0.0
+
+### A New Cross-Platform Interactive Menu
+
+- **Minimal visuals**: red focus, cyan highlight, clean and simple
+- **Rust-native rendering**: replaces the old PowerShell rendering with much better rendering and smoothness
+- **Available everywhere**: a consistent interactive completion experience on Windows PowerShell 5.1 / PowerShell 7 / Linux / macOS
+
+### A Standalone Completion Engine
+
+- Parsing, context resolution, dynamic script execution, and candidate generation are all done independently by the Rust binary
+- No longer coupled to a specific shell, laying the groundwork for future shells
+
+### More Powerful Completion Filtering
+
+- **Wildcard fuzzy matching**: no need to remember full names, `g*t` matches both `git` and `gist`; matching characters are highlighted in real time as you type
+- **Quick subsequence switching**: a leading `*` temporarily switches to subsequence matching in wildcard mode, e.g. `*vscode` quickly locates `Visual Studio Code`
+- **Prefix anchoring**: `^git` restricts matches to items starting with `git`, more precise filtering
+
+### Smarter Completion Ordering
+
+- The ordering algorithm was fully upgraded: **time decay** + **position weighting**, so recently and deeply used commands rank higher
+- Path completions are ordered by segment; directories and files are ranked by usage history, with frequently visited directories shown first
+
+### Dynamic Completions (Lua)
+
+- Dynamic completions migrated from PowerShell scripts to **Lua**: embedded in the Rust engine for faster startup and more stable parsing
+- Scripts run in an isolated sandbox: restricted standard library, command timeouts, read-only files
+
+### Completion Information Tips
+
+- Tips upgraded to structured containers: `[Usage]`, `[Description]`, `[Example]`
+- Size adapts to content, with wheel scrolling for multi-line content
+
+### Completion Predict Symbols
+
+- Simpler semantics: a symbol means there are more completions to pick after applying
+  - `switch`: switches to a new context after applying, default `~`
+  - `stay`: stays in the current context after applying, default `?`
+- The symbol follows the current selection and is shown next to the counter, keeping the list clean
+
+### Prefix Pre-filtering
+
+- Opening the menu after typing some text auto-filters by what you typed, straight to the target
+- Clearing the pre-filter falls back to the full completion list
+
+### Mouse Support
+
+- Click to select, double-click to apply, wheel to browse, covering the whole completion menu
 
 ## 6.11.2
 

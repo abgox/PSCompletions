@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '7.6.1'
+    ModuleVersion        = '8.0.0'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -22,7 +22,7 @@
     CompatiblePSEditions = 'Core', 'Desktop'
 
     Description          = @'
-A tab-completion manager for PowerShell, powered by Rust engine and interactive menu.
+Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.
 It provides fast rendering, wildcard/subsequence filtering, history-aware ordering, dynamic (Lua) completions.
 - Website: https://pscompletions.abgox.com
 - GitHub:  https://github.com/abgox/PSCompletions

@@ -1,4 +1,144 @@
-[English](./CHANGELOG.md)
+[English](./CHANGELOG.md) | 简体中文
+
+## 7.6.1
+
+- `psc.add` 使用 `name` 作为 `tip` 的默认值
+- 修复了 hook 在超大或层级很深的目录树中执行 glob 时菜单卡死的问题
+- 其他的优化和修复
+
+## 7.6.0
+
+- 数据目录默认移出模块文件夹，可通过 `PSCOMPLETIONS_DATA_DIR` 覆盖
+  - Windows: `%APPDATA%\com.abgox\PSCompletions`
+  - macOS: `~/Library/Application Support/com.abgox/PSCompletions`
+  - Linux: `${XDG_DATA_HOME:-$HOME/.local/share}/com.abgox/PSCompletions`
+- 过滤提示符不再使用 `focus` 语义颜色
+- 修复了动态 hooks 导致菜单候选项应用延迟的问题
+- 其他的优化和修复
+
+## 7.5.2
+
+- 修复了历史记录含多字节字符时的崩溃
+- 修复了菜单列表收缩时选中行滚出视野的问题
+- 其他的优化和修复
+
+## 7.5.1
+
+- 改进了 [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 的语义
+- 其他的优化和修复
+
+## 7.5.0
+
+- Hooks API：为 `psc.json` 添加 JSON5 支持
+- 移除了执行别名的自动导入与新增别名时与真实命令的冲突检查
+  - `psc alias` 现在只决定哪些触发别名能打开补全菜单
+  - 如需执行别名请自行使用 `Set-Alias`
+- 同时支持 `--opt=value`/`--opt value` 两种选项值用法
+- 支持分隔符连接的选项值（`--exclude a,b,c`）：由 `separator` 定义
+- 其他的优化和修复
+
+## 7.4.0
+
+- Hooks API：添加 `psc.on`/`psc.path`、移除 `psc.set_symbol`/`psc.set_tip` 和其他变更
+- [补全预测符号](https://pscompletions.abgox.com/docs/completion-predict-symbol) 迁移至菜单异步统一计算
+- 其他的优化和修复
+
+## 7.3.2
+
+- 改进了补全项的排序问题
+- 降低了 psc-menu 对 glibc 的依赖版本
+- 其他的优化和修复
+
+## 7.3.1
+
+- 修复了 `$PSUICulture` 为空时（如 Linux）初始化失败的问题
+
+## 7.3.0
+
+- 模块初始化延迟到首次补全触发时，大幅降低了模块导入时间
+- 更新检查改为命令执行后内联运行，不再依赖后台作业
+- 菜单过滤区域在上次 `psc update` 超过 7 天时显示更新提示
+- 模块和补全库状态通知改为命令执行后显示
+- 移除 `enable_auto_alias_setup`：触发别名始终通过 `temp/alias.csv` 设置
+- Hooks API：`psc.run`/`psc.run_batch` 新增 `env` 与 `capture_fd` 选项
+- CLI：`psc info` 无参时列出全部已安装补全
+- 其他的优化和修复
+
+## 7.2.0
+
+- 新增了 `color_focus` 和 `color_match` 配置项，支持自定义 TUI 菜单颜色（命名色 + RGB）
+- `psc.items` 支持字符串简写，传 `"stay"` 或 `"switch"` 即可为所有项设置 symbol
+- 修复了 `psc.platform` 在非 Windows 平台返回 `"unix"` 而非 `"macos"` / `"linux"` 的问题
+- 修复了 `psc.contains` pattern 模式忽略 `case_sensitive` 选项的问题
+
+## 7.1.0
+
+- 改进了补全状态变更的输出和更新逻辑
+- 为每个补全的 `config.json` 添加了稳定 `id`，支持重命名检测与自动迁移
+
+## 7.0.3
+
+- 修复了 `psc.run` 在终端启动目录而非当前工作目录执行的问题
+
+## 7.0.2
+
+- 修复了更新补全时的重复输出
+- 统一了布尔配置的值为 1/0
+
+## 7.0.1
+
+- 修复了命令参数校验错误
+- 修复了命令输出的颜色
+
+## 7.0.0
+
+### 跨平台的全新交互菜单
+
+- **极简视觉**：红色聚焦、青色高亮，界面干净简约
+- **Rust 原生渲染**：取代旧版 PowerShell 渲染，渲染能力与流畅度大大提高
+- **全平台可用**：Windows PowerShell 5.1 / PowerShell 7 / Windows / Linux / macOS 一致的交互式补全体验
+
+### 独立的补全引擎
+
+- 补全的解析、上下文构建、动态脚本执行、候选生成全流程由 Rust 二进制独立完成
+- 不再与特定 Shell 耦合，为未来接入其他 Shell 奠定基础
+
+### 更强大的补全过滤
+
+- **通配符模糊匹配**：无需记住完整名称，`g*t` 即可同时命中 `git`、`gist`；输入时匹配字符实时高亮
+- **快速切换子序列**：在通配模式下以 `*` 前缀临时切换子序列匹配，`*vscode` 即可快速定位 `Visual Studio Code`
+- **前缀锚定**：`^git` 精确限定以 `git` 开头的项，筛选更精准
+
+### 更合理的补全排序
+
+- 排序算法全面升级：**时间衰减** + **位置加权**，近期与深度使用的命令获得更高权重
+- 路径补全按段排序，目录与文件均按历史频率排列，常用目录优先呈现
+
+### 动态补全（Lua）
+
+- 动态补全由 PowerShell 脚本迁移至 **Lua**：在 Rust 引擎内嵌执行，启动更快、解析更稳
+- 脚本运行于隔离沙箱：受限标准库、命令超时、只读文件
+
+### 补全信息提示
+
+- 提示信息升级为结构化容器：`[Usage]`、`[Description]`、`[Example]`
+- 宽高随内容自适应，支持滚轮滚动多行内容
+
+### 补全预测符号
+
+- 语义更简单：只要有符号，就说明选用后仍有补全可选
+  - `switch`: 选用后切换到新的上下文，默认为 `~`
+  - `stay`: 选用后停留在当前的上下文，默认为 `?`
+- 符号跟随当前选中项显示在计数旁，列表保持干净
+
+### 前缀预过滤
+
+- 输入部分内容后再打开菜单，将基于输入内容自动预过滤，直达目标项
+- 清空预过滤内容则回退为完整的补全列表
+
+### 鼠标支持
+
+- 点击选中、双击选用、滚轮浏览，鼠标操作覆盖整个补全菜单
 
 ## 6.11.2
 
