@@ -524,18 +524,9 @@ pub fn refresh_settings_after_add(
     let lang = settings.language();
     if let Value::Object(map) = completion_defaults(data_dir, name, &lang) {
         if !map.is_empty() {
-            if !settings.config.is_object() {
-                settings.config = serde_json::json!({});
-            }
-            let obj = settings.config.as_object_mut().unwrap();
-            let comp = obj
-                .entry("completion")
-                .or_insert_with(|| serde_json::json!({}));
-            let c = comp.as_object_mut().unwrap();
-            let n = c
-                .entry(name.to_string())
-                .or_insert_with(|| serde_json::json!({}));
-            let existing = n.as_object_mut().unwrap();
+            // `settings.config.completion[<name>]` may hold anything a hand-edited file put there:
+            // the helper repairs a non-object instead of unwrapping it.
+            let existing = crate::validate::ensure_completion_entry(settings, name);
             for (k, v) in map {
                 if !existing.contains_key(&k) {
                     existing.insert(k, v);
@@ -547,19 +538,7 @@ pub fn refresh_settings_after_add(
     // default": seed enable_hooks=0 on first install so they don't run until the user
     // opts in (`psc completion <name> enable_hooks 1`). Updates never touch an entry.
     if first_install && hooks_disabled {
-        if !settings.config.is_object() {
-            settings.config = serde_json::json!({});
-        }
-        let obj = settings.config.as_object_mut().unwrap();
-        let comp = obj
-            .entry("completion")
-            .or_insert_with(|| serde_json::json!({}));
-        let c = comp.as_object_mut().unwrap();
-        let n = c
-            .entry(name.to_string())
-            .or_insert_with(|| serde_json::json!({}));
-        n.as_object_mut()
-            .unwrap()
+        crate::validate::ensure_completion_entry(settings, name)
             .insert("enable_hooks".to_string(), serde_json::json!(0));
     }
     Ok(Vec::new())

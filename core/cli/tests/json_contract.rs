@@ -353,6 +353,49 @@ fn json_completion_reset_answers_only_what_it_reset() {
 }
 
 #[test]
+fn json_add_repairs_a_non_object_config_entry() {
+    // A settings.json holding a non-object where a config map belongs is valid JSON, so it loads
+    // fine — the merge of the manifest's config defaults must repair it, not unwrap it.
+    let srv = spawn_server(vec![
+        (
+            "completions.json",
+            r#"{"update":{"demo":"v1"},"meta":{}}"#.into(),
+        ),
+        (
+            "completions/demo/config.json",
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        ),
+        (
+            "completions/demo/language/en-US.json",
+            r#"{"config":[{"name":"max_commit","value":30}]}"#.into(),
+        ),
+    ]);
+
+    // ① `config.completion` itself is a number.
+    let d = make_data("json-add-nonobject-completion", &srv);
+    rewrite_settings(&d, |v| {
+        v["config"]["completion"] = serde_json::json!(123);
+    });
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    assert!(v_ok(&parse_json(&out)), "{out}");
+    let s: serde_json::Value =
+        parse_json(&std::fs::read_to_string(d.join("settings.json")).unwrap());
+    assert_eq!(s["config"]["completion"]["demo"]["max_commit"], 30, "{out}");
+
+    // ② the completion's own entry is a number.
+    let d2 = make_data("json-add-nonobject-entry", &srv);
+    rewrite_settings(&d2, |v| {
+        v["config"]["completion"] = serde_json::json!({ "demo": 123 });
+    });
+    let (code, out) = psc(&d2, &["--json", "add", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    let s: serde_json::Value =
+        parse_json(&std::fs::read_to_string(d2.join("settings.json")).unwrap());
+    assert_eq!(s["config"]["completion"]["demo"]["max_commit"], 30, "{out}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

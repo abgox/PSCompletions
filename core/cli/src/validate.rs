@@ -102,6 +102,23 @@ pub fn ensure_completion_map(settings: &mut Settings) -> &mut serde_json::Map<St
     comp.as_object_mut().unwrap()
 }
 
+/// Get (creating if needed) one completion's config map, repairing a non-object entry.
+/// `settings.config` and `config.completion` may hold anything a hand-edited file put there; a
+/// non-object is replaced rather than unwrapped.
+pub fn ensure_completion_entry<'a>(
+    settings: &'a mut Settings,
+    name: &str,
+) -> &'a mut serde_json::Map<String, Value> {
+    let comp = ensure_completion_map(settings);
+    let entry = comp
+        .entry(name.to_string())
+        .or_insert_with(|| serde_json::json!({}));
+    if !entry.is_object() {
+        *entry = serde_json::json!({});
+    }
+    entry.as_object_mut().unwrap()
+}
+
 /// Restore a completion's trigger aliases to its config.json alias (or the name itself).
 ///
 /// The alias map's order **is** the claim order, and the hosts build their `word -> completion`
