@@ -1293,6 +1293,17 @@ fn json_completion_writes_are_in_band() {
 }
 
 #[test]
+fn init_reports_a_failed_result_write() {
+    // `--result` is how a host reads the payload: a swallowed write failure would hand it a missing
+    // file and exit 0, so the host would silently run on nothing.
+    let d = make_data("init-result-write", "http://127.0.0.1:9");
+    let bad = d.join("no-such-dir/out.json");
+    let (code, out) = psc(&d, &["init", "--result", bad.to_str().unwrap()]);
+    assert_ne!(code, 0, "{out}");
+    assert!(out.contains("error:"), "{out}");
+}
+
+#[test]
 fn json_completion_key_reset_actually_resets() {
     // A key reset on a completion with no stored config must still write the manifest's default.
     // The path used to look the map up without ensuring it, answer `ok: true` and change nothing.

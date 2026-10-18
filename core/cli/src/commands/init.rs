@@ -127,7 +127,12 @@ pub fn cmd_init(
     if let Some(path) = result_file {
         // The init JSON is large (psc `info` templates); write to a file so the module can
         // read it without console width wrapping corrupting the payload.
-        let _ = std::fs::write(path, text);
+        // A swallowed failure here would hand the host a missing file while the exit code said
+        // success, so it is reported like the settings save above.
+        if let Err(e) = std::fs::write(path, text) {
+            out.line(&format!("error: {e}"));
+            return ExitCode::FAILURE;
+        }
     } else {
         println!("{text}");
     }
