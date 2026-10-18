@@ -75,6 +75,13 @@ pub(crate) fn resolve_usage_example(lua: &Lua, v: Value) -> mlua::Result<Option<
         _ => Ok(coerce_string_opt(lua, v)?),
     }
 }
+/// Take a lock, recovering from poisoning: a worker that panicked while holding it poisons the
+/// mutex, and `lock().unwrap()` would then panic every later access — one worker's death turning
+/// into a cascade. The panic still propagates at scope exit (see `parallel_map`); the slots fill.
+fn lock_recover<T>(m: &std::sync::Mutex<T>) -> std::sync::MutexGuard<'_, T> {
+    m.lock().unwrap_or_else(|e| e.into_inner())
+}
+
 /// Bounded worker-pool parallelism: call `f` on each input, results in input order (std threads, no deps).
 /// A panic in `f` propagates at scope exit (the worker threads are joined there), aborting the
 /// call — callers pass non-panicking closures (IO reads returning `Result`/`Option`), so this is
@@ -99,16 +106,38 @@ fn parallel_map<T: Sync, R: Send, F: Fn(&T) -> R + Sync>(inputs: &[T], f: F) -> 
                     break;
                 }
                 let val = f(&inputs[i]);
-                results.lock().unwrap()[i] = Some(val);
+                lock_recover(&results)[i] = Some(val);
             });
         }
     });
     results
         .into_inner()
-        .unwrap()
+        .unwrap_or_else(|e| e.into_inner())
         .into_iter()
         .map(|o| o.expect("worker completed its slot"))
         .collect()
+}
+
+#[cfg(test)]
+mod tests_lock_recover {
+    use super::lock_recover;
+
+    #[test]
+    fn a_poisoned_lock_is_recovered_not_panicked_on() {
+        // A worker that panics while holding the mutex poisons it; `lock().unwrap()` then panicked
+        // on every later access, so one worker's death cascaded through the rest.
+        let m = std::sync::Mutex::new(0);
+        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let _held = m.lock().unwrap();
+            panic!("a worker died holding the lock");
+        }));
+        assert!(
+            m.is_poisoned(),
+            "the lock must be poisoned for this test to mean anything"
+        );
+        *lock_recover(&m) = 1;
+        assert_eq!(*lock_recover(&m), 1);
+    }
 }
 
 /// `psc.env(name)` → environment variable (nil when unset).
