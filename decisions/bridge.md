@@ -6,6 +6,11 @@ statement lives in `design/bridge.md` (and `AGENTS.md` for completions), the mec
 rejected and the condition that would overturn it — here. Numbering is shared with
 `authoring.md`; do not restart it per file.
 
+| Decision | |
+| --- | --- |
+| D40 | [A shell that cannot hand over the trigger gets no bridge](#d40) |
+| D41 | [One presentation: the CLI's text, in every host](#d41) |
+
 <a id="d40"></a>
 
 ## A shell that cannot hand over the trigger gets no bridge (D40)
@@ -50,3 +55,45 @@ already in §9, and nu fails it in practice because the hook is not run on a hea
 completer on a clean config) **and** its API settles — then the gate is satisfiable and the port
 starts again from `design/bridge.md` §9. Keeping the refusal is not a statement about nu's
 quality; it is the price of one trigger key and one menu across shells.
+
+---
+
+<a id="d41"></a>
+
+## One presentation: the CLI's text, in every host (D41)
+
+**Rule it justifies**: `design/bridge.md` §7 — a read prints the CLI's text as it stands, and no
+host re-renders it; `--json` is the machine contract. This overturns the earlier half of that
+bullet, where a *structured host* (PowerShell, nushell) consumed `--json` and emitted host values.
+
+**The case**: the PowerShell module wrapped its query commands in `[pscustomobject]` — `list` /
+`alias` → `{Completion, Alias}`, `info` → `{Name, Alias, Url, Description, Path, Update, Updated}`
+with a provider-resolved path and a real `DateTime`, `config` → `{Group, Key, Value}`, `completion`
+→ `{Completion, Config}` — while bash / zsh / fish printed the CLI's text. Those paths now forward
+the CLI's text like the other bridges; `_forward_psc -Plain` is what prints a read uncolored.
+
+**Evidence**:
+
+1. **One binary, one behavior.** The same command reads the same in bash, zsh, fish, nu and
+   PowerShell, instead of each host deciding a shape of its own.
+2. **The human view was already designed as the shared one.** `psc-cli.md` §Text output shape fixes
+   every row shape and states "Color is status, never data … every query is plain text" — and
+   `psc-cli.md`'s per-command sections were written as though every host read that text.
+3. **`--json` is already the tested machine contract** (`json.md`, `core/cli/tests/json_contract.rs`),
+   so scripting loses nothing — and the text keeps derived display the raw payload does not have
+   (`info`'s `updated` is a UTC stamp, not unix seconds).
+
+**Rejected alternatives**: (a) hand the `--json` payload over as host values (one line per command,
+zero formatting, inherits the tested JSON contract) — rejected as the *default*: the same command
+would then read differently per host, and the raw payload is not uniformly the better display
+(`info`'s `updated` arrives as unix seconds, `alias` as an array in one cell), so the two shapes
+would still not be equal in value; (b) keep the hand-written mapping — rejected: it duplicated rules
+the engine already owned (`_value_str` re-implemented `output::key_line` / `value_quoted`) and had
+no test at all (`scripts/` carries no PowerShell harness), so a payload field could stop reaching
+the objects with nothing to catch it; (c) add an `-AsObject` / `--text` switch — rejected: a second
+surface to document, test and keep in step, for something `--json` already provides.
+
+**Overturn if**: the module's query display is reported as real friction for PowerShell users rather
+than a one-step `psc list --json | ConvertFrom-Json` — then the payload-passthrough variant can
+return for that host alone (it is one line per command and inherits the JSON contract), with the
+text kept everywhere else. The hand-written mapping stays rejected either way.

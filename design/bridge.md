@@ -131,12 +131,12 @@ Add a per-shell directory only if that invariant actually breaks.
   (trigger-key rebind, psc seed restore). A confirmed destructive operation is then
   **authorised**: the host adds `--yes` to the invocation, because the engine never prompts
   ([`json.md`](json.md) §7).
-- **Output shape follows the host.** A **text host** (bash, zsh) prints the CLI's text: a
-  table would still be text, so passthrough *is* that host's form and re-rendering it buys
-  nothing. A **structured host** (PowerShell, nushell) should consume `--json` and emit
-  host values — objects, or a nu table — so the user can pipe and slice them
-  (`psc list | where …`), and let the host do the formatting. Neither shape is the other's
-  gap; a port picks the one its host is made of.
+- **Output shape is the CLI's, in every host.** A read prints the CLI's text as it stands — a
+  query plain, a status message green or red — and nothing re-renders it: that text *is* the
+  human view ([`psc-cli.md`](psc-cli.md) §Text output shape), so a port carries no format of its
+  own and N shells show one presentation. `--json` is the machine contract for anything a caller
+  wants to slice (`jq`, `ConvertFrom-Json`); a host does not build objects out of it for display,
+  because the raw data is already the better surface for that.
 - Rendered template text is a **fragment**: it carries no trailing newline, so the
   **caller** terminates each line it prints. A missed terminator is invisible in bash but
   loud in zsh, which marks an unterminated line with `PROMPT_EOL_MARK` (`%`) and pads it;
@@ -191,7 +191,7 @@ errors. The evidence and the alternatives are in [`decisions/bridge.md#d40`](../
 | 4 | process spawn with inherited TTY **in the shell's own process group**, stderr line watch, kill, GUID/unique names |
 | 5 | terminal geometry (cursor, buffer, **visible window**), region save/restore **or** always-alternate-screen, cursor repositioning, output-encoding switch |
 | 6 | word-boundary replace, suffix/quote rules (**container → separator, never a space**; attached `=`; `nospace`; a following word), unescaping host candidates before filesystem/display use, typed-result mapping (for native items) |
-| 7 | exit-code capture, colored output, single-key confirm prompt plus the `--yes` that authorises what it confirmed — or, on a structured host, `--json` parsing that yields host values instead of text |
+| 7 | exit-code capture, colored output, single-key confirm prompt plus the `--yes` that authorises what it confirmed, and `--json` parsing for the action results the templates render |
 | 8 | persistent JSON state file read/write |
 
 A shell missing region save/restore can still port by always using the alternate screen

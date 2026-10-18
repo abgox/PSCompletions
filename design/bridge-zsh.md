@@ -79,7 +79,6 @@ Capture is compsys-internal, so it stays shallow by design:
 | --- | --- | --- |
 | Native candidates in our menu | `TabExpansion2` items rendered in our menu | captured via `compadd` interception, see above |
 | Native candidate types | `ResultType` maps containers/quoting | inferred from the filesystem (`/` suffix on directories) |
-| Management output shape | structured host: objects/tables | **by design** for a text host: the CLI's text *is* the form (see `bridge.md` §7) |
 | `show_mode` follow placement | input-line row reported | row unknown → `auto`/follow render at top; `altscreen-top`/`bottom` work |
 | Language fallback | downloads a missing `config.json` | read-only; falls back to module language |
 | `trigger_key` applies | live (PSReadLine re-binds) | next shell; the current session keeps the previous key working, see below |

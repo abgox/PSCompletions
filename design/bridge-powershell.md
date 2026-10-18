@@ -23,6 +23,8 @@
 - nupkg drops the Unix exec bit: re-apply `+x` on discovery (`menu_binary`).
 - Native output decodes via console encoding (GBK on Chinese systems): switch to UTF-8
   around every binary call (`_forward_psc`).
+- A data read prints the CLI's text as it stands (`_forward_psc -Plain`); a status message takes
+  green, a failure red — the module builds no objects of its own (`bridge.md` §7).
 - Manifest language is per-completion first, then module, then declared-first, cached
   (`get_language`); the engine's tip language follows the manifest file, not the config.
 - Trigger-key rebind persists only after the bind succeeds, restoring the old key on

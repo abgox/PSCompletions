@@ -1111,9 +1111,9 @@ end
 # Run a management command that only prints a status line. The CLI's messages are plain
 # text, so the color is the bridge's job — the same convention as the PS bridge's
 # `_forward_psc`: success green, failure red (design/config-support.md).
-# Data queries print exactly what the CLI renders — the same relationship PowerShell has with the
-# objects it gets from `--json`: data is data, and here the CLI's text *is* the interface. Only
-# messages take color. A failed query still goes through the red path.
+# Data queries print exactly what the CLI renders: the CLI's text is the interface in every host,
+# and `--json` is the machine contract. Only messages take color. A failed query still goes
+# through the red path.
 function _psc_plain
     set -l out ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" $argv 2>/dev/null)
     if test $status -eq 0

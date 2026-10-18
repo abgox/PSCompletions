@@ -61,9 +61,8 @@ key, so unbinding would leave it dead (a `bind -x` command shadows `complete`, i
 replace it). A fresh shell binds exactly the configured key and leaves Tab at readline's
 default.
 
-**Output shape is by design**: a text host prints the CLI's text — a table would still be
-text, so there is nothing to re-render (`bridge.md` §7). A structured host (PowerShell,
-nushell) consumes `--json` and emits host values instead.
+**Output shape is the CLI's, in every host** (`bridge.md` §7): a read prints the CLI's text as it
+stands, and `--json` is the machine contract for anything a caller wants to slice.
 
 **Remaining gaps** (the reference list for a future port):
 

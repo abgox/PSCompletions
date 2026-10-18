@@ -1024,10 +1024,9 @@ psc() {
     return $code
 }
 
-# Data queries print exactly what the CLI renders — the same relationship PowerShell has with the
-# objects it gets from `--json`: data is data, and here the CLI's text *is* the interface
-# (`psc info > file`, `v=$(psc config <group> <key>)`). Only messages take color. A failed query
-# still goes through the red path.
+# Data queries print exactly what the CLI renders: the CLI's text is the interface in every host
+# (`psc info > file`, `v=$(psc config <group> <key>)`), and `--json` is the machine contract. Only
+# messages take color. A failed query still goes through the red path.
 _psc_plain() {
     local _out
     if _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>/dev/null)"; then

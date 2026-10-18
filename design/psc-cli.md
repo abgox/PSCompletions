@@ -178,7 +178,7 @@ psc alias --reset                   # restore every completion's aliases
   `alias <add|rm> <name> --reset` → `{name, alias}`; `alias --reset` → `{aliases}`.
 - **Errors**: the envelope's `code` is `too_few_params` / `invalid_subcommand` / `not_installed`;
   per-alias codes are `alias_wildcard`, `alias_reserved`, `alias_not_found`.
-- **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects.
+- **PS wrapper**: forwards the CLI's text.
 
 ### 6.3 `completion` — per-completion special configuration
 
@@ -206,7 +206,7 @@ psc completion <name> <key> --reset  # reset one key (exactly one; surplus args 
   (JSON: `{"name", "key", "value", "old"}` — the item the get answers with, plus the value it
   replaced); `--reset` → the resulting state, the same shape the read of that scope answers with
   ([`json.md`](json.md) §8).
-- **PS wrapper**: `completion <name> <key>` (3 args) prints the value only; reset/set forwards raw.
+- **PS wrapper**: forwards the CLI's text; reset/set forwards raw.
 
 ### 6.4 `config` — module configuration
 
@@ -229,9 +229,9 @@ psc config <group> <key> --reset      # reset one key
   `Module config updated.` (JSON `{"key", "value", "old"}` — the item the get answers with, plus the
   value it replaced); `--reset` → the resulting state, the same shape the read of that scope answers
   with ([`json.md`](json.md) §8).
-- **PS wrapper**: no-arg → objects `{Key, Value}`; `config <group> <key>` (2 args) prints the
-  value only; `--reset`/set forwards raw. Setting `trigger_key` re-binds PSReadLine
-  (`Set-PSReadLineKeyHandler`) — validated via an actual binding attempt before Rust persists it.
+- **PS wrapper**: forwards the CLI's text; `--reset`/set forwards raw. Setting `trigger_key`
+  re-binds PSReadLine (`Set-PSReadLineKeyHandler`) — validated via an actual binding attempt
+  before Rust persists it.
 
 ### 6.5 `info` — completion metadata
 
@@ -249,8 +249,8 @@ psc info <name>...      # per-name metadata
   the run, [`json.md`](json.md) §6). The `--json` entry is
   `{name, ok, alias, url, description, path, update, updated}` with `null` for an absent field and
   `{code, message}` for the failure.
-- **PS wrapper**: no-arg → objects `{Name, Alias, Url, Description, Path, Update, Updated}`;
-  per-name → same format with `Updated` as a local `DateTimeOffset`.
+- **PS wrapper**: forwards the CLI's text — one presentation for every host, `--json` being the
+  machine contract.
 
 ### 6.6 `list` — installed completions
 
@@ -262,7 +262,7 @@ psc list
   `name: alias1, alias2`. A directory dropped into `completions/` by hand is not listed here — it was
   never recorded — but `rm` still removes it, because `rm` works from the directory (below).
 - **Output**: text default; `--json` → `{"completions": [{name, alias}]}`.
-- **PS wrapper**: → `{Completion, Alias}`.
+- **PS wrapper**: forwards the CLI's text.
 
 ### 6.7 `rm` — remove completions
 
@@ -575,7 +575,8 @@ design/                   # design docs (this directory)
 
 ## Text output shape (the human view)
 
-The shells read this text directly, so the human view has a fixed, deliberately plain shape.
+Every host reads this text directly — PowerShell included, which forwards it rather than building
+objects out of `--json` — so the human view has a fixed, deliberately plain shape.
 Two levels only, and **a form never repeats what the caller already named**:
 
 | Form | Shape |

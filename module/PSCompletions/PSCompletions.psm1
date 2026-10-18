@@ -52,9 +52,10 @@
     function _help {
         $PSCompletions.write_with_color((_replace $PSCompletions.info.description @{Version = [string]$PSCompletions.version }))
     }
-    # Forward management commands to the psc CLI (platform-agnostic core); with -Json request structured output
+    # Forward management commands to the psc CLI (platform-agnostic core); with -Json request
+    # structured output, with -Plain print a read uncolored (a status message takes green).
     function _forward_psc {
-        param([switch]$Json, [switch]$Quiet)
+        param([switch]$Json, [switch]$Quiet, [switch]$Plain)
         $pscBinary = $PSCompletions.psc_binary()
         if (!$pscBinary) {
             $PSCompletions.write_with_color('[PSCompletions] psc binary missing.')
@@ -113,7 +114,10 @@
         }
         if (-not $Json) {
             if (-not $Quiet) {
-                $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")"))
+                # A data read prints the CLI's text as it is; a status message is a message and
+                # takes green. The failure path above stays red either way.
+                if ($Plain) { $raw -join "`n" }
+                else { $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")")) }
             }
             return
         }
@@ -126,27 +130,6 @@
             }
             return $raw
         }
-    }
-    # Render in the original show_list table format (Completion / Alias columns).
-    function _render_list {
-        param($rows)
-        foreach ($row in $rows) {
-            [pscustomobject]@{ Completion = $row.name; Alias = $row.alias }
-        }
-    }
-    # A config value as the human view shows it: quoted only when it would otherwise be misread
-    # (surrounding whitespace is invisible in a cell). An empty or missing value is left blank —
-    # the same rule the CLI's text mode uses.
-    function _value_str {
-        param($value)
-        if ($null -eq $value) { return '' }
-        $s = [string]$value
-        if ($s -eq $s.Trim()) { return $s }
-        if ($s.Contains('"')) {
-            if ($s.Contains("'")) { return $s }
-            return "'" + $s + "'"
-        }
-        return '"' + $s + '"'
     }
     # Build the add/update done-template context: trigger aliases plus the
     # manifest config rows (with stored current values) for [Special Configuration].
@@ -192,7 +175,7 @@
     }
     $need_init = $true
     switch ($arg[0]) {
-        'list' { _render_list ((_forward_psc -Json).completions); $need_init = $false }
+        'list' { _forward_psc -Plain; $need_init = $false }
         'add' {
             $targets = @($arg[1..($arg.Count - 1)])
             if ($targets.Count) {
@@ -335,38 +318,16 @@
             $need_init = $false
         }
         'info' {
-            # The payload names its collection; each entry carries the fixed key set.
-            (_forward_psc -Json).completions | ForEach-Object {
-                if ($_.ok -eq $false) {
-                    $PSCompletions.write_with_color((_replace "<@Red>$(if ($_.name) { "$($_.name): " })$($_.error.message)"))
-                }
-                else {
-                    $resolvedPath = try { Convert-Path $_.path } catch { $_.path }
-                    [pscustomobject]@{
-                        Name        = $_.name
-                        Alias       = $_.alias -join ' '
-                        Url         = $_.url
-                        Description = $_.description
-                        Path        = $resolvedPath
-                        Update      = $_.update
-                        Updated     = if ($null -ne $_.updated) { [DateTimeOffset]::FromUnixTimeSeconds([int64]$_.updated).LocalDateTime }
-                    }
-                }
-            }
+            # A read is the CLI's text, uncolored — the same thing the POSIX bridges print. Data
+            # leaves through `--json`; the human view is one shape everywhere (bridge.md §7).
+            _forward_psc -Plain
             $need_init = $false
         }
         'alias' {
-            if ($arg.Count -eq 1) {
-                # No args = list all trigger aliases, wrapped as objects like list. The payload
-                # names the collection; each entry carries the completion and its words.
-                (_forward_psc -Json).aliases | ForEach-Object {
-                    [pscustomobject]@{ Completion = $_.name; Alias = $_.alias }
-                }
-                $need_init = $false
-            }
-            else {
-                _forward_psc
-            }
+            # A read is the CLI's text; `add` / `rm` / `--reset` stay on the action path so the
+            # init refresh and the pending tail still run.
+            if ($arg.Count -eq 1) { _forward_psc -Plain; $need_init = $false }
+            else { _forward_psc }
         }
         'config' {
             # Grouped syntax: config | config <group> | config <group> <key> | config <group> <key> <value>
@@ -378,26 +339,9 @@
                     $need_init = $false
                 }
             }
-            elseif ($arg.Count -le 2) {
-                # The payload names its collection; a whole-command failure is the envelope's,
-                # which _forward_psc has already reported in red.
-                (_forward_psc -Json).config | ForEach-Object {
-                    # `config` (every group) says which group a key belongs to; `config <group>`
-                    # was told already, exactly as the CLI's text drops that header.
-                    if ($arg.Count -eq 1) {
-                        [pscustomobject]@{ Group = $_.group; Key = $_.key; Value = (_value_str $_.value) }
-                    }
-                    else {
-                        [pscustomobject]@{ Key = $_.key; Value = (_value_str $_.value) }
-                    }
-                }
-                $need_init = $false
-            }
-            elseif ($arg.Count -eq 3) {
-                _forward_psc -Json | ForEach-Object {
-                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
-                    else { $_.value }
-                }
+            elseif ($arg.Count -le 3) {
+                # Every read is the CLI's text: a group listing, or the bare value of one key.
+                _forward_psc -Plain
                 $need_init = $false
             }
             else {
@@ -427,26 +371,9 @@
             }
         }
         'completion' {
-            if ($arg -contains '--reset') { _forward_psc }
-            elseif ($arg.Count -eq 3) {
-                (_forward_psc -Json) | ForEach-Object {
-                    if ($_.ok -eq $false) { $PSCompletions.write_with_color((_replace "<@Red>$($_.error)")) }
-                    else { $_.value }
-                }
-                $need_init = $false
-            }
-            elseif ($arg.Count -le 2) {
-                # No args / <name>: the payload names its collection; each entry carries the
-                # completion and its config.
-                $res = _forward_psc -Json
-                # PowerShell cannot pipe an `if` statement: pick the rows first, then pipe them.
-                $rows = if ($arg.Count -eq 1) { @($res.completions) } else { @($res) }
-                $rows | ForEach-Object {
-                    [pscustomobject]@{ Completion = $_.name; Config = $_.config }
-                }
-                $need_init = $false
-            }
-            else { _forward_psc }
+            # Reads print the CLI's text; `--reset` and a set stay on the action path.
+            if ($arg -contains '--reset' -or $arg.Count -gt 3) { _forward_psc }
+            else { _forward_psc -Plain; $need_init = $false }
         }
         '--reset' {
             $need_init = $false
