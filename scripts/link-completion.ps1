@@ -44,7 +44,7 @@ foreach ($CompletionName in $CompletionList) {
         $PSCompletions.write_with_color((Format-PscText $text.noExist @{ CompletionName = $CompletionName }))
         continue
     }
-    $testDir = Join-Path $PSCompletions.path.completions $CompletionName
+    $testDir = Join-Path $PSCompletions.path.dir.completions $CompletionName
     if ($CompletionName -eq 'psc') {
         Remove-Item $testDir -Recurse -Force -ErrorAction Ignore
         $null = New-Item -ItemType $linkType -Path $testDir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
@@ -92,7 +92,7 @@ foreach ($CompletionName in $CompletionList) {
     foreach ($key in $PSCompletions.data.Keys) {
         if ($key -notin 'list', 'aliasMap') { $saveData[$key] = $PSCompletions.data[$key] }
     }
-    $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.settings -Force -Encoding utf8
+    $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.file.settings -Force -Encoding utf8
 
     $PSCompletions.write_with_color((Format-PscText $text.linkDone @{ CompletionName = $CompletionName; TestDir = $testDir }))
 }

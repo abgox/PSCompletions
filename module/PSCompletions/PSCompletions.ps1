@@ -21,17 +21,21 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
     binary_ok   = $false
     initialized = $false
     path        = @{
-        root             = $PSScriptRoot
-        data             = $_
-        settings         = "$_/settings.json"
-        completions      = "$_/completions"
-        temp             = "$_/temp"
-        menu             = "$_/temp/menu"
-        cache            = "$_/temp/cache"
-        log              = "$_/temp/log"
-        order            = "$_/temp/order"
-        completions_json = "$_/temp/completions.json"
-        change           = "$_/temp/change.json"
+        dir  = @{
+            root        = $PSScriptRoot
+            data        = $_
+            completions = "$_/completions"
+            temp        = "$_/temp"
+            menu        = "$_/temp/menu"
+            cache       = "$_/temp/cache"
+            log         = "$_/temp/log"
+            order       = "$_/temp/order"
+        }
+        file = @{
+            settings    = "$_/settings.json"
+            completions = "$_/temp/completions.json"
+            change      = "$_/temp/change.json"
+        }
     }
     cmd         = ''
     guid        = '00929632-527d-4dab-a5b3-21197faccd05'
@@ -203,7 +207,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
         $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
         try {
-            $raw = $request | & $bin --data $PSCompletions.path.data tpl --stdin --markup --version ([string]$PSCompletions.version) 2>$null
+            $raw = $request | & $bin --data $PSCompletions.path.dir.data tpl --stdin --markup --version ([string]$PSCompletions.version) 2>$null
             $exit = $LASTEXITCODE
         }
         finally {
@@ -212,15 +216,15 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
         }
         if ($exit -ne 0) { return '' }
         ($raw | ForEach-Object {
-                if ($_ -is [System.Management.Automation.ErrorRecord]) { $_.Exception.Message } else { [string]$_ }
-            }) -join "`n"
+            if ($_ -is [System.Management.Automation.ErrorRecord]) { $_.Exception.Message } else { [string]$_ }
+        }) -join "`n"
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language -Force {
         param ([string]$completion)
         if ($PSCompletions.lang_cache.ContainsKey($completion)) {
             return $PSCompletions.lang_cache[$completion]
         }
-        $path_config = "$($PSCompletions.path.completions)/$completion/config.json"
+        $path_config = "$($PSCompletions.path.dir.completions)/$completion/config.json"
         $raw_config = $PSCompletions.get_raw_content($path_config)
         $content_config = $null
         if ($raw_config) {
@@ -248,7 +252,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
         $language
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_library_changes -Force {
-        $json = $PSCompletions.get_raw_content($PSCompletions.path.change)
+        $json = $PSCompletions.get_raw_content($PSCompletions.path.file.change)
         if (-not $json) { return }
         $changes = $null
         try { $changes = $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
@@ -267,16 +271,16 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
                 # Rendered after a psc command that did not init (list/info/alias/config): fall back to disk.
                 try {
                     $pscLang = $PSCompletions.get_language('psc')
-                    $pscData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.completions)/psc/language/$pscLang.json"))
+                    $pscData = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$($PSCompletions.path.dir.completions)/psc/language/$pscLang.json"))
                     if ($pscData.info.update_info) { $template = $pscData.info.update_info }
                 }
                 catch { }
             }
             $ctx = @{
-                Added    = @($add)
-                Removed  = @($rm)
-                Update   = @($upd)
-                Renamed  = @($renamed | ForEach-Object { , @($_[0], $_[1]) })
+                Added   = @($add)
+                Removed = @($rm)
+                Update  = @($upd)
+                Renamed = @($renamed | ForEach-Object { , @($_[0], $_[1]) })
             }
             $PSCompletions.write_with_color($PSCompletions.render_engine($template, $ctx))
             # added/removed are one-shot (consumed on display); update/renamed/module persist.
@@ -284,7 +288,7 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
             $changes.removed = @()
             try {
                 [System.IO.File]::WriteAllText(
-                    $PSCompletions.path.change,
+                    $PSCompletions.path.file.change,
                     ($changes | ConvertTo-Json -Depth 6 -Compress),
                     [System.Text.Encoding]::UTF8)
             }
@@ -435,7 +439,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     }
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod menu_binary -Force {
         if ($null -ne $PSCompletions.menu.menu_binary_cache) { return $PSCompletions.menu.menu_binary_cache }
-        $binRoot = [System.IO.Path]::Combine($PSCompletions.path.root, 'bin')
+        $binRoot = [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'bin')
         # 'darwin' names the binary bundle directory (bin/<platform>-<arch>/); the engine-facing
         # platform field uses 'macos' instead — two intentional spellings, do not unify.
         $platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } elseif ($IsMacOS) { 'darwin' } else { 'linux' }
@@ -547,9 +551,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 path    = [string]$menuOrder.path
             }
         }
-        $input.data_dir = $PSCompletions.path.data
-        $input.order_dir = $PSCompletions.path.order
-        $input.menu_dir = $PSCompletions.path.menu
+        $input.data_dir = $PSCompletions.path.dir.data
+        $input.order_dir = $PSCompletions.path.dir.order
+        $input.menu_dir = $PSCompletions.path.dir.menu
         # Items mode forwards the line's tokens the same way: the engine derives the filter and
         # ignores it when it matches nothing, so no host needs its own rule.
         if ($null -ne $PSCompletions.menu.arg_tokens) {
@@ -571,7 +575,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         catch { }
 
         # Use the module's temp dir, not %TEMP%: external cleaners may delete files the menu is still using; keep menu files separate from module state
-        $tmp = $PSCompletions.path.menu
+        $tmp = $PSCompletions.path.dir.menu
         $PSCompletions.ensure_dir($tmp)
         $id = [System.Guid]::NewGuid().ToString('N')
         $inputPath = [System.IO.Path]::Combine($tmp, "psc-menu-$id-input.json")
@@ -767,9 +771,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $sortInput = @{
             items                  = $items
             order                  = @{
-                cmd_order      = "$($PSCompletions.path.order)/$([uri]::EscapeDataString($cmd)).json"
-                paths_order    = "$($PSCompletions.path.order)/_shared/_paths.json"
-                commands_order = "$($PSCompletions.path.order)/_shared/_commands.json"
+                cmd_order      = "$($PSCompletions.path.dir.order)/$([uri]::EscapeDataString($cmd)).json"
+                paths_order    = "$($PSCompletions.path.dir.order)/_shared/_paths.json"
+                commands_order = "$($PSCompletions.path.dir.order)/_shared/_commands.json"
             }
             tokens                 = $tokens
             treat_last_as_complete = $treatLastAsComplete
@@ -793,7 +797,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             history = (Get-PSReadLineOption).HistorySavePath
             cmd     = $cmd
             aliases = $orderAliases
-            path    = "$($PSCompletions.path.order)/$([uri]::EscapeDataString($cmd)).json"
+            path    = "$($PSCompletions.path.dir.order)/$([uri]::EscapeDataString($cmd)).json"
         }
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_completion -Force {
@@ -803,8 +807,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         if ($null -eq $cmd) { return }
 
         $language = $PSCompletions.get_language($cmd)
-        $manifest = "$($PSCompletions.path.completions)/$cmd/language/$language.json"
-        $hooksLuaPath = "$($PSCompletions.path.completions)/$cmd/hooks.lua"
+        $manifest = "$($PSCompletions.path.dir.completions)/$cmd/language/$language.json"
+        $hooksLuaPath = "$($PSCompletions.path.dir.completions)/$cmd/hooks.lua"
         # enable_hooks gate: per-completion override (0 disables it); psc itself always runs
         $hasLuaHooks = [System.IO.File]::Exists($hooksLuaPath)
         if ($hasLuaHooks -and $cmd -ne 'psc' -and $PSCompletions.config.completion) {
@@ -815,9 +819,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $pscData = $null
         if ($cmd -eq 'psc') {
             $pscData = @{
-                settings         = $PSCompletions.path.settings
-                completions_json = $PSCompletions.path.completions_json
-                completions      = $PSCompletions.path.completions
+                settings         = $PSCompletions.path.file.settings
+                completions_json = $PSCompletions.path.file.completions
+                completions      = $PSCompletions.path.dir.completions
                 config           = @{
                     language   = $PSCompletions.config.language
                     completion = $PSCompletions.config.completion
@@ -827,9 +831,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $orderInfo = $null
         if ($PSCompletions.config.enable_sort_by_history) {
             $orderInfo = @{
-                cmd_order      = "$($PSCompletions.path.order)/$([uri]::EscapeDataString($cmd)).json"
-                paths_order    = "$($PSCompletions.path.order)/_shared/_paths.json"
-                commands_order = "$($PSCompletions.path.order)/_shared/_commands.json"
+                cmd_order      = "$($PSCompletions.path.dir.order)/$([uri]::EscapeDataString($cmd)).json"
+                paths_order    = "$($PSCompletions.path.dir.order)/_shared/_paths.json"
+                commands_order = "$($PSCompletions.path.dir.order)/_shared/_commands.json"
             }
         }
         $buildContext = @{
@@ -843,8 +847,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             global_config          = $PSCompletions.config
             data                   = $pscData
             order                  = $orderInfo
-            cache_dir              = $PSCompletions.path.cache
-            log_dir                = $PSCompletions.path.log
+            cache_dir              = $PSCompletions.path.dir.cache
+            log_dir                = $PSCompletions.path.dir.log
         }
         if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
             return ''
@@ -857,7 +861,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         param([hashtable]$sortInput)
         $binary = $PSCompletions.menu.menu_binary()
         if (!$binary) { return }
-        $tmp = $PSCompletions.path.menu
+        $tmp = $PSCompletions.path.dir.menu
         $PSCompletions.ensure_dir($tmp)
         $id = [System.Guid]::NewGuid().ToString('N')
         $inputPath = [System.IO.Path]::Combine($tmp, "psc-menu-$id-sort-in.json")
@@ -898,7 +902,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $showLibrary = -not $PSCompletions.pending_skip_library
         $PSCompletions.pending_skip_library = $false
         # Module update: change.json's module field records the newest remote version the CLI fetched.
-        $changeJson = $PSCompletions.path.change
+        $changeJson = $PSCompletions.path.file.change
         $json = $PSCompletions.get_raw_content($changeJson)
         if ($json) {
             $changes = $null
@@ -939,8 +943,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $PSCompletions.binary_ok = $false
             return
         }
-        $dataDir = $PSCompletions.path.data
-        $tmp = $PSCompletions.path.menu
+        $dataDir = $PSCompletions.path.dir.data
+        $tmp = $PSCompletions.path.dir.menu
         $PSCompletions.ensure_dir($tmp)
         $id = [System.Guid]::NewGuid().ToString('N')
         $initPath = [System.IO.Path]::Combine($tmp, "psc-init-$id.json")
@@ -985,13 +989,13 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     $PSCompletions.initialized = $true
 }
 
-if ([System.IO.File]::Exists($PSCompletions.path.settings)) {
-    $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.settings)) -ErrorAction SilentlyContinue
+if ([System.IO.File]::Exists($PSCompletions.path.file.settings)) {
+    $_ = ConvertFrom-Json ([System.IO.File]::ReadAllText($PSCompletions.path.file.settings)) -ErrorAction SilentlyContinue
     $PSCompletions.config.trigger_key = $_.config.trigger_key
 }
 else {
-    if (![System.IO.Path]::IsPathRooted($PSCompletions.path.data)) {
-        throw "[PSCompletions] Invalid data directory ($($PSCompletions.path.data)): PSCOMPLETIONS_DATA_DIR must be an absolute path. Unset it to use the default location."
+    if (![System.IO.Path]::IsPathRooted($PSCompletions.path.dir.data)) {
+        throw "[PSCompletions] Invalid data directory ($($PSCompletions.path.dir.data)): PSCOMPLETIONS_DATA_DIR must be an absolute path. Unset it to use the default location."
     }
     $PSCompletions.config.trigger_key = 'Tab'
     if (-not $SkipMigration) {
@@ -1004,24 +1008,24 @@ else {
             return ([System.IO.File]::Exists([System.IO.Path]::Combine($dataDir, 'completions', 'psc', 'config.json')) -and [System.IO.File]::Exists([System.IO.Path]::Combine($dataDir, 'completions', 'psc', 'language', 'en-US.json')))
         }
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod find_data_source -Force {
-            $currentData = [System.IO.Path]::Combine($PSCompletions.path.root, 'data')
+            $currentData = [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'data')
             if ($PSCompletions.psc_completion_ready($currentData)) { return $currentData }
-            $parent = Split-Path $PSCompletions.path.root -Parent
-            $versionDirs = @(Get-ChildItem -LiteralPath $parent -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^\d+\.\d' -and $_.FullName -ne $PSCompletions.path.root })
+            $parent = Split-Path $PSCompletions.path.dir.root -Parent
+            $versionDirs = @(Get-ChildItem -LiteralPath $parent -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^\d+\.\d' -and $_.FullName -ne $PSCompletions.path.dir.root })
             foreach ($dir in ($versionDirs | Sort-Object { try { [version]$_.Name } catch { [version]'0.0' } } -Descending)) {
                 $dataDir = [System.IO.Path]::Combine($dir.FullName, 'data')
                 if ($PSCompletions.psc_completion_ready($dataDir)) { return $dataDir }
             }
         }
         Add-Member -InputObject $PSCompletions -MemberType ScriptMethod migrate_data -Force {
-            $PSCompletions.ensure_dir($PSCompletions.path.completions)
-            $target = $PSCompletions.path.data
+            $PSCompletions.ensure_dir($PSCompletions.path.dir.completions)
+            $target = $PSCompletions.path.dir.data
             if ($PSCompletions.psc_completion_ready($target)) { return }
             $source = $PSCompletions.find_data_source()
             if ($source) {
                 $legacySettings = [System.IO.Path]::Combine($source, 'data.json')
-                if ([System.IO.File]::Exists($legacySettings) -and ![System.IO.File]::Exists($PSCompletions.path.settings)) {
-                    Copy-Item -LiteralPath $legacySettings -Destination $PSCompletions.path.settings -Force -ErrorAction SilentlyContinue
+                if ([System.IO.File]::Exists($legacySettings) -and ![System.IO.File]::Exists($PSCompletions.path.file.settings)) {
+                    Copy-Item -LiteralPath $legacySettings -Destination $PSCompletions.path.file.settings -Force -ErrorAction SilentlyContinue
                 }
                 try {
                     Get-ChildItem -LiteralPath $source -Force | ForEach-Object {
@@ -1034,10 +1038,10 @@ else {
                 catch { }
             }
             if (!$PSCompletions.psc_completion_ready($target)) {
-                $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.completions, 'psc')
+                $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.dir.completions, 'psc')
                 foreach ($seedParent in @(
-                        $PSCompletions.path.root,
-                        (Split-Path (Split-Path $PSCompletions.path.root -Parent) -Parent)
+                        $PSCompletions.path.dir.root,
+                        (Split-Path (Split-Path $PSCompletions.path.dir.root -Parent) -Parent)
                     )) {
                     if ($PSCompletions.psc_completion_ready($seedParent)) {
                         Copy-Item -LiteralPath ([System.IO.Path]::Combine($seedParent, 'completions', 'psc')) -Destination $seedTarget -Recurse -Force

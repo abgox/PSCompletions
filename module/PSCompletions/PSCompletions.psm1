@@ -13,7 +13,7 @@
         $PSCompletions.render_engine($data, $ctx, $separator)
     }
     function _get_library_changes {
-        $json = $PSCompletions.get_raw_content($PSCompletions.path.change)
+        $json = $PSCompletions.get_raw_content($PSCompletions.path.file.change)
         if ($json) {
             try { return $PSCompletions.ConvertFrom_JsonAsHashtable($json) } catch { }
         }
@@ -38,7 +38,7 @@
             $PSCompletions.write_with_color('[PSCompletions] psc binary missing.')
             return
         }
-        $dataDir = $PSCompletions.path.data
+        $dataDir = $PSCompletions.path.dir.data
         # psc emits UTF-8, but PowerShell decodes native output via [Console]::OutputEncoding (GBK on Chinese systems); switch temporarily
         $oldEncoding = [Console]::OutputEncoding
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
@@ -97,7 +97,7 @@
         $alias = @($PSCompletions.data.alias[$completion])
         if (-not $alias) { $alias = @($completion) }
         $rows = @()
-        $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.completions, $completion)
+        $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.dir.completions, $completion)
         try { $cfgjson = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json } catch { $cfgjson = $null }
         try {
             $clang = $PSCompletions.get_language($completion)
@@ -213,7 +213,7 @@
                     $changes.removed = @()
                     try {
                         [System.IO.File]::WriteAllText(
-                            $PSCompletions.path.change,
+                            $PSCompletions.path.file.change,
                             ($changes | ConvertTo-Json -Depth 6 -Compress),
                             [System.Text.Encoding]::UTF8)
                     }
@@ -275,7 +275,7 @@
                                 })
                             try {
                                 [System.IO.File]::WriteAllText(
-                                    $PSCompletions.path.change,
+                                    $PSCompletions.path.file.change,
                                     ($changes | ConvertTo-Json -Depth 6 -Compress),
                                     [System.Text.Encoding]::UTF8)
                             }
@@ -397,15 +397,15 @@
                 # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
                 if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                     if ($PressKey.VirtualKeyCode -eq 13) {
-                        if ([System.IO.Directory]::Exists($PSCompletions.path.data)) {
-                            Get-ChildItem -LiteralPath $PSCompletions.path.data -Force | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
+                        if ([System.IO.Directory]::Exists($PSCompletions.path.dir.data)) {
+                            Get-ChildItem -LiteralPath $PSCompletions.path.dir.data -Force | ForEach-Object { Remove-Item $_.FullName -Force -Recurse }
                         }
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_done))
-                        $PSCompletions.ensure_dir($PSCompletions.path.completions)
-                        $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.completions, 'psc')
+                        $PSCompletions.ensure_dir($PSCompletions.path.dir.completions)
+                        $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.dir.completions, 'psc')
                         foreach ($seed in @(
-                            [System.IO.Path]::Combine($PSCompletions.path.root, 'completions', 'psc'),
-                            [System.IO.Path]::Combine((Split-Path (Split-Path $PSCompletions.path.root -Parent) -Parent), 'completions', 'psc')
+                            [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'completions', 'psc'),
+                            [System.IO.Path]::Combine((Split-Path (Split-Path $PSCompletions.path.dir.root -Parent) -Parent), 'completions', 'psc')
                         )) {
                             if ([System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'config.json')) -and [System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'language', 'en-US.json'))) {
                                 Copy-Item -LiteralPath $seed -Destination $seedTarget -Recurse -Force
