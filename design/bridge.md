@@ -39,13 +39,21 @@ Add a per-shell directory only if that invariant actually breaks.
 
 ## 2. Trigger + dispatch
 
-- On the trigger key: snapshot buffer + cursor, tokenize with the shared grammar
+- On the trigger key: snapshot buffer + cursor, keep only the **command being edited** (see the
+  separator rule below), tokenize with the shared grammar
   (`(?:"[^"]*"|'[^']*'|\S)+` — must match `order::tokenize`), strip executable suffixes,
   resolve the first word through the trigger map (with `sudo` unwrap), and decide:
   **build mode** only when the first word is installed **and** the pending token is not
   path-shaped; otherwise the **native path** below. Both conditions matter — routing every
   installed-command line to build mode silently drops path completion (a path-shaped word
   must reach the host's own completer even for an installed command).
+- **A separator ends a command; a brace does not.** Only the text after the last unquoted
+  separator (`|`, `;`, `&`, `&&`, `||`) before the cursor is the command being edited, so *its*
+  first word is the one to resolve (`git status | grep <Tab>` completes `grep`, not `git`). With
+  no separator the whole prefix is one command; an empty segment (the line ends on a separator)
+  has no command to resolve and takes the native path, which is what completes a command name
+  there. Quotes and `\` hide a separator, `>&` / `&>` are redirections rather than separators, and
+  a `{ … }` is never one. See [`D42`](../decisions/bridge.md#d42).
 - **Native path, three branches** (not one): when the first word is unknown to the
   library (uninstalled / path / root-prefix words) **or the pending token is path-shaped**
   (`^["']?(?:[A-Za-z]:[/\\]|(?:\.\.?|~)?[/\\])`, where native matching wins), the bridge

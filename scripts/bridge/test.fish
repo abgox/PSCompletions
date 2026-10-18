@@ -493,6 +493,41 @@ check_input 'sort_by_history adds order' 'filter_mode=wildcard show_mode=auto li
 printf '%s\n' '{"alias":{"git":["git"],"psc":["psc"],"scoop":["scoop"]},"config":{"language":"en-US"}}' > $PSCOMPLETIONS_DATA_DIR/settings.json
 reset_caches
 
+# --- separator split ---------------------------------------------------------
+echo "--- separator split: a new command starts after the last unquoted separator ---"
+function seg_check --argument-names name want text
+    set -l got (_psc_segment "$text")
+    if test "$got" = "$want"
+        ok $name
+    else
+        bad $name " [$got] want=[$want]"
+    end
+end
+seg_check 'split: pipe'                   'grep '       'git status | grep '
+seg_check 'split: pipe with no space'     'grep '       'git status|grep '
+seg_check 'split: double-quoted pipe'     'head '       'git log --grep "a|b" | head '
+seg_check 'split: single-quoted pipe'     'head '       "git log --grep 'a|b' | head "
+seg_check 'split: semicolon'              'git commit ' 'ls; git commit '
+seg_check 'split: and-and'                'git commit ' 'ls && git commit '
+seg_check 'split: or-or'                  'git commit ' 'ls || git commit '
+seg_check 'split: redirection is not one' 'grep '       'git show 2>&1 | grep '
+seg_check 'split: ampersand'              'git commit ' 'ls & git commit '
+seg_check 'split: ampersand at end'       ''            'git status &'
+seg_check 'split: &> is a redirection'    'grep '       'git show &>/dev/null | grep '
+seg_check 'split: no separator'           'git status ' 'git status '
+seg_check 'split: the nearest one wins'   'c '          'a | b | c '
+seg_check 'split: mixed separators'       'd '          'a | b && c ; d '
+seg_check 'split: trailing separator'     ''            'git status | '
+seg_check 'split: quoted semicolon'       'git '        'echo "a;b" ; git '
+
+echo "--- separator: an empty segment routes nowhere, without a crash ---"
+set -l _seg_route (_psc_route 'git status | ')
+if test (count $_seg_route) -eq 0
+    ok 'route: empty segment yields nothing'
+else
+    bad 'route: empty segment yields nothing' " [$_seg_route]"
+end
+
 # --- fish history normalisation ---------------------------------------------
 # fish's history file is YAML-ish; the engine reads plain command lines, so the bridge
 # must hand it a normalised copy (and only rebuild it when the source changed).

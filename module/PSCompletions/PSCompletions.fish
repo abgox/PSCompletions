@@ -341,6 +341,72 @@ function _psc_tokens --argument-names before
     string match -r -a '"[^"]*"|\'[^\']*\'|\S+' -- $before
 end
 
+# The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`,
+# `||`). A separator ends a command, so what follows it is a fresh command line whose own command
+# word and tokens are what the menu completes (`git status | grep <Tab>` completes `grep`).
+# Quotes (and `\`) hide a separator; `>&` and `&>` are redirections, not separators; an empty
+# result means there is nothing to complete here, so the caller falls back to the host.
+function _psc_segment --argument-names text
+    set -l out ''
+    set -l q 0
+    set -l n (string length -- $text)
+    set -l i 1
+    while test $i -le $n
+        set -l c (string sub -s $i -l 1 -- $text)
+        if test $q -ne 1; and test "$c" = '\\'
+            set out "$out$c"(string sub -s (math $i + 1) -l 1 -- $text)
+            set i (math $i + 2)
+            continue
+        end
+        if test "$c" = "'"
+            if test $q -eq 0
+                set q 1
+            else if test $q -eq 1
+                set q 0
+            end
+            set out "$out$c"
+            set i (math $i + 1)
+            continue
+        end
+        if test "$c" = '"'
+            if test $q -eq 0
+                set q 2
+            else if test $q -eq 2
+                set q 0
+            end
+            set out "$out$c"
+            set i (math $i + 1)
+            continue
+        end
+        if test $q -eq 0
+            switch "$c"
+                case '|' ';'
+                    set out ''
+                case '&'
+                    # `&` backgrounds, `&&` separates, and `>&` / `&>` are redirections.
+                    set -l nxt (string sub -s (math $i + 1) -l 1 -- $text)
+                    set -l prv ''
+                    test $i -gt 1; and set prv (string sub -s (math $i - 1) -l 1 -- $text)
+                    if test "$nxt" = '>'; or test "$prv" = '>'
+                        set out "$out$c"
+                    else
+                        set out ''
+                        if test "$nxt" = '&'
+                            set i (math $i + 1)
+                        end
+                    end
+                case '*'
+                    set out "$out$c"
+            end
+        else
+            set out "$out$c"
+        end
+        set i (math $i + 1)
+    end
+    # The leading whitespace belongs to the separator, not to the new command.
+    string trim -l -- $out
+end
+
 # Escape a candidate for insertion the way fish's own completion does: a backslash
 # before each special character, with a leading `~` left bare so tilde expansion still
 # applies. Verified differentially against fish's own insertion (`space ' " $ * ( )
@@ -722,7 +788,11 @@ end
 # installed command *and* a non-path-shaped pending token.
 function _psc_route --argument-names before
     test -n "$before"; or return 1
-    set -l toks (_psc_tokens $before)
+    # A separator ends the command being edited: what follows it is a fresh command line, so its
+    # own command word and tokens are what the menu completes. `before` stays whole — the word
+    # offsets below are absolute.
+    set -l seg (_psc_segment "$before")
+    set -l toks (_psc_tokens $seg)
     test (count $toks) -gt 0; or return 1
     set -l first $toks[1]
     # Strip a Windows executable suffix (case-insensitive), like the PS bridge.

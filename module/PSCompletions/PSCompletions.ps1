@@ -62,16 +62,26 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             if (!$buffer) { return }
 
             $isSpaceTab = $buffer[-1] -eq ' '
-            $inputs = @()
             $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
-            foreach ($match in $matches) { $inputs += $match.Value }
-
-            if (!$inputs) { return }
+            if (!$matches.Count) { return }
+            # A separator ends the command being edited: what follows the last unquoted one is a
+            # fresh command line, so *its* command word and tokens are what the menu needs
+            # (`git status | grep <Tab>` completes grep, not git). The word offsets below stay
+            # absolute — the last token is the same either way — and an empty segment (the line
+            # ends on a separator) has no command to look up, so it falls through to the host.
+            $inputs = @()
+            foreach ($match in [regex]::Matches($PSCompletions.command_segment($buffer), $PSCompletions.input_pattern)) { $inputs += $match.Value }
+            # An empty segment (the line ends on a separator) has no command word, and everything
+            # below — the trigger map, the native path, `--sort` — reads the last token as the word
+            # being completed. One empty token says exactly that, and keeps the list non-empty.
+            if (!$inputs.Count) { $inputs = @('') }
 
             $first = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
             $isSudo = $first -eq 'sudo' -or $PSCompletions.data.aliasMap[$first] -eq 'sudo'
-            if (-not $isSudo -and $null -eq $PSCompletions.data.aliasMap[$first] -and $first -notmatch '[*?]') {
-                $shellTarget = (Get-Alias -Name $first -ErrorAction SilentlyContinue).Definition -replace '\.(exe|cmd|bat)$', ''
+            if (-not $isSudo -and $first -and $null -eq $PSCompletions.data.aliasMap[$first] -and $first -notmatch '[*?]') {
+                # A literal lookup: `$first` is a command word, not a wildcard pattern — `[s` is a
+                # valid word and an invalid pattern, and an empty one is not a name at all.
+                $shellTarget = (Get-Alias -Name ([System.Management.Automation.WildcardPattern]::Escape($first)) -ErrorAction SilentlyContinue).Definition -replace '\.(exe|cmd|bat)$', ''
                 if ($shellTarget) { $isSudo = $shellTarget -eq 'sudo' -or $PSCompletions.data.aliasMap[$shellTarget] -eq 'sudo' }
             }
             if ($inputs.Count -gt 1 -and $isSudo) {
@@ -759,6 +769,21 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             Microsoft.PowerShell.Utility\Write-Error -Message "[PSCompletions] menu unavailable: $errorMsg" -ErrorAction SilentlyContinue
             return
         }
+    }
+    # The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`,
+    # `||`). A separator ends a command, so what follows it is a fresh command line whose own
+    # command word and tokens are what the menu completes (`git status | grep <Tab>` completes
+    # `grep`). PowerShell's own parser marks them, so quotes, here-strings and redirections
+    # (`2>&1`, `&>`) need nothing of our own; an empty result means the line ends on a separator,
+    # so there is no command to look up and the caller falls through to the host.
+    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod command_segment -Force {
+        param([string]$Text)
+        if ([string]::IsNullOrEmpty($Text)) { return $Text }
+        $tokens = $null; $errors = $null
+        [System.Management.Automation.Language.Parser]::ParseInput($Text, [ref]$tokens, [ref]$errors) | Out-Null
+        $last = $tokens | Where-Object { $_.Kind -in @('Pipe', 'Semi', 'AndAnd', 'OrOr', 'Ampersand') } | Select-Object -Last 1
+        if ($null -eq $last) { return $Text }
+        return $Text.Substring($last.Extent.EndOffset).TrimStart()
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod apply_completions_sort -Force {
         param([string]$cmd, [object]$filter_list, [array]$tokens, [bool]$treatLastAsComplete)

@@ -10,6 +10,7 @@ rejected and the condition that would overturn it — here. Numbering is shared 
 | --- | --- |
 | D40 | [A shell that cannot hand over the trigger gets no bridge](#d40) |
 | D41 | [One presentation: the CLI's text, in every host](#d41) |
+| D42 | [A separator ends a command; a brace does not](#d42) |
 
 <a id="d40"></a>
 
@@ -97,3 +98,47 @@ surface to document, test and keep in step, for something `--json` already provi
 than a one-step `psc list --json | ConvertFrom-Json` — then the payload-passthrough variant can
 return for that host alone (it is one line per command and inherits the JSON contract), with the
 text kept everywhere else. The hand-written mapping stays rejected either way.
+
+---
+
+<a id="d42"></a>
+
+## A separator ends a command; a brace does not (D42)
+
+**Rule it justifies**: `design/bridge.md` §2 — only the text after the last unquoted separator
+before the cursor is the command being edited, with the separator set `|`, `;`, `&`, `&&`, `||`.
+
+**The case**: every bridge resolved the first token of the *whole line*, so `git status | grep
+<Tab>` opened **git's** menu and `grep` could not be completed. The same line with an uninstalled
+first word worked by accident, because PowerShell's native fallback (`TabExpansion2`, an AST parse)
+is pipeline-aware — so the defect was precisely the fast path taking over.
+
+**Evidence**:
+
+1. **The separators are the shells' control operators, and the hosts agree.** bash, zsh and fish
+   each background on a lone `&` (`true & echo $!` prints a job id), and PowerShell's parser reports
+   `Ampersand` for the call operator — which for completion means the same thing a separator means:
+   the next word is a command (`& git <Tab>` completes git's arguments).
+2. **A redirection is not a separator.** `2>&1` and `&>` must not split. PowerShell's lexer reports
+   nothing for them (`git show 2>&1` yields no separator token), and the POSIX scan carries one rule
+   for the pair.
+3. **A brace is not a separator, in either direction.** Where `}` ends a block a separator is
+   *required* after it — bash rejects `{ true; } echo x` outright, and fish answers `'}' does not
+   take arguments. Did you forget a ';'?` — so splitting there adds nothing. Where it does not end a
+   block, splitting breaks the line: PowerShell's `Where-Object { $_ } | Select-Object` continues the
+   same command, zsh and fish expand `{a,b}` into two arguments, and bash's `${X}` puts an
+   **unquoted** `}` inside a word. Quoting cannot separate the two cases, because every
+   counter-example is unquoted.
+4. **Quotes and escapes hide a separator**, so `--grep "a|b"` and `--format='%h|%s'` stay one
+   argument. PowerShell gets that from the parser; the POSIX bridges from the quote state their word
+   scanner already tracks.
+
+**Rejected alternatives**: (a) split on a `|` *token* instead of scanning the text — rejected:
+`status|grep` and `ls;git` glue the separator to a word, so the token view misses exactly the cases
+where the wrong command is most likely; (b) split on `{` / `}` — rejected on the evidence above;
+(c) resolve the first word of the whole line and let the host's completion cover the rest —
+rejected: it is the behaviour that made `git status | grep <Tab>` unusable.
+
+**Overturn if**: a host appears whose grammar treats one of these characters differently *and*
+whose completion API cannot be consulted for the pipeline case — then that host's separator set is
+narrowed, with the rule above kept as the default.

@@ -264,12 +264,16 @@ _psc_complete() {
     _psc_init || return 1
     local before="${READLINE_LINE:0:READLINE_POINT}"
     [[ -n "$before" ]] || return 1
+    # A separator ends the command being edited: what follows it is a fresh command line, so its
+    # own command word and tokens are what the menu completes. `before` stays whole — the word
+    # offsets below are absolute.
+    local seg; seg="$(_psc_segment "$before")"
     # tokenize with the shared grammar (must match order::tokenize)
     local -a toks
     if (( _PSC_GREP_P )); then
-        mapfile -t toks < <(grep -oP '"[^"]*"|'"'"'[^'"'"']*'"'"'|\S+' <<< "$before")
+        mapfile -t toks < <(grep -oP '"[^"]*"|'"'"'[^'"'"']*'"'"'|\S+' <<< "$seg")
     else
-        mapfile -t toks < <("$_PSC_PY" -S - "$before" <<'PYEOF'
+        mapfile -t toks < <("$_PSC_PY" -S - "$seg" <<'PYEOF'
 import re,sys
 print('\n'.join(re.findall(r'"[^"]*"|\'[^\']*\'|\S+',sys.argv[1])))
 PYEOF
@@ -527,6 +531,49 @@ PYEOF
 # unquoted, unescaped whitespace, so `az\ zdir` stays one word: the naive `${before##* }`
 # split cut at the escaped space and concatenated the pick after the old text instead of
 # replacing it.
+# The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`,
+# `||`). A separator ends a command, so what follows it is a fresh command line whose own command
+# word and tokens are what the menu completes (`git status | grep <Tab>` completes `grep`).
+# Quotes (and `\`) hide a separator; `>&` and `&>` are redirections, not separators; an empty
+# result means there is nothing to complete here, so the caller falls back to the host.
+_psc_segment() {
+    local s="$1" out='' q=0 i=0 c n=${#1}
+    while (( i < n )); do
+        c="${s:i:1}"
+        if (( q != 1 )) && [[ "$c" == '\' ]]; then
+            out+="${s:i:2}"
+            (( i += 2 )); continue
+        fi
+        if [[ "$c" == "'" ]]; then
+            (( q = q == 1 ? 0 : (q == 0 ? 1 : q) ))
+            out+="$c"; (( i++ )); continue
+        fi
+        if [[ "$c" == '"' ]]; then
+            (( q = q == 2 ? 0 : (q == 0 ? 2 : q) ))
+            out+="$c"; (( i++ )); continue
+        fi
+        if (( q == 0 )); then
+            case "$c" in
+                '|'|';') out='' ;;
+                '&')
+                    # `&` backgrounds, `&&` separates, and `>&` / `&>` are redirections.
+                    if [[ "${s:i+1:1}" == '>' ]] || { (( i > 0 )) && [[ "${s:i-1:1}" == '>' ]]; }; then
+                        out+="$c"
+                    else
+                        out=''
+                        [[ "${s:i+1:1}" == '&' ]] && (( i++ ))
+                    fi ;;
+                *) out+="$c" ;;
+            esac
+        else
+            out+="$c"
+        fi
+        (( i++ ))
+    done
+    # The leading whitespace belongs to the separator, not to the new command.
+    printf '%s' "${out#"${out%%[![:space:]]*}"}"
+}
+
 _psc_word_start() {
     local s="$1" out=0 q=0 i c n=${#1}
     for (( i = 0; i < n; i++ )); do

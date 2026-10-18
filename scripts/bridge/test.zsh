@@ -591,6 +591,42 @@ out="$(_psc_run_status x)"; rc=$?
     && { print "ok   status red on failure"; PASS=$((PASS+1)) } || { print "FAIL status red on failure rc=$rc [${(qq)out}]"; FAIL=$((FAIL+1)) }
 _PSC_BIN=$_SAVE_BIN
 
+print -- "--- separator split: a new command starts after the last unquoted separator ---"
+_seg_check() {
+    local name="$1" want="$2" got
+    got="$(_psc_segment "$3")"
+    [[ "$got" == "$want" ]] && { print "ok   $name"; PASS=$((PASS+1)) } || { print "FAIL $name [${got:-<empty>}]"; FAIL=$((FAIL+1)) }
+}
+_seg_check "split: pipe"                   "grep "       "git status | grep "
+_seg_check "split: pipe with no space"     "grep "       "git status|grep "
+_seg_check "split: double-quoted pipe"     "head "       'git log --grep "a|b" | head '
+_seg_check "split: single-quoted pipe"     "head "       "git log --grep 'a|b' | head "
+_seg_check "split: semicolon"              "git commit " "ls; git commit "
+_seg_check "split: and-and"                "git commit " "ls && git commit "
+_seg_check "split: or-or"                  "git commit " "ls || git commit "
+_seg_check "split: redirection is not one" "grep "       "git show 2>&1 | grep "
+_seg_check "split: ampersand"              "git commit " "ls & git commit "
+_seg_check "split: ampersand at end"       ""            "git status &"
+_seg_check "split: &> is a redirection"    "grep "       "git show &>/dev/null | grep "
+_seg_check "split: no separator"           "git status " "git status "
+_seg_check "split: the nearest one wins"   "c "          "a | b | c "
+_seg_check "split: mixed separators"       "d "          "a | b && c ; d "
+_seg_check "split: trailing separator"     ""            "git status | "
+_seg_check "split: quoted semicolon"       "git "        'echo "a;b" ; git '
+
+print -- "--- separator: an empty segment returns before the menu (no crash) ---"
+if _psc_init >/dev/null 2>&1; then
+    LBUFFER='git status | '
+    if _psc_complete >/dev/null 2>&1; then
+        print "FAIL route: an empty segment returned success"; FAIL=$((FAIL+1))
+    else
+        print "ok   route: an empty segment returns 1, so the host completes a command name"; PASS=$((PASS+1))
+    fi
+    LBUFFER=''
+else
+    print "FAIL route: _psc_init did not succeed in the harness"; FAIL=$((FAIL+1))
+fi
+
 print -- "--- history normalisation (extended_history prefixes the entry inline) ---"
 _HIST=/tmp/psc-bridge-hist.zsh
 printf ': 1700000000:0;git status\n: 1700000001:5;git commit --amend\n' > "$_HIST"
