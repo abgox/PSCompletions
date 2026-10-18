@@ -20,15 +20,14 @@ pub fn cmd_list(settings: &Settings, out: &Out, json: bool) -> ExitCode {
     }
     for name in settings.list() {
         let aliases = settings.alias.get(&name).cloned().unwrap_or_default();
-        let extra: Vec<&str> = aliases
-            .iter()
-            .filter(|a| a.as_str() != name.as_str())
-            .map(|s| s.as_str())
-            .collect();
-        if extra.is_empty() {
+        // All trigger words, exactly like this command's JSON branch (`{"completion": …,
+        // "aliases": …}`) and like PS's `_render_list`, which renders that JSON. Filtering out
+        // the completion's own name made `psc list` disagree with `psc alias` for no visible
+        // reason.
+        if aliases.is_empty() {
             out.line(&name);
         } else {
-            out.line(&format!("{name}  {}", extra.join(" ")));
+            out.line(&format!("{name}: {}", aliases.join(", ")));
         }
     }
     ExitCode::SUCCESS

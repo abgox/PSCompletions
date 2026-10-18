@@ -162,12 +162,14 @@ pub fn cmd_completion(
                 .collect();
             println!("{}", serde_json::to_string(&arr).unwrap_or_default());
         } else {
+            // Each completion is a group, exactly like `config`: `[name]` then `  key: value`.
+            // The named forms below drop the header (`completion <name>`) or the key
+            // (`completion <name> <key>`) — the caller already said which one it wants.
             for (n, cfg) in entries {
-                let pairs: Vec<String> = cfg
-                    .iter()
-                    .map(|(k, v)| format!("{k}={}", value_str(v)))
-                    .collect();
-                out.line(&format!("{n}: {}", pairs.join(" ")));
+                out.line(&format!("[{n}]"));
+                for (k, v) in cfg {
+                    out.line(&format!("{k}: {}", value_str(&v)));
+                }
             }
         }
         return ExitCode::SUCCESS;
@@ -247,7 +249,8 @@ pub fn cmd_completion(
                 serde_json::json!({ "completion": name, "key": key, "value": get(&key) })
             );
         } else {
-            out.line(&format!("{key}: {}", get(&key)));
+            // Same rule as `config <group> <key>`: the key was just typed, answer with the value.
+            out.line(&get(&key));
         }
         return ExitCode::SUCCESS;
     }

@@ -5,6 +5,18 @@
 const MESSAGES: &[(&str, &str, &str)] = &[
     ("param_min", "参数不足。", "Too few parameters."),
     ("sub_cmd", "子命令错误。", "Invalid subcommand."),
+    (
+        "sub_cmd_named",
+        "无效的子命令: {{Token}}。可用: {{Valid}}",
+        "Invalid subcommand: {{Token}}. Valid: {{Valid}}",
+    ),
+    ("info_name", "名称: ", "Name: "),
+    ("info_alias", "别名: ", "Alias: "),
+    ("info_url", "网址: ", "Url: "),
+    ("info_description", "描述: ", "Description: "),
+    ("info_path", "路径: ", "Path: "),
+    ("info_update_hash", "更新哈希: ", "Update hash: "),
+    ("info_updated", "更新时间: ", "Updated: "),
     ("no_completion", "尚未添加该补全。", "Completion not added."),
     (
         "not_available",

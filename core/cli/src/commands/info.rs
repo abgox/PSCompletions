@@ -89,25 +89,34 @@ pub fn cmd_info(
         println!("{}", serde_json::to_string(&arr).unwrap_or_default());
         return ExitCode::SUCCESS;
     }
+    // A completion is a group, exactly like `config`'s groups: `[name]` then two-space-indented
+    // `Label: value` rows. Naming it on the command line drops the header (`psc info git`), and
+    // the `Name:` row is gone either way — the caller or the header already said it.
     let mut had_error = false;
+    let single = args.len() == 1;
+    // One level is enough: a `[name]` heading already delimits, and the rows never indent (the
+    // same rule as an ini section, where a value sits at column 0).
+    let field = |label: String, value: &str| out.line(&format!("{label}{value}"));
     for name in args {
+        if !single {
+            out.line(&format!("[{name}]"));
+        }
         let status = name_status(settings, index, completions_dir, name);
         if let Some(e) = name_error(&lang, name, status, false) {
             out.line(&e);
             had_error = true;
             continue;
         }
-        out.line(&format!("Name: {name}"));
         if let Some(aliases) = settings.alias.get(name) {
             if !aliases.is_empty() {
-                out.line(&format!("Alias: {}", aliases.join(" ")));
+                field(msg_cli(&lang, "info_alias"), &aliases.join(", "));
             }
         }
         if let Some(meta) = index.meta.get(name) {
             let c = meta.get(&lang).or_else(|| meta.get("en-US"));
             if let Some(c) = c {
                 if let Some(url) = c.get("url").and_then(|u| u.as_str()) {
-                    out.line(&format!("Url: {url}"));
+                    field(msg_cli(&lang, "info_url"), url);
                 }
                 if let Some(desc) = c.get("description") {
                     let d = match desc {
@@ -120,24 +129,24 @@ pub fn cmd_info(
                         _ => String::new(),
                     };
                     if !d.is_empty() {
-                        out.line(&format!("Description: {d}"));
+                        field(msg_cli(&lang, "info_description"), &d);
                     }
                 }
             }
         }
         let path = format!("{completions_dir}/{name}");
         if std::path::Path::new(&path).exists() {
-            out.line(&format!("Path: {path}"));
+            field(msg_cli(&lang, "info_path"), &path);
             if let Ok(t) = std::fs::read_to_string(format!("{path}/.update")) {
                 let t = t.trim();
                 if !t.is_empty() {
-                    out.line(&format!("Update: {t}"));
+                    field(msg_cli(&lang, "info_update_hash"), t);
                 }
             }
             if let Ok(meta) = std::fs::metadata(format!("{path}/.update")) {
                 if let Ok(mt) = meta.modified() {
                     if let Ok(d) = mt.duration_since(std::time::UNIX_EPOCH) {
-                        out.line(&format!("Updated: {}", d.as_secs()));
+                        field(msg_cli(&lang, "info_updated"), &d.as_secs().to_string());
                     }
                 }
             }

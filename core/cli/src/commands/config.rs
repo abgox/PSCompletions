@@ -10,6 +10,16 @@ use crate::messages::msg_cli;
 use crate::net::is_official_source;
 use crate::output::Out;
 
+/// The value alone, unquoted: a single-key read answers with the value itself (`v=$(psc config
+/// <group> <key>)`), while the listings keep `value_str`'s shell-style quoting so an empty or
+/// space-padded value stays visible in a table.
+pub(crate) fn value_raw(v: &Value) -> String {
+    match v {
+        Value::String(s) => s.clone(),
+        other => value_str(other),
+    }
+}
+
 pub(crate) fn value_str(v: &Value) -> String {
     match v {
         serde_json::Value::String(s) => {
@@ -187,7 +197,7 @@ pub fn cmd_config(
             for group in CONFIG_GROUPS {
                 out.line(&format!("[{group}]"));
                 for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
-                    out.line(&format!("  {}: {}", d.key, config_get(settings, d.key)));
+                    out.line(&format!("{}: {}", d.key, config_get(settings, d.key)));
                 }
             }
         }
@@ -195,15 +205,19 @@ pub fn cmd_config(
     }
     let group = args[0].as_str();
     if !CONFIG_GROUPS.contains(&group) {
+        // Name the offending token and the valid set: a bare "invalid subcommand" leaves the
+        // reader guessing, and this text is the interface in the shells.
+        let msg = msg_cli(lang, "sub_cmd_named")
+            .replace("{{Token}}", group)
+            .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
         if json {
             println!(
                 "{}",
-                serde_json::to_string(&json!({"ok": false, "error": msg_cli(lang, "sub_cmd")}))
-                    .unwrap_or_default()
+                serde_json::to_string(&json!({"ok": false, "error": msg})).unwrap_or_default()
             );
             return ExitCode::SUCCESS;
         }
-        out.line(&msg_cli(lang, "sub_cmd"));
+        out.line(&msg);
         return ExitCode::FAILURE;
     }
     // `config <group>`: list that group
@@ -218,9 +232,9 @@ pub fn cmd_config(
                 .collect();
             println!("{}", serde_json::to_string(&arr).unwrap_or_default());
         } else {
-            out.line(&format!("[{group}]"));
+            // The caller named the group, so repeating `[group]` is noise; keys sit at column 0.
             for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
-                out.line(&format!("  {}: {}", d.key, config_get(settings, d.key)));
+                out.line(&format!("{}: {}", d.key, config_get(settings, d.key)));
             }
         }
         return ExitCode::SUCCESS;
@@ -249,7 +263,9 @@ pub fn cmd_config(
                 serde_json::json!({ "key": key, "value": config_get(settings, key) })
             );
         } else {
-            out.line(&format!("{key}: {}", config_get(settings, key)));
+            // The key was just typed, so the value alone (and unquoted) is the answer.
+            let v = settings.config.get(key).map(value_raw).unwrap_or_default();
+            out.line(&v);
         }
         return ExitCode::SUCCESS;
     }

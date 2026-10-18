@@ -221,7 +221,7 @@ pub fn cmd_update(
                 .unwrap()
                 .push(json!({"completion": name, "ok": false, "error": err}));
             if !json {
-                out.line(&format!("{name} {err}"));
+                out.line(&format!("{name}: {err}"));
             }
             return;
         }

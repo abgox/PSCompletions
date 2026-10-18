@@ -129,7 +129,7 @@
                             }
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
                         }
                     }
                 }
@@ -160,7 +160,7 @@
                             _render_completion_done $r.completion 'rm'
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
                         }
                     }
                 }
@@ -231,7 +231,7 @@
                             }
                         }
                         else {
-                            $PSCompletions.write_with_color((_replace "<@Red>$($r.completion): $($r.error)"))
+                            $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.completion) { "$($r.completion): " })$($r.error)"))
                         }
                     }
                     if (-not $anyOk -and -not @($result).Count) {
@@ -266,7 +266,7 @@
         'info' {
             _forward_psc -Json | ForEach-Object {
                 if ($_.ok -eq $false) {
-                    $PSCompletions.write_with_color((_replace "<@Red>$($_.name): $($_.error)"))
+                    $PSCompletions.write_with_color((_replace "<@Red>$(if ($_.name) { "$($_.name): " })$($_.error)"))
                 }
                 else {
                     $resolvedPath = try { Convert-Path $_.path } catch { $_.path }

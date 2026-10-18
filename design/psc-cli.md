@@ -488,3 +488,30 @@ design/                   # design docs (this directory)
   so module state stays consistent.
 - Validation: Rust unit tests in `core/cli` cover settings/completions.json parsing and the
   settings rebuild; the module's behavior is covered by manual smoke runs of each command.
+
+## Text output shape (the human view)
+
+The shells read this text directly, so the human view has a fixed, deliberately plain shape.
+Two levels only, and **a form never repeats what the caller already named**:
+
+| Form | Shape |
+| --- | --- |
+| `psc config` / `psc completion` (nothing named) | a `[group]` heading, then its rows — `key: value`, both at column 0 |
+| `psc config <group>` / `psc completion <name>` | the rows alone (`key: value`) — the caller named the group |
+| `psc config <group> <key>` / `psc completion <name> <key>` | the value alone, unquoted — the caller named the key |
+| `psc list` / `psc alias` | one record per line: `name: value, value` (a single level, so no headers) |
+| `psc info` (nothing named) / several names | a `[name]` heading, then its `Label: value` rows — the heading delimits, so there are no blank lines |
+| `psc info <name>` (one name) | the rows alone, at column 0 — and no `Name:` row: the caller said it |
+
+Rules that hold across all of them:
+
+- **Color is status, never data.** Only messages that report an action (`add`, `rm`, `update`,
+  the setters, `init`) are colored; every query is plain text.
+- **A listing keeps an empty or space-padded value visible** (`url: ""`) — the shell convention
+  for an empty argument — while a single-key read answers with the raw value (an empty line).
+- **`--json` is the machine contract.** It mirrors the same hierarchy; scripts parse it rather
+  than the human view, which is free to be phrased for people.
+- **Rows are never indented.** A `[heading]` delimits on its own, exactly like an ini section —
+  indentation bought nothing and cost readability (and parsing) in several places.
+- **A component is never mentioned twice**: no key in a single-key read, no group header under a
+  named group.

@@ -109,7 +109,7 @@ pub fn cmd_alias(
             } else {
                 for name in settings.list() {
                     let aliases = settings.alias.get(&name).cloned().unwrap_or_default();
-                    out.line(&format!("{name}: {}", aliases.join(" ")));
+                    out.line(&format!("{name}: {}", aliases.join(", ")));
                 }
             }
             ExitCode::SUCCESS

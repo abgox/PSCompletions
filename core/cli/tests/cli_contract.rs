@@ -720,7 +720,10 @@ fn text_config_bad_group_fails() {
     let d = make_data("txt-cfg-group", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["config", "badgroup"]);
     assert_eq!(code, 1);
-    assert!(out.contains("Invalid subcommand."), "{out}");
+    // The message names the offending token and the valid set, so the reader is not left
+    // guessing — this text is the interface in the shells.
+    assert!(out.contains("badgroup"), "{out}");
+    assert!(out.contains("core, menu, context"), "{out}");
 }
 
 #[test]

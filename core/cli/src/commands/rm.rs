@@ -64,7 +64,7 @@ pub fn cmd_rm(
         };
         if let Some(msg) = invalid {
             if !json {
-                out.line(&format!("{name} {msg}"));
+                out.line(&format!("{name}: {msg}"));
             }
             results.push(serde_json::json!({"completion": name, "ok": false, "error": msg}));
             continue;
