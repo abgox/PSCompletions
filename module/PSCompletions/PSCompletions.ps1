@@ -551,9 +551,11 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 path    = [string]$menuOrder.path
             }
         }
-        $input.data_dir = $PSCompletions.path.dir.data
-        $input.order_dir = $PSCompletions.path.dir.order
-        $input.menu_dir = $PSCompletions.path.dir.menu
+        $input.dir = @{
+            data  = $PSCompletions.path.dir.data
+            order = $PSCompletions.path.dir.order
+            menu  = $PSCompletions.path.dir.menu
+        }
         # Items mode forwards the line's tokens the same way: the engine derives the filter and
         # ignores it when it matches nothing, so no host needs its own rule.
         if ($null -ne $PSCompletions.menu.arg_tokens) {
@@ -819,10 +821,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $pscData = $null
         if ($cmd -eq 'psc') {
             $pscData = @{
-                settings         = $PSCompletions.path.file.settings
-                completions_json = $PSCompletions.path.file.completions
-                completions      = $PSCompletions.path.dir.completions
-                config           = @{
+                config = @{
                     language   = $PSCompletions.config.language
                     completion = $PSCompletions.config.completion
                 }
@@ -847,8 +846,15 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             global_config          = $PSCompletions.config
             data                   = $pscData
             order                  = $orderInfo
-            cache_dir              = $PSCompletions.path.dir.cache
-            log_dir                = $PSCompletions.path.dir.log
+            dir                    = @{
+                completions = $PSCompletions.path.dir.completions
+                cache       = $PSCompletions.path.dir.cache
+                log         = $PSCompletions.path.dir.log
+            }
+            file                   = @{
+                settings    = $PSCompletions.path.file.settings
+                completions = $PSCompletions.path.file.completions
+            }
         }
         if ([System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
             return ''

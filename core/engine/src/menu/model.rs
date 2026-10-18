@@ -8,15 +8,11 @@ pub struct Input {
     pub terminal: TerminalInfo,
     #[serde(default)]
     pub order: Option<OrderInfo>,
-    /// Order-cache directory (module temp dir) — the engine prunes stale order files on menu open.
+    /// Directories the host names: the data dir (`is_stale` reads `change.json` from it) and the
+    /// module's temp dirs — the order files, and the menu's own input/output files left behind by a
+    /// crashed session.
     #[serde(default)]
-    pub order_dir: String,
-    /// Menu temp directory — the engine prunes stale input/output files (left by crashed sessions) on menu open.
-    #[serde(default)]
-    pub menu_dir: String,
-    /// Data directory. Used by `is_stale` to locate `change.json`.
-    #[serde(default)]
-    pub data_dir: String,
+    pub dir: Dir,
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,
@@ -32,6 +28,21 @@ pub struct Input {
     /// the candidates and renders the menu in a single process call.
     #[serde(default)]
     pub build: Option<serde_json::Value>,
+}
+
+/// The three directories the menu needs, in the same `dir`/`file` vocabulary the host uses
+/// everywhere else.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct Dir {
+    /// Data directory (`change.json` lives in it).
+    #[serde(default)]
+    pub data: String,
+    /// Order-cache directory (module temp dir); the engine prunes stale order files on menu open.
+    #[serde(default)]
+    pub order: String,
+    /// Menu temp directory; the engine prunes stale input/output files on menu open.
+    #[serde(default)]
+    pub menu: String,
 }
 
 /// Input for the background ordering computation.

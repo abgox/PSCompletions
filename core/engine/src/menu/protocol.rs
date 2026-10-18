@@ -78,18 +78,39 @@ pub struct CompleteInput {
     /// `enable_cache`.
     #[serde(default)]
     pub global_config: serde_json::Value,
-    /// Module-level data (psc completion only): settings/completions_json paths + live config + menu colors.
+    /// Module-level data (psc completion only): live config + menu colors.
     #[serde(default)]
     pub data: serde_json::Value,
     /// Order-file paths, present when history sorting is enabled.
     #[serde(default)]
     pub order: Option<CompleteOrder>,
-    /// Result cache directory (module-managed temp dir); empty = caching disabled.
+    /// Directories: the psc completion's own tree, the result cache and the log dir (the last two
+    /// are module temp dirs; empty disables caching / logging).
     #[serde(default)]
-    pub cache_dir: String,
-    /// Directory for `psc.log` debug output (module-managed temp dir); empty = logging disabled.
+    pub dir: BuildDirs,
+    /// Files: the psc completion's settings and its index.
     #[serde(default)]
-    pub log_dir: String,
+    pub file: BuildFiles,
+}
+
+/// The directories a build context names.
+#[derive(serde::Deserialize, Clone, Default)]
+pub struct BuildDirs {
+    #[serde(default)]
+    pub completions: String,
+    #[serde(default)]
+    pub cache: String,
+    #[serde(default)]
+    pub log: String,
+}
+
+/// The files a build context names.
+#[derive(serde::Deserialize, Clone, Default)]
+pub struct BuildFiles {
+    #[serde(default)]
+    pub settings: String,
+    #[serde(default)]
+    pub completions: String,
 }
 
 /// Paths to the order files used to rank the candidate items.
@@ -118,7 +139,8 @@ pub fn build_psc_data(input: &CompleteInput) -> serde_json::Value {
         return data;
     }
     let d = input.data.as_object().unwrap();
-    if let Some(p) = d.get("settings").and_then(|s| s.as_str()) {
+    if !input.file.settings.is_empty() {
+        let p = input.file.settings.clone();
         if let Ok(t) = std::fs::read_to_string(p) {
             if let Ok(v) = serde_json::from_str::<serde_json::Value>(crate::strip_bom(&t)) {
                 if let Some(alias) = v.get("alias") {
@@ -132,7 +154,8 @@ pub fn build_psc_data(input: &CompleteInput) -> serde_json::Value {
             }
         }
     }
-    if let Some(p) = d.get("completions_json").and_then(|s| s.as_str()) {
+    if !input.file.completions.is_empty() {
+        let p = input.file.completions.clone();
         if let Ok(t) = std::fs::read_to_string(p) {
             if let Ok(v) = serde_json::from_str::<serde_json::Value>(crate::strip_bom(&t)) {
                 let remote: Vec<&str> = v
@@ -147,10 +170,15 @@ pub fn build_psc_data(input: &CompleteInput) -> serde_json::Value {
             }
         }
     }
-    for key in ["config", "menu_colors", "completions"] {
+    for key in ["config", "menu_colors"] {
         if let Some(v) = d.get(key) {
             data[key] = v.clone();
         }
+    }
+    // The completions directory is a protocol path now (`dir.completions`), but the hooks read it
+    // off the psc data they are handed — so the derived output keeps the name they know.
+    if !input.dir.completions.is_empty() {
+        data["completions"] = serde_json::json!(input.dir.completions);
     }
     data
 }
@@ -427,7 +455,7 @@ fn build_candidate_items_inner(
                             .to_string()
                     }),
                     cwd: input.cwd.clone(),
-                    log_dir: input.log_dir.clone(),
+                    log_dir: input.dir.log.clone(),
                 };
                 match hooks::run_hook_keepalive(&context, &script, &static_items) {
                     Ok((items, sess)) => (items, Some(sess)),
@@ -562,7 +590,7 @@ fn peek_predict_symbol_inner(
     peek.arg_tokens.push(candidate.to_string());
     peek.treat_last_as_complete = true;
     peek.order = None;
-    peek.log_dir = String::new();
+    peek.dir.log = String::new();
     let peek_items = match build_candidate_items(&peek) {
         Ok((items, _)) => items,
         Err(_) => return None,
@@ -575,7 +603,7 @@ fn peek_predict_symbol_inner(
     } else {
         let mut parent = input.clone();
         parent.order = None;
-        parent.log_dir = String::new();
+        parent.dir.log = String::new();
         let items = match build_candidate_items(&parent) {
             Ok((items, _)) => items,
             Err(_) => return None,
@@ -806,15 +834,11 @@ pub fn hook_signature(input: &CompleteInput, manifest_mtime: u64, hooks_mtime: O
 /// The module data files `build_psc_data` reads (`settings` / `completions_json` paths), used
 /// to invalidate the result cache when the installed/remote completion set changes.
 pub fn psc_data_file_paths(input: &CompleteInput) -> Vec<String> {
-    let mut out = Vec::new();
-    if let Some(d) = input.data.as_object() {
-        for key in ["settings", "completions_json"] {
-            if let Some(p) = d.get(key).and_then(|v| v.as_str()) {
-                out.push(p.to_string());
-            }
-        }
-    }
-    out
+    [&input.file.settings, &input.file.completions]
+        .iter()
+        .filter(|p| !p.is_empty())
+        .map(|p| p.to_string())
+        .collect()
 }
 
 pub fn file_mtime_nanos(path: &str) -> Option<u64> {
@@ -830,12 +854,12 @@ pub fn file_mtime_nanos(path: &str) -> Option<u64> {
 
 /// Try to load the cached hook result for this context. Returns `Some(items)` on a hit.
 pub fn cache_load(input: &CompleteInput, sig: u64) -> Option<Vec<hooks::LuaItem>> {
-    if input.cache_dir.is_empty() {
+    if input.dir.cache.is_empty() {
         return None;
     }
     let path = format!(
         "{}/{}.json",
-        input.cache_dir.trim_end_matches(['/', '\\']),
+        input.dir.cache.trim_end_matches(['/', '\\']),
         sig
     );
     let text = std::fs::read_to_string(&path).ok()?;
@@ -894,11 +918,11 @@ pub fn cache_cleanup(cache_dir: &str) {
 
 /// Write the hook result to the cache (only when caching is enabled).
 pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
-    if input.cache_dir.is_empty() {
+    if input.dir.cache.is_empty() {
         return;
     }
-    let dir = input.cache_dir.trim_end_matches(['/', '\\']);
-    cache_cleanup(&input.cache_dir);
+    let dir = input.dir.cache.trim_end_matches(['/', '\\']);
+    cache_cleanup(&input.dir.cache);
     let _ = std::fs::create_dir_all(dir);
     let path = format!("{dir}/{sig}.json");
     let now = std::time::SystemTime::now()
@@ -911,6 +935,53 @@ pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
 
 #[cfg(test)]
 mod tests {
+    /// The build context's `dir`/`file` are what `build_psc_data` reads: the index feeds `remote`
+    /// and the settings feed `list`/`alias`, and the completions directory reaches the hooks.
+    #[test]
+    fn build_psc_data_reads_the_named_files() {
+        let dir = std::env::temp_dir().join(format!("psc-pscdata-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(
+            dir.join("settings.json"),
+            r#"{"alias":{"git":["git","g"]}}"#,
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("index.json"),
+            r#"{"update":{"demo-a":"v1","demo-b":"v1"},"meta":{"demo-a":{"id":"a"}}}"#,
+        )
+        .unwrap();
+        let input: CompleteInput = serde_json::from_value(serde_json::json!({
+            "cmd": "psc",
+            "arg_tokens": ["add"],
+            "manifest": "/tmp/x/en-US.json",
+            "data": {"config": {"language": "en-US"}},
+            "dir": {"completions": "/tmp/x/completions"},
+            "file": {
+                "settings": dir.join("settings.json").to_string_lossy(),
+                "completions": dir.join("index.json").to_string_lossy(),
+            },
+        }))
+        .unwrap();
+        let data = build_psc_data(&input);
+        assert_eq!(data["list"], serde_json::json!(["git"]), "{data}");
+        assert_eq!(
+            data["remote"],
+            serde_json::json!(["demo-a", "demo-b"]),
+            "{data}"
+        );
+        assert_eq!(
+            data["completions"],
+            serde_json::json!("/tmp/x/completions"),
+            "{data}"
+        );
+        assert_eq!(
+            data["config"]["language"],
+            serde_json::json!("en-US"),
+            "{data}"
+        );
+    }
+
     use super::*;
 
     #[test]
@@ -1099,8 +1170,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_eq!(peek_predict_symbol(&input, "--aaa"), Some("stay".into()));
         // Sanity: a subcommand with static candidates still predicts `switch`.
@@ -1137,8 +1208,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_eq!(peek_predict_symbol(&input, "--aaa"), Some("stay".into()));
         assert_eq!(peek_predict_symbol(&input, "--bbb"), Some("stay".into()));
@@ -1171,8 +1242,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_eq!(
             peek_predict_symbol(&base, "--allow-file"),
@@ -1206,8 +1277,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": true }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         }
     }
 
@@ -1274,7 +1345,8 @@ mod tests {
         );
         // Module data file paths are part of the context (psc completion).
         let mut c = sample_input();
-        c.data = serde_json::json!({ "settings": "/tmp/x/settings.json", "completions_json": "/tmp/x/temp/completions.json" });
+        c.file.settings = "/tmp/x/settings.json".to_string();
+        c.file.completions = "/tmp/x/temp/completions.json".to_string();
         assert_ne!(hook_signature(&c, mtime, None), sig, "data must change");
     }
 
@@ -1300,8 +1372,8 @@ mod tests {
         let mut input = sample_input();
         input.manifest = lang.join("en-US.json").to_string_lossy().to_string();
         input.arg_tokens = vec!["install".into()];
-        input.cache_dir = dir.join("cache").to_string_lossy().to_string();
-        input.log_dir = log_dir.to_string_lossy().to_string();
+        input.dir.cache = dir.join("cache").to_string_lossy().to_string();
+        input.dir.log = log_dir.to_string_lossy().to_string();
         input.global_config = serde_json::json!({ "enable_cache": true });
         std::fs::write(
             dir.join("hooks.lua"),
@@ -1340,7 +1412,7 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         let mut input = sample_input();
-        input.cache_dir = dir.to_string_lossy().to_string();
+        input.dir.cache = dir.to_string_lossy().to_string();
         let sig = hook_signature(&input, 1000, None);
         let items = vec![
             hooks::LuaItem {
@@ -1358,7 +1430,7 @@ mod tests {
         assert_eq!(loaded[0].text, "7zip");
         // Different signature must not hit.
         let mut other = sample_input();
-        other.cache_dir = input.cache_dir.clone();
+        other.dir.cache = input.dir.cache.clone();
         let other_sig = hook_signature(&other, 2000, None);
         assert!(cache_load(&other, other_sig).is_none());
         let _ = std::fs::remove_dir_all(&dir);
@@ -1370,7 +1442,7 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
         let mut input = sample_input();
-        input.cache_dir = dir.to_string_lossy().to_string();
+        input.dir.cache = dir.to_string_lossy().to_string();
         let sig = hook_signature(&input, 1000, None);
         cache_store(
             &input,
@@ -1684,8 +1756,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
 
         // `a --exclude=aa,<Tab>`: the pending token is `aa,` (tail empty) and the
@@ -1781,8 +1853,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_ne!(peek_predict_symbol(&input, "-m"), Some("switch".into()));
     }
@@ -1812,8 +1884,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_eq!(peek_predict_symbol(&input, "-B"), Some("switch".into()));
         assert_eq!(peek_predict_symbol(&input, "-b"), Some("stay".into()));
@@ -1844,8 +1916,8 @@ mod tests {
             global_config: serde_json::json!({ "enable_cache": 0 }),
             data: serde_json::Value::Null,
             order: None,
-            cache_dir: String::new(),
-            log_dir: String::new(),
+            dir: BuildDirs::default(),
+            file: BuildFiles::default(),
         };
         assert_eq!(peek_predict_symbol(&input, "RUN"), Some("switch".into()));
         let _ = std::fs::remove_dir_all(&dir);

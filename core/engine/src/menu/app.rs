@@ -130,12 +130,12 @@ pub fn run(input_path: &str, mut session: Option<HookSession>) -> Output {
     if let Some(ord) = input.order.clone() {
         std::thread::spawn(move || crate::menu::order::compute_and_write_order(&ord));
     }
-    if !input.order_dir.is_empty() {
-        let dir = input.order_dir.clone();
+    if !input.dir.order.is_empty() {
+        let dir = input.dir.order.clone();
         std::thread::spawn(move || crate::menu::order::cleanup_stale_order_files(&dir));
     }
-    if !input.menu_dir.is_empty() {
-        let dir = input.menu_dir.clone();
+    if !input.dir.menu.is_empty() {
+        let dir = input.dir.menu.clone();
         std::thread::spawn(move || cleanup_stale_menu_files(&dir));
     }
 
@@ -148,7 +148,7 @@ pub fn run(input_path: &str, mut session: Option<HookSession>) -> Output {
 
     let mut cfg = input.config;
     cfg.resolve_tip_flags();
-    if is_stale(&input.data_dir, &input.order_dir, &input.menu_dir) {
+    if is_stale(&input.dir.data, &input.dir.order, &input.dir.menu) {
         let stale = cfg.filter_hint_stale.trim();
         if !stale.is_empty() {
             if cfg.filter_hint.is_empty() {
@@ -268,7 +268,7 @@ pub fn run(input_path: &str, mut session: Option<HookSession>) -> Output {
                 // Pre-compute parent items once (silent: no psc.log).
                 let mut parent_input = pi.clone();
                 parent_input.order = None;
-                parent_input.log_dir = String::new();
+                parent_input.dir.log = String::new();
                 let parent_items: Vec<crate::engine::hooks::LuaItem> =
                     match crate::menu::protocol::build_candidate_items(&parent_input) {
                         Ok((items, _)) => items,

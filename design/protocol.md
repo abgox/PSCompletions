@@ -91,16 +91,19 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
   "config": { "flags": {}, "context_switch": "~", "context_stay": "?" },
   "terminal": { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
   "order": { "history": "...", "cmd": "git", "aliases": ["git"], "path": "..." },
-  "data_dir": "<resolved data directory>",
-  "order_dir": "<order cache directory>",
-  "menu_dir": "<menu temp directory>",
+  "dir": {
+    "data": "<resolved data directory>",
+    "order": "<order cache directory>",
+    "menu": "<menu temp directory>"
+  },
   "initial_filter": "^to",
   "arg_tokens": ["add", "to"],
   "treat_last_as_complete": false
 }
 ```
 
-Fields: `items` | `build`, `config`, `terminal`, `order`?, `data_dir`, `order_dir`, `menu_dir`,
+Fields: `items` | `build`, `config`, `terminal`, `order`?, `dir` (the data / order / menu
+directories),
 `initial_filter`?, `arg_tokens`?, `treat_last_as_complete`?.
 
 `arg_tokens` / `treat_last_as_complete` are the **same pair build mode uses** (below): the tokens
@@ -109,13 +112,13 @@ In items mode the engine derives `initial_filter` (`^<pending>`) from them, so e
 filter by one rule instead of re-implementing it — and it **ignores** a filter that matches no item,
 leaving the menu unfiltered rather than empty.
 
-`data_dir` (optional) is the resolved runtime data directory; the engine uses it to locate
+`dir.data` (optional) is the resolved runtime data directory; the engine uses it to locate
 host-side state such as `temp/change.json`.
 
-`order_dir` (optional, always set by the module) is the order-cache directory; the engine prunes
+`dir.order` (optional, always set by the module) is the order-cache directory; the engine prunes
 stale files (older than 90 days) from it in a background thread on each menu open.
 
-`menu_dir` (optional, always set by the module) is the menu temp directory (`temp/menu`); the engine
+`dir.menu` (optional, always set by the module) is the menu temp directory (`temp/menu`); the engine
 prunes stale files (older than 30 minutes) from it in a background thread on each menu open — a
 fallback for input/output files orphaned by a crashed or force-killed menu session (normal
 invocations delete them immediately).
@@ -129,7 +132,8 @@ candidates itself before rendering:
 { "build": { "cmd": "git", "arg_tokens": ["add"], "treat_last_as_complete": false,
              "manifest": "<manifest .json path>", "hooks": true, "cwd": "...",
              "config": { }, "global_config": { "enable_cache": true, "language": "en-US" },
-             "data": { }, "cache_dir": "...", "log_dir": "...",
+             "data": { }, "dir": { "completions": "...", "cache": "...", "log": "..." },
+             "file": { "settings": "...", "completions": "..." },
              "order": { "cmd_order": "...", "paths_order": "...", "commands_order": "..." } },
   "config": { }, "terminal": { } }
 ```
@@ -151,9 +155,12 @@ candidates itself before rendering:
   `enable_cache` (result caching).
 - `data` — module-level runtime data (`psc` completion only): settings/completions paths + live
   config; empty/absent elsewhere.
-- `cache_dir` — result-cache directory (`temp/cache`); empty disables caching (see
+- `dir.cache` — result-cache directory (`temp/cache`); empty disables caching (see
   `design/menu.md`).
-- `log_dir` — `psc.log` debug-output directory (`temp/log`); empty disables logging.
+- `dir.log` — `psc.log` debug-output directory (`temp/log`); empty disables logging.
+- `dir.completions` — the completions directory (handed to the hooks as `psc.data.completions`).
+- `file.settings` / `file.completions` — the psc completion's settings and its index (`temp/completions.json`);
+  the engine reads them to derive `psc.data.list` / `alias` / `remote` / `meta`.
 - `order` — history-order file paths used to rank the candidates (see `design/menu.md`).
 - Build produces `Item`s: the engine resolves the manifest tree, runs hooks, order-sorts, maps
   `switch` / `stay` symbols through `context_switch` / `context_stay`. When the host leaves

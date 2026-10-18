@@ -54,8 +54,7 @@ file with the built items, then opens the TUI. The full contract is in
     "hooks": true,
     "cwd": "/tmp/psc-e2e/t",
     "config": {}, "global_config": {}, "data": {},
-    "cache_dir": "",
-    "log_dir": "/tmp/psc-e2e/log"
+    "dir": { "completions": "/tmp/psc-e2e/completions", "cache": "", "log": "/tmp/psc-e2e/log" },
   },
   "config": { "flags": {} },
   "terminal": {
@@ -71,9 +70,9 @@ Field notes:
 - `manifest` points at the language file; the hook is located by replacing
   `<cmd>/language/<lang>.json` with `<cmd>/hooks.lua` (see `menu/protocol.rs`
   `hooks_path`), so a fixture must mirror that layout.
-- `log_dir` non-empty enables `psc.log` → `debug.log`; hook errors
+- `dir.log` non-empty enables `psc.log` → `debug.log`; hook errors
   (e.g. unknown `psc.on` targets) land in `error.log`.
-- `cache_dir: ""` disables the 10-second result cache, so every run rebuilds.
+- `dir.cache: ""` disables the 10-second result cache, so every run rebuilds.
 
 ## 3. The TUI blocks — launch, wait, kill, read back
 
@@ -149,7 +148,7 @@ Recipes worth reusing:
   token becomes the pending typing and the specs fire.
 - A `psc.on` handler that never fires is usually slot gating (above) or an
   unknown target — the latter is logged to `error.log`, never raised.
-- `debug.log` only grows when `log_dir` is non-empty; an empty `debug.log` after
+- `debug.log` only grows when `dir.log` is non-empty; an empty `debug.log` after
   a run means logging was off, not that the hook was silent.
 
 ## 6. The CLI contract tests open exactly one port
