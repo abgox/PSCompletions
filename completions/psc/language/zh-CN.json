@@ -23,9 +23,15 @@
       ],
       "option": [
         {
-          "name": "--all",
+          "name": "--json",
           "tip": [
-            "添加所有的补全。"
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc add git --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
           ]
         }
       ]
@@ -51,6 +57,24 @@
         {
           "cmd": "alias --reset",
           "desc": "从 config.json 恢复所有触发别名"
+        }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc alias --json",
+              "desc": "输出: {\"data\": {\"aliases\": [{\"alias\": [\"git\", \"g\"], \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc alias add git gg --json",
+              "desc": "输出: {\"data\": {\"alias\": [\"gg\"], \"name\": \"git\", \"rejected\": []}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
         }
       ],
       "next": [
@@ -123,6 +147,29 @@
           "cmd": "completion git --reset",
           "desc": "重置 git 的所有特殊配置"
         }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。",
+            "写入会返回对应读取的形状，外加 \"old\"，也就是它替换掉的原值。"
+          ],
+          "example": [
+            {
+              "cmd": "psc completion --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"config\": {\"max_commit\": 30}, \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc completion git --json",
+              "desc": "输出: {\"data\": {\"config\": {\"max_commit\": 30}, \"name\": \"git\"}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc completion git max_commit --json",
+              "desc": "输出: {\"data\": {\"key\": \"max_commit\", \"name\": \"git\", \"value\": 30}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
@@ -150,6 +197,25 @@
         {
           "cmd": "config --reset",
           "desc": "将所有配置项重置为默认值"
+        }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。",
+            "写入会返回对应读取的形状，外加 \"old\"，也就是它替换掉的原值。"
+          ],
+          "example": [
+            {
+              "cmd": "psc config --json",
+              "desc": "输出: {\"data\": {\"config\": [{\"group\": \"core\", \"key\": \"language\", \"value\": \"en-US\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc config core language --json",
+              "desc": "输出: {\"data\": {\"key\": \"language\", \"value\": \"en-US\"}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
         }
       ],
       "next": [
@@ -801,6 +867,7 @@
               "name": "show_mode",
               "tip": [
                 "设置补全菜单的显示模式。",
+                "能否跟随输入行取决于所在 Shell 的能力支持。",
                 "非 Windows 平台没有内联渲染（inline），总是会回退为备用屏幕（altscreen）。"
               ],
               "example": [
@@ -1597,12 +1664,44 @@
           "cmd": "info git scoop",
           "desc": "返回 git 和 scoop 补全的相关信息"
         }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc info --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"alias\": [\"git\"], \"description\": null, \"name\": \"git\", \"ok\": true, \"path\": \"…\", \"update\": null, \"updated\": null, \"url\": null}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc info zzz-nope --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"error\": {\"code\": \"not_available\", \"message\": \"…\"}, \"name\": \"zzz-nope\", \"ok\": false}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
       "name": "list",
       "tip": [
         "显示已经添加的补全。"
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc list --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"alias\": [\"git\", \"g\"], \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
@@ -1629,6 +1728,18 @@
           "name": "--all",
           "tip": [
             "移除所有的补全。"
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc rm git --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
           ]
         }
       ]
@@ -1668,6 +1779,22 @@
           ]
         },
         {
+          "name": "--json",
+          "tip": [
+            "输出机器可读的 JSON 信封，而不是文本视图。"
+          ],
+          "example": [
+            {
+              "cmd": "psc update --json",
+              "desc": "输出: {\"data\": {\"added\": [], \"removed\": [], \"renamed\": [], \"update\": []}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc update git --json",
+              "desc": "输出: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        },
+        {
           "name": "--old",
           "tip": [
             "只更新已过时的补全。"
@@ -1676,7 +1803,7 @@
       ]
     }
   ],
-  "option": [
+  "global_option": [
     {
       "name": "--reset",
       "tip": [
@@ -1705,41 +1832,13 @@
   ],
   "info": {
     "add": {
-      "all_confirm": [
-        "<@Yellow>确定要添加所有补全吗？\n",
-        "注意：部分补全存在变体，全量添加会相互覆盖，推荐按需添加。\n",
-        "按下 <@Magenta>Enter<@Yellow> 键继续，或按下 <@Magenta>其他键<@Yellow> 取消。"
-      ],
       "done": [
         "<@Cyan>[添加补全]\n",
-        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
+        "<@Magenta>{{Display or Completion}}\n",
         "<@Cyan>[触发别名]\n",
-        "<@Magenta>",
-        "{{",
-        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$alias -join \"`n\";",
-        "\"`n<@Cyan>[特殊配置]\";",
-        "if($json.config -or $config.hooks -ne $null){",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
-        "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        "} else { \"`n<@Yellow>无\" };",
-        "\"`n\";",
-        "}}"
-      ],
-      "waiting": [
-        "<@Cyan>正在添加补全，请等待..."
+        "<@Magenta>{{#each Alias sep='\n'}}{{.}}{{/each}}\n",
+        "<@Cyan>[特殊配置]\n",
+        "{{#if Configs}}{{#each Configs sep='\n\n'}}<@Magenta>{{.Name|quote}}<@Blue>:\n默认值: {{.Value|quote}}\n{{#if .Current}}当前值: <@Magenta>{{.Current|quote}}<@Blue>\n{{/if}}{{.Tip}}{{/each}}\n{{else}}<@Yellow>无\n{{/if}}"
       ]
     },
     "alias": {
@@ -1747,10 +1846,7 @@
         "tip_v": [
           "移除此触发别名。"
         ]
-      },
-      "skipped": [
-        "<@Yellow>触发别名 <@Magenta>{{ $alias }}<@Yellow> 已被 <@Magenta>{{ $owner }}<@Yellow> 占用，已跳过。"
-      ]
+      }
     },
     "completion": {
       "enable_hooks": {
@@ -1760,36 +1856,39 @@
       },
       "enable_tip": {
         "tip": [
-          "设置 {{ $completion }} 是否显示补全提示信息"
+          "设置 {{Completion}} 是否显示补全提示信息"
         ]
       },
       "enable_tip_example": {
         "tip": [
-          "设置 {{ $completion }} 的补全提示信息中是否显示示例部分（需启用 enable_tip）"
+          "设置 {{Completion}} 的补全提示信息中是否显示示例部分（需启用 enable_tip）"
         ]
       },
       "enable_tip_usage": {
         "tip": [
-          "设置 {{ $completion }} 的补全提示信息中是否显示用法部分（需启用 enable_tip）"
+          "设置 {{Completion}} 的补全提示信息中是否显示用法部分（需启用 enable_tip）"
         ]
       },
       "language": {
         "tip": [
-          "设置 {{ $completion }} 的语言"
+          "设置 {{Completion}} 的语言"
         ],
-        "tip_v": "设置语言为 {{ $language }}。"
+        "tip_v": "设置语言为 {{Language}}。"
       }
     },
     "confirm_cancel": "<@Green>操作取消!",
     "description": [
+      "<@Blue>PSCompletions (<@Magenta>psc<@Cyan>)\n",
+      "\n",
       "<@Cyan>[模块描述]\n",
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) - 适用于 PowerShell 的 Tab 补全管理器\n",
+      "<@Blue>Powerful Shell Completions<@Cyan> — <@Blue>面向 PowerShell 与其他 Shell，由 Rust 与 Lua 驱动\n",
       "\n",
       "<@Cyan>[模块版本]\n",
-      "<@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "<@Magenta>{{Version}}<@Cyan>\n",
       "\n",
       "<@Cyan>[版本日志]\n",
       "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
+      "AtomGit: <@Blue>https://atomgit.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
       "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
       "\n",
       "<@Cyan>[模块用法]\n",
@@ -1797,7 +1896,7 @@
       "运行 <@Magenta>psc<@Cyan> 会再次显示此页内容，并重载模块的按键绑定和数据\n",
       "\n",
       "<@Cyan>[补全菜单]\n",
-      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的补全菜单，基于 Rust + Lua 构建\n",
+      "<@Blue>PSCompletions<@Cyan> 提供了一个强大的补全菜单\n",
       "\n",
       "可以输入字符进行过滤:\n",
       "  - 普通文本匹配包含它的项: <@Magenta>co<@Cyan> 能匹配 <@Magenta>config<@Cyan>、<@Magenta>completion<@Cyan> 等\n",
@@ -1825,14 +1924,10 @@
       "  - 使用路径标识符可以显式获取路径补全: <@Magenta>/<@Cyan> <@Magenta>./<@Cyan> <@Magenta>../<@Cyan> <@Magenta>~/<@Cyan> | <@Magenta>\\<@Cyan> <@Magenta>.\\<@Cyan> <@Magenta>..\\<@Cyan> <@Magenta>~\\<@Cyan>\n",
       "  - 参考: <@Blue>https://pscompletions.abgox.com/docs/path-completion<@Cyan>\n",
       "\n",
-      "<@Cyan>[全局命名]\n",
-      "<@Blue>PSCompletions<@Cyan> 会占用两个全局命名，<@Yellow>它们是只读的，不应该修改或覆盖它们<@Cyan>\n",
-      "  <@Magenta>PSCompletions<@Cyan>: 函数名, 模块导出的核心函数，<@Magenta>psc<@Cyan> 是它的别名\n",
-      " <@Magenta>$PSCompletions<@Cyan>: 变量名, 存储模块的相关数据\n",
-      "\n",
       "<@Cyan>[其他内容]\n",
       "Website : <@Blue>https://pscompletions.abgox.com<@Cyan>\n",
       "GitHub  : <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
+      "AtomGit : <@Blue>https://atomgit.com/abgox/PSCompletions<@Cyan>\n",
       "Gitee   : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
       "\n",
       "如果 <@Blue>PSCompletions<@Cyan> 对你有所帮助, 请给这个项目一个 <@Yellow>Star<@Cyan>",
@@ -1843,7 +1938,7 @@
     "menu": {
       "config": {
         "err": {
-          "trigger_key": "<@Magenta>{{ $arg[3] }}<@Red> 不是一个可用的按键映射，修改失败"
+          "trigger_key": "<@Magenta>{{Rejected}}<@Red> 不是一个可用的按键映射。"
         }
       }
     },
@@ -1853,7 +1948,7 @@
         "\n",
         "<@Cyan>PSCompletions 更新了版本:\n",
         "<@Cyan>[版本]\n",
-        "<@Blue><@Magenta>{{ $PSCompletions.version }} <@Cyan>> <@Magenta>{{ $PSCompletions.new_version }}\n",
+        "<@Blue><@Magenta>{{Version}} <@Cyan>> <@Magenta>{{NewVersion}}\n",
         "<@Cyan>[日志]\n",
         "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
         "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.zh-CN.md<@Cyan>\n",
@@ -1865,8 +1960,6 @@
       ]
     },
     "param_err": "<@Red>传入的参数错误。",
-    "param_max": "<@Red>传入的参数过多。",
-    "param_min": "<@Red>传入的参数过少。",
     "reset": {
       "init_confirm": [
         "<@Yellow>确定要完全重置 PSCompletions 模块？\n",
@@ -1883,72 +1976,30 @@
         "<@Yellow>确定要移除所有补全吗？\n",
         "按下 <@Magenta>Enter<@Yellow> 键继续，或按下 <@Magenta>其他键<@Yellow> 取消。"
       ],
-      "done": "<@Green>补全 <@Magenta>{{ $completion }}<@Green> 成功被移除"
+      "done": "<@Green>补全 <@Magenta>{{Completion}}<@Green> 成功被移除"
     },
-    "set_value": "设置为 {{ $value }}。",
+    "set_value": "设置为 {{Value}}。",
+    "too_few_params": "<@Red>传入的参数过少。",
+    "too_many_params": "<@Red>传入的参数过多。",
     "update": {
       "done": [
         "<@Cyan>[更新补全]\n",
-        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
+        "<@Magenta>{{Display or Completion}}\n",
         "<@Cyan>[触发别名]\n",
-        "<@Magenta>",
-        "{{",
-        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$alias -join \"`n\";",
-        "\"`n<@Cyan>[特殊配置]\";",
-        "if($json.config -or $config.hooks -ne $null){",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   '默认值: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
-        "   if ($v -ne $null){ '当前值: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        "} else { \"`n<@Yellow>无\" };",
-        "\"`n\";",
-        "}}"
+        "<@Magenta>{{#each Alias sep='\n'}}{{.}}{{/each}}\n",
+        "<@Cyan>[特殊配置]\n",
+        "{{#if Configs}}{{#each Configs sep='\n\n'}}<@Magenta>{{.Name|quote}}<@Blue>:\n默认值: {{.Value|quote}}\n{{#if .Current}}当前值: <@Magenta>{{.Current|quote}}<@Blue>\n{{/if}}{{.Tip}}{{/each}}\n{{else}}<@Yellow>无\n{{/if}}"
       ],
       "no": "<@Green>已添加的补全都是最新的！",
-      "skip": "<@Yellow>{{ $completion }} 是本地链接的补全，跳过更新。"
+      "skip": "<@Yellow>{{Completion}} 是本地链接的补全，跳过更新。"
     },
     "update_info": [
       "\n",
       "<@Cyan>PSCompletions 更新了补全库:\n",
-      "{{",
-      "$LIM = 100;",
-      "$cap = { param($l) $c = @($l); if($c.Count -gt $LIM){ (@($c[0..($LIM - 1)]) + \"... (+$($c.Count - $LIM))\") } else { $c } };",
-      "if($PSCompletions.added){",
-      "\"<@Cyan>[新增]<@Cyan>`n\";",
-      "\"<@Magenta>$((& $cap $PSCompletions.added) -join ' ')<@Cyan>`n\";",
-      "};",
-      "if($PSCompletions.removed){",
-      "\"<@Cyan>[移除]<@Cyan>`n\";",
-      "\"<@Magenta>$((& $cap $PSCompletions.removed) -join ' ')<@Cyan>`n\";",
-      "};",
-      "$updList = @(& $cap @($PSCompletions.update));",
-      "$renameList = @();",
-      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
-      "$renameList = @(& $cap $renameList);",
-      "if($updList -or $renameList){",
-      "\"<@Cyan>[更新]<@Cyan>`n\";",
-      "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
-      "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
-      "};",
-      "$tips = @();",
-      "if($PSCompletions.added){ $tips += '<@Magenta>psc add <completion><@Cyan>' };",
-      "if($updList -or $renameList){ $tips += '<@Magenta>psc update --old<@Cyan>' };",
-      "if($tips){",
-      "\"<@Cyan>[建议]<@Cyan>`n\";",
-      "($tips | ForEach-Object { \"$_`n\" }) -join '';",
-      "};",
-      "}}"
+      "{{#if Added}}<@Cyan>[新增]<@Cyan>\n<@Magenta>{{#each Added limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}",
+      "{{#if Removed}}<@Cyan>[移除]<@Cyan>\n<@Magenta>{{#each Removed limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}",
+      "{{#if Update or Renamed}}<@Cyan>[更新]<@Cyan>\n{{#if Update}}<@Magenta>{{#each Update limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}{{#each Renamed limit=100}}<@Magenta>{{.0}} > {{.1}}<@Cyan>\n{{/each}}{{#if @more}}<@Magenta>... (+{{@more}})<@Cyan>\n{{/if}}{{/if}}",
+      "{{#if Added or Update or Renamed}}<@Cyan>[建议]<@Cyan>\n{{#if Added}}<@Magenta>psc add <completion><@Cyan>\n{{/if}}{{#if Update or Renamed}}<@Magenta>psc update --old<@Cyan>\n{{/if}}{{/if}}"
     ]
   }
 }

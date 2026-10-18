@@ -23,9 +23,15 @@
       ],
       "option": [
         {
-          "name": "--all",
+          "name": "--json",
           "tip": [
-            "Add all completions."
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc add git --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
           ]
         }
       ]
@@ -51,6 +57,24 @@
         {
           "cmd": "alias --reset",
           "desc": "Restore all trigger aliases from config.json"
+        }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc alias --json",
+              "desc": "Output: {\"data\": {\"aliases\": [{\"alias\": [\"git\", \"g\"], \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc alias add git gg --json",
+              "desc": "Output: {\"data\": {\"alias\": [\"gg\"], \"name\": \"git\", \"rejected\": []}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
         }
       ],
       "next": [
@@ -123,6 +147,29 @@
           "cmd": "completion git --reset",
           "desc": "Reset all of git's special config"
         }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view.",
+            "A write answers its read's shape plus \"old\", the value it replaced."
+          ],
+          "example": [
+            {
+              "cmd": "psc completion --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"config\": {\"max_commit\": 30}, \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc completion git --json",
+              "desc": "Output: {\"data\": {\"config\": {\"max_commit\": 30}, \"name\": \"git\"}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc completion git max_commit --json",
+              "desc": "Output: {\"data\": {\"key\": \"max_commit\", \"name\": \"git\", \"value\": 30}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
@@ -150,6 +197,25 @@
         {
           "cmd": "config --reset",
           "desc": "Reset all config keys to their defaults"
+        }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view.",
+            "A write answers its read's shape plus \"old\", the value it replaced."
+          ],
+          "example": [
+            {
+              "cmd": "psc config --json",
+              "desc": "Output: {\"data\": {\"config\": [{\"group\": \"core\", \"key\": \"language\", \"value\": \"en-US\"}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc config core language --json",
+              "desc": "Output: {\"data\": {\"key\": \"language\", \"value\": \"en-US\"}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
         }
       ],
       "next": [
@@ -803,6 +869,7 @@
               "name": "show_mode",
               "tip": [
                 "Set the display mode of the completion menu.",
+                "Whether a mode can follow the input line depends on the shell's support.",
                 "Non-Windows has no inline rendering: it always falls back to the alternate screen."
               ],
               "example": [
@@ -1599,12 +1666,44 @@
           "cmd": "info git scoop",
           "desc": "Get the information of git and scoop"
         }
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc info --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"alias\": [\"git\"], \"description\": null, \"name\": \"git\", \"ok\": true, \"path\": \"…\", \"update\": null, \"updated\": null, \"url\": null}]}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc info zzz-nope --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"error\": {\"code\": \"not_available\", \"message\": \"…\"}, \"name\": \"zzz-nope\", \"ok\": false}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
       "name": "list",
       "tip": [
         "Display the completions that have been added."
+      ],
+      "option": [
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc list --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"alias\": [\"git\", \"g\"], \"name\": \"git\"}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        }
       ]
     },
     {
@@ -1631,6 +1730,18 @@
           "name": "--all",
           "tip": [
             "Remove all completions."
+          ]
+        },
+        {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc rm git --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
           ]
         }
       ]
@@ -1670,6 +1781,22 @@
           ]
         },
         {
+          "name": "--json",
+          "tip": [
+            "Output the machine-readable JSON envelope instead of the text view."
+          ],
+          "example": [
+            {
+              "cmd": "psc update --json",
+              "desc": "Output: {\"data\": {\"added\": [], \"removed\": [], \"renamed\": [], \"update\": []}, \"meta\": {}, \"ok\": true}"
+            },
+            {
+              "cmd": "psc update git --json",
+              "desc": "Output: {\"data\": {\"completions\": [{\"name\": \"git\", \"ok\": true}]}, \"meta\": {}, \"ok\": true}"
+            }
+          ]
+        },
+        {
           "name": "--old",
           "tip": [
             "Update only outdated completions."
@@ -1678,7 +1805,7 @@
       ]
     }
   ],
-  "option": [
+  "global_option": [
     {
       "name": "--reset",
       "tip": [
@@ -1707,41 +1834,13 @@
   ],
   "info": {
     "add": {
-      "all_confirm": [
-        "<@Yellow>Are you sure you want to add all completions?\n",
-        "Note: Some completions have variants that will override each other if all are added, so it's recommended to add only what you need.\n",
-        "Press <@Magenta>Enter<@Yellow> to continue or <@Magenta>any other key<@Yellow> to cancel."
-      ],
       "done": [
         "<@Cyan>[Add Completion]\n",
-        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
+        "<@Magenta>{{Display or Completion}}\n",
         "<@Cyan>[Trigger Alias]\n",
-        "<@Magenta>",
-        "{{",
-        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$alias -join \"`n\";",
-        "\"`n<@Cyan>[Special Configuration]\";",
-        "if($json.config -or $config.hooks -ne $null){",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
-        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        "} else { \"`n<@Yellow>None\" };",
-        "\"`n\";",
-        "}}"
-      ],
-      "waiting": [
-        "<@Cyan>Adding completions, please wait..."
+        "<@Magenta>{{#each Alias sep='\n'}}{{.}}{{/each}}\n",
+        "<@Cyan>[Special Configuration]\n",
+        "{{#if Configs}}{{#each Configs sep='\n\n'}}<@Magenta>{{.Name|quote}}<@Blue>:\nDefault Value: {{.Value|quote}}\n{{#if .Current}}Current Value: <@Magenta>{{.Current|quote}}<@Blue>\n{{/if}}{{.Tip}}{{/each}}\n{{else}}<@Yellow>None\n{{/if}}"
       ]
     },
     "alias": {
@@ -1749,10 +1848,7 @@
         "tip_v": [
           "Remove this trigger alias."
         ]
-      },
-      "skipped": [
-        "<@Yellow>Trigger alias <@Magenta>{{ $alias }}<@Yellow> is already owned by <@Magenta>{{ $owner }}<@Yellow>, skipped."
-      ]
+      }
     },
     "completion": {
       "enable_hooks": {
@@ -1762,36 +1858,39 @@
       },
       "enable_tip": {
         "tip": [
-          "Set whether to display completion tip for {{ $completion }}."
+          "Set whether to display completion tip for {{Completion}}."
         ]
       },
       "enable_tip_example": {
         "tip": [
-          "Set whether to display the example section in the completion tip for {{ $completion }} (applies when enable_tip is on)."
+          "Set whether to display the example section in the completion tip for {{Completion}} (applies when enable_tip is on)."
         ]
       },
       "enable_tip_usage": {
         "tip": [
-          "Set whether to display the usage section in the completion tip for {{ $completion }} (applies when enable_tip is on)."
+          "Set whether to display the usage section in the completion tip for {{Completion}} (applies when enable_tip is on)."
         ]
       },
       "language": {
         "tip": [
-          "Set the language of {{ $completion }}."
+          "Set the language of {{Completion}}."
         ],
-        "tip_v": "Set language to {{ $language }}."
+        "tip_v": "Set language to {{Language}}."
       }
     },
     "confirm_cancel": "<@Green>The operation has been canceled.",
     "description": [
+      "<@Blue>PSCompletions (<@Magenta>psc<@Cyan>)\n",
+      "\n",
       "<@Cyan>[Module Description]\n",
-      "<@Blue>PSCompletions(<@Magenta>psc<@Cyan>) - A tab-completion manager for PowerShell\n",
+      "<@Blue>Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.\n",
       "\n",
       "<@Cyan>[Module Version]\n",
-      "<@Magenta>{{ $PSCompletions.version }}<@Cyan>\n",
+      "<@Magenta>{{Version}}<@Cyan>\n",
       "\n",
       "<@Cyan>[Module Changelog]\n",
       "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
+      "AtomGit: <@Blue>https://atomgit.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
       "\n",
       "<@Cyan>[Module Usage]\n",
@@ -1799,7 +1898,7 @@
       "Run <@Magenta>psc<@Cyan> will display this page content again and reload the module's key bindings and data.\n",
       "\n",
       "<@Cyan>[Completion Menu]\n",
-      "<@Blue>PSCompletions<@Cyan> provides a powerful completion menu, built with Rust + Lua.\n",
+      "<@Blue>PSCompletions<@Cyan> provides a powerful completion menu.\n",
       "\n",
       "You can enter to filter:\n",
       "  - Plain text matches items containing it: <@Magenta>co<@Cyan> finds <@Magenta>config<@Cyan>, <@Magenta>completion<@Cyan>, ...\n",
@@ -1827,14 +1926,10 @@
       "  - Use path identifiers to explicitly get path completions: <@Magenta>/<@Cyan> <@Magenta>./<@Cyan> <@Magenta>../<@Cyan> <@Magenta>~/<@Cyan> | <@Magenta>\\<@Cyan> <@Magenta>.\\<@Cyan> <@Magenta>..\\<@Cyan> <@Magenta>~\\<@Cyan>\n",
       "  - Refer to: <@Blue>https://pscompletions.abgox.com/docs/path-completion<@Cyan>\n",
       "\n",
-      "<@Cyan>[Global Name]\n",
-      "<@Blue>PSCompletions<@Cyan> will take up two global names. <@Yellow>They are read-only, and you should not modify or override them.<@Cyan>\n",
-      "  <@Magenta>PSCompletions<@Cyan>: A function name. The core function of the module export. <@Magenta>psc<@Cyan> is its alias.\n",
-      " <@Magenta>$PSCompletions<@Cyan>: A variable name. Save all data related to the module.\n",
-      "\n",
       "<@Cyan>[Other Content]\n",
       "Website : <@Blue>https://pscompletions.abgox.com<@Cyan>\n",
       "GitHub  : <@Blue>https://github.com/abgox/PSCompletions<@Cyan>\n",
+      "AtomGit : <@Blue>https://atomgit.com/abgox/PSCompletions<@Cyan>\n",
       "Gitee   : <@Blue>https://gitee.com/abgox/PSCompletions<@Cyan>\n",
       "\n",
       "If <@Blue>PSCompletions<@Cyan> is helpful to you, please consider giving it a <@Yellow>Star<@Cyan>.",
@@ -1845,7 +1940,7 @@
     "menu": {
       "config": {
         "err": {
-          "trigger_key": "<@Red>It isn't a valid trigger key."
+          "trigger_key": "<@Magenta>{{Rejected}}<@Red> isn't a valid trigger key."
         }
       }
     },
@@ -1855,7 +1950,7 @@
         "\n",
         "<@Cyan>PSCompletions has updated the version:\n",
         "<@Cyan>[Version]\n",
-        "<@Blue><@Magenta>{{ $PSCompletions.version }} <@Cyan>> <@Magenta>{{ $PSCompletions.new_version }}\n",
+        "<@Blue><@Magenta>{{Version}} <@Cyan>> <@Magenta>{{NewVersion}}\n",
         "<@Cyan>[Changelog]\n",
         "GitHub: <@Blue>https://github.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
         "Gitee : <@Blue>https://gitee.com/abgox/PSCompletions/blob/main/module/CHANGELOG.md<@Cyan>\n",
@@ -1867,8 +1962,6 @@
       ]
     },
     "param_err": "<@Red>Parameter error.",
-    "param_max": "<@Red>Too many parameters.",
-    "param_min": "<@Red>Too few parameters.",
     "reset": {
       "init_confirm": [
         "<@Yellow>Are you sure you want to reset the PSCompletions module?\n",
@@ -1885,72 +1978,30 @@
         "<@Yellow>Are you sure you want to remove all completions?\n",
         "Press <@Magenta>Enter<@Yellow> key to continue or <@Magenta>other key<@Yellow> to cancel."
       ],
-      "done": "<@Green>Completion <@Magenta>{{ $completion }}<@Green> has been removed."
+      "done": "<@Green>Completion <@Magenta>{{Completion}}<@Green> has been removed."
     },
-    "set_value": "Set to {{ $value }}.",
+    "set_value": "Set to {{Value}}.",
+    "too_few_params": "<@Red>Too few parameters.",
+    "too_many_params": "<@Red>Too many parameters.",
     "update": {
       "done": [
         "<@Cyan>[Update Completion]\n",
-        "<@Magenta>{{ if($display){$display}else{$completion} }}\n",
+        "<@Magenta>{{Display or Completion}}\n",
         "<@Cyan>[Trigger Alias]\n",
-        "<@Magenta>",
-        "{{",
-        "$alias = @($PSCompletions.data.alias[$completion]); if(-not $alias){ $alias = @($completion) };",
-        "$alias -join \"`n\";",
-        "\"`n<@Cyan>[Special Configuration]\";",
-        "if($json.config -or $config.hooks -ne $null){",
-        "$configList = @();",
-        "if($config.hooks -ne $null){",
-        "  $configList += @{name='enable_hooks';value=[int]$config.hooks;tip=$PSCompletions.info.completion.enable_hooks.tip -join '' -split \"`n\"};",
-        "};",
-        "if($json.config){ $configList += $json.config; };",
-        " $config_list = $configList | ForEach-Object {",
-        "   '';",
-        "   \"<@Magenta>$($PSCompletions.wrap_whitespace($_.name))<@Blue>:\";",
-        "   'Default Value: ' + $PSCompletions.wrap_whitespace($_.value);",
-        "   $v = $PSCompletions.config.completion[$completion].($_.name);",
-        "   if ($v -ne $null){ 'Current Value: <@Magenta>' + $PSCompletions.wrap_whitespace($v) + '<@Blue>'; }",
-        "   $PSCompletions.replace_content($_.tip, \"`n\")",
-        " };",
-        " $config_list -join \"`n\";",
-        "} else { \"`n<@Yellow>None\" };",
-        "\"`n\";",
-        "}}"
+        "<@Magenta>{{#each Alias sep='\n'}}{{.}}{{/each}}\n",
+        "<@Cyan>[Special Configuration]\n",
+        "{{#if Configs}}{{#each Configs sep='\n\n'}}<@Magenta>{{.Name|quote}}<@Blue>:\nDefault Value: {{.Value|quote}}\n{{#if .Current}}Current Value: <@Magenta>{{.Current|quote}}<@Blue>\n{{/if}}{{.Tip}}{{/each}}\n{{else}}<@Yellow>None\n{{/if}}"
       ],
       "no": "<@Green>All completions are up to date!",
-      "skip": "<@Yellow>{{ $completion }} is a locally linked completion, update skipped."
+      "skip": "<@Yellow>{{Completion}} is a locally linked completion, update skipped."
     },
     "update_info": [
       "\n",
       "<@Cyan>PSCompletions has updated the completion library:\n",
-      "{{",
-      "$LIM = 100;",
-      "$cap = { param($l) $c = @($l); if($c.Count -gt $LIM){ (@($c[0..($LIM - 1)]) + \"... (+$($c.Count - $LIM))\") } else { $c } };",
-      "if($PSCompletions.added){",
-      "\"<@Cyan>[New]<@Cyan>`n\";",
-      "\"<@Magenta>$((& $cap $PSCompletions.added) -join ' ')<@Cyan>`n\";",
-      "};",
-      "if($PSCompletions.removed){",
-      "\"<@Cyan>[Removed]<@Cyan>`n\";",
-      "\"<@Magenta>$((& $cap $PSCompletions.removed) -join ' ')<@Cyan>`n\";",
-      "};",
-      "$updList = @(& $cap @($PSCompletions.update));",
-      "$renameList = @();",
-      "if($PSCompletions.renamed){ $renameList = @($PSCompletions.renamed | ForEach-Object { $p=@($_); \"$($p[0]) > $($p[1])\" }) };",
-      "$renameList = @(& $cap $renameList);",
-      "if($updList -or $renameList){",
-      "\"<@Cyan>[Update]<@Cyan>`n\";",
-      "if($updList){ \"<@Magenta>$($updList -join ' ')<@Cyan>`n\" };",
-      "if($renameList){ ($renameList | ForEach-Object { \"<@Magenta>$_<@Cyan>`n\" }) -join '' };",
-      "};",
-      "$tips = @();",
-      "if($PSCompletions.added){ $tips += '<@Magenta>psc add <completion><@Cyan>' };",
-      "if($updList -or $renameList){ $tips += '<@Magenta>psc update --old<@Cyan>' };",
-      "if($tips){",
-      "\"<@Cyan>[Suggestion]<@Cyan>`n\";",
-      "($tips | ForEach-Object { \"$_`n\" }) -join '';",
-      "};",
-      "}}"
+      "{{#if Added}}<@Cyan>[New]<@Cyan>\n<@Magenta>{{#each Added limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}",
+      "{{#if Removed}}<@Cyan>[Removed]<@Cyan>\n<@Magenta>{{#each Removed limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}",
+      "{{#if Update or Renamed}}<@Cyan>[Update]<@Cyan>\n{{#if Update}}<@Magenta>{{#each Update limit=100 sep=' '}}{{.}}{{/each}}{{#if @more}} ... (+{{@more}}){{/if}}<@Cyan>\n{{/if}}{{#each Renamed limit=100}}<@Magenta>{{.0}} > {{.1}}<@Cyan>\n{{/each}}{{#if @more}}<@Magenta>... (+{{@more}})<@Cyan>\n{{/if}}{{/if}}",
+      "{{#if Added or Update or Renamed}}<@Cyan>[Suggestion]<@Cyan>\n{{#if Added}}<@Magenta>psc add <completion><@Cyan>\n{{/if}}{{#if Update or Renamed}}<@Magenta>psc update --old<@Cyan>\n{{/if}}{{/if}}"
     ]
   }
 }

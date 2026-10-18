@@ -46,15 +46,6 @@ local function render_tip(lines, vars)
     return psc.join(out, "\n")
 end
 
-local function rm_reset()
-    for i = #completions, 1, -1 do
-        if completions[i].name == "--reset" then
-            table.remove(completions, i)
-            break
-        end
-    end
-end
-
 local function clear_completions()
     for i = #completions, 1, -1 do
         table.remove(completions, i)
@@ -65,6 +56,27 @@ local function add_installed_completions()
     for _, e in ipairs(psc.ls(data.completions) or {}) do
         if e.is_dir then
             psc.add({ name = e.name, tip = get_completion_tip(e.name) })
+        end
+    end
+end
+
+local function add_updatable_completions()
+    if #(data.remote or {}) == 0 then
+        add_installed_completions()
+        return
+    end
+    for _, e in ipairs(psc.ls(data.completions) or {}) do
+        if e.is_dir and psc.contains(data.remote, e.name) then
+            psc.add({ name = e.name, tip = get_completion_tip(e.name) })
+        end
+    end
+end
+
+local function drop_options(names)
+    for i = #completions, 1, -1 do
+        if psc.contains(names, completions[i].name) then
+            table.remove(completions, i)
+            break
         end
     end
 end
@@ -87,7 +99,7 @@ psc.on({ command = "add", multiple = true }, add_uninstalled_completions)
 psc.on({ command = { "alias", "add" }, multiple = true }, function()
     local tokens_length = #psc.tokens
     if tokens_length > 3 then
-        rm_reset()
+        drop_options("--reset")
         return
     end
     if tokens_length == 2 then
@@ -103,6 +115,7 @@ psc.on({ command = { "alias", "rm" }, multiple = true }, function()
         return
     end
     if tokens_length >= 3 then
+        drop_options("--reset")
         local target = psc.tokens[3].name
         local tip = render_tip(info.alias.rm.tip_v, {})
         for _, a in ipairs(data.alias[target] or {}) do
@@ -115,7 +128,7 @@ end)
 psc.on({ command = "completion", multiple = true }, function()
     local tokens_length = #psc.tokens
     if tokens_length >= 4 then
-        rm_reset()
+        drop_options("--reset")
         return
     end
     if tokens_length == 1 then
@@ -190,13 +203,31 @@ psc.on({ command = "completion", multiple = true }, function()
 end)
 
 psc.on({
-    { command = "list" },
+    { command = "add",                               multiple = true },
+    { command = "list",                              multiple = true },
+    { command = "info",                              multiple = true },
+    { command = "rm",                                multiple = true },
+    { command = "update",                            multiple = true },
     { command = { "config", "core", "language" } },
     { command = { "config", "core", "language", "" } }
-}, rm_reset)
+}, function()
+    drop_options("--reset")
+end)
 
 psc.on({
-    { command = "update", multiple = true },
-    { command = "info",   multiple = true },
-    { command = "rm",     multiple = true }
+    { command = "info", multiple = true },
+    { command = "rm",   multiple = true }
 }, add_installed_completions)
+
+psc.on({ command = "update", multiple = true }, function()
+    add_updatable_completions()
+    if #psc.tokens > 1 then
+        drop_options({ "--all", "--old" })
+    end
+end)
+
+psc.on({ command = "list", multiple = true }, function()
+    if #psc.tokens > 1 then
+        drop_options({ "--json" })
+    end
+end)
