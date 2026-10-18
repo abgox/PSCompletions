@@ -139,6 +139,13 @@ fn http_client() -> &'static reqwest::blocking::Client {
     })
 }
 
+/// The body as text, or an error. A source file that is not UTF-8 is **rejected** rather than
+/// decoded lossily: U+FFFD would be installed silently and the user would never know the file is
+/// damaged (the JSON parser does not catch it — a U+FFFD in a string is valid JSON).
+fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, String> {
+    String::from_utf8(bytes).map_err(|_| format!("{url} is not valid UTF-8"))
+}
+
 /// Fetch `path` under the first URL that succeeds (reuses the shared client).
 pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
     let client = http_client();
@@ -152,9 +159,9 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
                 .get(&url)
                 .send()
                 .and_then(|r| r.error_for_status())
-                .and_then(|r| r.text())
+                .and_then(|r| r.bytes())
             {
-                Ok(t) => return Ok(t),
+                Ok(b) => return utf8_body(&url, b.to_vec()),
                 Err(e) => {
                     let transient = e.is_connect()
                         || e.is_timeout()
@@ -663,6 +670,23 @@ mod tests {
         assert!(
             validate_index_shape(&serde_json::json!({ "update": { "git": 42 }, "meta": {} }))
                 .is_err()
+        );
+    }
+
+    #[test]
+    fn a_body_that_is_not_utf8_is_rejected_not_mangled() {
+        // Lossy decoding would install U+FFFD into the user's completion and say nothing; a
+        // U+FFFD inside a JSON string is valid JSON, so nothing downstream would notice either.
+        assert_eq!(utf8_body("http://x", b"ok".to_vec()).unwrap(), "ok");
+        let err = utf8_body(
+            "http://x/completions/git/language/en-US.json",
+            vec![0xff, 0xfe],
+        )
+        .unwrap_err();
+        assert!(err.contains("not valid UTF-8"), "{err}");
+        assert!(
+            err.contains("en-US.json"),
+            "the message names the file: {err}"
         );
     }
 
