@@ -73,27 +73,49 @@ local function get_current_dir(apps_dir, name)
     return current
 end
 
-local function get_manifests()
+local function get_bucket_entries(buckets_dir, bucket)
+    local bucket_dir = psc.path(buckets_dir, bucket.name, "bucket")
+    local top = psc.ls(bucket_dir) or {}
+    local nested = false
+    for _, e in ipairs(top) do
+        if e.is_dir then
+            nested = true
+            break
+        end
+    end
+    if not nested then
+        -- Flat layout (`bucket/<app>.json`, the common case)
+        local entries = {}
+        for _, e in ipairs(top) do
+            if e.name:match("%.json$") then
+                table.insert(entries, { bucket = bucket.name, path = e.path })
+            end
+        end
+        return entries
+    end
+    -- Nested layout (e.g. abyss)
+    local entries = {}
+    for _, path in ipairs(psc.glob(psc.path(bucket_dir, "**/*.json")) or {}) do
+        table.insert(entries, { bucket = bucket.name, path = path })
+    end
+    return entries
+end
+
+local function get_manifest_entries()
     local exclude = {}
     for x in psc.config.exclude_buckets:gmatch("[^|]+") do
         table.insert(exclude, x)
     end
     local entries = {}
-    local paths = {}
     local buckets_dir = get_buckets_dir()
     for _, bucket in ipairs(psc.ls(buckets_dir) or {}) do
         if bucket.is_dir and not psc.contains(exclude, bucket.name) then
-            for _, path in ipairs(psc.glob(psc.path(buckets_dir, bucket.name, "bucket", "**/*.json")) or {}) do
-                table.insert(entries, { bucket = bucket.name, path = path })
-                table.insert(paths, path)
+            for _, entry in ipairs(get_bucket_entries(buckets_dir, bucket)) do
+                table.insert(entries, entry)
             end
         end
     end
-    local manifests = {}
-    if psc.config.enable_tip then
-        manifests = psc.json_batch(paths)
-    end
-    return entries, manifests
+    return entries
 end
 
 local function get_manifest_tip(manifest)
@@ -146,17 +168,22 @@ local function add_uninstalled_apps()
             end
         end
     end
-    local entries, manifests = get_manifests()
+    local entries = get_manifest_entries()
     for _, entry in ipairs(entries) do
         local name = entry.path:match("([^/\\]+)%.json$")
         if name and name ~= "scoop" and not (installed and installed[name]) then
             local app = entry.bucket .. "/" .. name
             if not psc.token({ name = app, type = "unknown" }) and not psc.token({ name = name, type = "unknown" }) then
-                local tip = ""
-                if psc.config.enable_tip then
-                    tip = get_manifest_tip(manifests[entry.path])
-                end
-                psc.add({ name = app, tip = tip })
+                local path = entry.path
+                psc.add({
+                    name = app,
+                    tip = function()
+                        if not psc.config.enable_tip then
+                            return nil
+                        end
+                        return get_manifest_tip(psc.json(path))
+                    end
+                })
             end
         end
     end
