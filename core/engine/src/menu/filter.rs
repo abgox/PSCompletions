@@ -17,6 +17,20 @@ pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config)
     } else {
         (false, actual)
     };
+    // Wildcard mode: the pattern is the same for every candidate and this runs on every keypress,
+    // so parse it once (and build the prefix/contains wrapper once) instead of per item.
+    let wildcard = if use_subseq {
+        None
+    } else {
+        let mut p = parse_wildcard(pattern);
+        if is_prefix {
+            p.push(Pat::Any);
+        } else {
+            p.insert(0, Pat::Any);
+            p.push(Pat::Any);
+        }
+        Some(p)
+    };
     let mut out = Vec::new();
     for (i, item) in items.iter().enumerate() {
         let text = item.list_item_text.as_str();
@@ -27,14 +41,10 @@ pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config)
                 subsequence_match(pattern, text)
             }
         } else {
-            let mut p = parse_wildcard(pattern);
-            if is_prefix {
-                p.push(Pat::Any);
-            } else {
-                p.insert(0, Pat::Any);
-                p.push(Pat::Any);
-            }
-            wildcard_match(&p, text)
+            wildcard_match(
+                wildcard.as_ref().expect("wildcard mode built a pattern"),
+                text,
+            )
         };
         if matched {
             out.push(i);
