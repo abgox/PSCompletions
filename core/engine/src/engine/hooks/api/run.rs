@@ -237,6 +237,9 @@ pub(crate) fn run_cmd_raw(
     }
     let mut cmd = Command::new(&argv[0]);
     cmd.args(&argv[1..])
+        // stdin is /dev/null, never inherited: the engine is reading the terminal, so a child that
+        // read stdin would eat the user's keystrokes.
+        .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::null());
     if let Some(c) = cwd {

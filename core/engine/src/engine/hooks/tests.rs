@@ -1988,6 +1988,20 @@ fn run_command_unix() {
 }
 
 #[test]
+#[cfg(target_os = "linux")]
+fn run_child_stdin_is_not_the_terminal() {
+    // A hook's child must never inherit the terminal's input: the engine is reading it, so a child
+    // that reads stdin eats the user's keystrokes. fd 0 is /dev/null instead, and nothing else.
+    let script = r#"
+        for _, l in ipairs(psc.run({"readlink", "/proc/self/fd/0"})) do
+        psc.add({ name = l })
+    end
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    assert_eq!(out[0].text, "/dev/null");
+}
+
+#[test]
 fn run_with_shell_option() {
     // `shell = true` routes the command through the platform shell (`cmd /c` on Windows,
     // `sh -c` elsewhere) — a built-in shell keyword is used so it works even where the
