@@ -52,6 +52,12 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
 - Known commands/options push a `command`/`option` token with a **`canonical`** = the
   declared `name` (one trailing `=` stripped for attached-value options) — alias
   input normalizes to it.
+- A node's **type is the array it sits in**, never its spelling: a `next` entry of the root or of
+  a command is a command (a subcommand), an `option` / `global_option` entry is an option, and a
+  `next` entry of an option is a candidate **value**. So a `next` entry may legitimately be
+  option-shaped — `psc --self-update` is a command. A manifest that declares the same name in both
+  a `next` and an `option` array of one node is a defect: the option reading wins (the resolve walk
+  looks options up first), so that command can no longer be entered. Fix the manifest, not the engine.
 - **Case sensitivity**: command words and option *values* match case-insensitively, but
   **options match exactly**. Short flags are case-significant in real CLIs (`git commit -c`
   reuses-and-edits a message while `-C` reuses it), so folding case let whichever option came

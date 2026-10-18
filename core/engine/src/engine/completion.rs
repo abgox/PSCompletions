@@ -119,6 +119,9 @@ pub struct CompletionItem {
     /// Offered as a separator-list value: the host must not append its auto
     /// space (the user types the separator to continue, Space to finish).
     pub nospace: bool,
+    /// The node's declared type, carried so a consumer never has to guess it from the leading
+    /// `-`: options compare case-sensitively, commands case-insensitively.
+    pub is_option: bool,
 }
 
 /// Resolve result: candidates + context.
@@ -726,6 +729,7 @@ pub fn resolve(tree: &Tree, arg_tokens: &[String], treat_last_as_complete: bool)
                 symbol: node_symbols(n).first().cloned(),
                 repeat: n.repeat,
                 nospace,
+                is_option: n.is_option,
             });
         }
     }
@@ -860,6 +864,30 @@ mod tests {
         let tree = git_tree();
         assert!(tree.next.len() > 20, "git has many subcommands");
         assert!(tree.global_options.iter().any(|n| n.name == "--help"));
+    }
+
+    #[test]
+    fn option_shaped_next_entry_resolves_as_a_command_layer() {
+        // A `next` entry is a command by position, never an option by shape — `--self-update`
+        // included. The layer kind is what `psc.on({ command = ... })` compares against, and
+        // the resolve walk tries options first, so this pins the end-to-end path: an
+        // option-shaped command name must still surface as a `command` layer.
+        let json = serde_json::json!({
+            "next": [ { "name": "--self-update" } ],
+            "option": [ { "name": "--json", "next": [] } ]
+        });
+        let tree = build_tree(&json);
+        let command = resolve(&tree, &["--self-update".into()], true);
+        assert_eq!(
+            command.context.layers,
+            vec![("command".to_string(), "--self-update".to_string())]
+        );
+        // Its sibling declared under `option` stays an option layer, for contrast.
+        let option = resolve(&tree, &["--json".into()], true);
+        assert_eq!(
+            option.context.layers,
+            vec![("option".to_string(), "--json".to_string())]
+        );
     }
 
     #[test]

@@ -4,15 +4,65 @@ use mlua::{Lua, Table, Value};
 
 use super::Token;
 
-/// Collect every form (canonical name + aliases) of the manifest nodes whose name or an
-/// alias matches `target` (ASCII case-insensitive). Walks the whole tree — `next`, `option`
-/// and root `global_option` arrays — so scoped option definitions are covered wherever they
-/// live.
+/// Which manifest position a `psc.on` target must be declared in. The manifest fixes a node's
+/// type by the array it sits in — a `next` entry of the root or of a command is a command;
+/// an `option` / `global_option` entry is an option — so a spec's key has to agree with that
+/// declaration. A name written into the other position used to register and then never fire.
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(crate) enum TargetKind {
+    Command,
+    Option,
+}
+
+impl TargetKind {
+    pub(crate) fn as_str(self) -> &'static str {
+        match self {
+            TargetKind::Command => "command",
+            TargetKind::Option => "option",
+        }
+    }
+
+    /// The article-bearing form, for messages: "a command" / "an option".
+    pub(crate) fn noun(self) -> &'static str {
+        match self {
+            TargetKind::Command => "a command",
+            TargetKind::Option => "an option",
+        }
+    }
+}
+
+/// The declared position of a manifest node while walking.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Pos {
+    /// A `next` entry of the root or of a command: a subcommand.
+    Command,
+    /// An entry of an `option` / `global_option` array.
+    Option,
+    /// A `next` entry of an option: a candidate **value**, never a target.
+    Value,
+}
+
+impl Pos {
+    fn matches(self, kind: TargetKind) -> bool {
+        matches!(
+            (self, kind),
+            (Pos::Command, TargetKind::Command) | (Pos::Option, TargetKind::Option)
+        )
+    }
+}
+
+/// Collect every form (canonical name + aliases) of the manifest nodes declared in `kind`'s
+/// position whose name or an alias matches `target` (ASCII case-insensitive). Walks the whole
+/// tree, so a scoped `option` array is covered wherever it lives.
 ///
 /// Not-found is an **empty vec**, not `None` — `None` only means the manifest root is not a
 /// JSON object. Callers must therefore fail loudly on `is_none_or(|v| v.is_empty())`, which is
 /// what lets a bad `psc.on` target be reported instead of the handler silently never firing.
-pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Option<Vec<String>> {
+pub(crate) fn collect_node_names(
+    json: &serde_json::Value,
+    target: &str,
+    kind: TargetKind,
+) -> Option<Vec<String>> {
     use std::collections::hash_map::DefaultHasher;
     use std::hash::{Hash, Hasher};
     use std::sync::{Mutex, OnceLock};
@@ -21,12 +71,13 @@ pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Opti
         Mutex<std::collections::HashMap<u64, std::collections::HashMap<String, Vec<String>>>>,
     > = OnceLock::new();
     let cache = CACHE.get_or_init(|| Mutex::new(Default::default()));
-    // Hash manifest + target lowercased
+    // Hash manifest + kind + target lowercased
     let mut hasher = DefaultHasher::new();
     json.to_string().hash(&mut hasher);
+    kind.as_str().hash(&mut hasher);
     target.to_lowercase().hash(&mut hasher);
     let hkey = hasher.finish();
-    let tkey = target.to_lowercase();
+    let tkey = format!("{}\u{1}{}", kind.as_str(), target.to_lowercase());
     if let Ok(guard) = cache.lock() {
         if let Some(inner) = guard.get(&hkey) {
             if let Some(v) = inner.get(&tkey) {
@@ -34,7 +85,13 @@ pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Opti
             }
         }
     }
-    fn walk(node: &serde_json::Value, target: &str, out: &mut Vec<String>) {
+    fn walk(
+        node: &serde_json::Value,
+        pos: Pos,
+        target: &str,
+        kind: TargetKind,
+        out: &mut Vec<String>,
+    ) {
         let Some(obj) = node.as_object() else { return };
         let name = obj.get("name").and_then(serde_json::Value::as_str);
         let aliases: Vec<&str> = obj
@@ -42,8 +99,9 @@ pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Opti
             .and_then(serde_json::Value::as_array)
             .map(|a| a.iter().filter_map(serde_json::Value::as_str).collect())
             .unwrap_or_default();
-        let matched = name.is_some_and(|n| n.eq_ignore_ascii_case(target))
-            || aliases.iter().any(|a| a.eq_ignore_ascii_case(target));
+        let matched = pos.matches(kind)
+            && (name.is_some_and(|n| n.eq_ignore_ascii_case(target))
+                || aliases.iter().any(|a| a.eq_ignore_ascii_case(target)));
         if matched {
             if let Some(n) = name {
                 if !out.iter().any(|x| x.eq_ignore_ascii_case(n)) {
@@ -56,10 +114,17 @@ pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Opti
                 }
             }
         }
-        for key in ["next", "option"] {
+        for key in ["next", "option", "global_option"] {
+            let child = match key {
+                "next" => match pos {
+                    Pos::Command => Pos::Command,
+                    _ => Pos::Value,
+                },
+                _ => Pos::Option,
+            };
             if let Some(children) = obj.get(key).and_then(serde_json::Value::as_array) {
-                for child in children {
-                    walk(child, target, out);
+                for c in children {
+                    walk(c, child, target, kind, out);
                 }
             }
         }
@@ -68,9 +133,14 @@ pub(crate) fn collect_node_names(json: &serde_json::Value, target: &str) -> Opti
     let root = json.as_object()?;
     let mut out = Vec::new();
     for key in ["next", "option", "global_option"] {
+        let pos = if key == "next" {
+            Pos::Command
+        } else {
+            Pos::Option
+        };
         if let Some(children) = root.get(key).and_then(serde_json::Value::as_array) {
             for child in children {
-                walk(child, target, &mut out);
+                walk(child, pos, target, kind, &mut out);
             }
         }
     }

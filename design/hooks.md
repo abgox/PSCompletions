@@ -74,12 +74,16 @@ end)
   the engine warns when an explicit return discards `psc.on` contributions).
   Returning anything else (e.g. a string) is an error. Malformed rows (non-table,
   missing/blank `name`) are skipped, never fatal.
-- Completion item shape: `{ name, tip?, usage?, example?, symbol?, repeat?/repeat_count?, nospace? }`.
+- Completion item shape: `{ name, tip?, usage?, example?, symbol?, repeat?/repeat_count?, nospace?, is_option? }`.
   `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections —
   each accepts a plain string or a `{ cmd, desc }` object (rendered `cmd  # desc`, just `cmd`
   without `desc`), mirroring the manifest's object entries. `tip` accepts a plain string or a
   localized table; an absent `tip` falls back to `name`. All three also accept a **function**
   (lazy — see below); a function tip has no name-fallback (unresolved reads back empty).
+- **`is_option` is engine-internal**, like `nospace`: the declared type of the static node the row
+  came from, round-tripped so a hook-preserved static item keeps it. Absent means the row is
+  hook-injected and no manifest declares it. Consumers compare rows by the manifest's own rule
+  (options case-sensitively, commands case-insensitively) instead of guessing from a leading `-`.
 - **`text` is an engine-internal field**: everywhere a hook can see an item, it is the `name` key.
   Do not read or write `text` on items.
 - The menu performs filtering/prefix matching; hooks return the **full candidate set** via the live list.
@@ -468,9 +472,13 @@ Contract:
 - Validation (failures are logged to `error.log` — a 1 MB-capped, 7-day-age-rotated file in
   `data/temp/log/`; see §12 — registration becomes inert — never a process fault):
   unknown spec keys raise; `command` segments must be strings, empty array rejected (omit to target root),
-  `""` is wildcard; `option` segments must start with `-` (or be `""` wildcards), empty array rejected;
+  `""` is wildcard — a `next` entry may itself be option-shaped (`--self-update`), so `command` is
+  deliberately not shape-constrained; `option` segments must start with `-` (or be `""` wildcards), empty array rejected;
   the last named segment of each chain is resolved through the manifest at
-  registration time (unknown targets raise, aliases accepted). For `AND` specs (`command`+`option`) either unknown side makes the whole spec inert (logged); single-key unknown still raises.
+  registration time — **in the position the key declares**: a `command` target must be declared in a
+  `next` array (a subcommand), an `option` target in an `option` / `global_option` array. A name the
+  manifest declares as the other kind raises with that reason, not a bare "unknown" (unknown targets
+  raise, aliases accepted). For `AND` specs (`command`+`option`) either unknown side makes the whole spec inert (logged); single-key unknown still raises.
 - Each registration runs **at most once per build** (inject only); handlers run sequentially.
 - Handler is zero-arg, manipulates candidates via `psc.add` / direct `completions` ops; errors are
 	  logged, partial mutations persist, siblings unaffected; `psc.on` inside a handler is a recursion error.

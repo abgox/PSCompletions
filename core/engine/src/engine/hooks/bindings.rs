@@ -530,6 +530,34 @@ fn in_unpinned_option_domain(layers: &[(String, String)], spec_option_last: Opti
     }
 }
 
+/// Why a `psc.on` target cannot fire, or `None` when it is declared in the position its spec
+/// key asks for. The manifest already fixes a node's type by the array it sits in, so a name
+/// declared as the other kind is a **position** mistake, not a typo — saying which is the
+/// point, because that is the mistake that used to register and then stay silent.
+fn target_reject(
+    manifest: &serde_json::Value,
+    name: &str,
+    kind: helpers::TargetKind,
+) -> Option<String> {
+    let missing = |k| helpers::collect_node_names(manifest, name, k).is_none_or(|v| v.is_empty());
+    if !missing(kind) {
+        return None;
+    }
+    let other = match kind {
+        helpers::TargetKind::Command => helpers::TargetKind::Option,
+        helpers::TargetKind::Option => helpers::TargetKind::Command,
+    };
+    Some(if missing(other) {
+        format!("unknown target {name:?} in this manifest")
+    } else {
+        format!(
+            "{name:?} is {}, not {} — the manifest fixes a node's type by the array it sits in",
+            other.noun(),
+            kind.noun()
+        )
+    })
+}
+
 fn api_on_inner(
     lua: &Lua,
     env: &ProvideEnv,
@@ -597,11 +625,11 @@ fn api_on_inner(
                                             "{PRE} command segments must be strings"
                                         )));
                                     };
-                                    if s.starts_with('-') {
-                                        return Err(mlua::Error::RuntimeError(format!(
-                                            "{PRE} command segments must be commands, got option-like {s:?}"
-                                        )));
-                                    }
+                                    // No shape check: a command is a command because the manifest puts
+                                    // it in `next`, not because its name avoids a `-` prefix. A
+                                    // `next` entry may legitimately be option-shaped (`--self-update`),
+                                    // and rejecting it here made the array form disagree with the
+                                    // string form — which never checked.
                                     segs.push(if s.is_empty() { Seg::Any } else { Seg::Name(s) });
                                 }
                                 segs
@@ -717,27 +745,25 @@ fn api_on_inner(
         multiple,
     };
 
-    // Validate target names up front: unknown names fail loudly so
-    // typos never become silently-dead. For AND specs both sides must be known;
-    // otherwise the registration is inert (logged).
+    // Validate target names up front: a name the manifest never declares, or declares in the
+    // other position, fails loudly so it never becomes a silently-dead registration. For AND
+    // specs both sides must be known; otherwise the registration is inert (logged).
     let is_and = loc.command.is_some() && loc.option.is_some();
     let mut command_valid = true;
     let mut option_valid = true;
     if let Some(segs) = &loc.command {
         if let Some(Seg::Name(n)) = segs.last() {
-            if helpers::collect_node_names(&env.manifest, n).is_none_or(|v| v.is_empty()) {
+            if let Some(reason) = target_reject(&env.manifest, n, helpers::TargetKind::Command) {
                 if is_and {
                     let e = mlua::Error::RuntimeError(format!(
-                        "{PRE}{idx} unknown command target {n:?} in AND spec, whole spec inert"
+                        "{PRE}{idx} {reason} (command side of an AND spec), whole spec inert"
                     ));
                     eprintln!("psc.on: {e}");
                     super::log_hook_error(&env.log_dir, &env.cmd, &env.path, &e);
                     command_valid = false;
                     option_valid = false;
                 } else {
-                    return Err(mlua::Error::RuntimeError(format!(
-                        "{PRE}{idx} unknown target {n:?} in this manifest"
-                    )));
+                    return Err(mlua::Error::RuntimeError(format!("{PRE}{idx} {reason}")));
                 }
             }
         }
@@ -746,19 +772,17 @@ fn api_on_inner(
         // Validate the LAST named segment (the innermost context), mirroring how the
         // command chain validates only its final segment.
         if let Some(Seg::Name(n)) = segs.last() {
-            if helpers::collect_node_names(&env.manifest, n).is_none_or(|v| v.is_empty()) {
+            if let Some(reason) = target_reject(&env.manifest, n, helpers::TargetKind::Option) {
                 if is_and {
                     let e = mlua::Error::RuntimeError(format!(
-                        "{PRE}{idx} unknown option target {n:?} in AND spec, whole spec inert"
+                        "{PRE}{idx} {reason} (option side of an AND spec), whole spec inert"
                     ));
                     eprintln!("psc.on: {e}");
                     super::log_hook_error(&env.log_dir, &env.cmd, &env.path, &e);
                     command_valid = false;
                     option_valid = false;
                 } else {
-                    return Err(mlua::Error::RuntimeError(format!(
-                        "{PRE}{idx} unknown target {n:?} in this manifest"
-                    )));
+                    return Err(mlua::Error::RuntimeError(format!("{PRE}{idx} {reason}")));
                 }
             }
         }

@@ -599,7 +599,10 @@ fn peek_predict_symbol_inner(
         return None;
     }
     let parent_set: std::collections::HashSet<String> = if let Some(cached) = cached_parent {
-        cached.iter().map(|it| ambient_key(&it.text)).collect()
+        cached
+            .iter()
+            .map(|it| ambient_key(&it.text, it.is_option))
+            .collect()
     } else {
         let mut parent = input.clone();
         parent.order = None;
@@ -608,7 +611,10 @@ fn peek_predict_symbol_inner(
             Ok((items, _)) => items,
             Err(_) => return None,
         };
-        items.iter().map(|it| ambient_key(&it.text)).collect()
+        items
+            .iter()
+            .map(|it| ambient_key(&it.text, it.is_option))
+            .collect()
     };
     // Exclude ambient items: `global_option` plus whatever the peek layer
     // merely inherits (ancestor options bubbling down, or root `option` as
@@ -618,7 +624,7 @@ fn peek_predict_symbol_inner(
     let mut globals: std::collections::HashSet<String> = tree
         .global_options
         .iter()
-        .flat_map(|n| n.all_names().map(ambient_key))
+        .flat_map(|n| n.all_names().map(|a| ambient_key(a, Some(n.is_option))))
         .collect();
     if in_value_slot && stack.is_empty() {
         // An option value at the root: the parent menu lists only value
@@ -629,24 +635,25 @@ fn peek_predict_symbol_inner(
             tree.next
                 .iter()
                 .chain(tree.options.iter())
-                .flat_map(|n| n.all_names().map(ambient_key)),
+                .flat_map(|n| n.all_names().map(|a| ambient_key(a, Some(n.is_option)))),
         );
     } else if !stack.is_empty() {
         // Inside a command, the root `option` is only a fallback source.
         globals.extend(
             tree.options
                 .iter()
-                .flat_map(|n| n.all_names().map(ambient_key)),
+                .flat_map(|n| n.all_names().map(|a| ambient_key(a, Some(n.is_option)))),
         );
     }
     globals.extend(
         stack
             .iter()
             .flat_map(|n| n.option.iter())
-            .flat_map(|n| n.all_names().map(ambient_key)),
+            .flat_map(|n| n.all_names().map(|a| ambient_key(a, Some(n.is_option)))),
     );
     let has_new = peek_items.iter().any(|it| {
-        !parent_set.contains(&ambient_key(&it.text)) && !globals.contains(&ambient_key(&it.text))
+        !parent_set.contains(&ambient_key(&it.text, it.is_option))
+            && !globals.contains(&ambient_key(&it.text, it.is_option))
     });
     if has_new {
         return Some("switch".into());
@@ -667,12 +674,12 @@ fn peek_predict_symbol_inner(
     Some("stay".into())
 }
 
-/// Ambient comparison key: options (`-...`) compare case-sensitively, commands
-/// and values stay case-insensitive — the same split `completion::Node::matches`
-/// uses. Item text loses the declared `is_option` flag, so the leading `-`
-/// heuristic recovers it (mirrors the manifest validation rule).
-fn ambient_key(text: &str) -> String {
-    if text.starts_with('-') {
+/// Ambient comparison key: the same split `completion::Node::matches` uses — options compare
+/// case-sensitively, commands and values case-insensitively. The type comes from the manifest
+/// (`LuaItem::is_option`); only a hook-injected row that no node declares carries none, and the
+/// leading `-` is the only hint left for that row.
+fn ambient_key(text: &str, declared_option: Option<bool>) -> String {
+    if declared_option.unwrap_or_else(|| text.starts_with('-')) {
         text.to_string()
     } else {
         text.to_lowercase()
@@ -751,10 +758,15 @@ fn resolve_context_stack<'a>(
 }
 
 /// Find the node a candidate row came from: a **direct** child of the current
-/// context's `next`/`option` (or of the root tree when `ctx` is `None`), plus
+/// context's `option`/`next` (or of the root tree when `ctx` is `None`), plus
 /// global options. Deliberately not recursive — a deeper node that happens to
 /// share the spelling is a *different* option, and borrowing its candidates
 /// would mislabel the row's landing (design/completion.md §3).
+///
+/// Options are searched before `next` so this agrees with the resolve walk
+/// (`find_option_node` first): a manifest that declares one name in both a `next`
+/// and an `option` array of the same node is a defect, and the two call sites must
+/// not disagree about which reading won.
 fn find_node_in_context<'a>(
     ctx: Option<&'a completion::Node>,
     tree: &'a completion::Tree,
@@ -762,9 +774,9 @@ fn find_node_in_context<'a>(
 ) -> Option<&'a completion::Node> {
     let search_next: &[completion::Node] = ctx.map_or(&tree.next, |c| &c.next);
     let search_option: &[completion::Node] = ctx.map_or(&tree.options, |c| &c.option);
-    search_next
+    search_option
         .iter()
-        .chain(search_option.iter())
+        .chain(search_next.iter())
         .chain(tree.global_options.iter())
         .find(|n| {
             n.all_names().any(|a| {
@@ -935,6 +947,26 @@ pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
 
 #[cfg(test)]
 mod tests {
+    use super::ambient_key;
+
+    /// The ambient key follows the manifest's declared type, not the spelling: a declared
+    /// option is case-sensitive even when its name has no leading `-`, and a declared command
+    /// is case-insensitive even when it does (`--self-update`). Only a hook-injected row that
+    /// no node declares has no type, and the `-` hint is all that is left for it.
+    #[test]
+    fn ambient_key_follows_the_declared_type_not_the_shape() {
+        // Declared option, option-shaped name: case-sensitive.
+        assert_eq!(ambient_key("--Foo", Some(true)), "--Foo");
+        // Declared option with a non-`-` name (the manifest defect shape): still case-sensitive.
+        assert_eq!(ambient_key("config", Some(true)), "config");
+        // Declared command that looks like an option: case-insensitive, so it never collides
+        // with the `-` heuristic and folds like every other command.
+        assert_eq!(ambient_key("--SELF", Some(false)), "--self");
+        // Undeclared (hook-injected) rows fall back to the shape.
+        assert_eq!(ambient_key("--Foo", None), "--Foo");
+        assert_eq!(ambient_key("Foo", None), "foo");
+    }
+
     /// The build context's `dir`/`file` are what `build_psc_data` reads: the index feeds `remote`
     /// and the settings feed `list`/`alias`, and the completions directory reaches the hooks.
     #[test]

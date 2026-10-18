@@ -44,11 +44,15 @@ menu reuses the same build path.
 ### `LuaItem` (built / ranked candidate, build mode + `--sort`)
 ```json
 { "text": "add", "tip": "Add files", "usage": null, "example": null,
-  "symbol": "switch", "repeat": 0 }
+  "symbol": "switch", "repeat": 0, "nospace": false, "is_option": false }
 ```
 - `text` — completion text (also the row text).
 - `symbol` — **config key** (`switch` / `stay`) or empty, not the display character.
 - `repeat` — how many times the item may be appended.
+- `nospace` — when true, applying appends no trailing space (separator-list continuation).
+- `is_option` — **engine-internal**: the declared type of the static node the row came from, so
+  consumers compare rows by the manifest's own rule (options case-sensitively, commands
+  case-insensitively) instead of guessing from a leading `-`. Absent/`null` on a hook-injected row.
 
 ### `Config` (menu options)
 ```json

@@ -139,6 +139,10 @@ pub struct LuaItem {
     /// Engine-internal: offered as a separator-list value (no auto space).
     /// Round-trips through Lua tables so hook-preserved static items keep it.
     pub nospace: bool,
+    /// The declared type of the static node this row came from (`Some`), or `None` for a
+    /// hook-injected row that no manifest declares. Round-trips so a consumer can compare
+    /// rows by the manifest's own rule instead of guessing from a leading `-`.
+    pub is_option: Option<bool>,
 }
 
 impl From<&crate::engine::completion::CompletionItem> for LuaItem {
@@ -151,6 +155,7 @@ impl From<&crate::engine::completion::CompletionItem> for LuaItem {
             symbol: it.symbol.clone(),
             repeat: it.repeat,
             nospace: it.nospace,
+            is_option: Some(it.is_option),
         }
     }
 }

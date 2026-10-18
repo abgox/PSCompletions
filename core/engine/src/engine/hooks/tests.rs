@@ -1,7 +1,7 @@
 //! Tests for the Lua hooks runtime.
 
 use super::api::{api_which, glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
-use super::helpers::collect_node_names;
+use super::helpers::{collect_node_names, TargetKind};
 use super::runner::{new_sandbox_lua, run_hook_with_timeout};
 use super::*;
 use std::time::{Duration, Instant};
@@ -377,47 +377,76 @@ fn capture_error_log(c: &mut HookContext, script: &str) -> String {
 #[test]
 fn collect_node_names_matches_name_alias_case_and_every_scope() {
     // `collect_node_names` is what validates a psc.on target against the manifest, and its
-    // contract promises four things: a target matches by canonical name OR by any alias,
-    // case-insensitively, and the walk reaches scoped `option` arrays as well as the root
-    // `global_option` array. Each is pinned here because a miss fails silently - the hook's
-    // handler just never fires, with no error to explain it.
+    // contract promises five things: a target matches by canonical name OR by any alias,
+    // case-insensitively, the walk reaches scoped `option` arrays as well as the root
+    // `global_option` array, and — since the manifest already fixes each node's type by the
+    // array it sits in — a name is only ever found in the position its spec key declares.
+    // Each is pinned here because a miss fails silently - the hook's handler just never fires,
+    // with no error to explain it.
     let manifest = serde_json::json!({
         "next": [
             { "name": "install", "alias": ["i"], "next": [ { "name": "add" } ] },
-            { "name": "build", "option": [ { "name": "--jobs", "alias": ["-j"] } ] }
+            { "name": "build", "option": [
+                { "name": "--jobs", "alias": ["-j"], "next": [ { "name": "auto" } ] }
+            ] }
         ],
         "global_option": [ { "name": "--help", "alias": ["-h"] } ]
     });
+    let cmd = TargetKind::Command;
+    let opt = TargetKind::Option;
 
     // By canonical name, matched case-insensitively; the owner name comes first, then its forms.
     assert_eq!(
-        collect_node_names(&manifest, "INSTALL"),
+        collect_node_names(&manifest, "INSTALL", cmd),
         Some(vec!["install".to_string(), "i".to_string()])
     );
     // By alias - the same owner is resolved, so an alias in a spec reaches the real node.
     assert_eq!(
-        collect_node_names(&manifest, "i"),
+        collect_node_names(&manifest, "i", cmd),
         Some(vec!["install".to_string(), "i".to_string()])
+    );
+    // A nested command is reachable too.
+    assert_eq!(
+        collect_node_names(&manifest, "ADD", cmd),
+        Some(vec!["add".to_string()])
     );
     // An option scoped to a subcommand is reachable, by name and by its short alias.
     assert_eq!(
-        collect_node_names(&manifest, "-j"),
+        collect_node_names(&manifest, "-j", opt),
         Some(vec!["--jobs".to_string(), "-j".to_string()])
     );
     // The root global_option array is walked as well, not just next/option.
     assert_eq!(
-        collect_node_names(&manifest, "--HELP"),
+        collect_node_names(&manifest, "--HELP", opt),
         Some(vec!["--help".to_string(), "-h".to_string()])
     );
+    // The declared position is part of the lookup: an option is not a command target, a
+    // command is not an option target, and an option's `next` entries are candidate VALUES,
+    // not targets of either kind. Writing the wrong key must miss.
+    assert_eq!(collect_node_names(&manifest, "-j", cmd), Some(Vec::new()));
+    assert_eq!(
+        collect_node_names(&manifest, "install", opt),
+        Some(Vec::new())
+    );
+    assert_eq!(collect_node_names(&manifest, "auto", cmd), Some(Vec::new()));
+    assert_eq!(collect_node_names(&manifest, "auto", opt), Some(Vec::new()));
     // An unknown target yields an EMPTY vec, not None - None only means the manifest root is
     // not an object. Callers rely on is_none_or(|v| v.is_empty()) to reject it, so pin the
     // distinction: a future reader must not "simplify" that into is_none().
-    assert_eq!(collect_node_names(&manifest, "nope"), Some(Vec::new()));
-    assert_eq!(collect_node_names(&serde_json::json!([1, 2]), "x"), None);
-    // Repeat lookups hit the memo cache; results must not drift from the first call.
+    assert_eq!(collect_node_names(&manifest, "nope", cmd), Some(Vec::new()));
     assert_eq!(
-        collect_node_names(&manifest, "INSTALL"),
+        collect_node_names(&serde_json::json!([1, 2]), "x", cmd),
+        None
+    );
+    // Repeat lookups hit the memo cache; results must not drift from the first call, and the
+    // cache key must include the kind (the two lookups below differ only by kind).
+    assert_eq!(
+        collect_node_names(&manifest, "INSTALL", cmd),
         Some(vec!["install".to_string(), "i".to_string()])
+    );
+    assert_eq!(
+        collect_node_names(&manifest, "INSTALL", opt),
+        Some(Vec::new())
     );
 }
 
@@ -432,6 +461,26 @@ fn provide_unknown_target_fails_loudly() {
         logged.contains("psc.on:") && logged.contains("nope"),
         "{logged}"
     );
+}
+
+#[test]
+fn provide_target_in_the_wrong_position_fails_loudly() {
+    // The manifest fixes each node's type by the array it sits in, so a spec's key has to
+    // agree with it. Both directions must be reported: a `next` entry (a command) targeted as
+    // an option, and an `option` entry targeted as a command. Either one used to register and
+    // then never fire, with nothing to explain why.
+    let mut c = root_provide_ctx();
+    c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
+    let logged = capture_error_log(
+        &mut c,
+        r#"psc.on({ option = "--self-update" }, function() end)"#,
+    );
+    assert!(logged.contains("is a command, not an option"), "{logged}");
+
+    let mut c2 = root_provide_ctx();
+    c2.manifest = serde_json::json!({ "option": [ { "name": "--json", "next": [] } ] });
+    let logged2 = capture_error_log(&mut c2, r#"psc.on({ command = "--json" }, function() end)"#);
+    assert!(logged2.contains("is an option, not a command"), "{logged2}");
 }
 
 #[test]
@@ -547,6 +596,38 @@ fn provide_empty_command_chain_is_redundant() {
         logged.contains("command must not be an empty array"),
         "{logged}"
     );
+}
+
+#[test]
+fn provide_option_like_command_name_matches_by_command_key() {
+    // A command is a command because the manifest puts it in `next`, not because its name
+    // avoids a `-` prefix: `psc --self-update` is a real command, so `command` must both
+    // register and match it. The array form used to reject an option-like segment while the
+    // string form never checked, so the two shapes disagreed and the spec went silently dead.
+    let mut c = root_provide_ctx();
+    c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
+    c.layers = vec![("command".into(), "--self-update".into())];
+    c.tokens = vec![Token {
+        text: "--self-update".into(),
+        kind: "command".into(),
+        canonical: Some("--self-update".into()),
+    }];
+    let string_form = run_hook(
+        &c,
+        r#"psc.on({ command = "--self-update" }, function() psc.add({ name = "s" }) end)"#,
+        &empty_static(),
+    )
+    .unwrap();
+    assert_eq!(string_form.len(), 1);
+    assert_eq!(string_form[0].text, "s");
+    let array_form = run_hook(
+        &c,
+        r#"psc.on({ command = { "--self-update" } }, function() psc.add({ name = "s" }) end)"#,
+        &empty_static(),
+    )
+    .unwrap();
+    assert_eq!(array_form.len(), 1);
+    assert_eq!(array_form[0].text, "s");
 }
 
 #[test]

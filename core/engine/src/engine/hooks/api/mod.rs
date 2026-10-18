@@ -174,6 +174,9 @@ pub(crate) fn items_to_table(lua: &Lua, items: &[LuaItem]) -> mlua::Result<Table
         if item.nospace {
             it.set("nospace", true)?;
         }
+        if let Some(is_option) = item.is_option {
+            it.set("is_option", is_option)?;
+        }
         t.set(i + 1, it)?;
     }
     Ok(t)
@@ -231,6 +234,8 @@ pub(crate) fn table_to_items(
             },
         };
         let nospace: bool = item.get::<Option<bool>>("nospace")?.unwrap_or(false);
+        // Engine-internal, like `nospace`: `None` means the row came from a hook, not a node.
+        let is_option: Option<bool> = item.get::<Option<bool>>("is_option")?;
         out.push(LuaItem {
             text,
             tip,
@@ -239,6 +244,7 @@ pub(crate) fn table_to_items(
             symbol,
             repeat: repeat.unwrap_or(0),
             nospace,
+            is_option,
         });
     }
     Ok(out)
