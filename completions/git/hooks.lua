@@ -323,7 +323,7 @@ psc.on({
     { command = { "config", "unset" } },
     { command = { "config", "get" } }
 }, function()
-    psc.add(psc.mount_items({ "next", "config", "set", "next" }))
+    psc.add(psc.mount_items({ "next", "config", "next", "set", "next" }))
     add_alias_keys()
 end)
 
