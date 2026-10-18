@@ -483,6 +483,25 @@ fn json_rm_removes_installed_completion() {
 }
 
 #[test]
+fn json_rm_clears_all_notification_lists() {
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-rm-change", &srv);
+    psc(&d, &["--json", "add", "demo"]);
+    std::fs::write(
+        d.join("temp/change.json"),
+        r#"{"update":["demo"],"added":["demo"],"removed":["demo"],"renamed":[["old","demo"]]}"#,
+    )
+    .unwrap();
+    let (code, out) = psc(&d, &["--json", "rm", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    let change = parse_json(&std::fs::read_to_string(d.join("temp/change.json")).unwrap());
+    assert_eq!(change["update"], serde_json::json!([]), "{change}");
+    assert_eq!(change["added"], serde_json::json!([]), "{change}");
+    assert_eq!(change["removed"], serde_json::json!([]), "{change}");
+    assert_eq!(change["renamed"], serde_json::json!([]), "{change}");
+}
+
+#[test]
 fn json_add_and_rm_unknown_name_report_in_band() {
     // An unknown name is a per-completion failure, not a whole-command abort: both commands
     // exit 0 and report the name back inside the array. (The rm half used to assert only

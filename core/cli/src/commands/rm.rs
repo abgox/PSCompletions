@@ -81,9 +81,15 @@ pub fn cmd_rm(
         }
         results.push(serde_json::json!({"completion": name, "ok": true}));
     }
-    // Drop removed completions from the persisted update list.
+    // Drop removed completions from every persisted notification list: a name the
+    // user just removed must not keep surfacing as new/removed/renamed/out-of-date.
     let mut changes = LibraryChanges::load(data_dir);
     changes.update.retain(|u| !names.iter().any(|n| n == u));
+    changes.added.retain(|u| !names.iter().any(|n| n == u));
+    changes.removed.retain(|u| !names.iter().any(|n| n == u));
+    changes
+        .renamed
+        .retain(|(o, n)| !names.iter().any(|x| x == o || x == n));
     changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
         if json {
