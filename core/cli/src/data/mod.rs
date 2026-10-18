@@ -36,8 +36,13 @@ pub fn remove_completion_entry(data_dir: &str, name: &str) {
             let _ = std::fs::remove_dir(&dir);
             #[cfg(not(windows))]
             let _ = std::fs::remove_file(&dir);
-        } else {
+        } else if md.file_type().is_dir() {
             let _ = std::fs::remove_dir_all(&dir);
+        } else {
+            // A stray plain file in the library directory. The user named it, so remove it — the
+            // directory holds completions and nothing else. (`remove_dir_all` fails on a file, and
+            // the error used to be swallowed, so `rm` reported success and left it there.)
+            let _ = std::fs::remove_file(&dir);
         }
     }
 }

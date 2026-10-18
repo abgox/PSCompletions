@@ -1293,6 +1293,24 @@ fn json_completion_writes_are_in_band() {
 }
 
 #[test]
+fn json_rm_removes_a_plain_file_in_the_library() {
+    // The library directory holds completions and nothing else, so a stray file there is junk the
+    // user is entitled to remove. `remove_dir_all` failed on it and the error was swallowed, so `rm`
+    // answered `ok: true` and left the file on disk.
+    let d = make_data("json-rm-plain-file", "http://127.0.0.1:9");
+    std::fs::write(d.join("completions/plainfile"), "not a completion").unwrap();
+    let (code, out) = psc(&d, &["--json", "rm", "plainfile"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    let item = &v["data"]["completions"][0];
+    assert_eq!(item["ok"], true, "{out}");
+    assert!(
+        !d.join("completions/plainfile").exists(),
+        "the file must actually be gone"
+    );
+}
+
+#[test]
 fn init_reports_a_failed_result_write() {
     // `--result` is how a host reads the payload: a swallowed write failure would hand it a missing
     // file and exit 0, so the host would silently run on nothing.
