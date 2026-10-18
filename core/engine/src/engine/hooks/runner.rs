@@ -26,6 +26,17 @@ pub(crate) fn is_hook_expired() -> bool {
 }
 
 struct HookDeadlineGuard;
+impl HookDeadlineGuard {
+    /// Arm the process-global deadline and hand back the guard that clears it. Only a guard ever
+    /// sets the slot, so it cannot be left behind: the fallible step (installing the Lua hook) runs
+    /// first, and a failure there never reaches this call.
+    fn arm(deadline: Instant) -> Self {
+        if let Ok(mut guard) = HOOK_DEADLINE.lock() {
+            *guard = Some(deadline);
+        }
+        HookDeadlineGuard
+    }
+}
 impl Drop for HookDeadlineGuard {
     fn drop(&mut self) {
         if let Ok(mut guard) = HOOK_DEADLINE.lock() {
@@ -167,9 +178,6 @@ impl HookSession {
 /// and single lazy evaluations.
 fn arm_timeout(lua: &Lua, timeout: Duration) -> mlua::Result<HookDeadlineGuard> {
     let deadline = Instant::now() + timeout;
-    if let Ok(mut guard) = HOOK_DEADLINE.lock() {
-        *guard = Some(deadline);
-    }
     lua.set_hook(
         HookTriggers::new().every_nth_instruction(HOOK_INSTRUCTION_INTERVAL),
         move |_lua, _dbg| -> mlua::Result<VmState> {
@@ -183,7 +191,9 @@ fn arm_timeout(lua: &Lua, timeout: Duration) -> mlua::Result<HookDeadlineGuard> 
             }
         },
     )?;
-    Ok(HookDeadlineGuard)
+    // The deadline is armed only after the hook is installed: the guard is what clears the slot, so
+    // arming it before a fallible call would leave a stale deadline for `is_hook_expired`.
+    Ok(HookDeadlineGuard::arm(deadline))
 }
 
 /// Execute a `hooks.lua` script with the default timeout.
@@ -323,4 +333,26 @@ pub(crate) fn run_hook_keepalive_with_timeout(
         cmd: context.cmd.clone(),
     };
     Ok((items, session))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_deadline_guard_is_what_arms_and_clears_the_slot() {
+        // The global slot is only ever set by holding a guard, which is what makes a stale deadline
+        // impossible: `arm_timeout` installs the Lua hook first, and a failure there returns before
+        // any guard exists. `is_hook_expired` reads this slot.
+        *HOOK_DEADLINE.lock().unwrap() = None;
+        {
+            let _guard = HookDeadlineGuard::arm(Instant::now() + Duration::from_secs(60));
+            assert!(HOOK_DEADLINE.lock().unwrap().is_some(), "armed");
+            assert!(!is_hook_expired(), "a future deadline is not expired");
+        }
+        assert!(
+            HOOK_DEADLINE.lock().unwrap().is_none(),
+            "the guard clears the slot on drop"
+        );
+    }
 }
