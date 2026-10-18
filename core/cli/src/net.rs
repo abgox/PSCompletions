@@ -149,7 +149,7 @@ fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, String> {
 /// Fetch `path` under the first URL that succeeds (reuses the shared client).
 pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
     let client = http_client();
-    let mut last_err = String::new();
+    let mut errors: Vec<String> = Vec::new();
     for u in urls {
         let url = format!("{}/{}", u.trim_end_matches('/'), path);
         // Retry once on transient connect/timeout failures (a single-threaded local server
@@ -167,8 +167,10 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
                         || e.is_timeout()
                         || e.status()
                             .is_some_and(|s| s.as_u16() == 429 || s.is_server_error());
-                    last_err = e.to_string();
+                    // Report every mirror that failed, not only the last: with three sources a user
+                    // otherwise sees one 404 and cannot tell that all of them are unreachable.
                     if !transient || attempt == 1 {
+                        errors.push(format!("{url}: {e}"));
                         break;
                     }
                     std::thread::sleep(Duration::from_millis(200));
@@ -176,7 +178,7 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
             }
         }
     }
-    Err(last_err)
+    Err(errors.join("; "))
 }
 
 /// Crash residue from staged downloads: pid-suffixed temp files/dirs
@@ -688,6 +690,20 @@ mod tests {
             err.contains("en-US.json"),
             "the message names the file: {err}"
         );
+    }
+
+    #[test]
+    fn every_mirror_that_failed_is_named() {
+        // With three sources, reporting only the last one hides that all of them are unreachable
+        // (the end-to-end run of `--self-update` showed exactly that: one 404 for the site, while
+        // GitHub and Gitee had failed too).
+        let urls = vec![
+            "http://127.0.0.1:9/first".to_string(),
+            "http://127.0.0.1:9/second".to_string(),
+        ];
+        let err = fetch_text(&urls, "x.json").unwrap_err();
+        assert!(err.contains("127.0.0.1:9/first"), "{err}");
+        assert!(err.contains("127.0.0.1:9/second"), "{err}");
     }
 
     #[test]
