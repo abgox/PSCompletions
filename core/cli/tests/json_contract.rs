@@ -567,6 +567,26 @@ fn json_update_rename_line_uses_the_one_style() {
 }
 
 #[test]
+fn json_list_and_alias_render_an_empty_alias_list_the_same_way() {
+    // `key_line`'s rule: an empty value ends at the colon. Both listings must follow it — they
+    // agreed with neither each other nor `config` / `completion`, and `alias` left an invisible
+    // trailing space in captured output.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-empty-alias-line", &srv);
+    psc(&d, &["add", "demo"]);
+    // Removing every trigger word leaves the settings entry empty.
+    psc(&d, &["alias", "rm", "demo", "demo"]);
+
+    let (_, list_out) = psc(&d, &["list"]);
+    let line = list_out.lines().find(|l| l.starts_with("demo")).unwrap();
+    assert_eq!(line, "demo:", "{list_out}");
+
+    let (_, alias_out) = psc(&d, &["alias"]);
+    let line = alias_out.lines().find(|l| l.starts_with("demo")).unwrap();
+    assert_eq!(line, "demo:", "{alias_out}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

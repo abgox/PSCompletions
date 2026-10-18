@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use serde_json::json;
 
 use crate::data::Settings;
-use crate::output::{meta, ok, Out};
+use crate::output::{key_line, meta, ok, Out};
 
 pub fn cmd_list(
     args: &[String],
@@ -44,12 +44,9 @@ pub fn cmd_list(
             .unwrap_or_default();
         // All trigger words, exactly like this command's JSON and like PS's `_render_list`, which
         // renders that JSON. Filtering out the completion's own name made `psc list` disagree with
-        // `psc alias` for no visible reason.
-        if aliases.is_empty() {
-            out.line(name);
-        } else {
-            out.line(&format!("{name}: {}", aliases.join(", ")));
-        }
+        // `psc alias` for no visible reason. `key_line` owns the shape, so an empty value ends at
+        // the colon here too — like `config` / `completion`.
+        out.line(&key_line(name, &aliases.join(", ")));
     }
     ExitCode::SUCCESS
 }

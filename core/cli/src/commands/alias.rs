@@ -6,7 +6,7 @@ use serde_json::json;
 
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{fail, meta, ok, Out};
+use crate::output::{fail, key_line, meta, ok, Out};
 use crate::validate::{data_dir_of, name_error, name_status, reset_alias, too_few_params};
 
 /// The entry every listing and every write answers with (design/json.md): the completion's name
@@ -92,7 +92,7 @@ pub fn cmd_alias(
                     .as_array()
                     .map(|a| a.iter().filter_map(|v| v.as_str()).collect())
                     .unwrap_or_default();
-                out.line(&format!("{name}: {}", words.join(", ")));
+                out.line(&key_line(name, &words.join(", ")));
             }
             ExitCode::SUCCESS
         }
