@@ -55,13 +55,16 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
   Elsewhere it is a literal.
 - `*` at the start only forces subsequence in **wildcard** mode. In subsequence
   mode it is a literal char.
+- When both markers are present, `^` is read **first** (it is only a marker at
+  position 0) and `*` second: `^*abc` is an anchored forced-subsequence. A leading
+  `*` cannot escape the anchor — write `*^abc` to make the `^` literal instead.
 
 | Filter | Subsequence config | Wildcard config |
 | --- | --- | --- |
 | `abc` | subsequence `a-b-c` | contains `abc` |
 | `^abc` | `a` anchored + `bc` subsequence | starts with `abc` |
 | `*abc` | literal `*abc` subsequence | force subsequence: `a-b-c` |
-| `^*abc` | `*` anchored + `abc` subsequence | force subsequence: literal `^abc` (same as `*^abc` below — the leading `*` is stripped first, so `^` never anchors here) |
+| `^*abc` | `*` anchored + `abc` subsequence | `a` anchored + `bc` subsequence: `^` is stripped first, so the `*` only forces subsequence and the anchor survives (an anchored `^abc`) |
 | `**abc` | literal `**abc` subsequence | contains literal `*abc` |
 | `^**abc` | `*` anchored + `*abc` subsequence | starts with literal `*abc` |
 | `a*b` | subsequence `a-*-b` | `a` any `b` |

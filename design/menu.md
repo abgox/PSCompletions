@@ -91,7 +91,8 @@ The menu's input handling is the **user-visible contract**:
   },
   "terminal": { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 },
                 "window": { "top": 0, "h": 30 }, "platform": "windows" },
-  "data_dir": "<resolved data directory>"
+  "dir": { "data": "<resolved data directory>",
+           "order": "<order cache directory>", "menu": "<menu temp directory>" }
 }
 ```
 
