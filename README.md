@@ -1,11 +1,12 @@
 <h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
 
 <p align="center">
+    <span>English</span> |
     <a href="README.zh-CN.md">简体中文</a> |
-    <a href="https://www.powershellgallery.com/packages/PSCompletions">Powershell Gallery</a> |
+    <a href="https://www.powershellgallery.com/packages/PSCompletions">PowerShell Gallery</a> |
     <a href="https://github.com/abgox/PSCompletions">GitHub</a> |
-    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a> |
-    <a href="https://atomgit.com/abgox/PSCompletions">AtomGit</a>
+    <a href="https://atomgit.com/abgox/PSCompletions">AtomGit</a> |
+    <a href="https://gitee.com/abgox/PSCompletions">Gitee</a>
 </p>
 
 <p align="center">
@@ -28,8 +29,9 @@
 
 ## Introduction
 
-A tab-completion manager for [PowerShell](https://microsoft.com/powershell), built with [Rust and Lua](https://pscompletions.abgox.com/docs/how-it-works).
+Powerful Shell Completions for [PowerShell and other shells](https://pscompletions.abgox.com/docs/shells), powered by Rust and Lua.
 
+- [One engine, many shells.](https://pscompletions.abgox.com/docs/shells)
 - [Built-in completion library.](../index/completions.md)
 - [More powerful completion menu.](https://pscompletions.abgox.com/docs/completion-menu)
 - [Multilingual support: en-US, zh-CN, etc.](https://pscompletions.abgox.com/docs/language)
@@ -39,10 +41,9 @@ A tab-completion manager for [PowerShell](https://microsoft.com/powershell), bui
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
-## How to get
+## How to use
 
-1. Install the module.
-
+1. Install it.
    - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
 
      ```powershell
@@ -56,42 +57,42 @@ A tab-completion manager for [PowerShell](https://microsoft.com/powershell), bui
      ```
 
    - [Scoop](https://scoop.sh)
-
      - Use [main](https://github.com/ScoopInstaller/Main) bucket
 
        ```shell
        scoop install pscompletions
        ```
 
-     - Use [abyss](https://abyss.abgox.com) bucket ([GitHub](https://github.com/abgox/abyss) or [Gitee](https://gitee.com/abgox/abyss))
+     - Use [abyss](https://abyss.abgox.com) bucket
 
        ```shell
        scoop install abyss/abgox.PSCompletions
        ```
 
-2. [Import the module.](https://pscompletions.abgox.com/docs/direct-import-module)
+2. Load it.
+   - PowerShell — [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module):
 
-   ```powershell
-   Import-Module PSCompletions
-   ```
+     ```powershell
+     Import-Module PSCompletions
+     ```
 
-## How to use
+   - Other shells — source the bridge shipped in the module (see [Shell support](https://pscompletions.abgox.com/docs/shells)):
 
-- [Built-in completion library](../index/completions.md): add a completion with `psc add git`.
-- [Native completion integration](https://pscompletions.abgox.com/docs/native-completion): use PowerShell's native completions.
-  - If a command has an official completion, a similar command may be run:
+     ```sh
+     # Linux / macOS; the module root differs on Windows
+     module="$(ls -dt "$HOME"/.local/share/powershell/Modules/PSCompletions/*/ | head -1)"
 
-    ```powershell
-    xxx completion powershell | Out-String | Invoke-Expression
-    ```
+     # bash — one line in ~/.bashrc, last in the file
+     source "${module}PSCompletions.bash"
+     # zsh — one line in ~/.zshrc, last in the file
+     source "${module}PSCompletions.zsh"
+     # fish — a conf.d symlink, or `source` it from config.fish
+     ln -s "${module}PSCompletions.fish" ~/.config/fish/conf.d/PSCompletions.fish
+     ```
 
-  - Register completions with the PowerShell argument completer:
-
-    ```powershell
-    Register-ArgumentCompleter [-Native] -CommandName <Name> -ScriptBlock { }
-    ```
-
-  - Use other completion libraries such as [Carapace](https://pscompletions.abgox.com/docs/tools/carapace).
+3. Use it.
+   - [Built-in completion library](../index/completions.md): add a completion with `psc add git`.
+   - [Native completion](https://pscompletions.abgox.com/docs/native-completion): each shell has its own mechanism — PowerShell argument completers, bash/zsh/fish native completion, …
 
 ## What's new
 
