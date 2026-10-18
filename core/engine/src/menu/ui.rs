@@ -49,7 +49,7 @@ fn parse_color(s: &str, fallback: Color) -> Color {
             if let Ok(idx) = s.parse::<u8>() {
                 return Color::Indexed(idx);
             }
-            if s.len() == 7 && s.starts_with('#') {
+            if s.len() == 7 && s.starts_with('#') && s.is_ascii() {
                 if let (Ok(r), Ok(g), Ok(b)) = (
                     u8::from_str_radix(&s[1..3], 16),
                     u8::from_str_radix(&s[3..5], 16),
@@ -713,7 +713,8 @@ fn display_width(s: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use super::find_desc_separator;
+    use super::{find_desc_separator, parse_color};
+    use ratatui::style::Color;
 
     #[test]
     fn desc_separator_requires_two_spaces_before() {
@@ -728,5 +729,16 @@ mod tests {
         assert_eq!(find_desc_separator("grep 'a#b'"), None);
         // No space after → no hit.
         assert_eq!(find_desc_separator("cmd  #desc"), None);
+    }
+
+    /// A `#RRGGBB` value is 7 *bytes* only when it is 7 ASCII chars: `#a€bc` is 7 bytes but
+    /// 5 chars, so byte slicing would split the `€` and panic on the first rendered frame.
+    #[test]
+    fn parse_color_falls_back_on_multibyte_input() {
+        assert_eq!(parse_color("#a\u{20ac}bc", Color::Red), Color::Red);
+        assert_eq!(
+            parse_color("#abcdef", Color::Red),
+            Color::Rgb(0xab, 0xcd, 0xef)
+        );
     }
 }
