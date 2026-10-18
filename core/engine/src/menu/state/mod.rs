@@ -383,7 +383,11 @@ impl MenuState {
         self.prev_edit_cursor = self.cursor;
         self.cursor -= 1;
         let byte = self.filter_cursor_byte();
-        let ch = self.filter[byte..].chars().next().unwrap();
+        // Total, not `unwrap`: a cursor left past the end (or a byte that is not a char boundary)
+        // must degrade, never panic the menu.
+        let Some(ch) = self.filter.get(byte..).and_then(|rest| rest.chars().next()) else {
+            return;
+        };
         self.filter.drain(byte..byte + ch.len_utf8());
         // A deletion is an edit (not an append): when nothing matches, the buffer is used
         // up directly (apply_filter handles this), so editing backwards does not keep
@@ -399,7 +403,10 @@ impl MenuState {
         }
         self.prev_edit_cursor = self.cursor;
         let byte = self.filter_cursor_byte();
-        let ch = self.filter[byte..].chars().next().unwrap();
+        // Same rule as backspace_at_cursor: a stale cursor degrades, it never panics.
+        let Some(ch) = self.filter.get(byte..).and_then(|rest| rest.chars().next()) else {
+            return;
+        };
         self.filter.drain(byte..byte + ch.len_utf8());
         // Same as backspace_at_cursor: a deletion is an edit (not an append).
         self.last_insert = false;

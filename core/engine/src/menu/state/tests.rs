@@ -639,6 +639,27 @@ fn with_initial_filter_no_match_keeps_full_list() {
 }
 
 #[test]
+fn a_stale_filter_cursor_degrades_instead_of_panicking() {
+    // The cursor is an invariant the editing paths maintain; a stale one used to panic the menu
+    // (`self.filter[byte..].chars().next().unwrap()` on an empty tail). §7.0: it degrades.
+    let c = cfg(false);
+    let term = term();
+    let mut s = MenuState::new(items(3), &c, &term);
+    s.filter = "abc".into();
+    s.cursor = 99;
+    s.backspace_at_cursor();
+    s.cursor = 99;
+    s.delete_at_cursor();
+    // A multibyte filter with the same stale cursor: the byte must not be sliced mid-character.
+    s.filter = "aé".into();
+    s.cursor = 99;
+    s.backspace_at_cursor();
+    s.cursor = 99;
+    s.delete_at_cursor();
+    assert_eq!(s.filter, "aé", "a stale cursor changes nothing");
+}
+
+#[test]
 fn with_initial_filter_prefills_and_prefix_matches() {
     let c = cfg(false);
     let term = term();
