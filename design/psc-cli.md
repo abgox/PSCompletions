@@ -201,8 +201,11 @@ psc completion <name> <key> --reset  # reset one key (exactly one; surplus args 
   they power the module's management completions.
 - **Validation**: `<name>` must be installed; `enable_`/`disable_` keys accept only the numbers
   `0`/`1` and are stored as JSON numbers (same as `config` boolean keys).
-- **Output**: no-arg → `name: language=zh-CN enable_tip=0`
-  (JSON: `{"completions": [{name, config}]}`); get → `key: value`
+- **Output**: a read prints **only what differs from the default**, so `psc completion` and
+  `psc completion <name>` print nothing when there is no special config.
+  no-arg → one `[name]` group per such completion, then `key: value` lines
+  (JSON: `{"completions": [{name, config}]}`); `<name>` → that completion's `key: value` lines
+  (JSON: `{"name", "config"}`); get → the value alone, as in `config <group> <key>`
   (JSON: `{"name", "key", "value"}`); set → `Completion config updated.`
   (JSON: `{"name", "key", "value", "old"}` — the item the get answers with, plus the value it
   replaced); `--reset` → the resulting state, the same shape the read of that scope answers with

@@ -122,7 +122,10 @@ pub fn cmd_update(
                 .unwrap_or_default()
                 .as_secs(),
         );
-        changes.save(data_dir);
+        if let Err(e) = changes.save(data_dir) {
+            // Nothing was persisted: that is the whole command's failure, not one item's.
+            return fail(out, "io", &format!("error: {e}"), json, false);
+        }
 
         let mut any = false;
         let updatable_no_rename: Vec<&String> = need_update
@@ -384,14 +387,17 @@ pub fn cmd_update(
     };
     // Refresh the persisted post-check state (added/removed/renamed/update/module) and check the module version.
     // Runs AFTER the operation, diffing the pre-operation snapshot against the fresh index.
-    record_post_check(
+    if let Err(e) = record_post_check(
         data_dir,
         settings,
         &old_list,
         index,
         &executed_renames,
         &names,
-    );
+    ) {
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(out, "io", &format!("error: {e}"), json, false);
+    }
     // Save first, print once: the payload must carry the save outcome, and `--json` mode owes
     // the consumer exactly one JSON document.
     let save_err = settings.save(settings_path).err();

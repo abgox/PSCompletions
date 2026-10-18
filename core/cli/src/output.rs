@@ -125,8 +125,22 @@ pub fn key_line(key: &str, value: &str) -> String {
 /// envelope with a stable `code` beside it. `usage` selects the exit code — a usage error is `2`,
 /// anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
 pub fn fail(out: &Out, code: &str, msg: &str, json: bool, usage: bool) -> ExitCode {
+    fail_details(out, code, msg, None, json, usage)
+}
+
+/// `fail` plus the structured parts of a failure (`design/json.md` §4): a machine caller reads
+/// `details` instead of parsing a localized `message`. Only a site that actually has parts passes
+/// them; every other site keeps calling `fail`.
+pub fn fail_details(
+    out: &Out,
+    code: &str,
+    msg: &str,
+    details: Option<serde_json::Value>,
+    json: bool,
+    usage: bool,
+) -> ExitCode {
     if json {
-        return err(code, msg, None, usage);
+        return err(code, msg, details, usage);
     }
     out.line(msg);
     if usage {

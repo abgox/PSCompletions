@@ -155,7 +155,7 @@ pub fn record_post_check(
     index: &Index,
     executed_renames: &[(String, String)],
     operated: &[String],
-) {
+) -> Result<(), String> {
     let mut changes = compute_post_changes(
         data_dir,
         settings,
@@ -173,7 +173,7 @@ pub fn record_post_check(
             .unwrap_or_default()
             .as_secs(),
     );
-    changes.save(data_dir);
+    changes.save(data_dir)
 }
 
 #[cfg(test)]
@@ -305,7 +305,7 @@ mod tests {
         index.ids.insert("foo".to_string(), "abc".to_string());
         index.update.insert("foo".to_string(), "v1".to_string());
 
-        record_post_check(data_dir, &settings, &[], &index, &[], &[]);
+        record_post_check(data_dir, &settings, &[], &index, &[], &[]).unwrap();
 
         let loaded = LibraryChanges::load(data_dir);
         let now = std::time::SystemTime::now()

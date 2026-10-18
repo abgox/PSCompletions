@@ -29,6 +29,27 @@ pub fn hooks_declared_disabled(data_dir: &str, name: &str) -> bool {
         .unwrap_or(false)
 }
 
+/// The `enable_hooks` guard, shared by every path that names that key — read, set and **key
+/// reset**: the key is meaningless unless the completion's `config.json` declares `hooks`. A
+/// whole-completion or whole-scope reset is deliberately not guarded, because it also resets the
+/// keys that do apply.
+fn hooks_guard(
+    data_dir: &str,
+    name: &str,
+    key: &str,
+    lang: &str,
+) -> Option<(&'static str, String)> {
+    if key != "enable_hooks" {
+        return None;
+    }
+    let path = format!("{data_dir}/completions/{name}/config.json");
+    let has_hooks = read_text(&path)
+        .and_then(|t| serde_json::from_str::<Value>(&t).ok())
+        .map(|v| v.get("hooks").is_some())
+        .unwrap_or(false);
+    (!has_hooks).then(|| ("no_hooks", msg_cli(lang, "no_hooks")))
+}
+
 /// Every completion whose stored special config is not empty — the set the listing reports and a
 /// reset answers with (an emptied entry is dropped, so "default" means absent).
 fn completion_configs(settings: &Settings) -> Vec<(String, serde_json::Map<String, Value>)> {
@@ -114,6 +135,11 @@ pub fn cmd_completion(
             }
             let name = params[0].clone();
             let key = params[1].clone();
+            // The same guard the read / set path applies: resetting `enable_hooks` is no more
+            // meaningful than reading it when the completion declares no hooks.
+            if let Some((code, e)) = hooks_guard(&data_dir, &name, &key, lang) {
+                return fail(out, code, &e, json, true);
+            }
             // Validate the key like the set path: a known key, or one already stored.
             let valid = COMPLETION_KEYS.contains(&key.as_str())
                 || settings
@@ -257,18 +283,8 @@ pub fn cmd_completion(
     }
     let key = args[1].clone();
     // enable_hooks is only valid when the completion's config.json declares hooks.
-    if key == "enable_hooks" {
-        let config_path = format!(
-            "{}/completions/{name}/config.json",
-            data_dir_of(settings_path)
-        );
-        let has_hooks = read_text(&config_path)
-            .and_then(|t| serde_json::from_str::<serde_json::Value>(&t).ok())
-            .map(|c| c.get("hooks").is_some())
-            .unwrap_or(false);
-        if !has_hooks {
-            return fail(out, "no_hooks", &msg_cli(lang, "no_hooks"), json, true);
-        }
+    if let Some((code, e)) = hooks_guard(&data_dir_of(settings_path), &name, &key, lang) {
+        return fail(out, code, &e, json, true);
     }
     let valid = COMPLETION_KEYS.contains(&key.as_str())
         || settings

@@ -122,7 +122,10 @@ pub fn cmd_add(
         // Nothing was persisted: that is the whole command's failure, not one item's.
         return fail(out, "io", &format!("error: {e}"), json, false);
     }
-    record_post_check(data_dir, settings, &old_list, index, &[], &names);
+    if let Err(e) = record_post_check(data_dir, settings, &old_list, index, &[], &names) {
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(out, "io", &format!("error: {e}"), json, false);
+    }
     let mut results = results.lock().unwrap().clone();
     // The slot is the argument position; workers finish in any order.
     results.sort_by_key(|(i, _, _)| *i);

@@ -138,6 +138,31 @@ fn json_config_bad_group() {
 }
 
 #[test]
+fn json_invalid_subcommand_carries_the_parts_structured() {
+    // `design/json.md` §4 documents `details: { token, valid }` for this failure: the parts travel
+    // structured so a machine caller need not parse the localized `message`.
+    let d = make_data("json-cfg-details", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "config", "badgroup"]);
+    assert_eq!(code, 2, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["error"]["code"], "invalid_subcommand", "{out}");
+    assert_eq!(v["error"]["details"]["token"], "badgroup", "{out}");
+    assert_eq!(
+        v["error"]["details"]["valid"],
+        serde_json::json!(["core", "menu", "context"]),
+        "{out}"
+    );
+    // The human message still names the token, so the text mode loses nothing.
+    assert!(
+        v["error"]["message"]
+            .as_str()
+            .unwrap_or_default()
+            .contains("badgroup"),
+        "{out}"
+    );
+}
+
+#[test]
 fn json_config_bad_key() {
     let d = make_data("json-cfg-key", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "config", "menu", "nosuchkey"]);
@@ -155,6 +180,31 @@ fn json_completion_bad_key() {
     let v = parse_json(&out);
     assert_eq!(v["ok"], false, "{out}");
     assert_eq!(v["error"]["code"], "invalid_subcommand", "{out}");
+}
+
+#[test]
+fn json_completion_enable_hooks_reset_is_guarded_too() {
+    // `enable_hooks` is meaningless unless the completion declares hooks, and every path that names
+    // the key says so: read, set — and reset, which used to slip past the guard and answer `ok: true`
+    // for a completion with no hooks at all.
+    let d = make_data("json-cmpl-hooks-guard", "http://127.0.0.1:9");
+    let (code, out) = psc(
+        &d,
+        &[
+            "--json",
+            "completion",
+            "git",
+            "enable_hooks",
+            "--reset",
+            "--yes",
+        ],
+    );
+    assert_eq!(code, 2, "a usage error exits 2: {out}");
+    let v = parse_json(&out);
+    assert_eq!(v["error"]["code"], "no_hooks", "{out}");
+    // A whole-completion reset is deliberately not guarded: it also resets the keys that do apply.
+    let (code2, out2) = psc(&d, &["--json", "completion", "git", "--reset", "--yes"]);
+    assert_eq!(code2, 0, "{out2}");
 }
 
 #[test]

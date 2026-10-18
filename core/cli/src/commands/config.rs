@@ -8,7 +8,7 @@ use crate::data::config::{validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use crate::data::{default_config, Settings};
 use crate::messages::msg_cli;
 use crate::net::is_official_source;
-use crate::output::{fail, key_line, ok, value_quoted, value_text, Out};
+use crate::output::{fail, fail_details, key_line, ok, value_quoted, value_text, Out};
 
 fn config_get(settings: &Settings, key: &str) -> String {
     settings
@@ -190,7 +190,10 @@ pub fn cmd_config(
         let msg = msg_cli(lang, "invalid_subcommand_named")
             .replace("{{Token}}", group)
             .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
-        return fail(out, "invalid_subcommand", &msg, json, true);
+        // The same two parts also travel structured, so a machine caller reads them instead of
+        // parsing a localized message (design/json.md §4).
+        let details = json!({ "token": group, "valid": CONFIG_GROUPS });
+        return fail_details(out, "invalid_subcommand", &msg, Some(details), json, true);
     }
     // `config <group>`: list that group
     if args.len() == 1 {

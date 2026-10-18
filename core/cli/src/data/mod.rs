@@ -280,18 +280,21 @@ impl LibraryChanges {
         }
     }
 
-    /// Atomically save to `<data>/temp/change.json`.
-    pub fn save(&self, data_dir: &str) {
-        if let Ok(text) = serde_json::to_string(self) {
-            let tmp_dir = format!("{data_dir}/temp");
-            let _ = std::fs::create_dir_all(&tmp_dir);
-            let tmp = format!("{tmp_dir}/change.json.{}.tmp", std::process::id());
-            let path = format!("{tmp_dir}/change.json");
-            if std::fs::write(&tmp, text).is_ok() {
-                let _ = std::fs::rename(&tmp, path);
-                let _ = std::fs::remove_file(&tmp);
-            }
+    /// Atomically save to `<data>/temp/change.json`. The module reads this file to surface what
+    /// changed, so a silent failure would leave stale notifications — the caller reports it, the
+    /// same way it reports a failed `settings.json` save.
+    pub fn save(&self, data_dir: &str) -> Result<(), String> {
+        let text = serde_json::to_string(self).map_err(|e| e.to_string())?;
+        let tmp_dir = format!("{data_dir}/temp");
+        std::fs::create_dir_all(&tmp_dir).map_err(|e| e.to_string())?;
+        let tmp = format!("{tmp_dir}/change.json.{}.tmp", std::process::id());
+        let path = format!("{tmp_dir}/change.json");
+        std::fs::write(&tmp, text).map_err(|e| e.to_string())?;
+        if let Err(e) = std::fs::rename(&tmp, &path) {
+            let _ = std::fs::remove_file(&tmp);
+            return Err(e.to_string());
         }
+        Ok(())
     }
 }
 
@@ -672,7 +675,7 @@ mod tests {
             module: Some("7.2.0".into()),
             last_check: None,
         };
-        c.save(&d);
+        c.save(&d).unwrap();
 
         let loaded = LibraryChanges::load(&d);
         assert_eq!(loaded.update, vec!["7z", "docker"]);
@@ -685,6 +688,22 @@ mod tests {
         std::fs::remove_file(data_dir.join("temp/change.json")).ok();
         let empty = LibraryChanges::load(&d);
         assert!(empty.update.is_empty() && empty.renamed.is_empty() && empty.module.is_none());
+        std::fs::remove_dir_all(&data_dir).ok();
+    }
+
+    #[test]
+    fn library_changes_save_reports_a_write_failure() {
+        // The module reads `change.json` to surface what changed, so a failed write must reach the
+        // caller: it used to be swallowed whole (`let _ =` / `if … .is_ok()`), leaving the
+        // notifications silently stale.
+        let n = TMP_COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let mut data_dir = std::env::temp_dir();
+        data_dir.push(format!("psc-data-lc-fail-{}-{n}", std::process::id()));
+        std::fs::create_dir_all(&data_dir).unwrap();
+        // A *file* named `temp` makes `create_dir_all` fail, so the write cannot land.
+        std::fs::write(data_dir.join("temp"), b"not a directory").unwrap();
+        let d = data_dir.to_string_lossy().to_string();
+        assert!(LibraryChanges::default().save(&d).is_err());
         std::fs::remove_dir_all(&data_dir).ok();
     }
 

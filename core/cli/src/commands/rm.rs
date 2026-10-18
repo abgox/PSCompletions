@@ -91,7 +91,10 @@ pub fn cmd_rm(
     changes
         .renamed
         .retain(|(o, n)| !names.iter().any(|x| x == o || x == n));
-    changes.save(data_dir);
+    if let Err(e) = changes.save(data_dir) {
+        // Nothing was persisted: that is the whole command's failure, not one item's.
+        return fail(out, "io", &format!("error: {e}"), json, false);
+    }
     if let Err(e) = settings.save(settings_path) {
         // Nothing was persisted: that is the whole command's failure, not one item's.
         return fail(out, "io", &format!("error: {e}"), json, false);
