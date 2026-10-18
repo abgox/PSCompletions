@@ -1293,6 +1293,19 @@ fn json_completion_writes_are_in_band() {
 }
 
 #[test]
+fn json_add_reports_a_local_failure_as_io_not_network() {
+    // The index came back but was unusable: the bytes arrived, so this is a local failure. It used
+    // to be reported as `network`, which sends the user to the wrong place entirely.
+    let srv = spawn_server(vec![("completions.json", "{ not json".to_string())]);
+    let d = make_data("json-add-local-failure", &srv);
+    let (code, out) = psc(&d, &["--json", "add", "demo"]);
+    assert_ne!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], false, "{out}");
+    assert_eq!(v["error"]["code"], "io", "{out}");
+}
+
+#[test]
 fn json_rm_removes_a_plain_file_in_the_library() {
     // The library directory holds completions and nothing else, so a stray file there is junk the
     // user is entitled to remove. `remove_dir_all` failed on it and the error was swallowed, so `rm`

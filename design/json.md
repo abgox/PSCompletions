@@ -78,6 +78,11 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
   `not_installed`, `not_in_library`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
   `language_no_reset`, `alias_wildcard`, `alias_reserved`,
   `alias_not_found`, `settings_corrupt`, `io`, `network`.
+- **`network` and `io` are split by where the failure happened**, not by which command reported it: a
+  transport failure (connect, timeout, an HTTP status) is `network`; a failure *after the bytes
+  arrived* — a decode, a parse, a shape check, a local write — is `io`. `psc add` against a mirror
+  that answers with an unusable index is `io`, not `network`. Every mirror's failure is named in the
+  message, and the last one decides the code.
 
 ## 5. `meta`
 

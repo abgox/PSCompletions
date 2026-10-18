@@ -139,17 +139,61 @@ fn http_client() -> &'static reqwest::blocking::Client {
     })
 }
 
+/// A fetch failure, classified by *where* it happened: a transport failure is `network`, a failure
+/// that happened after the bytes arrived (a decode, a parse, a local write) is `io`. Callers report
+/// the code; `Display` keeps every existing `e.to_string()` site working unchanged.
+#[derive(Debug, Clone)]
+pub enum FetchError {
+    Network(String),
+    Local(String),
+}
+
+impl FetchError {
+    /// The stable code this failure is reported under.
+    pub fn code(&self) -> &'static str {
+        match self {
+            FetchError::Network(_) => "network",
+            FetchError::Local(_) => "io",
+        }
+    }
+
+    pub fn message(&self) -> &str {
+        match self {
+            FetchError::Network(m) | FetchError::Local(m) => m,
+        }
+    }
+
+    /// A local failure (I/O, decode, parse) with a message.
+    pub fn local(e: impl std::fmt::Display) -> Self {
+        FetchError::Local(e.to_string())
+    }
+}
+
+impl std::fmt::Display for FetchError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.message())
+    }
+}
+
+impl From<String> for FetchError {
+    /// A bare `String` error from the local helpers (`validate_index_shape`, `validate_config_id`)
+    /// is a local failure: it is only ever built after the bytes arrived.
+    fn from(s: String) -> Self {
+        FetchError::Local(s)
+    }
+}
+
 /// The body as text, or an error. A source file that is not UTF-8 is **rejected** rather than
 /// decoded lossily: U+FFFD would be installed silently and the user would never know the file is
 /// damaged (the JSON parser does not catch it — a U+FFFD in a string is valid JSON).
-fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, String> {
-    String::from_utf8(bytes).map_err(|_| format!("{url} is not valid UTF-8"))
+fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, FetchError> {
+    String::from_utf8(bytes).map_err(|_| FetchError::Local(format!("{url} is not valid UTF-8")))
 }
 
 /// Fetch `path` under the first URL that succeeds (reuses the shared client).
-pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
+pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
     let client = http_client();
-    let mut errors: Vec<String> = Vec::new();
+    let mut errors: Vec<FetchError> = Vec::new();
     for u in urls {
         let url = format!("{}/{}", u.trim_end_matches('/'), path);
         // Retry once on transient connect/timeout failures (a single-threaded local server
@@ -170,7 +214,7 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
                     // Report every mirror that failed, not only the last: with three sources a user
                     // otherwise sees one 404 and cannot tell that all of them are unreachable.
                     if !transient || attempt == 1 {
-                        errors.push(format!("{url}: {e}"));
+                        errors.push(FetchError::Network(format!("{url}: {e}")));
                         break;
                     }
                     std::thread::sleep(Duration::from_millis(200));
@@ -178,7 +222,26 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, String> {
             }
         }
     }
-    Err(errors.join("; "))
+    // Every mirror's failure is named (a user must see that all of them are unreachable), and the
+    // last one — the one the message ends with — decides the code.
+    let kind_is_local = errors
+        .last()
+        .is_some_and(|e| matches!(e, FetchError::Local(_)));
+    let message = errors
+        .iter()
+        .map(|e| e.message())
+        .collect::<Vec<_>>()
+        .join("; ");
+    let message = if message.is_empty() {
+        "no sources".to_string()
+    } else {
+        message
+    };
+    Err(if kind_is_local {
+        FetchError::Local(message)
+    } else {
+        FetchError::Network(message)
+    })
 }
 
 /// Crash residue from staged downloads: pid-suffixed temp files/dirs
@@ -250,36 +313,38 @@ pub fn validate_index_shape(v: &Value) -> Result<(), String> {
 /// Tries each candidate base in order; the first *valid* index wins. Validity
 /// (fetch + parse + shape) decides, not mere HTTP success — an error page that
 /// happens to parse as JSON must not shadow the real index on the next candidate.
-pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, String> {
-    let mut last_err = String::from("no index sources");
+pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, FetchError> {
+    let mut last_err = FetchError::Network("no index sources".to_string());
     for base in urls {
         let attempt = match fetch_text(std::slice::from_ref(base), "completions.json") {
             Ok(t) => t,
             Err(e) => {
-                last_err = format!("{base}: {e}");
+                last_err = FetchError::Network(format!("{base}: {e}"));
                 continue;
             }
         };
+        // From here on the bytes arrived, so a failure is local: a bad index is not a network
+        // problem, and reporting it as one would send the user to the wrong place.
         let v: Value = match serde_json::from_str(&attempt) {
             Ok(v) => v,
             Err(e) => {
-                last_err = format!("{base}: bad completions.json: {e}");
+                last_err = FetchError::Local(format!("{base}: bad completions.json: {e}"));
                 continue;
             }
         };
         if let Err(e) = validate_index_shape(&v) {
-            last_err = format!("{base}: {e}");
+            last_err = FetchError::Local(format!("{base}: {e}"));
             continue;
         }
         let tmp = format!("{data_dir}/temp");
-        std::fs::create_dir_all(&tmp).map_err(|e| e.to_string())?;
+        std::fs::create_dir_all(&tmp).map_err(FetchError::local)?;
         // Atomic replace (same scheme as settings.json): never leave a half-written index file.
         let path = format!("{tmp}/completions.json");
         let tmp_path = format!("{path}.{}.tmp", std::process::id());
-        std::fs::write(&tmp_path, attempt).map_err(|e| e.to_string())?;
+        std::fs::write(&tmp_path, attempt).map_err(FetchError::local)?;
         if let Err(e) = std::fs::rename(&tmp_path, path) {
             let _ = std::fs::remove_file(&tmp_path);
-            return Err(e.to_string());
+            return Err(FetchError::local(e));
         }
         return Ok(v);
     }
@@ -311,12 +376,14 @@ pub fn add_completion(
     name: &str,
     urls: &[String],
     version: &str,
-) -> Result<bool, String> {
+) -> Result<bool, FetchError> {
     // The single place a completion lands on disk: reject a name carrying separators before
     // anything is created or removed, so no caller can escape the library directory
     // (design/psc-cli.md §6.7 — validated before any filesystem access).
     if !is_valid_name(name) {
-        return Err(format!("invalid completion name: {name}"));
+        return Err(FetchError::Local(format!(
+            "invalid completion name: {name}"
+        )));
     }
     let dir = format!("{data_dir}/completions/{name}");
     // Skip linked (symlink) completions: Ok(false) = "skipped, not updated".
@@ -337,7 +404,7 @@ pub fn add_completion(
     // a crashed run's pid-suffixed dirs stay behind (same policy as settings.json's tmp).
     let _ = std::fs::remove_dir_all(format!("{data_dir}/temp/{name}.tmp"));
     let _ = std::fs::remove_dir_all(format!("{dir}.old"));
-    let result = (|| -> Result<bool, String> {
+    let result = (|| -> Result<bool, FetchError> {
         let language_dir = format!("{tmp_dir}/language");
         std::fs::create_dir_all(&language_dir).map_err(|e| e.to_string())?;
         let config_text = fetch_text(urls, &format!("completions/{name}/config.json"))?;
@@ -355,7 +422,9 @@ pub fn add_completion(
                     // The tag names both a URL segment and a local file: reject one carrying
                     // separators, so nothing lands outside the staging dir.
                     if !is_valid_name(l) {
-                        return Err(format!("invalid language tag in config.json: {l}"));
+                        return Err(FetchError::Local(format!(
+                            "invalid language tag in config.json: {l}"
+                        )));
                     }
                     jobs.push((
                         format!("completions/{name}/language/{l}.json"),
@@ -569,7 +638,7 @@ pub fn rename_completion(
     new: &str,
     urls: &[String],
     version: &str,
-) -> Result<(), String> {
+) -> Result<(), FetchError> {
     // Download the new completion first (aborts on failure, old stays intact).
     add_completion(data_dir, new, urls, version)?;
     // Move per-completion settings: alias + config.completion entry
@@ -685,9 +754,11 @@ mod tests {
             vec![0xff, 0xfe],
         )
         .unwrap_err();
-        assert!(err.contains("not valid UTF-8"), "{err}");
+        assert!(err.message().contains("not valid UTF-8"), "{err}");
+        // A decode failure is local: the bytes arrived.
+        assert_eq!(err.code(), "io", "{err}");
         assert!(
-            err.contains("en-US.json"),
+            err.message().contains("en-US.json"),
             "the message names the file: {err}"
         );
     }
@@ -702,8 +773,10 @@ mod tests {
             "http://127.0.0.1:9/second".to_string(),
         ];
         let err = fetch_text(&urls, "x.json").unwrap_err();
-        assert!(err.contains("127.0.0.1:9/first"), "{err}");
-        assert!(err.contains("127.0.0.1:9/second"), "{err}");
+        assert!(err.message().contains("127.0.0.1:9/first"), "{err}");
+        assert!(err.message().contains("127.0.0.1:9/second"), "{err}");
+        // Both mirrors failed at the transport level, so the code stays `network`.
+        assert_eq!(err.code(), "network", "{err}");
     }
 
     #[test]
@@ -829,7 +902,7 @@ mod tests {
         let stray = base.join(format!("evil.{}.tmp", std::process::id()));
         let err = add_completion(base.to_str().unwrap(), "../evil", &[], "").unwrap_err();
         assert!(!stray.exists(), "staging dir escaped temp/: {stray:?}");
-        assert!(err.contains("invalid completion name"), "{err}");
+        assert!(err.message().contains("invalid completion name"), "{err}");
         std::fs::remove_dir_all(&base).ok();
     }
 

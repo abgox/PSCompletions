@@ -47,7 +47,7 @@ pub fn cmd_add(
         Err(e) => {
             return fail(
                 out,
-                "network",
+                e.code(),
                 &format!("error: {e}"),
                 json,
                 &meta(None, data_dir),
@@ -119,7 +119,7 @@ pub fn cmd_add(
                     if !json {
                         lines.push(format!("{name}: error: {e}"));
                     }
-                    serde_json::json!({"name": name, "ok": false, "error": {"code": "network", "message": e}})
+                    serde_json::json!({"name": name, "ok": false, "error": {"code": e.code(), "message": e.message()}})
                 }
             }
         };

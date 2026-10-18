@@ -226,6 +226,7 @@ fn module_dir(exe: &Path) -> Option<PathBuf> {
 /// installed package does not carry one at all).
 pub fn fetch_installer(settings: &crate::data::Settings) -> Result<String, String> {
     crate::net::fetch_text(&crate::net::resolve_urls(settings), "install.sh")
+        .map_err(|e| e.message().to_string())
 }
 
 /// The installed version, from the manifest beside the bridges and the binaries — the one source

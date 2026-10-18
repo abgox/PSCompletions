@@ -43,7 +43,7 @@ pub fn cmd_update(
         Err(e) => {
             return fail(
                 out,
-                "network",
+                e.code(),
                 &format!("error: {e}"),
                 json,
                 &meta(None, data_dir),
@@ -278,7 +278,7 @@ pub fn cmd_update(
                         json!({
                             "name": name,
                             "ok": false,
-                            "error": { "code": "network", "message": e },
+                            "error": { "code": e.code(), "message": e.message() },
                         }),
                     ));
                 }
@@ -370,7 +370,7 @@ pub fn cmd_update(
                     json!({
                         "name": name,
                         "ok": false,
-                        "error": { "code": "network", "message": e },
+                        "error": { "code": e.code(), "message": e.message() },
                     }),
                 ));
             }
