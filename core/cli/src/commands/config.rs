@@ -83,7 +83,7 @@ pub fn cmd_config(
                 return fail(
                     out,
                     "invalid_subcommand",
-                    &msg_cli(lang, "sub_cmd"),
+                    &msg_cli(lang, "invalid_subcommand"),
                     json,
                     &m(),
                     true,
@@ -112,7 +112,7 @@ pub fn cmd_config(
                 return fail(
                     out,
                     "invalid_subcommand",
-                    &msg_cli(lang, "sub_cmd"),
+                    &msg_cli(lang, "invalid_subcommand"),
                     json,
                     &m(),
                     true,
@@ -144,7 +144,7 @@ pub fn cmd_config(
             return fail(
                 out,
                 "invalid_subcommand",
-                &msg_cli(lang, "sub_cmd"),
+                &msg_cli(lang, "invalid_subcommand"),
                 json,
                 &m(),
                 true,
@@ -190,7 +190,7 @@ pub fn cmd_config(
     if !CONFIG_GROUPS.contains(&group) {
         // Name the offending token and the valid set: a bare "invalid subcommand" leaves the
         // reader guessing, and this text is the interface in the shells.
-        let msg = msg_cli(lang, "sub_cmd_named")
+        let msg = msg_cli(lang, "invalid_subcommand_named")
             .replace("{{Token}}", group)
             .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
         return fail(out, "invalid_subcommand", &msg, json, &m(), true);
@@ -218,7 +218,7 @@ pub fn cmd_config(
         return fail(
             out,
             "invalid_subcommand",
-            &msg_cli(lang, "sub_cmd"),
+            &msg_cli(lang, "invalid_subcommand"),
             json,
             &m(),
             true,
@@ -240,7 +240,7 @@ pub fn cmd_config(
         return fail(
             out,
             "config_value",
-            &msg_cli(lang, "config_val"),
+            &msg_cli(lang, "config_value"),
             json,
             &m(),
             true,

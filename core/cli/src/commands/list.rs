@@ -17,7 +17,7 @@ pub fn cmd_list(
 ) -> ExitCode {
     // `list` takes no arguments: a mistyped flag is a usage error, not a silently normal run.
     if !args.is_empty() {
-        return crate::validate::param_max(out, lang, json, data_dir);
+        return crate::validate::too_many_params(out, lang, json, data_dir);
     }
     // One data model, two renderings (design/json.md): the text mode prints what the JSON carries.
     let items: Vec<serde_json::Value> = settings

@@ -3,11 +3,11 @@
 /// CLI messages: `key -> (zh-CN, en-US)`. Plain text only (the manifest `info` templates are
 /// PowerShell-bound). Adding a message = add a row.
 const MESSAGES: &[(&str, &str, &str)] = &[
-    ("param_min", "参数不足。", "Too few parameters."),
-    ("param_max", "参数过多。", "Too many parameters."),
-    ("sub_cmd", "子命令错误。", "Invalid subcommand."),
+    ("too_few_params", "参数不足。", "Too few parameters."),
+    ("too_many_params", "参数过多。", "Too many parameters."),
+    ("invalid_subcommand", "子命令错误。", "Invalid subcommand."),
     (
-        "sub_cmd_named",
+        "invalid_subcommand_named",
         "无效的子命令: {{Token}}。可用: {{Valid}}",
         "Invalid subcommand: {{Token}}. Valid: {{Valid}}",
     ),
@@ -16,7 +16,7 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "该操作具有破坏性，需要确认：请加 --yes 以授权。",
         "This operation is destructive and needs confirmation: pass --yes to authorise it.",
     ),
-    ("no_completion", "尚未添加该补全。", "Completion not added."),
+    ("not_installed", "尚未添加该补全。", "Completion not added."),
     (
         "not_available",
         "不是一个可用的补全。",
@@ -38,7 +38,7 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "该配置只接受 0 或 1。",
         "This option only accepts 0 or 1.",
     ),
-    ("config_val", "配置值无效。", "Invalid config value."),
+    ("config_value", "配置值无效。", "Invalid config value."),
     (
         "language_no_reset",
         "language 不是一个恒定的配置值，无法重置。",
@@ -124,11 +124,11 @@ mod tests {
 
     #[test]
     fn msg_cli_selects_language_by_prefix() {
-        assert_eq!(msg_cli("zh-CN", "param_min"), "参数不足。");
-        assert_eq!(msg_cli("zh-TW", "param_min"), "参数不足。");
-        assert_eq!(msg_cli("en-US", "param_min"), "Too few parameters.");
+        assert_eq!(msg_cli("zh-CN", "too_few_params"), "参数不足。");
+        assert_eq!(msg_cli("zh-TW", "too_few_params"), "参数不足。");
+        assert_eq!(msg_cli("en-US", "too_few_params"), "Too few parameters.");
         // Any non-zh language falls back to the English column.
-        assert_eq!(msg_cli("de-DE", "param_min"), "Too few parameters.");
+        assert_eq!(msg_cli("de-DE", "too_few_params"), "Too few parameters.");
     }
 
     #[test]

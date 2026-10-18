@@ -7,7 +7,7 @@ use serde_json::json;
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
 use crate::output::{fail, meta, ok, Out};
-use crate::validate::{data_dir_of, name_error, name_status, param_err, reset_alias};
+use crate::validate::{data_dir_of, name_error, name_status, too_few_params, reset_alias};
 
 /// The entry every listing and every write answers with (design/json.md): the completion's name
 /// and its trigger words — singular inside the item, exactly as `config.json` spells it.
@@ -53,7 +53,7 @@ pub fn cmd_alias(
             return fail(
                 out,
                 "invalid_subcommand",
-                &msg_cli(lang, "sub_cmd"),
+                &msg_cli(lang, "invalid_subcommand"),
                 json,
                 &m(),
                 true,
@@ -98,7 +98,7 @@ pub fn cmd_alias(
         }
         Some("add") => {
             if args.len() < 3 {
-                return param_err(out, lang, json, &data_dir);
+                return too_few_params(out, lang, json, &data_dir);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
@@ -187,7 +187,7 @@ pub fn cmd_alias(
         }
         Some("rm") => {
             if args.len() < 3 {
-                return param_err(out, lang, json, &data_dir);
+                return too_few_params(out, lang, json, &data_dir);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
@@ -198,7 +198,7 @@ pub fn cmd_alias(
                 return fail(
                     out,
                     "not_installed",
-                    &format!("{name}: {}", msg_cli(lang, "no_completion")),
+                    &format!("{name}: {}", msg_cli(lang, "not_installed")),
                     json,
                     &m(),
                     false,
@@ -232,7 +232,7 @@ pub fn cmd_alias(
         Some(_) => fail(
             out,
             "invalid_subcommand",
-            &msg_cli(lang, "sub_cmd"),
+            &msg_cli(lang, "invalid_subcommand"),
             json,
             &m(),
             true,

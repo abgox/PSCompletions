@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use crate::data::{remove_completion_entry, Index, LibraryChanges, Settings};
 use crate::messages::msg_cli;
 use crate::output::{fail, meta, ok, Out};
-use crate::validate::{name_status, param_err};
+use crate::validate::{name_status, too_few_params};
 
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_rm(
@@ -19,7 +19,7 @@ pub fn cmd_rm(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return param_err(out, lang, json, data_dir);
+        return too_few_params(out, lang, json, data_dir);
     }
     let all = args.iter().any(|a| a == "--all");
     let completions_dir = format!("{data_dir}/completions");
@@ -53,7 +53,7 @@ pub fn cmd_rm(
             }
             return ExitCode::SUCCESS;
         }
-        return param_err(out, lang, json, data_dir);
+        return too_few_params(out, lang, json, data_dir);
     }
     let mut results: Vec<serde_json::Value> = Vec::new();
     let mut removed_any = false;
@@ -62,7 +62,7 @@ pub fn cmd_rm(
         let invalid = if status == 0 {
             Some(("not_available", msg_cli(lang, "not_available")))
         } else if status == 1 {
-            Some(("not_installed", msg_cli(lang, "no_completion")))
+            Some(("not_installed", msg_cli(lang, "not_installed")))
         } else {
             None
         };

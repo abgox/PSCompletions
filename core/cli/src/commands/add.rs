@@ -12,7 +12,7 @@ use crate::net::{
 };
 use crate::output::{fail, meta, ok, Out};
 use crate::postcheck::record_post_check;
-use crate::validate::param_err;
+use crate::validate::too_few_params;
 
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_add(
@@ -26,7 +26,7 @@ pub fn cmd_add(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return param_err(out, lang, json, data_dir);
+        return too_few_params(out, lang, json, data_dir);
     }
     // Snapshot the pre-operation update keys so the post-check can diff added/removed/renamed.
     let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))

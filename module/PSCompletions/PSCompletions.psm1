@@ -43,8 +43,8 @@
     }
     function _param_err {
         param($flag, $cmd, $err_info = $PSCompletions.info.$cmd.err.$flag)
-        $err = if ($flag -eq 'min') { $PSCompletions.info.param_min }
-        elseif ($flag -eq 'max') { $PSCompletions.info.param_max }
+        $err = if ($flag -eq 'min') { $PSCompletions.info.too_few_params }
+        elseif ($flag -eq 'max') { $PSCompletions.info.too_many_params }
         else { $PSCompletions.info.param_err }
         $PSCompletions.write_with_color((_replace $err))
         if ($err_info) { $PSCompletions.write_with_color((_replace $err_info @{Rejected = if ($arg.Count -gt 3) { [string]$arg[3] } else { '' } })) }

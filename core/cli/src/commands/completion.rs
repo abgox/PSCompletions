@@ -111,7 +111,7 @@ pub fn cmd_completion(
                 return fail(
                     out,
                     "invalid_subcommand",
-                    &msg_cli(lang, "sub_cmd"),
+                    &msg_cli(lang, "invalid_subcommand"),
                     json,
                     &meta(None, &data_dir),
                     true,
@@ -131,7 +131,7 @@ pub fn cmd_completion(
                 return fail(
                     out,
                     "invalid_subcommand",
-                    &msg_cli(lang, "sub_cmd"),
+                    &msg_cli(lang, "invalid_subcommand"),
                     json,
                     &meta(None, &data_dir),
                     true,
@@ -305,7 +305,7 @@ pub fn cmd_completion(
         return fail(
             out,
             "invalid_subcommand",
-            &msg_cli(lang, "sub_cmd"),
+            &msg_cli(lang, "invalid_subcommand"),
             json,
             &meta(None, &data_dir),
             true,

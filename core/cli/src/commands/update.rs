@@ -272,7 +272,7 @@ pub fn cmd_update(
                 return;
             }
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            let err = msg_cli(lang, "no_completion");
+            let err = msg_cli(lang, "not_installed");
             results.lock().unwrap().push(json!({
                 "name": name,
                 "ok": false,

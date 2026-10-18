@@ -63,15 +63,15 @@ pub fn name_error(
     if need_installed && status == 1 {
         return Some((
             "not_installed",
-            format!("{name}: {}", msg_cli(lang, "no_completion")),
+            format!("{name}: {}", msg_cli(lang, "not_installed")),
         ));
     }
     None
 }
 
 /// Parameter-count validation error: the envelope's `too_few_params`, a usage error (exit 2).
-pub fn param_err(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
-    let msg = msg_cli(lang, "param_min");
+pub fn too_few_params(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+    let msg = msg_cli(lang, "too_few_params");
     if json {
         return err("too_few_params", &msg, None, &meta(None, data_dir), true);
     }
@@ -79,10 +79,10 @@ pub fn param_err(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode 
     ExitCode::from(2)
 }
 
-/// The mirror of `param_err`: a command that takes no arguments was given some. Also a usage
+/// The mirror of `too_few_params`: a command that takes no arguments was given some. Also a usage
 /// error (exit 2) — a mistyped flag must not look like a normal run.
-pub fn param_max(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
-    let msg = msg_cli(lang, "param_max");
+pub fn too_many_params(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+    let msg = msg_cli(lang, "too_many_params");
     if json {
         return err("too_many_params", &msg, None, &meta(None, data_dir), true);
     }

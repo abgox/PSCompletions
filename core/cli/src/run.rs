@@ -139,7 +139,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
         _ => fail(
             &out,
             "invalid_subcommand",
-            &msg_cli(&lang, "sub_cmd"),
+            &msg_cli(&lang, "invalid_subcommand"),
             json,
             &meta(None, &data_dir),
             true,
