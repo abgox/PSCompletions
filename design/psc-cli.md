@@ -319,7 +319,11 @@ psc update --all              # update every installed completion
     a missing/empty trigger entry is filled from remote defaults, per-completion config
     only fills missing keys, and trigger customizations survive. Any non-flag token counts
     as a name (`update --foo` targets a completion literally named `--foo`); `--all` wins
-    over `--old` when both are passed.
+    over `--old` when both are passed, and a **mode flag wins over a name** — a name there is
+    redundant, not an error: `--all <name>` re-fetches everything, the name included, and
+    `--old <name>` follows the out-of-date set, saying so when that set is empty. A name the flag's
+    set cannot cover (`--all <not installed>`) is not installed by the run — `--all` means the
+    installed completions.
   - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
     current" path). Settings are patched as above, never overwritten.
   - **`--all`**: updates every installed completion that exists in the remote `completions.json`
@@ -335,7 +339,9 @@ psc update --all              # update every installed completion
   `error: <err>`. Same `id` refusal as `add` (nothing lands on failure).
 - **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (a migrated
   rename adds `renamed_from`); the no-argument check answers the four library-change lists
-  (`update` / `added` / `removed` / `renamed`) instead; plain text otherwise. A failed item fails
+  (`update` / `added` / `removed` / `renamed`) instead; plain text otherwise. An empty result set
+  (nothing out of date, nothing eligible) prints `All completions are up to date.` in text mode —
+  the same reply the no-argument check and the module's `info.update.no` give. A failed item fails
   the run: exit `1`. A locally-linked completion is reported (`ok: false`, code `not_updated`) but
   does not fail the run — a link is a deliberate choice, not an error.
 - **PS wrapper**: forwards `--all` / `--old` / the named arguments with `--json`, then renders

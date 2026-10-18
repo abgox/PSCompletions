@@ -199,7 +199,8 @@ pub fn cmd_update(
     );
     // `--all` force-updates every installed completion; `--old` updates only the out-of-date
     // ones; named targets are re-fetched unconditionally (naming a completion IS the intent to
-    // reinstall it).
+    // reinstall it). A mode flag is an explicit instruction about a whole set, so it wins over a
+    // name — the order below, the same one `--all` > `--old` already follows.
     let names: Vec<String> = if all {
         settings.list()
     } else if old {
@@ -212,6 +213,9 @@ pub fn cmd_update(
     let installed: std::collections::HashSet<String> = settings.list().into_iter().collect();
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let had_error = std::sync::atomic::AtomicBool::new(false);
+    // Every processed name lands here, in both modes: the text mode prints its own line and the
+    // JSON mode serializes this (the shape `add` / `rm` use), so "nothing was reported" is
+    // `results.is_empty()` and the executed-rename list below is populated either way.
     let results: std::sync::Mutex<Vec<Value>> = std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
     run_parallel(&names, 8, |name| {
@@ -241,11 +245,10 @@ pub fn cmd_update(
             let mut sg = settings_lock.lock().unwrap();
             match rename_completion(&mut sg, data_dir, name, &new_name, &urls, &version) {
                 Ok(()) => {
-                    if json {
-                        results.lock().unwrap().push(json!({
-                            "name": new_name, "ok": true, "renamed_from": name
-                        }));
-                    } else {
+                    results.lock().unwrap().push(json!({
+                        "name": new_name, "ok": true, "renamed_from": name
+                    }));
+                    if !json {
                         out.line(&format!(
                             "{name}: {} {new_name}",
                             msg_cli(lang, "rename_done")
@@ -254,13 +257,12 @@ pub fn cmd_update(
                 }
                 Err(e) => {
                     had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                    if json {
-                        results.lock().unwrap().push(json!({
-                            "name": name,
-                            "ok": false,
-                            "error": { "code": "network", "message": e },
-                        }));
-                    } else {
+                    results.lock().unwrap().push(json!({
+                        "name": name,
+                        "ok": false,
+                        "error": { "code": "network", "message": e },
+                    }));
+                    if !json {
                         out.line(&format!("{name}: error: {e}"));
                     }
                 }
@@ -305,23 +307,22 @@ pub fn cmd_update(
                 match refresh_settings_after_add(&mut sg, data_dir, name, false) {
                     Err(e) => {
                         had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                        if json {
-                            results.lock().unwrap().push(json!({
-                                "name": name,
-                                "ok": false,
-                                "error": { "code": "io", "message": e },
-                            }));
-                        } else {
-                            out.line(&format!("error: {e}"));
+                        results.lock().unwrap().push(json!({
+                            "name": name,
+                            "ok": false,
+                            "error": { "code": "io", "message": e },
+                        }));
+                        if !json {
+                            // The name, like every other per-item line.
+                            out.line(&format!("{name}: error: {e}"));
                         }
                     }
                     Ok(_) => {
-                        if json {
-                            results
-                                .lock()
-                                .unwrap()
-                                .push(json!({"name": name, "ok": true}));
-                        } else {
+                        results
+                            .lock()
+                            .unwrap()
+                            .push(json!({"name": name, "ok": true}));
+                        if !json {
                             out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
                         }
                     }
@@ -329,13 +330,12 @@ pub fn cmd_update(
             }
             Err(e) => {
                 had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-                if json {
-                    results.lock().unwrap().push(json!({
-                        "name": name,
-                        "ok": false,
-                        "error": { "code": "network", "message": e },
-                    }));
-                } else {
+                results.lock().unwrap().push(json!({
+                    "name": name,
+                    "ok": false,
+                    "error": { "code": "network", "message": e },
+                }));
+                if !json {
                     out.line(&format!("{name}: error: {e}"));
                 }
             }
@@ -395,6 +395,12 @@ pub fn cmd_update(
         } else {
             ExitCode::SUCCESS
         };
+    }
+    if results.is_empty() {
+        // Nothing was selected (everything current, or nothing eligible). The module answers an
+        // empty result array with `info.update.no`, so the text mode says the same instead of
+        // nothing — the JSON keeps its empty array.
+        out.line(&msg_cli(lang, "update_no"));
     }
     if had_error {
         ExitCode::FAILURE

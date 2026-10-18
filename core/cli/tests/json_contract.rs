@@ -967,6 +967,71 @@ fn json_update_old_empty_when_everything_current() {
 }
 
 #[test]
+fn json_update_resolves_a_name_with_a_mode_flag_by_precedence() {
+    // A mode flag is an explicit instruction about a whole set, so it wins over a name — the same
+    // way `--all` already wins over `--old`. A name is not an error there: it is redundant when the
+    // flag's set covers it, and the empty-result reply says what actually happened.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-update-precedence", &srv);
+    psc(&d, &["--json", "add", "demo"]); // installed at v2 == remote
+
+    // `--all` re-fetches everything, so the named completion is updated through it.
+    let (code, out) = psc(&d, &["--json", "update", "--all", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["completions"][0]["name"], "demo", "{out}");
+    assert_eq!(v["data"]["completions"][0]["ok"], true, "{out}");
+
+    // `--old` selects the out-of-date set: `demo` is current, so nothing runs — and says so.
+    let (code, out) = psc(&d, &["--json", "update", "--old", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        parse_json(&out)["data"]["completions"],
+        serde_json::json!([]),
+        "{out}"
+    );
+    let (code, out) = psc(&d, &["update", "--old", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    assert!(out.contains("up to date"), "{out}");
+
+    // The flags keep their own order: `--all` still wins over `--old`.
+    let (code, out) = psc(&d, &["--json", "update", "--all", "--old", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        parse_json(&out)["data"]["completions"][0]["name"],
+        "demo",
+        "{out}"
+    );
+}
+
+#[test]
+fn json_update_with_nothing_to_do_says_so() {
+    // An empty result set is not silence. The module prints `info.update.no` for the very same
+    // empty array (`PSCompletions.psm1`), so the text mode was the only surface saying nothing —
+    // and "nothing out of date" is exactly the case where "everything is up to date" is true.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-update-empty-text", &srv);
+    // `git` is installed but is not in the remote index: neither mode selects anything.
+    for argv in [vec!["update", "--old"], vec!["update", "--all"]] {
+        let (code, out) = psc(&d, &argv);
+        assert_eq!(code, 0, "{argv:?} → {out}");
+        assert!(out.contains("up to date"), "{argv:?} → {out}");
+    }
+    // The JSON mode keeps its empty array: the line is a text-mode reply.
+    let (_, js) = psc(&d, &["--json", "update", "--old"]);
+    assert_eq!(
+        parse_json(&js)["data"]["completions"],
+        serde_json::json!([]),
+        "{js}"
+    );
+    // A named update always has a result, so it never prints the line.
+    psc(&d, &["add", "demo"]);
+    let (code, out) = psc(&d, &["update", "demo"]);
+    assert_eq!(code, 0, "{out}");
+    assert!(!out.contains("up to date"), "{out}");
+}
+
+#[test]
 fn json_destructive_operations_need_authorisation() {
     // The engine never prompts (design/json.md §7): without `--yes` it refuses with exit 2, so a
     // script gets a decision instead of a hung process, and `--json` never waits on a keypress.
