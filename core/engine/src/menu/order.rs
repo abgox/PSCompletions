@@ -39,8 +39,12 @@ fn read_tail(path: &str, max_lines: usize) -> Option<String> {
     const CHUNK: u64 = 64 * 1024;
     let mut collected: Vec<u8> = Vec::new();
     let mut pos = len;
+    let mut reached_start = false;
     loop {
         let start = pos.saturating_sub(CHUNK);
+        if start == 0 {
+            reached_start = true;
+        }
         f.seek(SeekFrom::Start(start)).ok()?;
         let mut buf = vec![0u8; (pos - start) as usize];
         f.read_exact(&mut buf).ok()?;
@@ -53,7 +57,16 @@ fn read_tail(path: &str, max_lines: usize) -> Option<String> {
         }
         pos = start;
     }
-    Some(String::from_utf8_lossy(&collected).into_owned())
+    let text = String::from_utf8_lossy(&collected).into_owned();
+    if reached_start {
+        return Some(text);
+    }
+    // The oldest line in the buffer is a fragment the chunk boundary cut in half. Crediting it
+    // would score a command the user never typed, so drop everything before the first newline.
+    Some(match text.split_once('\n') {
+        Some((_, rest)) => rest.to_string(),
+        None => String::new(),
+    })
 }
 
 /// Prune stale order caches in `dir`: per-command order files are rebuilt on next use, so
@@ -780,6 +793,33 @@ mod tests {
         let pid_tmp = format!("{path_str}.{}.tmp", std::process::id());
         assert!(!std::path::Path::new(&pid_tmp).exists());
         assert!(!std::path::Path::new(&format!("{path_str}.tmp")).exists());
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn read_tail_never_credits_a_partial_line() {
+        // The tail is read in 64 KiB chunks, so the oldest line in the buffer is normally a
+        // fragment the boundary cut in half. It used to be scored as if the user had typed it.
+        let dir = std::env::temp_dir().join("psc-order-tail-test");
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("history.txt");
+        let mut body = String::new();
+        for i in 0..1200 {
+            body.push_str(&format!("git commit -m {:0>50}\n", i));
+        }
+        std::fs::write(&path, &body).unwrap();
+        let tail = read_tail(&path.to_string_lossy(), 3).unwrap();
+        assert!(
+            !tail.is_empty(),
+            "the tail must still carry the newest lines"
+        );
+        for line in tail.lines() {
+            assert!(
+                line.starts_with("git commit -m ") && line.len() == "git commit -m ".len() + 50,
+                "a partial line was credited: {line:?}"
+            );
+        }
         let _ = std::fs::remove_dir_all(&dir);
     }
 }
