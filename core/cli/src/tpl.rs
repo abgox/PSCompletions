@@ -14,6 +14,8 @@
 
 use serde_json::Value;
 
+use crate::output::{value_quoted, value_text};
+
 /// Render `data` — an `info.<path>` value: a list of lines joined with `separator`, or a plain
 /// string — with `ctx`, the caller's data (`Version`, `NewVersion`, records, counts, …).
 pub fn render(data: &Value, ctx: &Value, separator: &str) -> String {
@@ -49,10 +51,10 @@ fn render_notes(
     let text = match data {
         Value::Array(lines) => lines
             .iter()
-            .map(as_text)
+            .map(value_text)
             .collect::<Vec<_>>()
             .join(separator),
-        other => as_text(other),
+        other => value_text(other),
     };
     if !text.contains("{{") {
         return (text, Vec::new());
@@ -112,7 +114,7 @@ fn is_filter(s: &str) -> bool {
 /// The filters the renderer knows. An unknown one re-emits its token, so a typo is visible.
 fn filter(name: &str, value: Value) -> Option<String> {
     match name {
-        "quote" => Some(quoted_value(&value)),
+        "quote" => Some(value_quoted(&value)),
         _ => None,
     }
 }
@@ -207,10 +209,10 @@ fn resolve(expr: &str, ctx: &Value, item: Option<&Value>, state: &mut State) -> 
         if filters.is_empty() {
             return match value {
                 Value::Object(_) | Value::Array(_) => Some(String::new()),
-                other => Some(as_text(&other)),
+                other => Some(value_text(&other)),
             };
         }
-        let mut text = as_text(&value);
+        let mut text = value_text(&value);
         for f in filters {
             text = filter(f, Value::String(text))?;
         }
@@ -236,35 +238,6 @@ fn truthy(v: &Value) -> bool {
         Value::Array(a) => !a.is_empty(),
         Value::Object(o) => !o.is_empty(),
     }
-}
-
-/// The text form of a resolved value. Containers never reach it: they render empty.
-fn as_text(v: &Value) -> String {
-    match v {
-        Value::String(s) => s.clone(),
-        Value::Number(n) => n.to_string(),
-        Value::Null => String::new(),
-        Value::Bool(b) => b.to_string(),
-        // Templates never resolve to a container (those render empty), so this is only reachable
-        // from a malformed root: a compact JSON form beats panicking.
-        other => other.to_string(),
-    }
-}
-
-/// The `quote` filter: an empty or space-padded value is quoted so it can be pasted as one
-/// argument.
-fn quoted_value(v: &Value) -> String {
-    let s = as_text(v);
-    if s.trim().is_empty() {
-        return format!("\"{s}\"");
-    }
-    if s.starts_with(' ') || s.ends_with(' ') {
-        if s.contains('"') && !s.contains('\'') {
-            return format!("'{s}'");
-        }
-        return format!("\"{s}\"");
-    }
-    s
 }
 
 /// One template token: literal text, or a trimmed `{{…}}` expression.
@@ -588,8 +561,8 @@ fn include(path: &str, ctx: &mut Value, item: Option<&Value>, state: &mut State)
     let data = data.clone();
     state.depth += 1;
     let text = match &data {
-        Value::Array(lines) => lines.iter().map(as_text).collect::<Vec<_>>().join(""),
-        other => as_text(other),
+        Value::Array(lines) => lines.iter().map(value_text).collect::<Vec<_>>().join(""),
+        other => value_text(other),
     };
     let rendered = render_tokens(&tokenize(&text), ctx, item, state);
     state.depth -= 1;
@@ -796,7 +769,7 @@ mod tests {
     }
 
     #[test]
-    fn numbers_bools_and_containers_render_as_text() {
+    fn numbers_bools_and_containers_render_value_text() {
         assert_eq!(r("{{N}}", &json!({"N": 100})), "100");
         assert_eq!(r("{{N}}", &json!({"N": true})), "1");
         assert_eq!(r("{{N}}", &json!({"N": false})), "0");

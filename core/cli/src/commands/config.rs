@@ -2,49 +2,20 @@
 
 use std::process::ExitCode;
 
-use serde_json::{json, Value};
+use serde_json::json;
 
 use crate::data::config::{validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use crate::data::{default_config, Settings};
 use crate::messages::msg_cli;
 use crate::net::is_official_source;
-use crate::output::{fail, meta, ok, Out};
-
-/// The value alone, unquoted: a single-key read answers with the value itself (`v=$(psc config
-/// <group> <key>)`), while the listings keep `value_str`'s shell-style quoting so an empty or
-/// space-padded value stays visible in a table.
-pub(crate) fn value_raw(v: &Value) -> String {
-    match v {
-        Value::String(s) => s.clone(),
-        other => value_str(other),
-    }
-}
-
-pub(crate) fn value_str(v: &Value) -> String {
-    match v {
-        serde_json::Value::String(s) => {
-            if s.trim().is_empty() || s.starts_with(' ') || s.ends_with(' ') {
-                if s.contains('"') {
-                    if s.contains('\'') {
-                        s.clone()
-                    } else {
-                        format!("'{s}'")
-                    }
-                } else {
-                    format!("\"{s}\"")
-                }
-            } else {
-                s.clone()
-            }
-        }
-        serde_json::Value::Number(n) => n.to_string(),
-        serde_json::Value::Bool(b) => b.to_string(),
-        other => other.to_string(),
-    }
-}
+use crate::output::{fail, key_line, meta, ok, value_quoted, value_text, Out};
 
 fn config_get(settings: &Settings, key: &str) -> String {
-    settings.config.get(key).map(value_str).unwrap_or_default()
+    settings
+        .config
+        .get(key)
+        .map(value_quoted)
+        .unwrap_or_default()
 }
 
 /// The items a `config` listing answers with, optionally narrowed to one group or one key. A
@@ -209,7 +180,7 @@ pub fn cmd_config(
             for group in CONFIG_GROUPS {
                 out.line(&format!("[{group}]"));
                 for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
-                    out.line(&format!("{}: {}", d.key, config_get(settings, d.key)));
+                    out.line(&key_line(d.key, &config_get(settings, d.key)));
                 }
             }
         }
@@ -234,7 +205,7 @@ pub fn cmd_config(
         } else {
             // The caller named the group, so repeating `[group]` is noise; keys sit at column 0.
             for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
-                out.line(&format!("{}: {}", d.key, config_get(settings, d.key)));
+                out.line(&key_line(d.key, &config_get(settings, d.key)));
             }
         }
         return ExitCode::SUCCESS;
@@ -260,7 +231,7 @@ pub fn cmd_config(
             return ok(&data, &meta(None, &data_dir));
         } else {
             // The key was just typed, so the value alone (and unquoted) is the answer.
-            let v = settings.config.get(key).map(value_raw).unwrap_or_default();
+            let v = settings.config.get(key).map(value_text).unwrap_or_default();
             out.line(&v);
         }
         return ExitCode::SUCCESS;

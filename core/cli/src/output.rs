@@ -79,6 +79,48 @@ fn strip_colors(s: &str) -> String {
     out
 }
 
+/// A value as the text mode shows it, before any display convention: a string as itself, a number
+/// or boolean in its own form, an absent value as nothing, anything else in compact JSON. The
+/// template renderer and the commands' listings both start from this.
+pub fn value_text(v: &serde_json::Value) -> String {
+    match v {
+        serde_json::Value::String(s) => s.clone(),
+        serde_json::Value::Number(n) => n.to_string(),
+        serde_json::Value::Null => String::new(),
+        serde_json::Value::Bool(b) => b.to_string(),
+        other => other.to_string(),
+    }
+}
+
+/// The text mode's one display convention: quote a value whose surrounding whitespace would
+/// otherwise disappear — an all-space or padded value would read as a different one. An empty
+/// value stays blank, because blank already says "nothing" whereas `""` reads as two characters
+/// (design/json.md §3).
+pub fn value_quoted(v: &serde_json::Value) -> String {
+    let s = value_text(v);
+    if s.trim() != s {
+        // Single quotes only when they cannot clash; otherwise double quotes. Never give up the
+        // quotes: that would swallow the very whitespace they exist to show.
+        if s.contains('"') && !s.contains('\'') {
+            format!("'{s}'")
+        } else {
+            format!("\"{s}\"")
+        }
+    } else {
+        s
+    }
+}
+
+/// A `key: value` listing line. An empty value ends at the colon: the separator is only there
+/// to set the value apart, and a trailing space is an invisible byte in captured output.
+pub fn key_line(key: &str, value: &str) -> String {
+    if value.is_empty() {
+        format!("{key}:")
+    } else {
+        format!("{key}: {value}")
+    }
+}
+
 /// A whole-command failure in both modes: the text mode prints the message, the JSON mode the
 /// envelope with a stable `code` beside it. `usage` selects the exit code — a usage error is `2`,
 /// anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
@@ -208,6 +250,26 @@ mod tests {
         );
         // No count for a payload that has none (a write, a single value).
         assert!(meta(None, "/d").get("count").is_none());
+    }
+
+    #[test]
+    fn value_quoted_only_quotes_when_whitespace_would_be_lost() {
+        // An empty value needs no marker: blank already says "nothing".
+        assert_eq!(value_quoted(&serde_json::json!("")), "");
+        // Surrounding whitespace would disappear in the rendering, so it keeps its quotes.
+        assert_eq!(value_quoted(&serde_json::json!("  ")), "\"  \"");
+        assert_eq!(value_quoted(&serde_json::json!(" a ")), "\" a \"");
+        // A value carrying both quote kinds is still quoted, so its padding stays visible.
+        assert_eq!(value_quoted(&serde_json::json!(" a\"b'c ")), "\" a\"b'c \"");
+        assert_eq!(value_quoted(&serde_json::json!("plain")), "plain");
+        assert_eq!(value_quoted(&serde_json::json!(1)), "1");
+        assert_eq!(value_quoted(&serde_json::json!(null)), "");
+    }
+
+    #[test]
+    fn key_line_leaves_no_trailing_space_for_an_empty_value() {
+        assert_eq!(key_line("url", ""), "url:");
+        assert_eq!(key_line("language", "zh-CN"), "language: zh-CN");
     }
 
     #[test]

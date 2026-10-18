@@ -50,8 +50,9 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 ## 3. Values
 
 - **Raw JSON types**: a number is a number, a boolean is a boolean, an absent value is `null`.
-- **JSON mode does no display work.** The text mode's automatic quoting (an empty value shown as
-  `""`) exists only for text.
+- **JSON mode does no display work.** The text mode's one display convention — quoting a value
+  whose surrounding whitespace would otherwise be invisible — exists only for text. An empty value
+  is left blank: a blank cell already says "nothing", whereas `""` reads as a two-character value.
 - **Fixed key sets**: a key is present and `null` rather than omitted, so a caller never has to probe
   whether a key exists.
 

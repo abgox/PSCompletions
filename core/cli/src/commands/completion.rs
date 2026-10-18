@@ -4,11 +4,11 @@ use std::process::ExitCode;
 
 use serde_json::{json, Value};
 
-use crate::commands::config::value_str;
 use crate::data::{read_text, Index, Settings};
 use crate::messages::msg_cli;
 use crate::net::completion_defaults;
 use crate::output::{fail, meta, ok, Out};
+use crate::output::{key_line, value_quoted};
 use crate::validate::{data_dir_of, ensure_completion_map, name_error, name_status};
 
 const COMPLETION_KEYS: &[&str] = &[
@@ -233,7 +233,7 @@ pub fn cmd_completion(
             for (n, cfg) in entries {
                 out.line(&format!("[{n}]"));
                 for (k, v) in cfg {
-                    out.line(&format!("{k}: {}", value_str(&v)));
+                    out.line(&key_line(&k, &value_quoted(&v)));
                 }
             }
         }
@@ -257,7 +257,7 @@ pub fn cmd_completion(
             return ok(&data, &meta(None, &data_dir));
         } else {
             for (k, v) in cfg {
-                out.line(&format!("{k}: {}", value_str(&v)));
+                out.line(&key_line(&k, &value_quoted(&v)));
             }
         }
         return ExitCode::SUCCESS;

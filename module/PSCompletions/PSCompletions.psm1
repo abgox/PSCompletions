@@ -47,7 +47,7 @@
         elseif ($flag -eq 'max') { $PSCompletions.info.param_max }
         else { $PSCompletions.info.param_err }
         $PSCompletions.write_with_color((_replace $err))
-        if ($err_info) { $PSCompletions.write_with_color((_replace $err_info @{Rejected = if ($arg.Count -gt 3) { [string]$arg[3] } else { '' }})) }
+        if ($err_info) { $PSCompletions.write_with_color((_replace $err_info @{Rejected = if ($arg.Count -gt 3) { [string]$arg[3] } else { '' } })) }
     }
     function _help {
         $PSCompletions.write_with_color((_replace $PSCompletions.info.description @{Version = [string]$PSCompletions.version }))
@@ -133,6 +133,20 @@
         foreach ($row in $rows) {
             [pscustomobject]@{ Completion = $row.name; Alias = $row.alias }
         }
+    }
+    # A config value as the human view shows it: quoted only when it would otherwise be misread
+    # (surrounding whitespace is invisible in a cell). An empty or missing value is left blank —
+    # the same rule the CLI's text mode uses.
+    function _value_str {
+        param($value)
+        if ($null -eq $value) { return '' }
+        $s = [string]$value
+        if ($s -eq $s.Trim()) { return $s }
+        if ($s.Contains('"')) {
+            if ($s.Contains("'")) { return $s }
+            return "'" + $s + "'"
+        }
+        return '"' + $s + '"'
     }
     # Build the add/update done-template context: trigger aliases plus the
     # manifest config rows (with stored current values) for [Special Configuration].
@@ -380,7 +394,14 @@
                 # The payload names its collection; a whole-command failure is the envelope's,
                 # which _forward_psc has already reported in red.
                 (_forward_psc -Json).config | ForEach-Object {
-                    [pscustomobject]@{ Key = $_.key; Value = $_.value }
+                    # `config` (every group) says which group a key belongs to; `config <group>`
+                    # was told already, exactly as the CLI's text drops that header.
+                    if ($arg.Count -eq 1) {
+                        [pscustomobject]@{ Group = $_.group; Key = $_.key; Value = (_value_str $_.value) }
+                    }
+                    else {
+                        [pscustomobject]@{ Key = $_.key; Value = (_value_str $_.value) }
+                    }
                 }
                 $need_init = $false
             }
@@ -455,9 +476,9 @@
                         $PSCompletions.ensure_dir($PSCompletions.path.dir.completions)
                         $seedTarget = [System.IO.Path]::Combine($PSCompletions.path.dir.completions, 'psc')
                         foreach ($seed in @(
-                            [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'completions', 'psc'),
-                            [System.IO.Path]::Combine((Split-Path (Split-Path $PSCompletions.path.dir.root -Parent) -Parent), 'completions', 'psc')
-                        )) {
+                                [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'completions', 'psc'),
+                                [System.IO.Path]::Combine((Split-Path (Split-Path $PSCompletions.path.dir.root -Parent) -Parent), 'completions', 'psc')
+                            )) {
                             if ([System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'config.json')) -and [System.IO.File]::Exists([System.IO.Path]::Combine($seed, 'language', 'en-US.json'))) {
                                 Copy-Item -LiteralPath $seed -Destination $seedTarget -Recurse -Force
                                 break

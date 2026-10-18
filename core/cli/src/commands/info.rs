@@ -8,6 +8,32 @@ use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
 use crate::output::{meta, ok, Out};
 use crate::validate::{name_error, name_status};
+/// A Unix timestamp as the human view shows it. The engine carries no timezone database, so this
+/// is UTC and says so; the JSON keeps the raw seconds (design/json.md §3).
+fn utc_stamp(secs: u64) -> String {
+    let days = (secs / 86_400) as i64;
+    let rem = secs % 86_400;
+    // Howard Hinnant's civil_from_days.
+    let z = days + 719_468;
+    let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
+    let doe = z - era * 146_097;
+    let yoe = (doe - doe / 1_460 + doe / 36_524 - doe / 146_096) / 365;
+    let mut y = yoe + era * 400;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
+    let mp = (5 * doy + 2) / 153;
+    let d = doy - (153 * mp + 2) / 5 + 1;
+    let m = if mp < 10 { mp + 3 } else { mp - 9 };
+    if m <= 2 {
+        y += 1;
+    }
+    format!(
+        "{y:04}-{m:02}-{d:02} {:02}:{:02}:{:02} UTC",
+        rem / 3_600,
+        (rem % 3_600) / 60,
+        rem % 60
+    )
+}
+
 pub fn cmd_info(
     args: &[String],
     settings: &Settings,
@@ -179,7 +205,7 @@ pub fn cmd_info(
             if let Ok(meta) = std::fs::metadata(format!("{path}/.update")) {
                 if let Ok(mt) = meta.modified() {
                     if let Ok(d) = mt.duration_since(std::time::UNIX_EPOCH) {
-                        field("updated: ".to_string(), &d.as_secs().to_string());
+                        field("updated: ".to_string(), &utc_stamp(d.as_secs()));
                     }
                 }
             }
@@ -189,5 +215,14 @@ pub fn cmd_info(
         ExitCode::FAILURE
     } else {
         ExitCode::SUCCESS
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn utc_stamp_renders_known_instants() {
+        assert_eq!(super::utc_stamp(0), "1970-01-01 00:00:00 UTC");
+        assert_eq!(super::utc_stamp(1_000_000_000), "2001-09-09 01:46:40 UTC");
     }
 }
