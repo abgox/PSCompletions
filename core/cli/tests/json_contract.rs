@@ -325,6 +325,34 @@ fn json_a_non_utf8_settings_file_fails_loudly_and_is_left_alone() {
 }
 
 #[test]
+fn json_completion_reset_answers_only_what_it_reset() {
+    // A completion that is on disk and has stored config but no alias entry: `completion <name>
+    // <key> <value>` allows that (name_status accepts a name whose directory exists), so a reset
+    // must reset it — and then not report it as part of the resulting state.
+    let d = make_data("json-completion-reset-scope", "http://127.0.0.1:9");
+    rewrite_settings(&d, |v| {
+        v["alias"] = serde_json::json!({});
+        v["config"] = serde_json::json!({
+            "language": "en-US",
+            "completion": { "git": { "max_commit": 30 } }
+        });
+    });
+    let (code, out) = psc(&d, &["--json", "completion", "--reset", "--yes"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    let names: Vec<&str> = v["data"]["completions"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|e| e["name"].as_str().unwrap())
+        .collect();
+    assert!(
+        !names.contains(&"git"),
+        "reported without having been reset: {names:?}"
+    );
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

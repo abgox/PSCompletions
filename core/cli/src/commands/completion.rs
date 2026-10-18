@@ -64,7 +64,13 @@ pub fn cmd_completion(
         let data_dir = data_dir_of(settings_path);
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
         let names: Vec<String> = if params.is_empty() {
-            settings.list()
+            // The reset set must be the set the answer reports (design/json.md §8): the
+            // completions that have stored config. A completion with a trigger word but no config
+            // was a no-op reset anyway — empty defaults drop the entry.
+            completion_configs(settings)
+                .into_iter()
+                .map(|(n, _)| n)
+                .collect()
         } else {
             if let Some((code, e)) = check_installed(params[0]) {
                 return fail(out, code, &e, json, &meta(None, &data_dir), false);
