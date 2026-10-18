@@ -126,7 +126,11 @@ pub(crate) fn api_items(
             _ => {
                 // Plain — element is the name.
                 let name: String = match &elem {
-                    Value::String(s) => s.to_str()?.to_string(),
+                    Value::String(s) => match s.to_str() {
+                        Ok(t) => t.to_string(),
+                        // Non-UTF-8 is bad input, not a crash (§7 item 0): skip it like a blank.
+                        Err(_) => continue,
+                    },
                     _ => continue,
                 };
                 // An empty string carries no usable name; skip it.
@@ -293,7 +297,11 @@ pub(crate) fn api_contains(
     for i in 1..=list.raw_len() {
         let e: Value = list.raw_get(i)?;
         let s = match e {
-            Value::String(s) => s.to_str()?.to_string(),
+            Value::String(s) => match s.to_str() {
+                Ok(t) => t.to_string(),
+                // Non-UTF-8 is bad input, not a crash (§7 item 0): it simply cannot match.
+                Err(_) => continue,
+            },
             _ => continue,
         };
         let hay = if case_sensitive { s } else { s.to_lowercase() };

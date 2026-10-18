@@ -14,7 +14,11 @@ pub(crate) fn table_to_strings(t: &Table) -> mlua::Result<Vec<String>> {
     let mut out = Vec::new();
     for i in 1..=t.raw_len() {
         if let Value::String(s) = t.raw_get::<Value>(i)? {
-            out.push(s.to_str()?.to_string());
+            // A non-UTF-8 string is bad input, not a crash (§7 item 0): skipped like a nil.
+            let Ok(text) = s.to_str() else {
+                continue;
+            };
+            out.push(text.to_string());
         }
     }
     Ok(out)

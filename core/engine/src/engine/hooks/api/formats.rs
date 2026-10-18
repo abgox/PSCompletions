@@ -171,7 +171,9 @@ fn format_value(
             }
         }
         Value::String(s) => {
-            let s = s.to_str()?;
+            // Display text, not a value: a lossy rendering is the right degradation and cannot
+            // throw (§7 item 0).
+            let s = s.to_string_lossy();
             format!("\"{}\"", truncate(&s, 200))
         }
         Value::Function(_) => "<function>".into(),
@@ -218,7 +220,8 @@ fn format_table(
         match k {
             Value::Integer(i) => numeric.push((i, val)),
             Value::String(s) => {
-                let key = s.to_str()?.to_string();
+                // A key is display/ordering text: lossy, and it cannot throw (§7 item 0).
+                let key = s.to_string_lossy();
                 if !string_vals.contains_key(&key) {
                     string_keys.push(key.clone());
                 }

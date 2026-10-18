@@ -2959,6 +2959,26 @@ fn contains_treats_a_malformed_pattern_as_no_match() {
 }
 
 #[test]
+fn a_non_utf8_string_never_crashes_an_api() {
+    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it
+    // degrades to empty". A Lua string is a byte string, so `string.char(255)` is constructible, and
+    // several APIs used to throw on it instead of degrading.
+    let script = r#"
+    local bad = string.char(255)
+    local names = psc.items({ "a", bad, "b" })
+    local ran = psc.run({ "echo", bad, "ok" }, { shell = true })
+    return {
+        { name = "items:" .. #names },
+        { name = "contains:" .. tostring(psc.contains({ bad, "x" }, "x")) },
+        { name = "run:" .. tostring(ran and ran[1] or "nil") },
+    }
+"#;
+    let out = run_hook(&ctx(), script, &empty_static()).unwrap();
+    let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(texts, vec!["items:2", "contains:true", "run:ok"]);
+}
+
+#[test]
 fn items_skips_empty_and_blank_strings() {
     // `psc.items` without fn uses each string element as the name; empty/blank strings are
     // skipped (they carry no usable name).
