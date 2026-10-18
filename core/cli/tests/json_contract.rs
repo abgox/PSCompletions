@@ -295,6 +295,36 @@ fn a_later_claim_wins_and_a_redeclaration_takes_the_word_back() {
 }
 
 #[test]
+fn json_a_non_utf8_settings_file_fails_loudly_and_is_left_alone() {
+    // A file we cannot decode is corruption, not absence: the run must stop with an error, and
+    // the file must be left exactly as it is — nothing is backed up, nothing is overwritten.
+    let d = make_data("json-settings-non-utf8", "http://127.0.0.1:9");
+    let sp = d.join("settings.json");
+    // UTF-16LE-ish bytes: not valid UTF-8, and not JSON either.
+    let original: Vec<u8> = vec![0xFF, 0xFE, b'{', 0, b'}', 0];
+    std::fs::write(&sp, &original).unwrap();
+
+    let (code, out) = psc(&d, &["--json", "list"]);
+    assert_ne!(
+        code, 0,
+        "a broken settings.json must not be silently ignored: {out}"
+    );
+    assert!(
+        out.contains("settings.json"),
+        "the error must name the file: {out}"
+    );
+    assert_eq!(
+        std::fs::read(&sp).unwrap(),
+        original,
+        "the file must be left alone"
+    );
+    assert!(
+        !d.join("settings.json.corrupt").exists(),
+        "nothing is backed up any more — the file itself is the evidence"
+    );
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);

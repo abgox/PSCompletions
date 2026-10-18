@@ -74,7 +74,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 - The codes in use: `too_few_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`,
   `not_installed`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
   `language_no_reset`, `alias_wildcard`, `alias_reserved`,
-  `alias_not_found`, `io`, `network`.
+  `alias_not_found`, `settings_corrupt`, `io`, `network`.
 
 ## 5. `meta`
 

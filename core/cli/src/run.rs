@@ -21,7 +21,22 @@ pub fn run(args: Vec<String>) -> ExitCode {
     let settings_path = format!("{data_dir}/settings.json");
     let completions_json = format!("{data_dir}/temp/completions.json");
     let completions_dir = format!("{data_dir}/completions");
-    let mut settings = Settings::load(&settings_path).unwrap_or_default();
+    let mut settings = match Settings::load(&settings_path) {
+        Ok(Some(s)) => s,
+        Ok(None) => Settings::default(),
+        // Corruption is reported, not papered over with defaults: the file is left alone, so the
+        // user can fix or delete it and nothing they wrote is lost.
+        Err(msg) => {
+            return fail(
+                &Out::new(),
+                "settings_corrupt",
+                &msg,
+                json,
+                &meta(None, &data_dir),
+                false,
+            );
+        }
+    };
     let mut index = Index::load(&completions_json).unwrap_or_default();
     // `--language` is this run's override for the message language (and for anything that renders
     // with it); `init` still receives the raw flag. Never written back: `settings` is untouched.

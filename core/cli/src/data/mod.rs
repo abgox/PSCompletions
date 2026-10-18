@@ -79,27 +79,30 @@ impl Settings {
         }
     }
 
-    pub fn load(path: &str) -> Option<Settings> {
-        let text = read_text(path)?;
-        let file: SettingsFile = match serde_json::from_str(&text) {
-            Ok(f) => f,
-            Err(_) => {
-                // Corrupt settings.json: back it up (never silently drop the damaged content)
-                // and fall back to defaults; the next save won't overwrite it without a trace.
-                // Write the backup from the already-read text first, then discard the original —
-                // if the backup write fails, the corrupt original stays put.
-                let corrupt = format!("{path}.corrupt");
-                let _ = std::fs::remove_file(&corrupt);
-                if std::fs::write(&corrupt, &text).is_ok() {
-                    let _ = std::fs::remove_file(path);
-                }
-                return None;
-            }
+    /// Read and parse `settings.json`.
+    ///
+    /// A file that cannot be decoded (a foreign encoding) or parsed is **corruption, not
+    /// absence**, so the run stops with an error naming the file. Nothing is written: no backup,
+    /// no rewrite — the file itself is the evidence, and it stays exactly as it is.
+    /// `Ok(None)` means the file simply is not there yet (a fresh install).
+    pub fn load(path: &str) -> Result<Option<Settings>, String> {
+        let Some(bytes) = std::fs::read(path).ok() else {
+            return Ok(None);
         };
-        Some(Settings {
+        let Some(text) = std::str::from_utf8(&bytes).ok().map(strip_bom) else {
+            return Err(format!(
+                "{path} is not valid UTF-8 — fix it or delete it (the file was not modified)"
+            ));
+        };
+        let file: SettingsFile = serde_json::from_str(text).map_err(|e| {
+            format!(
+                "{path} is not valid JSON ({e}) — fix it or delete it (the file was not modified)"
+            )
+        })?;
+        Ok(Some(Settings {
             alias: file.alias,
             config: file.config,
-        })
+        }))
     }
 
     pub fn save(&self, path: &str) -> Result<(), String> {
@@ -157,19 +160,12 @@ pub struct Index {
 }
 
 impl Index {
+    /// `None` for a missing **or unreadable** file: this is a rebuildable cache, so a corrupt one
+    /// is simply fetched again — never reported, never rewritten.
     pub fn load(path: &str) -> Option<Index> {
-        let text = read_text(path)?;
-        let v: Value = match serde_json::from_str(&text) {
-            Ok(v) => v,
-            Err(_) => {
-                let corrupt = format!("{path}.corrupt");
-                let _ = std::fs::remove_file(&corrupt);
-                if std::fs::write(&corrupt, &text).is_ok() {
-                    let _ = std::fs::remove_file(path);
-                }
-                return None;
-            }
-        };
+        let bytes = std::fs::read(path).ok()?;
+        let text = std::str::from_utf8(&bytes).ok()?;
+        let v: Value = serde_json::from_str(strip_bom(text)).ok()?;
         Some(Index::from_value(v))
     }
 
@@ -244,20 +240,15 @@ impl LibraryChanges {
                 .unwrap_or_default()
         }
         let path = format!("{data_dir}/temp/change.json");
-        let text = match read_text(&path) {
-            Some(t) => t,
-            None => return LibraryChanges::default(),
+        // A notification file: missing or unreadable simply means "nothing to report".
+        let Some(bytes) = std::fs::read(&path).ok() else {
+            return LibraryChanges::default();
         };
-        let v: Value = match serde_json::from_str(&text) {
-            Ok(v) => v,
-            Err(_) => {
-                let corrupt = format!("{path}.corrupt");
-                let _ = std::fs::remove_file(&corrupt);
-                if std::fs::write(&corrupt, &text).is_ok() {
-                    let _ = std::fs::remove_file(&path);
-                }
-                return LibraryChanges::default();
-            }
+        let Some(text) = std::str::from_utf8(&bytes).ok() else {
+            return LibraryChanges::default();
+        };
+        let Ok(v) = serde_json::from_str::<Value>(strip_bom(text)) else {
+            return LibraryChanges::default();
         };
         LibraryChanges {
             update: str_list(v.get("update")),
@@ -428,7 +419,7 @@ mod tests {
         let (_p, path) = tmp_file(
             r#"{"config":{"language":"en-US","completion":{"git":{"max_commit":30}}},"alias":{"git":["git","g"],"scoop":["scoop"]}}"#,
         );
-        let s = Settings::load(&path).unwrap();
+        let s = Settings::load(&path).unwrap().unwrap();
         assert_eq!(s.list(), vec!["git", "scoop"]);
         assert_eq!(
             s.alias.get("git").unwrap(),
@@ -442,11 +433,24 @@ mod tests {
     #[test]
     fn settings_save_roundtrip() {
         let (_p, path) = tmp_file(r#"{"config":{},"alias":{}}"#);
-        let mut s = Settings::load(&path).unwrap();
+        let mut s = Settings::load(&path).unwrap().unwrap();
         s.alias.insert("git".into(), vec!["git".into()]);
         s.config["language"] = json!("zh-CN");
         s.save(&path).unwrap();
-        let reloaded = Settings::load(&path).unwrap();
+        // The bytes on disk are UTF-8 without a BOM: every write path passes a `String`, so no
+        // other encoding can reach the file (a foreign one can only come from outside —
+        // PowerShell 5.1, an editor).
+        let bytes = std::fs::read(&path).unwrap();
+        assert!(
+            std::str::from_utf8(&bytes).is_ok(),
+            "settings.json must be valid UTF-8"
+        );
+        assert_ne!(
+            &bytes[..3],
+            b"\xef\xbb\xbf",
+            "settings.json must not carry a BOM"
+        );
+        let reloaded = Settings::load(&path).unwrap().unwrap();
         assert!(reloaded.alias.contains_key("git"));
         assert_eq!(reloaded.language(), "zh-CN");
         std::fs::remove_file(_p).ok();
@@ -481,30 +485,40 @@ mod tests {
     }
 
     #[test]
-    fn settings_load_backs_up_corrupt_file() {
+    fn settings_load_reports_corrupt_file_and_leaves_it_alone() {
+        // Corruption is reported, never papered over with defaults: the file stays exactly as it
+        // is — no `.corrupt` copy, no rewrite — so nothing the user wrote is lost.
         let (_p, path) = tmp_file("not-json{{{");
+        let err = Settings::load(&path).unwrap_err();
+        assert!(err.contains(&path), "the error must name the file: {err}");
+        assert_eq!(std::fs::read_to_string(&path).unwrap(), "not-json{{{");
         assert!(
-            Settings::load(&path).is_none(),
-            "corrupt settings must load as None"
+            !std::path::Path::new(&format!("{path}.corrupt")).exists(),
+            "nothing is backed up any more — the file itself is the evidence"
         );
-        assert!(
-            std::path::Path::new(&format!("{path}.corrupt")).exists(),
-            "corrupt file must be backed up, not silently dropped"
-        );
-        assert!(
-            !std::path::Path::new(&path).exists(),
-            "original must be moved away before defaults take over"
-        );
-        std::fs::remove_file(format!("{path}.corrupt")).ok();
+        std::fs::remove_file(&path).ok();
     }
 
     #[test]
     fn settings_save_is_atomic_and_leaves_no_tmp() {
         let (_p, path) = tmp_file(r#"{"config":{},"alias":{}}"#);
-        let mut s = Settings::load(&path).unwrap();
+        let mut s = Settings::load(&path).unwrap().unwrap();
         s.alias.insert("git".into(), vec!["git".into()]);
         s.save(&path).unwrap();
-        let reloaded = Settings::load(&path).unwrap();
+        // The bytes on disk are UTF-8 without a BOM: every write path passes a `String`, so no
+        // other encoding can reach the file (a foreign one can only come from outside —
+        // PowerShell 5.1, an editor).
+        let bytes = std::fs::read(&path).unwrap();
+        assert!(
+            std::str::from_utf8(&bytes).is_ok(),
+            "settings.json must be valid UTF-8"
+        );
+        assert_ne!(
+            &bytes[..3],
+            b"\xef\xbb\xbf",
+            "settings.json must not carry a BOM"
+        );
+        let reloaded = Settings::load(&path).unwrap().unwrap();
         assert!(reloaded.alias.contains_key("git"));
         let tmp = format!("{path}.{}.tmp", std::process::id());
         assert!(
