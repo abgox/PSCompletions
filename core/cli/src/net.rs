@@ -6,6 +6,7 @@ use std::time::Duration;
 use serde_json::Value;
 
 use crate::data::{remove_completion_entry, Settings};
+use crate::validate::is_valid_name;
 
 /// Default completion source URLs (order follows the module's language preference).
 const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
@@ -302,6 +303,12 @@ pub fn add_completion(
     urls: &[String],
     version: &str,
 ) -> Result<bool, String> {
+    // The single place a completion lands on disk: reject a name carrying separators before
+    // anything is created or removed, so no caller can escape the library directory
+    // (design/psc-cli.md §6.7 — validated before any filesystem access).
+    if !is_valid_name(name) {
+        return Err(format!("invalid completion name: {name}"));
+    }
     let dir = format!("{data_dir}/completions/{name}");
     // Skip linked (symlink) completions: Ok(false) = "skipped, not updated".
     if let Ok(meta) = std::fs::symlink_metadata(&dir) {
@@ -807,6 +814,19 @@ mod tests {
         )
         .unwrap();
         assert!(dir.join("config.json").exists());
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn add_completion_rejects_a_name_that_escapes_the_library() {
+        let base = test_base();
+        std::fs::create_dir_all(base.join("completions")).unwrap();
+        // `../evil` makes the staging dir resolve to `<base>/evil.<pid>.tmp` — outside temp/,
+        // where the cleanup `remove_dir_all` calls would then delete outside the library too.
+        let stray = base.join(format!("evil.{}.tmp", std::process::id()));
+        let err = add_completion(base.to_str().unwrap(), "../evil", &[], "").unwrap_err();
+        assert!(!stray.exists(), "staging dir escaped temp/: {stray:?}");
+        assert!(err.contains("invalid completion name"), "{err}");
         std::fs::remove_dir_all(&base).ok();
     }
 
