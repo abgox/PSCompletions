@@ -1291,3 +1291,47 @@ fn json_completion_writes_are_in_band() {
     assert_eq!(code, 0, "{out}");
     assert_eq!(parse_json(&out)["ok"], true, "{out}");
 }
+
+#[test]
+fn json_self_update_reports_an_unmanaged_copy() {
+    // The test binary is not installed by anything, so the method is `unknown` and the payload
+    // names the routes a user should take. `commands` is the part a machine acts on; the version
+    // fields stay strings even when nothing could be read, so the shape never varies.
+    let d = make_data("json-self-update", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "--self-update"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    assert_eq!(v["data"]["method"], "unknown", "{out}");
+    assert_eq!(v["data"]["ran"], false, "{out}");
+    assert!(v["data"]["current"].is_string(), "{out}");
+    assert!(v["data"]["latest"].is_string(), "{out}");
+    let commands = v["data"]["commands"].as_array().unwrap();
+    assert!(
+        commands.iter().any(|c| c == "Install-Module PSCompletions"),
+        "{out}"
+    );
+}
+
+#[test]
+fn json_self_update_rejects_arguments() {
+    // The flag takes nothing: a stray argument is a usage error (exit 2), not a normal run.
+    let d = make_data("json-self-update-args", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json", "--self-update", "extra"]);
+    assert_eq!(code, 2, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], false, "{out}");
+    assert_eq!(v["error"]["code"], "too_many_params", "{out}");
+}
+
+#[test]
+fn text_self_update_prints_the_commands_without_the_psc_completion() {
+    // No `psc` completion in this data dir, so the localized templates are missing: the English
+    // fallback must still end with the commands, or the user is told to install something with
+    // nothing to type.
+    let d = make_data("txt-self-update", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--self-update"]);
+    assert_eq!(code, 0, "{out}");
+    assert!(out.contains("Install-Module PSCompletions"), "{out}");
+    assert!(out.contains("scoop install abgox.PSCompletions"), "{out}");
+}

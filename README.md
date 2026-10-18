@@ -69,6 +69,12 @@ Powerful Shell Completions for [PowerShell and other shells](https://pscompletio
        scoop install abyss/abgox.PSCompletions
        ```
 
+   - Linux / macOS, without PowerShell — run the [install script](install.sh):
+
+     ```sh
+     curl -fsSL https://raw.githubusercontent.com/abgox/PSCompletions/main/install.sh | sh
+     ```
+
 2. Load it.
    - PowerShell — [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module):
 
@@ -76,19 +82,7 @@ Powerful Shell Completions for [PowerShell and other shells](https://pscompletio
      Import-Module PSCompletions
      ```
 
-   - Other shells — source the bridge shipped in the module (see [Shell support](https://pscompletions.abgox.com/docs/shells)):
-
-     ```sh
-     # Linux / macOS; the module root differs on Windows
-     module="$(ls -dt "$HOME"/.local/share/powershell/Modules/PSCompletions/*/ | head -1)"
-
-     # bash — one line in ~/.bashrc, last in the file
-     source "${module}PSCompletions.bash"
-     # zsh — one line in ~/.zshrc, last in the file
-     source "${module}PSCompletions.zsh"
-     # fish — a conf.d symlink, or `source` it from config.fish
-     ln -s "${module}PSCompletions.fish" ~/.config/fish/conf.d/PSCompletions.fish
-     ```
+   - bash / zsh / fish — run the [install script](install.sh), and it prints the content to add to your shell's rc file.
 
 3. Use it.
    - [Built-in completion library](../index/completions.md): add a completion with `psc add git`.

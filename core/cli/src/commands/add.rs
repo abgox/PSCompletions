@@ -142,8 +142,7 @@ pub fn cmd_add(
     results.sort_by_key(|(i, _, _)| *i);
     let had_error = results.iter().any(|(_, _, v)| v["ok"] != true);
     if json {
-        let entries: Vec<serde_json::Value> =
-            results.iter().map(|(_, _, v)| v.clone()).collect();
+        let entries: Vec<serde_json::Value> = results.iter().map(|(_, _, v)| v.clone()).collect();
         let count = entries.len();
         ok(
             &json!({ "completions": entries }),

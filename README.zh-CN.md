@@ -69,6 +69,12 @@
        scoop install abyss/abgox.PSCompletions
        ```
 
+   - Linux / macOS，且不装 PowerShell —— 运行 [安装脚本](install.sh)：
+
+     ```sh
+     curl -fsSL https://raw.githubusercontent.com/abgox/PSCompletions/main/install.sh | sh
+     ```
+
 2. 加载它
    - PowerShell —— [直接导入模块](https://pscompletions.abgox.com/docs/direct-import-module)：
 
@@ -76,19 +82,7 @@
      Import-Module PSCompletions
      ```
 
-   - 其他 Shell —— 引入模块内置的桥接脚本（见 [Shell 支持](https://pscompletions.abgox.com/docs/shells)）：
-
-     ```sh
-     # Linux / macOS；Windows 的模块目录不同
-     module="$(ls -dt "$HOME"/.local/share/powershell/Modules/PSCompletions/*/ | head -1)"
-
-     # bash —— 在 ~/.bashrc 里加一行，放在文件末尾
-     source "${module}PSCompletions.bash"
-     # zsh —— 在 ~/.zshrc 里加一行，放在文件末尾
-     source "${module}PSCompletions.zsh"
-     # fish —— 用 conf.d 软链，或从 config.fish 里 source 它
-     ln -s "${module}PSCompletions.fish" ~/.config/fish/conf.d/PSCompletions.fish
-     ```
+   - bash / zsh / fish —— 运行 [安装脚本](install.sh)，它会输出需要添加到你的 shell rc 文件中的内容
 
 3. 使用它
    - [内置补全库](../index/completions.zh-CN.md)：用 `psc add git` 添加补全

@@ -4,7 +4,8 @@ use std::process::ExitCode;
 
 use crate::commands::{
     add::cmd_add, alias::cmd_alias, completion::cmd_completion, config::cmd_config, info::cmd_info,
-    init::cmd_init, list::cmd_list, rm::cmd_rm, tpl::cmd_tpl, update::cmd_update,
+    init::cmd_init, list::cmd_list, rm::cmd_rm, self_update::cmd_self_update, tpl::cmd_tpl,
+    update::cmd_update,
 };
 use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
@@ -49,6 +50,19 @@ pub fn run(args: Vec<String>) -> ExitCode {
     }
     let cmd = rest[0].clone();
     let args = &rest[1..];
+    // `--self-update` is a root-level flag, not a command word: it is checked here, before the
+    // command dispatch, and takes no arguments.
+    if cmd == "--self-update" {
+        return cmd_self_update(
+            args,
+            &settings,
+            &data_dir,
+            &completions_dir,
+            &lang,
+            &out,
+            json,
+        );
+    }
     // Sweep crash residue from staged downloads, but only for the commands that
     // produce it (`add`/`update`/`init` download; the rest never stage anything).
     // Two directory listings; never touches live data.

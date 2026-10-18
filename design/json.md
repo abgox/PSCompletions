@@ -161,6 +161,7 @@ engine).**
 | `completion … --reset` | The resulting state, the same shape the read of that scope answers with |
 | `add` / `rm` / `update <name>…` | `{"completions": [{"name", "ok", "error"?}…]}` — plus `renamed_from` (a migrated rename) where it applies |
 | `update` (no argument) | `{"update": […], "added": […], "removed": […], "renamed": [[old, new]…]}` — the library-change report, the same four lists `temp/change.json` carries |
+| `--self-update` | `{"method", "path", "current", "latest", "commands", "ran"}` — `method` is `script` / `scoop` / `module` / `unknown`; `commands` is what the user runs for every method but `script`, where the command updates the install itself and `ran` reports whether it did |
 | `<unknown command>` / a parameter error | `{"ok": false, "error": {…}}` |
 | no command word (bare `psc`, or flags only) | Not a command execution: the **host prints the module's info page**. The engine keeps its own usage text as a fallback, because only the host knows the module version. |
 

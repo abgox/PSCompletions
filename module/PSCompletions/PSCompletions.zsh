@@ -1095,6 +1095,12 @@ psc() {
         print
         return 0
     fi
+    # `psc --self-update` (root-level flag): the engine detects how this copy was installed and
+    # says what updates it — a script install is updated right there, the rest is a command to run.
+    if [[ "${1:-}" == --self-update ]]; then
+        _psc_run_status --self-update
+        return $?
+    fi
     if [[ "$1" == --reset ]]; then
         _psc_tpl reset.init_confirm
         print

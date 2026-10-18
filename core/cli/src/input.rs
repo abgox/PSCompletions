@@ -96,6 +96,7 @@ pub fn print_help() {
     println!("  add <name>...          Install completions");
     println!("  rm <name>... | --all   Remove completions");
     println!("  update [<name>... | --all | --old]");
+    println!("  --self-update          Report how this copy was installed, and update it");
 }
 
 #[cfg(test)]

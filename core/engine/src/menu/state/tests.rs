@@ -1055,11 +1055,11 @@ fn psc_real_items_revert_consistently() {
     c.flags.filter_mode = "subsequence".into();
     c.flags.show_mode = "auto".into();
     let mut s = MenuState::new(list, &c, &term());
-    // "a" → add / alias / update (subsequence hits the 3 items containing a).
+    // "a" → add / alias / update / --self-update (subsequence hits the 4 items containing a).
     s.insert_at_cursor('a');
     s.apply_filter(&c, &term());
-    assert_eq!(s.filtered.len(), 3);
-    // "ad" → only add.
+    assert_eq!(s.filtered.len(), 4);
+    // "ad" → only add (the option-shaped name has its d before its a).
     s.insert_at_cursor('d');
     s.apply_filter(&c, &term());
     assert_eq!(s.filtered.len(), 1);

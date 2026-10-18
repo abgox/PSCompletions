@@ -9,6 +9,7 @@ pub mod info;
 pub mod init;
 pub mod list;
 pub mod rm;
+pub mod self_update;
 pub mod tpl;
 pub mod update;
 

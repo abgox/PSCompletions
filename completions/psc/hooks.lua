@@ -231,3 +231,5 @@ psc.on({ command = "list", multiple = true }, function()
         drop_options({ "--json" })
     end
 end)
+
+psc.on({ command = "--self-update" }, clear_completions)

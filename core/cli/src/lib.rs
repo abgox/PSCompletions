@@ -5,6 +5,7 @@
 pub mod commands;
 pub mod data;
 pub mod input;
+pub mod install;
 pub mod messages;
 pub mod net;
 pub mod output;

@@ -111,6 +111,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | `completion` | `[<name> [<key> [<value>]]]` | `--reset` | no | Rust + PS wrapper | per-completion special config |
 | `alias` | `[add <name> <alias>...\|rm <name> <alias>...]` | `--reset` | no | Rust + PS wrapper | no-arg lists all |
 | `--reset` | — | — | no | **Host only** | nuclear reset, performed by the host itself — it never reaches the engine |
+| `--self-update` | — | — | a version check | Rust + PS wrapper | reports how this copy was installed and what updates it; a script install is updated here, every other method is a command to run |
 | `init` | — | — | on missing psc files | Rust | internal, module bootstrap |
 | `tpl` | `<dotted.info.path>` | `--ctx <json>`, `--no-color` | no | Rust | internal, renders one `info` template for a host |
 | *(no args)* | — | — | — | PS | re-init + interactive info page |
@@ -363,6 +364,30 @@ psc --reset
   bundled `psc` completion, and re-initializes. It never reaches the engine, so it needs no
   `--yes`.
 
+
+### 6.13 `--self-update` — how this copy was installed (top-level flag)
+
+```
+psc --self-update [--json]
+```
+
+- A root-level flag, not a command word: it sits in the `psc` manifest's `next`, not in
+  `global_option` — a global option is one that *bubbles* (usable under subcommands too), and this
+  one is root-only. Every host forwards it: the PowerShell `switch` and each bridge's `psc()`.
+- Detection is by evidence, never by a guess: the fixed directory `install.sh` uses *plus* its
+  `install.json` marker; scoop's own command (its `shims` directory names the root) with the binary
+  under `<root>\apps\<name>\`; or a module directory under `PSModulePath` carrying `bin/` beside
+  `PSCompletions.psd1`. Anything else is unmanaged, so a source checkout is never mistaken for a
+  copy we are allowed to replace.
+- It updates a *script* install itself — fetching `<base>/install.sh` fresh from the same source
+  prefix the completions come from, then running `sh <file>` — and prints the command for every
+  other method: `scoop update <name>` for **each** installed scoop name (both may be installed at
+  once, and each is a separate install), both PowerShell routes for a module install. `--json`
+  carries `method`, `path`, `current`, `latest`, `commands` and `ran`.
+- The newest version is whatever the last library check recorded (`temp/change.json`'s `module`);
+  only when that is missing does it ask the source. The text is the `psc` completion's
+  `info.self_update.*` templates, rendered by the engine's own `{{…}}` implementation, with a plain
+  English fallback when the `psc` completion is absent (the CLI self-heals it on the next `init`).
 
 ### 6.10 `init` — internal command (not user-facing)
 

@@ -375,6 +375,12 @@
             if ($arg -contains '--reset' -or $arg.Count -gt 3) { _forward_psc }
             else { _forward_psc -Plain; $need_init = $false }
         }
+        '--self-update' {
+            # A root-level flag, not a command: the engine detects how this copy was installed and
+            # says what updates it. `-Plain` because the text is a read, like `info`.
+            _forward_psc -Plain
+            $need_init = $false
+        }
         '--reset' {
             $need_init = $false
             # After interactive confirmation, clear the module's data directory and re-initialize
