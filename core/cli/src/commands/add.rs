@@ -64,7 +64,7 @@ pub fn cmd_add(
         let entry = if !list.contains(name) {
             // Not in the remote library: report + mark failure
             if !json {
-                out.line(&format!("{name} {}", msg_cli(lang, "not_available")));
+                out.line(&format!("{name}: {}", msg_cli(lang, "not_available")));
             }
             serde_json::json!({
                 "name": name,

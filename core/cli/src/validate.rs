@@ -57,7 +57,7 @@ pub fn name_error(
     if !is_valid_name(name) || status == 0 {
         return Some((
             "not_available",
-            format!("{name} {}", msg_cli(lang, "not_available")),
+            format!("{name}: {}", msg_cli(lang, "not_available")),
         ));
     }
     if need_installed && status == 1 {

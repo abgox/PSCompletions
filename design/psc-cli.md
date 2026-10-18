@@ -137,7 +137,7 @@ psc add <name>...
   aliases + `config.completion`) is dropped and rebuilt from remote defaults (like `rm` +
   `add`; customizations are reset). An already-installed name is reinstalled without error
   and still reports `Added.`.
-- **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
+- **Errors**: no args → `Too few parameters.`; unknown name → `<name>: is not an available completion.`;
   download failure → `error: <err>`. A downloaded `config.json` without a usable `id`
   is refused — nothing lands, the installed version stays intact.
 - **Output**: with `--json`, `data.completions` carries one result per name — `{name, ok, error?}`;
@@ -245,7 +245,7 @@ psc info <name>...      # per-name metadata
   remote index meta, localized), `Path` (if installed), `Update` (remote version in `.update`),
   `Updated` (unix timestamp of `.update`).
 - **Errors**: a name that is neither installed/linked nor in the remote library →
-  `<name> is not an available completion.`; in both modes the run exits `1` (a failed entry fails
+  `<name>: is not an available completion.`; in both modes the run exits `1` (a failed entry fails
   the run, [`json.md`](json.md) §6). The `--json` entry is
   `{name, ok, alias, url, description, path, update, updated}` with `null` for an absent field and
   `{code, message}` for the failure.
@@ -259,7 +259,7 @@ psc list
 ```
 
 - **Behavior**: prints the completions **recorded in `settings.alias`** plus their trigger aliases:
-  `name  alias1, alias2`. A directory dropped into `completions/` by hand is not listed here — it was
+  `name: alias1, alias2`. A directory dropped into `completions/` by hand is not listed here — it was
   never recorded — but `rm` still removes it, because `rm` works from the directory (below).
 - **Output**: text default; `--json` → `{"completions": [{name, alias}]}`.
 - **PS wrapper**: → `{Completion, Alias}`.
@@ -290,10 +290,10 @@ psc rm --all                # --all absorbs co-args: extras are ignored
 - **Name validity**: a name must be a single path-free token — no `/`, `\`, `:`, spaces or control
   characters, and not `.`, `..` or empty. It is validated **before any filesystem access**, so
   `psc rm ..\..\victim` is rejected instead of resolving outside the library directory. An invalid
-  name reports the same `<name> is not an available completion.` as an unknown one. The same rule
+  name reports the same `<name>: is not an available completion.` as an unknown one. The same rule
   covers `rm` / `update` / `completion` / `alias`.
 - **Errors**: no args → `Too few parameters.`; name in neither the registry nor the remote
-  library → `<name> is not an available completion.`; in the remote library but not installed →
+  library → `<name>: is not an available completion.`; in the remote library but not installed →
   `<name>: Completion not added.`
 - **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (an empty
   `rm --all` is a successful no-op with an empty list); the Rust binary prints `Removed.` once in
@@ -330,7 +330,7 @@ psc update --all              # update every installed completion
     startup notification.
   - After any successful update, the remaining out-of-date names are written back to
     `temp/change.json` (`update`) so the next startup does not re-report them.
-- **Errors**: name not installed and not in the remote list → `<name> is not an available completion.`;
+- **Errors**: name not installed and not in the remote list → `<name>: is not an available completion.`;
   installed but not in the remote list → `<name>: Completion not added.`; download failure →
   `error: <err>`. Same `id` refusal as `add` (nothing lands on failure).
 - **Output**: with `--json`, `data.completions` carries `{name, ok, error?}` per name (a migrated

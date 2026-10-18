@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use crate::data::{remove_completion_entry, Index, LibraryChanges, Settings};
 use crate::messages::msg_cli;
 use crate::output::{fail, meta, ok, Out};
-use crate::validate::{name_status, too_few_params};
+use crate::validate::{name_error, name_status, too_few_params};
 
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_rm(
@@ -59,21 +59,17 @@ pub fn cmd_rm(
     let mut removed_any = false;
     for name in &names {
         let status = name_status(settings, index, &completions_dir, name);
-        let invalid = if status == 0 {
-            Some(("not_available", msg_cli(lang, "not_available")))
-        } else if status == 1 {
-            Some(("not_installed", msg_cli(lang, "not_installed")))
-        } else {
-            None
-        };
-        if let Some((code, msg)) = invalid {
+        // One owner for the code + text pair (`validate::name_error`), so an unknown name reads
+        // exactly as it does for `info`. The JSON item carries `name` itself, so its message stays
+        // bare — the shape every per-item entry uses (design/json.md §3).
+        if let Some((code, text)) = name_error(lang, name, status, true) {
             if !json {
-                out.line(&format!("{name}: {msg}"));
+                out.line(&text);
             }
             results.push(serde_json::json!({
                 "name": name,
                 "ok": false,
-                "error": { "code": code, "message": msg }
+                "error": { "code": code, "message": msg_cli(lang, code) }
             }));
             continue;
         }

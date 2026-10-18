@@ -247,7 +247,7 @@ pub fn cmd_update(
                         }));
                     } else {
                         out.line(&format!(
-                            "{name} {} {new_name}",
+                            "{name}: {} {new_name}",
                             msg_cli(lang, "rename_done")
                         ));
                     }

@@ -476,6 +476,97 @@ fn json_set_paths_reject_surplus_arguments() {
 }
 
 #[test]
+fn json_name_errors_use_one_style() {
+    // One code, one line: the **text** mode prints `<name>: <message>` — the colon form the
+    // listings and the status messages already use (`git: git, g`, `git: Added.`). `rm`, `update`
+    // and `add` each built their own prefix and `name_error` had none, so the same failure read
+    // three ways. (The JSON `message` stays name-free: the item already carries `name`.)
+    let srv = spawn_server(demo_routes());
+    let d = make_data("json-name-error-style", &srv);
+
+    let (_, info_txt) = psc(&d, &["info", "zzz-nope"]);
+    let canonical = info_txt
+        .lines()
+        .find(|l| l.contains("zzz-nope"))
+        .unwrap_or_default()
+        .trim()
+        .to_string();
+    assert!(canonical.starts_with("zzz-nope: "), "{canonical}");
+
+    for argv in [
+        vec!["rm", "zzz-nope"],
+        vec!["update", "zzz-nope"],
+        vec!["add", "zzz-nope"],
+    ] {
+        let (code, out) = psc(&d, &argv);
+        assert_eq!(code, 1, "{argv:?} → {out}");
+        let line = out
+            .lines()
+            .find(|l| l.contains("zzz-nope"))
+            .unwrap_or_default()
+            .trim();
+        assert_eq!(line, canonical, "{argv:?}");
+    }
+
+    // The JSON item keeps `name` in its own field, so its message never repeats it.
+    let (_, js) = psc(&d, &["--json", "rm", "zzz-nope"]);
+    let v = parse_json(&js);
+    let entry = &v["data"]["completions"][0];
+    assert_eq!(entry["error"]["code"], "not_available", "{js}");
+    assert!(
+        !entry["error"]["message"]
+            .as_str()
+            .unwrap()
+            .contains("zzz-nope"),
+        "{js}"
+    );
+}
+
+#[test]
+fn json_update_rename_line_uses_the_one_style() {
+    // A rename is a per-item status line like any other: `old: renamed to new`. It used to be the
+    // one line that glued the name and the status together with a space.
+    let (srv, routes) = spawn_server_mut(vec![
+        (
+            "completions.json",
+            r#"{"update":{"old":"v1"},"meta":{"old":{"id":"demo-id","en-US":{"url":"https://demo.example","description":"Demo"}}}}"#.into(),
+        ),
+        (
+            "completions/old/config.json",
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        ),
+        ("completions/old/language/en-US.json", "{}".into()),
+        ("module/version.json", r#"{"version":"9.9.9"}"#.into()),
+    ]);
+    let d = make_data("json-rename-style", &srv);
+    let (code, out) = psc(&d, &["add", "old"]);
+    assert_eq!(code, 0, "{out}");
+
+    // Renamed upstream: the stable id still matches, the name no longer does.
+    {
+        let mut r = routes.lock().unwrap();
+        r.insert(
+            "completions.json".into(),
+            r#"{"update":{"demo":"v2"},"meta":{"demo":{"id":"demo-id","en-US":{"url":"https://demo.example","description":"Demo"}}}}"#.into(),
+        );
+        r.insert(
+            "completions/demo/config.json".into(),
+            r#"{"id":"demo-id","language":["en-US"]}"#.into(),
+        );
+        r.insert("completions/demo/language/en-US.json".into(), "{}".into());
+    }
+
+    let (code, out) = psc(&d, &["update", "old"]);
+    assert_eq!(code, 0, "{out}");
+    let line = out
+        .lines()
+        .find(|l| l.contains("renamed to"))
+        .unwrap_or_default()
+        .trim();
+    assert!(line.starts_with("old: "), "{out}");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);
