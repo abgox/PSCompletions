@@ -916,12 +916,18 @@ pub fn cache_cleanup(cache_dir: &str) {
         if !is_json {
             continue;
         }
-        let expired = std::fs::read_to_string(&path)
+        // A file that cannot be read back — truncated by a crash, or otherwise corrupt — can never
+        // expire on its own (`created` is what says so), so it would sit in the cache forever. An
+        // atomic write (`cache_store`) means a file is either complete or absent, so an unreadable
+        // one is safe to remove.
+        let expired = match std::fs::read_to_string(&path)
             .ok()
             .and_then(|t| serde_json::from_str::<serde_json::Value>(&t).ok())
             .and_then(|v| v.get("created").and_then(|c| c.as_u64()))
-            .map(|created| now.saturating_sub(created) >= CACHE_TTL.as_secs())
-            .unwrap_or(false);
+        {
+            Some(created) => now.saturating_sub(created) >= CACHE_TTL.as_secs(),
+            None => true,
+        };
         if expired {
             let _ = std::fs::remove_file(&path);
         }
@@ -942,7 +948,16 @@ pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
         .unwrap_or_default()
         .as_secs();
     let v = serde_json::json!({ "created": now, "items": items });
-    let _ = std::fs::write(path, serde_json::to_string(&v).unwrap_or_default());
+    let Ok(text) = serde_json::to_string(&v) else {
+        return;
+    };
+    // Atomic: a reader (`cache_load`) must never see a half-written signature, and a crash
+    // mid-write must not leave one behind — the same reason `settings.json` goes through a tmp
+    // file. The tmp is cleaned up on either failure; a successful rename moves it away.
+    let tmp = format!("{dir}/{sig}.json.{}.tmp", std::process::id());
+    if std::fs::write(&tmp, text).is_err() || std::fs::rename(&tmp, &path).is_err() {
+        let _ = std::fs::remove_file(&tmp);
+    }
 }
 
 #[cfg(test)]
@@ -1523,7 +1538,15 @@ mod tests {
                 .to_string(),
         )
         .unwrap();
+        // A corrupt file has no readable `created`, so it can never expire on its own: it must be
+        // cleaned by the same pass, or it sits in the cache forever.
+        let corrupt = format!("{}/{}.json", dir.to_string_lossy(), 333u64);
+        std::fs::write(&corrupt, "{ not json").unwrap();
         cache_cleanup(&dir.to_string_lossy());
+        assert!(
+            !std::path::Path::new(&corrupt).exists(),
+            "a corrupt cache must be cleaned"
+        );
         assert!(
             std::path::Path::new(&fresh).exists(),
             "fresh cache must survive cleanup"
@@ -1531,6 +1554,52 @@ mod tests {
         assert!(
             !std::path::Path::new(&expired).exists(),
             "expired cache must be cleaned"
+        );
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn cache_store_writes_atomically_and_leaves_no_temp_file() {
+        // A reader must never see a half-written signature, so the write goes through a tmp file
+        // and a rename; a leftover tmp would mean that path is broken.
+        let dir = std::env::temp_dir().join("psc-cache-atomic");
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let input = CompleteInput {
+            cmd: "t".into(),
+            arg_tokens: vec![],
+            treat_last_as_complete: true,
+            manifest: String::new(),
+            hooks: false,
+            cwd: String::new(),
+            config: serde_json::Value::Null,
+            global_config: serde_json::json!({}),
+            data: serde_json::Value::Null,
+            order: None,
+            dir: BuildDirs {
+                cache: dir.to_string_lossy().into_owned(),
+                ..Default::default()
+            },
+            file: BuildFiles::default(),
+        };
+        let items = vec![hooks::LuaItem {
+            text: "x".into(),
+            ..Default::default()
+        }];
+        cache_store(&input, 42, &items);
+        let path = dir.join("42.json");
+        let text = std::fs::read_to_string(&path).expect("the signature file must exist");
+        let v: serde_json::Value = serde_json::from_str(&text).unwrap();
+        assert!(v.get("created").is_some(), "it must be complete JSON: {v}");
+        let leftovers: Vec<String> = std::fs::read_dir(&dir)
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name().to_string_lossy().into_owned())
+            .filter(|n| n.contains(".tmp"))
+            .collect();
+        assert!(
+            leftovers.is_empty(),
+            "no temp file may be left: {leftovers:?}"
         );
         let _ = std::fs::remove_dir_all(&dir);
     }
