@@ -63,7 +63,7 @@
     array to check everything.
 
 .PARAMETER Json
-    Emit structured output for automation instead of coloured console text.
+    Emit structured output for automation instead of colored console text.
 
 .EXAMPLE
     ./scripts/check-doc-links.ps1

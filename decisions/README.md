@@ -6,6 +6,7 @@ decision log does not have to share a file with authoring guidance.
 | Doc | Scope |
 | --- | --- |
 | [`authoring.md`](authoring.md) | writing and maintaining completions — static manifests and `hooks.lua` |
+| [`bridge.md`](bridge.md) | shell bridges — the port gate, the trigger, the host-side trade-offs |
 
 ## The four layers
 

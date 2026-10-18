@@ -71,12 +71,19 @@ into a second translation pass.
 
 `compare-json` does not ask "is this translated?" — it asks "does this differ from `en-US`?"
 
-- **Only `tip` is enforced.** `usage` and `example` pass while identical to the base language
-  (`identicalOk` in `scripts/psc-tools.cs`), which is correct: they are the CLI's own syntax, not
-  prose.
-- The comparison is **case-insensitive** and **untrimmed**. Uppercasing an identifier does not
-  count as translating it; a real character difference is required, which is exactly why the
-  trailing-space trick works.
+- **`tip` is enforced — and so is an object item's `desc`.** A plain `usage` / `example` string
+  passes while identical to the base language (`identicalOk` in `scripts/psc-tools.cs`), which is
+  correct: it is the CLI's own syntax, not prose. The object form `{ "cmd", "desc" }` is the
+  exception — a `desc` exists to explain, so an identical one is untranslated by definition. A
+  `desc` that is language-neutral by nature (a command line, a JSON shape) still needs a
+  translated lead-in, e.g. `Output: …` / `输出: …`.
+- The **`cmd`** of that same object is checked the other way: it must stay **identical** in both
+  languages — a difference is reported as a semantic mismatch — because it is the literal
+  invocation.
+- The comparison is **case-insensitive**. Uppercasing an identifier does not count as
+  translating it; a real character difference is required, which is why the trailing-space trick
+  works on a **plain string** (those arrays are joined untrimmed). It does **not** work on an
+  object item's `desc`: both sides are trimmed before the comparison.
 - Text wrapped in `{{...}}` counts as a template and may be identical. Reserve it for genuine i18n
   placeholders, not identifiers.
 - **No CJK check exists.** "A translated tip should carry at least one Chinese character" is an
@@ -191,18 +198,18 @@ Format — one completion (the first line carries everything):
 
 
 ```
-feat(completions): add sudo@sudo-project
+completions: add sudo@sudo-project
 ```
 
 ```
-feat(completions): update git/jj/gh
+completions: update git/jj/gh
 ```
 
 Format — two or more completions (the first line classifies, the body lists;
 the first line never names completions):
 
 ```
-feat(completions): add
+completions: add
 
 - sudo@sudo-project
 - sudoedit@sudo-project
@@ -210,10 +217,10 @@ feat(completions): add
 ```
 
 ```
-feat(completions): update
+completions: update
 
 - scoop
-- abgox.scoop-i18n
+- brew
 ```
 
 - The word after the colon is the one shared action: `add` for new completions,

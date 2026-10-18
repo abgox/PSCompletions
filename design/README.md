@@ -17,11 +17,17 @@ the knowledge base for maintainers and for AI agents working on the repo.
 | [`architecture.md`](architecture.md) | current | Project architecture: repo layout, the two Rust binaries (`psc-menu` / `psc`), end-to-end data flow, module responsibilities | everyone |
 | [`completion.md`](completion.md) | current | The completion system: context & tree, resolve, predict symbols (`switch`/`stay`), repeat filtering, manifest format | engine developers, completion authors |
 | [`menu.md`](menu.md) | current | The cross-platform TUI menu (Rust `psc-menu`): process model, input/output contract, lazy-tip protocol, rendering, minimal layout, menu config, ordering, robustness | engine / menu developers |
-| [`protocol.md`](protocol.md) | current | The **engine contract** (`psc-menu` `--menu` / `--sort`): file-based JSON input/result schemas, shared types, build mode, restore rules — the host-agnostic surface any shell drives | engine developers, shell-host porters |
+| [`protocol.md`](protocol.md) | current | The **engine contract** (`psc-menu` menu mode / `--sort`): file-based JSON input/result schemas, shared types, build mode, restore rules — the host-agnostic surface any shell drives | engine developers, shell-host porters |
 | [`filter-matching.md`](filter-matching.md) | current | How the menu filter matches items (subsequence / wildcard modes, `^` and `*` semantics) | engine developers, menu users |
 | [`hooks.md`](hooks.md) | current | The Lua hooks subsystem: architecture, the **authoritative `psc.*` API reference** (context values, capability functions, prelude helpers, pitfalls, patterns, parallel primitives, security) | completion / hook authors, engine developers |
 | [`psc-cli.md`](psc-cli.md) | current | The `psc` management CLI: architecture (separate binaries, data discovery, module bridge, workspace), dispatch, per-command syntax/behavior/errors, config inventory, reset matrix | CLI / module developers, completion authors for `psc` |
-| [`e2e-testing.md`](e2e-testing.md) | current | Verifying engine/hook changes against the real binary: rebuild + deploy, driving build mode by hand, working around the blocking TUI, fixture isolation, pitfalls | engine developers |
+| [`trust.md`](trust.md) | current | Trust model: sandbox guarantees, where trust comes from (opt-in + review), official sources, custom-source warning | engine / CLI developers |
+| [`bridge.md`](bridge.md) | current | Shell bridge layer: the eight host duties (lifecycle → notifications) and the port checklist for new shells | shell-host porters |
+| [`bridge-powershell.md`](bridge-powershell.md) | current | Bridge reference: PowerShell locked behaviors + port-relevant quirks (future ports: `bridge-<shell>.md`) | shell-host porters |
+| [`bridge-bash.md`](bridge-bash.md) | current | Bridge reference: bash status, static-data rendering, full porting lessons | shell-host porters |
+| [`bridge-zsh.md`](bridge-zsh.md) | current | Bridge reference: zsh status, zsh↔bash mapping, native hand-off, porting lessons | shell-host porters |
+| [`bridge-fish.md`](bridge-fish.md) | current | Bridge reference: fish status, fish↔bash/zsh mapping, the native ask (`complete -C`), fish-specific porting lessons | shell-host porters |
+| [`e2e-testing.md`](e2e-testing.md) | current | Verifying engine/hook changes against the real binary: rebuild + deploy, driving build mode by hand, working around the blocking TUI, fixture isolation, pitfalls, and the contract tests' single stub server (port 0) | engine developers |
 
 ## Conventions
 
@@ -44,3 +50,4 @@ the knowledge base for maintainers and for AI agents working on the repo.
   `how the code does it today` details live in code comments and tests instead. When an
   implementation detail is worth mentioning, state the intent in one line and point at the code
   (e.g. `see core/engine/src/menu/ui.rs`) rather than reproducing it.
+- `bridge-porting.md` — how to port a shell: procedure, the automated floor, the by-hand pass.

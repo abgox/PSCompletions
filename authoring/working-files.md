@@ -42,8 +42,8 @@ task. So it is **never committed and never pushed**, and it is **never gitignore
 - **Visible beats hidden.** An ignored directory drops out of `git status`, which is the one
   place the operator looks at the end of a session. Kept visible, it shows exactly which
   tasks still owe a cleanup.
-- **Staging is allowed, pushing is not.** Staging `WIP/` for a comparison
-  (`git diff --cached`) is a legitimate use; the pushed history is not. A commit of a
+- **Staging is allowed; committing and pushing are not.** Staging `WIP/` for a comparison
+  (`git diff --cached`) is a legitimate use; a commit and a push are not. A commit of a
   completion carries `completions/<tool>/` and nothing else.
 - **The end of the task is the operator's call, not the agent's.** The agent cannot know
   whether the author has accepted the result, so "the gates are green" is not the end of the

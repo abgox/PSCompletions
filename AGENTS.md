@@ -67,6 +67,7 @@ where to spend extra attention per task.
 | Auditing a completion for portability | `authoring/validation.md` |
 | Stuck on tooling | `authoring/tooling.md` |
 | Working on the engine, menu, or protocol | `design/README.md` |
+| Porting a shell bridge, or verifying one | `design/bridge.md` (the rules) → `design/bridge-porting.md` (the procedure, the automated floor, the by-hand pass the operator must run) |
 | Questioning or overturning a rule | `decisions/README.md` |
 
 ## Language and comment policy
@@ -378,8 +379,9 @@ shared temp directory where two concurrent tasks overwrite each other's scripts;
 below that directory is the task's own choice. When the completion is done, report the
 directory and ask whether to delete it — **never delete unilaterally**, because the operator
 reviews after the gates and this material is what makes a rework fast. The material is a
-pipeline artifact: never committed, never pushed, and never gitignored either, so the record
-stays visible in the working tree. See `authoring/working-files.md`; rationale in
+pipeline artifact: **staging it (`git add`) is allowed** for a comparison, **committing it and
+pushing it are not**, and it is never gitignored either, so the record stays visible in the
+working tree. See `authoring/working-files.md`; rationale in
 [`D37`](decisions/authoring.md#d37).
 
 **R-21 — Propose the commit, never make it.** When a completion task is done — gates

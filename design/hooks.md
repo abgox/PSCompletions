@@ -72,7 +72,9 @@ end)
 - Return `nil` (or nothing) → live list is the result. Returning an explicit array **replaces**
   the live list entirely (documented: do not mix a replacing return with `psc.on` in the same file;
   the engine warns when an explicit return discards `psc.on` contributions).
-- Completion item shape: `{ name, tip?, usage?, example?, repeat_count? }`.
+  Returning anything else (e.g. a string) is an error. Malformed rows (non-table,
+  missing/blank `name`) are skipped, never fatal.
+- Completion item shape: `{ name, tip?, usage?, example?, symbol?, repeat?/repeat_count?, nospace? }`.
   `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections —
   each accepts a plain string or a `{ cmd, desc }` object (rendered `cmd  # desc`, just `cmd`
   without `desc`), mirroring the manifest's object entries. `tip` accepts a plain string or a
@@ -171,11 +173,11 @@ array/string tools).
 
 | Function | Returns | Description |
 | --- | --- | --- |
-| `psc.items(elements, fn?)` | `psc_item[]` | Convert each element into a completion item. Without second arg the element itself is `name`; with a function `fn(elem)` returns the item table (`nil` skips). |
+| `psc.items(elements, fn?)` | `psc_item[]` | Convert each element into a completion item. Without second arg the element itself is `name`; with a function `fn(elem)` returns the item table (`nil` skips). A non-function second arg falls back to plain mapping. |
 | `psc.mount_items(manifest_path)` | `psc_item[]` | **Pure transform** (like `psc.items`): resolve `manifest_path` from the **manifest root** and convert the **direct children** of the array it lands on into completion items — returns an array, does **not** add to `completions` (inject via `psc.add`); **no recursion**. The chain mirrors the manifest structure exactly, segment by segment (exact, case-sensitive): at an **object** the segment is a plain key lookup — any key that actually exists (`next`, `option`) — and at an **array** it matches an item's `name`; no segment may be skipped. The path must land on an **array** (mounts its children) or on a single **item object** with a `name` (mounts that item); anything else converts nothing. Examples: `{ "next" }` = the root's subcommands; `{ "next", "config", "next", "set", "next" }` = the children of `manifest.next.config.next.set.next`. Each child keeps its `name`/`tip`/`usage`/`example`, with `alias` forms expanded as separate items sharing the same tip, like the static menu; **deeper levels are handled by the engine's own `next` navigation** (selecting a child whose manifest entry has a `next` enters that context), or by calling `mount_items` again with a longer path built from `psc.tokens`. |
 | `psc.add(item_or_items)` | `psc_item\|psc_item[]\|nil` | Append to the **live candidate list** (routes to the current accumulation target). `item_or_items` is a single item table or an array of tables; empty/missing `name` is skipped. Returns the stored entry table(s) **by reference** — post-call edits apply (e.g. `local e = psc.add({name="x"}); e.tip="new"`). Nil when nothing added. |
 | `psc.on(spec, handler)` | — (nothing) | Declarative registration — bind a zero-arg `handler` to a location (root / command chain / option value position). Returns nothing: injection happens only inside the handler via `psc.add` / direct `completions` ops. Fires only while the location's slot is still unfilled; `spec.multiple = true` keeps matching after it was filled. See **Declarative `psc.on`** below. |
-| `psc.token(spec?)` | `psc_token\|nil` | Find the **first** `psc.tokens` entry matching `spec` (`{name?, type?, case_sensitive?}`); `nil` spec or empty table → first token (any type); `name` filters by canonical name, `type` filters by `command`/`option`/`value`/`unknown` (e.g. `{type="command"}` checks existence of any command). Case-insensitive by default, `case_sensitive=true` for exact.|
+| `psc.token(spec?)` | `psc_token\|nil` | Find the **first** `psc.tokens` entry matching `spec` (`{name?, type?, case_sensitive?}`, or a bare name string as shorthand); `nil` spec, empty table, or empty string → first token (any type); `name` filters by canonical name, `type` filters by `command`/`option`/`value`/`unknown` (an unknown `type` is an error, never a silent match-all). Case-insensitive by default, `case_sensitive=true` for exact.|
 
 ### Data acquisition
 
@@ -388,6 +390,9 @@ end)
 psc.on({ command = "rebase", multiple = true }, function()
     psc.add({ name = "yyy" })
 end)
+-- the same switch where the command takes any number of names: after
+-- `apt install a`, the next Tab must still list packages.
+psc.on({ command = "install", multiple = true }, add_available)
 psc.on({ command = { "", "set" } }, function()  -- "" wildcards any segment at that position
     psc.add({ name = "value" })
 end)
@@ -442,15 +447,24 @@ Contract:
 	  as AND — both must match to inject (e.g. `{ command="install", option={"--color","--arch"} }`
 	  = under `install` with the option sequence ending `--color, --arch`).
 - `spec.multiple` — boolean, default `false`. The location's slot may keep matching after it
-	  has been filled once. Command side: `{ command = "rebase" }` fires at `git rebase <Tab>`
-	  but not `git rebase abcdefg <Tab>`; `{ command = "rebase", multiple = true }` fires at both
-	  and at every further positional argument (known static values and dynamic `unknown`
-	  inputs alike).
+	  has been filled once. **In one line: `false` runs the handler at the location's first
+	  unfilled slot only; `true` runs it at every argument position of that location.** The
+	  everyday case is a command taking **any number of names** — after `apt install a`, the
+	  next Tab must still list packages (the `install` example above); without `multiple`
+	  that slot has nothing left to offer. `git rebase <Tab>` is the free-form twin:
+	  `{ command = "rebase" }` fires there but not at `git rebase abcdefg <Tab>`, while
+	  `multiple = true` fires at both and at every further positional argument (known static
+	  values and dynamic `unknown` inputs alike). The static menu is built from the manifest
+	  regardless, so a handler that must *act* at a deeper position — not merely inject there —
+	  needs `multiple = true` or it silently skips it: once a value has been typed, the
+	  context resets to the nearest command ([`completion.md`](completion.md) §2), whose
+	  options and subcommands are still offered. Stripping an option the CLI rejects below
+	  the location is the typical case.
 - **Spec arrays** — `spec` may be an array of spec tables (OR): any matching element injects;
 	  each element independently follows the single-spec rules (including AND). Mixing named
 	  keys with array elements in one table raises.
-- Returns **nothing** — the placeholder table is gone; all output is via direct `psc.add` /
-  `completions` ops inside the handler.
+- Returns **nothing** — there is no placeholder table; all output goes through direct
+  `psc.add` / `completions` ops inside the handler.
 - Validation (failures are logged to `error.log` — a 1 MB-capped, 7-day-age-rotated file in
   `data/temp/log/`; see §12 — registration becomes inert — never a process fault):
   unknown spec keys raise; `command` segments must be strings, empty array rejected (omit to target root),
@@ -484,7 +498,8 @@ psc.add({
 })
 ```
 
-The engine picks the entry matching `psc.config.language`, falling back to `"en-US"`, then the first
+The engine picks the entry matching the loaded manifest's language variant (the host
+resolves it per-completion first, then global), falling back to `"en-US"`, then the first
 entry. `en-US` is the required fallback key; `zh-CN` is optional. The language keys are declared
 as named fields on `psc_localized` in `types/psc.lua`, so the editor completes `["en-US"]` /
 `["zh-CN"]` inside the table literal and explains each key on hover. Extra language codes remain
@@ -684,9 +699,8 @@ at the code's shape.
   `cmd /c` when you need precise control.) Prefer `psc.which` first when in doubt.
 - **Trust model**: a completion's `hooks.lua` runs with the full `psc.*` power — `psc.run` can
   execute arbitrary subprocesses in the user's cwd, and `psc.read`/`psc.glob` can read any file.
-  The sandbox only constrains the Lua standard library, not the `psc.*` surface. Installing a
-  third-party completion therefore means trusting its hooks; the repo's completions are reviewed,
-  but verify before installing from elsewhere.
+  Installing a completion means trusting its hooks; see `trust.md` for the sandbox guarantees,
+  official sources, and the custom-source warning.
 
 ## 12. Logging: `psc.log` (debug) and `error.log` (runtime)
 

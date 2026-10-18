@@ -28,7 +28,7 @@ menu reuses the same build path.
 
 ## Shared types
 
-### `Item` (menu candidate, `--menu` input)
+### `Item` (menu candidate, menu-mode input)
 ```json
 { "completion_text": "add", "list_item_text": "add", "symbol": "~",
   "tip": "Add files", "usage": "add <FILE>", "example": null, "result_type": null }
@@ -38,6 +38,8 @@ menu reuses the same build path.
   host provides, the host pre-maps it; in build mode the engine resolves it (see below).
 - `tip` / `usage` / `example` — description box text; `null`/absent = no section.
 - `completion_text` / `result_type` — kept for the host-side contract (applying the selection).
+  `result_type` is a number when the host provides one (e.g. TabExpansion2's `16`), else `null`.
+- `nospace` — when true, applying appends no trailing space (separator-list continuation).
 
 ### `LuaItem` (built / ranked candidate, build mode + `--sort`)
 ```json
@@ -60,8 +62,8 @@ menu reuses the same build path.
   `switch` / `stay` symbols in build mode.
 - `raw_config` — layered config for the three tip toggles (`enable_tip` / `enable_tip_usage` /
   `enable_tip_example`): the engine resolves them per-completion → global → default (stored as
-  `1`/`0` numbers), then folds them into `flags`. The host no longer sends those three toggles
-  directly in `flags`.
+  `1`/`0` numbers), then folds them into `flags`. The host sends these three toggles in
+  `raw_config`, never directly in `flags`.
 
 ### `TerminalInfo`
 ```json
@@ -81,7 +83,7 @@ menu reuses the same build path.
 `--menu` spawns a background thread that reads `history`, tallies usage, and atomically writes
 the per-command order file plus the shared `_paths.json` / `_commands.json` (see `design/menu.md`).
 
-## 1. `--menu` input
+## 1. Menu-mode input (default mode, no flag)
 
 ```json
 {
@@ -131,6 +133,13 @@ candidates itself before rendering:
              "order": { "cmd_order": "...", "paths_order": "...", "commands_order": "..." } },
   "config": { }, "terminal": { } }
 ```
+> **Ranking is a pair.** Build-mode ranking needs **both** the build-context `order` block in the
+> example above (the cache paths) **and** the menu-mode top-level `order` block (section 1:
+> `history` + `cmd` + `aliases` + `path`). Measured with an A/B/C probe: the history block alone
+> ranks nothing, the cache block alone ranks nothing, the two together rank. So: always pass the
+> cache block, and pass the history block only while `enable_sort_by_history` is on (with the key
+> off, neither is passed, which is what makes the switch actually stop ranking).
+
 - `manifest` — the language manifest file path.
 - `hooks` — whether to run `hooks.lua` (path derived from the manifest).
 - `config` — per-completion config (keys from `psc completion <name>`).  The engine merges this with
@@ -147,10 +156,12 @@ candidates itself before rendering:
 - `log_dir` — `psc.log` debug-output directory (`temp/log`); empty disables logging.
 - `order` — history-order file paths used to rank the candidates (see `design/menu.md`).
 - Build produces `Item`s: the engine resolves the manifest tree, runs hooks, order-sorts, maps
-  `switch` / `stay` symbols through `context_switch` / `context_stay`, and derives
-  `initial_filter` from the pending token (unless the host already set one).
+  `switch` / `stay` symbols through `context_switch` / `context_stay`. When the host leaves
+  `initial_filter` out, the engine derives it from the pending word (`^<pending>`) — in build
+  mode and in items mode alike — so the menu opens already filtered by what was typed; a
+  host-provided value is kept as it is.
 
-## 2. `--menu` result
+## 2. Menu-mode result
 
 ```json
 { "status": "selected", "index": 3 }

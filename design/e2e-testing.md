@@ -11,9 +11,10 @@ under `/tmp/psc-e2e` are scratch space — pick any empty directory.
 
 ## 1. Rebuild and deploy first
 
-`cargo test` and `cargo build` do **not** update what the module loads. The module
-runs `module/PSCompletions/bin/<platform>-<arch>/psc-menu` (e.g. `linux-x64`), so
-a Rust fix covered only by `cargo test` is invisible to the real menu. Deploy it:
+`cargo test`/`cargo clippy`/`cargo build` do **not** update what the module loads. The module
+runs **both** binaries under `module/PSCompletions/bin/<platform>-<arch>/` (e.g.
+`linux-x64`) — `psc-menu` for the menu and `psc` for every management command — so a
+Rust fix covered only by `cargo test` is invisible to the real thing. Deploy them:
 
 ```powershell
 pwsh -NoProfile -File scripts/build-release.ps1
@@ -150,3 +151,22 @@ Recipes worth reusing:
   unknown target — the latter is logged to `error.log`, never raised.
 - `debug.log` only grows when `log_dir` is non-empty; an empty `debug.log` after
   a run means logging was off, not that the hook was silent.
+
+## 6. The CLI contract tests open exactly one port
+
+`core/cli/tests/*` run the **built** `psc` binary (as this whole document does), so anything
+that would touch the network must be answered locally. The rule is one server, in one place:
+
+- **`common::spawn_server(routes)`** (`core/cli/tests/common/mod.rs`) is the only code in the
+  suite that binds a port — `127.0.0.1:0`, so the OS picks a free one. Tests never collide with
+  each other and **no fixed port exists anywhere**; parallel runs are safe.
+- Routes are `(path, body)` pairs keyed **without** the leading `/` (`"completions.json"`) — the
+  form `demo_routes()` uses; the request path is matched exactly, query string stripped.
+- `spawn_server_mut(routes)` hands the route table back (`Arc<Mutex<HashMap<..>>>`) so a test can
+  rewrite it between calls — e.g. bump the remote index from v2 to v3 and re-run `update`. It
+  exists so that no test needs its own copy of the HTTP loop.
+- `make_data(tag, url)` writes `settings.json` with `config.url` pointing at that server, which is
+  what keeps `add` / `update` offline. A test that wants **no** network at all points `url` at
+  `http://127.0.0.1:9` — the discard port, deliberately unreachable — never at a real host.
+
+A new test that needs a server uses the helper; it does not open its own `TcpListener`.

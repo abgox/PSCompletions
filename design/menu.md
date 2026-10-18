@@ -1,7 +1,7 @@
 # Design: The Cross-Platform TUI Menu (Rust)
 
 > Status: **current**. The completion menu is a Rust subprocess (`psc-menu.exe` / `psc-menu`)
-> rendered with ratatui + crossterm; PowerShell no longer draws menus.
+> rendered with ratatui + crossterm; the host shell never draws it.
 > Filter matching spec: `design/filter-matching.md`. CLI docs: `design/psc-cli.md`.
 
 ## 1. Process model
@@ -169,6 +169,9 @@ root-level flag into deep contexts.
   directly from these fields.
 - The engine strips ANSI escapes from the list text and the tip fields when caching them, so
   description text renders cleanly.
+- A tip line's `  # ` suffix — two spaces, `#`, one space — is drawn in the **secondary
+  color** (dark gray) while everything before it keeps the normal one. That is how a
+  `{ "cmd", "desc" }` entry renders as `cmd  # desc`, with the explanation receding.
 - Empty/absent tips stay "unresolved": the layout optimistically assumes a tip may appear and
   only real content is cached.
 - `enable_tip=false` → no description box, no tip parsing.
@@ -311,12 +314,12 @@ default as follows (see `design/psc-cli.md` for the full inventory). Boolean key
 | `enable_tip` | bool | `true` | master tip switch; `false` → no tip data is shown |
 | `enable_tip_usage` | bool | `true` | show the `[Usage]` tip section |
 | `enable_tip_example` | bool | `true` | show the `[Example]` tip section |
-| `trigger_key` | string | `Tab` | PS re-binds PSReadLine |
+| `trigger_key` | string | `Tab` | PS re-binds PSReadLine live; the shell bridges bind at load, so a runtime change takes effect in the next shell (see `design/bridge-bash.md`) |
 | `filter_mode` | `subsequence` / `wildcard` | `wildcard` | see `design/filter-matching.md` |
 | `enable_apply_when_single` | bool | `false` | auto-apply when filtering leaves exactly one match (no Enter needed) |
 | `enable_apply_when_no_match` | bool | `false` | no-match warning; a following append applies the filter text |
 | `enable_list_loop` | bool | `true` | wrap-around scrolling |
-| `enable_native_completion` | bool | `true` | use the native completion path |
+| `enable_native_completion` | bool | `true` | integrate native completions into our menu (off: fall back to the host menu) |
 | `enable_sort_by_history` | bool | `true` | history ordering |
 | `enable_cache` | bool | `true` | cache the built completion result (static resolve + hook output) for 10 s, so quickly re-opening the same menu skips the rebuild |
 | `enable_append_space` | bool | `true` | append a space after applying |

@@ -51,7 +51,8 @@ PSCompletions/
 
 ## 3. The two Rust binaries
 
-**`core/engine` → `psc-menu`** — the runtime heart, driven by flags:
+**`core/engine` → `psc-menu`** — the runtime heart, driven by modes (default menu mode
+takes `<input.json> --result <out.json>` positionally):
 
 - (menu mode) `psc-menu <input.json> --result <out.json>`: renders the
   interactive TUI menu, handles keyboard/mouse, and writes back the selection / cancel /

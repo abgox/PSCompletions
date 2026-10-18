@@ -123,7 +123,9 @@ substring hits with no extra syntax.
   - `wildcard_match` — wildcard matching with backtracking.
   - `wildcard_segments` / `wildcard_highlight` — highlight byte ranges.
 - `state/mod.rs::match_segments` — public highlight entry used by the menu UI; resolves
-  the mode exactly like `filter_items` so highlights always match.
+  the mode exactly like `filter_items` so highlights always match. It takes the resolved
+  `use_subsequence` flag (callers map `filter_mode` to it); keep both in sync when the
+  resolution rule changes.
 - Config: `filter_mode` (`menu` group).
 
 ## 7. Examples

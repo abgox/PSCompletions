@@ -835,7 +835,7 @@ names `temp/` as engine runtime scratch, not repo files), so a reference into it
 unchecked; (e) add `WIP/` to `.gitignore` so the tree stays clean — rejected, an ignored
 directory drops out of `git status`, which is the one place the operator sees which tasks
 still owe a cleanup, and the record itself is worth keeping visible; staging for a
-comparison stays allowed, only the pushed history is closed to it.
+comparison stays allowed, a commit and a push are closed to it.
 
 **Overturn if**: nothing in a `WIP/<tool>/` directory is ever read a second time across
 many completions — then retention is pure disk cost, and the answer is archiving on

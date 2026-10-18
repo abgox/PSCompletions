@@ -13,9 +13,9 @@ available at every level.
 
 The engine builds a **`Tree`** from the manifest: `next` (root subcommands), `options`
 (root options), `global_options`. Each node is a **`Node`** — either a subcommand or an
-option — carrying `name`, `aliases`, `tip`/`usage`/`example`, and its own
-`next`/`option` children. Only option nodes declare `repeat` (the manifest Schema
-forbids it on commands; omitting `repeat` means "once").
+option — carrying `name`, `aliases`, `tip`/`usage`/`example`, `repeat`, `separator`,
+and its own `next`/`option` children. `repeat` is read on every node (commands included;
+omitting it means "once").
 
 Typing `git <Tab>` builds the menu from git's root context. Applying a subcommand switches
 **to that subcommand's context**; applying an option stays in the current context
@@ -62,19 +62,31 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
   candidates). The engine implements **"command/option wins"**: an option with `next` (even
   empty) consumes the next token as its value — unless that token matches a known command or
   option, in which case the option acts as a flag and the token is classified as `command`/`option`.
+  Inside an option-value context the command lookup searches the **parent command**, not the
+  option's own `next`.
 - Anything else is `unknown`.
 - `used` counts each command/option by its canonical name for **repeat** tracking.
-- The candidate `seen` filter (resolve phase) collects **command** tokens only — option-layer
-  candidate values and unknown words never consume a static subcommand's candidate slot.
+- The candidate `seen` filter (resolve phase) collects **command** tokens plus a pending
+  command word — option-layer candidate values and unknown words never consume a static
+  subcommand's candidate slot.
 - After consuming a value, the context resets to the nearest command context, so subcommands
-  remain reachable.
+  remain reachable; a pending new command inside an option context resets the same way.
+- **An option's value slot offers values, not subcommands.** A still-pending value
+  (`--tag <TAB>`, `--tag a<TAB>`) is not a reset: the candidates are the option's own `next`
+  values plus its sibling options and the globals. A subcommand is reachable there only by
+  naming it — a word that names a known command resets the context to that command (the rule
+  above), and its subcommands return. Prefer writing the subcommand first and the option after
+  it (`git add --xxx`, not `git --xxx add`): options live on commands, and a free-form option
+  (`next: []`) has no values to pick from.
 - **`=`-attached values**: a token starting with `-` and containing `=` (`--format=json`)
   splits at the first `=` — the left side resolves as the option, the right side is its value,
   identical to the space-separated form (completed: `option` + `value` tokens; unfinished:
   `option` token + value `pending` whose text is the value segment only, so `initial_filter`
   and the inserted word both operate on the segment while the menu re-attaches the
   `--format=` head on apply). Declared spellings normalize one trailing `=` for identity
-  (`--format=` ≡ `--format` in matching, `opts`, `used`, `layers`). A valueless flag with `=`
+  (`--format=` ≡ `--format` in matching, `opts`, `used`, `layers`). The normalization is
+  declared-side only — a typed word matches verbatim, so `abc=` never collides with a command.
+  A valueless flag with `=`
   or an unknown left side is `unknown` and completes nothing.
 - **Separator-joined list values**: an option declaring `"separator"` completes its value
   segment by segment (`--exclude a,b<TAB>` — `a` is used, `b` is the pending tail segment).
@@ -87,7 +99,9 @@ Each token is classified as `command` / `option` / `value` / `unknown`:
 
 The generation phase returns the **full candidate set of the current context** — it does
 **not** pre-filter by pending; filtering is left to the menu via `initial_filter`
-(`^<pending>`).
+(`^<pending>`). Two exceptions: an `=`/separator value pending narrows candidates to the
+owning option's values only, and a pending word matching a known subcommand is re-offered
+as a candidate even when the `seen` filter already consumed it.
 
 ## 3. Predict symbols
 
@@ -124,7 +138,7 @@ to the counter (e.g. `03/15 ~`), so the list stays clean and the symbol follows 
 
 ## 4. Repeat filtering
 
-`repeat` on an option limits how many times it may appear:
+`repeat` on a node limits how many times it may appear:
 
 - **Static** (resolve phase): `used` counts by canonical name; an item with `repeat == 0`
   that was already used is dropped, and one with `repeat > 0` is dropped once
@@ -168,8 +182,8 @@ Top-level manifest fields:
 | `next` value | Meaning | Predict symbol |
 | --- | --- | --- |
 | `[...]` (non-empty) | A fixed list of values to complete from | `~` |
-| `[]` (empty) | **Options only** — no static candidates; async `peek` may upgrade to `?` if staying layer still has non-`global` candidates | — initially, `?` if stay |
-| (omitted) | Command has no sub-subcommands; value is conveyed by `usage` placeholder | — |
+| `[]` (empty) | **Options only** — no static candidates; presumed alive (`?`) until async `peek` refines it | `?` initially |
+| (omitted) | Command has no sub-subcommands; value is conveyed by `usage` placeholder | `?` (presumed alive) |
 
 > **Rule**: `[]` (empty array) is **forbidden for commands** — commands only have a subcommand
 > layer (`[...]`) or nothing. `[]` is **allowed for options** — it means "this option takes a
@@ -208,7 +222,8 @@ behind that, and the conditions under which it flips, are in
 **Manifest is data, not code** — `tip`/`usage`/`example`/`description` are **plain text**.
 `usage`/`example` entries may also be a `{ "cmd", "desc" }` object (both keys required by
 convention — see `AGENTS.md` §`tip`/`usage`/`example` Format Rules), rendered as `cmd  # desc`
-(the engine joins with two spaces + ` # `; a missing `desc` renders just `cmd`).
+(the engine joins with two spaces + ` # `; a missing `desc` renders just `cmd`; the menu draws
+the part after the separator in its secondary color — `design/menu.md` §Tip data).
 Dynamic tip content (live values, file reads) is produced by the completion's `hooks.lua`
 (`design/hooks.md`), which renders the final text when the menu is built.
 

@@ -23,7 +23,7 @@ lifecycles, and future shells need only the engine.
 - `psc` (`core/cli`): the executable implements the whole `psc` command surface; no PowerShell
   logic is needed to "register" the subcommands (see the Dispatch section below for the host
   entry point). Adds `reqwest` (rustls) only here.
-- Both link shared workspace crates (single data model, no duplicated parsing).
+- Both link the shared `psc-common` crate (BOM-tolerant text reads).
 
 ## 3. Data discovery
 
@@ -47,8 +47,9 @@ The CLI operates on one resolved data directory. The PowerShell host resolves it
     `{ update, added, removed, renamed: [[old, new], ...], module: "x.y.z", last_check: <unix-timestamp> }`.
     `module` is the newest remote module version whenever it was fetched (the module compares it
     against its installed version at render time; on a fetch failure the previous value is kept).
-    `last_check` is set on each `psc check`/`psc update` and drives the menu's stale-update hint
-     (when older than 7 days).
+    `last_check` is stamped by every `add`/`update` and drives the menu's stale-update hint
+    (when older than 7 days). Loading is per-field tolerant (one malformed field falls back
+    to its own default); unparseable content is backed up to `change.json.corrupt`.
    - `temp/order/` — per-command history-order caches (menu ranking). Rebuilt on use; the menu
     engine prunes stale files (older than 90 days) in a background thread on each menu open
     (`cleanup_stale_order_files`), so it never delays the TUI.
@@ -109,7 +110,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | `completion` | `[<name> [<key> [<value>]]]` | `--reset` | no | Rust + PS wrapper | per-completion special config |
 | `alias` | `[add <name> <alias>...\|rm <name> <alias>...]` | `--reset` | no | Rust + PS wrapper | no-arg lists all |
 | `--reset` | — | — | no | **PS only** | nuclear reset, top-level flag |
-| `init` | — | — | no | Rust | internal, module bootstrap |
+| `init` | — | — | on missing psc files | Rust | internal, module bootstrap |
 | *(no args)* | — | — | — | PS | re-init + interactive info page |
 
 ## 6. Per-command reference
@@ -161,7 +162,8 @@ psc alias --reset                   # restore every completion's aliases
   completion stays with its earlier owner — the newcomer skips it with an ownership warning
   (`alias_owned`, naming the owner; move it with `alias rm <owner> <word>` first if intended).
 - **Validation (rm)**: refuses to remove the last remaining alias of a completion (`alias_unique`).
-- **JSON payloads**: `add` → `[{name, ok, added}]`; `rm` → `{name, ok, removed}`;
+- **JSON payloads**: `add` → `[{name, ok, added}]`, with per-alias failures as
+  `{alias, ok: false, error}` entries alongside the final success entry; `rm` → `{name, ok, removed}`;
   `alias <add|rm> <name> --reset` → `{name, ok, reset}`; `alias --reset` → `{ok, reset}` where
   `reset` is `[{name, aliases}]`. Every reset payload also carries `skipped: [{alias, owner}]`
   when a word stayed with an earlier owner (the `alias_owned` warning in text mode).
@@ -179,12 +181,12 @@ psc completion <name> <key>          # get value
 psc completion <name> <key> <value>  # set value
 psc completion --reset               # reset all completions' special config
 psc completion <name> --reset        # reset one completion's special config
-psc completion <name> <key> --reset  # reset one key
+psc completion <name> <key> --reset  # reset one key (exactly one; surplus args are rejected)
 ```
 
 - **Keys** (`COMPLETION_KEYS`): `language`, `enable_tip`, `enable_tip_usage`, `enable_tip_example`,
   plus `enable_hooks` — valid only when the completion's `config.json` declares `hooks` (setting it
-  elsewhere is rejected); absent means enabled, `false`/`0` disables that completion's hooks. Keys
+  elsewhere is rejected); absent means enabled, `0` disables that completion's hooks. Keys
   that already exist in `config.completion[<name>]` are also accepted (per-completion hooks config,
   etc.). **`psc`'s own hooks cannot be disabled** (`psc completion psc enable_hooks 0` is rejected) —
   they power the module's management completions.
@@ -229,7 +231,9 @@ psc info <name>...      # per-name metadata
   remote index meta, localized), `Path` (if installed), `Update` (remote version in `.update`),
   `Updated` (unix timestamp of `.update`).
 - **Errors**: a name that is neither installed/linked nor in the
-  remote library → `<name> is not an available completion.` (FAILURE).
+  remote library → `<name> is not an available completion.` (text mode: `FAILURE`; `--json`
+  always exits 0 with per-item `ok: false` entries).
+  `--json` entries are `{name, aliases[], url?, description?, path?, update?, updated?}`.
 - **PS wrapper**: no-arg → objects `{Name, Alias, Url, Description, Path, Update, Updated}`;
   per-name → same format with `Updated` as a local `DateTimeOffset`.
 
@@ -247,17 +251,19 @@ psc list
 
 ```
 psc rm <name>...
-psc rm --all
+psc rm --all                # --all absorbs co-args: extras are ignored
 ```
 
 - **Behavior**: `--all` removes every installed completion except `psc` itself (interactive
   confirm; `psc` is kept — it is the module's own completion and init re-adds it anyway, so no
   network re-fetch happens here); otherwise the named ones. Each removal drops the entry from
-  `settings.alias` and `config.completion`, removes the name from `temp/change.json`
-  (`update`), and removes the completion entry from disk. `rm --all` with nothing to remove
+  `settings.alias` and `config.completion`, drops the name from every notification list in
+  `temp/change.json` (`update`/`added`/`removed`/`renamed`), and removes
+  the completion entry from disk. `rm --all` with nothing to remove
   (e.g. only `psc` installed) is a silent no-op.
 - **Data/directory sync**: `rm` treats a name as present if it is registered in `settings.alias`
-  **or** its entry exists on disk. A directory that exists without a config entry (manual copy or
+  **or** its entry exists on disk (`symlink_metadata`, so a dangling link still counts and can
+  be removed). A directory that exists without a config entry (manual copy or
   a link whose config drifted) is still removed — the explicit name is the user's intent, and
   `rm` doubles as drift repair. A name with neither is an error.
 - **Link handling**: a completion that is a symlink/junction (a local-dev link from
@@ -290,9 +296,12 @@ psc update --all              # update every installed completion
   `.update` differs from the remote version (symlinked completions are skipped).
   - **Named update** (`update <name>...`): re-downloads the named completions
     **unconditionally** — naming a completion IS the intent to update it (also the way to
-    repair a corrupted or manually-removed file). Settings are patched, never overwritten:
+    repair a corrupted or manually-removed file). A name that exists only in the remote
+    index is installed by naming it. Settings are patched, never overwritten:
     a missing/empty trigger entry is filled from remote defaults, per-completion config
-    only fills missing keys, and trigger customizations survive.
+    only fills missing keys, and trigger customizations survive. Any non-flag token counts
+    as a name (`update --foo` targets a completion literally named `--foo`); `--all` wins
+    over `--old` when both are passed.
   - **`--old`**: updates only the **out-of-date** completions (the normal "keep everything
     current" path). Settings are patched as above, never overwritten.
   - **`--all`**: updates every installed completion that exists in the remote `completions.json`
@@ -327,10 +336,14 @@ psc --reset
 - `init`: bootstraps `settings.json` when missing/empty (default data from the installed
   completions dir and a language hint), builds `aliasMap`, resolves
   URLs, loads the psc `info` templates, sanitizes the config, and emits one large JSON payload (or
-  writes it to `--result`). Called by the module on first completion trigger (lazy initialization,
+  writes it to `--result`): `aliasMap`, `urls` (full mirror list) + `url` (first), `info`
+  templates, sanitized `config`, and `default_config`. `aliasMap` is built in sorted-completion
+  order, so a legacy trigger collision resolves to the same owner on every machine (write-time
+  collisions instead keep the earlier owner). Called by the module on first completion trigger (lazy initialization,
   not at import time). Library state
   changes are read separately by the module from `temp/change.json`
-  (`render_library_changes`), not via this payload.
+  (`render_library_changes`), not via this payload. When the psc completion's key files are
+  missing, `init` re-fetches them over the network (the only network path in `init`).
 
 ### 6.11 `psc` with no arguments
 
@@ -348,7 +361,7 @@ All keys live in one object (`settings.json` → `config`), managed through `con
 
 | Key | Type / range | Default |
 | --- | --- | --- |
-| `url` | string, empty or `http(s)://…` | `""` (auto GitHub/Gitee by language; the index is fetched from the `index` branch first, then the legacy main-branch layout) |
+| `url` | string, empty or `http(s)://…` | `""` (auto: Gitee/GitHub by language, then the Pages root; raw-style bases ending in `main` are tried on the `index` branch first, then the legacy layout; a custom URL is tried as-is). Setting a non-official URL (anything outside the psc manifest's `config core url` candidates, see `design/trust.md`) prints a trust warning. |
 | `language` | string | `en-US` (Rust fallback; the module bootstraps `$PSUICulture` via `--language` at init) |
 
 **`menu`** (completion menu):
@@ -385,15 +398,20 @@ per-completion custom keys (`enable_hooks` and any `config` keys the manifest de
 
 `enable_hooks` needs no entry in `config.completion` to take effect (unlike the four standard
 keys it is not auto-seeded — absent means "enabled"; the one exception is a
-`config.json` declaring `"hooks": false`, which seeds `enable_hooks=false` on first install so the
+`config.json` declaring `"hooks": false`, which seeds `enable_hooks=0` on first install so the
 completion's dynamic hooks are disabled by default), but it is valid **only** on a completion
 whose `config.json` declares `hooks`. The module runs a completion's `hooks.lua`
-only when the file exists **and** `config.completion[<name>].enable_hooks` is not `false`.
-Absent or unset defaults to enabled; setting it to `false` (or `0`) disables that completion's
+only when the file exists **and** `config.completion[<name>].enable_hooks` is not `0`.
+Absent or unset defaults to enabled; setting it to `0` disables that completion's
 hooks without touching the files. `completion --reset` restores it by removing the stored value
-(back to enabled — or back to `false` for a `"hooks": false` completion, whose declared default is
+(back to enabled — or back to `0` for a `"hooks": false` completion, whose declared default is
 disabled). Setting or reading `enable_hooks` on a completion whose `config.json` does not declare
 `hooks` is rejected (`This completion has no dynamic hooks.`) and is not written.
+
+**Fetch policy**: one shared blocking client (30 s timeout, connection pool). Each URL is
+retried once on transient failures (connect/timeout/429/5xx, 200 ms pause); other errors are
+final. Mirrors are tried in order with per-URL isolation — a slow mirror delays its own slot
+only.
 
 ## 8. Reset matrix (current)
 
@@ -460,9 +478,9 @@ core/
 ├── engine/               # psc-menu: engine + TUI (no network deps)
 │   └── src/
 │       ├── lib.rs        # strip_bom re-export
-│       ├── engine/       # completion tree/resolve + hooks runtime (api/, runner.rs, bindings.rs)
+│       ├── engine/       # completion tree/resolve + hooks/ runtime (hooks/api/, runner.rs, bindings.rs)
 │       ├── menu/         # app/, state/(mod+tests), filter, model, order, protocol, ui
-│       └── bin/psc-menu.rs  # thin entry: mode dispatch (menu / sort / self-test)
+│       └── bin/psc-menu.rs  # entry: menu/sort/self-test modes + build-mode assembly
 └── cli/                  # psc: data layer + commands + reqwest
     └── src/
         ├── lib.rs        # module declarations (commands/data/input/messages/net/output/postcheck/run/validate)
