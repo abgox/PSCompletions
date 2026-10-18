@@ -25,9 +25,9 @@ $PSCompletions.initialize($true)
 $text = $text.'sort-json'
 
 function outText {
-    param($text)
+    param($text, $ctx = @{})
     if ($text -is [array]) { $text = $text -join "`n" }
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text))
+    $PSCompletions.write_with_color((Format-PscText $text $ctx))
 }
 
 if (-not $CompletionList) {
@@ -303,11 +303,11 @@ foreach ($completion in $CompletionList) {
 $processedCount = $allResults.Count
 $sortedFilesTotal = if ($allResults.Count -gt 0) { ($allResults | Measure-Object -Property sortedFiles -Sum).Sum } else { 0 }
 if (-not $Quiet) {
-    outText $text.summary
+    outText $text.summary @{ ProcessedCount = $processedCount; SortedFilesTotal = $sortedFilesTotal }
     foreach ($r in $allResults) {
         $completion = $r.completion
         $sortedFiles = $r.sortedFiles
         $totalFiles = $r.totalFiles
-        outText $text.sortedHeader
+        outText $text.sortedHeader @{ Completion = $completion; SortedFiles = $sortedFiles; TotalFiles = $totalFiles }
     }
 }

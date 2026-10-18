@@ -7,17 +7,17 @@
     ],
     "summary": [
       "<@Cyan>────────────────────────────────────────────────────────",
-      "<@Blue>Total: {{ $processedCount }} completions <@Cyan>| <@Green>Sorted: {{ $sortedFilesTotal }} files",
+      "<@Blue>Total: {ProcessedCount} completions <@Cyan>| <@Green>Sorted: {SortedFilesTotal} files",
       "<@Cyan>────────────────────────────────────────────────────────"
     ],
     "sortedHeader": [
-      "\n<@Green>=== {{ $completion }} === Sorted: {{ $sortedFiles }}/{{ $totalFiles }} files"
+      "\n<@Green>=== {Completion} === Sorted: {SortedFiles}/{TotalFiles} files"
     ]
   },
   "compare-json": {
     "invalidName": [
       "<@Red>You should enter a valid completion name.\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc"
+      "e.g. <@Magenta>./scripts/compare-json.ps1 psc"
     ],
     "noRecent": [
       "<@Yellow>No recently modified completions found.",
@@ -25,18 +25,18 @@
     ],
     "invalidLang": [
       "<@Red>You should enter a valid language.\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
+      "e.g. <@Magenta>./scripts/compare-json.ps1 {CompletionName} -BaseLang zh-CN"
     ],
     "summary": [
       "<@Cyan>────────────────────────────────────────────────────────",
-      "<@Blue>Total: {{ $totalFiles }} completions <@Cyan>| <@Green>Complete: {{ $completedFiles }} <@Cyan>| <@Magenta>Issues: {{ $issueFiles }}",
+      "<@Blue>Total: {TotalFiles} completions <@Cyan>| <@Green>Complete: {CompletedFiles} <@Cyan>| <@Magenta>Issues: {IssueFiles}",
       "<@Cyan>────────────────────────────────────────────────────────"
     ],
     "langHeader": [
-      "\n<@Magenta>=== {{ $targetShortPath }} === Missing: {{ $missing }} | Extra: {{ $extra }} | Translated: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+      "\n<@Magenta>=== {TargetShortPath} === Missing: {Missing} | Extra: {Extra} | Translated: {Translated}/{Total} ({Rate}%)"
     ],
     "langHeaderComplete": [
-      "\n<@Green>{{ $targetShortPath }} — {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+      "\n<@Green>{TargetShortPath} — {Translated}/{Total} ({Rate}%)"
     ],
     "missingInTarget": [
       "\n<@Red>Missing items:"
@@ -57,7 +57,7 @@
       "\n<@Red>Duplicate Items:"
     ],
     "untranslated": [
-      "\n<@Yellow>=== Untranslated content ({{ $count }}/{{ $total }}) ==="
+      "\n<@Yellow>=== Untranslated content ({Count}/{Total}) ==="
     ],
     "meaninglessUsage": [
       "\n<@Yellow>Meaningless usage (no alias, no argument, just repeats the name):"
@@ -95,12 +95,12 @@
   "create-completion": {
     "invalidName": [
       "<@Red>You should enter a valid completion name.\n",
-      "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
+      "e.g. <@Magenta>./scripts/create-completion.ps1 test"
     ],
     "exist": "<@Red>The completion directory already exists!",
     "success": [
-      "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> created successfully!\n",
-      "You can link the completion via <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> to get a real-time preview while writing completions."
+      "<@Green>Completion <@Magenta>{CompletionName}<@Green> created successfully!\n",
+      "You can link the completion via <@Magenta>./scripts/link-completion.ps1 {CompletionName}<@Green> to get a real-time preview while writing completions."
     ],
     "err": {
       "name": "<@Red>Completion name cannot be empty!"
@@ -109,14 +109,13 @@
   "link-completion": {
     "invalidName": [
       "<@Red>You should enter a valid completion name.\n",
-      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 git\n",
-      "<@Cyan>Valid completion names are listed below: \n<@Blue>{{ $completions_list -join ' ' }}"
+      "e.g. <@Magenta>./scripts/link-completion.ps1 git"
     ],
-    "exist": "<@Red>The completion directory already exists. Please use <@Magenta>psc rm {{ $CompletionName }}<@Red> to remove it first.",
-    "noExist": "<@Magenta>{{ $CompletionName }}<@Red> does not exist.",
+    "exist": "<@Red>The completion directory already exists. Please use <@Magenta>psc rm {CompletionName}<@Red> to remove it first.",
+    "noExist": "<@Magenta>{CompletionName}<@Red> does not exist.",
     "linkDone": [
-      "<@Green>Completion <@Magenta>{{ $CompletionName }}<@Green> has been linked to the PSCompletions: <@Magenta>{{ $test_dir }}<@Green>\n",
-      "<@Yellow>Note: It is for local use only, <@Magenta>psc add/update<@Yellow> will skip it. Use <@Magenta>psc rm {{ $CompletionName }}; psc add {{ $CompletionName }}<@Yellow> to switch to the online version."
+      "<@Green>Completion <@Magenta>{CompletionName}<@Green> has been linked to the PSCompletions: <@Magenta>{TestDir}<@Green>\n",
+      "<@Yellow>Note: It is for local use only, <@Magenta>psc add/update<@Yellow> will skip it. Use <@Magenta>psc rm {CompletionName}; psc add {CompletionName}<@Yellow> to switch to the online version."
     ]
   },
   "publish-module": {
@@ -125,14 +124,14 @@
     ]
   },
   "check-hook-targets": {
-    "optionNowhere": "option(s) declared nowhere in the manifest: {{ $options }}",
-    "aliasReason": "ALIAS: psc.on matches canonical names only; the canonical name is \"{{ $canonical }}\"",
+    "optionNowhere": "option(s) declared nowhere in the manifest: {Options}",
+    "aliasReason": "ALIAS: psc.on matches canonical names only; the canonical name is \"{Canonical}\"",
     "noPath": "no such path in the manifest",
-    "optionNotThere": "option(s) not declared there: {{ $options }}",
-    "failLine": "<@Red>FAIL<@Gray>  {{ $loc }}\n      {{ $reason }}",
-    "unknownArg": "unknown switch '{{ $arg }}'; completions are passed by name, e.g. check-hook-targets.ps1 git gh",
+    "optionNotThere": "option(s) not declared there: {Options}",
+    "failLine": "<@Red>FAIL<@Gray>  {Loc}\n      {Reason}",
+    "unknownArg": "unknown switch '{Arg}'; completions are passed by name, e.g. check-hook-targets.ps1 git gh",
     "noRecent": "no recently changed completion has a hooks.lua; nothing to check (-All takes every completion)",
-    "noHooks": "no hooks.lua for: {{ $names }} (check the spelling, or drop the name)",
-    "summary": "<@Cyan>────────────────────────────────────────────────────────\n<@Blue>{{ $count }} completions, {{ $targets }} targets, {{ $bad }} unresolved\n<@Cyan>────────────────────────────────────────────────────────"
+    "noHooks": "no hooks.lua for: {Names} (check the spelling, or drop the name)",
+    "summary": "<@Cyan>────────────────────────────────────────────────────────\n<@Blue>{Count} completions, {Targets} targets, {Bad} unresolved\n<@Cyan>────────────────────────────────────────────────────────"
   }
 }

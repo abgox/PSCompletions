@@ -111,6 +111,7 @@ Stripped from anywhere in the argument list before subcommand dispatch:
 | `alias` | `[add <name> <alias>...\|rm <name> <alias>...]` | `--reset` | no | Rust + PS wrapper | no-arg lists all |
 | `--reset` | — | — | no | **PS only** | nuclear reset, top-level flag |
 | `init` | — | — | on missing psc files | Rust | internal, module bootstrap |
+| `tpl` | `<dotted.info.path>` | `--ctx <json>`, `--no-color` | no | Rust | internal, renders one `info` template for a host |
 | *(no args)* | — | — | — | PS | re-init + interactive info page |
 
 ## 6. Per-command reference
@@ -345,7 +346,42 @@ psc --reset
   (`render_library_changes`), not via this payload. When the psc completion's key files are
   missing, `init` re-fetches them over the network (the only network path in `init`).
 
-### 6.11 `psc` with no arguments
+### 6.11 `tpl` — internal command (not user-facing)
+
+```
+psc tpl <dotted.info.path> [--ctx <json>] [--version <v>] [--no-color] [--markup] [--explain]
+psc tpl --stdin [--version <v>] [--no-color] [--markup] [--explain]
+psc tpl <path> --lint
+```
+
+- **Behavior**: renders one template from the `psc` completion's `info` object
+  (`completions/psc/language/<lang>.json`) and prints the result. The language is the `psc`
+  completion's own: its declared list decides, a per-completion override beats the module
+  language, and `--language`/settings supply the module language.
+- **`--ctx`**: the values the template reads (`Version`, `NewVersion`, record lists, counts). The
+  engine never invents them — a host knows its own version and its own records. A malformed
+  `--ctx` renders as an empty context rather than aborting.
+- **`--stdin`**: the same rendering for a host that holds the template *value* rather than a path:
+  the request is `{data, ctx, sep}`, so a value with quotes and newlines needs no argument
+  quoting, and a large context no argument limit.
+- **`--version`**: fills `Version` when the context does not carry one (the module's version lives
+  in the module directory, not the data dir). **`--markup`**: leaves the `<@Color>` markup as text
+  for a host that colors it itself. **`--lint`** / **`--explain`**: the two authoring checks —
+  [`templates.md`](templates.md).
+- **Grammar**: the `{{…}}` mini-language, its three value channels, the naming rules and what is
+  deliberately absent — [`templates.md`](templates.md). A directive the renderer cannot read keeps
+  its whole block, and an expression it cannot read keeps its token, so nothing is ever silently
+  dropped.
+- `core/cli/tests/fixtures/psc_tpl.json` freezes the rendering of every template that ships.
+- **Output**: text on stdout, colored by default (the callers capture stdout, so a TTY test inside
+  the engine would answer "no" and silently drop the color); `--no-color` strips the markup. A
+  trailing reset follows the colored text. No `--json` form.
+- **Failure**: an unknown path prints nothing and exits `1`, so a caller can fall back to its own
+  text; a missing path argument prints the usage line and exits `1`.
+- **Purpose**: the hosts (the PowerShell module, the shell bridges) name the template and pass
+  their data, so the `{{…}}` grammar has exactly one implementation.
+
+### 6.12 `psc` with no arguments
 
 - PowerShell default branch: prints the module info page (`_help`). Not a management command.
   The full init sequence (`init_data()` → alias/trigger-key rebinding) runs once on first
@@ -436,15 +472,17 @@ on demand.
 
 ## 9. Output & localization
 
-- Embedded bilingual (en/zh) CLI messages (`msg_cli`) — the psc manifest `info` templates are
-  bound to PowerShell expressions (`$PSCompletions.*`) and cannot be evaluated by a Rust CLI.
+- Embedded bilingual (en/zh) CLI messages (`msg_cli`) — plain text, no templating. The psc
+  completion's `info` templates carry their own `{{…}}` grammar (§6.11) and are rendered by the
+  `tpl` command when a host asks for one.
 - **All output goes to stdout.** Error messages are rendered by the PowerShell wrapper as
   readable colored hints — deliberately **not** written to stderr: PowerShell (5.1, and 7.3+ with
   `$PSNativeCommandUseErrorActionPreference`) treats native stderr as an error stream (red
   `ErrorRecord`s, possible exceptions), which would break the interactive UX this CLI hosts.
   (One exception: running the bare binary without `--data`/`PSCOMPLETIONS_DATA_DIR` prints a usage note to
   stderr — the module path always passes `--data`, so this never happens in normal use.)
-- Text by default; every command accepts `--json`.
+- Text by default; every command accepts `--json`, except the internal `tpl`, which exists to hand
+  back text.
 - **Output contract (two modes, no exceptions)**:
   - **Text mode** (no `--json`): human-readable lines; success/failure is expressed by the
     exit code.
@@ -458,7 +496,9 @@ on demand.
     It is not a command execution — there is no failure to express and no documented JSON help
     shape — so `--json` is ignored there. The module never reaches this path (its `default` branch
     renders help itself without spawning `psc`).
-- ANSI color when stdout is a TTY, stripped otherwise.
+- ANSI color when stdout is a TTY, stripped otherwise. The internal `tpl` is the exception: it
+  colors by default and takes `--no-color`, because its callers capture stdout, where a TTY test
+  would answer "no" and silently drop the color.
 
 ## 10. PowerShell module bridge
 

@@ -4,7 +4,7 @@ use std::process::ExitCode;
 
 use crate::commands::{
     add::cmd_add, alias::cmd_alias, completion::cmd_completion, config::cmd_config, info::cmd_info,
-    init::cmd_init, list::cmd_list, rm::cmd_rm, update::cmd_update,
+    init::cmd_init, list::cmd_list, rm::cmd_rm, tpl::cmd_tpl, update::cmd_update,
 };
 use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
@@ -25,9 +25,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
     let mut index = Index::load(&completions_json).unwrap_or_default();
     // `--language` is this run's override for the message language (and for anything that renders
     // with it); `init` still receives the raw flag. Never written back: `settings` is untouched.
-    let lang = language_arg
-        .clone()
-        .unwrap_or_else(|| settings.language());
+    let lang = language_arg.clone().unwrap_or_else(|| settings.language());
     let out = Out::new();
 
     if rest.is_empty() {
@@ -53,6 +51,9 @@ pub fn run(args: Vec<String>) -> ExitCode {
             &out,
         ),
         "list" => cmd_list(&settings, &out, json),
+        // Internal, like `init`: the hosts render their `info` templates through the engine, so
+        // the `{{…}}` grammar has exactly one implementation.
+        "tpl" => cmd_tpl(args, &completions_dir, &lang, &settings),
         "info" => cmd_info(args, &settings, &index, &completions_dir, &out, json),
         "config" => cmd_config(args, &settings_path, &mut settings, &lang, &out, json),
         "completion" => cmd_completion(

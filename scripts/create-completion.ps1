@@ -13,13 +13,14 @@ if (!(Test-Path -LiteralPath $textPath)) {
 }
 $text = Get-Content -Path $textPath -Encoding utf8 | ConvertFrom-Json
 
+. $PSScriptRoot/utils.ps1
 if (!$PSCompletions) { . $PSScriptRoot/../module/PSCompletions/PSCompletions.ps1 -SkipMigration }
 $PSCompletions.initialize($true)
 
 $text = $text.'create-completion'
 
 if (!$CompletionName.Trim()) {
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
+    $PSCompletions.write_with_color((Format-PscText $text.invalidName))
     return
 }
 
@@ -47,4 +48,4 @@ Copy-Item "$($PSScriptRoot)/template/language/en-US.json" "$completion_dir/langu
 Copy-Item "$($PSScriptRoot)/template/language/zh-CN.json" "$completion_dir/language/zh-CN.json" -Force
 $config | ConvertTo-Json | Out-File "$completion_dir/config.json" -Force
 
-$PSCompletions.write_with_color($PSCompletions.replace_content($text.success))
+$PSCompletions.write_with_color((Format-PscText $text.success @{ CompletionName = $CompletionName }))

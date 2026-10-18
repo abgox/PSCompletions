@@ -31,9 +31,9 @@ $PSCompletions.initialize($true)
 $text = $text.'compare-json'
 
 function outText {
-    param($text)
+    param($text, $ctx = @{})
     if ($text -is [array]) { $text = $text -join "`n" }
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text))
+    $PSCompletions.write_with_color((Format-PscText $text $ctx))
 }
 
 if (-not $BaseLang) { $BaseLang = 'en-US' }
@@ -132,7 +132,7 @@ foreach ($CompletionName in $CompletionList) {
     }
     $baseJson = [System.IO.Path]::Combine($langDir, $BaseLang + '.json')
     if (!(Test-Path -LiteralPath $baseJson)) {
-        outText $text.invalidLang
+        outText $text.invalidLang @{ CompletionName = $CompletionName }
         continue
     }
     & $PSScriptRoot/sort-json.ps1 $CompletionName -Quiet
@@ -213,7 +213,7 @@ $totalFiles = $allResults.Count
 $issueFiles = $issueResults.Count
 $completedFiles = $completeResults.Count
 
-outText $text.summary
+outText $text.summary @{ TotalFiles = $totalFiles; CompletedFiles = $completedFiles; IssueFiles = $issueFiles }
 
 if ($issueFiles -gt 0) {
     foreach ($r in $issueResults) {
@@ -224,7 +224,7 @@ if ($issueFiles -gt 0) {
         $total = $r.total
         $rate = $r.rate
         $count = $r.stats.untranslated.Count
-        outText $text.langHeader
+        outText $text.langHeader @{ TargetShortPath = $targetShortPath; Missing = $missing; Extra = $extra; Translated = $translated; Total = $total; Rate = $rate }
 
         if ($r.stats.missingInTarget.Count -gt 0) {
             outText $text.missingInTarget
@@ -258,7 +258,7 @@ if ($issueFiles -gt 0) {
             foreach ($item in $r.stats.duplicateItems) { outText "<@Cyan>  $($item.path)" }
         }
         if ($r.stats.untranslated.Count -gt 0) {
-            outText $text.untranslated
+            outText $text.untranslated @{ Count = $count; Total = $total }
             foreach ($item in $r.stats.untranslated) { outText "<@Cyan>  $($item.path)" }
         }
         if ($r.stats.meaninglessUsage.Count -gt 0) {
@@ -307,6 +307,6 @@ if ($completedFiles -gt 0) {
         $translated = $r.translated
         $total = $r.total
         $rate = $r.rate
-        outText $text.langHeaderComplete
+        outText $text.langHeaderComplete @{ TargetShortPath = $targetShortPath; Translated = $translated; Total = $total; Rate = $rate }
     }
 }

@@ -7,17 +7,17 @@
     ],
     "summary": [
       "<@Cyan>────────────────────────────────────────────────────────",
-      "<@Blue>共 {{ $processedCount }} 个补全 <@Cyan>| <@Green>已排序: {{ $sortedFilesTotal }} 个文件",
+      "<@Blue>共 {ProcessedCount} 个补全 <@Cyan>| <@Green>已排序: {SortedFilesTotal} 个文件",
       "<@Cyan>────────────────────────────────────────────────────────"
     ],
     "sortedHeader": [
-      "\n<@Green>=== {{ $completion }} === 已排序: {{ $sortedFiles }}/{{ $totalFiles }} 个文件"
+      "\n<@Green>=== {Completion} === 已排序: {SortedFiles}/{TotalFiles} 个文件"
     ]
   },
   "compare-json": {
     "invalidName": [
       "<@Red>你应该输入一个有效的补全名称。\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 psc"
+      "e.g. <@Magenta>./scripts/compare-json.ps1 psc"
     ],
     "noRecent": [
       "<@Yellow>未找到最近修改的补全。",
@@ -25,18 +25,18 @@
     ],
     "invalidLang": [
       "<@Red>你应该输入一个有效的语言。\n",
-      "e.g. <@Magenta>.\\scripts\\compare-json.ps1 {{ $CompletionName }} -BaseLang zh-CN"
+      "e.g. <@Magenta>./scripts/compare-json.ps1 {CompletionName} -BaseLang zh-CN"
     ],
     "summary": [
       "<@Cyan>────────────────────────────────────────────────────────",
-      "<@Blue>共 {{ $totalFiles }} 个补全 <@Cyan>| <@Green>已完成: {{ $completedFiles }} <@Cyan>| <@Magenta>有问题: {{ $issueFiles }}",
+      "<@Blue>共 {TotalFiles} 个补全 <@Cyan>| <@Green>已完成: {CompletedFiles} <@Cyan>| <@Magenta>有问题: {IssueFiles}",
       "<@Cyan>────────────────────────────────────────────────────────"
     ],
     "langHeader": [
-      "\n<@Magenta>=== {{ $targetShortPath }} === 缺少: {{ $missing }} | 多余: {{ $extra }} | 翻译: {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+      "\n<@Magenta>=== {TargetShortPath} === 缺少: {Missing} | 多余: {Extra} | 翻译: {Translated}/{Total} ({Rate}%)"
     ],
     "langHeaderComplete": [
-      "<@Green>{{ $targetShortPath }} — {{ $translated }}/{{ $total }} ({{ $rate }}%)"
+      "<@Green>{TargetShortPath} — {Translated}/{Total} ({Rate}%)"
     ],
     "missingInTarget": [
       "\n<@Red>缺少的项:"
@@ -57,7 +57,7 @@
       "\n<@Red>重复的项:"
     ],
     "untranslated": [
-      "\n<@Yellow>=== 未翻译的内容 ({{ $count }}/{{ $total }}) ==="
+      "\n<@Yellow>=== 未翻译的内容 ({Count}/{Total}) ==="
     ],
     "meaninglessUsage": [
       "\n<@Yellow>无意义的 usage 行（无别名且无参数，仅重复名称）:"
@@ -95,12 +95,12 @@
   "create-completion": {
     "invalidName": [
       "<@Red>你应该输入一个有效的补全名称。\n",
-      "e.g. <@Magenta>.\\scripts\\create-completion.ps1 test"
+      "e.g. <@Magenta>./scripts/create-completion.ps1 test"
     ],
     "exist": "<@Red>补全目录已经存在!",
     "success": [
-      "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 创建完成!\n",
-      "你可以通过 <@Magenta>.\\scripts\\link-completion.ps1 {{ $CompletionName }}<@Green> 链接补全以在编写补全时获得实时预览"
+      "<@Green>补全 <@Magenta>{CompletionName}<@Green> 创建完成!\n",
+      "你可以通过 <@Magenta>./scripts/link-completion.ps1 {CompletionName}<@Green> 链接补全以在编写补全时获得实时预览"
     ],
     "err": {
       "name": "<@Red>补全名称不能为空!"
@@ -109,14 +109,13 @@
   "link-completion": {
     "invalidName": [
       "<@Red>你应该输入一个有效的补全名称。\n",
-      "e.g. <@Magenta>.\\scripts\\link-completion.ps1 git\n",
-      "<@Cyan>有效的补全名称列表如下: \n<@Blue>{{ $completions_list -join ' ' }}"
+      "e.g. <@Magenta>./scripts/link-completion.ps1 git"
     ],
-    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {{ $CompletionName }}<@Red> 移除补全",
-    "noExist": "<@Magenta>{{ $CompletionName }}<@Red> 不存在。",
+    "exist": "<@Red>补全目录已经存在，请先使用 <@Magenta>psc rm {CompletionName}<@Red> 移除补全",
+    "noExist": "<@Magenta>{CompletionName}<@Red> 不存在。",
     "linkDone": [
-      "<@Green>补全 <@Magenta>{{ $CompletionName }}<@Green> 已链接到 PSCompletions 中: <@Magenta>{{ $test_dir }}<@Green>\n",
-      "<@Yellow>注意: 它仅用于本地，<@Magenta>psc add/update<@Yellow> 会跳过它。使用 <@Magenta>psc rm {{ $CompletionName }}; psc add {{ $CompletionName }}<@Yellow> 以切换在线版本"
+      "<@Green>补全 <@Magenta>{CompletionName}<@Green> 已链接到 PSCompletions 中: <@Magenta>{TestDir}<@Green>\n",
+      "<@Yellow>注意: 它仅用于本地，<@Magenta>psc add/update<@Yellow> 会跳过它。使用 <@Magenta>psc rm {CompletionName}; psc add {CompletionName}<@Yellow> 以切换在线版本"
     ]
   },
   "publish-module": {
@@ -125,14 +124,14 @@
     ]
   },
   "check-hook-targets": {
-    "optionNowhere": "manifest 里任何位置都没有声明的选项：{{ $options }}",
-    "aliasReason": "ALIAS：psc.on 只匹配 canonical 名；canonical 名是 \"{{ $canonical }}\"",
+    "optionNowhere": "manifest 里任何位置都没有声明的选项：{Options}",
+    "aliasReason": "ALIAS：psc.on 只匹配 canonical 名；canonical 名是 \"{Canonical}\"",
     "noPath": "manifest 里没有这条路径",
-    "optionNotThere": "该处未声明的选项：{{ $options }}",
-    "failLine": "<@Red>FAIL<@Gray>  {{ $loc }}\n      {{ $reason }}",
-    "unknownArg": "无法识别的开关 '{{ $arg }}'；补全按名称传入，例如 check-hook-targets.ps1 git gh",
+    "optionNotThere": "该处未声明的选项：{Options}",
+    "failLine": "<@Red>FAIL<@Gray>  {Loc}\n      {Reason}",
+    "unknownArg": "无法识别的开关 '{Arg}'；补全按名称传入，例如 check-hook-targets.ps1 git gh",
     "noRecent": "近期修改的补全里没有带 hooks.lua 的，无从检查（-All 检查全部）",
-    "noHooks": "找不到 hooks.lua：{{ $names }}（检查拼写，或把这个名字去掉）",
-    "summary": "<@Cyan>────────────────────────────────────────────────────────\n<@Blue>{{ $count }} 个补全，{{ $targets }} 个靶标，{{ $bad }} 个未解析\n<@Cyan>────────────────────────────────────────────────────────"
+    "noHooks": "找不到 hooks.lua：{Names}（检查拼写，或把这个名字去掉）",
+    "summary": "<@Cyan>────────────────────────────────────────────────────────\n<@Blue>{Count} 个补全，{Targets} 个靶标，{Bad} 个未解析\n<@Cyan>────────────────────────────────────────────────────────"
   }
 }

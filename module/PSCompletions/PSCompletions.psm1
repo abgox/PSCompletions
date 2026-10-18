@@ -6,16 +6,11 @@
 
     $arg = $args
 
-    # Must live in the psm1 (module session state): Invoke-Expression can't reach module variables from the ScriptsToProcess scope
+    # Must live in the psm1 (module session state): the renderer is pure, but the
+    # call must resolve here so future host-specific lookups keep working.
     function _replace {
-        param ($data, $separator = '')
-        $data = [string]::Join($separator, @($data))
-        if ($data -notlike '*{{*') { return $data }
-        $matches = [regex]::Matches($data, $PSCompletions.replace_pattern)
-        foreach ($match in $matches) {
-            $data = $data.Replace($match.Value, [string]::Join($separator, @(Invoke-Expression $match.Groups[1].Value)))
-        }
-        if ($data -match $PSCompletions.replace_pattern) { _replace $data }else { return $data }
+        param ($data, $ctx = @{}, $separator = '')
+        $PSCompletions.render_engine($data, $ctx, $separator)
     }
     function _get_library_changes {
         $json = $PSCompletions.get_raw_content($PSCompletions.path.change)
@@ -30,10 +25,10 @@
         elseif ($flag -eq 'max') { $PSCompletions.info.param_max }
         else { $PSCompletions.info.param_err }
         $PSCompletions.write_with_color((_replace $err))
-        if ($err_info) { $PSCompletions.write_with_color((_replace $err_info)) }
+        if ($err_info) { $PSCompletions.write_with_color((_replace $err_info @{Rejected = if ($arg.Count -gt 3) { [string]$arg[3] } else { '' }})) }
     }
     function _help {
-        $PSCompletions.write_with_color((_replace $PSCompletions.info.description))
+        $PSCompletions.write_with_color((_replace $PSCompletions.info.description @{Version = [string]$PSCompletions.version }))
     }
     # Forward management commands to the psc CLI (platform-agnostic core); with -Json request structured output
     function _forward_psc {
@@ -95,19 +90,47 @@
             [pscustomobject]@{ Completion = $row.completion; Alias = $row.aliases }
         }
     }
+    # Build the add/update done-template context: trigger aliases plus the
+    # manifest config rows (with stored current values) for [Special Configuration].
+    function _done_ctx {
+        param([string]$completion, [string]$display = '')
+        $alias = @($PSCompletions.data.alias[$completion])
+        if (-not $alias) { $alias = @($completion) }
+        $rows = @()
+        $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.completions, $completion)
+        try { $cfgjson = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json } catch { $cfgjson = $null }
+        try {
+            $clang = $PSCompletions.get_language($completion)
+            $man = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$clang.json"))
+        }
+        catch { $man = $null }
+        if ($cfgjson -and $null -ne $cfgjson.hooks) {
+            $rows += @{ Name = 'enable_hooks'; Value = [int][bool]$cfgjson.hooks; Tip = (($PSCompletions.info.completion.enable_hooks.tip) -join "`n") }
+        }
+        foreach ($item in @($man.config)) {
+            if ($item.name) { $rows += @{ Name = [string]$item.name; Value = $item.value; Tip = ($item.tip -join "`n") } }
+        }
+        $stored = @{}
+        if ($PSCompletions.config.completion) { $stored = $PSCompletions.config.completion[$completion] }
+        foreach ($row in $rows) {
+            $cur = $null
+            if ($stored) {
+                if ($stored -is [hashtable] -and $stored.ContainsKey($row.name)) { $cur = $stored[$row.name] }
+                elseif ($null -ne $stored.PSObject.Properties[$row.name]) { $cur = $stored.PSObject.Properties[$row.name].Value }
+            }
+            if ($null -ne $cur) { $row.Current = $cur }
+        }
+        @{ Completion = $completion; Display = $display; Alias = $alias; Configs = $rows }
+    }
     # Render info.<kind>.done; templates read $completion/$display/etc via dynamic scope.
     # $display overrides the name line (e.g. "git -> git1" for a rename); aliases read local data.alias.
     function _render_completion_done {
         param([string]$completion, [string]$kind, [string]$display = '')
-        $completion_dir = [System.IO.Path]::Combine($PSCompletions.path.completions, $completion)
-        $config = $null
-        $json = $null
-        if ($kind -ne 'rm') {
-            $config = $PSCompletions.get_raw_content("$completion_dir/config.json") | ConvertFrom-Json
-            $language = $PSCompletions.get_language($completion)
-            $json = $PSCompletions.ConvertFrom_JsonAsHashtable($PSCompletions.get_raw_content("$completion_dir/language/$language.json"))
+        if ($kind -in @('add', 'update')) {
+            $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done (_done_ctx $completion $display)))
+            return
         }
-        $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done))
+        $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done @{ Completion = $completion }))
     }
     $need_init = $true
     switch ($arg[0]) {
@@ -125,7 +148,7 @@
                                 if (!$s) { continue }
                                 $alias = $s.alias
                                 $owner = $s.owner
-                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped))
+                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped @{ Alias = [string]$alias; Owner = [string]$owner }))
                             }
                         }
                         else {
@@ -185,7 +208,7 @@
                     $PSCompletions.added = $add
                     $PSCompletions.removed = $rm
                     $PSCompletions.renamed = $renamed
-                    $PSCompletions.write_with_color((_replace $PSCompletions.info.update_info))
+                    $PSCompletions.write_with_color((_replace $PSCompletions.info.update_info @{ Added = @($add); Removed = @($rm); Update = @($upd); Renamed = @($renamed) }))
                     $changes.added = @()
                     $changes.removed = @()
                     try {
@@ -227,7 +250,7 @@
                                 if (!$s) { continue }
                                 $alias = $s.alias
                                 $owner = $s.owner
-                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped))
+                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped @{ Alias = [string]$alias; Owner = [string]$owner }))
                             }
                         }
                         else {

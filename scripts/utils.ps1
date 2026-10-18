@@ -44,3 +44,18 @@ function Get-RecentCompletions {
     }
     return $completionList | Sort-Object -Unique
 }
+
+function Format-PscText {
+    # Fills `{Name}` placeholders in a `scripts/language/*.json` message. Deliberately not the
+    # engine's template language: these scripts run in a fresh clone, where no `psc` binary has
+    # been built yet.
+    #
+    # A message is either one string or a list of lines, and the lines already carry their own
+    # newlines, so the list is joined with nothing — that reproduces the single string these
+    # messages used to be. A caller only joins the *values* it passes (e.g. `($names -join ' ')`).
+    param([Parameter(Mandatory)][object]$Text, [hashtable]$Values = @{})
+
+    if ($Text -is [array]) { $Text = $Text -join '' } else { $Text = [string]$Text }
+    foreach ($key in $Values.Keys) { $Text = $Text.Replace("{$key}", [string]$Values[$key]) }
+    $Text
+}

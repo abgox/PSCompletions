@@ -9,6 +9,7 @@ pub mod info;
 pub mod init;
 pub mod list;
 pub mod rm;
+pub mod tpl;
 pub mod update;
 
 /// Run `work` over `items` with at most `workers` concurrent scoped threads.

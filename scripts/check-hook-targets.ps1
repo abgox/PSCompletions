@@ -62,7 +62,13 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$script:Root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
+$script:Root = Split-Path -Parent $PSScriptRoot
+
+. $PSScriptRoot/utils.ps1
+
+# Single template engine (design/templates.md) — shared with the other scripts.
+if (-not (Get-Variable PSCompletions -ErrorAction Ignore)) { . $script:Root/module/PSCompletions/PSCompletions.ps1 -SkipMigration }
+$PSCompletions.initialize($true)
 
 # ---------------------------------------------------------------------------
 # Localized text
@@ -76,11 +82,8 @@ $script:text = $script:text.'check-hook-targets'
 
 function msg {
     param([string]$Key, [hashtable]$Vars = @{})
-    $s = [string]$script:text.$Key
-    foreach ($k in $Vars.Keys) {
-        $s = $s.Replace('{{ $' + $k + ' }}', [string]$Vars[$k])
-    }
-    $s
+    # Single template engine: design/templates.md.
+    Format-PscText $script:text.$Key $Vars
 }
 
 # Replace the <@Color> markers the other scripts use with real escape sequences.
@@ -122,7 +125,7 @@ function stop {
 # instead of going looking for one.
 $stray = @($Completion | Where-Object { $_ -and $_.StartsWith('-') })
 if ($stray.Count -gt 0) {
-    stop 'unknownArg' @{ arg = ($stray -join ' ') }
+    stop 'unknownArg' @{ Arg = ($stray -join ' ') }
 }
 
 # ---------------------------------------------------------------------------
@@ -361,7 +364,7 @@ function Test-HookTargets {
                         completion = $Name
                         target     = '(any command)'
                         option     = ($t.option -join ',')
-                        reason     = (msg 'optionNowhere' -Vars @{ options = ($missing -join ', ') })
+                        reason     = (msg 'optionNowhere' -Vars @{ Options = ($missing -join ', ') })
                     })
             }
             continue
@@ -375,7 +378,7 @@ function Test-HookTargets {
                     completion = $Name
                     target     = $p
                     option     = ($t.option -join ',')
-                    reason     = (msg 'aliasReason' -Vars @{ canonical = $canon })
+                    reason     = (msg 'aliasReason' -Vars @{ Canonical = $canon })
                 })
             continue
         }
@@ -396,7 +399,7 @@ function Test-HookTargets {
                         completion = $Name
                         target     = $p
                         option     = ($t.option -join ',')
-                        reason     = (msg 'optionNotThere' -Vars @{ options = ($missing -join ', ') })
+                        reason     = (msg 'optionNotThere' -Vars @{ Options = ($missing -join ', ') })
                     })
             }
         }
@@ -433,7 +436,6 @@ $names = @(if ($Completion) {
     else {
         # -IncludeHooks because this check reads hooks.lua, so a completion whose
         # only change is a hook edit is exactly the case it exists for.
-        . (Join-Path $script:Root 'scripts/utils.ps1')
         Get-RecentCompletions -CompletionsDir $completionsDir -IncludeHooks | Where-Object { Test-HasHooks $_ }
     })
 
@@ -449,7 +451,7 @@ if ($names.Count -eq 0) {
 # is the silent pass this script exists to remove.
 $hookless = @($names | Where-Object { !(Test-HasHooks $_) })
 if ($hookless.Count -gt 0) {
-    stop 'noHooks' @{ names = ($hookless -join ', ') }
+    stop 'noHooks' @{ Names = ($hookless -join ', ') }
 }
 
 $total = 0
@@ -466,9 +468,9 @@ else {
     foreach ($f in $bad) {
         $loc = "$($f.completion) > $($f.target)"
         if ($f.option) { $loc += " [$($f.option)]" }
-        Write-Host (colorize ((msg 'failLine' -Vars @{ loc = $loc; reason = $f.reason })))
+        Write-Host (colorize ((msg 'failLine' -Vars @{ Loc = $loc; Reason = $f.reason })))
     }
-    say 'summary' -Vars @{ count = $names.Count; targets = $total; bad = $bad.Count }
+    say 'summary' -Vars @{ Count = $names.Count; Targets = $total; Bad = $bad.Count }
 }
 if ($bad.Count -gt 0) { $exit = 1 }
 

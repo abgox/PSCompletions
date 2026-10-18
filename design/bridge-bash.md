@@ -18,9 +18,9 @@ rendering. Tested headless by `scripts/bridge/test.bash`.
 
 The PowerShell bridge renders management UX from the psc manifest's `info` section
 (descriptions, confirms, hints). A port must consume those static templates, not just
-the manifest tree. Bash embeds the full `templates.md` engine (`_psc_tpl`): `<@Color>`
-markup, `{{Key}}`, `#each`/`#if`/`|`/`quote`. Keep it byte-identical to the reference
-renderer (`scripts/bridge/render-check.py`) — the two must render the same text.
+the manifest tree. Bash renders through the engine (`_psc_tpl` → `psc tpl --version …`):
+the template grammar and the `<@Color>` markup both live there, and the bridge only
+decides *which* template to render.
 
 ## Parity with the PowerShell bridge
 

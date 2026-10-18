@@ -141,7 +141,6 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
     param([bool]$methodsOnly = $false)
     if ($PSCompletions.initialized) { return }
 
-    $PSCompletions.replace_pattern = [regex]::new('(?s)\{\{(.*?(\})*)(?=\}\})\}\}', [System.Text.RegularExpressions.RegexOptions]::Compiled)
     $PSCompletions.input_pattern = [regex]::new("(?:`"[^`"]*`"|'[^']*'|\S)+", [System.Text.RegularExpressions.RegexOptions]::Compiled)
 
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod ConvertFrom_JsonAsHashtable -Force {
@@ -190,47 +189,31 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
         catch { }
         , @()
     }
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod wrap_whitespace -Force {
-        param([string]$String)
-        if ([string]::IsNullOrWhiteSpace($String)) { return "`"$String`"" }
-        if ($String.StartsWith(' ') -or $String.EndsWith(' ')) {
-            if ($String.Contains('"')) {
-                if ($String.Contains("'")) { return $String } else { return "'$String'" }
-            }
-            else { return "`"$String`"" }
+    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_engine -Force {
+        param ($data, $ctx = @{}, $separator = '')
+        # The engine renders: this module hands over the template value and its context and never
+        # interprets either. `--markup` keeps the `<@Color>` markup for `write_with_color`.
+        $request = @{ data = $data; ctx = $ctx; sep = $separator } | ConvertTo-Json -Depth 32 -Compress
+        $bin = $PSCompletions.psc_binary()
+        if (!$bin) { return '' }
+        # A native process reads/writes UTF-8; PowerShell would otherwise use [Console]::OutputEncoding
+        # (GBK on Chinese systems).
+        $oldConsole = [Console]::OutputEncoding
+        $oldOutput = $OutputEncoding
+        [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+        $OutputEncoding = [System.Text.UTF8Encoding]::new($false)
+        try {
+            $raw = $request | & $bin --data $PSCompletions.path.data tpl --stdin --markup --version ([string]$PSCompletions.version) 2>$null
+            $exit = $LASTEXITCODE
         }
-        return $String
-    }
-    Add-Member -InputObject $PSCompletions -MemberType ScriptMethod replace_content -Force {
-        param ($data, $separator = '')
-        $data = [string]::Join($separator, @($data))
-        if ($data -notlike '*{{*') { return $data }
-        $matchList = [regex]::Matches($data, $PSCompletions.replace_pattern)
-        foreach ($match in $matchList) {
-            $expr = $match.Groups[1].Value
-            $value = $null
-            if ($expr -match '^\$info\.([\w.]+)$') {
-                $value = $info
-                foreach ($p in ($Matches[1] -split '\.')) {
-                    if ($null -eq $value) { break }
-                    $value = $value.$p
-                }
-            }
-            elseif ($expr -match '^\$PSCompletions\.config\.(\w+)$') {
-                $value = $PSCompletions.config[$Matches[1]]
-            }
-            elseif ($expr -match '^\$env:(\w+)$') {
-                $value = [Environment]::GetEnvironmentVariable($Matches[1])
-            }
-            if ($null -ne $value) {
-                $valueStr = if ($value -is [string]) { $value } elseif ($null -eq $value) { '' } else { [string]::Join($separator, @($value)) }
-                $data = $data.Replace($match.Value, $valueStr)
-            }
-            else {
-                $data = $data.Replace($match.Value, [string]::Join($separator, @(Invoke-Expression $expr)))
-            }
+        finally {
+            [Console]::OutputEncoding = $oldConsole
+            $OutputEncoding = $oldOutput
         }
-        if ($data -match $PSCompletions.replace_pattern) { $PSCompletions.replace_content($data) }else { return $data }
+        if ($exit -ne 0) { return '' }
+        ($raw | ForEach-Object {
+                if ($_ -is [System.Management.Automation.ErrorRecord]) { $_.Exception.Message } else { [string]$_ }
+            }) -join "`n"
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod get_language -Force {
         param ([string]$completion)
@@ -289,7 +272,13 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
                 }
                 catch { }
             }
-            $PSCompletions.write_with_color($PSCompletions.replace_content($template))
+            $ctx = @{
+                Added    = @($add)
+                Removed  = @($rm)
+                Update   = @($upd)
+                Renamed  = @($renamed | ForEach-Object { , @($_[0], $_[1]) })
+            }
+            $PSCompletions.write_with_color($PSCompletions.render_engine($template, $ctx))
             # added/removed are one-shot (consumed on display); update/renamed/module persist.
             $changes.added = @()
             $changes.removed = @()
@@ -918,10 +907,11 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 $newVersion = [string]$changes.module
                 try { $isNewer = [version]$newVersion -gt [version]$PSCompletions.version } catch { $isNewer = $false }
                 if ($isNewer) {
-                    $PSCompletions.new_version = $newVersion
+                    $PSCompletions.newVersion = $newVersion
                     $template = $PSCompletions.info.module.update
                     if ($template) {
-                        $PSCompletions.write_with_color($PSCompletions.replace_content($template))
+                        $ctx = @{ Version = [string]$PSCompletions.version; NewVersion = $newVersion }
+                        $PSCompletions.write_with_color($PSCompletions.render_engine($template, $ctx))
                     }
                 }
                 else {

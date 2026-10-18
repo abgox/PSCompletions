@@ -19,6 +19,8 @@ if (!$PSCompletions) {
     return
 }
 
+. $PSScriptRoot/utils.ps1
+
 $PSCompletions.initialize()
 
 # Junctions are Windows-only and need no elevation; other platforms only have symbolic links.
@@ -28,32 +30,32 @@ $text = $text.'link-completion'
 
 foreach ($CompletionName in $CompletionList) {
     if (!$CompletionName.Trim()) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
+        $PSCompletions.write_with_color((Format-PscText $text.invalidName @{ CompletionsList = ((Get-ChildItem "$PSScriptRoot/../completions" -Directory).Name -join ' ') }))
         continue
     }
-    $completions_list = (Get-ChildItem "$PSScriptRoot/../completions" -Directory).Name
-    if ($CompletionName -notin $completions_list) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($text.invalidName))
+    $completionsList = (Get-ChildItem "$PSScriptRoot/../completions" -Directory).Name
+    if ($CompletionName -notin $completionsList) {
+        $PSCompletions.write_with_color((Format-PscText $text.invalidName @{ CompletionsList = ($completionsList -join ' ') }))
         continue
     }
     $root_dir = Split-Path $PSScriptRoot -Parent
     $completion_dir = "$root_dir/completions/$CompletionName"
     if (!(Test-Path -LiteralPath $completion_dir)) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($text.noExist))
+        $PSCompletions.write_with_color((Format-PscText $text.noExist @{ CompletionName = $CompletionName }))
         continue
     }
-    $test_dir = Join-Path $PSCompletions.path.completions $CompletionName
+    $testDir = Join-Path $PSCompletions.path.completions $CompletionName
     if ($CompletionName -eq 'psc') {
-        Remove-Item $test_dir -Recurse -Force -ErrorAction Ignore
-        $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
-        $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
+        Remove-Item $testDir -Recurse -Force -ErrorAction Ignore
+        $null = New-Item -ItemType $linkType -Path $testDir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
+        $PSCompletions.write_with_color((Format-PscText $text.linkDone @{ CompletionName = $CompletionName; TestDir = $testDir }))
         continue
     }
-    if (Test-Path -LiteralPath $test_dir) {
-        $PSCompletions.write_with_color($PSCompletions.replace_content($text.exist))
+    if (Test-Path -LiteralPath $testDir) {
+        $PSCompletions.write_with_color((Format-PscText $text.exist @{ CompletionName = $CompletionName }))
         continue
     }
-    $null = New-Item -ItemType $linkType -Path $test_dir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
+    $null = New-Item -ItemType $linkType -Path $testDir -Target "$PSScriptRoot/../completions/$CompletionName" -Force
 
     $language = $PSCompletions.get_language($CompletionName)
 
@@ -92,5 +94,5 @@ foreach ($CompletionName in $CompletionList) {
     }
     $saveData | ConvertTo-Json -Depth 10 | Out-File $PSCompletions.path.settings -Force -Encoding utf8
 
-    $PSCompletions.write_with_color($PSCompletions.replace_content($text.linkDone))
+    $PSCompletions.write_with_color((Format-PscText $text.linkDone @{ CompletionName = $CompletionName; TestDir = $testDir }))
 }

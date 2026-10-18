@@ -10,4 +10,5 @@ pub mod net;
 pub mod output;
 pub mod postcheck;
 pub mod run;
+pub mod tpl;
 pub mod validate;
