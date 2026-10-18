@@ -73,8 +73,8 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 - A per-item error has the **same shape**.
 - The codes in use: `too_few_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`,
   `not_installed`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
-  `language_no_reset`, `alias_wildcard`, `alias_reserved`, `alias_exists`, `alias_owned`,
-  `alias_not_found`, `alias_unique`, `io`, `network`.
+  `language_no_reset`, `alias_wildcard`, `alias_reserved`,
+  `alias_not_found`, `io`, `network`.
 
 ## 5. `meta`
 
@@ -144,8 +144,8 @@ engine).**
 | `alias` | `{"aliases": [{"name", "alias"}…]}` — singular `alias` inside the item, matching `config.json` / `settings.json` / the template context; the collection key stays plural because it names a group |
 | `alias add <name> <alias>…` | `{"name", "alias": […], "rejected": [{"alias", "error"}…]}` |
 | `alias rm <name> <alias>…` | `{"name", "alias": […]}` |
-| `alias --reset` | `{"aliases": […], "skipped": [{"alias", "owner"}…]}` |
-| `alias add\|rm <name> --reset` | `{"name", "alias": […], "skipped": […]}` |
+| `alias --reset` | `{"aliases": […]}` |
+| `alias add\|rm <name> --reset` | `{"name", "alias": […]}` |
 | `info` | `{"completions": [{"name", "ok", "alias", "url", "description", "path", "update", "updated"}…]}` — absent fields are `null`; an unknown name is an item with `ok: false` and an `error` |
 | `config` / `config <group>` | `{"config": [{"group", "key", "value"}…]}` — `value` in its raw type |
 | `config <group> <key>` | `{"key", "value"}` |
@@ -156,7 +156,7 @@ engine).**
 | `completion <name> <key>` | `{"name", "key", "value"}` |
 | `completion <name> <key> <value>` | `{"name", "key", "value", "old"}` |
 | `completion … --reset` | The resulting state, the same shape the read of that scope answers with |
-| `add` / `rm` / `update <name>…` | `{"completions": [{"name", "ok", "error"?}…]}` — plus `skipped` (aliases another completion owns) and `renamed_from` (a migrated rename) where they apply |
+| `add` / `rm` / `update <name>…` | `{"completions": [{"name", "ok", "error"?}…]}` — plus `renamed_from` (a migrated rename) where it applies |
 | `update` (no argument) | `{"update": […], "added": […], "removed": […], "renamed": [[old, new]…]}` — the library-change report, the same four lists `temp/change.json` carries |
 | `<unknown command>` / a parameter error | `{"ok": false, "error": {…}}` |
 | no command word (bare `psc`, or flags only) | Not a command execution: the **host prints the module's info page**. The engine keeps its own usage text as a fallback, because only the host knows the module version. |

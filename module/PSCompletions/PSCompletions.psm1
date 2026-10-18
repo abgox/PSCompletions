@@ -203,12 +203,6 @@
                     foreach ($r in $rows) {
                         if ($r.ok) {
                             _render_completion_done $r.name 'add'
-                            foreach ($s in $r.skipped) {
-                                if (!$s) { continue }
-                                $alias = $s.alias
-                                $owner = $s.owner
-                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped @{ Alias = [string]$alias; Owner = [string]$owner }))
-                            }
                         }
                         else {
                             $PSCompletions.write_with_color((_replace "<@Red>$(if ($r.name) { "$($r.name): " })$($r.error.message)"))
@@ -305,12 +299,6 @@
                             }
                             else {
                                 _render_completion_done $r.name 'update'
-                            }
-                            foreach ($s in $r.skipped) {
-                                if (!$s) { continue }
-                                $alias = $s.alias
-                                $owner = $s.owner
-                                $PSCompletions.write_with_color((_replace $PSCompletions.info.alias.skipped @{ Alias = [string]$alias; Owner = [string]$owner }))
                             }
                         }
                         else {

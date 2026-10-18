@@ -465,7 +465,7 @@ pub fn completion_defaults(data_dir: &str, name: &str, language: &str) -> Value 
 /// defaults (like `rm` + `add`); `update` patches — a missing/empty trigger entry is
 /// filled, per-completion config only gains missing keys, customizations survive.
 /// Words already owned by another completion stay with their owner in both modes;
-/// skipped words are returned for the warning.
+/// Nothing is filtered: the words are declared as-is, last claim wins (see `reset_alias`).
 pub fn refresh_settings_after_add(
     settings: &mut Settings,
     data_dir: &str,
@@ -506,19 +506,19 @@ pub fn refresh_settings_after_add(
         })
         .filter(|a: &Vec<String>| !a.is_empty())
         .unwrap_or_else(|| vec![name.to_string()]);
-    let skipped = if reinstall
+    // The order is the claim order, and the hosts insert into their `word -> completion` table
+    // in it, so claiming here — moving the completion to the end — is what makes a later
+    // declaration win. Conflicts are deliberately not resolved: the last claim simply wins.
+    if reinstall
         || settings
             .alias
             .get(name)
             .map(|v| v.is_empty())
             .unwrap_or(true)
     {
-        let (kept, skipped) = crate::validate::filter_owned_triggers(settings, name, desired);
-        settings.alias.insert(name.to_string(), kept);
-        skipped
-    } else {
-        Vec::new()
-    };
+        settings.alias.shift_remove(name);
+        settings.alias.insert(name.to_string(), desired);
+    }
 
     // Per-completion config defaults from the manifest's `config` field.
     let lang = settings.language();
@@ -562,7 +562,7 @@ pub fn refresh_settings_after_add(
             .unwrap()
             .insert("enable_hooks".to_string(), serde_json::json!(0));
     }
-    Ok(skipped)
+    Ok(Vec::new())
 }
 
 /// Read a locally installed completion's stable id from its config.json.
@@ -587,7 +587,7 @@ pub fn rename_completion(
     // Move per-completion settings: alias + config.completion entry
     // (including enable_hooks). Do NOT call refresh_settings_after_add here —
     // it would overwrite the migrated user aliases with the new manifest's defaults.
-    if let Some(aliases) = settings.alias.remove(old) {
+    if let Some(aliases) = settings.alias.shift_remove(old) {
         settings.alias.insert(new.to_string(), aliases);
     }
     if let Some(comp) = settings
@@ -891,7 +891,9 @@ mod tests {
     }
 
     #[test]
-    fn refresh_settings_after_add_keeps_earlier_owner() {
+    fn refresh_settings_after_add_declares_the_config_words() {
+        // Nothing is filtered: `hx` is declared for `new` too, and the earlier owner keeps its
+        // own list — the hosts resolve the collision by claim order (the last claim wins).
         let base = test_base();
         let dir = base.join("completions/new");
         std::fs::create_dir_all(&dir).unwrap();
@@ -905,11 +907,11 @@ mod tests {
             "helix".to_string(),
             vec!["helix".to_string(), "hx".to_string()],
         );
-        // `hx` stays with the earlier owner; only `new` is installed.
-        let skipped =
-            refresh_settings_after_add(&mut s, base.to_str().unwrap(), "new", true).unwrap();
-        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
-        assert_eq!(s.alias.get("new").unwrap(), &vec!["new".to_string()]);
+        refresh_settings_after_add(&mut s, base.to_str().unwrap(), "new", true).unwrap();
+        assert_eq!(
+            s.alias.get("new").unwrap(),
+            &vec!["hx".to_string(), "new".to_string()]
+        );
         assert_eq!(
             s.alias.get("helix").unwrap(),
             &vec!["helix".to_string(), "hx".to_string()]

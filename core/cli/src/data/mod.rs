@@ -45,17 +45,44 @@ pub fn remove_completion_entry(data_dir: &str, name: &str) {
 /// `settings.json` — `{ config, alias }`.
 #[derive(Debug, Clone, Default)]
 pub struct Settings {
-    /// completion name -> trigger aliases.
-    pub alias: HashMap<String, Vec<String>>,
+    /// completion name -> trigger aliases. **Ordered on purpose**: the key order is the claim
+    /// order, and the hosts build their `word -> completion` table by inserting in it, so the
+    /// last claim of a word wins. Never re-sort it.
+    pub alias: AliasMap,
     /// module config (default_config merged with user overrides), incl. `completion` per-completion map.
     pub config: Value,
 }
 
+/// `alias` is order-preserving on purpose (see `Settings::alias`). A plain map would lose the
+/// claim order twice: `serde_json::Value` sorts its keys, and so would any round-trip through it.
+pub type AliasMap = indexmap::IndexMap<String, Vec<String>>;
+
+/// The on-disk shape. Serialized directly — never through `Value`, which would re-sort `alias`.
+#[derive(serde::Serialize, serde::Deserialize)]
+struct SettingsFile {
+    #[serde(default = "empty_object")]
+    config: Value,
+    #[serde(default)]
+    alias: AliasMap,
+}
+
+fn empty_object() -> Value {
+    json!({})
+}
+
 impl Settings {
+    /// Move a completion to the end of the claim order. That order is what the hosts insert in,
+    /// so re-claiming is how a completion takes a word back from a later claim.
+    pub fn reclaim_alias(&mut self, name: &str) {
+        if let Some(words) = self.alias.shift_remove(name) {
+            self.alias.insert(name.to_string(), words);
+        }
+    }
+
     pub fn load(path: &str) -> Option<Settings> {
         let text = read_text(path)?;
-        let v: Value = match serde_json::from_str(&text) {
-            Ok(v) => v,
+        let file: SettingsFile = match serde_json::from_str(&text) {
+            Ok(f) => f,
             Err(_) => {
                 // Corrupt settings.json: back it up (never silently drop the damaged content)
                 // and fall back to defaults; the next save won't overwrite it without a trace.
@@ -69,34 +96,18 @@ impl Settings {
                 return None;
             }
         };
-        let alias = v
-            .get("alias")
-            .and_then(|a| a.as_object())
-            .map(|o| {
-                o.iter()
-                    .map(|(k, val)| {
-                        let arr = val
-                            .as_array()
-                            .map(|a| {
-                                a.iter()
-                                    .filter_map(|x| x.as_str().map(String::from))
-                                    .collect()
-                            })
-                            .unwrap_or_default();
-                        (k.clone(), arr)
-                    })
-                    .collect()
-            })
-            .unwrap_or_default();
         Some(Settings {
-            alias,
-            config: v.get("config").cloned().unwrap_or_else(|| json!({})),
+            alias: file.alias,
+            config: file.config,
         })
     }
 
     pub fn save(&self, path: &str) -> Result<(), String> {
-        let data = json!({ "config": self.config, "alias": self.alias });
-        let text = serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?;
+        let text = serde_json::to_string_pretty(&SettingsFile {
+            config: self.config.clone(),
+            alias: self.alias.clone(),
+        })
+        .map_err(|e| e.to_string())?;
         // Atomic + durable: pid-suffixed tmp, sync file, then rename over target.
         // A crash mid-write can never leave a half-written settings.json, and a power loss
         // after rename is durable. Concurrent psc processes use distinct tmp names.
@@ -120,11 +131,10 @@ impl Settings {
         Ok(())
     }
 
-    /// Sorted completion names (alias map keys).
+    /// Completion names in **claim order** (the alias map's key order) — the same order every
+    /// listing uses, so the map stays the single source of the ordering.
     pub fn list(&self) -> Vec<String> {
-        let mut v: Vec<String> = self.alias.keys().cloned().collect();
-        v.sort();
-        v
+        self.alias.keys().cloned().collect()
     }
 
     /// Module language from config, defaulting to "en-US".

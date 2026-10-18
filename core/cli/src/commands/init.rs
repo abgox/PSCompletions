@@ -69,8 +69,8 @@ pub fn cmd_init(
     // Sorted by completion name so a legacy trigger collision (two completions
     // claiming the same word) always resolves to the same owner on every machine.
     // New collisions are rejected at write time.
-    let mut names: Vec<&String> = settings.alias.keys().collect();
-    names.sort();
+    // The order is the claim order: later claims overwrite earlier ones, so the last claim wins.
+    let names: Vec<&String> = settings.alias.keys().collect();
     let mut alias_map = serde_json::Map::new();
     for completion in names {
         if let Some(aliases) = settings.alias.get(completion) {

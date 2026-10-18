@@ -329,7 +329,7 @@ mod tests {
         let base = test_base();
         let data_dir = base.to_str().unwrap();
         let settings = Settings {
-            alias: std::collections::HashMap::new(),
+            alias: Default::default(),
             config: serde_json::json!({}),
         };
         let mut index = Index::default();

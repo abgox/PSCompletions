@@ -46,9 +46,8 @@ pub fn cmd_info(
     let lang = lang.to_string();
     let owned;
     let args: &[String] = if args.is_empty() {
-        let mut v: Vec<String> = settings.alias.keys().cloned().collect();
-        v.sort();
-        owned = v;
+        // Claim order, the same order every listing uses (design/psc-cli.md §6.2).
+        owned = settings.alias.keys().cloned().collect::<Vec<String>>();
         &owned
     } else {
         args

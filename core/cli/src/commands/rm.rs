@@ -79,7 +79,7 @@ pub fn cmd_rm(
         }
         remove_completion_entry(data_dir, name);
         removed_any = true;
-        settings.alias.remove(name);
+        settings.alias.shift_remove(name);
         if let Some(comp) = settings
             .config
             .get_mut("completion")

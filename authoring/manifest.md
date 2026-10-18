@@ -234,9 +234,8 @@ list — same files, organized by pattern rather than by completion.
     macOS user running uutils wants "uutils's `cut`" (`cut@uutils`), not "macOS's
     `cut`".
   - **A directory whose name contains `@` MUST declare `alias` with the real command
-    name** — triggers are first-come-first-served (`filter_owned_triggers` in
-    `../core/cli/src/validate.rs` leaves a word with whoever claimed it first and
-    silently skips later claimants), and nobody types `AAA@author`, so without an alias
+    name** — triggers are claim-ordered (a word two completions claim belongs to the later
+    claim, `design/psc-cli.md` §6.2), and nobody types `AAA@author`, so without an alias
     the completion is unreachable. This does not contradict the rule above: there `alias`
     carries another *officially recognized* name; here it carries the *only trigger that
     works*. The marker itself can never collide with a real author handle — it is a label

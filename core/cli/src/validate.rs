@@ -102,34 +102,13 @@ pub fn ensure_completion_map(settings: &mut Settings) -> &mut serde_json::Map<St
     comp.as_object_mut().unwrap()
 }
 
-/// Split `desired` trigger aliases for `name` into `(kept, skipped)`.
-/// A word already owned by another completion stays with its owner;
-/// each skipped word pairs with its owner's name for the warning.
-pub fn filter_owned_triggers(
-    settings: &Settings,
-    name: &str,
-    desired: Vec<String>,
-) -> (Vec<String>, Vec<(String, String)>) {
-    let mut kept = Vec::new();
-    let mut skipped = Vec::new();
-    for a in desired {
-        match settings
-            .alias
-            .iter()
-            .find(|(k, v)| k.as_str() != name && v.iter().any(|x| x == &a))
-            .map(|(k, _)| k.clone())
-        {
-            Some(owner) => skipped.push((a, owner)),
-            None => kept.push(a),
-        }
-    }
-    (kept, skipped)
-}
-
 /// Restore a completion's trigger aliases to its config.json alias (or the name itself).
-/// Words already owned by another completion stay with their owner;
-/// skipped words are returned for the warning.
-pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) -> Vec<(String, String)> {
+///
+/// The alias map's order **is** the claim order, and the hosts build their `word -> completion`
+/// table by inserting in it, so declaring the words here — moving the completion to the end —
+/// is what makes a later declaration win. Conflicts are deliberately not resolved: the last
+/// claim simply wins, and `psc alias` shows the current ownership.
+pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) {
     let config_path = format!("{data_dir}/completions/{name}/config.json");
     let desired: Vec<String> = read_text(&config_path)
         .and_then(|t| serde_json::from_str::<Value>(&t).ok())
@@ -146,9 +125,8 @@ pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) -> Vec<(
                 .unwrap_or_else(|| vec![name.to_string()])
         })
         .unwrap_or_else(|| vec![name.to_string()]);
-    let (kept, skipped) = filter_owned_triggers(settings, name, desired);
-    settings.alias.insert(name.to_string(), kept);
-    skipped
+    settings.alias.shift_remove(name);
+    settings.alias.insert(name.to_string(), desired);
 }
 
 #[cfg(test)]
@@ -156,28 +134,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn filter_owned_triggers_keeps_earlier_owner() {
-        let mut s = Settings::default();
-        s.alias.insert(
-            "helix".to_string(),
-            vec!["helix".to_string(), "hx".to_string()],
-        );
-        let (kept, skipped) = filter_owned_triggers(
-            &s,
-            "helix-xxx",
-            vec!["helix-xxx".to_string(), "hx".to_string()],
-        );
-        assert_eq!(kept, vec!["helix-xxx".to_string()]);
-        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
-        // A completion's own words are never filtered.
-        let (kept, skipped) =
-            filter_owned_triggers(&s, "helix", vec!["helix".to_string(), "hx".to_string()]);
-        assert_eq!(kept.len(), 2);
-        assert!(skipped.is_empty());
-    }
-
-    #[test]
-    fn reset_alias_skips_words_owned_by_earlier_completion() {
+    fn reset_alias_declares_the_config_words_in_order() {
+        // No filtering: the config's words are declared as-is, and the completion moves to the
+        // end of the map — that order is what makes a later declaration win for the hosts.
         let base = std::env::temp_dir().join(format!("psc-validate-test-{}", std::process::id()));
         let dir = base.join("completions/new");
         std::fs::create_dir_all(&dir).unwrap();
@@ -191,9 +150,26 @@ mod tests {
             "helix".to_string(),
             vec!["helix".to_string(), "hx".to_string()],
         );
-        let skipped = reset_alias(&mut s, base.to_str().unwrap(), "new");
-        assert_eq!(skipped, vec![("hx".to_string(), "helix".to_string())]);
-        assert_eq!(s.alias.get("new").unwrap(), &vec!["new".to_string()]);
+        s.alias.insert("new".to_string(), vec!["old".to_string()]);
+        reset_alias(&mut s, base.to_str().unwrap(), "new");
+        assert_eq!(
+            s.alias.get("new").unwrap(),
+            &vec!["hx".to_string(), "new".to_string()]
+        );
+        // Declared last, so it is last in the map.
+        assert_eq!(s.alias.keys().last().unwrap(), "new");
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn reset_alias_falls_back_to_the_name_without_a_config_alias() {
+        let base = std::env::temp_dir().join(format!("psc-validate-name-{}", std::process::id()));
+        let dir = base.join("completions/solo");
+        std::fs::create_dir_all(&dir).unwrap();
+        std::fs::write(dir.join("config.json"), r#"{"language":["en-US"]}"#).unwrap();
+        let mut s = Settings::default();
+        reset_alias(&mut s, base.to_str().unwrap(), "solo");
+        assert_eq!(s.alias.get("solo").unwrap(), &vec!["solo".to_string()]);
         std::fs::remove_dir_all(&base).ok();
     }
 

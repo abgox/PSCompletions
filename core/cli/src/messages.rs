@@ -91,17 +91,6 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "Reserved name, unavailable.",
     ),
     (
-        "alias_owned",
-        "触发别名已被 {owner} 占用，已跳过。",
-        "Trigger alias is already owned by {owner}, skipped.",
-    ),
-    ("alias_exist", "该别名已存在。", "The alias already exists."),
-    (
-        "alias_unique",
-        "不能移除最后一个触发器别名。",
-        "Cannot remove the last trigger alias.",
-    ),
-    (
         "alias_not_found",
         "指定的触发器别名不存在。",
         "The specified trigger alias does not exist.",
@@ -145,17 +134,5 @@ mod tests {
     fn msg_cli_unknown_key_yields_key() {
         assert_eq!(msg_cli("en-US", "no_such_key"), "no_such_key");
         assert_eq!(msg_cli("zh-CN", "no_such_key"), "no_such_key");
-    }
-
-    #[test]
-    fn msg_fmt_substitutes_placeholders_per_language() {
-        assert_eq!(
-            msg_fmt("zh-CN", "alias_owned", &[("owner", "helix")]),
-            "触发别名已被 helix 占用，已跳过。"
-        );
-        assert_eq!(
-            msg_fmt("en-US", "alias_owned", &[("owner", "helix")]),
-            "Trigger alias is already owned by helix, skipped."
-        );
     }
 }

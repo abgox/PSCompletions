@@ -178,12 +178,14 @@ fn json_alias_named_reset_reports_resulting_aliases() {
     assert_eq!(v["ok"], true, "{out}");
     assert_eq!(v["data"]["name"], "git", "{out}");
     assert_eq!(v["data"]["alias"], serde_json::json!(["git", "g"]), "{out}");
-    assert_eq!(v["data"]["skipped"], serde_json::json!([]), "{out}");
 }
 
 #[test]
-fn json_alias_named_reset_reports_skipped_words() {
-    let d = make_data("json-alias-reset-skip", "http://127.0.0.1:9");
+fn json_alias_named_reset_declares_the_config_words_verbatim() {
+    // Conflicts are deliberately not resolved: the config's words are declared as they are, even
+    // when another completion already claims one — the hosts resolve it by claim order, and the
+    // completion moves to the end of the map so its claim is the later one.
+    let d = make_data("json-alias-reset-shared", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git"]);
     rewrite_settings(&d, |v| {
         v["alias"] = serde_json::json!({ "aaa": ["shared"], "git": ["git"] });
@@ -192,9 +194,104 @@ fn json_alias_named_reset_reports_skipped_words() {
     let (code, out) = psc(&d, &["--json", "alias", "add", "git", "--reset", "--yes"]);
     assert_eq!(code, 0, "{out}");
     let v = parse_json(&out);
-    assert_eq!(v["data"]["alias"], serde_json::json!(["git"]), "{out}");
-    assert_eq!(v["data"]["skipped"][0]["alias"], "shared", "{out}");
-    assert_eq!(v["data"]["skipped"][0]["owner"], "aaa", "{out}");
+    assert_eq!(v["ok"], true, "{out}");
+    assert_eq!(
+        v["data"]["alias"],
+        serde_json::json!(["git", "shared"]),
+        "{out}"
+    );
+    // The earlier owner keeps its own list untouched, and `git` is now last in the file — the
+    // claim order the hosts insert in, so its claim wins.
+    let raw = std::fs::read_to_string(d.join("settings.json")).unwrap();
+    assert!(raw.contains("\"shared\""), "{raw}");
+    assert!(
+        raw.rfind("\"git\"").unwrap() > raw.rfind("\"aaa\"").unwrap(),
+        "{raw}"
+    );
+}
+
+/// The hosts' `word -> completion` table, exactly as `psc init` builds it.
+fn alias_map(d: &std::path::Path) -> serde_json::Value {
+    let out = d.join("init.json");
+    let (code, txt) = psc(d, &["init", "--result", out.to_str().unwrap()]);
+    assert_eq!(code, 0, "{txt}");
+    parse_json(&std::fs::read_to_string(&out).unwrap())["aliasMap"].clone()
+}
+
+#[test]
+fn a_later_claim_wins_and_a_redeclaration_takes_the_word_back() {
+    // Two completions claim `shared`; the hosts insert in claim order, so the later claim owns it.
+    // Re-declaring the earlier one moves it to the end — and it owns the word again.
+    let d = make_data("json-alias-claim-order", "http://127.0.0.1:9");
+    std::fs::create_dir_all(d.join("completions/aaa/language")).unwrap();
+    std::fs::write(
+        d.join("completions/aaa/config.json"),
+        r#"{"id":"aaa-id","language":["en-US"],"alias":["shared"]}"#,
+    )
+    .unwrap();
+    std::fs::write(d.join("completions/aaa/language/en-US.json"), "{}").unwrap();
+    rewrite_settings(&d, |v| {
+        v["alias"] = serde_json::json!({ "aaa": ["shared"], "git": ["git"] });
+    });
+
+    // `git` claims `shared` later → the later claim wins.
+    let (code, out) = psc(&d, &["alias", "add", "git", "shared"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(alias_map(&d)["shared"], "git", "the later claim must win");
+
+    // Changing any of `aaa`'s aliases moves it to the end → it owns `shared` again.
+    let (code, out) = psc(&d, &["alias", "add", "aaa", "extra"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        alias_map(&d)["shared"],
+        "aaa",
+        "re-declaring must take the word back"
+    );
+
+    // `git` takes it back by re-declaring an alias it already has — the explicit form.
+    let (code, out) = psc(&d, &["alias", "add", "git", "git"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        alias_map(&d)["shared"],
+        "git",
+        "re-declaring an existing alias must still move to the end"
+    );
+    // …and the list did not gain a duplicate (`git` already had `shared` from the claim above).
+    let s: serde_json::Value =
+        parse_json(&std::fs::read_to_string(d.join("settings.json")).unwrap());
+    assert_eq!(
+        s["alias"]["git"],
+        serde_json::json!(["git", "shared"]),
+        "{out}"
+    );
+
+    // Removing an alias is a subtraction, not a declaration: the ownership must not move.
+    let (code, out) = psc(&d, &["alias", "rm", "aaa", "extra"]);
+    assert_eq!(code, 0, "{out}");
+    assert_eq!(
+        alias_map(&d)["shared"],
+        "git",
+        "removing an alias must not change ownership"
+    );
+
+    // The listing shows the claim order, not alphabetical: `aaa` is declared last here, so it is
+    // listed last even though it sorts first — that is how a user reads the current ownership.
+    let (code, out) = psc(&d, &["alias", "add", "aaa", "extra2"]);
+    assert_eq!(code, 0, "{out}");
+    let (code, out) = psc(&d, &["--json", "alias"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    let names: Vec<&str> = v["data"]["aliases"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|e| e["name"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        names,
+        vec!["git", "aaa"],
+        "the listing must follow the claim order, not alphabetical: {names:?}"
+    );
 }
 
 #[test]

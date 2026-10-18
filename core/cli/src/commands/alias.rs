@@ -5,7 +5,7 @@ use std::process::ExitCode;
 use serde_json::json;
 
 use crate::data::{Index, Settings};
-use crate::messages::{msg_cli, msg_fmt};
+use crate::messages::msg_cli;
 use crate::output::{fail, meta, ok, Out};
 use crate::validate::{data_dir_of, name_error, name_status, param_err, reset_alias};
 
@@ -16,13 +16,6 @@ fn alias_entry(name: &str, settings: &Settings) -> serde_json::Value {
         "name": name,
         "alias": settings.alias.get(name).cloned().unwrap_or_default(),
     })
-}
-
-fn skipped_json(skipped: &[(String, String)]) -> serde_json::Value {
-    json!(skipped
-        .iter()
-        .map(|(alias, owner)| json!({ "alias": alias, "owner": owner }))
-        .collect::<Vec<_>>())
 }
 
 pub fn cmd_alias(
@@ -43,20 +36,12 @@ pub fn cmd_alias(
         if let Some((code, e)) = name_error(lang, &name, status, true) {
             return fail(out, code, &e, json, &m(), false);
         }
-        let skipped = reset_alias(settings, &data_dir, &name);
+        reset_alias(settings, &data_dir, &name);
         if let Err(e) = settings.save(settings_path) {
             return fail(out, "io", &format!("error: {e}"), json, &m(), false);
         }
         if json {
-            let mut data = alias_entry(&name, settings);
-            data["skipped"] = skipped_json(&skipped);
-            return ok(&data, &m());
-        }
-        for (a, owner) in &skipped {
-            out.line(&format!(
-                "{a}: {}",
-                msg_fmt(lang, "alias_owned", &[("owner", owner)])
-            ));
+            return ok(&alias_entry(&name, settings), &m());
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -76,23 +61,16 @@ pub fn cmd_alias(
         }
         let targets: Vec<String> = settings.list();
         let mut entries: Vec<serde_json::Value> = Vec::new();
-        let mut skipped_all: Vec<(String, String)> = Vec::new();
         for n in &targets {
-            skipped_all.extend(reset_alias(settings, &data_dir, n));
+            reset_alias(settings, &data_dir, n);
             entries.push(alias_entry(n, settings));
         }
         if let Err(e) = settings.save(settings_path) {
             return fail(out, "io", &format!("error: {e}"), json, &m(), false);
         }
         if json {
-            let data = json!({ "aliases": entries, "skipped": skipped_json(&skipped_all) });
+            let data = json!({ "aliases": entries });
             return ok(&data, &meta(Some(entries.len()), &data_dir));
-        }
-        for (a, owner) in &skipped_all {
-            out.line(&format!(
-                "{a}: {}",
-                msg_fmt(lang, "alias_owned", &[("owner", owner)])
-            ));
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -162,42 +140,24 @@ pub fn cmd_alias(
                     );
                     continue;
                 }
-                if settings
+                // A word the completion already has is not rejected: re-declaring it changes
+                // nothing in the list, but it still moves the completion to the end — that is
+                // the explicit way to take a word back from a later claim. A word another
+                // completion also claims is not rejected either: nothing is filtered anywhere.
+                if !settings
                     .alias
                     .get(&name)
-                    .map(|v| v.iter().any(|x| x == a))
-                    .unwrap_or(false)
+                    .is_some_and(|v| v.iter().any(|x| x == a))
                 {
-                    reject(
-                        &mut rejected,
-                        a,
-                        "alias_exists",
-                        msg_cli(lang, "alias_exist"),
-                        json,
-                    );
-                    continue;
+                    settings
+                        .alias
+                        .entry(name.clone())
+                        .or_default()
+                        .push(a.clone());
                 }
-                let conflict = settings
-                    .alias
-                    .iter()
-                    .find(|(k, v)| k.as_str() != name && v.iter().any(|x| x == a))
-                    .map(|(k, _)| k.clone());
-                if let Some(owner) = conflict {
-                    // Already owned: the earlier owner keeps the word.
-                    reject(
-                        &mut rejected,
-                        a,
-                        "alias_owned",
-                        msg_fmt(lang, "alias_owned", &[("owner", &owner)]),
-                        json,
-                    );
-                    continue;
-                }
-                settings
-                    .alias
-                    .entry(name.clone())
-                    .or_default()
-                    .push(a.clone());
+                // Re-declaring moves the completion to the end of the claim order: that is how
+                // it takes a word back from a later claim.
+                settings.reclaim_alias(&name);
                 added.push(a.clone());
             }
             if !added.is_empty() {
@@ -253,16 +213,6 @@ pub fn cmd_alias(
                     out,
                     "alias_not_found",
                     &format!("{name}: {}", msg_cli(lang, "alias_not_found")),
-                    json,
-                    &m(),
-                    false,
-                );
-            }
-            if entry.len() <= remove_count {
-                return fail(
-                    out,
-                    "alias_unique",
-                    &msg_cli(lang, "alias_unique"),
                     json,
                     &m(),
                     false,

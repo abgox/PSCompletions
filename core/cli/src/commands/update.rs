@@ -6,7 +6,7 @@ use serde_json::{json, Value};
 
 use crate::commands::run_parallel;
 use crate::data::{read_text, Index, LibraryChanges, Settings};
-use crate::messages::{msg_cli, msg_fmt};
+use crate::messages::msg_cli;
 use crate::net::{
     add_completion, download_list, local_completion_id, refresh_settings_after_add,
     rename_completion, resolve_index_urls, resolve_urls,
@@ -315,24 +315,14 @@ pub fn cmd_update(
                             out.line(&format!("error: {e}"));
                         }
                     }
-                    Ok(skipped) => {
+                    Ok(_) => {
                         if json {
-                            let mut entry = json!({"name": name, "ok": true});
-                            if !skipped.is_empty() {
-                                entry["skipped"] = skipped
-                                    .iter()
-                                    .map(|(a, o)| json!({"alias": a, "owner": o}))
-                                    .collect();
-                            }
-                            results.lock().unwrap().push(entry);
+                            results
+                                .lock()
+                                .unwrap()
+                                .push(json!({"name": name, "ok": true}));
                         } else {
                             out.line(&format!("{name}: {}", msg_cli(lang, "update_done")));
-                            for (a, owner) in &skipped {
-                                out.line(&format!(
-                                    "{a}: {}",
-                                    msg_fmt(lang, "alias_owned", &[("owner", owner)])
-                                ));
-                            }
                         }
                     }
                 }

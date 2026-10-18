@@ -6,7 +6,7 @@ use serde_json::{json, Value};
 
 use crate::commands::run_parallel;
 use crate::data::{read_text, Index, Settings};
-use crate::messages::{msg_cli, msg_fmt};
+use crate::messages::msg_cli;
 use crate::net::{
     add_completion, download_list, refresh_settings_after_add, resolve_index_urls, resolve_urls,
 };
@@ -85,18 +85,11 @@ pub fn cmd_add(
                                 }
                                 serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
-                            Ok(skipped) => {
+                            Ok(_) => {
                                 if !json {
                                     out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
                                 }
-                                let mut entry = serde_json::json!({"name": name, "ok": true});
-                                if !skipped.is_empty() {
-                                    entry["skipped"] = skipped
-                                        .iter()
-                                        .map(|(a, o)| serde_json::json!({"alias": a, "owner": o}))
-                                        .collect();
-                                }
-                                entry
+                                serde_json::json!({"name": name, "ok": true})
                             }
                         }
                     } else {
@@ -109,24 +102,11 @@ pub fn cmd_add(
                                 }
                                 serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                             }
-                            Ok(skipped) => {
+                            Ok(_) => {
                                 if !json {
                                     out.line(&format!("{name}: {}", msg_cli(lang, "add_done")));
-                                    for (a, owner) in &skipped {
-                                        out.line(&format!(
-                                            "{a}: {}",
-                                            msg_fmt(lang, "alias_owned", &[("owner", owner)])
-                                        ));
-                                    }
                                 }
-                                let mut entry = serde_json::json!({"name": name, "ok": true});
-                                if !skipped.is_empty() {
-                                    entry["skipped"] = skipped
-                                        .iter()
-                                        .map(|(a, o)| serde_json::json!({"alias": a, "owner": o}))
-                                        .collect();
-                                }
-                                entry
+                                serde_json::json!({"name": name, "ok": true})
                             }
                         }
                     }

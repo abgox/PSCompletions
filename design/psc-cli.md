@@ -140,9 +140,8 @@ psc add <name>...
 - **Errors**: no args → `Too few parameters.`; unknown name → `<name> is not an available completion.`;
   download failure → `error: <err>`. A downloaded `config.json` without a usable `id`
   is refused — nothing lands, the installed version stays intact.
-- **Output**: with `--json`, `data.completions` carries one result per name — `{name, ok, error?}`
-  (trigger words owned by another completion add `skipped: [{alias, owner}]`); plain text
-  `<name>: Added.` otherwise (ownership warnings print per word). A failed item fails the run:
+- **Output**: with `--json`, `data.completions` carries one result per name — `{name, ok, error?}`;
+  plain text `<name>: Added.` otherwise. A failed item fails the run:
   exit code `1` ([`json.md`](json.md) §6).
 - **PS wrapper**: forwards with `--json`, then `init_data()` and renders
   the rich `info.add.done` / `info.update.done` template per added completion.
@@ -163,21 +162,23 @@ psc alias --reset                   # restore every completion's aliases
   `--reset` restores every completion's aliases from its `config.json` `alias` array (falling back
   to the bare name). Alias has only `add`/`rm` as subcommands — a bare completion name under
   `alias` is not a valid form (`alias <name>` / `alias <name> --reset` → `Invalid subcommand.`).
-- **Validation (add)**: no wildcards (`*`/`?`); the reserved name `PSCompletions` is rejected;
-  an alias already present for that completion is rejected; a word already owned by another
-  completion stays with its earlier owner — the newcomer skips it with an ownership warning
-  (`alias_owned`, naming the owner; move it with `alias rm <owner> <word>` first if intended).
-- **Validation (rm)**: refuses to remove the last remaining alias of a completion (`alias_unique`).
+- **Validation (add)**: no wildcards (`*`/`?`); the reserved name `PSCompletions` is rejected.
+  Nothing else is rejected: a word another completion claims, and a word the completion already
+  has, are both accepted — see the claim order below.
+- **Claim order decides: the last claim wins.** `settings.alias` is order-preserving and the hosts
+  build their `word -> completion` table by inserting in it, so a word two completions claim
+  belongs to the one whose claim is later. A **declaration** moves a completion to the end of that
+  order: install, `alias add` and `--reset` all do, so re-declaring a word the completion already
+  has is the explicit way to take it back from a later claim (the list itself is unchanged).
+  `alias rm` is a subtraction, not a declaration, and leaves the order alone. Conflicts are not
+  resolved and not reported; `psc alias` lists the current ownership in claim order, which is how
+  a user sees that a later completion took a word over.
 - **JSON payloads** ([`json.md`](json.md) §8): `add` → `{name, alias, rejected}`, where each
   rejected word carries `{alias, error: {code, message}}`; `rm` → `{name, alias}`;
-  `alias <add|rm> <name> --reset` → `{name, alias, skipped}`; `alias --reset` → `{aliases, skipped}`.
-  `skipped` holds `[{alias, owner}]` for a word that stayed with an earlier owner (the
-  `alias_owned` warning in text mode).
+  `alias <add|rm> <name> --reset` → `{name, alias}`; `alias --reset` → `{aliases}`.
 - **Errors**: the envelope's `code` is `too_few_params` / `invalid_subcommand` / `not_installed`;
-  per-alias codes are `alias_wildcard`, `alias_reserved`, `alias_exists`, `alias_owned`,
-  `alias_not_found`, `alias_unique`.
-- **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects;
-  `add`/`update` results render per-word `skipped: [{alias, owner}]` ownership warnings from the `info.alias.skipped` template.
+  per-alias codes are `alias_wildcard`, `alias_reserved`, `alias_not_found`.
+- **PS wrapper**: no-arg lists all trigger aliases wrapped as `{Completion, Alias}` objects.
 
 ### 6.3 `completion` — per-completion special configuration
 
@@ -359,9 +360,9 @@ psc --reset
   completions dir and a language hint), builds `aliasMap`, resolves
   URLs, loads the psc `info` templates, sanitizes the config, and emits one large JSON payload (or
   writes it to `--result`): `aliasMap`, `urls` (full mirror list) + `url` (first), `info`
-  templates, sanitized `config`, and `default_config`. `aliasMap` is built in sorted-completion
-  order, so a legacy trigger collision resolves to the same owner on every machine (write-time
-  collisions instead keep the earlier owner). Called by the module on first completion trigger (lazy initialization,
+  templates, sanitized `config`, and `default_config`. `aliasMap` is built in the `settings.alias`
+  claim order, so a word two completions claim resolves to the later claim. Called by the module on
+  first completion trigger (lazy initialization,
   not at import time). Library state
   changes are read separately by the module from `temp/change.json`
   (`render_library_changes`), not via this payload. When the psc completion's key files are
