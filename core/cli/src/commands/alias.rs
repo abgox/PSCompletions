@@ -6,7 +6,7 @@ use serde_json::json;
 
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{fail, key_line, meta, ok, Out};
+use crate::output::{fail, key_line, ok, Out};
 use crate::validate::{data_dir_of, name_error, name_status, reset_alias, too_few_params};
 
 /// The entry every listing and every write answers with (design/json.md): the completion's name
@@ -28,20 +28,19 @@ pub fn cmd_alias(
     json: bool,
 ) -> ExitCode {
     let data_dir = data_dir_of(settings_path);
-    let m = || meta(None, &data_dir);
     // `alias add <name> --reset` / `alias rm <name> --reset` : reset aliases for that completion.
     if args.len() == 3 && (args[0] == "add" || args[0] == "rm") && args[2] == "--reset" {
         let name = args[1].clone();
         let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
         if let Some((code, e)) = name_error(lang, &name, status, true) {
-            return fail(out, code, &e, json, &m(), false);
+            return fail(out, code, &e, json, false);
         }
         reset_alias(settings, &data_dir, &name);
         if let Err(e) = settings.save(settings_path) {
-            return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+            return fail(out, "io", &format!("error: {e}"), json, false);
         }
         if json {
-            return ok(&alias_entry(&name, settings), &m());
+            return ok(&alias_entry(&name, settings));
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -55,7 +54,6 @@ pub fn cmd_alias(
                 "invalid_subcommand",
                 &msg_cli(lang, "invalid_subcommand"),
                 json,
-                &m(),
                 true,
             );
         }
@@ -66,11 +64,11 @@ pub fn cmd_alias(
             entries.push(alias_entry(n, settings));
         }
         if let Err(e) = settings.save(settings_path) {
-            return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+            return fail(out, "io", &format!("error: {e}"), json, false);
         }
         if json {
             let data = json!({ "aliases": entries });
-            return ok(&data, &meta(Some(entries.len()), &data_dir));
+            return ok(&data);
         }
         out.line(&msg_cli(lang, "alias_done"));
         return ExitCode::SUCCESS;
@@ -84,7 +82,7 @@ pub fn cmd_alias(
                 .collect();
             if json {
                 let data = json!({ "aliases": entries });
-                return ok(&data, &meta(Some(entries.len()), &data_dir));
+                return ok(&data);
             }
             for e in &entries {
                 let name = e["name"].as_str().unwrap_or_default();
@@ -98,12 +96,12 @@ pub fn cmd_alias(
         }
         Some("add") => {
             if args.len() < 3 {
-                return too_few_params(out, lang, json, &data_dir);
+                return too_few_params(out, lang, json);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
             if let Some((code, e)) = name_error(lang, &name, status, true) {
-                return fail(out, code, &e, json, &m(), false);
+                return fail(out, code, &e, json, false);
             }
             let mut added: Vec<String> = Vec::new();
             // Every declined alias is recorded with its stable code, so a caller can tell a
@@ -162,7 +160,7 @@ pub fn cmd_alias(
             }
             if !added.is_empty() {
                 if let Err(e) = settings.save(settings_path) {
-                    return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+                    return fail(out, "io", &format!("error: {e}"), json, false);
                 }
                 if !json {
                     out.line(&msg_cli(lang, "alias_done"));
@@ -171,7 +169,7 @@ pub fn cmd_alias(
             if json {
                 let mut data = alias_entry(&name, settings);
                 data["rejected"] = json!(rejected);
-                ok(&data, &m());
+                ok(&data);
                 // A declined alias fails this invocation, not the whole command.
                 return if rejected.is_empty() {
                     ExitCode::SUCCESS
@@ -187,12 +185,12 @@ pub fn cmd_alias(
         }
         Some("rm") => {
             if args.len() < 3 {
-                return too_few_params(out, lang, json, &data_dir);
+                return too_few_params(out, lang, json);
             }
             let name = args[1].clone();
             let status = name_status(settings, index, &format!("{data_dir}/completions"), &name);
             if let Some((code, e)) = name_error(lang, &name, status, true) {
-                return fail(out, code, &e, json, &m(), false);
+                return fail(out, code, &e, json, false);
             }
             let Some(entry) = settings.alias.get_mut(&name) else {
                 return fail(
@@ -200,7 +198,6 @@ pub fn cmd_alias(
                     "not_installed",
                     &format!("{name}: {}", msg_cli(lang, "not_installed")),
                     json,
-                    &m(),
                     false,
                 );
             };
@@ -214,17 +211,16 @@ pub fn cmd_alias(
                     "alias_not_found",
                     &format!("{name}: {}", msg_cli(lang, "alias_not_found")),
                     json,
-                    &m(),
                     false,
                 );
             }
             entry.retain(|a| !args[2..].iter().any(|x| x == a));
             if let Err(e) = settings.save(settings_path) {
-                return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+                return fail(out, "io", &format!("error: {e}"), json, false);
             }
             if json {
                 // The resulting state, the same shape `add` answers with.
-                return ok(&alias_entry(&name, settings), &m());
+                return ok(&alias_entry(&name, settings));
             }
             out.line(&msg_cli(lang, "alias_done"));
             ExitCode::SUCCESS
@@ -234,7 +230,6 @@ pub fn cmd_alias(
             "invalid_subcommand",
             &msg_cli(lang, "invalid_subcommand"),
             json,
-            &m(),
             true,
         ),
     }

@@ -11,7 +11,7 @@ use serde_json::json;
 
 use crate::data::{load_psc_info, LibraryChanges, Settings};
 use crate::install::{self, Method};
-use crate::output::{meta, ok, Out};
+use crate::output::{ok, Out};
 
 pub fn cmd_self_update(
     args: &[String],
@@ -24,7 +24,7 @@ pub fn cmd_self_update(
 ) -> ExitCode {
     // The flag takes nothing: a stray argument is a usage error, not a silently normal run.
     if !args.is_empty() {
-        return crate::validate::too_many_params(out, lang, json, data_dir);
+        return crate::validate::too_many_params(out, lang, json);
     }
     let exe = std::env::current_exe().unwrap_or_default();
     let method = install::detect(&exe);
@@ -65,35 +65,24 @@ pub fn cmd_self_update(
                     "installer_failed",
                     &format!("the installer exited with {}", code.code().unwrap_or(1)),
                     json,
-                    &meta(None, data_dir),
                     false,
                 );
             }
             Err(e) => {
-                return crate::output::fail(
-                    out,
-                    "installer_fetch",
-                    &e,
-                    json,
-                    &meta(None, data_dir),
-                    false,
-                );
+                return crate::output::fail(out, "installer_fetch", &e, json, false);
             }
         }
     }
 
     if json {
-        return ok(
-            &json!({
-                "method": kind,
-                "path": dir,
-                "current": current,
-                "latest": latest,
-                "commands": commands,
-                "ran": ran,
-            }),
-            &meta(None, data_dir),
-        );
+        return ok(&json!({
+            "method": kind,
+            "path": dir,
+            "current": current,
+            "latest": latest,
+            "commands": commands,
+            "ran": ran,
+        }));
     }
 
     let info = load_psc_info(completions_dir, lang);

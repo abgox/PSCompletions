@@ -7,7 +7,7 @@ use serde_json::{json, Value};
 use crate::data::{read_text, Index, Settings};
 use crate::messages::msg_cli;
 use crate::net::completion_defaults;
-use crate::output::{fail, meta, ok, Out};
+use crate::output::{fail, ok, Out};
 use crate::output::{key_line, value_quoted};
 use crate::validate::{
     data_dir_of, ensure_completion_entry, ensure_completion_map, name_error, name_status,
@@ -55,7 +55,6 @@ pub fn cmd_completion(
     out: &Out,
     json: bool,
 ) -> ExitCode {
-    let data_dir = data_dir_of(settings_path);
     let check_installed = |name: &String| -> Option<(&'static str, String)> {
         let data_dir = data_dir_of(settings_path);
         let status = name_status(settings, index, &format!("{data_dir}/completions"), name);
@@ -75,7 +74,7 @@ pub fn cmd_completion(
                 .collect()
         } else {
             if let Some((code, e)) = check_installed(params[0]) {
-                return fail(out, code, &e, json, &meta(None, &data_dir), false);
+                return fail(out, code, &e, json, false);
             }
             vec![params[0].clone()]
         };
@@ -111,7 +110,7 @@ pub fn cmd_completion(
             // Exactly one key per reset; surplus args are a parameter-count error, not a
             // subcommand one.
             if params.len() > 2 {
-                return crate::validate::too_many_params(out, lang, json, &data_dir);
+                return crate::validate::too_many_params(out, lang, json);
             }
             let name = params[0].clone();
             let key = params[1].clone();
@@ -129,7 +128,6 @@ pub fn cmd_completion(
                     "invalid_subcommand",
                     &msg_cli(lang, "invalid_subcommand"),
                     json,
-                    &meta(None, &data_dir),
                     true,
                 );
             }
@@ -169,14 +167,7 @@ pub fn cmd_completion(
             }
         }
         if let Err(e) = settings.save(settings_path) {
-            return fail(
-                out,
-                "io",
-                &format!("error: {e}"),
-                json,
-                &meta(None, &data_dir),
-                false,
-            );
+            return fail(out, "io", &format!("error: {e}"), json, false);
         }
         if json {
             // A reset answers the same shape the read of that scope answers with (design/json.md §8).
@@ -185,9 +176,8 @@ pub fn cmd_completion(
                     .iter()
                     .map(|(n, cfg)| json!({ "name": n, "config": cfg }))
                     .collect();
-                let count = items.len();
                 let data = json!({ "completions": items });
-                return ok(&data, &meta(Some(count), &data_dir));
+                return ok(&data);
             }
             if params.len() == 1 {
                 let n = params[0].clone();
@@ -199,7 +189,7 @@ pub fn cmd_completion(
                     .cloned()
                     .unwrap_or_default();
                 let data = json!({ "name": n, "config": cfg });
-                return ok(&data, &meta(None, &data_dir));
+                return ok(&data);
             }
             let (n, k) = (params[0].clone(), params[1].clone());
             let value = settings
@@ -210,7 +200,7 @@ pub fn cmd_completion(
                 .cloned()
                 .unwrap_or(serde_json::Value::Null);
             let data = json!({ "name": n, "key": k, "value": value });
-            return ok(&data, &meta(None, &data_dir));
+            return ok(&data);
         }
         out.line(&msg_cli(lang, "completion_done"));
         return ExitCode::SUCCESS;
@@ -223,9 +213,8 @@ pub fn cmd_completion(
                 .iter()
                 .map(|(n, cfg)| serde_json::json!({ "name": n, "config": cfg }))
                 .collect();
-            let count = items.len();
             let data = json!({ "completions": items });
-            return ok(&data, &meta(Some(count), &data_dir));
+            return ok(&data);
         } else {
             // Each completion is a group, exactly like `config`: `[name]` then `  key: value`.
             // The named forms below drop the header (`completion <name>`) or the key
@@ -243,7 +232,7 @@ pub fn cmd_completion(
     if args.len() == 1 {
         let name = &args[0];
         if let Some((code, e)) = check_installed(name) {
-            return fail(out, code, &e, json, &meta(None, &data_dir), false);
+            return fail(out, code, &e, json, false);
         }
         let cfg: serde_json::Map<String, Value> = settings
             .config
@@ -254,7 +243,7 @@ pub fn cmd_completion(
             .unwrap_or_default();
         if json {
             let data = json!({ "name": name, "config": cfg });
-            return ok(&data, &meta(None, &data_dir));
+            return ok(&data);
         } else {
             for (k, v) in cfg {
                 out.line(&key_line(&k, &value_quoted(&v)));
@@ -264,7 +253,7 @@ pub fn cmd_completion(
     }
     let name = args[0].clone();
     if let Some((code, e)) = check_installed(&name) {
-        return fail(out, code, &e, json, &meta(None, &data_dir), false);
+        return fail(out, code, &e, json, false);
     }
     let key = args[1].clone();
     // enable_hooks is only valid when the completion's config.json declares hooks.
@@ -278,14 +267,7 @@ pub fn cmd_completion(
             .map(|c| c.get("hooks").is_some())
             .unwrap_or(false);
         if !has_hooks {
-            return fail(
-                out,
-                "no_hooks",
-                &msg_cli(lang, "no_hooks"),
-                json,
-                &meta(None, &data_dir),
-                true,
-            );
+            return fail(out, "no_hooks", &msg_cli(lang, "no_hooks"), json, true);
         }
     }
     let valid = COMPLETION_KEYS.contains(&key.as_str())
@@ -301,7 +283,6 @@ pub fn cmd_completion(
             "invalid_subcommand",
             &msg_cli(lang, "invalid_subcommand"),
             json,
-            &meta(None, &data_dir),
             true,
         );
     }
@@ -329,7 +310,7 @@ pub fn cmd_completion(
                 .cloned()
                 .unwrap_or(serde_json::Value::Null);
             let data = json!({ "name": name.clone(), "key": key, "value": raw });
-            return ok(&data, &meta(None, &data_dir));
+            return ok(&data);
         } else {
             // Same rule as `config <group> <key>`: the key was just typed, answer with the value.
             out.line(&get(&key));
@@ -339,7 +320,7 @@ pub fn cmd_completion(
     // `completion <name> <key> <value>` takes exactly three arguments: anything after the value is
     // a usage error, exactly as the reset form rejects it.
     if args.len() > 3 {
-        return crate::validate::too_many_params(out, lang, json, &data_dir);
+        return crate::validate::too_many_params(out, lang, json);
     }
     let value: serde_json::Value = match args[2].parse::<i64>() {
         Ok(n) => serde_json::Value::Number(n.into()),
@@ -356,7 +337,6 @@ pub fn cmd_completion(
                 "one_or_zero",
                 &msg_cli(lang, "one_or_zero"),
                 json,
-                &meta(None, &data_dir),
                 true,
             );
         }
@@ -368,7 +348,6 @@ pub fn cmd_completion(
             "psc_hooks_locked",
             &msg_cli(lang, "psc_hooks_locked"),
             json,
-            &meta(None, &data_dir),
             true,
         );
     }
@@ -396,19 +375,12 @@ pub fn cmd_completion(
             .insert(key.clone(), value.clone());
     }
     if let Err(e) = settings.save(settings_path) {
-        return fail(
-            out,
-            "io",
-            &format!("error: {e}"),
-            json,
-            &meta(None, &data_dir),
-            false,
-        );
+        return fail(out, "io", &format!("error: {e}"), json, false);
     }
     if json {
         // The item a read of that key answers with, plus what it was before.
         let data = json!({ "name": name, "key": key, "value": value, "old": old });
-        return ok(&data, &meta(None, &data_dir));
+        return ok(&data);
     }
     out.line(&msg_cli(lang, "completion_done"));
     ExitCode::SUCCESS

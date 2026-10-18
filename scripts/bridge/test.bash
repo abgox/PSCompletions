@@ -230,10 +230,11 @@ echo "--- management text path + dependency guard ---"
 [[ "$_PSC_PY" == /* ]] && { echo "ok   py-absolute"; PASS=$((PASS+1)); } || { echo "FAIL py-absolute [$_PSC_PY]"; FAIL=$((FAIL+1)); }
 out="$(psc 2>&1)"
 [[ "$out" == *"PSCompletions"* ]] && { echo "ok   psc-bare-description"; PASS=$((PASS+1)); } || { echo "FAIL psc-bare-description"; FAIL=$((FAIL+1)); }
-# Flags only, no command word: the info page, never the binary's own usage text.
+# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the
+# run's own facts — never the info page, and never the binary's own usage text.
 out="$(psc --json 2>&1)"; rc=$?
-[[ $rc -eq 0 && "$out" == *"PSCompletions"* && "$out" != *"Usage: psc"* ]] \
-    && { echo "ok   info-page-for-flags-only"; PASS=$((PASS+1)); } || { echo "FAIL info-page-for-flags-only rc=$rc [$out]"; FAIL=$((FAIL+1)); }
+[[ $rc -eq 0 && "$out" == "{"* ]] \
+    && { echo "ok   root-json-for-json-flag"; PASS=$((PASS+1)); } || { echo "FAIL root-json-for-json-flag rc=$rc [$out]"; FAIL=$((FAIL+1)); }
 _SAVE_PY="$_PSC_PY"
 _PSC_PY=""; _PSC_PY_WARNED=0
 out="$(_psc_tpl description 2>&1)"; rc=$?

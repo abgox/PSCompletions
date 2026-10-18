@@ -404,6 +404,16 @@ pub fn load_psc_info(completions_dir: &str, lang: &str) -> Value {
     v.get("info").cloned().unwrap_or_else(|| json!({}))
 }
 
+/// Load the `psc` completion's own `config.json`. Its `version` mirrors the module's, so the root
+/// response can name the running version without guessing from `CARGO_PKG_VERSION` (the crate's).
+pub fn load_psc_config(completions_dir: &str) -> Value {
+    let path = std::path::Path::new(completions_dir)
+        .join("psc")
+        .join("config.json");
+    let text = read_text(&path.to_string_lossy()).unwrap_or_default();
+    serde_json::from_str(&text).unwrap_or_else(|_| json!({}))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

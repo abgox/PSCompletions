@@ -552,12 +552,13 @@ if string match -q '*PSCompletions*' -- "$bare"
 else
     bad psc-bare-description " [$bare]"
 end
-# Flags only, no command word: the info page, never the binary's own usage text.
+# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the
+# run's own facts — never the info page, and never the binary's own usage text.
 set -l flags_only (psc --json 2>&1); set -l flags_rc $status
-if test $flags_rc -eq 0; and string match -q '*PSCompletions*' -- "$flags_only"; and not string match -q '*Usage: psc*' -- "$flags_only"
-    ok info-page-for-flags-only
+if test $flags_rc -eq 0; and string match -q '{*' -- "$flags_only"
+    ok root-json-for-json-flag
 else
-    bad info-page-for-flags-only " rc=$flags_rc [$flags_only]"
+    bad root-json-for-json-flag " rc=$flags_rc [$flags_only]"
 end
 
 set -l save_py $_PSC_PY

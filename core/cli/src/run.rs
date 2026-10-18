@@ -11,7 +11,7 @@ use crate::data::{Index, Settings};
 use crate::input::{normalize_data_dir, parse_args, print_help};
 use crate::messages::msg_cli;
 use crate::net::cleanup_stale_staging;
-use crate::output::{fail, meta, Out};
+use crate::output::{fail, ok, run_paths, Out};
 pub fn run(args: Vec<String>) -> ExitCode {
     let (data_arg, json, language_arg, result_arg, yes, rest) = parse_args(&args);
     let Some(data_dir) = data_arg.or_else(|| std::env::var("PSCOMPLETIONS_DATA_DIR").ok()) else {
@@ -28,14 +28,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
         // Corruption is reported, not papered over with defaults: the file is left alone, so the
         // user can fix or delete it and nothing they wrote is lost.
         Err(msg) => {
-            return fail(
-                &Out::new(),
-                "settings_corrupt",
-                &msg,
-                json,
-                &meta(None, &data_dir),
-                false,
-            );
+            return fail(&Out::new(), "settings_corrupt", &msg, json, false);
         }
     };
     let mut index = Index::load(&completions_json).unwrap_or_default();
@@ -45,6 +38,23 @@ pub fn run(args: Vec<String>) -> ExitCode {
     let out = Out::new();
 
     if rest.is_empty() {
+        // `psc --json` is the **root** response: what a caller needs about this run — where it reads
+        // from, the version and language, the sources, the description — instead of repeating it on
+        // every command's answer (design/json.md §5).
+        if json {
+            let version = crate::data::load_psc_config(&completions_dir)["version"]
+                .as_str()
+                .unwrap_or_default()
+                .trim_start_matches("PSCompletions ")
+                .to_string();
+            let urls = crate::net::resolve_urls(&settings);
+            let mut data = run_paths(&data_dir);
+            data["version"] = serde_json::json!(version);
+            data["language"] = serde_json::json!(lang);
+            data["url"] = serde_json::json!(urls.first().cloned().unwrap_or_default());
+            data["urls"] = serde_json::json!(urls);
+            return ok(&data);
+        }
         print_help();
         return ExitCode::SUCCESS;
     }
@@ -80,7 +90,6 @@ pub fn run(args: Vec<String>) -> ExitCode {
             "needs_confirmation",
             &msg_cli(&lang, "needs_confirmation"),
             json,
-            &meta(None, &data_dir),
             true,
         );
     }
@@ -95,7 +104,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
             result_arg.as_deref(),
             &out,
         ),
-        "list" => cmd_list(args, &settings, &data_dir, &lang, &out, json),
+        "list" => cmd_list(args, &settings, &lang, &out, json),
         // Internal, like `init`: the hosts render their `info` templates through the engine, so
         // the `{{…}}` grammar has exactly one implementation.
         "tpl" => cmd_tpl(args, &completions_dir, &lang, &settings),
@@ -155,7 +164,6 @@ pub fn run(args: Vec<String>) -> ExitCode {
             "invalid_subcommand",
             &msg_cli(&lang, "invalid_subcommand"),
             json,
-            &meta(None, &data_dir),
             true,
         ),
     };

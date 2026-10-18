@@ -124,16 +124,9 @@ pub fn key_line(key: &str, value: &str) -> String {
 /// A whole-command failure in both modes: the text mode prints the message, the JSON mode the
 /// envelope with a stable `code` beside it. `usage` selects the exit code — a usage error is `2`,
 /// anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
-pub fn fail(
-    out: &Out,
-    code: &str,
-    msg: &str,
-    json: bool,
-    meta: &serde_json::Value,
-    usage: bool,
-) -> ExitCode {
+pub fn fail(out: &Out, code: &str, msg: &str, json: bool, usage: bool) -> ExitCode {
     if json {
-        return err(code, msg, None, meta, usage);
+        return err(code, msg, None, usage);
     }
     out.line(msg);
     if usage {
@@ -145,11 +138,10 @@ pub fn fail(
 
 /// The `--json` envelope: every command answers with one object — `ok`, the payload in `data`,
 /// and `meta` about this run — so a caller never has to guess the shape (design/json.md).
-pub fn ok(data: &serde_json::Value, meta: &serde_json::Value) -> ExitCode {
+pub fn ok(data: &serde_json::Value) -> ExitCode {
     println!(
         "{}",
-        serde_json::to_string(&serde_json::json!({ "ok": true, "data": data, "meta": meta }))
-            .unwrap_or_default()
+        serde_json::to_string(&serde_json::json!({ "ok": true, "data": data })).unwrap_or_default()
     );
     ExitCode::SUCCESS
 }
@@ -157,20 +149,14 @@ pub fn ok(data: &serde_json::Value, meta: &serde_json::Value) -> ExitCode {
 /// A failure, in the envelope's `error` object: a stable `code` a machine branches on, a
 /// `message` a human reads (localized), and optional `details` for the parts. `usage` selects the
 /// exit code: a usage error is `2`, anything else `1`.
-pub fn err(
-    code: &str,
-    message: &str,
-    details: Option<serde_json::Value>,
-    meta: &serde_json::Value,
-    usage: bool,
-) -> ExitCode {
+pub fn err(code: &str, message: &str, details: Option<serde_json::Value>, usage: bool) -> ExitCode {
     let mut error = serde_json::json!({ "code": code, "message": message });
     if let Some(d) = details {
         error["details"] = d;
     }
     println!(
         "{}",
-        serde_json::to_string(&serde_json::json!({ "ok": false, "error": error, "meta": meta }))
+        serde_json::to_string(&serde_json::json!({ "ok": false, "error": error }))
             .unwrap_or_default()
     );
     if usage {
@@ -183,9 +169,9 @@ pub fn err(
 /// `meta`: the payload's item count (when it has one) plus where this run reads from — the
 /// directories and files, in the same vocabulary the host and the module use. The two log files
 /// are derived here: the engine writes them, so the module does not carry them.
-pub fn meta(count: Option<usize>, data_dir: &str) -> serde_json::Value {
+pub fn run_paths(data_dir: &str) -> serde_json::Value {
     let temp = format!("{data_dir}/temp");
-    let mut m = serde_json::json!({
+    serde_json::json!({
         "dir": {
             "data": data_dir,
             "completions": format!("{data_dir}/completions"),
@@ -202,11 +188,7 @@ pub fn meta(count: Option<usize>, data_dir: &str) -> serde_json::Value {
             "debug": format!("{temp}/log/debug.log"),
             "error": format!("{temp}/log/error.log"),
         },
-    });
-    if let Some(n) = count {
-        m["count"] = serde_json::json!(n);
-    }
-    m
+    })
 }
 
 #[cfg(test)]
@@ -230,9 +212,8 @@ mod tests {
     }
 
     #[test]
-    fn meta_names_the_paths_the_way_the_module_does() {
-        let m = meta(Some(2), "/d");
-        assert_eq!(m["count"], serde_json::json!(2));
+    fn run_paths_names_the_paths_the_way_the_module_does() {
+        let m = run_paths("/d");
         assert_eq!(m["dir"]["data"], serde_json::json!("/d"));
         assert_eq!(m["dir"]["completions"], serde_json::json!("/d/completions"));
         assert_eq!(m["dir"]["log"], serde_json::json!("/d/temp/log"));
@@ -248,8 +229,8 @@ mod tests {
             m["file"]["error"],
             serde_json::json!("/d/temp/log/error.log")
         );
-        // No count for a payload that has none (a write, a single value).
-        assert!(meta(None, "/d").get("count").is_none());
+        // The item count is gone: a caller counts the array it was given.
+        assert!(m.get("count").is_none());
     }
 
     #[test]
@@ -274,9 +255,8 @@ mod tests {
 
     #[test]
     fn err_uses_the_usage_exit_code() {
-        let m = serde_json::json!({});
-        assert_eq!(err("bad_flag", "nope", None, &m, true), ExitCode::from(2));
-        assert_eq!(err("io", "nope", None, &m, false), ExitCode::FAILURE);
+        assert_eq!(err("bad_flag", "nope", None, true), ExitCode::from(2));
+        assert_eq!(err("io", "nope", None, false), ExitCode::FAILURE);
     }
 
     #[test]

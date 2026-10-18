@@ -6,7 +6,7 @@ use serde_json::json;
 
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{meta, ok, Out};
+use crate::output::{ok, Out};
 use crate::validate::{name_error, name_status};
 /// A Unix timestamp as the human view shows it. The engine carries no timezone database, so this
 /// is UTC and says so; the JSON keeps the raw seconds (design/json.md §3).
@@ -130,15 +130,8 @@ pub fn cmd_info(
             }));
         }
         let had_error = entries.iter().any(|e| e["ok"] != true);
-        let count = entries.len();
         let data = json!({ "completions": entries });
-        ok(
-            &data,
-            &meta(
-                Some(count),
-                completions_dir.trim_end_matches("/completions"),
-            ),
-        );
+        ok(&data);
         // A failed entry fails this invocation (design/json.md §6): the exit code is the signal a
         // script sees without parsing the payload.
         return if had_error {

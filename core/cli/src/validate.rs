@@ -7,7 +7,7 @@ use serde_json::Value;
 
 use crate::data::{read_text, Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{err, meta, Out};
+use crate::output::{err, Out};
 
 /// Completion name status: 2=installed/local link (alias set or dir on disk), 1=remote-only, 0=unknown.
 /// All subcommands that accept a completion name share this same determination.
@@ -70,10 +70,10 @@ pub fn name_error(
 }
 
 /// Parameter-count validation error: the envelope's `too_few_params`, a usage error (exit 2).
-pub fn too_few_params(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+pub fn too_few_params(out: &Out, lang: &str, json: bool) -> ExitCode {
     let msg = msg_cli(lang, "too_few_params");
     if json {
-        return err("too_few_params", &msg, None, &meta(None, data_dir), true);
+        return err("too_few_params", &msg, None, true);
     }
     out.line(&msg);
     ExitCode::from(2)
@@ -81,10 +81,10 @@ pub fn too_few_params(out: &Out, lang: &str, json: bool, data_dir: &str) -> Exit
 
 /// The mirror of `too_few_params`: a command that takes no arguments was given some. Also a usage
 /// error (exit 2) — a mistyped flag must not look like a normal run.
-pub fn too_many_params(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+pub fn too_many_params(out: &Out, lang: &str, json: bool) -> ExitCode {
     let msg = msg_cli(lang, "too_many_params");
     if json {
-        return err("too_many_params", &msg, None, &meta(None, data_dir), true);
+        return err("too_many_params", &msg, None, true);
     }
     out.line(&msg);
     ExitCode::from(2)

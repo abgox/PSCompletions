@@ -1426,6 +1426,16 @@ function psc
         echo
         return 0
     end
+    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the
+    # engine as it is — never colored, never rendered into a human page — and never prompted
+    # first: a machine caller cannot press a key (design/json.md §7). With no command word it is
+    # the **root** response (§5), so this check comes before the flags-only info page below.
+    if contains -- --json $argv
+        # Verbatim: a failure is JSON as well, and color would break the contract.
+        set -g _PSC_INIT_OK 0
+        $_PSC_BIN --data $PSCOMPLETIONS_DATA_DIR $argv
+        return $status
+    end
     # Only flags and no command word: the module's info page, exactly like the bare call. The
     # binary's own usage text is an implementation detail, not what a user of the module sees.
     set -l has_cmd 0
@@ -1438,15 +1448,6 @@ function psc
         _psc_tpl description; or "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR"
         echo
         return 0
-    end
-    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the
-    # engine as it is — never colored, never rendered into a human page — and never prompted
-    # first: a machine caller cannot press a key (design/json.md §7).
-    if contains -- --json $argv
-        # Verbatim: a failure is JSON as well, and color would break the contract.
-        set -g _PSC_INIT_OK 0
-        $_PSC_BIN --data $PSCOMPLETIONS_DATA_DIR $argv
-        return $status
     end
     # rm --all is destructive: confirm like the PowerShell bridge does.
     if test "$argv[1]" = rm; and contains -- --all $argv

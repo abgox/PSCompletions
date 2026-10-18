@@ -7,6 +7,38 @@ mod common;
 use common::*;
 
 #[test]
+fn json_root_reports_the_run() {
+    // `psc --json` with no command word is the **root** response: what a run needs to know about
+    // itself — where it reads from, the version and language, the sources — instead of repeating it
+    // on every command's answer. No response carries `meta` any more.
+    let d = make_data("json-root", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["--json"]);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["ok"], true, "{out}");
+    assert!(v.get("meta").is_none(), "{out}");
+    let data = &v["data"];
+    assert_eq!(
+        data["dir"]["data"],
+        serde_json::json!(d.to_string_lossy()),
+        "{out}"
+    );
+    assert_eq!(
+        data["file"]["settings"],
+        serde_json::json!(d.join("settings.json").to_string_lossy()),
+        "{out}"
+    );
+    assert_eq!(
+        data["url"],
+        serde_json::json!("http://127.0.0.1:9"),
+        "{out}"
+    );
+    assert!(data["version"].is_string(), "{out}");
+    assert!(data["language"].is_string(), "{out}");
+    assert!(data.get("description").is_none(), "{out}");
+}
+
+#[test]
 fn json_list_ok() {
     // The envelope: `ok`, the payload under a named key, and `meta` describing this run.
     let d = make_data("json-list", "http://127.0.0.1:9");
@@ -19,12 +51,6 @@ fn json_list_ok() {
     assert_eq!(items[0]["name"], "git", "{out}");
     assert_eq!(items[0]["alias"], serde_json::json!(["git"]), "{out}");
     // `meta` carries the count and the paths, in the module's vocabulary.
-    assert_eq!(v["meta"]["count"], 1, "{out}");
-    assert_eq!(
-        v["meta"]["file"]["settings"],
-        serde_json::json!(d.join("settings.json").to_string_lossy()),
-        "{out}"
-    );
 }
 
 #[test]
@@ -37,7 +63,6 @@ fn json_info_reports_aliases_array() {
     assert_eq!(e["name"], "git");
     assert_eq!(e["ok"], true, "{out}");
     assert_eq!(e["alias"], serde_json::json!(["git"]), "{out}");
-    assert_eq!(v["meta"]["count"], 1, "{out}");
 }
 
 #[test]
@@ -164,7 +189,6 @@ fn json_alias_global_reset_reports_resulting_aliases() {
     let entry = &v["data"]["aliases"][0];
     assert_eq!(entry["name"], "git", "{out}");
     assert_eq!(entry["alias"], serde_json::json!(["git"]), "{out}");
-    assert_eq!(v["meta"]["count"], 1, "{out}");
 }
 
 #[test]
@@ -1254,7 +1278,6 @@ fn json_config_reset_reports_the_resulting_state() {
     let items = v["data"]["config"].as_array().unwrap();
     assert!(items.iter().all(|i| i["group"] == "core"), "{out}");
     assert!(items.iter().any(|i| i["key"] == "url"), "{out}");
-    assert_eq!(v["meta"]["count"], items.len(), "{out}");
 }
 
 #[test]

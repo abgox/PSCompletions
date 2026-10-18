@@ -11,7 +11,7 @@ use crate::net::{
     add_completion, download_list, local_completion_id, refresh_settings_after_add,
     rename_completion, resolve_index_urls, resolve_urls,
 };
-use crate::output::{fail, meta, ok, Out};
+use crate::output::{fail, ok, Out};
 use crate::postcheck::{fetch_module_version, record_post_check};
 use crate::validate::is_valid_name;
 #[allow(clippy::too_many_arguments)]
@@ -41,14 +41,7 @@ pub fn cmd_update(
             index.remote_names()
         }
         Err(e) => {
-            return fail(
-                out,
-                e.code(),
-                &format!("error: {e}"),
-                json,
-                &meta(None, data_dir),
-                false,
-            );
+            return fail(out, e.code(), &format!("error: {e}"), json, false);
         }
     };
     // Rename detection: a locally installed completion whose stable id now maps to a different remote name has been renamed upstream.
@@ -178,15 +171,12 @@ pub fn cmd_update(
         if json {
             // The library-change report (the same four lists `change.json` carries), not a
             // per-completion result set.
-            return ok(
-                &json!({
-                    "update": update_no_rename,
-                    "added": added,
-                    "removed": removed,
-                    "renamed": renamed.iter().map(|(a, b)| json!([a, b])).collect::<Vec<_>>(),
-                }),
-                &meta(None, data_dir),
-            );
+            return ok(&json!({
+                "update": update_no_rename,
+                "added": added,
+                "removed": removed,
+                "renamed": renamed.iter().map(|(a, b)| json!([a, b])).collect::<Vec<_>>(),
+            }));
         }
         return ExitCode::SUCCESS;
     }
@@ -407,14 +397,7 @@ pub fn cmd_update(
     let save_err = settings.save(settings_path).err();
     if let Some(e) = save_err {
         // Nothing was persisted: that is the whole command's failure, not one item's.
-        return fail(
-            out,
-            "io",
-            &format!("error: {e}"),
-            json,
-            &meta(None, data_dir),
-            false,
-        );
+        return fail(out, "io", &format!("error: {e}"), json, false);
     }
     let mut results = results.lock().unwrap().clone();
     // The slot is the argument position; workers finish in any order.
@@ -422,11 +405,7 @@ pub fn cmd_update(
     let had_error = had_error.load(std::sync::atomic::Ordering::SeqCst);
     if json {
         let entries: Vec<Value> = results.iter().map(|(_, _, v)| v.clone()).collect();
-        let count = entries.len();
-        ok(
-            &json!({ "completions": entries }),
-            &meta(Some(count), data_dir),
-        );
+        ok(&json!({ "completions": entries }));
         // Any failed item fails the run (design/json.md §6).
         return if had_error {
             ExitCode::FAILURE

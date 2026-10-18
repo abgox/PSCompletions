@@ -6,18 +6,11 @@
 
     $arg = $args
 
-    # A flags-only invocation (bare `psc`, or `psc --json`) is not a command execution: it keeps
-    # the module's info page below, exactly like the bare call (design/json.md §8). So the
-    # machine contract only applies once a command word is there.
-    $hasCmd = $false
-    foreach ($a in $arg) {
-        if (-not ([string]$a).StartsWith('-')) { $hasCmd = $true; break }
-    }
-
     # `--json` anywhere in the invocation is the machine contract: hand it to the engine as it is
-    # and print what it says — no rendering, no color, and no prompt (design/json.md §7). The
-    # shell bridges do the same, so a caller gets parseable JSON from every host.
-    if ($hasCmd -and $arg -contains '--json') {
+    # and print what it says — no rendering, no color, and no prompt (design/json.md §7). With no
+    # command word it is the **root** response (§5), not the info page; the shell bridges do the
+    # same, so a caller gets parseable JSON from every host.
+    if ($arg -contains '--json') {
         $pscBinary = $PSCompletions.psc_binary()
         if ($pscBinary) {
             $oldEncoding = [Console]::OutputEncoding

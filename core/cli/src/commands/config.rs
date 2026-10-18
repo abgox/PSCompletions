@@ -8,7 +8,7 @@ use crate::data::config::{validate_value, CONFIG_GROUPS, CONFIG_KEYS};
 use crate::data::{default_config, Settings};
 use crate::messages::msg_cli;
 use crate::net::is_official_source;
-use crate::output::{fail, key_line, meta, ok, value_quoted, value_text, Out};
+use crate::output::{fail, key_line, ok, value_quoted, value_text, Out};
 
 fn config_get(settings: &Settings, key: &str) -> String {
     settings
@@ -57,15 +57,13 @@ pub fn cmd_config(
     out: &Out,
     json: bool,
 ) -> ExitCode {
-    let data_dir = crate::validate::data_dir_of(settings_path);
-    let m = || meta(None, &data_dir);
     if args.iter().any(|a| a == "--reset") {
         let defaults = default_config(&settings.language());
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
         // A reset takes at most `<group> <key>`: more is a parameter-count error, not a silent
         // no-op (the chain below has no fallback branch).
         if params.len() > 2 {
-            return crate::validate::too_many_params(out, lang, json, &data_dir);
+            return crate::validate::too_many_params(out, lang, json);
         }
         if params.is_empty() {
             if !settings.config.is_object() {
@@ -90,7 +88,6 @@ pub fn cmd_config(
                     "invalid_subcommand",
                     &msg_cli(lang, "invalid_subcommand"),
                     json,
-                    &m(),
                     true,
                 );
             }
@@ -119,7 +116,6 @@ pub fn cmd_config(
                     "invalid_subcommand",
                     &msg_cli(lang, "invalid_subcommand"),
                     json,
-                    &m(),
                     true,
                 );
             };
@@ -129,7 +125,6 @@ pub fn cmd_config(
                     "language_no_reset",
                     &msg_cli(lang, "language_no_reset"),
                     json,
-                    &m(),
                     true,
                 );
             }
@@ -151,25 +146,23 @@ pub fn cmd_config(
                 "invalid_subcommand",
                 &msg_cli(lang, "invalid_subcommand"),
                 json,
-                &m(),
                 true,
             );
         }
         if let Err(e) = settings.save(settings_path) {
-            return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+            return fail(out, "io", &format!("error: {e}"), json, false);
         }
         if json {
             // A reset answers the same shape the read of that scope answers with — the resulting
             // state (design/json.md §8).
             if params.len() <= 1 {
                 let entries = config_items(settings, params.first().map(|p| p.as_str()), None);
-                let count = entries.len();
                 let data = json!({ "config": entries });
-                return ok(&data, &meta(Some(count), &data_dir));
+                return ok(&data);
             }
             let key = params[1].as_str();
             let data = json!({ "key": key, "value": raw_value(settings, key) });
-            return ok(&data, &meta(None, &data_dir));
+            return ok(&data);
         }
         out.line(&msg_cli(lang, "config_done"));
         return ExitCode::SUCCESS;
@@ -178,9 +171,8 @@ pub fn cmd_config(
     if args.is_empty() {
         if json {
             let entries = config_items(settings, None, None);
-            let count = entries.len();
             let data = json!({ "config": entries });
-            return ok(&data, &meta(Some(count), &data_dir));
+            return ok(&data);
         } else {
             for group in CONFIG_GROUPS {
                 out.line(&format!("[{group}]"));
@@ -198,15 +190,14 @@ pub fn cmd_config(
         let msg = msg_cli(lang, "invalid_subcommand_named")
             .replace("{{Token}}", group)
             .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
-        return fail(out, "invalid_subcommand", &msg, json, &m(), true);
+        return fail(out, "invalid_subcommand", &msg, json, true);
     }
     // `config <group>`: list that group
     if args.len() == 1 {
         if json {
             let entries = config_items(settings, Some(group), None);
-            let count = entries.len();
             let data = json!({ "config": entries });
-            return ok(&data, &meta(Some(count), &data_dir));
+            return ok(&data);
         } else {
             // The caller named the group, so repeating `[group]` is noise; keys sit at column 0.
             for d in CONFIG_KEYS.iter().filter(|d| d.group == group) {
@@ -225,7 +216,6 @@ pub fn cmd_config(
             "invalid_subcommand",
             &msg_cli(lang, "invalid_subcommand"),
             json,
-            &m(),
             true,
         );
     };
@@ -233,7 +223,7 @@ pub fn cmd_config(
     if args.len() == 2 {
         if json {
             let data = json!({ "key": key, "value": raw_value(settings, key) });
-            return ok(&data, &meta(None, &data_dir));
+            return ok(&data);
         } else {
             // The key was just typed, so the value alone (and unquoted) is the answer.
             let v = settings.config.get(key).map(value_text).unwrap_or_default();
@@ -244,7 +234,7 @@ pub fn cmd_config(
     // `config <group> <key> <value>` takes exactly three arguments: anything after the value is a
     // usage error, exactly as the reset form rejects it.
     if args.len() > 3 {
-        return crate::validate::too_many_params(out, lang, json, &data_dir);
+        return crate::validate::too_many_params(out, lang, json);
     }
     let Some(value) = validate_value(def, &args[2]) else {
         return fail(
@@ -252,7 +242,6 @@ pub fn cmd_config(
             "config_value",
             &msg_cli(lang, "config_value"),
             json,
-            &m(),
             true,
         );
     };
@@ -276,7 +265,7 @@ pub fn cmd_config(
             Some(())
         });
     if let Err(e) = settings.save(settings_path) {
-        return fail(out, "io", &format!("error: {e}"), json, &m(), false);
+        return fail(out, "io", &format!("error: {e}"), json, false);
     }
     // A custom source is unreviewed: warn once it takes effect.
     let untrusted = group == "core"
@@ -295,7 +284,7 @@ pub fn cmd_config(
         if untrusted {
             data["warning"] = json!(msg_cli(lang, "url_untrusted"));
         }
-        return ok(&data, &meta(None, &data_dir));
+        return ok(&data);
     }
     out.line(&msg_cli(lang, "config_done"));
     if untrusted {

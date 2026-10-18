@@ -10,7 +10,7 @@ use crate::messages::msg_cli;
 use crate::net::{
     add_completion, download_list, refresh_settings_after_add, resolve_index_urls, resolve_urls,
 };
-use crate::output::{fail, meta, ok, Out};
+use crate::output::{fail, ok, Out};
 use crate::postcheck::record_post_check;
 use crate::validate::too_few_params;
 
@@ -26,7 +26,7 @@ pub fn cmd_add(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return too_few_params(out, lang, json, data_dir);
+        return too_few_params(out, lang, json);
     }
     // Snapshot the pre-operation update keys so the post-check can diff added/removed/renamed.
     let old_list: Vec<String> = read_text(&format!("{data_dir}/temp/completions.json"))
@@ -45,14 +45,7 @@ pub fn cmd_add(
             index.remote_names()
         }
         Err(e) => {
-            return fail(
-                out,
-                e.code(),
-                &format!("error: {e}"),
-                json,
-                &meta(None, data_dir),
-                false,
-            );
+            return fail(out, e.code(), &format!("error: {e}"), json, false);
         }
     };
     let names = crate::commands::dedup_names(args.iter().cloned());
@@ -127,14 +120,7 @@ pub fn cmd_add(
     });
     if let Err(e) = settings.save(settings_path) {
         // Nothing was persisted: that is the whole command's failure, not one item's.
-        return fail(
-            out,
-            "io",
-            &format!("error: {e}"),
-            json,
-            &meta(None, data_dir),
-            false,
-        );
+        return fail(out, "io", &format!("error: {e}"), json, false);
     }
     record_post_check(data_dir, settings, &old_list, index, &[], &names);
     let mut results = results.lock().unwrap().clone();
@@ -143,11 +129,7 @@ pub fn cmd_add(
     let had_error = results.iter().any(|(_, _, v)| v["ok"] != true);
     if json {
         let entries: Vec<serde_json::Value> = results.iter().map(|(_, _, v)| v.clone()).collect();
-        let count = entries.len();
-        ok(
-            &json!({ "completions": entries }),
-            &meta(Some(count), data_dir),
-        );
+        ok(&json!({ "completions": entries }));
         // Any failed item fails the run (design/json.md §6).
         return if had_error {
             ExitCode::FAILURE

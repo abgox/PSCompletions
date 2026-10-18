@@ -5,19 +5,18 @@ use std::process::ExitCode;
 use serde_json::json;
 
 use crate::data::Settings;
-use crate::output::{key_line, meta, ok, Out};
+use crate::output::{key_line, ok, Out};
 
 pub fn cmd_list(
     args: &[String],
     settings: &Settings,
-    data_dir: &str,
     lang: &str,
     out: &Out,
     json: bool,
 ) -> ExitCode {
     // `list` takes no arguments: a mistyped flag is a usage error, not a silently normal run.
     if !args.is_empty() {
-        return crate::validate::too_many_params(out, lang, json, data_dir);
+        return crate::validate::too_many_params(out, lang, json);
     }
     // One data model, two renderings (design/json.md): the text mode prints what the JSON carries.
     let items: Vec<serde_json::Value> = settings
@@ -31,10 +30,7 @@ pub fn cmd_list(
         })
         .collect();
     if json {
-        return ok(
-            &json!({ "completions": items }),
-            &meta(Some(items.len()), data_dir),
-        );
+        return ok(&json!({ "completions": items }));
     }
     for item in &items {
         let name = item["name"].as_str().unwrap_or_default();

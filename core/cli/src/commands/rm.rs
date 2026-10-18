@@ -4,7 +4,7 @@ use std::process::ExitCode;
 
 use crate::data::{remove_completion_entry, Index, LibraryChanges, Settings};
 use crate::messages::msg_cli;
-use crate::output::{fail, meta, ok, Out};
+use crate::output::{fail, ok, Out};
 use crate::validate::{name_error, name_status, too_few_params};
 
 #[allow(clippy::too_many_arguments)]
@@ -19,7 +19,7 @@ pub fn cmd_rm(
     json: bool,
 ) -> ExitCode {
     if args.is_empty() {
-        return too_few_params(out, lang, json, data_dir);
+        return too_few_params(out, lang, json);
     }
     let all = args.iter().any(|a| a == "--all");
     let completions_dir = format!("{data_dir}/completions");
@@ -46,14 +46,11 @@ pub fn cmd_rm(
         if all {
             // `rm --all` with nothing to remove is a successful no-op, not an error.
             if json {
-                return ok(
-                    &serde_json::json!({ "completions": [] }),
-                    &meta(Some(0), data_dir),
-                );
+                return ok(&serde_json::json!({ "completions": [] }));
             }
             return ExitCode::SUCCESS;
         }
-        return too_few_params(out, lang, json, data_dir);
+        return too_few_params(out, lang, json);
     }
     let mut results: Vec<serde_json::Value> = Vec::new();
     let mut removed_any = false;
@@ -97,22 +94,11 @@ pub fn cmd_rm(
     changes.save(data_dir);
     if let Err(e) = settings.save(settings_path) {
         // Nothing was persisted: that is the whole command's failure, not one item's.
-        return fail(
-            out,
-            "io",
-            &format!("error: {e}"),
-            json,
-            &meta(None, data_dir),
-            false,
-        );
+        return fail(out, "io", &format!("error: {e}"), json, false);
     }
     let had_error = results.iter().any(|v| v["ok"] != true);
     if json {
-        let count = results.len();
-        ok(
-            &serde_json::json!({ "completions": results }),
-            &meta(Some(count), data_dir),
-        );
+        ok(&serde_json::json!({ "completions": results }));
         // Any failed item fails the run (design/json.md §6).
         return if had_error {
             ExitCode::FAILURE

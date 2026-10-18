@@ -14,8 +14,8 @@ The engine's own flag parsing accepts `--json` anywhere in argv
 Every command answers with **one object** — never a bare array, never a bare scalar:
 
 ```json
-success: { "ok": true,  "data": …,   "meta": { … } }
-failure: { "ok": false, "error": { "code": …, "message": …, "details": …? }, "meta": { … } }
+success: { "ok": true,  "data": … }
+failure: { "ok": false, "error": { "code": …, "message": …, "details": …? } }
 ```
 
 - **`ok` is always present**, so a caller branches on a single key instead of guessing whether the
@@ -25,7 +25,8 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
   the item or state the command reports.
 - A **per-item result** carries its own `ok`, and on failure the same `error` object shape as the
   envelope's (`add` / `rm` / `update` / `alias` / `info`).
-- **`meta`** describes the run (§5), not the payload.
+- **A run's own facts live on the root response**, not on every answer: `psc --json` with no command
+  word answers with §5, so a command's payload stays its payload.
 
 ## 2. Keys
 
@@ -38,7 +39,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 - A qualifier is added **only where two keys would otherwise collide** — `dir.completions` versus
   `file.completions` is settled by the parent object.
 - **Plural for a countable collection, singular for a namespace**: `data.completions`,
-  `data.aliases`; `data.config`, `meta`, `data`, `dir`, `file`. An **item** is singular: `name`,
+  `data.aliases`; `data.config`, `data`, `dir`, `file`. An **item** is singular: `name`,
   `alias`.
 - **`alias` keeps the spelling of its sources** — the completion's `config.json`, `settings.json` and
   the template context all say `alias` — and its value is an **array** (`["git","g"]`). Flattening it
@@ -84,16 +85,24 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
   that answers with an unusable index is `io`, not `network`. Every mirror's failure is named in the
   message, and the last one decides the code.
 
-## 5. `meta`
+## 5. The root response
+
+`psc --json` **with no command word** answers with what a run needs to know about itself, so no
+command has to repeat it (a `list` answer is ~180 bytes, not ~1100):
 
 ```json
-"meta": { "count": 4,
+"data": { "version": "8.0.0", "language": "en-US",
+          "url": …, "urls": […],
           "dir":  { "data": …, "completions": …, "temp": …, "menu": …, "cache": …, "log": …, "order": … },
           "file": { "settings": …, "completions": …, "change": …, "debug": …, "error": … } }
 ```
 
-- **`count`** — how many items this payload carries, when it has any, so a script need not count
-  them. A payload with no item count (a write, a single value) omits the key.
+- **`version`** comes from the `psc` completion's own `config.json`, whose `version` mirrors the
+  module's — the crate's `CARGO_PKG_VERSION` is the crate's, not the module's.
+- **`language` / `url` / `urls`** are this run's: the language it resolved and the sources it would
+  read from (the first is the one that answered).
+- **No `description`.** It is the info page's prose, which `psc` with no arguments prints; a machine
+  has no use for it, and it was most of this payload's size.
 - **`dir` / `file`** group the paths by **type**: reading `dir.data` tells a caller it is a
   directory and `file.settings` that it is a file, with no guessing.
 - The names are the ones the module uses (`PSCompletions.path`), only grouped differently.
@@ -106,9 +115,8 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
   unambiguous inside `file` and do not collide with the top-level `error` object (a different level).
   The engine derives them (`<log>/debug.log`, `<log>/error.log`) because it writes them; the module
   does not carry them (it only hands `dir.log` to the menu).
-- **No version.** The engine knows only its own version; what a user cares about is the *module*
-  version, which lives in the module directory and is unknown to the engine — carrying one would
-  mislead.
+- **No `count`.** A payload's item count is the length of the array it was given; repeating it was
+  the bulk of the old `meta` block for no gain.
 
 ## 6. Exit codes
 
@@ -168,7 +176,8 @@ engine).**
 | `update` (no argument) | `{"update": […], "added": […], "removed": […], "renamed": [[old, new]…]}` — the library-change report, the same four lists `temp/change.json` carries |
 | `--self-update` | `{"method", "path", "current", "latest", "commands", "ran"}` — `method` is `script` / `scoop` / `module` / `unknown`; `commands` is what the user runs for every method but `script`, where the command updates the install itself and `ran` reports whether it did |
 | `<unknown command>` / a parameter error | `{"ok": false, "error": {…}}` |
-| no command word (bare `psc`, or flags only) | Not a command execution: the **host prints the module's info page**. The engine keeps its own usage text as a fallback, because only the host knows the module version. |
+| no command word, without `--json` (bare `psc`, or flags only) | Not a command execution: the **host prints the module's info page**. The engine keeps its own usage text as a fallback, because only the host knows the module version. |
+| no command word, with `--json` | The **root response** (§5): where this run reads from, the version and language, the sources, the description. |
 
 Two cases deserve a note:
 
@@ -187,7 +196,7 @@ Two cases deserve a note:
 
 - The envelope emitters: `core/cli/src/output.rs` — `ok` (success), `err` (the JSON failure
   envelope), `fail` (report in the run's own mode: text prints the line, JSON defers to `err`), and
-  `meta`.
+  `run_paths` (the root response's `dir` / `file`).
 - The format's specification is the test file `core/cli/tests/json_contract.rs`: a shape change shows
   up there first.
 - The hosts consume it: the PowerShell module reads `data.completions` and renders the items

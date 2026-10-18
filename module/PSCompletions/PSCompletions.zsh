@@ -1118,6 +1118,19 @@ psc() {
         print
         return 0
     fi
+    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the
+    # engine as it is — never colored, never rendered into a human page — and never prompted
+    # first: a machine caller cannot press a key (design/json.md §7). With no command word it is
+    # the **root** response (§5), so this check comes before the flags-only info page below.
+    local _arg
+    for _arg in "$@"; do
+        if [[ "$_arg" == "--json" ]]; then
+            # Verbatim: a failure is JSON as well, and color would break the contract.
+            _PSC_INIT_OK=0
+            "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@"
+            return $?
+        fi
+    done
     # Only flags and no command word: the module's info page, exactly like the bare call. The
     # binary's own usage text is an implementation detail, not what a user of the module sees.
     local _arg _has_cmd=0
@@ -1129,18 +1142,6 @@ psc() {
         print
         return 0
     fi
-    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the
-    # engine as it is — never colored, never rendered into a human page — and never prompted
-    # first: a machine caller cannot press a key (design/json.md §7).
-    local _arg
-    for _arg in "$@"; do
-        if [[ "$_arg" == "--json" ]]; then
-            # Verbatim: a failure is JSON as well, and color would break the contract.
-            _PSC_INIT_OK=0
-            "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@"
-            return $?
-        fi
-    done
     if [[ "$1" == rm ]] && [[ " $* " == *" --all "* ]]; then
         _psc_tpl rm.all_confirm
         print
