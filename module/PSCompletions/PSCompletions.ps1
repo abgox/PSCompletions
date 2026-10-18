@@ -556,7 +556,6 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         if ($menuOrder) {
             $input.order = [ordered]@{
                 history = [string]$menuOrder.history
-                cmd     = [string]$menuOrder.cmd
                 aliases = @($menuOrder.aliases)
                 path    = [string]$menuOrder.path
             }
@@ -822,7 +821,6 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         if (-not $orderAliases) { $orderAliases = @($cmd) }
         $PSCompletions.menu_order = @{
             history = (Get-PSReadLineOption).HistorySavePath
-            cmd     = $cmd
             aliases = $orderAliases
             path    = "$($PSCompletions.path.dir.order)/$([uri]::EscapeDataString($cmd)).json"
         }

@@ -50,13 +50,11 @@ pub struct Dir {
 pub struct OrderInfo {
     /// PSReadLine history file path.
     pub history: String,
-    /// The current command name.
-    pub cmd: String,
     /// The command's aliases (including the name itself), used to recognize the command in
     /// history lines.
     #[serde(default)]
     pub aliases: Vec<String>,
-    /// Output path of the ordering result JSON.
+    /// Output path of the ordering result JSON (the per-command file, named after the command).
     pub path: String,
 }
 

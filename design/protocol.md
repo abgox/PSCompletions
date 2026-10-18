@@ -81,11 +81,13 @@ menu reuses the same build path.
 
 ### `OrderInfo` (background order recompute)
 ```json
-{ "history": "<PSReadLine history path>", "cmd": "git", "aliases": ["git", "g"],
+{ "history": "<PSReadLine history path>", "aliases": ["git", "g"],
   "path": "<order output file>" }
 ```
 `--menu` spawns a background thread that reads `history`, tallies usage, and atomically writes
 the per-command order file plus the shared `_paths.json` / `_commands.json` (see `design/menu.md`).
+The per-command file is `path`; the command's own name reaches the engine through `aliases` (the
+host falls back to the name when it has none), so there is no separate `cmd` field.
 
 ## 1. Menu-mode input (default mode, no flag)
 
@@ -94,7 +96,7 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
   "items": [ { "list_item_text": "add", "symbol": "~" } ],
   "config": { "flags": {}, "context_switch": "~", "context_stay": "?" },
   "terminal": { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 }, "platform": "windows" },
-  "order": { "history": "...", "cmd": "git", "aliases": ["git"], "path": "..." },
+  "order": { "history": "...", "aliases": ["git"], "path": "..." },
   "dir": {
     "data": "<resolved data directory>",
     "order": "<order cache directory>",

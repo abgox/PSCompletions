@@ -637,7 +637,6 @@ mod tests {
         std::fs::write(&history, "git commit -m x\nscoop update\n").unwrap();
         let info = OrderInfo {
             history: history.to_string_lossy().into_owned(),
-            cmd: "get-".into(),
             aliases: vec!["get-".into()],
             path: dir.join("get-.json").to_string_lossy().into_owned(),
         };
