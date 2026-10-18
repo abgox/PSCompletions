@@ -8,7 +8,7 @@ use mlua::{Lua, Table, Value};
 use super::{json_to_lua, parallel_map, resolve};
 
 /// Parse `text` as the given format into a `serde_json::Value`. None on invalid input.
-fn parse_text_as(text: &str, format: &str) -> Option<serde_json::Value> {
+pub(super) fn parse_text_as(text: &str, format: &str) -> Option<serde_json::Value> {
     match format {
         "toml" => toml::from_str::<serde_json::Value>(text).ok(),
         "yaml" => yaml_serde::from_str::<serde_json::Value>(text).ok(),

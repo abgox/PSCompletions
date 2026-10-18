@@ -66,11 +66,7 @@ pub(crate) fn api_run(
     match format.as_deref() {
         Some(fmt) => {
             let text = lines.join("\n");
-            let parsed = match fmt {
-                "toml" => toml::from_str::<serde_json::Value>(&text).ok(),
-                "yaml" => yaml_serde::from_str::<serde_json::Value>(&text).ok(),
-                _ => json5::from_str::<serde_json::Value>(&text).ok(),
-            };
+            let parsed = super::formats::parse_text_as(&text, fmt);
             match parsed {
                 Some(v) => json_to_lua(lua, &v),
                 // Unparseable output → nil (strict failure semantics).
@@ -153,11 +149,7 @@ pub(crate) fn api_run_batch(
         match (lines, format.as_deref()) {
             (Some(lines), Some(fmt)) => {
                 let text = lines.join("\n");
-                let parsed = match fmt {
-                    "toml" => toml::from_str::<serde_json::Value>(&text).ok(),
-                    "yaml" => yaml_serde::from_str::<serde_json::Value>(&text).ok(),
-                    _ => json5::from_str::<serde_json::Value>(&text).ok(),
-                };
+                let parsed = super::formats::parse_text_as(&text, fmt);
                 match parsed {
                     Some(v) => t.set(i + 1, json_to_lua(lua, &v)?)?,
                     None => t.set(i + 1, Value::Nil)?,
