@@ -71,7 +71,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 - **`details`** is optional and carries the parts a caller may need (the offending token, the valid
   set).
 - A per-item error has the **same shape**.
-- The codes in use: `too_few_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`,
+- The codes in use: `too_few_params`, `too_many_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`,
   `not_installed`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`,
   `language_no_reset`, `alias_wildcard`, `alias_reserved`,
   `alias_not_found`, `settings_corrupt`, `io`, `network`.

@@ -7,7 +7,18 @@ use serde_json::json;
 use crate::data::Settings;
 use crate::output::{meta, ok, Out};
 
-pub fn cmd_list(settings: &Settings, data_dir: &str, out: &Out, json: bool) -> ExitCode {
+pub fn cmd_list(
+    args: &[String],
+    settings: &Settings,
+    data_dir: &str,
+    lang: &str,
+    out: &Out,
+    json: bool,
+) -> ExitCode {
+    // `list` takes no arguments: a mistyped flag is a usage error, not a silently normal run.
+    if !args.is_empty() {
+        return crate::validate::param_max(out, lang, json, data_dir);
+    }
     // One data model, two renderings (design/json.md): the text mode prints what the JSON carries.
     let items: Vec<serde_json::Value> = settings
         .list()

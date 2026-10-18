@@ -72,6 +72,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
     }
     let code = match cmd.as_str() {
         "init" => cmd_init(
+            args,
             &settings_path,
             &mut settings,
             &completions_dir,
@@ -80,7 +81,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
             result_arg.as_deref(),
             &out,
         ),
-        "list" => cmd_list(&settings, &data_dir, &out, json),
+        "list" => cmd_list(args, &settings, &data_dir, &lang, &out, json),
         // Internal, like `init`: the hosts render their `info` templates through the engine, so
         // the `{{…}}` grammar has exactly one implementation.
         "tpl" => cmd_tpl(args, &completions_dir, &lang, &settings),

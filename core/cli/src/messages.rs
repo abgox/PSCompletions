@@ -4,6 +4,7 @@
 /// PowerShell-bound). Adding a message = add a row.
 const MESSAGES: &[(&str, &str, &str)] = &[
     ("param_min", "参数不足。", "Too few parameters."),
+    ("param_max", "参数过多。", "Too many parameters."),
     ("sub_cmd", "子命令错误。", "Invalid subcommand."),
     (
         "sub_cmd_named",

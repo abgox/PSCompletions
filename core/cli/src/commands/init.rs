@@ -11,6 +11,7 @@ use crate::postcheck::{psc_completion_present, restore_psc_completion};
 /// Assemble the module's init state in one call
 #[allow(clippy::too_many_arguments)]
 pub fn cmd_init(
+    args: &[String],
     settings_path: &str,
     settings: &mut Settings,
     completions_dir: &str,
@@ -19,6 +20,13 @@ pub fn cmd_init(
     result_file: Option<&str>,
     out: &Out,
 ) -> ExitCode {
+    // Internal command: the module passes only the global flags, so anything left over is a wrong
+    // invocation — a usage error, not a silent success. `init` has no `--json` form (its payload
+    // goes to `--result`), so the message goes to stdout and the exit code carries the verdict.
+    if !args.is_empty() {
+        out.line(&crate::messages::msg_cli(&settings.language(), "param_max"));
+        return ExitCode::from(2);
+    }
     let settings_exist = std::path::Path::new(settings_path).exists();
     let empty_settings = settings.alias.is_empty()
         && settings

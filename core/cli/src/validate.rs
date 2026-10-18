@@ -79,6 +79,17 @@ pub fn param_err(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode 
     ExitCode::from(2)
 }
 
+/// The mirror of `param_err`: a command that takes no arguments was given some. Also a usage
+/// error (exit 2) — a mistyped flag must not look like a normal run.
+pub fn param_max(out: &Out, lang: &str, json: bool, data_dir: &str) -> ExitCode {
+    let msg = msg_cli(lang, "param_max");
+    if json {
+        return err("too_many_params", &msg, None, &meta(None, data_dir), true);
+    }
+    out.line(&msg);
+    ExitCode::from(2)
+}
+
 /// `<data>` dir from the settings path (`<data>/settings.json`).
 pub fn data_dir_of(settings_path: &str) -> String {
     std::path::Path::new(settings_path)

@@ -429,6 +429,27 @@ fn json_rm_dedups_repeated_names() {
 }
 
 #[test]
+fn json_list_and_init_reject_arguments_they_do_not_take() {
+    // A mistyped flag must be a usage error (exit 2), not a silently normal run (json.md §6).
+    let d = make_data("json-list-args", "http://127.0.0.1:9");
+    for argv in [
+        vec!["--json", "list", "junk"],
+        vec!["--json", "list", "--bogus"],
+    ] {
+        let (code, out) = psc(&d, &argv);
+        assert_eq!(code, 2, "{argv:?} → {out}");
+        let v = parse_json(&out);
+        assert_eq!(v["ok"], false, "{out}");
+        assert_eq!(v["error"]["code"], "too_many_params", "{out}");
+    }
+    // `init` is internal and has no `--json` form (its payload goes to `--result`), so only the
+    // exit code is asserted here.
+    let (code, out) = psc(&d, &["init", "junk"]);
+    assert_eq!(code, 2, "{out}");
+    assert!(!out.trim().is_empty(), "a usage error must say something");
+}
+
+#[test]
 fn json_alias_rm_success_stdout_is_only_json() {
     let d = make_data("json-alias-rm-clean", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git", "g", "gg"]);
