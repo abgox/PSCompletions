@@ -92,12 +92,20 @@ the per-command order file plus the shared `_paths.json` / `_commands.json` (see
   "data_dir": "<resolved data directory>",
   "order_dir": "<order cache directory>",
   "menu_dir": "<menu temp directory>",
-  "initial_filter": "^to"
+  "initial_filter": "^to",
+  "arg_tokens": ["add", "to"],
+  "treat_last_as_complete": false
 }
 ```
 
 Fields: `items` | `build`, `config`, `terminal`, `order`?, `data_dir`, `order_dir`, `menu_dir`,
-`initial_filter`?.
+`initial_filter`?, `arg_tokens`?, `treat_last_as_complete`?.
+
+`arg_tokens` / `treat_last_as_complete` are the **same pair build mode uses** (below): the tokens
+after the command word, the pending one included, and whether that last token is already finished.
+In items mode the engine derives `initial_filter` (`^<pending>`) from them, so every host fills the
+filter by one rule instead of re-implementing it — and it **ignores** a filter that matches no item,
+leaving the menu unfiltered rather than empty.
 
 `data_dir` (optional) is the resolved runtime data directory; the engine uses it to locate
 host-side state such as `temp/change.json`.

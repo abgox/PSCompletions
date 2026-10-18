@@ -115,6 +115,12 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                 if (!$filter_list) { return }
 
                 $PSCompletions.cmd = $cmd = $inputs[0]
+                # The native path's candidates are the host's; the pending word still tells the
+                # engine what to fill the filter with (it ignores a filter that matches nothing).
+                # The pending word can be the command word itself (`pyt<Tab>`): send the whole
+                # token list, the engine reads only its last element.
+                $PSCompletions.menu.arg_tokens = @($inputs)
+                $PSCompletions.menu.treat_last_as_complete = $buffer[-1] -eq ' '
                 if (![System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
                     # Hand the raw input tokens to the engine: it decides whether the first token
                     # is still being completed (`g<Tab>`, `.\src\<Tab>`) and only then consults
@@ -555,6 +561,14 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         $input.data_dir = $PSCompletions.path.data
         $input.order_dir = $PSCompletions.path.order
         $input.menu_dir = $PSCompletions.path.menu
+        # Items mode forwards the line's tokens the same way: the engine derives the filter and
+        # ignores it when it matches nothing, so no host needs its own rule.
+        if ($null -ne $PSCompletions.menu.arg_tokens) {
+            $input.arg_tokens = @($PSCompletions.menu.arg_tokens)
+            $input.treat_last_as_complete = [bool]$PSCompletions.menu.treat_last_as_complete
+            $PSCompletions.menu.arg_tokens = $null
+            $PSCompletions.menu.treat_last_as_complete = $null
+        }
         $initialFilter = $PSCompletions.menu.initial_filter
         $PSCompletions.menu.initial_filter = $null
         if ($initialFilter) {
