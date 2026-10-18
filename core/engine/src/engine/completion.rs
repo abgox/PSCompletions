@@ -209,7 +209,13 @@ fn build_node(json: &Value, is_option: bool) -> Node {
         .and_then(|v| v.as_array())
         .map(|t| t.iter().filter_map(text_or_object).collect())
         .unwrap_or_default();
-    let repeat = json.get("repeat").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
+    // `repeat` is an i32 everywhere downstream, so a value outside its range must **clamp**, not
+    // wrap: `4294967297 as i32` is 1, which would hide a typo'd "unlimited" after a single use.
+    let repeat = json
+        .get("repeat")
+        .and_then(|v| v.as_i64())
+        .unwrap_or(0)
+        .clamp(i32::MIN as i64, i32::MAX as i64) as i32;
     let separator = json
         .get("separator")
         .and_then(|v| v.as_str())
@@ -856,6 +862,23 @@ mod tests {
         assert_eq!(
             r.context.pending.as_ref().and_then(|p| p.text.as_deref()),
             Some("\"fu")
+        );
+    }
+
+    #[test]
+    fn a_repeat_beyond_i32_clamps_instead_of_wrapping() {
+        // `repeat` is an i32 downstream; `4294967297 as i32` is 1, so a typo'd "unlimited" would
+        // hide the item after a single use. A flag stays in its context after being used, so the
+        // repeat rule is what decides whether it is still offered.
+        let json = serde_json::json!({
+            "option": [ { "name": "--foo", "repeat": 4294967297i64 } ]
+        });
+        let tree = build_tree(&json);
+        let r = resolve(&tree, &["--foo".into()], true);
+        assert!(
+            r.items.iter().any(|i| i.text == "--foo"),
+            "a clamped repeat must still offer the item: {:?}",
+            r.items.iter().map(|i| i.text.clone()).collect::<Vec<_>>()
         );
     }
 
