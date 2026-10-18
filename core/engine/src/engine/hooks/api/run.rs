@@ -53,6 +53,12 @@ pub(crate) fn api_run(
         None => None,
     };
     let env_map = parse_env(&opts)?;
+    // An empty argv runs nothing, shell or not: wrapping it would turn "no command" into
+    // `sh -c ""` (or `sh -c " 8>&1"`), so the same call would run a shell with `shell`/`capture_fd`
+    // set and nothing at all without them.
+    if argv.is_empty() {
+        return Ok(Value::Nil);
+    }
     // capture_fd needs shell to interpret `8>&1` redirection; force shell when requested.
     let effective_shell = shell || capture_fd.is_some();
     if effective_shell {
@@ -137,7 +143,9 @@ pub(crate) fn api_run_batch(
         Some(cwd.as_str())
     };
     let outputs: Vec<Option<Vec<String>>> = parallel_map(&cmds, |cmd| {
-        let argv = if effective_shell {
+        // Same rule as `psc.run`: an empty command runs nothing, so it is never wrapped into a
+        // shell (`sh -c ""`) just because `shell`/`capture_fd` was set.
+        let argv = if effective_shell && !cmd.is_empty() {
             wrap_shell_with_capture(cmd, capture_fd)
         } else {
             cmd.clone()

@@ -3288,3 +3288,27 @@ fn psc_token_finds_by_name_and_type() {
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
     assert_eq!(texts, vec!["ok"], "{texts:?}");
 }
+
+#[test]
+fn an_empty_argv_runs_nothing_in_every_spelling() {
+    // `wrap_shell_with_capture` turned an empty argv into `sh -c ""` (or `sh -c " 8>&1"`), so the
+    // same call ran a shell when `shell`/`capture_fd` was set and nothing at all when it was not.
+    // One call, one meaning: an empty argv runs nothing (nil, the strict failure value).
+    let out = run_hook(
+        &root_provide_ctx(),
+        r#"
+    psc.add({ name = tostring(psc.run({}) == nil) })
+    psc.add({ name = tostring(psc.run({}, { shell = true }) == nil) })
+    psc.add({ name = tostring(psc.run({}, { capture_fd = 8 }) == nil) })
+    psc.add({ name = tostring(psc.run_batch({ {} })[1] == nil) })
+    "#,
+        &empty_static(),
+    )
+    .unwrap();
+    let names: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
+    assert_eq!(
+        names,
+        vec!["true"; 4],
+        "an empty argv must run nothing in every spelling"
+    );
+}
