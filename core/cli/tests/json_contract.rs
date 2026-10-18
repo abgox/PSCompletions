@@ -138,6 +138,34 @@ fn json_config_bad_group() {
 }
 
 #[test]
+fn json_self_update_text_carries_the_template_colors() {
+    // The text is the manifest's `info.self_update.*` template, and its `<@Color>` markup becomes
+    // ANSI **even though the host captures stdout** (so it is not a terminal) — the same rule
+    // `psc tpl` follows. Before this the color was silently stripped, so the page read plain in
+    // every host that captures it (which is all of them).
+    let d = make_data("json-selfupdate-color", "http://127.0.0.1:9");
+    std::fs::create_dir_all(d.join("completions/psc/language")).unwrap();
+    std::fs::write(
+        d.join("completions/psc/config.json"),
+        r#"{"id":"psc-id","language":["en-US"]}"#,
+    )
+    .unwrap();
+    std::fs::write(
+        d.join("completions/psc/language/en-US.json"),
+        r#"{"info":{"self_update":{"unknown":["<@Cyan>head\n","<@Blue>{{Commands}}\n"]}}}"#,
+    )
+    .unwrap();
+    let (code, out) = psc(&d, &["--self-update"]);
+    assert_eq!(code, 0, "{out}");
+    assert!(out.contains("\x1b[36m"), "cyan must survive: {out:?}");
+    assert!(out.contains("\x1b[34m"), "blue must survive: {out:?}");
+    assert!(
+        out.ends_with("\x1b[0m"),
+        "the reset closes the last tag: {out:?}"
+    );
+}
+
+#[test]
 fn json_invalid_subcommand_carries_the_parts_structured() {
     // `design/json.md` §4 documents `details: { token, valid }` for this failure: the parts travel
     // structured so a machine caller need not parse the localized `message`.

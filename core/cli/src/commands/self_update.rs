@@ -103,7 +103,11 @@ pub fn cmd_self_update(
         "Commands": commands.join("\n"),
     });
     let text = crate::tpl::render_with_root(&template, &ctx, "", Some(&info));
-    print!("{}", out.render(&text));
+    // Color is the caller's decision, exactly as in `psc tpl`: the hosts render into a captured
+    // stdout, where a TTY test answers "no" and silently drops the color the templates carry. The
+    // trailing reset closes the last tag, which no template line closes itself.
+    print!("{}", Out { color: true }.render(&text));
+    print!("\x1b[0m");
     ExitCode::SUCCESS
 }
 
