@@ -870,14 +870,16 @@ fn api_on_inner(
                             .is_some_and(|last| option_slot_unfilled(tokens, last)))
             })
     };
+    // A registration made *inside* a handler is a recursion error whether or not its spec matches:
+    // a nested `psc.on` that quietly no-ops is the same authoring mistake with no feedback at all.
+    if env.depth.get() != 0 {
+        return Err(mlua::Error::RuntimeError(format!(
+            "{PRE} recursive call inside a handler"
+        )));
+    }
     if inject {
         // No pending gating: injected rows would be prefix-filtered anyway when the
         // user browses option names; the cost trade-off belongs to the handler.
-        if env.depth.get() != 0 {
-            return Err(mlua::Error::RuntimeError(format!(
-                "{PRE} recursive call inside a handler"
-            )));
-        }
         env.depth.set(1);
         let r = func.call::<Value>(());
         env.depth.set(0);

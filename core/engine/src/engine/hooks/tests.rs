@@ -464,6 +464,27 @@ fn provide_unknown_target_fails_loudly() {
 }
 
 #[test]
+fn a_nested_psc_on_is_a_recursion_error_even_when_it_would_not_match() {
+    // §8: `psc.on` inside a handler is a recursion error. The check used to sit behind the match,
+    // so a nested registration whose spec did *not* match no-oped in silence — the same authoring
+    // mistake, with nothing anywhere to explain it.
+    let mut c = root_provide_ctx();
+    c.layers = vec![("command".into(), "exec".into())];
+    let logged = capture_error_log(
+        &mut c,
+        r#"
+    psc.on({ command = "exec" }, function()
+        psc.on({ command = "dlx" }, function() end)
+    end)
+    "#,
+    );
+    assert!(
+        logged.contains("recursive call inside a handler"),
+        "{logged}"
+    );
+}
+
+#[test]
 fn provide_target_in_the_wrong_position_fails_loudly() {
     // The manifest fixes each node's type by the array it sits in, so a spec's key has to
     // agree with it. Both directions must be reported: a `next` entry (a command) targeted as
