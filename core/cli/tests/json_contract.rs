@@ -1461,3 +1461,45 @@ fn text_self_update_prints_the_commands_without_the_psc_completion() {
     assert!(out.contains("Install-Module PSCompletions"), "{out}");
     assert!(out.contains("scoop install abgox.PSCompletions"), "{out}");
 }
+
+#[test]
+fn text_self_update_lets_the_installer_speak_for_a_script_install() {
+    // The CLI runs `install.sh` for a script install, and that script already reports what it found and the rc lines to add.
+    // A second line from the CLI repeating it is the same fact twice, so this method's text output is the installer's own.
+    let srv = spawn_server(vec![
+        ("module/version.json", r#"{"version":"8.0.0"}"#.to_string()),
+        (
+            "install.sh",
+            "printf '[PSCompletions] 8.0.0 is already installed.\\n'\n".to_string(),
+        ),
+    ]);
+    let d = make_data("txt-self-update-script", &srv);
+
+    // The `script` method is evidence, not a guess: the running binary under the fixed directory, plus the marker `install.sh` writes.
+    // The copy must be the one that *runs* — detection reads the binary's own path — so the test plants it and drives that.
+    let home = std::env::temp_dir().join(format!("psc-script-home-{}", std::process::id()));
+    let dir = home.join(".local/share/PSCompletions");
+    let copy = dir.join("bin/linux-x64/psc");
+    std::fs::create_dir_all(copy.parent().unwrap()).unwrap();
+    std::fs::copy(bin(), &copy).unwrap();
+    std::fs::write(dir.join("PSCompletions.psd1"), "ModuleVersion = '8.0.0'\n").unwrap();
+    std::fs::write(dir.join("install.json"), r#"{"method":"install.sh"}"#).unwrap();
+
+    let (code, out) = psc_installed(&copy, &d, &["--self-update"], &home);
+    assert_eq!(code, 0, "{out}");
+    assert!(
+        out.contains("8.0.0 is already installed."),
+        "the installer's own line must reach the user: {out:?}"
+    );
+    assert!(
+        !out.contains("up to date"),
+        "the CLI repeated what the installer had already said: {out:?}"
+    );
+
+    // The machine-readable reply is untouched by that rule: it still names the method and whether the installer ran.
+    let (_, js) = psc_installed(&copy, &d, &["--json", "--self-update"], &home);
+    let v = parse_json(&js);
+    assert_eq!(v["data"]["method"], "script", "{js}");
+    assert_eq!(v["data"]["ran"], true, "{js}");
+    std::fs::remove_dir_all(&home).ok();
+}

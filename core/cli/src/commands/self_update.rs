@@ -3,7 +3,7 @@
 //! The text is the `psc` completion's own `info.self_update.*` templates, rendered by the one `{{…}}` implementation (`tpl`), so the advice is localized like every other user-facing string.
 //! The detection itself lives in `install`; this file only reports it — except for the one case the CLI can act on, a script install, where it fetches the installer fresh and runs it.
 
-use std::process::ExitCode;
+use std::process::{ExitCode, Stdio};
 
 use serde_json::json;
 
@@ -52,7 +52,7 @@ pub fn cmd_self_update(
     // A script install is the one we own: fetch the installer itself, so a changed script takes effect on the next run (the installed copy never carries one), and run it.
     let mut ran = false;
     if matches!(method, Method::Script { .. }) {
-        match run_installer(settings, data_dir) {
+        match run_installer(settings, data_dir, json) {
             Ok(code) if code.success() => ran = true,
             Ok(code) => {
                 return crate::output::fail(
@@ -78,6 +78,12 @@ pub fn cmd_self_update(
             "commands": commands,
             "ran": ran,
         }));
+    }
+
+    // A script install speaks through the installer: it printed the version it found, what it did about it and the rc lines to add.
+    // A line from the CLI would only say the same thing twice, so this method has no text of its own.
+    if matches!(method, Method::Script { .. }) {
+        return ExitCode::SUCCESS;
     }
 
     let info = load_psc_info(completions_dir, lang);
@@ -107,14 +113,26 @@ pub fn cmd_self_update(
 
 /// Download `<base>/install.sh` from the same source prefix the completions come from, and run it.
 /// A file, not a pipe: the user can read what ran, and the exit code is the script's own.
-fn run_installer(settings: &Settings, data_dir: &str) -> Result<std::process::ExitStatus, String> {
+/// `json`: the caller's stdout carries exactly one object, so the installer's own output is kept off it (its errors stay on stderr, which is not that channel).
+fn run_installer(
+    settings: &Settings,
+    data_dir: &str,
+    json: bool,
+) -> Result<std::process::ExitStatus, String> {
     let text = install::fetch_installer(settings)?;
     let path = format!("{data_dir}/temp/install.sh.{}", std::process::id());
     if let Some(parent) = std::path::Path::new(&path).parent() {
         std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
     }
     std::fs::write(&path, text).map_err(|e| e.to_string())?;
-    let status = std::process::Command::new("sh").arg(&path).status();
+    let status = std::process::Command::new("sh")
+        .arg(&path)
+        .stdout(if json {
+            Stdio::null()
+        } else {
+            Stdio::inherit()
+        })
+        .status();
     let _ = std::fs::remove_file(&path);
     status.map_err(|e| e.to_string())
 }
@@ -124,7 +142,6 @@ fn run_installer(settings: &Settings, data_dir: &str) -> Result<std::process::Ex
 fn fallback(key: &str, commands: &[String]) -> Vec<String> {
     let mut lines = match key {
         "up_to_date" => vec!["PSCompletions is up to date.\n".to_string()],
-        "script" => vec!["PSCompletions was installed by the install script.\n".to_string()],
         "scoop" => vec!["Scoop installed PSCompletions. Run:\n".to_string()],
         "module" => vec!["The PowerShell module installed PSCompletions. Run:\n".to_string()],
         _ => vec![

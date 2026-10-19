@@ -111,6 +111,24 @@ pub fn psc(data: &Path, args: &[&str]) -> (i32, String) {
     )
 }
 
+/// Run `exe` with `HOME` pointed at `home`.
+/// A copy installed by `install.sh` is recognised by the *running* binary's own path — under that home's fixed directory — plus the marker beside it, so a test that needs the `script` method runs the copy it planted there, not the build output.
+pub fn psc_installed(exe: &Path, data: &Path, args: &[&str], home: &Path) -> (i32, String) {
+    let out = Command::new(exe)
+        .args(["--data", data.to_str().unwrap()])
+        .args(args)
+        .env("HOME", home)
+        // Either of these would move the fixed directory away from `home`, which is the whole point of the call.
+        .env_remove("XDG_DATA_HOME")
+        .env_remove("PSModulePath")
+        .output()
+        .unwrap();
+    (
+        out.status.code().unwrap_or(-1),
+        String::from_utf8_lossy(&out.stdout).into_owned(),
+    )
+}
+
 pub fn parse_json(s: &str) -> serde_json::Value {
     serde_json::from_str(s).unwrap_or_else(|e| panic!("stdout must be valid JSON ({e}): {s}"))
 }
