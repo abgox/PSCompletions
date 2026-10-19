@@ -7,6 +7,7 @@ decision log does not have to share a file with authoring guidance.
 | --- | --- |
 | [`authoring.md`](authoring.md) | writing and maintaining completions — static manifests and `hooks.lua` |
 | [`bridge.md`](bridge.md) | shell bridges — the port gate, the trigger, the host-side trade-offs |
+| [`conventions.md`](conventions.md) | commit subjects and changelog grouping — the two reserved prefixes, and the scope vocabulary that was rejected |
 
 ## The four layers
 

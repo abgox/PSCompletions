@@ -112,6 +112,34 @@ PSCompletions/
 `scripts/` is expected and required — the restriction applies to where you can *write*, not
 which scripts you can *run*.
 
+## Commit and changelog subjects
+
+A commit subject is a short, concrete sentence — no `type`, no scope — with two reserved exceptions:
+`completions:` marks a change to the completion definitions, and a subject starting with `release`
+(`release: 8.0.1`) triggers the publishing workflow. It is imperative, starts lowercase and carries
+no trailing period, so it completes "This commit will …".
+
+Write a body only when the subject cannot carry it: the reason behind a choice, several separate
+parts, or a consequence worth flagging. The body is imperative too, and one bullet is one complete
+sentence on one line — if it grows long, split it into two bullets rather than wrapping it.
+
+A changelog bullet leads with one of six groups, is capitalized, and records the change in the past
+tense, because a changelog is a record of a released version rather than a task:
+
+```
+- menu: Stopped panicking on a stale filter cursor.
+```
+
+The groups are `cli`, `menu`, `bridge`, `completion`, `hooks` and `chore` (the catch-all). They name
+what a user touches, not our modules. A major release (`x.0.0`) adds a headline section phrased
+`- **Phrase**: …` above them.
+
+The changelog lists only what ships with the version, so the completion library and `install.sh` —
+both delivered online — never appear.
+
+Why these two prefixes and not others, why the body is not hard-wrapped, and what was rejected:
+[`decisions/conventions.md`](decisions/conventions.md).
+
 ## The completion model
 
 Every command has its own **completion context** — what appears in its menu. A context is
