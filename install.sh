@@ -2,6 +2,7 @@
 # PSCompletions installer for bash / zsh / fish — no PowerShell involved.
 #
 # It downloads the module package from the PowerShell Gallery, unpacks it into a fixed install directory, and prints the one line to add to your shell's rc file.
+# A re-run asks the Gallery which version is newest first — one request, without the package — and stops with the rc lines when that is the installed one.
 # The data directory (settings and installed completions) belongs to the module and is never touched.
 #
 #   sh install.sh                 # installs, then prints the rc line for every shell
@@ -82,6 +83,27 @@ extract() { # <zip> <dest>
 
 package_version() { # <unpacked dir>
     sed -n 's:.*<version>\([^<]*\)</version>.*:\1:p' "$1/PSCompletions.nuspec" 2>/dev/null | head -1
+}
+
+# The newest published version, read from the redirect the Gallery answers with instead of from the package.
+# That request is the one the download would follow anyway, and the CDN filename it points at ends in `<version>.nupkg` —
+# the package name carries no dot, so the version is what sits between the two.
+# Empty when nothing could be read (no curl, a mirror, an offline run): the caller then downloads, which is slower but never wrong.
+latest_version() {
+    command -v curl >/dev/null 2>&1 || return 1
+    location="$(curl -sS -o /dev/null -w '%{redirect_url}' "$GALLERY_URL" 2>/dev/null)" || return 1
+    file="${location##*/}"
+    case "$file" in
+        *.nupkg) ;;
+        *) return 1 ;;
+    esac
+    found="${file%.nupkg}"
+    found="${found#*.}"
+    # A version, not a leftover: anything else means the CDN changed its URL shape, and guessing would be worse than downloading.
+    case "$found" in
+        [0-9]*.[0-9]*.[0-9]*) printf '%s\n' "$found" ;;
+        *) return 1 ;;
+    esac
 }
 
 # The same source the bridges read: the module manifest beside them, which exists both in a repo checkout and in an installed package.
@@ -227,6 +249,16 @@ trap cleanup EXIT INT TERM
 # Both scratch directories are siblings of the install directory: same filesystem (so the swap's rename is atomic) and no environment input deciding where they go.
 mkdir -p "$(dirname -- "$dir")" "$dl"
 
+# A re-run has one question — is this the newest package? — and the Gallery answers it without the package, so ask before downloading.
+# The binary check stays here beside it: a copy whose engine is missing is not "already installed" however current its manifest is.
+current="$(installed_version "$dir" 2>/dev/null || true)"
+latest="$(latest_version || true)"
+if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc" ]; then
+    say "[PSCompletions] $latest is already installed."
+    print_usage "$dir"
+    exit 0
+fi
+
 say "[PSCompletions] downloading the latest package..."
 pkg="$dl/package.nupkg"
 download "$GALLERY_URL" "$pkg" || die "cannot download the package from $GALLERY_URL"
@@ -242,13 +274,6 @@ version="$(package_version "$stage")"
 for s in bash zsh fish; do
     [ -f "$stage/PSCompletions.$s" ] || die "package $version carries no $s bridge"
 done
-
-current="$(installed_version "$dir" 2>/dev/null || true)"
-if [ "$current" = "$version" ] && [ -x "$dir/bin/$platform-$arch/psc" ]; then
-    say "[PSCompletions] $version is already installed."
-    print_usage "$dir"
-    exit 0
-fi
 
 prune "$stage" "$platform" "$arch"
 write_marker "$stage" "$version"
