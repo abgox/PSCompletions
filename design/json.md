@@ -52,7 +52,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
 - **`details`** is optional and carries the parts a caller may need (the offending token, the valid set).
 - A per-item error has the **same shape**.
 - **The text mode renders a per-item line as `<name>: <message>`** — one convention for failures, statuses and listings alike, so the same failure never reads two ways. The JSON item keeps `name` in its own field, so its `message` never repeats it.
-- The codes in use: `too_few_params`, `too_many_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`, `not_installed`, `not_in_library`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`, `language_no_reset`, `alias_wildcard`, `alias_reserved`, `alias_not_found`, `settings_corrupt`, `io`, `network`.
+- The codes in use: `too_few_params`, `too_many_params`, `invalid_subcommand`, `needs_confirmation`, `not_available`, `not_installed`, `not_in_library`, `not_updated`, `config_value`, `one_or_zero`, `no_hooks`, `psc_hooks_locked`, `language_no_reset`, `alias_wildcard`, `alias_reserved`, `alias_not_found`, `settings_corrupt`, `io`, `network`, `installer_fetch`, `installer_failed`.
 - **`network` and `io` are split by where the failure happened**, not by which command reported it: a transport failure (connect, timeout, an HTTP status) is `network`; a failure *after the bytes arrived* — a decode, a parse, a shape check, a local write — is `io`. `psc add` against a mirror that answers with an unusable index is `io`, not `network`. Every mirror's failure is named in the message, and the last one decides the code.
 
 ## 5. The root response

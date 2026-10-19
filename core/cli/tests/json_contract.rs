@@ -1478,12 +1478,7 @@ fn text_self_update_lets_the_installer_speak_for_a_script_install() {
     // The `script` method is evidence, not a guess: the running binary under the fixed directory, plus the marker `install.sh` writes.
     // The copy must be the one that *runs* — detection reads the binary's own path — so the test plants it and drives that.
     let home = std::env::temp_dir().join(format!("psc-script-home-{}", std::process::id()));
-    let dir = home.join(".local/share/PSCompletions");
-    let copy = dir.join("bin/linux-x64/psc");
-    std::fs::create_dir_all(copy.parent().unwrap()).unwrap();
-    std::fs::copy(bin(), &copy).unwrap();
-    std::fs::write(dir.join("PSCompletions.psd1"), "ModuleVersion = '8.0.0'\n").unwrap();
-    std::fs::write(dir.join("install.json"), r#"{"method":"install.sh"}"#).unwrap();
+    let copy = plant_script_install(&home, "8.0.0");
 
     let (code, out) = psc_installed(&copy, &d, &["--self-update"], &home);
     assert_eq!(code, 0, "{out}");
@@ -1501,5 +1496,36 @@ fn text_self_update_lets_the_installer_speak_for_a_script_install() {
     let v = parse_json(&js);
     assert_eq!(v["data"]["method"], "script", "{js}");
     assert_eq!(v["data"]["ran"], true, "{js}");
+    std::fs::remove_dir_all(&home).ok();
+}
+
+#[test]
+fn text_self_update_reports_installer_failures_in_the_module_language() {
+    // The installer's own text is English — it is a shell script, and nothing localizes it — but the lines the *CLI* adds when it fails are the CLI's, so they follow the module language like every other CLI message.
+    let srv = spawn_server(vec![("install.sh", "exit 3\n".to_string())]);
+    let d = make_data("txt-self-update-failed", &srv);
+    let home = std::env::temp_dir().join(format!("psc-fail-home-{}", std::process::id()));
+    let copy = plant_script_install(&home, "8.0.0");
+
+    let (code, out) = psc_installed(&copy, &d, &["--self-update"], &home);
+    assert_eq!(code, 1, "{out}");
+    assert!(
+        out.contains("The install script failed (exit code 3)."),
+        "{out:?}"
+    );
+
+    rewrite_settings(&d, |s| s["config"]["language"] = serde_json::json!("zh-CN"));
+    let (_, zh) = psc_installed(&copy, &d, &["--self-update"], &home);
+    assert!(zh.contains("安装脚本执行失败"), "{zh:?}");
+
+    // The other failure is the fetch: the installer could not be downloaded at all, so the reason must travel with the line rather than replacing it.
+    let dead = make_data("txt-self-update-fetch", "http://127.0.0.1:9");
+    let (code, out) = psc_installed(&copy, &dead, &["--self-update"], &home);
+    assert_eq!(code, 1, "{out}");
+    assert!(
+        out.contains("Could not download the install script"),
+        "{out:?}"
+    );
+    assert!(out.contains("install.sh"), "the cause must travel: {out:?}");
     std::fs::remove_dir_all(&home).ok();
 }

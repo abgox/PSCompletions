@@ -102,6 +102,16 @@ const MESSAGES: &[(&str, &str, &str)] = &[
         "指定的触发器别名不存在。",
         "The specified trigger alias does not exist.",
     ),
+    (
+        "installer_failed",
+        "安装脚本执行失败（退出码 {Code}）。",
+        "The install script failed (exit code {Code}).",
+    ),
+    (
+        "installer_fetch",
+        "无法下载安装脚本（{Cause}）。",
+        "Could not download the install script ({Cause}).",
+    ),
 ];
 
 /// Look up a bilingual CLI message (zh if the language starts with `zh`, else en).

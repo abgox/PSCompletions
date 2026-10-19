@@ -111,6 +111,31 @@ pub fn psc(data: &Path, args: &[&str]) -> (i32, String) {
     )
 }
 
+/// Plant a copy of the built binary the way `install.sh` would: the module manifest beside it, the marker that says who installed it, and the engine binary under `bin/<platform>-<arch>/`.
+/// Returns the path that must be *run* — detection reads the running binary's own path, so a test that needs the `script` method drives this, not the build output.
+pub fn plant_script_install(home: &Path, version: &str) -> PathBuf {
+    let platform = match std::env::consts::OS {
+        "macos" => "darwin",
+        other => other,
+    };
+    let arch = match std::env::consts::ARCH {
+        "x86_64" => "x64",
+        "aarch64" => "arm64",
+        other => other,
+    };
+    let dir = home.join(".local/share/PSCompletions");
+    let exe = dir.join(format!("bin/{platform}-{arch}/psc"));
+    std::fs::create_dir_all(exe.parent().unwrap()).unwrap();
+    std::fs::copy(bin(), &exe).unwrap();
+    std::fs::write(
+        dir.join("PSCompletions.psd1"),
+        format!("ModuleVersion = '{version}'\n"),
+    )
+    .unwrap();
+    std::fs::write(dir.join("install.json"), r#"{"method":"install.sh"}"#).unwrap();
+    exe
+}
+
 /// Run `exe` with `HOME` pointed at `home`.
 /// A copy installed by `install.sh` is recognised by the *running* binary's own path — under that home's fixed directory — plus the marker beside it, so a test that needs the `script` method runs the copy it planted there, not the build output.
 pub fn psc_installed(exe: &Path, data: &Path, args: &[&str], home: &Path) -> (i32, String) {

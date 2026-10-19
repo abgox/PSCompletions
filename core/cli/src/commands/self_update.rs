@@ -9,6 +9,7 @@ use serde_json::json;
 
 use crate::data::{load_psc_info, LibraryChanges, Settings};
 use crate::install::{self, Method};
+use crate::messages::msg_fmt;
 use crate::output::{ok, Out};
 
 pub fn cmd_self_update(
@@ -55,16 +56,13 @@ pub fn cmd_self_update(
         match run_installer(settings, data_dir, json) {
             Ok(code) if code.success() => ran = true,
             Ok(code) => {
-                return crate::output::fail(
-                    out,
-                    "installer_failed",
-                    &format!("the installer exited with {}", code.code().unwrap_or(1)),
-                    json,
-                    false,
-                );
+                let exit = code.code().unwrap_or(1).to_string();
+                let message = msg_fmt(lang, "installer_failed", &[("Code", &exit)]);
+                return crate::output::fail(out, "installer_failed", &message, json, false);
             }
             Err(e) => {
-                return crate::output::fail(out, "installer_fetch", &e, json, false);
+                let message = msg_fmt(lang, "installer_fetch", &[("Cause", e.as_str())]);
+                return crate::output::fail(out, "installer_fetch", &message, json, false);
             }
         }
     }
