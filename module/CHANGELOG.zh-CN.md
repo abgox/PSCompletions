@@ -2,6 +2,12 @@
 
 [English](./CHANGELOG.md) | 简体中文
 
+## 8.0.1
+
+- cli: `psc --self-update` 不再重复显示安装脚本已经打印的内容
+- cli: 自更新失败的消息现在按模块语言显示
+- bridge: 修复了因发布包带 Windows 换行符而无法加载的问题
+
 ## 8.0.0
 
 > PSCompletions(psc) 正式转变为通用的补全管理器 —— 单个引擎，多个 Shell

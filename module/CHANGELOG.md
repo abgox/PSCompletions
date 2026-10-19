@@ -2,6 +2,12 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## 8.0.1
+
+- cli: `psc --self-update` no longer repeats what the install script already printed
+- cli: Self-update failures are reported in the module language
+- bridge: Fixed failing to load because the package carried Windows line endings
+
 ## 8.0.0
 
 > PSCompletions (psc) is now a general-purpose completion manager — one engine, many shells.

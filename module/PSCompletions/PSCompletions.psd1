@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '8.0.0'
+    ModuleVersion        = '8.0.1'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -23,9 +23,10 @@
 
     Description          = @'
 Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.
-It provides fast rendering, wildcard/subsequence filtering, history-aware ordering, dynamic (Lua) completions.
+It provides an interactive menu, wildcard/subsequence filtering, history-aware ordering, and dynamic completions.
 - Website: https://pscompletions.abgox.com
 - GitHub:  https://github.com/abgox/PSCompletions
+- AtomGit: https://atomgit.com/abgox/PSCompletions
 - Gitee:   https://gitee.com/abgox/PSCompletions
 '@
 
@@ -39,7 +40,7 @@ It provides fast rendering, wildcard/subsequence filtering, history-aware orderi
 
         PSData = @{
 
-            Tags         = 'psc', 'Tab', 'Expansion', 'Completion', 'Menu', 'Manager', 'TUI' , 'GUI' , 'Json', 'Dynamic', 'Multilingual', 'TabExpansion2', 'Completions', 'Prompt', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS', 'Rust', 'Lua'
+            Tags         = 'psc', 'completion', 'tab', 'tab-completion', 'TabExpansion', 'dynamic-completion', 'Menu', 'TUI', 'PSReadLine', 'Autocomplete', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS', 'bash', 'zsh', 'fish', 'Rust', 'Lua', 'Multilingual'
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
