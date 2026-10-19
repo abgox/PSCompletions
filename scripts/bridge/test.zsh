@@ -10,11 +10,12 @@ if [[ -n "${_PSC_LOADED:-}" ]]; then
     print -u2 "test.zsh: a PSCompletions bridge is already loaded in this shell; run the suite in a clean one"
     exit 1
 fi
-ROOT="${1:-/home/abgox/code/public/PSCompletions}"
+ROOT="${1:-${0:A:h:h:h}}"
 BRIDGE="$ROOT/module/PSCompletions/PSCompletions.zsh"
-BIN="$ROOT/module/PSCompletions/bin/linux-x64/psc-menu"
 export PSCOMPLETIONS_DATA_DIR=/tmp/psc-zsh-test
 source "$BRIDGE"
+# The bridge resolves its own bin/<platform>-<arch>; reuse that rather than guess one.
+BIN="$_PSC_BIN_DIR/psc-menu$_psc_ext"
 
 rm -rf "$PSCOMPLETIONS_DATA_DIR"
 mkdir -p "$PSCOMPLETIONS_DATA_DIR/completions" "$PSCOMPLETIONS_DATA_DIR/temp/menu"

@@ -11,12 +11,13 @@ if [[ -n "${_PSC_LOADED:-}" ]]; then
     echo "test.bash: a PSCompletions bridge is already loaded in this shell; run the suite in a clean one" >&2
     exit 1
 fi
-ROOT="${1:-/home/abgox/code/public/PSCompletions}"
+ROOT="${1:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../.." && pwd)}"
 BRIDGE="$ROOT/module/PSCompletions/PSCompletions.bash"
-BIN="$ROOT/module/PSCompletions/bin/linux-x64/psc-menu"
 export PSCOMPLETIONS_DATA_DIR=/tmp/psc-bridge-test
 # shellcheck disable=SC1090
 source "$BRIDGE"
+# The bridge resolves its own bin/<platform>-<arch>; reuse that rather than guess one.
+BIN="$_PSC_BIN_DIR/psc-menu$_psc_ext"
 
 rm -rf "$PSCOMPLETIONS_DATA_DIR"
 mkdir -p "$PSCOMPLETIONS_DATA_DIR/completions" "$PSCOMPLETIONS_DATA_DIR/temp/menu"

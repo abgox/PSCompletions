@@ -4,7 +4,7 @@
 # the rules the engine never sees — routing, result application, candidate escaping, key
 # mapping, history normalisation, config forwarding, management text.
 # Usage: fish --no-config scripts/bridge/test.fish [repo-root]
-set -g ROOT /home/abgox/code/public/PSCompletions
+set -g ROOT (realpath -- (dirname (status --current-filename))/../..)
 test (count $argv) -ge 1; and set -g ROOT (realpath -- $argv[1])
 # The user's environment must not reach the tests: fish sources config.fish and conf.d before this
 # script runs (only `--no-config` stops that), and a bridge conf.d already sourced blocks the
@@ -14,9 +14,10 @@ if set -q _PSC_LOADED
     exit 1
 end
 set -g BRIDGE "$ROOT/module/PSCompletions/PSCompletions.fish"
-set -g BIN "$ROOT/module/PSCompletions/bin/linux-x64/psc-menu"
 set -gx PSCOMPLETIONS_DATA_DIR /tmp/psc-fish-test
 source $BRIDGE
+# The bridge resolves its own bin/<platform>-<arch>; reuse that rather than guess one.
+set -g BIN "$_PSC_BIN_DIR/psc-menu$_psc_ext"
 
 set -g PASS 0
 set -g FAIL 0
