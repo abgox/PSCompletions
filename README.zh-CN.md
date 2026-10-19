@@ -1,4 +1,4 @@
-<h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
+<h1 align="center"><a href="https://pscompletions.abgox.com">PSCompletions</a></h1>
 
 <p align="center">
     <a href="README.md">English</a> |
@@ -29,7 +29,7 @@
 
 ## 介绍
 
-**Powerful Shell Completions** —— 适用于 [PowerShell 和其他 Shell](https://pscompletions.abgox.com/docs/shells) 的强大的命令补全器，由 Rust 与 Lua 驱动。
+**Powerful Shell Completions** - 适用于 [PowerShell 和其他 Shell](https://pscompletions.abgox.com/docs/shells) 的强大的命令补全器，由 Rust 与 Lua 驱动。
 
 - [一个引擎，多个 Shell](https://pscompletions.abgox.com/docs/shells)
 - [内置的补全库](../index/completions.zh-CN.md)
@@ -41,52 +41,45 @@
 
 ![demo](https://pscompletions.abgox.com/demo.zh-CN.gif)
 
-## 使用
+## 获取
 
 1. 安装它
-   - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
+   - PowerShell - 安装模块
 
      ```powershell
-     Install-Module PSCompletions
+     Install-Module PSCompletions # Install-PSResource PSCompletions
      ```
 
-   - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
+   - bash / zsh / fish - 运行 [安装脚本](install.sh)
 
-     ```powershell
-     Install-PSResource PSCompletions
-     ```
-
-   - [Scoop](https://scoop.sh)
-     - 使用 [main](https://github.com/ScoopInstaller/Main) bucket
-
-       ```shell
-       scoop install pscompletions
-       ```
-
-     - 使用 [abyss](https://abyss.abgox.com) bucket
-
-       ```shell
-       scoop install abyss/abgox.PSCompletions
-       ```
-
-   - Linux / macOS，且不装 PowerShell —— 运行 [安装脚本](install.sh)：
-
-     ```sh
+     ```shell
      curl -fsSL https://raw.githubusercontent.com/abgox/PSCompletions/main/install.sh | sh
      ```
 
+   - [Scoop](https://scoop.sh)
+
+     ```shell
+     scoop install pscompletions # scoop install abyss/abgox.PSCompletions
+     ```
+
 2. 加载它
-   - PowerShell —— [直接导入模块](https://pscompletions.abgox.com/docs/direct-import-module)：
+   - PowerShell - [直接导入模块](https://pscompletions.abgox.com/docs/direct-import-module)
 
      ```powershell
      Import-Module PSCompletions
      ```
 
-   - bash / zsh / fish —— 运行 [安装脚本](install.sh)，它会输出需要添加到你的 shell rc 文件中的内容
+   - bash / zsh / fish - [安装脚本](install.sh) 会告诉你如何加载
 
 3. 使用它
-   - [内置补全库](../index/completions.zh-CN.md)：用 `psc add git` 添加补全
-   - [原生补全](https://pscompletions.abgox.com/docs/native-completion)：各 Shell 有各自的机制 —— PowerShell 参数补全器、bash/zsh/fish 原生补全，等等
+
+   ```shell
+   psc add git
+   ```
+
+   ```shell
+   git <Tab>
+   ```
 
 ## 新的变化
 
@@ -102,8 +95,8 @@
 
 ## 致谢
 
-- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell 的编辑与补全基础
-- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) — [补全菜单](https://pscompletions.abgox.com/docs/completion-menu) 的 UI 参考
+- [PSReadLine](https://github.com/PowerShell/PSReadLine) - PowerShell 的编辑与补全基础
+- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) - [补全菜单](https://pscompletions.abgox.com/docs/completion-menu) 的 UI 参考
 
 ## License
 

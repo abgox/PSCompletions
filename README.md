@@ -1,4 +1,4 @@
-<h1 align="center">✨<a href="https://pscompletions.abgox.com">PSCompletions(psc)</a>✨</h1>
+<h1 align="center"><a href="https://pscompletions.abgox.com">PSCompletions</a></h1>
 
 <p align="center">
     <span>English</span> |
@@ -41,52 +41,45 @@ Powerful Shell Completions for [PowerShell and other shells](https://pscompletio
 
 ![demo](https://pscompletions.abgox.com/demo.gif)
 
-## How to use
+## How to get
 
 1. Install it.
-   - [Install-Module](https://learn.microsoft.com/powershell/module/powershellget/install-module)
+   - PowerShell - install the module:
 
      ```powershell
-     Install-Module PSCompletions
+     Install-Module PSCompletions # Install-PSResource PSCompletions
      ```
 
-   - [Install-PSResource](https://learn.microsoft.com/powershell/module/microsoft.powershell.psresourceget/install-psresource)
+   - bash / zsh / fish - run the [install script](install.sh):
 
-     ```powershell
-     Install-PSResource PSCompletions
-     ```
-
-   - [Scoop](https://scoop.sh)
-     - Use [main](https://github.com/ScoopInstaller/Main) bucket
-
-       ```shell
-       scoop install pscompletions
-       ```
-
-     - Use [abyss](https://abyss.abgox.com) bucket
-
-       ```shell
-       scoop install abyss/abgox.PSCompletions
-       ```
-
-   - Linux / macOS, without PowerShell — run the [install script](install.sh):
-
-     ```sh
+     ```shell
      curl -fsSL https://raw.githubusercontent.com/abgox/PSCompletions/main/install.sh | sh
      ```
 
+   - [Scoop](https://scoop.sh):
+
+     ```shell
+     scoop install pscompletions # scoop install abyss/abgox.PSCompletions
+     ```
+
 2. Load it.
-   - PowerShell — [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module):
+   - PowerShell - [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module):
 
      ```powershell
      Import-Module PSCompletions
      ```
 
-   - bash / zsh / fish — run the [install script](install.sh), and it prints the content to add to your shell's rc file.
+   - bash / zsh / fish - the [install script](install.sh) will tell you how to load it.
 
 3. Use it.
-   - [Built-in completion library](../index/completions.md): add a completion with `psc add git`.
-   - [Native completion](https://pscompletions.abgox.com/docs/native-completion): each shell has its own mechanism — PowerShell argument completers, bash/zsh/fish native completion, …
+
+   ```shell
+   psc add git
+   ```
+
+   ```shell
+   git <Tab>
+   ```
 
 ## What's new
 
@@ -102,8 +95,8 @@ If you like this project, feel free to give it a Star ⭐️ or [Donate 💰](ht
 
 ## Acknowledgements
 
-- [PSReadLine](https://github.com/PowerShell/PSReadLine) — PowerShell's editing and completion foundation.
-- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) — UI inspiration for the [completion menu](https://pscompletions.abgox.com/docs/completion-menu).
+- [PSReadLine](https://github.com/PowerShell/PSReadLine) - PowerShell's editing and completion foundation.
+- [fzf](https://github.com/junegunn/fzf)/[PSFzf](https://github.com/kelleyma49/PSFzf) - UI inspiration for the [completion menu](https://pscompletions.abgox.com/docs/completion-menu).
 
 ## License
 
