@@ -1,11 +1,9 @@
 #!/usr/bin/env zsh
-# Headless zsh bridge tests: build input via the bridge's own _psc_write_input,
-# run psc-menu headless (build rewrites the input file), assert candidates.
+# Headless zsh bridge tests: build input via the bridge's own _psc_write_input, run psc-menu headless (build rewrites the input file), assert candidates.
 # Usage: zsh -f scripts/bridge/test.zsh [repo-root]
 setopt no_aliases
-# The user's environment must not reach the tests: a bridge the user's rc already sourced blocks
-# the `source` below — the bridges guard on `_PSC_LOADED` — leaving the suite testing the wrong
-# file. (`-f` covers the rc files; it is also why the usage line above carries it.)
+# The user's environment must not reach the tests: a bridge the user's rc already sourced blocks the `source` below — the bridges guard on `_PSC_LOADED` — leaving the suite testing the wrong file.
+# (`-f` covers the rc files; it is also why the usage line above carries it.)
 if [[ -n "${_PSC_LOADED:-}" ]]; then
     print -u2 "test.zsh: a PSCompletions bridge is already loaded in this shell; run the suite in a clean one"
     exit 1
@@ -111,18 +109,15 @@ apply_case no-append-space 'git ' '' 'status' 0 'git status'
 unset '_PSC_CFG[enable_append_space]'
 
 print -- "--- apply: word boundary respects escapes and quotes ---"
-# A path with a space arrives escaped (`/tmp/psc\ t/`) or quoted (`'/tmp/psc t/'`). The
-# naive `${before##* }` split cut at the escaped space, so the pick was concatenated after
-# the old text instead of replacing it — the defect the interactive pass reported.
+# A path with a space arrives escaped (`/tmp/psc\ t/`) or quoted (`'/tmp/psc t/'`).
+# The naive `${before##* }` split cut at the escaped space, so the pick was concatenated after the old text instead of replacing it — the defect the interactive pass reported.
 apply_case escaped-dir  'cd /tmp/psc\ t/'       '' '/tmp/psc t/az zdir/'  1 'cd /tmp/psc t/az zdir/'
 apply_case quoted-dir   "cd '/tmp/psc t/'"      '' '/tmp/psc t/az zdir/'  1 "cd /tmp/psc t/az zdir/"
 apply_case escaped-file 'cat /tmp/psc\ t/plain' '' '/tmp/psc t/plain.txt' 0 'cat /tmp/psc t/plain.txt '
 apply_case plain-word   'git chec'              '' 'checkout'             0 'git checkout '
 
 print -- "--- items menu: the candidate list travels in a file, not argv/env ---"
-# A host capture can run to thousands of entries; passing them as argv (or in an
-# environment variable) overflows ARG_MAX — the interactive pass hit exactly that
-# ("_psc_items_menu:11: argument list too long") on a plain `pyt` + Tab capture.
+# A host capture can run to thousands of entries; passing them as argv (or in an environment variable) overflows ARG_MAX — the interactive pass hit exactly that ("_psc_items_menu:11: argument list too long") on a plain `pyt` + Tab capture.
 _probe="$PSCOMPLETIONS_DATA_DIR/temp/menu/items-probe.json"
 rm -f "$_probe"
 {
@@ -255,8 +250,7 @@ print -- "--- management text path + dependency guard ---"
 [[ "$_PSC_PY" == /* ]] && { print "ok   py-absolute"; PASS=$((PASS+1)) } || { print "FAIL py-absolute [$_PSC_PY]"; FAIL=$((FAIL+1)) }
 out="$(psc 2>&1)"
 [[ "$out" == *"PSCompletions"* ]] && { print "ok   psc-bare-description"; PASS=$((PASS+1)) } || { print "FAIL psc-bare-description"; FAIL=$((FAIL+1)) }
-# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the
-# run's own facts — never the info page, and never the binary's own usage text.
+# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the run's own facts — never the info page, and never the binary's own usage text.
 out="$(psc --json 2>&1)"; rc=$?
 [[ $rc -eq 0 && "$out" == "{"* ]] \
     && { print "ok   root-json-for-json-flag"; PASS=$((PASS+1)) } || { print "FAIL root-json-for-json-flag rc=$rc [$out]"; FAIL=$((FAIL+1)) }
@@ -287,8 +281,7 @@ unset XDG_DATA_HOME
 _psc_platform=$_SAVE_PLATFORM
 
 print -- "--- language resolution is independent of _psc_init ---"
-# `psc` can run before the first Tab; _PSC_CFG is empty then, so the module language
-# must come from settings.json — the cache holds nothing to fall back on.
+# `psc` can run before the first Tab; _PSC_CFG is empty then, so the module language must come from settings.json — the cache holds nothing to fall back on.
 _SAVE_SETTINGS="$(cat "$PSCOMPLETIONS_DATA_DIR/settings.json")"
 print -r -- '{"alias":{"git":["git"],"psc":["psc"],"scoop":["scoop"]},"config":{"language":"zh-CN"}}' > "$PSCOMPLETIONS_DATA_DIR/settings.json"
 _PSC_CFG=(); _PSC_LANGCACHE=()
@@ -298,10 +291,8 @@ print -r -- "$_SAVE_SETTINGS" > "$PSCOMPLETIONS_DATA_DIR/settings.json"
 _PSC_CFG=(); _PSC_LANGCACHE=()
 
 print -- "--- per-completion manifest language (the bridge's own share) ---"
-# The engine renders the tips, so the *display* language is not the bridge's business — but
-# which manifest is handed to the engine is. The rule (the same python in all three ports):
-# per-completion override -> module-declared -> global, and a value the completion does not
-# declare falls back to the completion's first declared language.
+# The engine renders the tips, so the *display* language is not the bridge's business — but which manifest is handed to the engine is.
+# The rule (the same python in all three ports): per-completion override -> module-declared -> global, and a value the completion does not declare falls back to the completion's first declared language.
 lang_case() { # name settings-json cmd want
     _PSC_CFG=(); _PSC_LANGCACHE=()
     print -r -- "$2" > "$PSCOMPLETIONS_DATA_DIR/settings.json"
@@ -317,8 +308,8 @@ print -r -- "$_SAVE_SETTINGS" > "$PSCOMPLETIONS_DATA_DIR/settings.json"
 _PSC_CFG=(); _PSC_LANGCACHE=()
 
 print -- "--- a config read is plain data, not a status ---"
-# Color is the bridge's status convention, but a *value* is data: `v=$(psc config <g> <k>)`
-# must come back clean. Failures still take the red path.
+# Color is the bridge's status convention, but a *value* is data: `v=$(psc config <g> <k>)` must come back clean.
+# Failures still take the red path.
 _READ_STUB="$PSCOMPLETIONS_DATA_DIR/temp/read-stub.sh"
 print -r -- '#!/bin/sh' > "$_READ_STUB"
 print -r -- 'echo "enable_cache: 0"' >> "$_READ_STUB"
@@ -346,8 +337,8 @@ _got_read="$(psc config menu enable_cache 2>&1)"
 _PSC_BIN=$_SAVE_BIN_R
 rm -f "$_READ_STUB"
 print -- "--- management output is a terminated line ---"
-# The renderer returns a fragment (no trailing newline); the caller terminates each
-# line it prints. zsh marks a missed one with PROMPT_EOL_MARK ('%'), bash hides it.
+# The renderer returns a fragment (no trailing newline); the caller terminates each line it prints.
+# zsh marks a missed one with PROMPT_EOL_MARK ('%'), bash hides it.
 _ends_nl() { [[ -s "$1" && -z "$(tail -c 1 "$1")" ]]; }
 _TL="$PSCOMPLETIONS_DATA_DIR/temp/tpl-line.txt"
 _STUB_BIN="$PSCOMPLETIONS_DATA_DIR/temp/stub-bin.sh"
@@ -373,8 +364,7 @@ out="$(psc config core language --json 2>&1)"; rc=$?
 _PSC_BIN=$_SAVE_BIN
 
 print -- "--- compadd parsing (native capture) ---"
-# The native path captures compsys candidates by intercepting compadd; the parser is
-# pure, so it is covered here rather than through a terminal.
+# The native path captures compsys candidates by intercepting compadd; the parser is pure, so it is covered here rather than through a terminal.
 _psc_parse_case() {
     local name="$1" want="$2"; shift 2
     _PSC_CAND_COMP=() _PSC_CAND_DISP=() _PSC_CAND_TIP=()
@@ -395,9 +385,8 @@ _psc_parse_case "compadd -O skipped" "||" -O p_stash -a p_fruits
 _psc_parse_case "compadd -k assoc keys" "red,green|red,green|," -k p_colors
 
 print -- "--- watchdog restores the terminal modes the menu enabled ---"
-# A force-killed menu cannot turn off crossterm's modes itself. Leaving mouse capture on made
-# the terminal keep reporting `ESC [ < b;x;y M` as literal input and the shell unusable
-# (found by hand); every watchdog site must write the whole set, not just leave the alt screen.
+# A force-killed menu cannot turn off crossterm's modes itself.
+# Leaving mouse capture on made the terminal keep reporting `ESC [ < b;x;y M` as literal input and the shell unusable (found by hand); every watchdog site must write the whole set, not just leave the alt screen.
 _reset_missing=""
 for _seq in '?1000l' '?1002l' '?1003l' '?1006l' '?1015l' '?1049l' '?25h' '?2004l'; do
     [[ "$_PSC_RESET_TERM" == *"$_seq"* ]] || _reset_missing+=" $_seq"
@@ -412,15 +401,13 @@ _flush_sites="$(grep -c 'tcflush' "$BRIDGE")"
     || { print "FAIL reset-term-discards-queued-input sites=$_flush_sites"; FAIL=$((FAIL+1)) }
 
 print -- "--- no-match auto-apply: the engine's input status carries the filter text ---"
-# `enable_apply_when_no_match`: the menu cannot match, so the engine returns the filter text
-# as {status:input,text} and the host applies it like a selected candidate (the triggering key
-# included, as the PS bridge shows). Each port has its own copy of the parser, so each asserts it.
+# `enable_apply_when_no_match`: the menu cannot match, so the engine returns the filter text as {status:input,text} and the host applies it like a selected candidate (the triggering key included, as the PS bridge shows).
+# Each port has its own copy of the parser, so each asserts it.
 [[ "$(grep -c "s=='input'" "$BRIDGE")" -ge 1 ]] && { print "ok   input-status-mapped"; PASS=$((PASS+1)) } \
     || { print "FAIL input-status-mapped"; FAIL=$((FAIL+1)) }
 
 print -- "--- native enumeration fallback (no compsys) ---"
-# Without compinit there is nothing to capture, so the bridge enumerates candidates
-# itself (bash's compgen fallback): command names in command position, else paths.
+# Without compinit there is nothing to capture, so the bridge enumerates candidates itself (bash's compgen fallback): command names in command position, else paths.
 rm -rf /tmp/psc-enum-test && mkdir -p /tmp/psc-enum-test/alpha/inner /tmp/psc-enum-test/beta
 touch /tmp/psc-enum-test/gamma.txt /tmp/psc-enum-test/alpha/f.txt
 _SAVE_PWD="$PWD"
@@ -441,8 +428,7 @@ _psc_enum_check "enum: no match"       "|" "cd zzz"
 cd "$_SAVE_PWD"
 
 print -- "--- items mode: the bridge forwards the tokens, the engine derives the filter ---"
-# One rule for all hosts: the bridge forwards `arg_tokens` + `treat_last_as_complete`, the engine
-# derives `initial_filter` (and ignores it when it matches nothing).
+# One rule for all hosts: the bridge forwards `arg_tokens` + `treat_last_as_complete`, the engine derives `initial_filter` (and ignores it when it matches nothing).
 _probe_i="$PSCOMPLETIONS_DATA_DIR/temp/menu/items-args.json"
 rm -f "$_probe_i"
 {
@@ -473,9 +459,7 @@ rm -f "$_probe_i" "$_probe_i-out"
     || { print "FAIL engine-derives-initial-filter got [$_init_i]"; FAIL=$((FAIL+1)) }
 
 print -- "--- native candidates are ranked through --sort ---"
-# enable_sort_by_history: the candidate set must survive the ranking pass (a permutation)
-# with display/tip still aligned to their candidate; ranking quality is the engine's own
-# concern, and with the key off the order must be left untouched.
+# enable_sort_by_history: the candidate set must survive the ranking pass (a permutation) with display/tip still aligned to their candidate; ranking quality is the engine's own concern, and with the key off the order must be left untouched.
 export HISTFILE=/tmp/psc-cfg-probe/hist2
 : > "$HISTFILE"
 _PSC_CFG=(); _PSC_CFG[enable_sort_by_history]=1
@@ -502,8 +486,8 @@ _psc_sort_candidates git git
 unset HISTFILE
 
 print -- "--- bridge-side config ---"
-# Which config keys the bridge itself acts on (everything else is the menu engine's:
-# the bridge only forwards it). Each row here is asserted, so "supported" stays honest.
+# Which config keys the bridge itself acts on (everything else is the menu engine's: the bridge only forwards it).
+# Each row here is asserted, so "supported" stays honest.
 _CFG="$PSCOMPLETIONS_DATA_DIR/settings.json"
 _SAVE_CFG="$(cat "$_CFG")"
 mkdir -p "$PSCOMPLETIONS_DATA_DIR/temp/menu" /tmp/psc-cfg-probe/adir
@@ -532,8 +516,7 @@ _PSC_CFG=(); _PSC_CFG[enable_native_completion]=0
 _psc_native "foo " foo >/dev/null 2>&1; rc=$?
 [[ $rc -eq 1 ]] && { print "ok   native off returns 1"; PASS=$((PASS+1)) } || { print "FAIL native off returns 1 rc=$rc"; FAIL=$((FAIL+1)) }
 
-# Every engine-side key must still be forwarded, and enable_sort_by_history must drive
-# the presence of the order block.
+# Every engine-side key must still be forwarded, and enable_sort_by_history must drive the presence of the order block.
 _manifest="$PSCOMPLETIONS_DATA_DIR/completions/git/language/en-US.json"
 _in="$PSCOMPLETIONS_DATA_DIR/temp/menu/cfginput.json"
 _check_input() {
@@ -567,8 +550,7 @@ _check_input "menu config forwarded" "filter_mode=subsequence show_mode=altscree
 cat > "$_CFG" <<'EOF'
 {"alias":{"git":["git"]},"config":{"language":"en-US","enable_sort_by_history":1}}
 EOF
-# _psc_write_input only adds the order block when a history file is known; a
-# non-interactive shell has no HISTFILE.
+# _psc_write_input only adds the order block when a history file is known; a non-interactive shell has no HISTFILE.
 export HISTFILE=/tmp/psc-cfg-probe/hist
 : > "$HISTFILE"
 _check_input "sort_by_history adds order" "filter_mode=wildcard show_mode=auto list_loop=True single=False no_match=False focus=red match=cyan switch=~ stay=? raw_tip=None raw_cache=None order=yes build_order=yes"
@@ -577,8 +559,7 @@ print -r -- "$_SAVE_CFG" > "$_CFG"
 _PSC_CFG=(); _PSC_LANGCACHE=(); _PSC_HOOKS=()
 
 print -- "--- management status color ---"
-# The CLI prints plain text; the bridge colors it (green on success, red on failure) —
-# the same convention as the PS bridge's _forward_psc.
+# The CLI prints plain text; the bridge colors it (green on success, red on failure) — the same convention as the PS bridge's _forward_psc.
 _STUB="$PSCOMPLETIONS_DATA_DIR/temp/status-stub.sh"
 print -r -- '#!/bin/sh' > "$_STUB"
 print -r -- 'echo "status-ok"; exit 0' >> "$_STUB"
@@ -650,8 +631,7 @@ else
 fi
 
 print -- "--- install shape: sourcing a symlink must still resolve the module ---"
-# A plugin dir often holds a link to the bridge; the binaries and the bundled psc
-# completion sit next to the real file, so the bridge dir must follow the link (`${0:A}`).
+# A plugin dir often holds a link to the bridge; the binaries and the bundled psc completion sit next to the real file, so the bridge dir must follow the link (`${0:A}`).
 _LINKDIR=/tmp/psc-link-test
 mkdir -p "$_LINKDIR"
 ln -sfn "$BRIDGE" "$_LINKDIR/PSCompletions.zsh"
@@ -663,8 +643,7 @@ else
 fi
 
 print -- "--- install shape: an installed copy has no ../version.json, so the version comes from the psd1 ---"
-# An installed copy *is* the package root: the bridge sits beside bin/ and PSCompletions.psd1,
-# and there is no `../version.json` (that file is repo-only).
+# An installed copy *is* the package root: the bridge sits beside bin/ and PSCompletions.psd1, and there is no `../version.json` (that file is repo-only).
 _PKGDIR=/tmp/psc-pkg-test
 rm -rf "$_PKGDIR"; mkdir -p "$_PKGDIR"
 cp "$BRIDGE" "$_PKGDIR/"

@@ -25,22 +25,19 @@ pub fn run(args: Vec<String>) -> ExitCode {
     let mut settings = match Settings::load(&settings_path) {
         Ok(Some(s)) => s,
         Ok(None) => Settings::default(),
-        // Corruption is reported, not papered over with defaults: the file is left alone, so the
-        // user can fix or delete it and nothing they wrote is lost.
+        // Corruption is reported, not papered over with defaults: the file is left alone, so the user can fix or delete it and nothing they wrote is lost.
         Err(msg) => {
             return fail(&Out::new(), "settings_corrupt", &msg, json, false);
         }
     };
     let mut index = Index::load(&completions_json).unwrap_or_default();
-    // `--language` is this run's override for the message language (and for anything that renders
-    // with it); `init` still receives the raw flag. Never written back: `settings` is untouched.
+    // `--language` is this run's override for the message language (and for anything that renders with it); `init` still receives the raw flag.
+    // Never written back: `settings` is untouched.
     let lang = language_arg.clone().unwrap_or_else(|| settings.language());
     let out = Out::new();
 
     if rest.is_empty() {
-        // `psc --json` is the **root** response: what a caller needs about this run — where it reads
-        // from, the version and language, the sources, the description — instead of repeating it on
-        // every command's answer (design/json.md §5).
+        // `psc --json` is the **root** response: what a caller needs about this run — where it reads from, the version and language, the sources, the description — instead of repeating it on every command's answer (design/json.md §5).
         if json {
             let version = crate::data::load_psc_config(&completions_dir)["version"]
                 .as_str()
@@ -60,8 +57,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
     }
     let cmd = rest[0].clone();
     let args = &rest[1..];
-    // `--self-update` is a root-level flag, not a command word: it is checked here, before the
-    // command dispatch, and takes no arguments.
+    // `--self-update` is a root-level flag, not a command word: it is checked here, before the command dispatch, and takes no arguments.
     if cmd == "--self-update" {
         return cmd_self_update(
             args,
@@ -73,15 +69,13 @@ pub fn run(args: Vec<String>) -> ExitCode {
             json,
         );
     }
-    // Sweep crash residue from staged downloads, but only for the commands that
-    // produce it (`add`/`update`/`init` download; the rest never stage anything).
+    // Sweep crash residue from staged downloads, but only for the commands that produce it (`add`/`update`/`init` download; the rest never stage anything).
     // Two directory listings; never touches live data.
     if matches!(cmd.as_str(), "add" | "update" | "init") {
         cleanup_stale_staging(&data_dir);
     }
-    // Destructive operations need explicit authorisation (design/json.md §7): the hosts ask the
-    // human and add `--yes`, so a caller driving the engine directly must say so itself. The
-    // engine never prompts — it stops with `needs_confirmation` and exit 2.
+    // Destructive operations need explicit authorisation (design/json.md §7): the hosts ask the human and add `--yes`, so a caller driving the engine directly must say so itself.
+    // The engine never prompts — it stops with `needs_confirmation` and exit 2.
     let destructive =
         args.iter().any(|a| a == "--reset") || (cmd == "rm" && args.iter().any(|a| a == "--all"));
     if destructive && !yes {
@@ -105,8 +99,7 @@ pub fn run(args: Vec<String>) -> ExitCode {
             &out,
         ),
         "list" => cmd_list(args, &settings, &lang, &out, json),
-        // Internal, like `init`: the hosts render their `info` templates through the engine, so
-        // the `{{…}}` grammar has exactly one implementation.
+        // Internal, like `init`: the hosts render their `info` templates through the engine, so the `{{…}}` grammar has exactly one implementation.
         "tpl" => cmd_tpl(args, &completions_dir, &lang, &settings),
         "info" => cmd_info(args, &settings, &index, &completions_dir, &lang, &out, json),
         "config" => cmd_config(args, &settings_path, &mut settings, &lang, &out, json),

@@ -172,8 +172,7 @@ pub fn cmd_update(
             out.line(&msg_cli(lang, "update_no"));
         }
         if json {
-            // The library-change report (the same four lists `change.json` carries), not a
-            // per-completion result set.
+            // The library-change report (the same four lists `change.json` carries), not a per-completion result set.
             return ok(&json!({
                 "update": update_no_rename,
                 "added": added,
@@ -190,10 +189,8 @@ pub fn cmd_update(
             .filter(|a| *a != "--all" && *a != "--old")
             .cloned(),
     );
-    // `--all` force-updates every installed completion; `--old` updates only the out-of-date
-    // ones; named targets are re-fetched unconditionally (naming a completion IS the intent to
-    // reinstall it). A mode flag is an explicit instruction about a whole set, so it wins over a
-    // name — the order below, the same one `--all` > `--old` already follows.
+    // `--all` force-updates every installed completion; `--old` updates only the out-of-date ones; named targets are re-fetched unconditionally (naming a completion IS the intent to reinstall it).
+    // A mode flag is an explicit instruction about a whole set, so it wins over a name — the order below, the same one `--all` > `--old` already follows.
     let names: Vec<String> = if all {
         settings.list()
     } else if old {
@@ -206,18 +203,14 @@ pub fn cmd_update(
     let installed: std::collections::HashSet<String> = settings.list().into_iter().collect();
     let settings_lock = std::sync::Mutex::new(&mut *settings);
     let had_error = std::sync::atomic::AtomicBool::new(false);
-    // Every processed name lands here, in both modes: the text mode prints its own line and the
-    // JSON mode serializes this (the shape `add` / `rm` use), so "nothing was reported" is
-    // `results.is_empty()` and the executed-rename list below is populated either way.
-    // Workers finish in any order, so each result takes a slot per argument position: the report —
-    // text lines and the JSON array alike — follows the arguments.
+    // Every processed name lands here, in both modes: the text mode prints its own line and the JSON mode serializes this (the shape `add` / `rm` use), so "nothing was reported" is `results.is_empty()` and the executed-rename list below is populated either way.
+    // Workers finish in any order, so each result takes a slot per argument position: the report — text lines and the JSON array alike — follows the arguments.
     let results: std::sync::Mutex<Vec<(usize, Vec<String>, Value)>> =
         std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;
     run_parallel(&names, 8, |i, name| {
         let mut lines: Vec<String> = Vec::new();
-        // Reject before any filesystem probe: a name carrying separators would make
-        // the entry probe below resolve outside the library directory.
+        // Reject before any filesystem probe: a name carrying separators would make the entry probe below resolve outside the library directory.
         let known = is_valid_name(name)
             && (installed.contains(name)
                 || std::fs::symlink_metadata(format!("{data_dir}/completions/{name}")).is_ok()
@@ -283,8 +276,8 @@ pub fn cmd_update(
                 return;
             }
             had_error.store(true, std::sync::atomic::Ordering::SeqCst);
-            // Installed here, absent from the library: neither `not_available` (nowhere) nor
-            // `not_installed` (never added). The code and the message say the same thing.
+            // Installed here, absent from the library: neither `not_available` (nowhere) nor `not_installed` (never added).
+            // The code and the message say the same thing.
             let err = msg_cli(lang, "not_in_library");
             if !json {
                 lines.push(format!("{name}: {err}"));
@@ -304,8 +297,7 @@ pub fn cmd_update(
         match add_completion(data_dir, name, &urls, &version) {
             Ok(updated) => {
                 if !updated {
-                    // A local link is a deliberate choice, not an error: reported, but it does
-                    // not fail the run (unlike `add`, which calls the same case a success).
+                    // A local link is a deliberate choice, not an error: reported, but it does not fail the run (unlike `add`, which calls the same case a success).
                     let err = msg_cli(lang, "update_skip");
                     if !json {
                         lines.push(format!("{name}: {err}"));
@@ -369,8 +361,7 @@ pub fn cmd_update(
             }
         }
     });
-    // Persist the renames actually executed during this update so the module's pending
-    // notifications can still show them even if the JSON results were not consumed.
+    // Persist the renames actually executed during this update so the module's pending notifications can still show them even if the JSON results were not consumed.
     let executed_renames: Vec<(String, String)> = {
         let results = results.lock().unwrap();
         results
@@ -398,8 +389,7 @@ pub fn cmd_update(
         // Nothing was persisted: that is the whole command's failure, not one item's.
         return fail(out, "io", &format!("error: {e}"), json, false);
     }
-    // Save first, print once: the payload must carry the save outcome, and `--json` mode owes
-    // the consumer exactly one JSON document.
+    // Save first, print once: the payload must carry the save outcome, and `--json` mode owes the consumer exactly one JSON document.
     let save_err = settings.save(settings_path).err();
     if let Some(e) = save_err {
         // Nothing was persisted: that is the whole command's failure, not one item's.
@@ -425,9 +415,8 @@ pub fn cmd_update(
         }
     }
     if results.is_empty() {
-        // Nothing was selected (everything current, or nothing eligible). The module answers an
-        // empty result array with `info.update.no`, so the text mode says the same instead of
-        // nothing — the JSON keeps its empty array.
+        // Nothing was selected (everything current, or nothing eligible).
+        // The module answers an empty result array with `info.update.no`, so the text mode says the same instead of nothing — the JSON keeps its empty array.
         out.line(&msg_cli(lang, "update_no"));
     }
     if had_error {

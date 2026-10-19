@@ -1,5 +1,4 @@
-//! Shared validation helpers: completion-name status, uniform error emission, and
-//! settings-map utilities used by several commands.
+//! Shared validation helpers: completion-name status, uniform error emission, and settings-map utilities used by several commands.
 
 use std::process::ExitCode;
 
@@ -12,8 +11,7 @@ use crate::output::{err, Out};
 /// Completion name status: 2=installed/local link (alias set or dir on disk), 1=remote-only, 0=unknown.
 /// All subcommands that accept a completion name share this same determination.
 pub fn name_status(settings: &Settings, index: &Index, completions_dir: &str, name: &str) -> u8 {
-    // Reject before touching the filesystem: a name carrying separators would make the
-    // `completions_dir/name` probe resolve outside the library directory.
+    // Reject before touching the filesystem: a name carrying separators would make the `completions_dir/name` probe resolve outside the library directory.
     if !is_valid_name(name) {
         return 0;
     }
@@ -42,12 +40,10 @@ pub fn is_valid_name(name: &str) -> bool {
     true
 }
 
-/// Validate a completion name uniformly and report errors. `need_installed`: whether the command
-/// requires the completion to be installed (rm/update/completion/alias).
+/// Validate a completion name uniformly and report errors.
+/// `need_installed`: whether the command requires the completion to be installed (rm/update/completion/alias).
 ///
-/// Returns the stable `code` a machine branches on together with the message a human reads
-/// (design/json.md): `not_available` for a name that is not usable, `not_installed` for one that
-/// exists remotely but is not installed here.
+/// Returns the stable `code` a machine branches on together with the message a human reads (design/json.md): `not_available` for a name that is not usable, `not_installed` for one that exists remotely but is not installed here.
 pub fn name_error(
     lang: &str,
     name: &str,
@@ -79,8 +75,8 @@ pub fn too_few_params(out: &Out, lang: &str, json: bool) -> ExitCode {
     ExitCode::from(2)
 }
 
-/// The mirror of `too_few_params`: a command that takes no arguments was given some. Also a usage
-/// error (exit 2) — a mistyped flag must not look like a normal run.
+/// The mirror of `too_few_params`: a command that takes no arguments was given some.
+/// Also a usage error (exit 2) — a mistyped flag must not look like a normal run.
 pub fn too_many_params(out: &Out, lang: &str, json: bool) -> ExitCode {
     let msg = msg_cli(lang, "too_many_params");
     if json {
@@ -114,8 +110,7 @@ pub fn ensure_completion_map(settings: &mut Settings) -> &mut serde_json::Map<St
 }
 
 /// Get (creating if needed) one completion's config map, repairing a non-object entry.
-/// `settings.config` and `config.completion` may hold anything a hand-edited file put there; a
-/// non-object is replaced rather than unwrapped.
+/// `settings.config` and `config.completion` may hold anything a hand-edited file put there; a non-object is replaced rather than unwrapped.
 pub fn ensure_completion_entry<'a>(
     settings: &'a mut Settings,
     name: &str,
@@ -132,10 +127,8 @@ pub fn ensure_completion_entry<'a>(
 
 /// Restore a completion's trigger aliases to its config.json alias (or the name itself).
 ///
-/// The alias map's order **is** the claim order, and the hosts build their `word -> completion`
-/// table by inserting in it, so declaring the words here — moving the completion to the end —
-/// is what makes a later declaration win. Conflicts are deliberately not resolved: the last
-/// claim simply wins, and `psc alias` shows the current ownership.
+/// The alias map's order **is** the claim order, and the hosts build their `word -> completion` table by inserting in it, so declaring the words here — moving the completion to the end — is what makes a later declaration win.
+/// Conflicts are deliberately not resolved: the last claim simply wins, and `psc alias` shows the current ownership.
 pub fn reset_alias(settings: &mut Settings, data_dir: &str, name: &str) {
     let config_path = format!("{data_dir}/completions/{name}/config.json");
     let desired: Vec<String> = read_text(&config_path)
@@ -163,8 +156,7 @@ mod tests {
 
     #[test]
     fn reset_alias_declares_the_config_words_in_order() {
-        // No filtering: the config's words are declared as-is, and the completion moves to the
-        // end of the map — that order is what makes a later declaration win for the hosts.
+        // No filtering: the config's words are declared as-is, and the completion moves to the end of the map — that order is what makes a later declaration win for the hosts.
         let base = std::env::temp_dir().join(format!("psc-validate-test-{}", std::process::id()));
         let dir = base.join("completions/new");
         std::fs::create_dir_all(&dir).unwrap();

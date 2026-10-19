@@ -1,10 +1,7 @@
-//! `psc tpl <dotted.info.path> [--ctx <json>] [--version <v>] [--no-color] [--markup]` and
-//! `psc tpl --stdin` — render one of the `psc` completion's `info` templates.
+//! `psc tpl <dotted.info.path> [--ctx <json>] [--version <v>] [--no-color] [--markup]` and `psc tpl --stdin` — render one of the `psc` completion's `info` templates.
 //!
-//! Internal, like `init`: a host names the template (or hands over the value it already holds, via
-//! `--stdin`) and passes its data, so the `{{…}}` grammar has exactly one implementation. It is not
-//! part of the completion menu, and the caller supplies whatever a template reads (`Version`, a
-//! record list, counts) — the engine never invents those values.
+//! Internal, like `init`: a host names the template (or hands over the value it already holds, via `--stdin`) and passes its data, so the `{{…}}` grammar has exactly one implementation.
+//! It is not part of the completion menu, and the caller supplies whatever a template reads (`Version`, a record list, counts) — the engine never invents those values.
 
 use std::io::Read;
 use std::process::ExitCode;
@@ -47,8 +44,7 @@ pub fn cmd_tpl(
         } else if let Some(v) = a.strip_prefix("--ctx=") {
             ctx = Some(parse_ctx(v));
         } else if a == "--version" {
-            // The module's own version lives in the module directory, not the data dir, so the
-            // caller supplies it; `Version` is what the info page prints.
+            // The module's own version lives in the module directory, not the data dir, so the caller supplies it; `Version` is what the info page prints.
             let Some(v) = args.get(i + 1).filter(|v| !v.starts_with('-')) else {
                 println!("psc tpl: --version needs a value");
                 return ExitCode::FAILURE;
@@ -56,8 +52,7 @@ pub fn cmd_tpl(
             version = Some(v.clone());
             i += 1;
         } else if a == "--ctx" {
-            // A value starting with `-` is the next flag, not the context (the rule the global
-            // flags already follow): swallowing `--no-color` here would silently drop it.
+            // A value starting with `-` is the next flag, not the context (the rule the global flags already follow): swallowing `--no-color` here would silently drop it.
             let Some(v) = args.get(i + 1).filter(|v| !v.starts_with('-')) else {
                 println!("psc tpl: --ctx needs a JSON value");
                 return ExitCode::FAILURE;
@@ -65,8 +60,7 @@ pub fn cmd_tpl(
             ctx = Some(parse_ctx(v));
             i += 1;
         } else if a.starts_with('-') {
-            // No path starts with `-`, so this is a caller's typo — reporting it as "no such
-            // template" would send them looking in the wrong place.
+            // No path starts with `-`, so this is a caller's typo — reporting it as "no such template" would send them looking in the wrong place.
             println!("psc tpl: unknown argument {a}");
             return ExitCode::FAILURE;
         } else if path.is_none() {
@@ -85,8 +79,7 @@ pub fn cmd_tpl(
         return ExitCode::FAILURE;
     }
 
-    // `--stdin` carries the template value and its context as one JSON request: a host that holds
-    // the value (rather than a path) hands it over without quoting it into an argument.
+    // `--stdin` carries the template value and its context as one JSON request: a host that holds the value (rather than a path) hands it over without quoting it into an argument.
     let (data, ctx, sep) = if stdin_mode {
         let mut raw = String::new();
         if std::io::stdin().read_to_string(&mut raw).is_err() {
@@ -118,8 +111,7 @@ pub fn cmd_tpl(
             &psc_language(completions_dir, run_lang, settings),
         );
         let Some(data) = dotted(&info, path.unwrap()) else {
-            // No such template: print nothing and fail, so a caller can tell it apart from an
-            // empty rendering and fall back.
+            // No such template: print nothing and fail, so a caller can tell it apart from an empty rendering and fall back.
             return ExitCode::FAILURE;
         };
         (
@@ -135,8 +127,7 @@ pub fn cmd_tpl(
         o.entry("Version").or_insert(Value::String(v));
     }
     if lint {
-        // Lint the *joined* text: a block may open in one line of the `info` list and close in
-        // another, so linting line by line would report a well-formed template as broken.
+        // Lint the *joined* text: a block may open in one line of the `info` list and close in another, so linting line by line would report a well-formed template as broken.
         let text = match &data {
             Value::Array(lines) => lines
                 .iter()
@@ -176,8 +167,7 @@ pub fn cmd_tpl(
         print!("{text}");
         return ExitCode::SUCCESS;
     }
-    // Color is the caller's decision: the hosts render into a captured stdout, where a TTY test
-    // would answer "no" and silently drop the color.
+    // Color is the caller's decision: the hosts render into a captured stdout, where a TTY test would answer "no" and silently drop the color.
     print!("{}", Out { color }.render(&text));
     if color {
         print!("\x1b[0m");
@@ -212,8 +202,8 @@ fn dotted<'a>(info: &'a Value, path: &str) -> Option<&'a Value> {
     Some(cur)
 }
 
-/// The language the templates render in: the `psc` completion's own. Its declared list decides —
-/// a per-completion override beats the module language, and the module language beats nothing.
+/// The language the templates render in: the `psc` completion's own.
+/// Its declared list decides — a per-completion override beats the module language, and the module language beats nothing.
 fn psc_language(completions_dir: &str, run_lang: &str, settings: &Settings) -> String {
     let declared: Vec<String> =
         std::fs::read_to_string(format!("{completions_dir}/psc/config.json"))

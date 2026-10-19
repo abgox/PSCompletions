@@ -1,24 +1,12 @@
 #!/usr/bin/env python3
-"""PTY regression test: the menu must run in the shell's own process group, and the
-trigger must apply the menu's verdict in a real shell.
+"""PTY regression test: the menu must run in the shell's own process group, and the trigger must apply the menu's verdict in a real shell.
 
 Two properties that a headless suite cannot see:
 
-1. **Process group.** A TUI menu reads /dev/tty. A read from a background process group
-   is stopped by SIGTTIN, so if the bridge spawns the menu in its own group the menu
-   starts, is stopped, and the widget looks like it did nothing. Bash's coproc happens to
-   stay in the shell's group; zsh gives a job its own group unless MONITOR is off, and
-   the call must not sit behind `<( )` / `$( )`, whose subshell also gets a group of its
-   own. fish's command substitution keeps the shell's group.
-2. **The whole trigger path**, driven with a stub menu that answers a distinctive text
-   (`hello`): the input line must end up holding it. Asserting the line after a *real*
-   completion cannot distinguish "our apply ran" from "the trigger returned and the
-   shell's own completion took over" — the fallback hides a broken apply, because the
-   native rules were modelled on the host's own behaviour.
+1. **Process group.** A TUI menu reads /dev/tty. A read from a background process group is stopped by SIGTTIN, so if the bridge spawns the menu in its own group the menu starts, is stopped, and the widget looks like it did nothing. Bash's coproc happens to stay in the shell's group; zsh gives a job its own group unless MONITOR is off, and the call must not sit behind `<( )` / `$( )`, whose subshell also gets a group of its own. fish's command substitution keeps the shell's group.
+2. **The whole trigger path**, driven with a stub menu that answers a distinctive text (`hello`): the input line must end up holding it. Asserting the line after a *real* completion cannot distinguish "our apply ran" from "the trigger returned and the shell's own completion took over" — the fallback hides a broken apply, because the native rules were modelled on the host's own behaviour.
 
-Every session is also scanned for shell errors (`set:`, `special variable`, `syntax
-error`, …): a bridge that fails mid-function and falls through looks like a working
-completion, which is exactly how a read-only `status` assignment went unnoticed.
+Every session is also scanned for shell errors (`set:`, `special variable`, `syntax error`, …): a bridge that fails mid-function and falls through looks like a working completion, which is exactly how a read-only `status` assignment went unnoticed.
 
 Usage: python3 scripts/bridge/test-pgrp.py [repo-root]
 """
@@ -44,8 +32,7 @@ SCRATCH_FISH = '/tmp/psc-fish-pgrp-test'
 PASS = 0
 FAIL = 0
 
-SHELL_ERRORS = ('special variable', 'not a valid variable', 'Unknown command',
-                'syntax error', 'Invalid index', 'command not found', 'Missing operator')
+SHELL_ERRORS = ('special variable', 'not a valid variable', 'Unknown command', 'syntax error', 'Invalid index', 'command not found', 'Missing operator')
 
 
 def check(name, ok, detail=''):
@@ -102,17 +89,10 @@ begin
 end > "$PSC_LOG"
 '''
 
-# Trigger-path spec: one word of a completion that exists in the scratch data dir, then
-# the trigger key, then the probe key that dumps the line.
-ZSH_APPLY_SPEC = ['_probe_dump() { print -r -- "$LBUFFER$RBUFFER" > "$PSC_LINE"; }',
-                  'zle -N _probe_dump', "bindkey '^Y' _probe_dump",
-                  '_PSC_MENU="$PSC_STUB"']
-BASH_APPLY_SPEC = ['_probe_dump() { printf %s "$READLINE_LINE" > "$PSC_LINE"; }',
-                   'bind -x \'"\\C-y": _probe_dump\'',
-                   '_PSC_MENU="$PSC_STUB"']
-FISH_APPLY_SPEC = ['function _probe_dump; commandline -b > "$PSC_LINE"; commandline -C 999999; commandline -f repaint; end',
-                   'bind ctrl-y _probe_dump',
-                   'set -g _PSC_MENU "$PSC_STUB"']
+# Trigger-path spec: one word of a completion that exists in the scratch data dir, then the trigger key, then the probe key that dumps the line.
+ZSH_APPLY_SPEC = ['_probe_dump() { print -r -- "$LBUFFER$RBUFFER" > "$PSC_LINE"; }', 'zle -N _probe_dump', "bindkey '^Y' _probe_dump", '_PSC_MENU="$PSC_STUB"']
+BASH_APPLY_SPEC = ['_probe_dump() { printf %s "$READLINE_LINE" > "$PSC_LINE"; }', 'bind -x \'"\\C-y": _probe_dump\'', '_PSC_MENU="$PSC_STUB"']
+FISH_APPLY_SPEC = ['function _probe_dump; commandline -b > "$PSC_LINE"; commandline -C 999999; commandline -f repaint; end', 'bind ctrl-y _probe_dump', 'set -g _PSC_MENU "$PSC_STUB"']
 
 
 def scratch_data(scratch):
@@ -286,10 +266,9 @@ def run_trigger(shell):
 def run_panic_hook():
     """The panic hook must still write its error result.
 
-    `--panic-test` panics *before* the menu takes the terminal (design/menu.md §8), so this cannot
-    observe the terminal half of the hook — the pty's termios would read the same either way. What
-    it observes is the half a crashing menu owes its host: the result file. The terminal half is
-    pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
+    `--panic-test` panics *before* the menu takes the terminal (design/menu.md §8), so this cannot observe the terminal half of the hook — the pty's termios would read the same either way.
+    What it observes is the half a crashing menu owes its host: the result file.
+    The terminal half is pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
     """
     machine = os.uname().machine
     arch = 'arm64' if machine in ('aarch64', 'arm64') else 'x64'

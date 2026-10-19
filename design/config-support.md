@@ -1,35 +1,21 @@
 # Design: config support across the bridges
 
-One place that says, for every config key, **which layer acts on it** and whether each
-shell bridge honours it. Without this, "supported" is guesswork: a key can look wired up
-while one shell silently ignores it, and a new key can be added with no one noticing that
-three bridges owe it an implementation.
+One place that says, for every config key, **which layer acts on it** and whether each shell bridge honours it.
+Without this, "supported" is guesswork: a key can look wired up while one shell silently ignores it, and a new key can be added with no one noticing that three bridges owe it an implementation.
 
-`design/menu.md` stays canonical for types, ranges and defaults; this file only records
-**who implements what** and where it is asserted.
+`design/menu.md` stays canonical for types, ranges and defaults; this file only records **who implements what** and where it is asserted.
 
 ## Two layers
 
-- **Engine** (`psc-menu`): the bridge only forwards these; behaviour is identical in every
-  shell, so there is no per-bridge code and nothing for a bridge's tests to prove beyond
-  the forwarding itself.
-- **Bridge**: the shell must implement it itself (the engine never sees it). Every row in
-  the second table is a per-bridge promise and must have a test in each bridge's suite.
+- **Engine** (`psc-menu`): the bridge only forwards these; behaviour is identical in every shell, so there is no per-bridge code and nothing for a bridge's tests to prove beyond the forwarding itself.
+- **Bridge**: the shell must implement it itself (the engine never sees it). Every row in the second table is a per-bridge promise and must have a test in each bridge's suite.
 
 ## Engine-side keys
 
-`show_mode`, `filter_mode`, `enable_list_loop`, `enable_apply_when_single` (the "only one
-match → no pick needed" behaviour; PS hands it to the menu input, the engine acts on it),
-`enable_apply_when_no_match`, `color_focus`, `color_match`, `enable_tip`,
-`enable_tip_usage`, `enable_tip_example`, `enable_cache` (the engine's 10 s built-candidate
-cache — **not** the bridges' session caches, which hold settings and are not gated by it),
-and the `switch` / `stay` context symbols.
+`show_mode`, `filter_mode`, `enable_list_loop`, `enable_apply_when_single` (the "only one match → no pick needed" behaviour; PS hands it to the menu input, the engine acts on it), `enable_apply_when_no_match`, `color_focus`, `color_match`, `enable_tip`, `enable_tip_usage`, `enable_tip_example`, `enable_cache` (the engine's 10 s built-candidate cache — **not** the bridges' session caches, which hold settings and are not gated by it), and the `switch` / `stay` context symbols.
 
-They reach the engine through three channels: the `flags` block, `context_switch` /
-`context_stay`, and `raw_config.global` — the bridges pass **every scalar** config entry
-through `raw_config`, so a new engine-side scalar needs no bridge change at all. That
-forwarding is asserted (`menu config forwarded` in every suite), which is also what makes
-"no bridge work needed" a claim rather than an assumption.
+They reach the engine through three channels: the `flags` block, `context_switch` / `context_stay`, and `raw_config.global` — the bridges pass **every scalar** config entry through `raw_config`, so a new engine-side scalar needs no bridge change at all.
+That forwarding is asserted (`menu config forwarded` in every suite), which is also what makes "no bridge work needed" a claim rather than an assumption.
 
 ## Bridge-side keys
 
@@ -45,10 +31,5 @@ forwarding is asserted (`menu config forwarded` in every suite), which is also w
 
 ## Adding a key
 
-1. **Engine-side** → no bridge work. If it is a scalar it is already forwarded through
-   `raw_config`; if it is not, extend the `flags` / context plumbing in every bridge.
-2. **Bridge-side** → implement it in *every* bridge, add the row above, and add a case to
-   each suite (`scripts/bridge/test.bash`, `scripts/bridge/test.zsh`,
-   `scripts/bridge/test.fish`). A row without a test is a defect in this table, not a
-   documentation gap: the whole point is that unverified support is indistinguishable from
-   no support.
+1. **Engine-side** → no bridge work. If it is a scalar it is already forwarded through `raw_config`; if it is not, extend the `flags` / context plumbing in every bridge.
+2. **Bridge-side** → implement it in *every* bridge, add the row above, and add a case to each suite (`scripts/bridge/test.bash`, `scripts/bridge/test.zsh`, `scripts/bridge/test.fish`). A row without a test is a defect in this table, not a documentation gap: the whole point is that unverified support is indistinguishable from no support.

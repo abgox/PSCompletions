@@ -20,35 +20,27 @@ param(
     [Parameter(Position = 0, ValueFromRemainingArguments)]
     [string[]]$CompletionList,
     [switch]$All,
-    # Report wording. Empty (default) follows the machine locale: Chinese for
-    # zh* cultures, English otherwise. check-completion.ps1 always passes en-US
-    # explicitly so the PR comment is deterministic on any runner locale.
+    # Report wording.
+    # Empty (default) follows the machine locale: Chinese for zh* cultures, English otherwise.
+    # check-completion.ps1 always passes en-US explicitly so the PR comment is deterministic on any runner locale.
     [string]$Lang = '',
     [string]$OutFile,
-    # Dead psc.on targets, as reported by check-hook-targets.ps1 -Json
-    # (objects with completion/target/option/reason). A dead target never
-    # fires, so those completions count as failed, and the report shows an
-    # inline CAUTION inside their section.
+    # Dead psc.on targets, as reported by check-hook-targets.ps1 -Json (objects with completion/target/option/reason).
+    # A dead target never fires, so those completions count as failed, and the report shows an inline CAUTION inside their section.
     [array]$HookTargetDetails = @(),
-    # Completions whose config.json id differs from the base checkout:
-    # changing a stable id breaks rename detection, so those completions
-    # count as failed, with an inline CAUTION inside their section.
+    # Completions whose config.json id differs from the base checkout: changing a stable id breaks rename detection, so those completions count as failed, with an inline CAUTION inside their section.
     [string[]]$IdChanged = @(),
-    # Completion -> base version, for completions whose version baseline
-    # changed in this PR (both sides non-empty, values differ). Rendered as
-    # old -> new on the baseline line; informational only, never a failure.
+    # Completion -> base version, for completions whose version baseline changed in this PR (both sides non-empty, values differ).
+    # Rendered as old -> new on the baseline line; informational only, never a failure.
     [System.Collections.Hashtable]$VersionChanged = @{},
-    # completion -> '`psc.run` / `psc.run_batch`' for hooks.lua files using
-    # those APIs. Shown as an inline WARNING inside their section; advisory
-    # only, never counts as a failure.
+    # completion -> '`psc.run` / `psc.run_batch`' for hooks.lua files using those APIs.
+    # Shown as an inline WARNING inside their section; advisory only, never counts as a failure.
     [System.Collections.Hashtable]$RunUsage = @{},
-    # Skip the ## title: check-completion.ps1 writes its own title and splices
-    # this report in as the body.
+    # Skip the ## title: check-completion.ps1 writes its own title and splices this report in as the body.
     [switch]$NoTitle,
-    # Machine-readable summary for check-completion.ps1: one object per
-    # completion (name/hasIssues/hasHooks/counts/version), as JSON on stdout.
-    # Full section lines live only in the Markdown path above, so rendering
-    # stays in one place. Human-readable $results stdout is suppressed here.
+    # Machine-readable summary for check-completion.ps1: one object per completion (name/hasIssues/hasHooks/counts/version), as JSON on stdout.
+    # Full section lines live only in the Markdown path above, so rendering stays in one place.
+    # Human-readable $results stdout is suppressed here.
     [switch]$Json
 )
 
@@ -64,9 +56,8 @@ $completionsDir = Join-Path $root 'completions'
 $manifestSchema = Join-Path $root 'schema/completion-manifest.en-US.json'
 $configSchema = Join-Path $root 'schema/completion-config.en-US.json'
 
-# A completion with dozens of schema errors (a mistyped `next`, a duplicated key)
-# must not bury the other categories: each section shows at most this many lines,
-# then one line saying how many are left. The counts stay in the summary table.
+# A completion with dozens of schema errors (a mistyped `next`, a duplicated key) must not bury the other categories: each section shows at most this many lines, then one line saying how many are left.
+# The counts stay in the summary table.
 $MaxItemsPerSection = 10
 
 if ($All) {
@@ -159,9 +150,9 @@ $L = @{
 }
 
 function Get-Sections {
-    # One section per issue category. Render each to lines first, so the cap
-    # lives in one place instead of in every category's loop. Full (uncapped)
-    # lines; callers apply $MaxItemsPerSection when printing.
+    # One section per issue category.
+    # Render each to lines first, so the cap lives in one place instead of in every category's loop.
+    # Full (uncapped) lines; callers apply $MaxItemsPerSection when printing.
     param($Entry, [string]$Lang)
     $m = $L[$Lang]
     $sections = [System.Collections.Generic.List[object]]::new()
@@ -222,8 +213,7 @@ function Get-Report {
         $deadCounts[$f.completion] += 1
     }
 
-    # One section per completion, failed first — the same classification as
-    # the PR comment, so a local report reads exactly like the bot writes.
+    # One section per completion, failed first — the same classification as the PR comment, so a local report reads exactly like the bot writes.
     $ordered = @(@($Results | Where-Object { $_.hasIssues })) + @($Results | Where-Object { -not $_.hasIssues })
     foreach ($r in $ordered) {
         $mark = if ($r.hasIssues) { '❌ ' } else { '' }
@@ -284,8 +274,7 @@ function Get-Report {
             [void]$sb.AppendLine('')
         }
 
-        # A completion with no manifest section of its own (only a dead hook
-        # target) shows the badge and its CAUTION above, nothing more.
+        # A completion with no manifest section of its own (only a dead hook target) shows the badge and its CAUTION above, nothing more.
         foreach ($sec in (Get-Sections -Entry $r -Lang $Lang)) {
             [void]$sb.AppendLine("#### $($sec.title)")
             [void]$sb.AppendLine('')
@@ -344,23 +333,15 @@ function Get-JsonErrors {
 
     $ajv = Get-AjvPath
     # @jirutka/ajv-cli (replaces ajv-cli).
-    # --strict=false: the schemas carry `markdownDescription`, a VSCode-only
-    #   annotation that ajv's strict mode rejects as an unknown keyword.
-    # --errors=json: the default `pretty` format is human-readable text and
-    #   cannot be parsed as JSON. With `--errors=json` the error array goes to
-    #   stdout (`<file> valid|invalid` and warnings stay on stderr).
-    # --all-errors: without it ajv stops at the first failure, which is exactly
-    #   the round-trip-by-round-trip cost this replaced.
-    # Data files are positional (`--` guards paths starting with `-`); the old
-    #   ajv-cli `-d` flag no longer exists.
-    # `--merge-errors` keeps its default (true): one concise entry per instance
-    #   path (`message` + `instancePath` + `schemaPath`), which is all the
-    #   reader below consumes.
-    # --validate-formats=false: `format` (only `uri` on `meta.url`) has no
-    #   validator without the ajv-formats package, so ajv only warns
-    #   (`unknown format "uri" ignored`) and ignores it. The real URL check is
-    #   the `pattern` / `not` rules, which still fire. The flag just silences
-    #   the warning (two lines per file on stderr); validation is unchanged.
+    # --strict=false: the schemas carry `markdownDescription`, a VSCode-only annotation that ajv's strict mode rejects as an unknown keyword.
+    # --errors=json: the default `pretty` format is human-readable text and cannot be parsed as JSON.
+    # With `--errors=json` the error array goes to stdout (`<file> valid|invalid` and warnings stay on stderr).
+    # --all-errors: without it ajv stops at the first failure, which is exactly the round-trip-by-round-trip cost this replaced.
+    # Data files are positional (`--` guards paths starting with `-`); the old ajv-cli `-d` flag no longer exists.
+    # `--merge-errors` keeps its default (true): one concise entry per instance path (`message` + `instancePath` + `schemaPath`), which is all the reader below consumes.
+    # --validate-formats=false: `format` (only `uri` on `meta.url`) has no validator without the ajv-formats package, so ajv only warns (`unknown format "uri" ignored`) and ignores it.
+    # The real URL check is the `pattern` / `not` rules, which still fire.
+    # The flag just silences the warning (two lines per file on stderr); validation is unchanged.
     $raw = & $ajv validate --strict=false --all-errors --errors=json --validate-formats=false -s $SchemaFile -- $FilePath 2>&1
     $exit = $LASTEXITCODE
     if ($exit -eq 0) { return @() }
@@ -425,9 +406,7 @@ function Get-IdIssues {
     param([string[]]$Names, [string]$Root, [string]$CompletionsDir)
     $issuesByName = @{}
 
-    # Baseline: completions.json
-    # In CI the workspace holds base/ and pr/ side by side (check-completion.yml),
-    # so prefer the trusted base index; locally fall back to the repo index.
+    # Baseline: completions.json In CI the workspace holds base/ and pr/ side by side (check-completion.yml), so prefer the trusted base index; locally fall back to the repo index.
     $localIndex = Join-Path $Root 'completions.json'
     $baseIndex = Join-Path (Split-Path -Parent $Root) 'base/completions.json'
     $baselineFile = $localIndex
@@ -485,7 +464,8 @@ function Get-IdIssues {
         }
     }
 
-    # Duplicates against the baseline index. Same name + same id is fine (update).
+    # Duplicates against the baseline index.
+    # Same name + same id is fine (update).
     # A baseline owner whose directory no longer exists is a rename, allow it.
     foreach ($n in @($currentIds.Keys)) {
         $id = $currentIds[$n]
@@ -499,9 +479,9 @@ function Get-IdIssues {
         }
     }
 
-    # Stability: the same completion must keep its id. A changed id breaks
-    # rename detection and orphans per-completion settings. No baseline entry
-    # means a new completion with nothing to compare: skip it.
+    # Stability: the same completion must keep its id.
+    # A changed id breaks rename detection and orphans per-completion settings.
+    # No baseline entry means a new completion with nothing to compare: skip it.
     foreach ($n in @($currentIds.Keys)) {
         if (-not $baselineNameToId.ContainsKey($n)) { continue }
         if ($currentIds[$n] -ceq $baselineNameToId[$n]) { continue }
@@ -616,8 +596,8 @@ foreach ($name in $CompletionList) {
     $entry.files = $fileList
     $entry.fileCount = $fileList.Count
 
-    # config.json is required. Only flag a missing one when the completion
-    # directory itself exists, so a deliberately removed completion stays clean.
+    # config.json is required.
+    # Only flag a missing one when the completion directory itself exists, so a deliberately removed completion stays clean.
     if ($hasDir -and -not $hasConfig) {
         $entry.issues.config.Add(@{ code = 'cfg_missingFile'; args = @('config.json') })
     }

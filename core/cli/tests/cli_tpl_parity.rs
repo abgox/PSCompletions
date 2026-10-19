@@ -1,9 +1,7 @@
 //! The `info` templates render as frozen goldens.
 //!
-//! `tests/fixtures/psc_tpl.json` holds every template the shipped `psc` completion carries, next to
-//! its expected rendering under one rich context, plus the expression shapes those templates use
-//! (fallback chains, `quote`, `#each` caps, `else`, nesting). Anything here is the module's own
-//! displayed text, so a change that alters it fails here first.
+//! `tests/fixtures/psc_tpl.json` holds every template the shipped `psc` completion carries, next to its expected rendering under one rich context, plus the expression shapes those templates use (fallback chains, `quote`, `#each` caps, `else`, nesting).
+//! Anything here is the module's own displayed text, so a change that alters it fails here first.
 
 use serde_json::Value;
 

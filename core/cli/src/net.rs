@@ -13,12 +13,8 @@ const GITEE: &str = "https://gitee.com/abgox/PSCompletions/raw/main";
 const GITHUB: &str = "https://github.com/abgox/PSCompletions/raw/main";
 const GH_PAGES: &str = "https://abgox.github.io/PSCompletions";
 
-/// Derive the index-branch variant of a content base: only raw-style bases
-/// ending in the branch segment `main` qualify (`.../raw/main` ->
-/// `.../raw/index`). Anything else (Pages roots, custom path prefixes,
-/// bare hosts) has no known index layout and is tried as-is: guessing
-/// `.../index` there wastes a request at best (GH_PAGES: a 404 before the
-/// fallback heals it) and mangles the URL at worst.
+/// Derive the index-branch variant of a content base: only raw-style bases ending in the branch segment `main` qualify (`.../raw/main` -> `.../raw/index`).
+/// Anything else (Pages roots, custom path prefixes, bare hosts) has no known index layout and is tried as-is: guessing `.../index` there wastes a request at best (GH_PAGES: a 404 before the fallback heals it) and mangles the URL at worst.
 fn index_branch_url(base: &str) -> Option<String> {
     let b = base.trim_end_matches('/');
     let (head, last) = b.rsplit_once('/')?;
@@ -34,8 +30,8 @@ fn index_branch_url(base: &str) -> Option<String> {
 }
 
 /// Index download bases: the index-branch layout first, then today's layout.
-/// New servers answer the first; legacy/custom mirrors serving the old layout
-/// answer the second. Deduped, so a base already on the index layout is tried once.
+/// New servers answer the first; legacy/custom mirrors serving the old layout answer the second.
+/// Deduped, so a base already on the index layout is tried once.
 pub fn resolve_index_urls(settings: &Settings) -> Vec<String> {
     let bases = resolve_urls(settings);
     let mut out = Vec::new();
@@ -54,8 +50,7 @@ pub fn resolve_index_urls(settings: &Settings) -> Vec<String> {
     out
 }
 
-/// Official `config.url` candidates from the installed psc manifest
-/// (`config core url` value list): the manifest is the user-facing source of truth.
+/// Official `config.url` candidates from the installed psc manifest (`config core url` value list): the manifest is the user-facing source of truth.
 /// Falls back to the static default bases when the manifest is unreadable.
 /// Names are stored quoted in the manifest; comparison strips one quote pair.
 pub fn official_sources(data_dir: &str, language: &str) -> Vec<String> {
@@ -102,8 +97,8 @@ pub fn official_sources(data_dir: &str, language: &str) -> Vec<String> {
     out
 }
 
-/// Whether a `config.url` value is an official source: empty (auto) or listed in
-/// the psc manifest candidates / static default bases. Anything else is unreviewed.
+/// Whether a `config.url` value is an official source: empty (auto) or listed in the psc manifest candidates / static default bases.
+/// Anything else is unreviewed.
 pub fn is_official_source(data_dir: &str, language: &str, url: &str) -> bool {
     let u = url.trim();
     u.is_empty()
@@ -127,8 +122,7 @@ pub fn resolve_urls(settings: &Settings) -> Vec<String> {
     }
 }
 
-/// Shared blocking HTTP client: built once, reused across requests and threads
-/// (reqwest's blocking Client is Send + Sync and keeps a connection pool).
+/// Shared blocking HTTP client: built once, reused across requests and threads (reqwest's blocking Client is Send + Sync and keeps a connection pool).
 fn http_client() -> &'static reqwest::blocking::Client {
     static CLIENT: OnceLock<reqwest::blocking::Client> = OnceLock::new();
     CLIENT.get_or_init(|| {
@@ -139,9 +133,8 @@ fn http_client() -> &'static reqwest::blocking::Client {
     })
 }
 
-/// A fetch failure, classified by *where* it happened: a transport failure is `network`, a failure
-/// that happened after the bytes arrived (a decode, a parse, a local write) is `io`. Callers report
-/// the code; `Display` keeps every existing `e.to_string()` site working unchanged.
+/// A fetch failure, classified by *where* it happened: a transport failure is `network`, a failure that happened after the bytes arrived (a decode, a parse, a local write) is `io`.
+/// Callers report the code; `Display` keeps every existing `e.to_string()` site working unchanged.
 #[derive(Debug, Clone)]
 pub enum FetchError {
     Network(String),
@@ -176,16 +169,14 @@ impl std::fmt::Display for FetchError {
 }
 
 impl From<String> for FetchError {
-    /// A bare `String` error from the local helpers (`validate_index_shape`, `validate_config_id`)
-    /// is a local failure: it is only ever built after the bytes arrived.
+    /// A bare `String` error from the local helpers (`validate_index_shape`, `validate_config_id`) is a local failure: it is only ever built after the bytes arrived.
     fn from(s: String) -> Self {
         FetchError::Local(s)
     }
 }
 
-/// The body as text, or an error. A source file that is not UTF-8 is **rejected** rather than
-/// decoded lossily: U+FFFD would be installed silently and the user would never know the file is
-/// damaged (the JSON parser does not catch it — a U+FFFD in a string is valid JSON).
+/// The body as text, or an error.
+/// A source file that is not UTF-8 is **rejected** rather than decoded lossily: U+FFFD would be installed silently and the user would never know the file is damaged (the JSON parser does not catch it — a U+FFFD in a string is valid JSON).
 fn utf8_body(url: &str, bytes: Vec<u8>) -> Result<String, FetchError> {
     String::from_utf8(bytes).map_err(|_| FetchError::Local(format!("{url} is not valid UTF-8")))
 }
@@ -196,8 +187,7 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
     let mut errors: Vec<FetchError> = Vec::new();
     for u in urls {
         let url = format!("{}/{}", u.trim_end_matches('/'), path);
-        // Retry once on transient connect/timeout failures (a single-threaded local server
-        // can drop a burst of connections under concurrency); other errors are final.
+        // Retry once on transient connect/timeout failures (a single-threaded local server can drop a burst of connections under concurrency); other errors are final.
         for attempt in 0..2 {
             match client
                 .get(&url)
@@ -211,8 +201,7 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
                         || e.is_timeout()
                         || e.status()
                             .is_some_and(|s| s.as_u16() == 429 || s.is_server_error());
-                    // Report every mirror that failed, not only the last: with three sources a user
-                    // otherwise sees one 404 and cannot tell that all of them are unreachable.
+                    // Report every mirror that failed, not only the last: with three sources a user otherwise sees one 404 and cannot tell that all of them are unreachable.
                     if !transient || attempt == 1 {
                         errors.push(FetchError::Network(format!("{url}: {e}")));
                         break;
@@ -222,8 +211,7 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
             }
         }
     }
-    // Every mirror's failure is named (a user must see that all of them are unreachable), and the
-    // last one — the one the message ends with — decides the code.
+    // Every mirror's failure is named (a user must see that all of them are unreachable), and the last one — the one the message ends with — decides the code.
     let kind_is_local = errors
         .last()
         .is_some_and(|e| matches!(e, FetchError::Local(_)));
@@ -244,12 +232,10 @@ pub fn fetch_text(urls: &[String], path: &str) -> Result<String, FetchError> {
     })
 }
 
-/// Crash residue from staged downloads: pid-suffixed temp files/dirs
-/// (`temp/<name>.<pid>.tmp`, incl. `completions.json.<pid>.tmp`) and aside-renamed
-/// dirs (`completions/<name>.<pid>.old`). A killed process never cleans its own.
-/// Entries older than a day are dead by definition (an active staging lives
-/// minutes); anything younger — including a concurrent `psc` mid-download, whose
-/// names differ by pid anyway — is left alone.
+/// Crash residue from staged downloads: pid-suffixed temp files/dirs (`temp/<name>.<pid>.tmp`, incl.
+/// `completions.json.<pid>.tmp`) and aside-renamed dirs (`completions/<name>.<pid>.old`).
+/// A killed process never cleans its own.
+/// Entries older than a day are dead by definition (an active staging lives minutes); anything younger — including a concurrent `psc` mid-download, whose names differ by pid anyway — is left alone.
 pub fn cleanup_stale_staging(data_dir: &str) {
     cleanup_stale_staging_with_age(data_dir, Duration::from_secs(24 * 60 * 60));
 }
@@ -262,8 +248,7 @@ fn cleanup_stale_staging_with_age(data_dir: &str, max_age: Duration) {
             .and_then(|t| std::time::SystemTime::now().duration_since(t).ok())
             .is_some_and(|d| d >= max_age)
     };
-    // `<base>.<pid><ext>` with a numeric pid — nothing legitimate in these
-    // directories looks like that.
+    // `<base>.<pid><ext>` with a numeric pid — nothing legitimate in these directories looks like that.
     let pid_suffixed = |name: &str, ext: &str| {
         name.strip_suffix(ext)
             .and_then(|base| base.rsplit('.').next())
@@ -290,8 +275,7 @@ fn cleanup_stale_staging_with_age(data_dir: &str, max_age: Duration) {
     sweep(&format!("{data_dir}/completions"), ".old");
 }
 
-/// Shape check for a downloaded `completions.json`: the remote must have served an actual
-/// index (`{ update, meta }`), not a redirect page or error body that happens to parse as JSON.
+/// Shape check for a downloaded `completions.json`: the remote must have served an actual index (`{ update, meta }`), not a redirect page or error body that happens to parse as JSON.
 /// Without this, `psc add <name>` would report a misleading "not an available completion".
 pub fn validate_index_shape(v: &Value) -> Result<(), String> {
     let update = v
@@ -301,8 +285,7 @@ pub fn validate_index_shape(v: &Value) -> Result<(), String> {
     if v.get("meta").and_then(|m| m.as_object()).is_none() {
         return Err("bad completions.json: missing `meta` object".into());
     }
-    // Version markers drive update detection by string comparison; a non-string
-    // value would be silently dropped downstream, disabling updates for that entry.
+    // Version markers drive update detection by string comparison; a non-string value would be silently dropped downstream, disabling updates for that entry.
     if update.values().any(|val| val.as_str().is_none()) {
         return Err("bad completions.json: non-string `update` value".into());
     }
@@ -310,9 +293,8 @@ pub fn validate_index_shape(v: &Value) -> Result<(), String> {
 }
 
 /// Download `completions.json`, write it to `<data>/temp/completions.json`, return the parsed value.
-/// Tries each candidate base in order; the first *valid* index wins. Validity
-/// (fetch + parse + shape) decides, not mere HTTP success — an error page that
-/// happens to parse as JSON must not shadow the real index on the next candidate.
+/// Tries each candidate base in order; the first *valid* index wins.
+/// Validity (fetch + parse + shape) decides, not mere HTTP success — an error page that happens to parse as JSON must not shadow the real index on the next candidate.
 pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, FetchError> {
     let mut last_err = FetchError::Network("no index sources".to_string());
     for base in urls {
@@ -323,8 +305,7 @@ pub fn download_list(data_dir: &str, urls: &[String]) -> Result<Value, FetchErro
                 continue;
             }
         };
-        // From here on the bytes arrived, so a failure is local: a bad index is not a network
-        // problem, and reporting it as one would send the user to the wrong place.
+        // From here on the bytes arrived, so a failure is local: a bad index is not a network problem, and reporting it as one would send the user to the wrong place.
         let v: Value = match serde_json::from_str(&attempt) {
             Ok(v) => v,
             Err(e) => {
@@ -366,20 +347,16 @@ fn validate_config_id(config: &Value) -> Result<(), String> {
     }
 }
 
-/// Download a completion's files (config.json first, then language/*.json + hooks.lua in
-/// parallel) and write `.update`. Files are staged in `<data>/temp/<name>.<pid>.tmp` and moved
-/// into place only on full success, so a failed download never removes an already-installed
-/// version. The pid suffix keeps two concurrent processes operating on the same completion
-/// from interleaving writes into one shared staging dir.
+/// Download a completion's files (config.json first, then language/*.json + hooks.lua in parallel) and write `.update`.
+/// Files are staged in `<data>/temp/<name>.<pid>.tmp` and moved into place only on full success, so a failed download never removes an already-installed version.
+/// The pid suffix keeps two concurrent processes operating on the same completion from interleaving writes into one shared staging dir.
 pub fn add_completion(
     data_dir: &str,
     name: &str,
     urls: &[String],
     version: &str,
 ) -> Result<bool, FetchError> {
-    // The single place a completion lands on disk: reject a name carrying separators before
-    // anything is created or removed, so no caller can escape the library directory
-    // (design/psc-cli.md §6.7 — validated before any filesystem access).
+    // The single place a completion lands on disk: reject a name carrying separators before anything is created or removed, so no caller can escape the library directory (design/psc-cli.md §6.7 — validated before any filesystem access).
     if !is_valid_name(name) {
         return Err(FetchError::Local(format!(
             "invalid completion name: {name}"
@@ -392,16 +369,14 @@ pub fn add_completion(
             return Ok(false);
         }
     }
-    // The completions root may not exist (a wiped data dir): create it so the staged
-    // commit can rename into place — otherwise add/init's restore would fail here.
+    // The completions root may not exist (a wiped data dir): create it so the staged commit can rename into place — otherwise add/init's restore would fail here.
     let _ = std::fs::create_dir_all(format!("{data_dir}/completions"));
     // Stage under `<data>/temp` (same volume as `completions/`, so rename is atomic).
     let tmp_dir = format!("{data_dir}/temp/{name}.{}.tmp", std::process::id());
     let old_dir = format!("{dir}.{}.old", std::process::id());
     let _ = std::fs::remove_dir_all(&tmp_dir);
     let _ = std::fs::remove_dir_all(&old_dir);
-    // Legacy fixed-name residue from pre-pid-suffix versions is cleaned opportunistically;
-    // a crashed run's pid-suffixed dirs stay behind (same policy as settings.json's tmp).
+    // Legacy fixed-name residue from pre-pid-suffix versions is cleaned opportunistically; a crashed run's pid-suffixed dirs stay behind (same policy as settings.json's tmp).
     let _ = std::fs::remove_dir_all(format!("{data_dir}/temp/{name}.tmp"));
     let _ = std::fs::remove_dir_all(format!("{dir}.old"));
     let result = (|| -> Result<bool, FetchError> {
@@ -419,8 +394,7 @@ pub fn add_completion(
         if let Some(langs) = config.get("language").and_then(|l| l.as_array()) {
             for lang in langs {
                 if let Some(l) = lang.as_str() {
-                    // The tag names both a URL segment and a local file: reject one carrying
-                    // separators, so nothing lands outside the staging dir.
+                    // The tag names both a URL segment and a local file: reject one carrying separators, so nothing lands outside the staging dir.
                     if !is_valid_name(l) {
                         return Err(FetchError::Local(format!(
                             "invalid language tag in config.json: {l}"
@@ -442,15 +416,13 @@ pub fn add_completion(
             ));
         }
 
-        // Fetched one after another: a completion ships a handful of files, and the parallelism
-        // that matters is across completions (`add`'s run_parallel). A thread per file would let
-        // a hostile config.json decide how many threads to spawn.
+        // Fetched one after another: a completion ships a handful of files, and the parallelism that matters is across completions (`add`'s run_parallel).
+        // A thread per file would let a hostile config.json decide how many threads to spawn.
         for (url_path, local_path, is_hooks) in &jobs {
             match fetch_text(urls, url_path) {
                 Ok(text) => std::fs::write(local_path, text).map_err(|e| e.to_string())?,
                 Err(e) => {
-                    // hooks.lua may be missing remotely (not yet synced): degrade to static
-                    // completions; the next update fills it in.
+                    // hooks.lua may be missing remotely (not yet synced): degrade to static completions; the next update fills it in.
                     if !*is_hooks {
                         return Err(e);
                     }
@@ -462,25 +434,23 @@ pub fn add_completion(
         commit_staged(&dir, &tmp_dir, &old_dir)?;
         Ok(true)
     })();
-    // Never touch the installed `dir` on failure: `add` leaves nothing behind (the staging
-    // dir is removed), `update` keeps the previous version intact.
+    // Never touch the installed `dir` on failure: `add` leaves nothing behind (the staging dir is removed), `update` keeps the previous version intact.
     if result.is_err() {
         let _ = std::fs::remove_dir_all(&tmp_dir);
     }
     result
 }
 
-/// Move a fully-downloaded staging dir into place. An existing `dir` is renamed aside
-/// first and restored if the final rename fails, so a failure mid-commit never leaves
-/// the completion missing.
+/// Move a fully-downloaded staging dir into place.
+/// An existing `dir` is renamed aside first and restored if the final rename fails, so a failure mid-commit never leaves the completion missing.
 fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> {
     if std::fs::symlink_metadata(dir).is_err() {
         return std::fs::rename(tmp_dir, dir).map_err(|e| e.to_string());
     }
     std::fs::rename(dir, old_dir).map_err(|e| e.to_string())?;
     if let Err(e) = std::fs::rename(tmp_dir, dir) {
-        // Restore the previous version and drop the staged files. A failed restore leaves
-        // `old_dir` behind (pid-suffixed; cleaned by the same pid's next add, or manually).
+        // Restore the previous version and drop the staged files.
+        // A failed restore leaves `old_dir` behind (pid-suffixed; cleaned by the same pid's next add, or manually).
         let _ = std::fs::rename(old_dir, dir);
         let _ = std::fs::remove_dir_all(tmp_dir);
         return Err(format!("{e}"));
@@ -490,9 +460,8 @@ fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> 
 }
 
 /// Manifest-derived per-completion config defaults (the manifest `config` items).
-/// Manifest `config` defaults for a completion. Reads the manifest in the
-/// requested language first (same selection as `build_default_data`), falling
-/// back to the manifest's first declared language.
+/// Manifest `config` defaults for a completion.
+/// Reads the manifest in the requested language first (same selection as `build_default_data`), falling back to the manifest's first declared language.
 pub fn completion_defaults(data_dir: &str, name: &str, language: &str) -> Value {
     let mut map = serde_json::Map::new();
     let config_path = format!("{data_dir}/completions/{name}/config.json");
@@ -538,12 +507,8 @@ pub fn completion_defaults(data_dir: &str, name: &str, language: &str) -> Value 
 }
 
 /// After adding/updating a completion, refresh its alias + config defaults.
-/// `reinstall` selects the discipline: `add` reinstalls — the whole per-completion
-/// entry (trigger aliases + `config.completion`) is dropped and rebuilt from remote
-/// defaults (like `rm` + `add`); `update` patches — a missing/empty trigger entry is
-/// filled, per-completion config only gains missing keys, customizations survive.
-/// Words already owned by another completion stay with their owner in both modes;
-/// Nothing is filtered: the words are declared as-is, last claim wins (see `reset_alias`).
+/// `reinstall` selects the discipline: `add` reinstalls — the whole per-completion entry (trigger aliases + `config.completion`) is dropped and rebuilt from remote defaults (like `rm` + `add`); `update` patches — a missing/empty trigger entry is filled, per-completion config only gains missing keys, customizations survive.
+/// Words already owned by another completion stay with their owner in both modes; Nothing is filtered: the words are declared as-is, last claim wins (see `reset_alias`).
 pub fn refresh_settings_after_add(
     settings: &mut Settings,
     data_dir: &str,
@@ -555,8 +520,7 @@ pub fn refresh_settings_after_add(
         crate::data::read_text(&config_path).ok_or_else(|| "missing config.json".to_string())?;
     let config: Value = serde_json::from_str(&text).map_err(|e| e.to_string())?;
     if reinstall {
-        // Reinstall feel: drop the whole per-completion config entry so the manifest
-        // defaults below rebuild it from scratch (removed upstream keys vanish too).
+        // Reinstall feel: drop the whole per-completion config entry so the manifest defaults below rebuild it from scratch (removed upstream keys vanish too).
         if let Some(comp) = settings
             .config
             .get_mut("completion")
@@ -565,8 +529,7 @@ pub fn refresh_settings_after_add(
             comp.remove(name);
         }
     }
-    // Whether this completion already had per-completion settings before the manifest
-    // defaults below may create it (first install vs update).
+    // Whether this completion already had per-completion settings before the manifest defaults below may create it (first install vs update).
     let first_install = settings
         .config
         .get("completion")
@@ -584,9 +547,8 @@ pub fn refresh_settings_after_add(
         })
         .filter(|a: &Vec<String>| !a.is_empty())
         .unwrap_or_else(|| vec![name.to_string()]);
-    // The order is the claim order, and the hosts insert into their `word -> completion` table
-    // in it, so claiming here — moving the completion to the end — is what makes a later
-    // declaration win. Conflicts are deliberately not resolved: the last claim simply wins.
+    // The order is the claim order, and the hosts insert into their `word -> completion` table in it, so claiming here — moving the completion to the end — is what makes a later declaration win.
+    // Conflicts are deliberately not resolved: the last claim simply wins.
     if reinstall
         || settings
             .alias
@@ -612,9 +574,8 @@ pub fn refresh_settings_after_add(
             }
         }
     }
-    // `hooks: false` in config.json declares "dynamic hooks exist but are disabled by
-    // default": seed enable_hooks=0 on first install so they don't run until the user
-    // opts in (`psc completion <name> enable_hooks 1`). Updates never touch an entry.
+    // `hooks: false` in config.json declares "dynamic hooks exist but are disabled by default": seed enable_hooks=0 on first install so they don't run until the user opts in (`psc completion <name> enable_hooks 1`).
+    // Updates never touch an entry.
     if first_install && hooks_disabled {
         crate::validate::ensure_completion_entry(settings, name)
             .insert("enable_hooks".to_string(), serde_json::json!(0));
@@ -641,9 +602,8 @@ pub fn rename_completion(
 ) -> Result<(), FetchError> {
     // Download the new completion first (aborts on failure, old stays intact).
     add_completion(data_dir, new, urls, version)?;
-    // Move per-completion settings: alias + config.completion entry
-    // (including enable_hooks). Do NOT call refresh_settings_after_add here —
-    // it would overwrite the migrated user aliases with the new manifest's defaults.
+    // Move per-completion settings: alias + config.completion entry (including enable_hooks).
+    // Do NOT call refresh_settings_after_add here — it would overwrite the migrated user aliases with the new manifest's defaults.
     if let Some(aliases) = settings.alias.shift_remove(old) {
         settings.alias.insert(new.to_string(), aliases);
     }
@@ -656,8 +616,7 @@ pub fn rename_completion(
             comp.insert(new.to_string(), v);
         }
     }
-    // Remove the old entry — a linked (junction) old completion is removed as a link only,
-    // so the linked local source is never followed or deleted.
+    // Remove the old entry — a linked (junction) old completion is removed as a link only, so the linked local source is never followed or deleted.
     remove_completion_entry(data_dir, old);
     Ok(())
 }
@@ -680,10 +639,7 @@ mod tests {
 
     #[test]
     fn cleanup_stale_staging_removes_only_pid_suffixed_residue() {
-        // Directory mtimes are not portable to fake (Windows cannot set them
-        // without backup semantics), so the threshold itself is the parameter:
-        // ZERO sweeps every residue shape (covering dir removal), a huge age
-        // keeps everything live.
+        // Directory mtimes are not portable to fake (Windows cannot set them without backup semantics), so the threshold itself is the parameter: ZERO sweeps every residue shape (covering dir removal), a huge age keeps everything live.
         use std::sync::atomic::{AtomicU64, Ordering};
         static SEQ: AtomicU64 = AtomicU64::new(0);
         let mk = |tag: &str| {
@@ -732,8 +688,7 @@ mod tests {
 
     #[test]
     fn validate_index_shape_rejects_non_index_json() {
-        // A GitHub 404 body / redirect page that parses as JSON must be rejected, not
-        // silently turned into an empty `update` map (misleading "not available" errors).
+        // A GitHub 404 body / redirect page that parses as JSON must be rejected, not silently turned into an empty `update` map (misleading "not available" errors).
         assert!(validate_index_shape(&serde_json::json!({ "message": "Not Found" })).is_err());
         assert!(validate_index_shape(&serde_json::json!([])).is_err());
         assert!(validate_index_shape(&serde_json::json!({ "update": [], "meta": {} })).is_err());
@@ -746,8 +701,7 @@ mod tests {
 
     #[test]
     fn a_body_that_is_not_utf8_is_rejected_not_mangled() {
-        // Lossy decoding would install U+FFFD into the user's completion and say nothing; a
-        // U+FFFD inside a JSON string is valid JSON, so nothing downstream would notice either.
+        // Lossy decoding would install U+FFFD into the user's completion and say nothing; a U+FFFD inside a JSON string is valid JSON, so nothing downstream would notice either.
         assert_eq!(utf8_body("http://x", b"ok".to_vec()).unwrap(), "ok");
         let err = utf8_body(
             "http://x/completions/git/language/en-US.json",
@@ -765,9 +719,7 @@ mod tests {
 
     #[test]
     fn every_mirror_that_failed_is_named() {
-        // With three sources, reporting only the last one hides that all of them are unreachable
-        // (the end-to-end run of `--self-update` showed exactly that: one 404 for the site, while
-        // GitHub and Gitee had failed too).
+        // With three sources, reporting only the last one hides that all of them are unreachable (the end-to-end run of `--self-update` showed exactly that: one 404 for the site, while GitHub and Gitee had failed too).
         let urls = vec![
             "http://127.0.0.1:9/first".to_string(),
             "http://127.0.0.1:9/second".to_string(),
@@ -862,8 +814,7 @@ mod tests {
         );
     }
 
-    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path
-    // would let one test's cleanup clobber another's fixtures.
+    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path would let one test's cleanup clobber another's fixtures.
     fn test_base() -> std::path::PathBuf {
         use std::sync::atomic::{AtomicU64, Ordering};
         static COUNTER: AtomicU64 = AtomicU64::new(0);
@@ -897,8 +848,7 @@ mod tests {
     fn add_completion_rejects_a_name_that_escapes_the_library() {
         let base = test_base();
         std::fs::create_dir_all(base.join("completions")).unwrap();
-        // `../evil` makes the staging dir resolve to `<base>/evil.<pid>.tmp` — outside temp/,
-        // where the cleanup `remove_dir_all` calls would then delete outside the library too.
+        // `../evil` makes the staging dir resolve to `<base>/evil.<pid>.tmp` — outside temp/, where the cleanup `remove_dir_all` calls would then delete outside the library too.
         let stray = base.join(format!("evil.{}.tmp", std::process::id()));
         let err = add_completion(base.to_str().unwrap(), "../evil", &[], "").unwrap_err();
         assert!(!stray.exists(), "staging dir escaped temp/: {stray:?}");
@@ -984,8 +934,7 @@ mod tests {
 
     #[test]
     fn refresh_settings_after_add_declares_the_config_words() {
-        // Nothing is filtered: `hx` is declared for `new` too, and the earlier owner keeps its
-        // own list — the hosts resolve the collision by claim order (the last claim wins).
+        // Nothing is filtered: `hx` is declared for `new` too, and the earlier owner keeps its own list — the hosts resolve the collision by claim order (the last claim wins).
         let base = test_base();
         let dir = base.join("completions/new");
         std::fs::create_dir_all(&dir).unwrap();
@@ -1063,8 +1012,7 @@ mod tests {
             s.alias.get("x").unwrap(),
             &vec!["x".to_string(), "ex".to_string()]
         );
-        // The whole per-completion config entry is rebuilt (this manifest has no
-        // `config` array, so customs simply vanish).
+        // The whole per-completion config entry is rebuilt (this manifest has no `config` array, so customs simply vanish).
         assert!(s.config["completion"].get("x").is_none());
         std::fs::remove_dir_all(&base).ok();
     }

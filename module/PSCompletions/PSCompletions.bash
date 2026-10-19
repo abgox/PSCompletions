@@ -2,13 +2,12 @@
 # PSCompletions bash bridge.
 # User setup is one line in ~/.bashrc (`<module>` = the PSCompletions module dir):
 #   source <module>/PSCompletions.bash
-# Requires: bash 5.0+ (associative arrays, mapfile, coproc, $EPOCHREALTIME), 
-# Python 3.8+ on PATH (`python3`/`python`; the version is asserted either way).
-# (Ubuntu 20.04+, Debian 11+, RHEL 9+, Alpine/Arch/Fedora, WSL, Git Bash; macOS
-# via `brew install bash`). macOS's built-in bash 3.2 is unsupported — install a
-# modern bash. Binaries resolve next to this script
-# (module/PSCompletions/bin/<platform>-<arch>, shipped in the module package),
-# next to this file. Missing dependencies print one clear error on load.
+# Requires: 
+#   - bash 5.0+ (associative arrays, mapfile, coproc, $EPOCHREALTIME)
+#   - Python 3.8+ on PATH (`python3`/`python`; the version is asserted either way).
+# Binaries resolve next to this script (module/PSCompletions/bin/<platform>-<arch>, shipped in the module package), next to this file.
+# Missing dependencies print one clear error on load.
+#
 #   PSCOMPLETIONS_DATA_DIR  override the data dir
 
 # Guard: refuse to load when sourced by the wrong shell.
@@ -39,8 +38,7 @@ _psc_need_py() {
     return 1
 }
 # `python3` on Linux, `python` on Windows (and guarded against Python 2).
-# Cache the *absolute path*, not the bare name: a later PATH change (a prompt
-# framework, mise/brew shellenv ordering, …) then cannot break the bridge.
+# Cache the *absolute path*, not the bare name: a later PATH change (a prompt framework, mise/brew shellenv ordering, …) then cannot break the bridge.
 _PSC_PY=""
 for _py in python3 python; do
     _py_path="$(command -v "$_py" 2>/dev/null)" || continue
@@ -57,9 +55,9 @@ if [[ -z "$_PSC_PY" ]]; then
 fi
 
 # --- locations ---------------------------------------------------------------
-# Follow symlinks: incl. a `.bashrc.d`-style drop-in or a plugin dir, where the sourced
-# path is the link and the binaries and the bundled psc completion sit next to the real
-# file. No `readlink -f` — absent from macOS's BSD userland.
+# Follow symlinks: incl.
+# a `.bashrc.d`-style drop-in or a plugin dir, where the sourced path is the link and the binaries and the bundled psc completion sit next to the real file.
+# No `readlink -f` — absent from macOS's BSD userland.
 _psc_resolve_link() {
     local target="$1" dir
     while [[ -L "$target" ]]; do
@@ -84,8 +82,7 @@ esac
 _psc_ext=""
 [[ "$_psc_platform" == windows ]] && _psc_ext=".exe"
 _PSC_BIN_DIR="$_psc_bridge_dir/bin/$_psc_platform-$_psc_arch"
-# Default data dir mirrors the PowerShell module's per-platform default, so the
-# shell bridge and the module share one data dir (completions, settings, index).
+# Default data dir mirrors the PowerShell module's per-platform default, so the shell bridge and the module share one data dir (completions, settings, index).
 _psc_default_data_dir() {
     case "$_psc_platform" in
         darwin) printf '%s' "$HOME/Library/Application Support/com.abgox/PSCompletions" ;;
@@ -97,18 +94,16 @@ _psc_default_data_dir() {
 _PSC_MENU="$_PSC_BIN_DIR/psc-menu$_psc_ext"
 _PSC_BIN="$_PSC_BIN_DIR/psc$_psc_ext"
 
-# Guard: this is a library, not a program. `bash PSCompletions.bash` would define the functions
-# in a throwaway child and change nothing, so say so (with the path to actually use) instead of
-# failing silently. Sourced files report a different BASH_SOURCE[0] and skip this.
+# Guard: this is a library, not a program.
+# `bash PSCompletions.bash` would define the functions in a throwaway child and change nothing, so say so (with the path to actually use) instead of failing silently.
+# Sourced files report a different BASH_SOURCE[0] and skip this.
 if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     echo "[PSCompletions] PSCompletions.bash is a library, not a program. Add this to ~/.bashrc:" >&2
     echo "[PSCompletions]     source \"$_psc_bridge_dir/PSCompletions.bash\"" >&2
     exit 1
 fi
 
-# Engine-facing platform for `terminal.platform`: never `windows` from bash (the bridge
-# cannot do the Windows console-buffer save/restore the engine expects there), so Git
-# Bash uses the alternate screen like the other Unix hosts.
+# Engine-facing platform for `terminal.platform`: never `windows` from bash (the bridge cannot do the Windows console-buffer save/restore the engine expects there), so Git Bash uses the alternate screen like the other Unix hosts.
 _psc_engine_platform=linux
 [[ "$_psc_platform" == darwin ]] && _psc_engine_platform=macos
 # `grep -P` capability, probed once (BSD grep on macOS lacks it).
@@ -118,15 +113,12 @@ grep -oP '' <<< '' >/dev/null 2>&1 && _PSC_GREP_P=1
 declare -gA _PSC_ALIAS=()   # trigger word -> completion
 declare -gA _PSC_CFG=()     # flat module config
 declare -gA _PSC_LANGCACHE=()
-# Terminal modes the menu turns on through crossterm (EnableMouseCapture, EnterAlternateScreen,
-# cursor::Hide, bracketed paste). A clean exit turns them off itself; a force-killed menu cannot,
-# so the watchdog writes this itself — without the mouse modes the terminal keeps reporting
-# `ESC [ < b;x;y M` as literal input and the shell becomes unusable.
+# Terminal modes the menu turns on through crossterm (EnableMouseCapture, EnterAlternateScreen, cursor::Hide, bracketed paste).
+# A clean exit turns them off itself; a force-killed menu cannot, so the watchdog writes this itself — without the mouse modes the terminal keeps reporting `ESC [ < b;x;y M` as literal input and the shell becomes unusable.
 _PSC_RESET_TERM=$'\e[?1006l\e[?1003l\e[?1002l\e[?1000l\e[?1015l\e[?1049l\e[?25h\e[?2004l'
 
-# The terminal queues mouse reports (SGR `ESC [ < b;x;y M`) while the menu is up; the few
-# bytes still in the tty input buffer when a force-killed menu dies are read by the shell as
-# literal input. Discard them after restoring the modes — the menu owed the user a clean line.
+# The terminal queues mouse reports (SGR `ESC [ < b;x;y M`) while the menu is up; the few bytes still in the tty input buffer when a force-killed menu dies are read by the shell as literal input.
+# Discard them after restoring the modes — the menu owed the user a clean line.
 _psc_flush_tty() {
     "$_PSC_PY" -S -c 'import os,termios
 try:
@@ -141,9 +133,9 @@ _PSC_INIT_OK=0
 _PSC_BIN_WARNED=0
 
 # --- seed the bundled psc completion (offline first run) ----------------------
-# A fresh machine (never imported the PowerShell module) has no psc completion;
-# `psc init` would fetch it over the network. Seed the bundled copy first so a
-# first run works offline. Mirrors the PowerShell bridge's migration seed.
+# A fresh machine (never imported the PowerShell module) has no psc completion; `psc init` would fetch it over the network.
+# Seed the bundled copy first so a first run works offline.
+# Mirrors the PowerShell bridge's migration seed.
 _psc_seed_psc() {
     local target="$PSCOMPLETIONS_DATA_DIR/completions/psc"
     [[ -f "$target/config.json" && -f "$target/language/en-US.json" ]] && return 0
@@ -209,9 +201,7 @@ PYEOF
 }
 
 # Per-completion manifest language: per-completion config -> module -> declared[0].
-# Resolution reads settings.json itself: the _PSC_CFG cache is only filled by
-# _psc_init (first Tab), and `psc` can run before that — the module language must not
-# depend on whether the menu has been triggered yet.
+# Resolution reads settings.json itself: the _PSC_CFG cache is only filled by _psc_init (first Tab), and `psc` can run before that — the module language must not depend on whether the menu has been triggered yet.
 _psc_lang() {
     _psc_need_py || return 1
     local cmd="$1"
@@ -242,10 +232,10 @@ PYEOF
 }
 
 
-# History the engine can read: one command per line. With `HISTTIMEFORMAT` set, bash writes a
-# `#<epoch>` line before every entry, and the engine tokenizes each line as a command line — the
-# timestamps then read as bogus commands. Hand it a normalised copy, rebuilt only when the source
-# is newer (so it costs nothing per keystroke). Prints the path, or nothing when there is none.
+# History the engine can read: one command per line.
+# With `HISTTIMEFORMAT` set, bash writes a `#<epoch>` line before every entry, and the engine tokenizes each line as a command line — the timestamps then read as bogus commands.
+# Hand it a normalised copy, rebuilt only when the source is newer (so it costs nothing per keystroke).
+# Prints the path, or nothing when there is none.
 _psc_hist() {
     local src="${HISTFILE:-}"
     [[ -n "$src" && -f "$src" ]] || return 0
@@ -264,9 +254,8 @@ _psc_complete() {
     _psc_init || return 1
     local before="${READLINE_LINE:0:READLINE_POINT}"
     [[ -n "$before" ]] || return 1
-    # A separator ends the command being edited: what follows it is a fresh command line, so its
-    # own command word and tokens are what the menu completes. `before` stays whole — the word
-    # offsets below are absolute.
+    # A separator ends the command being edited: what follows it is a fresh command line, so its own command word and tokens are what the menu completes.
+    # `before` stays whole — the word offsets below are absolute.
     local seg; seg="$(_psc_segment "$before")"
     # tokenize with the shared grammar (must match order::tokenize)
     local -a toks
@@ -300,8 +289,7 @@ PYEOF
     # A wildcard command name is not a completion trigger.
     [[ "$first" == *'*'* || "$first" == *'?'* ]] && return 1
     local cmd="${_PSC_ALIAS[$first]:-}"
-    # A path-shaped pending token goes to the native path (path completion),
-    # mirroring the PowerShell bridge, even for an installed command.
+    # A path-shaped pending token goes to the native path (path completion), mirroring the PowerShell bridge, even for an installed command.
     if [[ -z "$cmd" || "$before" != *" " ]]; then
         local last="" p
         [[ "$before" != *" " ]] && last="${toks[${#toks[@]}-1]}"
@@ -312,9 +300,7 @@ PYEOF
             \\*|.\\*|..\\*|\~\\*) path_like=1 ;;
             [A-Za-z]:[/\\]*) path_like=1 ;;
         esac
-        # `git<Tab>` — the command word itself is still being completed — must offer command
-        # names, not git's subcommands: build only once that word is finished (trailing space)
-        # or an argument already exists (2+ tokens), the PS bridge's `isSpaceTab or count > 1`.
+        # `git<Tab>` — the command word itself is still being completed — must offer command names, not git's subcommands: build only once that word is finished (trailing space) or an argument already exists (2+ tokens), the PS bridge's `isSpaceTab or count > 1`.
         if [[ -z "$cmd" ]] || (( path_like )) || { [[ "$before" != *" " && ${#toks[@]} -eq 1 ]]; }; then
             _psc_native "$before" "${toks[@]}"
             return $?
@@ -322,10 +308,8 @@ PYEOF
     fi
     local last_complete=0
     [[ "$before" == *" " ]] && last_complete=1
-    # arg_tokens: every token after the command word — the *pending* one included, with
-    # `treat_last_as_complete` saying whether it is finished. The engine uses the last
-    # unfinished token as the partial match and pre-fills the menu filter from it (`^text`);
-    # dropping it builds the parent context, so `psc al<Tab>` showed the root, unfiltered.
+    # arg_tokens: every token after the command word — the *pending* one included, with `treat_last_as_complete` saying whether it is finished.
+    # The engine uses the last unfinished token as the partial match and pre-fills the menu filter from it (`^text`); dropping it builds the parent context, so `psc al<Tab>` showed the root, unfiltered.
     local -a args=()
     local n=${#toks[@]}
     local i
@@ -336,8 +320,8 @@ PYEOF
 # --- build-mode menu ---------------------------------------------------------
 _psc_write_input() {
     _psc_need_py || return 1
-    # input.json via python (single writer: quoting-safe). Shared by the live
-    # bridge and the headless test driver.
+    # input.json via python (single writer: quoting-safe).
+    # Shared by the live bridge and the headless test driver.
     local in="$1" cmd="$2" last_complete="$3" manifest="$4" has_hooks="$5"
     local cx="$6" cy="$7" w="$8" h="$9"
     shift 9
@@ -417,9 +401,8 @@ inp={
   "window":{"top":0,"h":int(e['PSC_H'])},"platform":e.get('PSC_PLATFORM','linux')},
  "dir":{"data":e['PSC_DATA'],"order":e['PSC_DATA']+"/temp/order","menu":e['PSC_DATA']+"/temp/menu"},
 }
-# Ranking is a pair: the build-context block is the channel the engine needs before it
-# consults the history block. Keep both tied to one switch: with the key off neither is
-# passed, which is what makes `enable_sort_by_history=0` really stop ranking.
+# Ranking is a pair: the build-context block is the channel the engine needs before it consults the history block.
+# Keep both tied to one switch: with the key off neither is passed, which is what makes `enable_sort_by_history=0` really stop ranking.
 if top:
     inp["build"]["order"] = border
     inp["order"] = top
@@ -428,7 +411,8 @@ PYEOF
 }
 
 # Hooks gate: file exists and not disabled (psc itself always runs).
-# Echoes 0/1. Mirrors the PowerShell enable_hooks gate.
+# Echoes 0/1.
+# Mirrors the PowerShell enable_hooks gate.
 _psc_hooks_enabled() {
     _psc_need_py || return 1
     local cmd="$1"
@@ -526,16 +510,11 @@ PYEOF
     fi
 }
 
-# Start offset of the word under the cursor, as a count of characters to keep from the
-# start of the line (bash's string slicing is length-based). A word boundary is an
-# unquoted, unescaped whitespace, so `az\ zdir` stays one word: the naive `${before##* }`
-# split cut at the escaped space and concatenated the pick after the old text instead of
-# replacing it.
-# The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`,
-# `||`). A separator ends a command, so what follows it is a fresh command line whose own command
-# word and tokens are what the menu completes (`git status | grep <Tab>` completes `grep`).
-# Quotes (and `\`) hide a separator; `>&` and `&>` are redirections, not separators; an empty
-# result means there is nothing to complete here, so the caller falls back to the host.
+# Start offset of the word under the cursor, as a count of characters to keep from the start of the line (bash's string slicing is length-based).
+# A word boundary is an unquoted, unescaped whitespace, so `az\ zdir` stays one word: the naive `${before##* }` split cut at the escaped space and concatenated the pick after the old text instead of replacing it.
+# The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`, `||`).
+# A separator ends a command, so what follows it is a fresh command line whose own command word and tokens are what the menu completes (`git status | grep <Tab>` completes `grep`).
+# Quotes (and `\`) hide a separator; `>&` and `&>` are redirections, not separators; an empty result means there is nothing to complete here, so the caller falls back to the host.
 _psc_segment() {
     local s="$1" out='' q=0 i=0 c n=${#1}
     while (( i < n )); do
@@ -599,8 +578,7 @@ _psc_apply() {
         start=$(( READLINE_POINT - ${#before} + $(_psc_word_start "$before") ))
     fi
     local after="${READLINE_LINE:READLINE_POINT}"
-    # Cursor mid-word: consume the remainder of the word under the cursor, so the
-    # replacement covers the whole token (mirrors the PowerShell word-end extend).
+    # Cursor mid-word: consume the remainder of the word under the cursor, so the replacement covers the whole token (mirrors the PowerShell word-end extend).
     local consume=0
     if [[ -n "$after" ]]; then
         local c0="${after:0:1}"
@@ -611,8 +589,7 @@ _psc_apply() {
         fi
     fi
     local tail="${after:consume}"
-    # No trailing space for attached values (`--x=`), engine nospace, append-space
-    # off, or when a following word already exists after whitespace.
+    # No trailing space for attached values (`--x=`), engine nospace, append-space off, or when a following word already exists after whitespace.
     local suffix=" "
     [[ "$text" == *= || "$nospace" == 1 ]] && suffix=""
     [[ "${_PSC_CFG[enable_append_space]:-1}" == 0 ]] && suffix=""
@@ -627,12 +604,9 @@ _psc_apply() {
 }
 
 # --- native fallback: host completions through our menu ---------------------------
-# Unknown words resolve via compgen (commands for the first word, files after),
-# history-ranked through `psc-menu --sort`, and rendered in our menu.
-# Directory handling for a picked native candidate, mirroring the PS bridge's
-# `handle_menu_output`: a **container never takes a trailing space** — the user is likely
-# to keep completing inside it — and `enable_path_trailing_separator` only decides whether
-# the separator itself is added. Result channel: _PSC_PICK_TEXT / _PSC_PICK_NOSPACE.
+# Unknown words resolve via compgen (commands for the first word, files after), history-ranked through `psc-menu --sort`, and rendered in our menu.
+# Directory handling for a picked native candidate, mirroring the PS bridge's `handle_menu_output`: a **container never takes a trailing space** — the user is likely to keep completing inside it — and `enable_path_trailing_separator` only decides whether the separator itself is added.
+# Result channel: _PSC_PICK_TEXT / _PSC_PICK_NOSPACE.
 _psc_pick_text() {
     _PSC_PICK_TEXT="$1"
     _PSC_PICK_NOSPACE=0
@@ -643,10 +617,9 @@ _psc_pick_text() {
     fi
 }
 
-# Trailing text for a native pick: a space only for an ordinary candidate — never for a
-# container (`ns`), an attached-value (`--format=`), or when a word already follows after
-# whitespace (`foo |bar`). A word glued to the cursor still gets the space, or the pick
-# would fuse with it. Mirrors the PS bridge's `handle_menu_output`.
+# Trailing text for a native pick: a space only for an ordinary candidate — never for a container (`ns`), an attached-value (`--format=`), or when a word already follows after whitespace (`foo |bar`).
+# A word glued to the cursor still gets the space, or the pick would fuse with it.
+# Mirrors the PS bridge's `handle_menu_output`.
 _psc_native_suffix() {
     local pick="$1" after="$2" ns="$3"
     [[ "$pick" == *= ]] && return 0
@@ -660,13 +633,12 @@ _psc_native() {
     local -a toks=("$@")
     [[ "${_PSC_CFG[enable_native_completion]:-1}" == 1 ]] || return 1
     [[ "${_PSC_CFG[enable_sort_by_history]:-1}" == 1 ]] && _psc_want_sort=1 || _psc_want_sort=0
-    # The pending word, escape-aware: `cd /tmp/psc\ t/` is one word. It is what the host
-    # completion is asked to complete and the range the pick replaces.
+    # The pending word, escape-aware: `cd /tmp/psc\ t/` is one word.
+    # It is what the host completion is asked to complete and the range the pick replaces.
     local cur=""
     [[ -n "$before" && "${before: -1}" != " " ]] && cur="${before:$(_psc_word_start "$before")}"
     local -a cands=()
-    # A registered `complete -F` handler is the real native completion: drive it
-    # the way readline would (COMP_* vars in, COMPREPLY out).
+    # A registered `complete -F` handler is the real native completion: drive it the way readline would (COMP_* vars in, COMPREPLY out).
     local first="${toks[0]}"
     local spec func
     if spec="$(complete -p "$first" 2>/dev/null)" && [[ "$spec" =~ -F[[:space:]]+([^[:space:]]+) ]]; then
@@ -689,8 +661,7 @@ _psc_native() {
     if (( ${#toks[@]} == 1 )) && [[ "$before" != *" " ]]; then
         mapfile -t cands < <(compgen -c -- "$cur" 2>/dev/null)
     else
-        # expand ~ for the lookup, keep the typed prefix for replacement; a quote around
-        # the word is a quoting artefact, not part of the path
+        # expand ~ for the lookup, keep the typed prefix for replacement; a quote around the word is a quoting artefact, not part of the path
         local exp="$cur" tilde=0
         [[ "$exp" == "~"* ]] && tilde=1
         [[ "$exp" == \"* || "$exp" == \'* ]] && exp="${exp:1}"
@@ -699,8 +670,7 @@ _psc_native() {
         exp="${exp//\\ / }"
         [[ "$tilde" == 1 ]] && exp="$HOME${exp:1}"
         mapfile -t cands < <(compgen -f -- "$exp" 2>/dev/null)
-        # compgen lists containers without the trailing separator the other hosts add;
-        # mark them so the display and the inserted text match across shells
+        # compgen lists containers without the trailing separator the other hosts add; mark them so the display and the inserted text match across shells
         local -A dirs=()
         local d
         while IFS= read -r d; do
@@ -722,8 +692,8 @@ _psc_native() {
     local id; id="${EPOCHREALTIME//./}$$"
     local in="$tmp/psc-sort-$id-in.json" out="$tmp/psc-sort-$id-out.json"
     local cands_file="$tmp/psc-sort-$id-cands.txt"
-    # --sort input via python (quoting-safe). The candidate list travels in a file, not in
-    # the environment: a host completion can return thousands of entries and blow ARG_MAX.
+    # --sort input via python (quoting-safe).
+    # The candidate list travels in a file, not in the environment: a host completion can return thousands of entries and blow ARG_MAX.
     printf '%s\n' "${cands[@]}" > "$cands_file"
     PSC_IN="$in" PSC_TOKS="$(printf '%s\n' "${toks[@]}")" PSC_LAST="$([[ "$before" == *" " ]] && echo 1 || echo 0)" \
     PSC_CANDS_FILE="$cands_file" PSC_CMD="${toks[0]}" PSC_DATA="$PSCOMPLETIONS_DATA_DIR" \
@@ -762,8 +732,7 @@ PYEOF
     _psc_pick_text "$pick"
     pick="$_PSC_PICK_TEXT"
     local ns=$_PSC_PICK_NOSPACE
-    # An attached-value option (`--format=`) takes its value in the same word: no space,
-    # the cursor stays behind the `=` (same rule as the PS bridge).
+    # An attached-value option (`--format=`) takes its value in the same word: no space, the cursor stays behind the `=` (same rule as the PS bridge).
     [[ "$pick" == *= ]] && ns=1
     # quote when the word needs it
     [[ "$pick" == *[[:space:]]* ]] && pick="'$pick'"
@@ -779,11 +748,8 @@ PYEOF
     READLINE_POINT=$(( start + ${#pick} + ${#suffix} ))
 }
 
-# menu with host-provided items; echoes the chosen completion_text
-# Items mode: the filter is the engine's call, so the bridge only forwards the line's tokens —
-# `arg_tokens` (the pending one included) and whether it is already finished. The engine derives
-# `initial_filter` and ignores it when it matches nothing (a path slot displays leaves, so its
-# pending word is rarely a genuine prefix).
+# menu with host-provided items; echoes the chosen completion_text Items mode: the filter is the engine's call, so the bridge only forwards the line's tokens — `arg_tokens` (the pending one included) and whether it is already finished.
+# The engine derives `initial_filter` and ignores it when it matches nothing (a path slot displays leaves, so its pending word is rarely a genuine prefix).
 _psc_menu_items() {
     local cmd="$1" args="$2" last="${3:-0}"; shift 3
     local -a texts=("$@")
@@ -791,8 +757,7 @@ _psc_menu_items() {
     local id; id="${EPOCHREALTIME//./}$$"
     local in="$tmp/psc-items-$id-in.json" out="$tmp/psc-items-$id-out.json"
     local items_file="$tmp/psc-items-$id-items.txt"
-    # The candidate list travels in a file: a host completion can return thousands of
-    # entries and an environment variable would blow ARG_MAX.
+    # The candidate list travels in a file: a host completion can return thousands of entries and an environment variable would blow ARG_MAX.
     printf '%s\n' "${texts[@]}" > "$items_file"
     PSC_IN="$in" PSC_ITEMS_FILE="$items_file" PSC_ARGS="$args" PSC_LAST="$last" \
     PSC_DATA="$PSCOMPLETIONS_DATA_DIR" \
@@ -869,8 +834,7 @@ PYEOF
         READLINE_POINT=${#READLINE_LINE}
         return 1
     fi
-    # `input` carries the filter text itself (no-match auto-apply); items are answered by index,
-    # but a text needs no index at all — apply it exactly like the build path does.
+    # `input` carries the filter text itself (no-match auto-apply); items are answered by index, but a text needs no index at all — apply it exactly like the build path does.
     if [[ "$status" == input ]]; then
         printf '%s' "$idx"
         return 0
@@ -916,15 +880,14 @@ PYEOF
     fi
 }
 # Generic info-template renderer (design/templates.md).
-# Usage: _psc_tpl <dotted.info.path> [context-json]
+# Usage: _psc_tpl <dotted.info.path> [context-json] 
 # Context values come from the caller; `version` is filled from the module manifest.
 # Unknown constructs stay literal; colors map to ANSI.
-# Renders one `info` template through the engine (`psc tpl --version …`). The grammar and its
-# implementation live there, so a bridge carries no renderer of its own. A missing binary or an
-# unknown path fails, and the caller's `||` fallback takes over.
+# Renders one `info` template through the engine (`psc tpl --version …`).
+# The grammar and its implementation live there, so a bridge carries no renderer of its own.
+# A missing binary or an unknown path fails, and the caller's `||` fallback takes over.
 _psc_module_version() {
-    # The module manifest beside the bridge is the one version source present in both a repo
-    # checkout and an installed package (the package carries no `../version.json`).
+    # The module manifest beside the bridge is the one version source present in both a repo checkout and an installed package (the package carries no `../version.json`).
     sed -n "s/.*ModuleVersion *= *'\([^']*\)'.*/\1/p" "$_psc_bridge_dir/PSCompletions.psd1" 2>/dev/null | head -1
 }
 
@@ -936,9 +899,8 @@ _psc_tpl() {
     "$_PSC_BIN" "${args[@]}"
 }
 
-# Run a management command that only prints a status line. The CLI's messages are plain
-# text, so the color is the bridge's job — the same convention as the PS bridge's
-# `_forward_psc`: success green, failure red (design/config-support.md).
+# Run a management command that only prints a status line.
+# The CLI's messages are plain text, so the color is the bridge's job — the same convention as the PS bridge's `_forward_psc`: success green, failure red (design/config-support.md).
 _psc_run_status() {
     local out rc
     out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
@@ -953,8 +915,7 @@ _psc_run_status() {
     return $rc
 }
 
-# Forwards to the binary; state-changing commands invalidate the cached init
-# so the next Tab rebuilds aliasMap/config.
+# Forwards to the binary; state-changing commands invalidate the cached init so the next Tab rebuilds aliasMap/config.
 psc() {
     _psc_need_py || return 1
     [[ -x "$_PSC_BIN" ]] || { echo "psc binary missing: $_PSC_BIN" >&2; return 1; }
@@ -964,8 +925,7 @@ psc() {
         echo
         return 0
     fi
-    # `psc --self-update` (root-level flag): the engine detects how this copy was installed and
-    # says what updates it — a script install is updated right there, the rest is a command to run.
+    # `psc --self-update` (root-level flag): the engine detects how this copy was installed and says what updates it — a script install is updated right there, the rest is a command to run.
     if [[ "${1:-}" == --self-update ]]; then
         _psc_plain --self-update
         return $?
@@ -987,10 +947,8 @@ psc() {
         echo
         return 0
     fi
-    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the
-    # engine as it is — never colored, never rendered into a human page — and never prompted
-    # first: a machine caller cannot press a key (design/json.md §7). With no command word it is
-    # the **root** response (§5), so this check comes before the flags-only info page below.
+    # `--json` anywhere means the caller wants the machine contract: hand the invocation to the engine as it is — never colored, never rendered into a human page — and never prompted first: a machine caller cannot press a key (design/json.md §7).
+    # With no command word it is the **root** response (§5), so this check comes before the flags-only info page below.
     local _arg
     for _arg in "$@"; do
         if [[ "$_arg" == "--json" ]]; then
@@ -1000,8 +958,8 @@ psc() {
             return $?
         fi
     done
-    # Only flags and no command word: the module's info page, exactly like the bare call. The
-    # binary's own usage text is an implementation detail, not what a user of the module sees.
+    # Only flags and no command word: the module's info page, exactly like the bare call.
+    # The binary's own usage text is an implementation detail, not what a user of the module sees.
     local _arg _has_cmd=0
     for _arg in "$@"; do
         [[ "$_arg" == -* ]] || _has_cmd=1
@@ -1022,8 +980,7 @@ psc() {
         # The engine never prompts: the confirmation just given is the authorisation it needs.
         set -- "$@" --yes
     fi
-    # A group reset (config / completion / alias) is not confirmed — not destructive enough —
-    # but the engine still requires authorisation (design/json.md §7).
+    # A group reset (config / completion / alias) is not confirmed — not destructive enough — but the engine still requires authorisation (design/json.md §7).
     if [[ " $* " == *" --reset "* ]]; then
         set -- "$@" --yes
     fi
@@ -1035,21 +992,18 @@ psc() {
             code=$?
             ;;
         update)
-            # No argument is the library check: its payload is the four change lists, not a
-            # per-completion result set, so it stays the CLI's text like the other reports.
+            # No argument is the library check: its payload is the four change lists, not a per-completion result set, so it stays the CLI's text like the other reports.
             if (( $# == 1 )); then _psc_plain "$@"; else _psc_run_rendered "$@"; fi
             code=$?
             ;;
         list|info|alias|completion|config)
-            # Queries print the CLI's text verbatim (`list`, `info`, and the reads of `alias` /
-            # `completion` / `config`); anything that sets a value stays on the status path.
+            # Queries print the CLI's text verbatim (`list`, `info`, and the reads of `alias` / `completion` / `config`); anything that sets a value stays on the status path.
             case "${1:-}" in
                 list|info) _psc_plain "$@" ;;
                 alias) [[ $# -eq 1 ]] && _psc_plain "$@" || _psc_run_status "$@" ;;
                 completion) [[ $# -le 2 ]] && _psc_plain "$@" || _psc_run_status "$@" ;;
                 config)
-                    # `config` and `config <group>` are queries as well; only a value or
-                    # `--reset` makes it an action.
+                    # `config` and `config <group>` are queries as well; only a value or `--reset` makes it an action.
                     if (( $# >= 4 )) || [[ " $* " == *" --reset "* ]]; then
                         _psc_run_status "$@"
                     else
@@ -1060,8 +1014,7 @@ psc() {
             code=$?
             ;;
         *)
-            # An unrecognised command shows the module info page, exactly like the
-            # no-argument form: the module is discovered by browsing, not by an error.
+            # An unrecognised command shows the module info page, exactly like the no-argument form: the module is discovered by browsing, not by an error.
             _psc_tpl description || "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR"
             echo
             return 0
@@ -1078,9 +1031,9 @@ psc() {
     return $code
 }
 
-# Data queries print exactly what the CLI renders: the CLI's text is the interface in every host
-# (`psc info > file`, `v=$(psc config <group> <key>)`), and `--json` is the machine contract. Only
-# messages take color. A failed query still goes through the red path.
+# Data queries print exactly what the CLI renders: the CLI's text is the interface in every host (`psc info > file`, `v=$(psc config <group> <key>)`), and `--json` is the machine contract.
+# Only messages take color.
+# A failed query still goes through the red path.
 _psc_plain() {
     local _out
     if _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>/dev/null)"; then
@@ -1090,8 +1043,7 @@ _psc_plain() {
     _psc_run_status "$@"
 }
 
-# Run add/rm/update once in --json mode and render with the static templates
-# (green done, yellow ownership warnings, red errors), mirroring PowerShell.
+# Run add/rm/update once in --json mode and render with the static templates (green done, yellow ownership warnings, red errors), mirroring PowerShell.
 _psc_run_rendered() {
     _psc_need_py || return 1
     local cmd="$1"; shift
@@ -1193,9 +1145,8 @@ PYEOF
     return $code
 }
 
-# Pending notifications tail (module update persists; library added/removed
-# are one-shot, update/renamed persist). Plain text: the info templates live
-# in the PowerShell bridge; bash renders the same facts without them.
+# Pending notifications tail (module update persists; library added/removed are one-shot, update/renamed persist).
+# Plain text: the info templates live in the PowerShell bridge; bash renders the same facts without them.
 _psc_render_pending() {
     _psc_need_py || return 1
     local change="$PSCOMPLETIONS_DATA_DIR/temp/change.json"
@@ -1242,8 +1193,8 @@ PYEOF
 }
 
 # --- trigger key binding ---------------------------------------------------------
-# The trigger key is read from settings.json `config.trigger_key` (default Tab) and
-# mapped to a readline key sequence. Unknown names fall back to Tab.
+# The trigger key is read from settings.json `config.trigger_key` (default Tab) and mapped to a readline key sequence.
+# Unknown names fall back to Tab.
 _psc_read_trigger_key() {
     _psc_need_py || { print -n Tab 2>/dev/null || printf Tab; return; }
     local s="$PSCOMPLETIONS_DATA_DIR/settings.json"

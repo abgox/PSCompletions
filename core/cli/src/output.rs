@@ -1,5 +1,4 @@
-//! Output rendering: the `Out` sink, `<@Tag>` color markup, and the JSON-contract
-//! failure exit (`err` / `fail`).
+//! Output rendering: the `Out` sink, `<@Tag>` color markup, and the JSON-contract failure exit (`err` / `fail`).
 
 use std::io::IsTerminal;
 use std::process::ExitCode;
@@ -79,9 +78,8 @@ fn strip_colors(s: &str) -> String {
     out
 }
 
-/// A value as the text mode shows it, before any display convention: a string as itself, a number
-/// or boolean in its own form, an absent value as nothing, anything else in compact JSON. The
-/// template renderer and the commands' listings both start from this.
+/// A value as the text mode shows it, before any display convention: a string as itself, a number or boolean in its own form, an absent value as nothing, anything else in compact JSON.
+/// The template renderer and the commands' listings both start from this.
 pub fn value_text(v: &serde_json::Value) -> String {
     match v {
         serde_json::Value::String(s) => s.clone(),
@@ -92,15 +90,13 @@ pub fn value_text(v: &serde_json::Value) -> String {
     }
 }
 
-/// The text mode's one display convention: quote a value whose surrounding whitespace would
-/// otherwise disappear — an all-space or padded value would read as a different one. An empty
-/// value stays blank, because blank already says "nothing" whereas `""` reads as two characters
-/// (design/json.md §3).
+/// The text mode's one display convention: quote a value whose surrounding whitespace would otherwise disappear — an all-space or padded value would read as a different one.
+/// An empty value stays blank, because blank already says "nothing" whereas `""` reads as two characters (design/json.md §3).
 pub fn value_quoted(v: &serde_json::Value) -> String {
     let s = value_text(v);
     if s.trim() != s {
-        // Single quotes only when they cannot clash; otherwise double quotes. Never give up the
-        // quotes: that would swallow the very whitespace they exist to show.
+        // Single quotes only when they cannot clash; otherwise double quotes.
+        // Never give up the quotes: that would swallow the very whitespace they exist to show.
         if s.contains('"') && !s.contains('\'') {
             format!("'{s}'")
         } else {
@@ -111,8 +107,8 @@ pub fn value_quoted(v: &serde_json::Value) -> String {
     }
 }
 
-/// A `key: value` listing line. An empty value ends at the colon: the separator is only there
-/// to set the value apart, and a trailing space is an invisible byte in captured output.
+/// A `key: value` listing line.
+/// An empty value ends at the colon: the separator is only there to set the value apart, and a trailing space is an invisible byte in captured output.
 pub fn key_line(key: &str, value: &str) -> String {
     if value.is_empty() {
         format!("{key}:")
@@ -121,16 +117,14 @@ pub fn key_line(key: &str, value: &str) -> String {
     }
 }
 
-/// A whole-command failure in both modes: the text mode prints the message, the JSON mode the
-/// envelope with a stable `code` beside it. `usage` selects the exit code — a usage error is `2`,
-/// anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
+/// A whole-command failure in both modes: the text mode prints the message, the JSON mode the envelope with a stable `code` beside it.
+/// `usage` selects the exit code — a usage error is `2`, anything else `1` — so a caller can tell "you asked wrong" from "it did not work".
 pub fn fail(out: &Out, code: &str, msg: &str, json: bool, usage: bool) -> ExitCode {
     fail_details(out, code, msg, None, json, usage)
 }
 
-/// `fail` plus the structured parts of a failure (`design/json.md` §4): a machine caller reads
-/// `details` instead of parsing a localized `message`. Only a site that actually has parts passes
-/// them; every other site keeps calling `fail`.
+/// `fail` plus the structured parts of a failure (`design/json.md` §4): a machine caller reads `details` instead of parsing a localized `message`.
+/// Only a site that actually has parts passes them; every other site keeps calling `fail`.
 pub fn fail_details(
     out: &Out,
     code: &str,
@@ -150,8 +144,7 @@ pub fn fail_details(
     }
 }
 
-/// The `--json` envelope: every command answers with one object — `ok`, the payload in `data`,
-/// and `meta` about this run — so a caller never has to guess the shape (design/json.md).
+/// The `--json` envelope: every command answers with one object — `ok`, the payload in `data`, and `meta` about this run — so a caller never has to guess the shape (design/json.md).
 pub fn ok(data: &serde_json::Value) -> ExitCode {
     println!(
         "{}",
@@ -160,9 +153,8 @@ pub fn ok(data: &serde_json::Value) -> ExitCode {
     ExitCode::SUCCESS
 }
 
-/// A failure, in the envelope's `error` object: a stable `code` a machine branches on, a
-/// `message` a human reads (localized), and optional `details` for the parts. `usage` selects the
-/// exit code: a usage error is `2`, anything else `1`.
+/// A failure, in the envelope's `error` object: a stable `code` a machine branches on, a `message` a human reads (localized), and optional `details` for the parts.
+/// `usage` selects the exit code: a usage error is `2`, anything else `1`.
 pub fn err(code: &str, message: &str, details: Option<serde_json::Value>, usage: bool) -> ExitCode {
     let mut error = serde_json::json!({ "code": code, "message": message });
     if let Some(d) = details {
@@ -180,9 +172,8 @@ pub fn err(code: &str, message: &str, details: Option<serde_json::Value>, usage:
     }
 }
 
-/// `meta`: the payload's item count (when it has one) plus where this run reads from — the
-/// directories and files, in the same vocabulary the host and the module use. The two log files
-/// are derived here: the engine writes them, so the module does not carry them.
+/// `meta`: the payload's item count (when it has one) plus where this run reads from — the directories and files, in the same vocabulary the host and the module use.
+/// The two log files are derived here: the engine writes them, so the module does not carry them.
 pub fn run_paths(data_dir: &str) -> serde_json::Value {
     let temp = format!("{data_dir}/temp");
     serde_json::json!({

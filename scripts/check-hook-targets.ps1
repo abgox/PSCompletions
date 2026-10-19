@@ -48,10 +48,8 @@ not a gate.
 
 [CmdletBinding()]
 param(
-    # ValueFromRemainingArguments is what makes `git gh` bind: a bare [string[]]
-    # at Position 0 takes one positional value, so the second name would have no
-    # parameter to land in. It also swallows a misspelled switch, which is why
-    # $stray below refuses anything shaped like a flag.
+    # ValueFromRemainingArguments is what makes `git gh` bind: a bare [string[]] at Position 0 takes one positional value, so the second name would have no parameter to land in.
+    # It also swallows a misspelled switch, which is why $stray below refuses anything shaped like a flag.
     [Parameter(Position = 0, ValueFromRemainingArguments = $true)]
     [string[]]$Completion,
 
@@ -109,20 +107,16 @@ function say {
     Write-Host (colorize (msg $Key $Vars))
 }
 
-# Bail out with a message and the exit code the .SYNOPSIS documents. The message
-# goes to stderr directly rather than through Write-Error, whose ConciseView
-# rendering adds the offending source line to a one-line complaint; and because
-# $ErrorActionPreference is 'Stop' for the whole script, a Write-Error would
-# throw here and the exit code would never be reached.
+# Bail out with a message and the exit code the .SYNOPSIS documents.
+# The message goes to stderr directly rather than through Write-Error, whose ConciseView rendering adds the offending source line to a one-line complaint; and because $ErrorActionPreference is 'Stop' for the whole script, a Write-Error would throw here and the exit code would never be reached.
 function stop {
     param([string]$Key, [hashtable]$Vars = @{})
     [Console]::Error.WriteLine((colorize (msg $Key $Vars)))
     exit 2
 }
 
-# A misspelled switch reaches $Completion through ValueFromRemainingArguments
-# and would otherwise be reported as a completion with no such name. Refuse it
-# instead of going looking for one.
+# A misspelled switch reaches $Completion through ValueFromRemainingArguments and would otherwise be reported as a completion with no such name.
+# Refuse it instead of going looking for one.
 $stray = @($Completion | Where-Object { $_ -and $_.StartsWith('-') })
 if ($stray.Count -gt 0) {
     stop 'unknownArg' @{ Arg = ($stray -join ' ') }
@@ -131,12 +125,10 @@ if ($stray.Count -gt 0) {
 # ---------------------------------------------------------------------------
 # Manifest indexing
 # ---------------------------------------------------------------------------
-# Set-StrictMode makes a missing property an error, and a manifest entry simply
-# omits `alias` / `option` / `next` whenever it has nothing to put there. Reading
-# them through this keeps "absent" and "empty" the same thing.
-# PowerShell's @{} is case-insensitive, which silently merges distinct targets:
-# ssh-keygen registers both `-f`/`-F` and `-r`/`-R`. Every table keyed by a
-# spelling has to be Ordinal.
+# Set-StrictMode makes a missing property an error, and a manifest entry simply omits `alias` / `option` / `next` whenever it has nothing to put there.
+# Reading them through this keeps "absent" and "empty" the same thing.
+# PowerShell's @{} is case-insensitive, which silently merges distinct targets: ssh-keygen registers both `-f`/`-F` and `-r`/`-R`.
+# Every table keyed by a spelling has to be Ordinal.
 function New-CaseTable {
     [System.Collections.Hashtable]::new([System.StringComparer]::Ordinal)
 }
@@ -158,15 +150,11 @@ function Get-Manifest {
 }
 
 # canonical command path (joined by space) -> item, plus alias path -> canonical path.
-# Paths are space-joined strings rather than tuples so they can key a hashtable;
-# a subcommand name cannot contain a space unless quoted, and a quoted one keeps
-# its quotes, so the join stays unambiguous.
+# Paths are space-joined strings rather than tuples so they can key a hashtable; a subcommand name cannot contain a space unless quoted, and a quoted one keeps its quotes, so the join stays unambiguous.
 #
-# Only **command-position** nodes are indexed: a `next` entry of the root or of a
-# command. A `next` entry of an *option* is a candidate value, and an
-# `option`/`global_option` entry is an option -- neither can ever match a
-# `command = ...` target (the engine rejects them), so indexing them here would
-# let a spec that can never fire pass. The walk still descends through them.
+# Only **command-position** nodes are indexed: a `next` entry of the root or of a command.
+# A `next` entry of an *option* is a candidate value, and an `option`/`global_option` entry is an option -- neither can ever match a `command = ...` target (the engine rejects them), so indexing them here would let a spec that can never fire pass.
+# The walk still descends through them.
 function Get-IndexPaths {
     param($Doc)
     $paths = New-CaseTable
@@ -203,9 +191,8 @@ function Get-IndexPaths {
 # ---------------------------------------------------------------------------
 # Reading psc.on specs out of a hooks.lua
 #
-# Balanced-brace walk rather than a regex over the body: a regex loses psc.run(
-# wrappers and leaves stray `end`s. No inner group means the outer table IS the
-# spec, because psc.on takes psc_on_spec|psc_on_spec[].
+# Balanced-brace walk rather than a regex over the body: a regex loses psc.run( wrappers and leaves stray `end`s.
+# No inner group means the outer table IS the spec, because psc.on takes psc_on_spec|psc_on_spec[].
 # ---------------------------------------------------------------------------
 $script:SpecCmdRe = [regex]'command\s*=\s*(?:"([^"]+)"|\{([^}]*)\})'
 $script:SpecOptRe = [regex]'option\s*=\s*(?:"([^"]+)"|\{([^}]*)\})'
@@ -265,8 +252,8 @@ function Get-Strings {
     @($script:SpecStrRe.Matches($Body) | ForEach-Object { $_.Groups[1].Value })
 }
 
-# Every (command, option) target, deduplicated, in first-seen order. A spec with
-# neither a command nor an option is the root and is not a target.
+# Every (command, option) target, deduplicated, in first-seen order.
+# A spec with neither a command nor an option is the root and is not a target.
 function Get-Targets {
     param([string]$Src)
 
@@ -317,12 +304,8 @@ function Get-OptionNames {
             if ($oalias) { foreach ($a in $oalias) { [void]$names.Add([string]$a) } }
         }
     }
-    # The leading comma is load-bearing: a bare `$names` on the last line gets
-    # enumerated by the output pipeline, so the caller would receive the
-    # spellings rather than the set. A command with no options would then arrive
-    # as $null and .Contains() would throw, and a command with options would
-    # silently degrade to IList.Contains, which is case-insensitive -- the
-    # opposite of the Ordinal rule the set was built for.
+    # The leading comma is load-bearing: a bare `$names` on the last line gets enumerated by the output pipeline, so the caller would receive the spellings rather than the set.
+    # A command with no options would then arrive as $null and .Contains() would throw, and a command with options would silently degrade to IList.Contains, which is case-insensitive -- the opposite of the Ordinal rule the set was built for.
     , $names
 }
 
@@ -339,8 +322,7 @@ function Get-AllOptionNames {
             if ($items) { foreach ($c in $items) { $stack.Push($c) } }
         }
     }
-    # Same reason as Get-OptionNames: a bare `$names` is enumerated away, and the
-    # caller asks .Contains() on the result.
+    # Same reason as Get-OptionNames: a bare `$names` is enumerated away, and the caller asks .Contains() on the result.
     , $names
 }
 
@@ -363,10 +345,8 @@ function Test-HookTargets {
     foreach ($t in (Get-Targets $src)) {
         $p = ($t.command -join ' ')
         if ($p -eq '') {
-            # psc.on({ option = "--x" }, f) has no command to anchor on, so the
-            # option can fire wherever it appears. The only honest check is that it
-            # is declared somewhere; which context is narrow cannot be told from
-            # the spec alone.
+            # psc.on({ option = "--x" }, f) has no command to anchor on, so the option can fire wherever it appears.
+            # The only honest check is that it is declared somewhere; which context is narrow cannot be told from the spec alone.
             $known = Get-AllOptionNames $doc
             $missing = @($t.option | Where-Object { !$known.Contains($_) })
             if ($missing.Count -gt 0) {
@@ -393,8 +373,7 @@ function Test-HookTargets {
             continue
         }
         else {
-            # A name the manifest declares as an option can never fire as a command
-            # target: the engine validates by position and reports the same thing.
+            # A name the manifest declares as an option can never fire as a command target: the engine validates by position and reports the same thing.
             $optNames = Get-AllOptionNames $doc
             $last = $t.command[-1]
             $reason = if ($optNames.Contains($last)) {
@@ -424,9 +403,7 @@ function Test-HookTargets {
             }
         }
     }
-    # @() because a PowerShell function's List output is unrolled by the
-    # pipeline, so a one-target file comes back as a bare object and
-    # Set-StrictMode then refuses .Count on it.
+    # @() because a PowerShell function's List output is unrolled by the pipeline, so a one-target file comes back as a bare object and Set-StrictMode then refuses .Count on it.
     $all = @(Get-Targets $src)
     @{ targets = $all.Count; failures = $bad }
 }
@@ -443,10 +420,8 @@ function Test-HasHooks {
     Test-Path -LiteralPath (Join-Path $completionsDir "$Name/hooks.lua")
 }
 
-# Three sources, in order of precedence: an explicit name, -All, recently
-# changed. The @() around the if-expression is load-bearing -- it unrolls a
-# one-element array down to a scalar, and $names.Count then dies under
-# StrictMode for a single completion ("./scripts/check-hook-targets.ps1 psc").
+# Three sources, in order of precedence: an explicit name, -All, recently changed.
+# The @() around the if-expression is load-bearing -- it unrolls a one-element array down to a scalar, and $names.Count then dies under StrictMode for a single completion ("./scripts/check-hook-targets.ps1 psc").
 $names = @(if ($Completion) {
         $Completion
     }
@@ -454,8 +429,7 @@ $names = @(if ($Completion) {
         Get-ChildItem $completionsDir -Directory | Where-Object { Test-HasHooks $_.Name } | ForEach-Object { $_.Name } | Sort-Object
     }
     else {
-        # -IncludeHooks because this check reads hooks.lua, so a completion whose
-        # only change is a hook edit is exactly the case it exists for.
+        # -IncludeHooks because this check reads hooks.lua, so a completion whose only change is a hook edit is exactly the case it exists for.
         Get-RecentCompletions -CompletionsDir $completionsDir -IncludeHooks | Where-Object { Test-HasHooks $_ }
     })
 
@@ -465,10 +439,8 @@ if ($names.Count -eq 0) {
     exit 0
 }
 
-# Only an explicit name can get here: the -All and recent sets are filtered by
-# Test-HasHooks already. A name without a hooks.lua is a caller mistake -- most
-# likely a typo -- and skipping it would exit 0 on a check that never ran, which
-# is the silent pass this script exists to remove.
+# Only an explicit name can get here: the -All and recent sets are filtered by Test-HasHooks already.
+# A name without a hooks.lua is a caller mistake -- most likely a typo -- and skipping it would exit 0 on a check that never ran, which is the silent pass this script exists to remove.
 $hookless = @($names | Where-Object { !(Test-HasHooks $_) })
 if ($hookless.Count -gt 0) {
     stop 'noHooks' @{ Names = ($hookless -join ', ') }

@@ -1,8 +1,9 @@
 # Design: The Cross-Platform TUI Menu (Rust)
 
-> Status: **current**. The completion menu is a Rust subprocess (`psc-menu.exe` / `psc-menu`)
-> rendered with ratatui + crossterm; the host shell never draws it.
-> Filter matching spec: `design/filter-matching.md`. CLI docs: `design/psc-cli.md`.
+> Status: **current**.
+> The completion menu is a Rust subprocess (`psc-menu.exe` / `psc-menu`) rendered with ratatui + crossterm; the host shell never draws it.
+> Filter matching spec: `design/filter-matching.md`.
+> CLI docs: `design/psc-cli.md`.
 
 ## 1. Process model
 
@@ -27,25 +28,17 @@ Tab pressed
   → failure / timeout / missing binary → error message, return $null (no RawUI fallback)
 ```
 
-**Boundary**: `handle_menu_output` (suffix, trailing-separator, quoting) depends on the
-PowerShell buffer context and stays in PowerShell. With host-provided `items` Rust returns the
-selected **index**; in build mode it also returns the item's `completion_text` / `result_type`
-(the host has no item list to index into).
+**Boundary**: `handle_menu_output` (suffix, trailing-separator, quoting) depends on the PowerShell buffer context and stays in PowerShell.
+With host-provided `items` Rust returns the selected **index**; in build mode it also returns the item's `completion_text` / `result_type` (the host has no item list to index into).
 
 ### Terms: selecting vs applying
 
 The menu keeps two actions apart:
 
-- **Selecting** (`select`) — moving the highlight to an item. It never touches the input line and never changes the completion context; only the
-  highlight and the counter move.
-- **Applying** (`apply`) — confirming the current selection into the input line. **`Tab` applies directly when the
-  filter leaves exactly one match** (there is nothing to cycle through, so it confirms instead).
-  The completion **context** (and thus the next menu content) changes only when an item is
-  applied. A **predict symbol** (`~`/`?`, see `design/completion.md`) tells you what *applying*
-  that item does — not what selecting it does.
+- **Selecting** (`select`) — moving the highlight to an item. It never touches the input line and never changes the completion context; only the highlight and the counter move.
+- **Applying** (`apply`) — confirming the current selection into the input line. **`Tab` applies directly when the filter leaves exactly one match** (there is nothing to cycle through, so it confirms instead). The completion **context** (and thus the next menu content) changes only when an item is applied. A **predict symbol** (`~`/`?`, see `design/completion.md`) tells you what *applying* that item does — not what selecting it does.
 
-In the result contract below, `status: "selected"` means "the user applied an item" (it carries
-the applied index); the Rust menu itself never edits the input line.
+In the result contract below, `status: "selected"` means "the user applied an item" (it carries the applied index); the Rust menu itself never edits the input line.
 
 ### Key & mouse bindings
 
@@ -96,18 +89,12 @@ The menu's input handling is the **user-visible contract**:
 }
 ```
 
-> `symbol` is the **display character** for the predict symbol. In **build mode** the engine
-> resolves the manifest's `switch`/`stay` keys through `context_switch` / `context_stay` when
-> mapping candidates into items; for host-provided items the host supplies the display character
-> directly (the engine renders it verbatim). The three tip toggles (`enable_tip` /
-> `enable_tip_usage` / `enable_tip_example`) travel in `raw_config`
-> (completion → global → default layers) and the engine folds them into `flags` — they are not
-> sent directly in `flags`. Installed commands may omit `items` and pass a `build` context
-> instead — the engine then builds and ranks the candidates itself
-> (`cmd`/`arg_tokens`/`manifest`/`hooks`/`order`).
-> `window.top/h` is the visible window (BufferSize spans the whole scrollback); layout space is
-> clipped to the visible window. `data_dir` is the resolved runtime data directory; the menu
-> engine uses it for stale-update state and other host data lookups.
+> `symbol` is the **display character** for the predict symbol.
+> In **build mode** the engine resolves the manifest's `switch`/`stay` keys through `context_switch` / `context_stay` when mapping candidates into items; for host-provided items the host supplies the display character directly (the engine renders it verbatim).
+> The three tip toggles (`enable_tip` / `enable_tip_usage` / `enable_tip_example`) travel in `raw_config` (completion → global → default layers) and the engine folds them into `flags` — they are not sent directly in `flags`.
+> Installed commands may omit `items` and pass a `build` context instead — the engine then builds and ranks the candidates itself (`cmd`/`arg_tokens`/`manifest`/`hooks`/`order`).
+> `window.top/h` is the visible window (BufferSize spans the whole scrollback); layout space is clipped to the visible window.
+> `data_dir` is the resolved runtime data directory; the menu engine uses it for stale-update state and other host data lookups.
 
 ### output.json (Rust → PowerShell)
 
@@ -120,32 +107,23 @@ The menu's input handling is the **user-visible contract**:
 { "status": "error", "message": "..." }
 ```
 
-> **Filter vs. input line**: the filter row is a *filter*, not the input line. `Enter`/`Space`
-> always applies the current selection and never submits filter text — the filter only drives
-> matching. The only path for filter text to reach the command line is the no-match auto-apply:
-> with `enable_apply_when_no_match`, when the filter matches nothing a warning is shown and the
-> previous list is restored; pressing a **following key (append)** applies the filter text
-> (leading `^` stripped). Hence the `status: input` entry above is produced by that append
-> apply, not by Enter.
+> **Filter vs. input line**: the filter row is a *filter*, not the input line.
+> `Enter`/`Space` always applies the current selection and never submits filter text — the filter only drives matching.
+> The only path for filter text to reach the command line is the no-match auto-apply: with `enable_apply_when_no_match`, when the filter matches nothing a warning is shown and the previous list is restored; pressing a **following key (append)** applies the filter text (leading `^` stripped).
+> Hence the `status: input` entry above is produced by that append apply, not by Enter.
 
 Optional fields accompany `selected`/`cancel`/`input` when relevant:
 
-- `is_show_above` — whether the menu drew above the cursor (true may cover the prompt region);
-  informational only — the module does not act on it. `None` when nothing was drawn
-  (min_area / apply-when-single / empty list).
+- `is_show_above` — whether the menu drew above the cursor (true may cover the prompt region); informational only — the module does not act on it. `None` when nothing was drawn (min_area / apply-when-single / empty list).
 - `covered_top` / `covered_bottom` — the exact covered row range for **minimal restore**
-  (only these rows are restored; untouched rows above keep true color). **Their absence means
-  nothing was drawn, so the host restores nothing** — writing back would make PSReadLine
-  repaint its prediction list (e.g. a no-candidate cancel).
-- `alternate` — whether the alternate screen was used (PowerShell then skips buffer save/restore;
-  the terminal restores the main screen itself).
+(only these rows are restored; untouched rows above keep true color).
+**Their absence means nothing was drawn, so the host restores nothing** — writing back would make PSReadLine repaint its prediction list (e.g. a no-candidate cancel).
+- `alternate` — whether the alternate screen was used (PowerShell then skips buffer save/restore; the terminal restores the main screen itself).
 
 ### Completion resolve → option resolution (bubbling)
 
-In build mode the engine builds a tree from the manifest (`next` = subcommands, `option` = options,
-`global_option` = options shown at every level) and resolves the token path into a context node.
-Candidates at a context are: the node's `next`, its **effective option source**, and the tree's
-`global_option`.
+In build mode the engine builds a tree from the manifest (`next` = subcommands, `option` = options, `global_option` = options shown at every level) and resolves the token path into a context node.
+Candidates at a context are: the node's `next`, its **effective option source**, and the tree's `global_option`.
 
 The **effective option source bubbles up the ancestor chain** (child → parent → … → root):
 
@@ -155,159 +133,74 @@ The **effective option source bubbles up the ancestor chain** (child → parent 
 
 `global_option` items are always appended on top of the effective source.
 
-Example: for `psc config menu enable_append_space`, the context node `enable_append_space` first
-resolves its **own** `option` (it declares `--reset` → "Reset this config key to its default.").
-A sibling that declared no option (e.g. a hypothetical bare group node) would bubble to `menu`,
-then `config` — so a root option named the same as a deeper one never shadows the deeper
-declaration. The option a level shows is the one declared at the **nearest** level that has one,
-which is what makes per-group / per-key flags (e.g. `--reset`) precise instead of leaking a
-root-level flag into deep contexts.
+Example: for `psc config menu enable_append_space`, the context node `enable_append_space` first resolves its **own** `option` (it declares `--reset` → "Reset this config key to its default.").
+A sibling that declared no option (e.g. a hypothetical bare group node) would bubble to `menu`, then `config` — so a root option named the same as a deeper one never shadows the deeper declaration.
+The option a level shows is the one declared at the **nearest** level that has one, which is what makes per-group / per-key flags (e.g. `--reset`) precise instead of leaking a root-level flag into deep contexts.
 
 ### Tip data (`tip` / `usage` / `example`)
 
-- The input JSON carries `tip` / `usage` / `example` on each item, resolved by the host shell
-  from the completion manifest / hooks. The menu draws the selected item's description box
-  directly from these fields.
-- The engine strips ANSI escapes from the list text and the tip fields when caching them, so
-  description text renders cleanly.
-- A tip line's `  # ` suffix — two spaces, `#`, one space — is drawn in the **secondary
-  color** (dark gray) while everything before it keeps the normal one. That is how a
-  `{ "cmd", "desc" }` entry renders as `cmd  # desc`, with the explanation receding.
-- Empty/absent tips stay "unresolved": the layout optimistically assumes a tip may appear and
-  only real content is cached.
+- The input JSON carries `tip` / `usage` / `example` on each item, resolved by the host shell from the completion manifest / hooks. The menu draws the selected item's description box directly from these fields.
+- The engine strips ANSI escapes from the list text and the tip fields when caching them, so description text renders cleanly.
+- A tip line's `  # ` suffix — two spaces, `#`, one space — is drawn in the **secondary color** (dark gray) while everything before it keeps the normal one. That is how a `{ "cmd", "desc" }` entry renders as `cmd  # desc`, with the explanation receding.
+- Empty/absent tips stay "unresolved": the layout optimistically assumes a tip may appear and only real content is cached.
 - `enable_tip=false` → no description box, no tip parsing.
 - The menu writes a `HBT` heartbeat line to stderr every 15 s so an idle menu stays alive;
   PowerShell's reader loop times out and kills the process after **30 s without any line**
-  as a safety net.
+as a safety net.
 
 ## 3. Rendering strategy
 
-- **Windows**: normally PowerShell saves the "above" or "below" region with `GetBufferContents`
-  before spawning; Rust draws the overlay + tip inside that region with ratatui
-  `Viewport::Fixed(rect)`; on exit PowerShell `SetBufferContents` restores the covered region.
-  When the **alternate screen** is used instead (see `show_mode` below), the buffer
-  save/restore is skipped — the terminal restores the main screen itself.
-- **Unix**: Rust always uses `Viewport::Fullscreen` + the alternate screen
-  (`EnterAlternateScreen`/`LeaveAlternateScreen`); the terminal restores the main screen itself.
-  `show_mode`'s rendering intent is ignored — the alternate screen is always used; the value
-  still picks the *position* (see below).
-- **Alternate-screen decision** (Windows only) follows `show_mode`'s rendering intent:
-  `altscreen-follow` / `altscreen-top` / `altscreen-bottom` always use the alternate screen;
-  `inline-follow` never does (always renders in the main buffer); `auto` (default) uses it only
-  when the space below the cursor cannot fit the minimum menu footprint
-  (`core/engine/src/menu/state/mod.rs::below_required`). An invalid value is normalized to `auto`
-  by the CLI's `sanitize_config` before it reaches the engine. On Unix the rendering intent is
-  moot (always alternate).
-- **Menu position** (both the alternate-screen start and the main-buffer offset):
-  `inline-follow` / `altscreen-follow` place the menu at the input line and flip above when the
-  space above is larger; `auto` renders inline **pinned below** (it never flips in the main
-  buffer) and on the alternate screen is delegated to `altscreen-follow`; `altscreen-top` pins
-  it to the top; `altscreen-bottom` pins it to the bottom (menu grows upward from the last row).
-  The engine enters the alternate screen first (the terminal saves the input-line cursor to
-  restore on leave), then moves the cursor to the menu start — so a cursor near the bottom never
-  leaves the menu with no usable height.
-- **Killed menu process**: when the 30 s watchdog kills the menu, the process never gets to send
-  `LeaveAlternateScreen`, so the terminal stays on the alternate screen. PowerShell compensates
-  by emitting `ESC[?1049l` right after `Kill()` (harmless when no alternate screen was entered);
-  the buffer-restore and cursor-reset then act on the main screen.
+- **Windows**: normally PowerShell saves the "above" or "below" region with `GetBufferContents` before spawning; Rust draws the overlay + tip inside that region with ratatui `Viewport::Fixed(rect)`; on exit PowerShell `SetBufferContents` restores the covered region. When the **alternate screen** is used instead (see `show_mode` below), the buffer save/restore is skipped — the terminal restores the main screen itself.
+- **Unix**: Rust always uses `Viewport::Fullscreen` + the alternate screen (`EnterAlternateScreen`/`LeaveAlternateScreen`); the terminal restores the main screen itself. `show_mode`'s rendering intent is ignored — the alternate screen is always used; the value still picks the *position* (see below).
+- **Alternate-screen decision** (Windows only) follows `show_mode`'s rendering intent: `altscreen-follow` / `altscreen-top` / `altscreen-bottom` always use the alternate screen; `inline-follow` never does (always renders in the main buffer); `auto` (default) uses it only when the space below the cursor cannot fit the minimum menu footprint (`core/engine/src/menu/state/mod.rs::below_required`). An invalid value is normalized to `auto` by the CLI's `sanitize_config` before it reaches the engine. On Unix the rendering intent is moot (always alternate).
+- **Menu position** (both the alternate-screen start and the main-buffer offset): `inline-follow` / `altscreen-follow` place the menu at the input line and flip above when the space above is larger; `auto` renders inline **pinned below** (it never flips in the main buffer) and on the alternate screen is delegated to `altscreen-follow`; `altscreen-top` pins it to the top; `altscreen-bottom` pins it to the bottom (menu grows upward from the last row). The engine enters the alternate screen first (the terminal saves the input-line cursor to restore on leave), then moves the cursor to the menu start — so a cursor near the bottom never leaves the menu with no usable height.
+- **Killed menu process**: when the 30 s watchdog kills the menu, the process never gets to send `LeaveAlternateScreen`, so the terminal stays on the alternate screen. PowerShell compensates by emitting `ESC[?1049l` right after `Kill()` (harmless when no alternate screen was entered); the buffer-restore and cursor-reset then act on the main screen.
 
 ### Background coverage & the restore contract
 
-- When the menu opens below the cursor, the engine blanks the viewport underneath with the
-  terminal background so PSReadLine's command-history prediction list never shows through. The
-  forced-blank mechanics (diff flags, the `draw_tip` clearing constraint) are render internals —
-  see `core/engine/src/menu/ui.rs`; the contract is only the behavior: covered text never shows
-  through and the description region clears cleanly on the first frame.
+- When the menu opens below the cursor, the engine blanks the viewport underneath with the terminal background so PSReadLine's command-history prediction list never shows through. The forced-blank mechanics (diff flags, the `draw_tip` clearing constraint) are render internals — see `core/engine/src/menu/ui.rs`; the contract is only the behavior: covered text never shows through and the description region clears cleanly on the first frame.
 
 
 ## 4. Minimal layout
 
 **no width computation, no configurable width, no following the input cursor**:
 
-The focus color (`color_focus`, default red) marks the selection system — the elements
-that answer "where am I / what will be applied":
+The focus color (`color_focus`, default red) marks the selection system — the elements that answer "where am I / what will be applied":
 
-1. **Position focus** — the current counter number (`3` in `3/12`). Signals "you are looking
-   at item 3 of 12"; a quick spatial reference without scanning the list.
-2. **Selection focus** — the left rail `▍` + the `>` prefix on the highlighted row. Signals
-   "this is the item that will be applied"; the direct target of the user's action.
+1. **Position focus** — the current counter number (`3` in `3/12`). Signals "you are looking at item 3 of 12"; a quick spatial reference without scanning the list.
+2. **Selection focus** — the left rail `▍` + the `>` prefix on the highlighted row. Signals "this is the item that will be applied"; the direct target of the user's action.
 
-Both share the same color so users build a mental model where "red = where I am /
-what I'm doing" without needing to learn separate cues. The filter prompt is deliberately
-excluded: it is static chrome (same family as the rail and separators), and painting it red
-would split attention between the prompt and the moving selection. The input affordance
-there is carried by the blinking cursor instead.
+Both share the same color so users build a mental model where "red = where I am / what I'm doing" without needing to learn separate cues.
+The filter prompt is deliberately excluded: it is static chrome (same family as the rail and separators), and painting it red would split attention between the prompt and the moving selection.
+The input affordance there is carried by the blinking cursor instead.
 
-- **Pinned to column 0**: the full-width separator line + right scrollbar span the whole line
-  and do not move with the cursor.
-- **Filter prompt line (own row)**: `>` in **dark grey** (structural, same family as the
-  rail and separators), content in the default color; with an empty filter and a hint present,
-  the hint is dimmed (from the psc completion's `info.filter_hint`, localized). When `last_check` in `change.json` is older than
-  7 days, a stale-update hint (from `info.filter_hint_stale`, localized) is appended, prompting
-  the user to run `psc update`. The row sits on the side nearest the input
-  line (bottom for below-facing, top for above-facing).
-- **Match highlight**: matched filter characters are drawn segmented in the emphasis color (cyan):
-  subsequence mode highlights char-by-char, plain mode takes the first matching substring;
-  wildcard mode highlights the literal segments matched between `*`/`**` (the wildcard
-  characters themselves are not highlighted).
+- **Pinned to column 0**: the full-width separator line + right scrollbar span the whole line and do not move with the cursor.
+- **Filter prompt line (own row)**: `>` in **dark grey** (structural, same family as the rail and separators), content in the default color; with an empty filter and a hint present, the hint is dimmed (from the psc completion's `info.filter_hint`, localized). When `last_check` in `change.json` is older than 7 days, a stale-update hint (from `info.filter_hint_stale`, localized) is appended, prompting the user to run `psc update`. The row sits on the side nearest the input line (bottom for below-facing, top for above-facing).
+- **Match highlight**: matched filter characters are drawn segmented in the emphasis color (cyan): subsequence mode highlights char-by-char, plain mode takes the first matching substring; wildcard mode highlights the literal segments matched between `*`/`**` (the wildcard characters themselves are not highlighted).
 - **Counter row**: `current(red)/total(default)` + a separator line.
-- **Left rail + selection mark**: every row has a `▍` rail (the selected row turns **red**, the
-  rest dark grey); the selected row's text is prefixed with a red `>` — the only red `>`
-  on screen — text shifted one column right for the "pop-out" offset — a **double focus
-  marker** with the rail, moving with the selection.
-- **Selected row**: indicated by the red rail + red `>` together; the text itself is not
-  emphasized (bold/underline render inconsistently across terminals).
-- **Right proportional scrollbar**: same dark grey `│` as the rail/separators; height ∝
-  visible/total (a large list ≈ one line, a small list fills the rail), position ∝ scroll offset
-  (offset=0 at top).
-- **Description panel (bordered container)**: a dynamic-width rounded-border box (`╭╮╰╯`)
-  visually distinct from the completion menu; placed on the side **away from the input** (below
-  the list when below-facing, above when above-facing).
-  - **Dynamic width**: content width = min(longest natural line, available terminal width), plus
-    border/padding; short descriptions shrink the box.
-  - **Overflow scroll**: when content exceeds the available height, a proportional scrollbar
-    appears in the box's right padding column; the mouse wheel scrolls the description when
-    inside the box, the list when inside the list.
-  - **Gap coverage**: the description panel sits flush against the menu (its border is the
-    separator — there is no gap row), so no stale terminal content can show between them.
-- **Colors**: text in the terminal's default foreground; emphasis is **red** (counter
-  position, selected rail/slider and selection mark) and **cyan** (match highlight);
-  structural grey for the filter prompt, rail/separators/scrollbar/description border;
-  **yellow** for the no-match warning circle (solid `●` shown on the counter row when the
-  filter matches nothing).
+- **Left rail + selection mark**: every row has a `▍` rail (the selected row turns **red**, the rest dark grey); the selected row's text is prefixed with a red `>` — the only red `>` on screen — text shifted one column right for the "pop-out" offset — a **double focus marker** with the rail, moving with the selection.
+- **Selected row**: indicated by the red rail + red `>` together; the text itself is not emphasized (bold/underline render inconsistently across terminals).
+- **Right proportional scrollbar**: same dark grey `│` as the rail/separators; height ∝ visible/total (a large list ≈ one line, a small list fills the rail), position ∝ scroll offset (offset=0 at top).
+- **Description panel (bordered container)**: a dynamic-width rounded-border box (`╭╮╰╯`) visually distinct from the completion menu; placed on the side **away from the input** (below the list when below-facing, above when above-facing).
+  - **Dynamic width**: content width = min(longest natural line, available terminal width), plus border/padding; short descriptions shrink the box.
+  - **Overflow scroll**: when content exceeds the available height, a proportional scrollbar appears in the box's right padding column; the mouse wheel scrolls the description when inside the box, the list when inside the list.
+  - **Gap coverage**: the description panel sits flush against the menu (its border is the separator — there is no gap row), so no stale terminal content can show between them.
+- **Colors**: text in the terminal's default foreground; emphasis is **red** (counter position, selected rail/slider and selection mark) and **cyan** (match highlight); structural grey for the filter prompt, rail/separators/scrollbar/description border; **yellow** for the no-match warning circle (solid `●` shown on the counter row when the filter matches nothing).
 - **Orientation**: flips automatically by available space above/below (fzf `--layout=reverse` idea).
-- **Mouse**: left click selects; double-click within 400 ms confirms; wheel moves the selection
-  (scrolls the description when over the box).
-- **Zero width computation**: items left-aligned and truncated at the screen edge; description
-  width computed from content, never by scanning the list.
-- **Background coverage**: the menu area + description container are covered with forced-blank
-  default-background cells so covered terminal text never leaks through. The emission mechanics
-  (diff flags, the `"space + ITALIC"` pitfall) are render internals — see
-  `core/engine/src/menu/ui.rs`; the contract is only the behavior: covered text never shows
-  through.
-- **Height allocation (extreme-height adaptation)**: a terminal buffer under **5 rows** is
-  reported `min_area` immediately (filter + counter + 1 item need at least 3 rows; the extra
-  headroom above the 3-row floor is the entry gate — both the engine and the host use `< 5`);
-  **completion items win** — at very tight space the description is dropped and all usable space
-  goes to the list. The description box height descends through a few tiers as space shrinks and
-  the list is capped (`list_limit`); the concrete row counts / tier thresholds live in
+- **Mouse**: left click selects; double-click within 400 ms confirms; wheel moves the selection (scrolls the description when over the box).
+- **Zero width computation**: items left-aligned and truncated at the screen edge; description width computed from content, never by scanning the list.
+- **Background coverage**: the menu area + description container are covered with forced-blank default-background cells so covered terminal text never leaks through. The emission mechanics (diff flags, the `"space + ITALIC"` pitfall) are render internals — see `core/engine/src/menu/ui.rs`; the contract is only the behavior: covered text never shows through.
+- **Height allocation (extreme-height adaptation)**: a terminal buffer under **5 rows** is reported `min_area` immediately (filter + counter + 1 item need at least 3 rows; the extra headroom above the 3-row floor is the entry gate — both the engine and the host use `< 5`); **completion items win** — at very tight space the description is dropped and all usable space goes to the list. The description box height descends through a few tiers as space shrinks and the list is capped (`list_limit`); the concrete row counts / tier thresholds live in
   `core/engine/src/menu/state/mod.rs` and `ui.rs`. Layout space is clipped to the **visible window**
-  (module passes `window.top/h`;
-  BufferSize spans the whole scrollback).
-  - **Input line is never saved/restored**: whatever the orientation, only the covered region is
-    saved/restored — the input line (prompt) is never touched. The console buffer stores only
-    16-color, so `GetBufferContents`/`SetBufferContents` would corrupt the true-color prompt of
-    Oh My Posh/Starship and PSReadLine inline prediction; the input line survives by never being
-    touched.
-- **Minimal restore**: the exact covered row range is tracked across frames and written as
-  `covered_top/bottom` (restore contract in §2); PowerShell restores only those rows, so
-  untouched terminal content above keeps its true color.
+(module passes `window.top/h`; BufferSize spans the whole scrollback).
+  - **Input line is never saved/restored**: whatever the orientation, only the covered region is saved/restored — the input line (prompt) is never touched. The console buffer stores only 16-color, so `GetBufferContents`/`SetBufferContents` would corrupt the true-color prompt of Oh My Posh/Starship and PSReadLine inline prediction; the input line survives by never being touched.
+- **Minimal restore**: the exact covered row range is tracked across frames and written as `covered_top/bottom` (restore contract in §2); PowerShell restores only those rows, so untouched terminal content above keeps its true color.
 
 ## 5. Menu config (current)
 
-Live menu behavior is driven by the `menu` config group (`psc config menu <key>`). The values
-default as follows (see `design/psc-cli.md` for the full inventory). Boolean keys are **stored as
-`1`/`0` numbers**; the `bool` / `true` / `false` below express their logical meaning:
+Live menu behavior is driven by the `menu` config group (`psc config menu <key>`).
+The values default as follows (see `design/psc-cli.md` for the full inventory).
+Boolean keys are **stored as `1`/`0` numbers**; the `bool` / `true` / `false` below express their logical meaning:
 
 | Key | Type / range | Default | Notes |
 | --- | --- | --- | --- |
@@ -328,98 +221,43 @@ default as follows (see `design/psc-cli.md` for the full inventory). Boolean key
 | `color_focus` | string | `red` | color of the focused item (named color or `#rrggbb`) |
 | `color_match` | string | `cyan` | color of the match highlight (named color or `#rrggbb`) |
 
-**Result cache** (`enable_cache`, default `true`): the engine caches the **built completion
-result** (static resolve + hook output) so re-opening the same menu within 10 s skips the
-rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 600 ms).
+**Result cache** (`enable_cache`, default `true`): the engine caches the **built completion result** (static resolve + hook output) so re-opening the same menu within 10 s skips the rebuild — a big win for slow hooks (e.g. scoop scanning ~2700 manifests ≈ 600 ms).
 
-- **Signature** = hash of `cmd` + `arg_tokens` + `treat_last_as_complete` + `hooks` (boolean,
-  whether hooks run at all) + `manifest` path + `manifest` mtime + `hooks.lua` mtime + `cwd` +
-  per-completion `config` (the same value exposed to hooks as `psc.config`) + `global_config`
-  (e.g. `language`, which hooks read for localized tips) + data file mtimes (`settings.json` /
-  `completions.json`, to invalidate when installed completions change). `hooks.lua`'s *path* is
-  excluded (it is fixed per completion, implied by `cmd`); its *mtime* is included so an updated
-  hook invalidates stale results. `manifest` includes the language variant (en-US vs zh-CN).
-- **Storage**: one JSON file per signature (`created` + items) in `temp/cache/<hash>.json`.
-  Hashes keep file names fixed-size and free of path separators.
-- **TTL**: 10 s from the file's `created` timestamp (never refreshed by hits). Expired files are
-  removed: the hit file lazily in the load path, the rest swept on each store.
-- **Caching applies to every completion** (with or without hooks) — a fast completion pays one
-  extra tiny disk read, a slow one skips the rebuild. Disable per-user via
-  `psc config menu enable_cache 0`.
-- **Lazy hooks bypass the cache**: a hook with pending `tip`/`usage`/`example` callbacks never
-  stores (a cache hit could not replay the functions). Re-running is cheap by design — the
-  expensive reads moved into the callbacks, so only names are rebuilt.
+- **Signature** = hash of `cmd` + `arg_tokens` + `treat_last_as_complete` + `hooks` (boolean, whether hooks run at all) + `manifest` path + `manifest` mtime + `hooks.lua` mtime + `cwd` + per-completion `config` (the same value exposed to hooks as `psc.config`) + `global_config` (e.g. `language`, which hooks read for localized tips) + data file mtimes (`settings.json` / `completions.json`, to invalidate when installed completions change). `hooks.lua`'s *path* is excluded (it is fixed per completion, implied by `cmd`); its *mtime* is included so an updated hook invalidates stale results. `manifest` includes the language variant (en-US vs zh-CN).
+- **Storage**: one JSON file per signature (`created` + items) in `temp/cache/<hash>.json`. Hashes keep file names fixed-size and free of path separators.
+- **TTL**: 10 s from the file's `created` timestamp (never refreshed by hits). Expired files are removed: the hit file lazily in the load path, the rest swept on each store.
+- **Caching applies to every completion** (with or without hooks) — a fast completion pays one extra tiny disk read, a slow one skips the rebuild. Disable per-user via `psc config menu enable_cache 0`.
+- **Lazy hooks bypass the cache**: a hook with pending `tip`/`usage`/`example` callbacks never stores (a cache hit could not replay the functions). Re-running is cheap by design — the expensive reads moved into the callbacks, so only names are rebuilt.
 
 Boolean keys are stored as JSON numbers (`1`/`0`); `psc config` accepts only `0`/`1` on input.
 
-**Color configuration**: the menu supports two configurable colors — `color_focus` (default `red`,
-used for counter position, selected rail and selection mark) and `color_match` (default `cyan`, used
-for match highlighting). Structure elements (rail/separators/scrollbar/description border) use
-dark grey and are not configurable. Text uses the terminal default foreground. Items are
-zero-width (pinned left, truncated). The filter prompt is `>`, the counter reads `current/total`
-(separator `/`); the predict-symbol characters themselves (`~` / `?`) come from the `context`
-config group.
+**Color configuration**: the menu supports two configurable colors — `color_focus` (default `red`, used for counter position, selected rail and selection mark) and `color_match` (default `cyan`, used for match highlighting).
+Structure elements (rail/separators/scrollbar/description border) use dark grey and are not configurable.
+Text uses the terminal default foreground.
+Items are zero-width (pinned left, truncated).
+The filter prompt is `>`, the counter reads `current/total` (separator `/`); the predict-symbol characters themselves (`~` / `?`) come from the `context` config group.
 
 ## 6. Order / history sorting
 
 Ordering lives in the TUI process:
 
 - Per-command order files are named by **URL-encoding the command name**
-  (`[uri]::EscapeDataString`, e.g. `git.json`, `foo bar.json` → `foo%20bar.json`), and the shared
-  files live in `_shared/` (`_paths.json` / `_commands.json`) so they can never collide with a
-  per-command file. Unlike the result cache (hashes), order file names stay readable because the
-  command name is short and URL-encoding already keeps them path-safe.
+(`[uri]::EscapeDataString`, e.g. `git.json`, `foo bar.json` → `foo%20bar.json`), and the shared files live in `_shared/` (`_paths.json` / `_commands.json`) so they can never collide with a per-command file.
+Unlike the result cache (hashes), order file names stay readable because the command name is short and URL-encoding already keeps them path-safe.
 - The module packs `history`/`cmd`/`aliases`/`path` into input.json (`OrderInfo`); the Rust
   menu reads history, counts, and atomically writes the order file on a **background thread**
-  while displayed.
-- **Cache pruning**: the menu prunes stale order files (older than 90 days, including `_shared/`)
-  in a background thread on each menu open (`cleanup_stale_order_files`) — the files are rebuilt
-  on next use, so the sweep keeps `temp/order` bounded without delaying the TUI.
-- **Menu temp files**: input/output.json live in `temp/menu/` and are deleted immediately by the
-  module after each menu. When the terminal is force-closed mid-menu the cleanup never runs; the
-  engine sweeps files older than 30 minutes from `temp/menu` in a background thread on each menu
-  open (`cleanup_stale_menu_files`) so they never accumulate. Files are GUID-named per invocation,
-  so concurrent menus never collide.
-- **Ranking runs in the engine**: build mode (manifest candidates) and `--sort` (native-fallback
-  items) both apply the same order-file ranking before the menu opens — the module only hands
-  the order paths over.
+while displayed.
+- **Cache pruning**: the menu prunes stale order files (older than 90 days, including `_shared/`) in a background thread on each menu open (`cleanup_stale_order_files`) — the files are rebuilt on next use, so the sweep keeps `temp/order` bounded without delaying the TUI.
+- **Menu temp files**: input/output.json live in `temp/menu/` and are deleted immediately by the module after each menu. When the terminal is force-closed mid-menu the cleanup never runs; the engine sweeps files older than 30 minutes from `temp/menu` in a background thread on each menu open (`cleanup_stale_menu_files`) so they never accumulate. Files are GUID-named per invocation, so concurrent menus never collide.
+- **Ranking runs in the engine**: build mode (manifest candidates) and `--sort` (native-fallback items) both apply the same order-file ranking before the menu opens — the module only hands the order paths over.
 - **Algorithm (two weighted dimensions, multiplied)**:
-  - **Smooth time decay** `1 + 120×(rel/total)^8` — continuous gradient (human time perception
-    is gradual), sharply peaked at the newest end (the last one or two uses dominate, so
-    consecutive runs of a command surface first), a floor of `+1`
-    so older use accumulates by pure frequency without being forgotten.
-  - **Position weight** `((i+1)/N)^2` — the last position (deepest selection) weights `1.0`; early
-    "prefix" positions decay quadratically so `config` in `psc config menu …` is not overcounted.
-    The most recent use only breaks ties.
-- Only the last 1000 lines are scanned; keys keep their original case with quotes
-  stripped (`-d` and `-D` score separately, so using one promotes exactly that
-  spelling). The reader tries the exact spelling first and falls back to the
-  lowercased key (the same case-folding the filter uses). The engine ranks
-  items by the order-file value (descending, stable); items without a score keep their order.
-- **A `sudo`-wrapped line counts as two records**: the wrapper itself (so `sudo` keeps its
-  history — e.g. Windows sudo's `run`/`config` subcommands) plus the wrapped command
-  (`sudo git ...` also credits `git`, in the per-command file and `_commands.json`). Only a
-  bare `sudo` unwraps past the wrapper: `sudo -u <user> <cmd>` keeps the `sudo` record but
-  never credits an option-led word (`-u`) or anything behind options.
-- **Ranking sources**: non-path candidates look up the **per-command** order file first (that
-  command's own history, e.g. `git.json`), then — root completions only — `_commands.json`, the
-  shared command-use frequency across all commands. Path-shaped candidates bypass both and rank
-  by leaf name against `_paths.json` instead.
-- **Shared files stay out of subcommand ranking**: `_commands.json` applies only while the first
-  token is being completed (`g<Tab>`; derived from the raw input tokens the module passes with
-  each request — one unfinished token = still completing the first one). Once the root command is
-  complete (`npm <Tab>`), candidates are the tool's own subcommands/options/values and rank
-  against the per-command file only: a subcommand must not pick up the root-command frequency of
-  `ls` from `_commands.json`, and bare words never consult `_paths.json` either — npm `test` must
-  not inherit the weight of an unrelated `test\` directory from path history. Unscored candidates
-  keep their manifest order (stable sort).
-- **Explicit path completions rank at any depth**: candidates whose text contains `/` or `\`
-  (e.g. `cd .\src\<Tab>`) rank by leaf name against `_paths.json` — the writer scores **every
-  segment** of a history path token, not just the leaf (`./scripts/build.ps1` credits both
-  `scripts` and `build.ps1`), and a **directory** candidate (trailing separator, e.g. `.\src\`)
-  ranks under its own name (`src`). Bare-word candidates (e.g. `cd <Tab>` before any separator is
-  typed) are not treated as path completions and keep their native order.
-  <!-- nolink: illustrative path in a ranking example, not a repo file -->
+  - **Smooth time decay** `1 + 120×(rel/total)^8` — continuous gradient (human time perception is gradual), sharply peaked at the newest end (the last one or two uses dominate, so consecutive runs of a command surface first), a floor of `+1` so older use accumulates by pure frequency without being forgotten.
+  - **Position weight** `((i+1)/N)^2` — the last position (deepest selection) weights `1.0`; early "prefix" positions decay quadratically so `config` in `psc config menu …` is not overcounted. The most recent use only breaks ties.
+- Only the last 1000 lines are scanned; keys keep their original case with quotes stripped (`-d` and `-D` score separately, so using one promotes exactly that spelling). The reader tries the exact spelling first and falls back to the lowercased key (the same case-folding the filter uses). The engine ranks items by the order-file value (descending, stable); items without a score keep their order.
+- **A `sudo`-wrapped line counts as two records**: the wrapper itself (so `sudo` keeps its history — e.g. Windows sudo's `run`/`config` subcommands) plus the wrapped command (`sudo git ...` also credits `git`, in the per-command file and `_commands.json`). Only a bare `sudo` unwraps past the wrapper: `sudo -u <user> <cmd>` keeps the `sudo` record but never credits an option-led word (`-u`) or anything behind options.
+- **Ranking sources**: non-path candidates look up the **per-command** order file first (that command's own history, e.g. `git.json`), then — root completions only — `_commands.json`, the shared command-use frequency across all commands. Path-shaped candidates bypass both and rank by leaf name against `_paths.json` instead.
+- **Shared files stay out of subcommand ranking**: `_commands.json` applies only while the first token is being completed (`g<Tab>`; derived from the raw input tokens the module passes with each request — one unfinished token = still completing the first one). Once the root command is complete (`npm <Tab>`), candidates are the tool's own subcommands/options/values and rank against the per-command file only: a subcommand must not pick up the root-command frequency of `ls` from `_commands.json`, and bare words never consult `_paths.json` either — npm `test` must not inherit the weight of an unrelated `test\` directory from path history. Unscored candidates keep their manifest order (stable sort).
+- **Explicit path completions rank at any depth**: candidates whose text contains `/` or `\` (e.g. `cd .\src\<Tab>`) rank by leaf name against `_paths.json` — the writer scores **every segment** of a history path token, not just the leaf (`./scripts/build.ps1` credits both `scripts` and `build.ps1`), and a **directory** candidate (trailing separator, e.g. `.\src\`) ranks under its own name (`src`). Bare-word candidates (e.g. `cd <Tab>` before any separator is typed) are not treated as path completions and keep their native order. <!-- nolink: illustrative path in a ranking example, not a repo file -->
 
 ## 7. Engineering structure (current)
 
@@ -457,32 +295,20 @@ core/engine/                 # psc-menu crate: engine + TUI
 module/PSCompletions/bin/<platform>-<arch>/psc-menu(.exe)
 ```
 
-The workspace `core/Cargo.toml` sets the release profile: `opt-level = "z"`, `lto = true`,
-`codegen-units = 1`, `strip = true`, `panic = "abort"`.
+The workspace `core/Cargo.toml` sets the release profile: `opt-level = "z"`, `lto = true`, `codegen-units = 1`, `strip = true`, `panic = "abort"`.
 
 ## 8. Robustness
 
-- release uses `panic = "abort"` (so `catch_unwind` is inert), which also means a panicking menu
-  never runs `TermGuard::drop`. `main` installs a **panic hook** that (a) puts the terminal back —
-  raw mode off, cursor shown, alternate screen left — through the same `restore_terminal` the
-  guard's `Drop` calls, so the two cannot drift, and (b) writes `{"status":"error"}` to output.json
-  before aborting, so a crash leaves neither a dead shell nor a silent death.
-  `--panic-test` panics **before** the menu takes the terminal, so it exercises (b) only; (a) is
-  pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
+- release uses `panic = "abort"` (so `catch_unwind` is inert), which also means a panicking menu never runs `TermGuard::drop`. `main` installs a **panic hook** that (a) puts the terminal back — raw mode off, cursor shown, alternate screen left — through the same `restore_terminal` the guard's `Drop` calls, so the two cannot drift, and (b) writes `{"status":"error"}` to output.json before aborting, so a crash leaves neither a dead shell nor a silent death. `--panic-test` panics **before** the menu takes the terminal, so it exercises (b) only; (a) is pinned by `the_guard_records_what_a_panic_must_undo` in `menu/app.rs`.
 - The `HBT` heartbeat writes to stderr with non-panicking `writeln!`; a closed pipe does not crash.
-- PowerShell: a process that exits cleanly without output.json is treated as **cancel** (usually
-  the user Ctrl+C'ing the subprocess) — no RawUI fallback; timeout/exception still fail.
+- PowerShell: a process that exits cleanly without output.json is treated as **cancel** (usually the user Ctrl+C'ing the subprocess) — no RawUI fallback; timeout/exception still fail.
 
 ## 9. Known constraints & decisions
 
-- Terminal resize events are handled: the menu re-reads terminal dimensions and re-renders on
-  resize, so the layout stays correct regardless of the initial buffer size passed by the host.
+- Terminal resize events are handled: the menu re-reads terminal dimensions and re-renders on resize, so the layout stays correct regardless of the initial buffer size passed by the host.
 - Config numeric fields are `i32`, stored as JSON numbers.
-- Layout is "optimistically has tip" while a tip is unresolved (list compressed); an item without
-  a tip leaves right-side space, recomputed at the next filter.
+- Layout is "optimistically has tip" while a tip is unresolved (list compressed); an item without a tip leaves right-side space, recomputed at the next filter.
 - PowerShell 5.1's `$IsWindows` is empty; platform detection uses `$PSEdition -eq 'Desktop' -or $IsWindows`.
 - Rust failures show an error and return — there is no RawUI menu fallback.
-- A single keypress on Windows emits Press+Release events; `handle_key` ignores
-  `KeyEventKind::Release` so a key moves the selection exactly one step.
-- On exit, `show_module_menu` restores the cursor (Rust's `SetBufferContents`-based restore only
-  covers content); the prompt is not repainted manually.
+- A single keypress on Windows emits Press+Release events; `handle_key` ignores `KeyEventKind::Release` so a key moves the selection exactly one step.
+- On exit, `show_module_menu` restores the cursor (Rust's `SetBufferContents`-based restore only covers content); the prompt is not repainted manually.

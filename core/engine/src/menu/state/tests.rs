@@ -131,8 +131,7 @@ fn description_box_coverage_stays_always_update() {
         .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
         .unwrap();
     let buf = terminal.backend().buffer();
-    // The description-box region must stay force-updated on the first frame; a cell.reset()
-    // in draw_tip's clear would drop AlwaysUpdate and the history list would bleed through.
+    // The description-box region must stay force-updated on the first frame; a cell.reset() in draw_tip's clear would drop AlwaysUpdate and the history list would bleed through.
     let mut covered = false;
     for y in (s.pos.1 + s.ui_height)..29u16 {
         for x in 0..20u16 {
@@ -164,9 +163,8 @@ fn term() -> TerminalInfo {
 fn desc_gets_four_content_lines_in_16_row_window() {
     let mut c = cfg(false);
     c.flags.enable_tip = true;
-    // Window height 16: top row 1 (0) + input row (1) → 14 rows (2..15) left for the
-    // TUI. A 6-item menu at 8 rows + a 6-row description box (4 content lines) fills
-    // exactly those 14 rows — the 4-line description baseline.
+    // Window height 16: top row 1 (0) + input row (1) → 14 rows (2..15) left for the TUI.
+    // A 6-item menu at 8 rows + a 6-row description box (4 content lines) fills exactly those 14 rows — the 4-line description baseline.
     let term = TerminalInfo {
         cursor: Pos { x: 0, y: 1 },
         buffer: Size { w: 120, h: 16 },
@@ -176,8 +174,7 @@ fn desc_gets_four_content_lines_in_16_row_window() {
     let s = MenuState::new(items(7), &c, &term);
     assert_eq!(s.ui_height, 8); // 6 items = 8 rows
     assert_eq!(s.pos.1, 2); // menu top sits below the input row
-                            // desc content 4 lines: the box should appear right below the menu (no gap),
-                            // height 6 (4 content lines + 2 borders)
+                            // desc content 4 lines: the box should appear right below the menu (no gap), height 6 (4 content lines + 2 borders)
     let mut s2 = MenuState::new(items(7), &c, &term);
     s2.tip_cache.insert(
         0,
@@ -273,14 +270,12 @@ fn match_segments_wildcards_highlight_literals() {
 
 #[test]
 fn match_segments_resolves_force_subsequence() {
-    // Wildcard config + a leading `*` forces subsequence: highlights the chars hit in
-    // subsequence order.
+    // Wildcard config + a leading `*` forces subsequence: highlights the chars hit in subsequence order.
     assert_eq!(
         match_segments("xaybc", "*abc", false, false),
         vec![(1, 2), (3, 5)]
     );
-    // Subsequence config + `^*abc`: `*` is literal and anchored by the prefix; the
-    // whole "*abc" is highlighted.
+    // Subsequence config + `^*abc`: `*` is literal and anchored by the prefix; the whole "*abc" is highlighted.
     assert_eq!(match_segments("*abc", "^*abc", true, true), vec![(0, 4)]);
 }
 
@@ -303,8 +298,7 @@ fn match_segments_subsequence_and_prefix() {
 
 #[test]
 fn height_allocation_adapts_to_terminal_size() {
-    // Small terminal (6 rows, cursor on bottom row 5): 4 rows available above, not
-    // enough for the description → the menu takes it all.
+    // Small terminal (6 rows, cursor on bottom row 5): 4 rows available above, not enough for the description → the menu takes it all.
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.show_mode = "inline".into(); // only inline allows flipping above
@@ -317,13 +311,11 @@ fn height_allocation_adapts_to_terminal_size() {
     let s = MenuState::new(items(20), &c, &small);
     assert!(!s.min_area);
     assert!(s.is_show_above);
-    // 4 rows available → items win: the menu fills all 4 rows (2 items), no description;
-    // tip_placement stays optimistically Above, but draw_tip skips it for lack of space.
+    // 4 rows available → items win: the menu fills all 4 rows (2 items), no description; tip_placement stays optimistically Above, but draw_tip skips it for lack of space.
     assert_eq!(s.ui_height, 4);
     assert_eq!(s.tip_placement, TipPlacement::Above);
 
-    // Medium terminal (10 rows, cursor on bottom row 9): 8 rows available → description
-    // gets its extreme 1-line baseline, menu 5 rows (3 items).
+    // Medium terminal (10 rows, cursor on bottom row 9): 8 rows available → description gets its extreme 1-line baseline, menu 5 rows (3 items).
     let med = TerminalInfo {
         cursor: Pos { x: 0, y: 9 },
         buffer: Size { w: 120, h: 10 },
@@ -335,8 +327,7 @@ fn height_allocation_adapts_to_terminal_size() {
     assert_eq!(s2.ui_height, 5);
     assert_eq!(s2.tip_placement, TipPlacement::Above);
 
-    // Taller terminal (11 rows, cursor on bottom row 10): 9 rows available → description
-    // gets its compact 2-line baseline, menu 5 rows (3 items).
+    // Taller terminal (11 rows, cursor on bottom row 10): 9 rows available → description gets its compact 2-line baseline, menu 5 rows (3 items).
     let tall = TerminalInfo {
         cursor: Pos { x: 0, y: 10 },
         buffer: Size { w: 120, h: 11 },
@@ -348,8 +339,7 @@ fn height_allocation_adapts_to_terminal_size() {
     assert_eq!(s4.ui_height, 5);
     assert_eq!(s4.tip_placement, TipPlacement::Above);
 
-    // Ample terminal (13 rows, cursor on bottom row 12): 11 rows available → description
-    // gets its 4-line baseline, menu 5 rows (3 items).
+    // Ample terminal (13 rows, cursor on bottom row 12): 11 rows available → description gets its 4-line baseline, menu 5 rows (3 items).
     let ample = TerminalInfo {
         cursor: Pos { x: 0, y: 12 },
         buffer: Size { w: 120, h: 13 },
@@ -361,8 +351,7 @@ fn height_allocation_adapts_to_terminal_size() {
     assert_eq!(s5.ui_height, 5);
     assert_eq!(s5.tip_placement, TipPlacement::Above);
 
-    // Description off: on the same terminal the menu takes all available space
-    // (8 rows), showing more items.
+    // Description off: on the same terminal the menu takes all available space (8 rows), showing more items.
     let mut c2 = cfg(false);
     c2.flags.enable_tip = false;
     c2.flags.show_mode = "inline".into();
@@ -371,8 +360,7 @@ fn height_allocation_adapts_to_terminal_size() {
     assert_eq!(s3.ui_height, 8);
     assert_eq!(s3.tip_placement, TipPlacement::None);
 
-    // Scarce terminal (7 rows available): description keeps its extreme 1 line, the
-    // list drops to 2 items (the description is no longer cut).
+    // Scarce terminal (7 rows available): description keeps its extreme 1 line, the list drops to 2 items (the description is no longer cut).
     let scarce7 = TerminalInfo {
         cursor: Pos { x: 0, y: 8 },
         buffer: Size { w: 120, h: 9 },
@@ -384,8 +372,7 @@ fn height_allocation_adapts_to_terminal_size() {
     assert_eq!(s6.ui_height, 4); // 2 items + 1 description line
     assert_eq!(s6.tip_placement, TipPlacement::Above);
 
-    // Scarce terminal (6 rows available): description keeps its extreme 1 line, the
-    // list drops to 1 item.
+    // Scarce terminal (6 rows available): description keeps its extreme 1 line, the list drops to 1 item.
     let scarce6 = TerminalInfo {
         cursor: Pos { x: 0, y: 7 },
         buffer: Size { w: 120, h: 8 },
@@ -400,9 +387,7 @@ fn height_allocation_adapts_to_terminal_size() {
 
 #[test]
 fn filter_no_match_keeps_selection_when_list_unchanged() {
-    // User scenario: after selecting a later item, typing a non-matching char (X) →
-    // the menu reverts to the full list (unchanged); the selection should stay at its
-    // pre-filter position, not jump to the first item.
+    // User scenario: after selecting a later item, typing a non-matching char (X) → the menu reverts to the full list (unchanged); the selection should stay at its pre-filter position, not jump to the first item.
     let c = cfg(false);
     let mut s = MenuState::new(items(10), &c, &term());
     for _ in 0..4 {
@@ -418,8 +403,7 @@ fn filter_no_match_keeps_selection_when_list_unchanged() {
 
 #[test]
 fn filter_keeps_selection_when_list_unchanged() {
-    // The post-filter match set equals the previous one (the menu did not change) →
-    // the selection is kept, not reset to the first item.
+    // The post-filter match set equals the previous one (the menu did not change) → the selection is kept, not reset to the first item.
     let c = cfg(false);
     let mut s = MenuState::new(items(10), &c, &term());
     for _ in 0..4 {
@@ -441,9 +425,7 @@ fn filter_keeps_selection_when_list_unchanged() {
 
 #[test]
 fn single_match_does_not_inflate_menu() {
-    // Filter leaves exactly 1 item (and the selected item has a tip that triggers the
-    // description branch): the menu height should be count+2 (3 rows = filter row +
-    // count row + 1 item), not inflated to the 3-item floor with empty item rows.
+    // Filter leaves exactly 1 item (and the selected item has a tip that triggers the description branch): the menu height should be count+2 (3 rows = filter row + count row + 1 item), not inflated to the 3-item floor with empty item rows.
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.show_mode = "inline".into();
@@ -469,8 +451,7 @@ fn single_match_does_not_inflate_menu() {
 
 #[test]
 fn window_caps_available_space_for_huge_buffer() {
-    // Huge buffer (3000 rows) but only a 30-row visible window: allocation must follow
-    // the visible window, not sprawl across the whole buffer.
+    // Huge buffer (3000 rows) but only a 30-row visible window: allocation must follow the visible window, not sprawl across the whole buffer.
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.show_mode = "inline".into();
@@ -483,8 +464,7 @@ fn window_caps_available_space_for_huge_buffer() {
     let s = MenuState::new(items(20), &c, &term);
     assert!(!s.min_area);
     assert!(s.is_show_above);
-    // 29 visible rows → ample (a 4-line description fits ≥8 items) → description gets
-    // its 5-line baseline (7-row box) → menu = min(20+2, 12, 29-7=22) = 12 (capped at 10 items)
+    // 29 visible rows → ample (a 4-line description fits ≥8 items) → description gets its 5-line baseline (7-row box) → menu = min(20+2, 12, 29-7=22) = 12 (capped at 10 items)
     assert_eq!(s.ui_height, 12);
 }
 
@@ -518,7 +498,8 @@ fn covered_tracks_rendered_rows() {
     terminal
         .draw(|f| crate::menu::ui::render(f, &mut s, &term, &c))
         .unwrap();
-    // covered should span the menu rows [pos_y .. pos_y+ui_height-1] and not reach above cursor row 5.
+    // covered should span the menu rows [pos_y ..
+    // pos_y+ui_height-1] and not reach above cursor row 5.
     assert!(s.has_covered());
     assert!(s.covered_top <= s.pos.1);
     assert!(s.covered_bottom >= s.pos.1 + s.ui_height - 1);
@@ -541,7 +522,8 @@ fn filter_cursor_editing() {
     s.insert_at_cursor('c');
     assert_eq!(s.filter, "cab");
     assert_eq!(s.cursor, 1);
-    // Cursor between a and b? cab: cursor=1 is before 'a', move right to 2 (after a), insert d → cadb
+    // Cursor between a and b?
+    // cab: cursor=1 is before 'a', move right to 2 (after a), insert d → cadb
     s.move_cursor_right();
     assert_eq!(s.cursor, 2);
     s.insert_at_cursor('d');
@@ -611,8 +593,7 @@ fn prefix_derived_from_filter_no_toggle() {
     assert_eq!(s.filter, "^");
     assert_eq!(s.cursor, 1);
     assert!(s.is_prefix);
-    // With a prefix already, inserting ^ in the middle → prefix state is derived from
-    // the filter, it will not flip back to normal mode.
+    // With a prefix already, inserting ^ in the middle → prefix state is derived from the filter, it will not flip back to normal mode.
     s.insert_at_cursor('^'); // filter="^^"
     s.apply_filter(&c, &term);
     // "^^" has no match (cmd* does not start with ^) → reverts to "^", still in prefix state.
@@ -628,8 +609,7 @@ fn prefix_derived_from_filter_no_toggle() {
 
 #[test]
 fn with_initial_filter_no_match_keeps_full_list() {
-    // A hint that matches nothing must not empty the menu: hosts pass the pending word blindly,
-    // and items display leaves, so a path slot has no genuine prefix to offer.
+    // A hint that matches nothing must not empty the menu: hosts pass the pending word blindly, and items display leaves, so a path slot has no genuine prefix to offer.
     let c = cfg(false);
     let term = term();
     let mut s = MenuState::new(items(10), &c, &term);
@@ -640,8 +620,8 @@ fn with_initial_filter_no_match_keeps_full_list() {
 
 #[test]
 fn a_stale_filter_cursor_degrades_instead_of_panicking() {
-    // The cursor is an invariant the editing paths maintain; a stale one used to panic the menu
-    // (`self.filter[byte..].chars().next().unwrap()` on an empty tail). §7.0: it degrades.
+    // The cursor is an invariant the editing paths maintain; a stale one used to panic the menu (`self.filter[byte..].chars().next().unwrap()` on an empty tail).
+    // §7.0: it degrades.
     let c = cfg(false);
     let term = term();
     let mut s = MenuState::new(items(3), &c, &term);
@@ -747,8 +727,7 @@ fn below_required_threshold() {
 #[test]
 fn auto_inline_threshold_actually_fits_layout() {
     // `below_required` is the `auto` inline floor: at that space the menu must fit inline.
-    // Guarantees the app-layer decision (inline vs alternate) and recompute_layout never
-    // disagree, so `auto` never does an above-inline flip or a retry.
+    // Guarantees the app-layer decision (inline vs alternate) and recompute_layout never disagree, so `auto` never does an above-inline flip or a retry.
     for count in 1..=20 {
         let space = crate::menu::state::below_required(true);
         let h = crate::menu::state::layout_height(count as usize, space, true);
@@ -821,8 +800,7 @@ fn cached_tip_sections_respect_switches() {
 
 #[test]
 fn sections_render_with_colored_desc_split() {
-    // Real rendering: usage/example drawn into the description container, with the
-    // `  # explanation` part in the secondary color (color layering, not alignment).
+    // Real rendering: usage/example drawn into the description container, with the `  # explanation` part in the secondary color (color layering, not alignment).
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.enable_tip_usage = true;
@@ -860,8 +838,7 @@ fn sections_render_with_colored_desc_split() {
     assert!(joined.contains("[Usage]"), "missing [Usage]");
     assert!(joined.contains("[Description]"), "missing [Description]");
     assert!(joined.contains("[Example]"), "missing [Example]");
-    // example row: cmd in the default color; the `# explanation` (code-comment style)
-    // in the secondary color (STRUCT_C structural gray, not bold).
+    // example row: cmd in the default color; the `# explanation` (code-comment style) in the secondary color (STRUCT_C structural gray, not bold).
     let row_idx = rows
         .iter()
         .position(|r| r.contains("extract here"))
@@ -939,8 +916,7 @@ fn desc_split_keeps_color_on_wrapped_continuation() {
 
 #[test]
 fn desc_split_ignores_bare_hash_in_command() {
-    // A bare # in command text (no surrounding spaces) does not trigger splitting; only
-    // ` # ` (a space on both sides) is a separator.
+    // A bare # in command text (no surrounding spaces) does not trigger splitting; only ` # ` (a space on both sides) is a separator.
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.enable_tip_example = true;
@@ -1042,9 +1018,7 @@ fn scroll_highlights_all_items_not_just_first_page() {
 
 #[test]
 fn psc_real_items_revert_consistently() {
-    // A few letters hit a subset → typing more leads to no match → reverts to the
-    // previous menu state; the reverted list must agree with the reverted filter text
-    // (must not jump back to a larger match set).
+    // A few letters hit a subset → typing more leads to no match → reverts to the previous menu state; the reverted list must agree with the reverted filter text (must not jump back to a larger match set).
     let path = concat!(
         env!("CARGO_MANIFEST_DIR"),
         "/../../completions/psc/language/en-US.json"
@@ -1089,8 +1063,7 @@ fn psc_real_items_revert_consistently() {
     s.insert_at_cursor('d');
     s.apply_filter(&c, &term());
     assert_eq!(s.filtered.len(), 1);
-    // "addd" → no match → reverts to "add", the list stays ["add"] (must not jump back
-    // to a larger match set).
+    // "addd" → no match → reverts to "add", the list stays ["add"] (must not jump back to a larger match set).
     s.insert_at_cursor('d');
     s.apply_filter(&c, &term());
     assert_eq!(s.filter, "add", "filter reverts to last valid");
@@ -1109,8 +1082,7 @@ fn psc_real_items_revert_consistently() {
 
 #[test]
 fn no_match_auto_apply_on_next_append() {
-    // Auto-apply on no match (no buffering): a non-matching filter shows the warning;
-    // the next **append** input commits.
+    // Auto-apply on no match (no buffering): a non-matching filter shows the warning; the next **append** input commits.
     // add matches → addx does not (warning, no commit) → addxy appends → commits.
     let mut c = cfg(false);
     c.flags.filter_mode = "subsequence".into();
@@ -1221,8 +1193,7 @@ fn no_match_warning_circle_renders_only_when_no_match() {
 
 #[test]
 fn edit_recovers_from_no_match() {
-    // After a no-match, editing (backspace) recovers a match → the warning clears;
-    // re-entering no-match requires two fresh appends to commit again.
+    // After a no-match, editing (backspace) recovers a match → the warning clears; re-entering no-match requires two fresh appends to commit again.
     let mut c = cfg(false);
     c.flags.filter_mode = "subsequence".into();
     c.flags.show_mode = "auto".into();
@@ -1295,9 +1266,8 @@ fn disabled_reverts_no_match_filter() {
 
 #[test]
 fn insert_anywhere_commits_when_no_match_warning_shown() {
-    // With the solid-circle warning (no match), any character insertion at any
-    // position commits — not just appending at the end; middle/front inserts also
-    // count as "the next input". Deletion recovers; the `^` prefix toggle does not commit.
+    // With the solid-circle warning (no match), any character insertion at any position commits — not just appending at the end; middle/front inserts also count as "the next input".
+    // Deletion recovers; the `^` prefix toggle does not commit.
     let mut c = cfg(false);
     c.flags.filter_mode = "subsequence".into();
     c.flags.show_mode = "auto".into();
@@ -1334,8 +1304,7 @@ fn insert_anywhere_commits_when_no_match_warning_shown() {
 
 #[test]
 fn prefix_toggle_does_not_commit_but_insert_after_does() {
-    // The `^` prefix is a mode switch and does not commit; if it still does not match
-    // after the toggle, the next insert commits.
+    // The `^` prefix is a mode switch and does not commit; if it still does not match after the toggle, the next insert commits.
     let mut c = cfg(false);
     c.flags.filter_mode = "subsequence".into();
     c.flags.show_mode = "auto".into();
@@ -1369,8 +1338,7 @@ fn prefix_toggle_does_not_commit_but_insert_after_does() {
     );
     assert!(s.no_match);
     assert_eq!(s.filter, "^addx");
-    // Move past the prefix to the end and insert a character → commits (the text
-    // contains ^; by convention the ^ is stripped).
+    // Move past the prefix to the end and insert a character → commits (the text contains ^; by convention the ^ is stripped).
     s.move_cursor_end();
     s.insert_at_cursor('z');
     let out = s.apply_filter(&c, &term());
@@ -1382,9 +1350,8 @@ fn prefix_toggle_does_not_commit_but_insert_after_does() {
 
 #[test]
 fn commit_strips_only_one_prefix_caret() {
-    // Regression: the committed text strips only **one** prefix caret ^; a ^ the user
-    // typed extra is an ordinary character and is kept. Filtering ^^x (prefix ^ +
-    // ordinary ^x) writes ^x, not trimming everything into x.
+    // Regression: the committed text strips only **one** prefix caret ^; a ^ the user typed extra is an ordinary character and is kept.
+    // Filtering ^^x (prefix ^ + ordinary ^x) writes ^x, not trimming everything into x.
     let mut c = cfg(false);
     c.flags.filter_mode = "subsequence".into();
     c.flags.show_mode = "auto".into();
@@ -1412,8 +1379,7 @@ fn commit_strips_only_one_prefix_caret() {
     s.apply_filter(&c, &term());
     assert!(s.no_match);
     assert_eq!(s.filter, "^x");
-    // Insert an ordinary ^ between ^ and x → ^^x → commits, writing ^x (only the one
-    // prefix ^ is stripped).
+    // Insert an ordinary ^ between ^ and x → ^^x → commits, writing ^x (only the one prefix ^ is stripped).
     s.insert_at_cursor('^');
     let out = s.apply_filter(&c, &term());
     match out {
@@ -1429,8 +1395,7 @@ fn always_below_reserves_tip_space() {
     let mut c = cfg(false);
     c.flags.enable_tip = true;
     c.flags.show_mode = "altscreen-top".into();
-    // 12 rows below (cursor on row 17 of 30): altscreen-top forces below, description gets
-    // its 4-line baseline (6-row box), the menu takes 6 (4 items).
+    // 12 rows below (cursor on row 17 of 30): altscreen-top forces below, description gets its 4-line baseline (6-row box), the menu takes 6 (4 items).
     let term = TerminalInfo {
         cursor: Pos { x: 0, y: 17 },
         buffer: Size { w: 120, h: 30 },
@@ -1446,10 +1411,9 @@ fn always_below_reserves_tip_space() {
 
 #[test]
 fn auto_alternate_flips_above_when_below_is_tight() {
-    // `auto` switches to the alternate screen when the space below the input line is less
-    // than `below_required`. There the app layer delegates it to `altscreen-follow`, so the
-    // menu must flip above when below is provably too small. Window height 30, so the
-    // below_required(11) threshold means a cursor below row 18 (rel_y 19+) flips above.
+    // `auto` switches to the alternate screen when the space below the input line is less than `below_required`.
+    // There the app layer delegates it to `altscreen-follow`, so the menu must flip above when below is provably too small.
+    // Window height 30, so the below_required(11) threshold means a cursor below row 18 (rel_y 19+) flips above.
     for rel_y in [20u16, 25] {
         let mut c = cfg(false);
         c.flags.enable_tip = true;
@@ -1488,10 +1452,8 @@ fn auto_alternate_flips_above_when_below_is_tight() {
 
 #[test]
 fn altscreen_bottom_pins_to_the_bottom() {
-    // `altscreen-bottom` always renders above (menu grows upward from the last row). The
-    // app layer sets the alternate-screen cursor to the bottom row (window_h-1), so the
-    // menu's bottom hugs the row before the last, symmetric with altscreen-top's empty top
-    // row.
+    // `altscreen-bottom` always renders above (menu grows upward from the last row).
+    // The app layer sets the alternate-screen cursor to the bottom row (window_h-1), so the menu's bottom hugs the row before the last, symmetric with altscreen-top's empty top row.
     for _rel in [5u16, 15, 25] {
         let mut c = cfg(false);
         c.flags.enable_tip = true;

@@ -45,8 +45,7 @@ if (-not $CompletionList) {
     }
 }
 
-# Compiled helpers (scripts/psc-tools.cs): read-only canonicality check so that
-# already-normalized files skip the expensive PS rebuild entirely.
+# Compiled helpers (scripts/psc-tools.cs): read-only canonicality check so that already-normalized files skip the expensive PS rebuild entirely.
 # When the type is unavailable, everything falls back to the rebuild path below.
 if (-not ('PscTools.SortCheck' -as [type])) {
     try { Add-Type -Path "$PSScriptRoot/psc-tools.cs" } catch { Write-Verbose "SortCheck unavailable: $_" }
@@ -81,7 +80,8 @@ function Sort-ConfigJson {
 }
 
 # Normalize alias (longest form becomes name) and usage forms (short -> long).
-# Mutates the parsed tree in place. Runs before sorting so sibling order uses final names.
+# Mutates the parsed tree in place.
+# Runs before sorting so sibling order uses final names.
 function Optimize-Entry {
     param($entry)
 
@@ -202,8 +202,8 @@ function Sort-ObjectRecursively {
     }
 }
 
-# Parse once; when the tree is already canonical (common case), only re-serialize for
-# the byte comparison. Otherwise run the full optimize + sort rebuild.
+# Parse once; when the tree is already canonical (common case), only re-serialize for the byte comparison.
+# Otherwise run the full optimize + sort rebuild.
 # Returns the JSON string to write, or $null when content is unchanged (skip write).
 function Get-SortedJsonString {
     param(

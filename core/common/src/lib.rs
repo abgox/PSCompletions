@@ -1,15 +1,14 @@
 //! Dependency-free helpers shared by the `psc` CLI and the `psc-menu` engine.
-//! Keep this crate lean: nothing here may pull in dependencies (the engine's
-//! hot-path binary must stay small).
+//! Keep this crate lean: nothing here may pull in dependencies (the engine's hot-path binary must stay small).
 
-/// Strip a leading UTF-8 BOM if present. Legacy PowerShell 5.1 `Out-File -Encoding utf8`
-/// writes one, which breaks serde_json parsing; `ReadAllText`-style readers consume it,
-/// but raw `read_to_string` surfaces it as `\u{FEFF}`.
+/// Strip a leading UTF-8 BOM if present.
+/// Legacy PowerShell 5.1 `Out-File -Encoding utf8` writes one, which breaks serde_json parsing; `ReadAllText`-style readers consume it, but raw `read_to_string` surfaces it as `\u{FEFF}`.
 pub fn strip_bom(s: &str) -> &str {
     s.strip_prefix('\u{feff}').unwrap_or(s)
 }
 
-/// Read a UTF-8 text file, stripping a leading BOM. `None` when the file cannot be read.
+/// Read a UTF-8 text file, stripping a leading BOM.
+/// `None` when the file cannot be read.
 pub fn read_text(path: &str) -> Option<String> {
     let text = std::fs::read_to_string(path).ok()?;
     Some(strip_bom(&text).to_string())

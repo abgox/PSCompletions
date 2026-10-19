@@ -38,10 +38,9 @@ pub fn cmd_list(
             .as_array()
             .map(|a| a.iter().filter_map(|v| v.as_str()).collect())
             .unwrap_or_default();
-        // All trigger words, exactly like this command's JSON and like PS's `_render_list`, which
-        // renders that JSON. Filtering out the completion's own name made `psc list` disagree with
-        // `psc alias` for no visible reason. `key_line` owns the shape, so an empty value ends at
-        // the colon here too — like `config` / `completion`.
+        // All trigger words, exactly like this command's JSON and like PS's `_render_list`, which renders that JSON.
+        // Filtering out the completion's own name made `psc list` disagree with `psc alias` for no visible reason.
+        // `key_line` owns the shape, so an empty value ends at the colon here too — like `config` / `completion`.
         out.line(&key_line(name, &aliases.join(", ")));
     }
     ExitCode::SUCCESS

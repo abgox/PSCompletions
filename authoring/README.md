@@ -1,12 +1,11 @@
 # Authoring
 
-How to write and maintain a completion. This directory holds the working material —
-procedure, field reference, examples, checklists — that is not carried in `AGENTS.md`
-because it is not needed at every step of every task.
+How to write and maintain a completion.
+This directory holds the working material — procedure, field reference, examples, checklists — that is not carried in `AGENTS.md` because it is not needed at every step of every task.
 
-> **Canonical order.** `../AGENTS.md` carries the hard rules (`R-xx`): the ones that
-> must hold at all times and that the validation scripts cannot see. This directory is
-> reference and procedure. Where the two disagree, `../AGENTS.md` wins.
+> **Canonical order.** `../AGENTS.md` carries the hard rules (`R-xx`): the ones that must hold at all times and that the validation scripts cannot see.
+> This directory is reference and procedure.
+> Where the two disagree, `../AGENTS.md` wins.
 
 ## Who reads what
 
@@ -38,18 +37,7 @@ because it is not needed at every step of every task.
 ## Conventions
 
 - **Language**: English, matching `../AGENTS.md` and `../design/`.
-- **Procedure, not semantics.** Field *meaning* and engine behaviour belong in
-  `../design/completion.md`; a worked example or a step belongs here. Do not restate an
-  engine contract in order to explain a step — link to it.
-- **Cross-references** are written as markdown links that resolve from the file that
-  contains them (e.g. `../design/completion.md`). `scripts/check-doc-links.ps1` verifies
-  that they resolve; a dead link here is a defect.
-- **Rule statements are not duplicated here.** The rule statement is in `../AGENTS.md`;
-  this directory may add mechanism, examples, and depth, but must not offer a second
-  wording of the same rule.
-- **Examples, not one tool's internals.** When a rule is motivated by a particular tool, the
-  rule stays tool-neutral and the tool appears only as an example. Explaining *how a specific
-  framework produces the symptom* reads as authoritative and guides nobody else — a completion
-  for a tool built on a different framework cannot use it, and the version detail decays. Say
-  what the output looks like and what to do about it; name one tool once so the symptom is
-  recognisable.
+- **Procedure, not semantics.** Field *meaning* and engine behaviour belong in `../design/completion.md`; a worked example or a step belongs here. Do not restate an engine contract in order to explain a step — link to it.
+- **Cross-references** are written as markdown links that resolve from the file that contains them (e.g. `../design/completion.md`). `scripts/check-doc-links.ps1` verifies that they resolve; a dead link here is a defect.
+- **Rule statements are not duplicated here.** The rule statement is in `../AGENTS.md`; this directory may add mechanism, examples, and depth, but must not offer a second wording of the same rule.
+- **Examples, not one tool's internals.** When a rule is motivated by a particular tool, the rule stays tool-neutral and the tool appears only as an example. Explaining *how a specific framework produces the symptom* reads as authoritative and guides nobody else — a completion for a tool built on a different framework cannot use it, and the version detail decays. Say what the output looks like and what to do about it; name one tool once so the symptom is recognisable.

@@ -16,12 +16,11 @@ use super::{HookContext, Token};
 pub(crate) type AddTarget = std::rc::Rc<std::cell::RefCell<Table>>;
 /// Recursion guard shared by all `psc.on` registrations of one hook run.
 pub(crate) type OnDepth = std::rc::Rc<std::cell::Cell<u32>>;
-/// Set when an `on` injection ran during this build (drives the mixing warning
-/// when a script explicitly returns a replacing array).
+/// Set when an `on` injection ran during this build (drives the mixing warning when a script explicitly returns a replacing array).
 pub(crate) type InjectedFlag = std::rc::Rc<std::cell::Cell<bool>>;
 
-/// Extract a Lua array into `Vec<String>`, skipping nil/non-string elements (a `nil` in a
-/// batch list must not crash the hook). Returns None when the argument isn't a table at all.
+/// Extract a Lua array into `Vec<String>`, skipping nil/non-string elements (a `nil` in a batch list must not crash the hook).
+/// Returns None when the argument isn't a table at all.
 fn table_of_strings(lua: &Lua, v: Value) -> mlua::Result<Option<Vec<String>>> {
     let Value::Table(t) = v else {
         return Ok(None);
@@ -65,9 +64,8 @@ pub(crate) fn build_psc_table(
         tokens.set(i + 1, tok)?;
     }
     psc.set("tokens", tokens)?;
-    // The host passes the fully-resolved config (per-completion → global → default
-    // → manifest defaults, merged in build_candidate_items).  Surface an empty table
-    // instead of nil so hooks that index psc.config don't crash on a nil index.
+    // The host passes the fully-resolved config (per-completion → global → default → manifest defaults, merged in build_candidate_items).
+    // Surface an empty table instead of nil so hooks that index psc.config don't crash on a nil index.
     let empty_config = serde_json::json!({});
     let config_ref = if ctx.config.is_object() {
         &ctx.config
@@ -294,8 +292,7 @@ pub(crate) fn build_psc_table(
         layers: ctx.layers.clone(),
         tokens: ctx.tokens.clone(),
         manifest: ctx.manifest.clone(),
-        // Derived from tokens (kind == "option", canonical name) — the same source
-        // the old `last_option` used.
+        // Derived from tokens (kind == "option", canonical name) — the same source the old `last_option` used.
         opts: ctx
             .tokens
             .iter()
@@ -387,19 +384,14 @@ struct ProvideEnv {
     path: String,
 }
 
-/// `psc.on(spec, handler)` - declarative hooks: run `handler` when the current
-/// position matches `spec`. The handler directly manipulates the live candidate
-/// list (the `completions` global) via `psc.add` / plain Lua table operations.
+/// `psc.on(spec, handler)` - declarative hooks: run `handler` when the current position matches `spec`.
+/// The handler directly manipulates the live candidate list (the `completions` global) via `psc.add` / plain Lua table operations.
 ///
-/// `spec` is a single spec table or an **array of spec tables** (OR: any element
-/// matching injects). Each element follows the single-spec rules: `command` and
-/// `option` coexist as AND; a spec array mixed with named keys raises.
+/// `spec` is a single spec table or an **array of spec tables** (OR: any element matching injects).
+/// Each element follows the single-spec rules: `command` and `option` coexist as AND; a spec array mixed with named keys raises.
 ///
-/// NEVER raises into Lua: any failure (bad spec, unknown target, recursion,
-/// handler error) is logged to `error.log`; whatever the successful parts
-/// already changed stays changed. Raising from a Lua C callback in release
-/// builds interacts fatally with `lua_error`'s longjmp unwinding and aborts
-/// the whole menu process - so it must not happen.
+/// NEVER raises into Lua: any failure (bad spec, unknown target, recursion, handler error) is logged to `error.log`; whatever the successful parts already changed stays changed.
+/// Raising from a Lua C callback in release builds interacts fatally with `lua_error`'s longjmp unwinding and aborts the whole menu process - so it must not happen.
 fn api_on(lua: &Lua, env: &ProvideEnv, spec: Value, handler: Value) -> Value {
     match api_on_outer(lua, env, spec, handler) {
         Ok(_) => {}
@@ -411,8 +403,7 @@ fn api_on(lua: &Lua, env: &ProvideEnv, spec: Value, handler: Value) -> Value {
     Value::Nil
 }
 
-/// Spec dispatch: a plain table is a single spec; an array of tables is a set of
-/// specs with OR semantics (each element independently validated and injected).
+/// Spec dispatch: a plain table is a single spec; an array of tables is a set of specs with OR semantics (each element independently validated and injected).
 fn api_on_outer(lua: &Lua, env: &ProvideEnv, spec: Value, handler: Value) -> mlua::Result<Value> {
     const PRE: &str = "psc.on:";
     if let Value::Table(t) = &spec {
@@ -421,9 +412,8 @@ fn api_on_outer(lua: &Lua, env: &ProvideEnv, spec: Value, handler: Value) -> mlu
         let is_array =
             len > 0 && (1..=len).all(|i| matches!(t.raw_get::<Value>(i), Ok(Value::Table(_))));
         if is_array {
-            // Mixing named keys with array elements is ambiguous → fail loudly
-            // (a table like { command = "x", { ... } } would otherwise silently
-            // ignore the named keys).
+            // Mixing named keys with array elements is ambiguous → fail loudly (a table like { command = "x", { ...
+            // } } would otherwise silently ignore the named keys).
             for pair in t.pairs::<Value, Value>() {
                 let (k, _) = pair?;
                 let is_named = !matches!(k, Value::Integer(_));
@@ -454,10 +444,9 @@ enum Seg {
     Name(String),
 }
 
-/// Whether the completed option sequence (`opts`, canonical names in input order)
-/// ENDS WITH the spec's option chain. A single-string spec is a length-1 chain, so
-/// this is a superset of the old `last_option` behavior. Case-insensitive; values
-/// never enter `opts`, so `--move val --copy` still matches `{ "--move", "--copy" }`.
+/// Whether the completed option sequence (`opts`, canonical names in input order) ENDS WITH the spec's option chain.
+/// A single-string spec is a length-1 chain, so this is a superset of the old `last_option` behavior.
+/// Case-insensitive; values never enter `opts`, so `--move val --copy` still matches `{ "--move", "--copy" }`.
 fn match_option_suffix(segs: &[Seg], opts: &[String]) -> bool {
     if segs.is_empty() {
         return false;
@@ -474,8 +463,8 @@ fn match_option_suffix(segs: &[Seg], opts: &[String]) -> bool {
         })
 }
 
-/// The location declared by a registration. `command` and `option` may coexist as AND
-/// (both must match); a single key is a simple match, neither targets root.
+/// The location declared by a registration.
+/// `command` and `option` may coexist as AND (both must match); a single key is a simple match, neither targets root.
 /// `command` is anchored at the root (full chain); `option` matches as a **suffix**
 /// of the completed option sequence (options have no root).
 struct SpecLoc {
@@ -489,8 +478,7 @@ impl SpecLoc {
     }
 }
 
-/// Whether an unknown token appears AFTER the last completed command token — i.e. in the
-/// positional slot area of the matched command chain.
+/// Whether an unknown token appears AFTER the last completed command token — i.e. in the positional slot area of the matched command chain.
 fn unknown_after_command_chain(tokens: &[Token]) -> bool {
     let Some(last_cmd) = tokens.iter().rposition(|t| t.kind == "command") else {
         return tokens.iter().any(|t| t.kind == "unknown");
@@ -498,9 +486,8 @@ fn unknown_after_command_chain(tokens: &[Token]) -> bool {
     tokens[last_cmd + 1..].iter().any(|t| t.kind == "unknown")
 }
 
-/// Whether an option spec's value slot is still unfilled: the last completed token is the
-/// chain's last option (any option for a wildcard). A value/unknown token at the frontier
-/// means the value has already been typed — the slot is filled.
+/// Whether an option spec's value slot is still unfilled: the last completed token is the chain's last option (any option for a wildcard).
+/// A value/unknown token at the frontier means the value has already been typed — the slot is filled.
 fn option_slot_unfilled(tokens: &[Token], last_seg: &Seg) -> bool {
     match tokens.last() {
         Some(t) if t.kind == "option" => match (last_seg, t.canonical.as_deref()) {
@@ -512,10 +499,8 @@ fn option_slot_unfilled(tokens: &[Token], last_seg: &Seg) -> bool {
     }
 }
 
-/// Whether the frontier is inside an option's value/sub-option domain that this spec does
-/// NOT pin itself. Even `multiple` must not inject there: the spec's slot is not the next
-/// thing to fill (e.g. `git rebase --onto <Tab>` is `--onto`'s value position, not
-/// rebase's positional slot).
+/// Whether the frontier is inside an option's value/sub-option domain that this spec does NOT pin itself.
+/// Even `multiple` must not inject there: the spec's slot is not the next thing to fill (e.g. `git rebase --onto <Tab>` is `--onto`'s value position, not rebase's positional slot).
 fn in_unpinned_option_domain(layers: &[(String, String)], spec_option_last: Option<&Seg>) -> bool {
     let Some((kind, name)) = layers.last() else {
         return false;
@@ -530,10 +515,8 @@ fn in_unpinned_option_domain(layers: &[(String, String)], spec_option_last: Opti
     }
 }
 
-/// Why a `psc.on` target cannot fire, or `None` when it is declared in the position its spec
-/// key asks for. The manifest already fixes a node's type by the array it sits in, so a name
-/// declared as the other kind is a **position** mistake, not a typo — saying which is the
-/// point, because that is the mistake that used to register and then stay silent.
+/// Why a `psc.on` target cannot fire, or `None` when it is declared in the position its spec key asks for.
+/// The manifest already fixes a node's type by the array it sits in, so a name declared as the other kind is a **position** mistake, not a typo — saying which is the point, because that is the mistake that used to register and then stay silent.
 fn target_reject(
     manifest: &serde_json::Value,
     name: &str,
@@ -581,8 +564,8 @@ fn api_on_inner(
         }
     };
 
-    // --- Strict spec parsing: unknown keys raise so typos never become silently-
-    // --- dead registrations. Failures are caught by api_on and logged instead.
+    // --- Strict spec parsing: unknown keys raise so typos never become silently- --- dead registrations.
+    // Failures are caught by api_on and logged instead.
     // `command` and `option` coexist as AND; Root is when both are absent.
     let mut command: Option<Vec<Seg>> = None;
     let mut option: Option<Vec<Seg>> = None;
@@ -625,11 +608,8 @@ fn api_on_inner(
                                             "{PRE} command segments must be strings"
                                         )));
                                     };
-                                    // No shape check: a command is a command because the manifest puts
-                                    // it in `next`, not because its name avoids a `-` prefix. A
-                                    // `next` entry may legitimately be option-shaped (`--self-update`),
-                                    // and rejecting it here made the array form disagree with the
-                                    // string form — which never checked.
+                                    // No shape check: a command is a command because the manifest puts it in `next`, not because its name avoids a `-` prefix.
+                                    // A `next` entry may legitimately be option-shaped (`--self-update`), and rejecting it here made the array form disagree with the string form — which never checked.
                                     segs.push(if s.is_empty() { Seg::Any } else { Seg::Name(s) });
                                 }
                                 segs
@@ -648,9 +628,8 @@ fn api_on_inner(
                                 "{PRE} duplicate spec key \"option\""
                             )));
                         }
-                        // String = single-option chain; array = an option chain matched as a
-                        // SUFFIX of the completed option sequence (options have no root, so
-                        // unlike command chains the prefix is open). `""` is a wildcard segment.
+                        // String = single-option chain; array = an option chain matched as a SUFFIX of the completed option sequence (options have no root, so unlike command chains the prefix is open).
+                        // `""` is a wildcard segment.
                         let segs: Vec<Seg> = match &value {
                             Value::Nil => Vec::new(),
                             Value::String(_) => {
@@ -745,9 +724,8 @@ fn api_on_inner(
         multiple,
     };
 
-    // Validate target names up front: a name the manifest never declares, or declares in the
-    // other position, fails loudly so it never becomes a silently-dead registration. For AND
-    // specs both sides must be known; otherwise the registration is inert (logged).
+    // Validate target names up front: a name the manifest never declares, or declares in the other position, fails loudly so it never becomes a silently-dead registration.
+    // For AND specs both sides must be known; otherwise the registration is inert (logged).
     let is_and = loc.command.is_some() && loc.option.is_some();
     let mut command_valid = true;
     let mut option_valid = true;
@@ -769,8 +747,7 @@ fn api_on_inner(
         }
     }
     if let Some(segs) = &loc.option {
-        // Validate the LAST named segment (the innermost context), mirroring how the
-        // command chain validates only its final segment.
+        // Validate the LAST named segment (the innermost context), mirroring how the command chain validates only its final segment.
         if let Some(Seg::Name(n)) = segs.last() {
             if let Some(reason) = target_reject(&env.manifest, n, helpers::TargetKind::Option) {
                 if is_and {
@@ -791,16 +768,12 @@ fn api_on_inner(
     // --- Dispatch: inject, driven purely by position ---
     // AND semantics when both keys present: both sides must match; otherwise OR.
     //
-    // Slot model: a spec pins a slot — a command spec pins the first positional argument
-    // after its chain; an option spec pins the value slot of its chain's last option. By
-    // default injection happens only while that slot is still the next thing to fill.
-    // `multiple` keeps matching after the slot has been filled one or more times
-    // (positional args, repeated option values) — but never inside an unrelated option's
-    // value position.
+    // Slot model: a spec pins a slot — a command spec pins the first positional argument after its chain; an option spec pins the value slot of its chain's last option.
+    // By default injection happens only while that slot is still the next thing to fill.
+    // `multiple` keeps matching after the slot has been filled one or more times (positional args, repeated option values) — but never inside an unrelated option's value position.
     let multiple = loc.multiple;
     let tokens = &env.tokens;
-    // Command-only projection of the layer chain (option layers ignored); the prefix form
-    // is what `multiple` matches against.
+    // Command-only projection of the layer chain (option layers ignored); the prefix form is what `multiple` matches against.
     let cmd_layers: Vec<&String> = env
         .layers
         .iter()
@@ -846,8 +819,7 @@ fn api_on_inner(
                 if multiple {
                     command_match(segs, &cmd_layers, true) && !unpinned_option
                 } else {
-                    // Exact: the whole layer chain must be the command chain (an option at
-                    // the frontier breaks it) and no unknown may sit after the chain.
+                    // Exact: the whole layer chain must be the command chain (an option at the frontier breaks it) and no unknown may sit after the chain.
                     env.layers.len() == segs.len()
                         && env
                             .layers
@@ -878,8 +850,7 @@ fn api_on_inner(
         )));
     }
     if inject {
-        // No pending gating: injected rows would be prefix-filtered anyway when the
-        // user browses option names; the cost trade-off belongs to the handler.
+        // No pending gating: injected rows would be prefix-filtered anyway when the user browses option names; the cost trade-off belongs to the handler.
         env.depth.set(1);
         let r = func.call::<Value>(());
         env.depth.set(0);

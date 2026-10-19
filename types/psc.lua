@@ -858,9 +858,9 @@ function psc.eq(s1, s2, opts) end
 --- 调试输出
 ---
 --- - 接受任意参数，写入 `data/temp/log/debug.log`
----     ```powershell
----     Join-Path $PSCompletions.path.dir.log 'debug.log'
----     Join-Path $PSCompletions.path.dir.log 'error.log'
+---     ```shell
+---     psc --json | jq -r .data.file.debug
+---     psc --json | jq -r .data.file.error
 ---     ```
 --- - **注意**：
 ---   - hooks 默认有 10 秒的结果缓存，10 秒内仅运行一次
@@ -869,9 +869,9 @@ function psc.eq(s1, s2, opts) end
 --- Debug output.
 ---
 --- - Accepts any number of arguments, and writes to `data/temp/log/debug.log`
----     ```powershell
----     Join-Path $PSCompletions.path.dir.log 'debug.log'
----     Join-Path $PSCompletions.path.dir.log 'error.log'
+---     ```shell
+---     psc --json | jq -r .data.file.debug
+---     psc --json | jq -r .data.file.error
 ---     ```
 --- - **Note**:
 ---   - Hooks have a default 10-second result cache and will run only once within 10 seconds

@@ -1,13 +1,14 @@
 //! `psc.*` structured-format capabilities: read + parse (single/many) for json / toml / yaml.
 //!
-//! A shared `parse_text_as` handles the format dispatch; each format has a single and a
-//! `_batch` (parallel) entry. Parsing failures return nil (never crash a hook).
+//! A shared `parse_text_as` handles the format dispatch; each format has a single and a `_batch` (parallel) entry.
+//! Parsing failures return nil (never crash a hook).
 
 use mlua::{Lua, Table, Value};
 
 use super::{json_to_lua, parallel_map, resolve};
 
-/// Parse `text` as the given format into a `serde_json::Value`. None on invalid input.
+/// Parse `text` as the given format into a `serde_json::Value`.
+/// None on invalid input.
 pub(super) fn parse_text_as(text: &str, format: &str) -> Option<serde_json::Value> {
     match format {
         "toml" => toml::from_str::<serde_json::Value>(text).ok(),
@@ -21,8 +22,7 @@ pub(super) fn parse_text_as(text: &str, format: &str) -> Option<serde_json::Valu
     }
 }
 
-/// Max JSON nesting depth accepted: deeper input degrades to `None`
-/// instead of risking a stack overflow, as the JSON5 parser imposes no depth limit of its own.
+/// Max JSON nesting depth accepted: deeper input degrades to `None` instead of risking a stack overflow, as the JSON5 parser imposes no depth limit of its own.
 const JSON_MAX_DEPTH: usize = 128;
 
 /// Shallow bracket scan skipping strings and comments.
@@ -106,8 +106,7 @@ pub(crate) fn api_yaml(lua: &Lua, cwd: &str, path: String) -> mlua::Result<Value
     }
 }
 
-/// Shared `_batch` body: read + parse each path in parallel, return `{ [path] = table | nil }`
-/// (nil for a missing/unparseable file — strict failure semantics).
+/// Shared `_batch` body: read + parse each path in parallel, return `{ [path] = table | nil }` (nil for a missing/unparseable file — strict failure semantics).
 fn parse_batch(lua: &Lua, cwd: &str, paths: &[String], format: &str) -> mlua::Result<Table> {
     let resolved: Vec<(String, String)> = paths
         .iter()
@@ -171,8 +170,7 @@ fn format_value(
             }
         }
         Value::String(s) => {
-            // Display text, not a value: a lossy rendering is the right degradation and cannot
-            // throw (§7 item 0).
+            // Display text, not a value: a lossy rendering is the right degradation and cannot throw (§7 item 0).
             let s = s.to_string_lossy();
             format!("\"{}\"", truncate(&s, 200))
         }
@@ -272,15 +270,11 @@ pub(crate) fn now_local() -> String {
     )
 }
 
-/// Append a line to `<log_dir>/<file_name>.log`; silently ignored when logging is disabled or
-/// the write fails (debug output must never break a hook or the menu).
+/// Append a line to `<log_dir>/<file_name>.log`; silently ignored when logging is disabled or the write fails (debug output must never break a hook or the menu).
 ///
 /// Two rotation rules keep the file bounded:
-/// - **Age**: an mtime older than `LOG_MAX_AGE` is removed before appending, so long-unused
-///   logs are reset.
-/// - **Size**: when the file exceeds `LOG_MAX_SIZE`, the front half is dropped and the tail
-///   is kept (from the next complete line), prefixed with a `[truncated]` marker — so an
-///   actively-written log can never grow unbounded.
+/// - **Age**: an mtime older than `LOG_MAX_AGE` is removed before appending, so long-unused logs are reset.
+/// - **Size**: when the file exceeds `LOG_MAX_SIZE`, the front half is dropped and the tail is kept (from the next complete line), prefixed with a `[truncated]` marker — so an actively-written log can never grow unbounded.
 pub(crate) fn append_log(log_dir: &str, file_name: &str, text: &str) {
     if log_dir.is_empty() {
         return;
@@ -307,16 +301,15 @@ pub(crate) fn append_log(log_dir: &str, file_name: &str, text: &str) {
 /// How long a log file can go untouched before the next append truncates it.
 const LOG_MAX_AGE: std::time::Duration = std::time::Duration::from_secs(7 * 24 * 60 * 60);
 
-/// Hard size cap for a single log file. On overflow the front half is dropped and the tail
-/// is kept, so a frequently-written log (mtime keeps refreshing) can never grow unbounded.
+/// Hard size cap for a single log file.
+/// On overflow the front half is dropped and the tail is kept, so a frequently-written log (mtime keeps refreshing) can never grow unbounded.
 const LOG_MAX_SIZE: u64 = 1024 * 1024;
 
 /// Marker written at the head of a size-truncated log.
 const LOG_TRUNCATED_MARKER: &[u8] = b"[truncated] older entries removed (1 MB cap)\n";
 
-/// If the log exceeds `LOG_MAX_SIZE`, keep only the tail: the second half of the file,
-/// starting at the first complete line after the midpoint, prepended with the truncation
-/// marker. Best-effort; any failure keeps the file as-is and the next write retries.
+/// If the log exceeds `LOG_MAX_SIZE`, keep only the tail: the second half of the file, starting at the first complete line after the midpoint, prepended with the truncation marker.
+/// Best-effort; any failure keeps the file as-is and the next write retries.
 fn truncate_log_to_tail(path: &std::path::Path) {
     let Ok(meta) = path.metadata() else {
         return;
@@ -328,8 +321,7 @@ fn truncate_log_to_tail(path: &std::path::Path) {
         return;
     };
     let midpoint = (data.len() / 2).min(data.len());
-    // Cut at the first newline at/after the midpoint so the kept tail starts at a
-    // complete line (no half-line garbage at the head of the truncated log).
+    // Cut at the first newline at/after the midpoint so the kept tail starts at a complete line (no half-line garbage at the head of the truncated log).
     let Some(offset) = data[midpoint..].iter().position(|&b| b == b'\n') else {
         return; // No newline in the second half; skip truncation (rare pathological file).
     };
@@ -353,9 +345,9 @@ fn log_is_stale(path: &std::path::Path) -> bool {
     age > LOG_MAX_AGE
 }
 
-/// `psc.log(...)` → append a formatted dump of each value to `<log_dir>/debug.log`
-/// (one per line). A multi-return call like `psc.log(fn())` prints every returned value
-/// (no argument is mistaken for a file name). Empty `log_dir` disables logging.
+/// `psc.log(...)` → append a formatted dump of each value to `<log_dir>/debug.log` (one per line).
+/// A multi-return call like `psc.log(fn())` prints every returned value (no argument is mistaken for a file name).
+/// Empty `log_dir` disables logging.
 pub(crate) fn api_log(lua: &Lua, values: mlua::Variadic<Value>, log_dir: &str) -> mlua::Result<()> {
     if log_dir.is_empty() {
         return Ok(());

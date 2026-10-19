@@ -87,8 +87,7 @@ if ($changedCompletions.Count -eq 0) {
 else {
     & $PSScriptRoot/sort-json.ps1 @($changedCompletions) -Quiet
 
-    # Hook target audit: a psc.on target naming an alias never fires, and no other
-    # gate looks at that.
+    # Hook target audit: a psc.on target naming an alias never fires, and no other gate looks at that.
     $hookTargets = @()
     $withHooks = @($changedCompletions | Where-Object {
             Test-Path -LiteralPath (Join-Path $PSScriptRoot "../completions/$_/hooks.lua")
@@ -99,16 +98,12 @@ else {
     }
     $hookDetails = if ($hookTargets.failures) { @($hookTargets.failures) } else { @() }
 
-    # Stable-id audit: a changed config.json id breaks rename detection and
-    # orphans per-completion settings. Compare against the base checkout, which
-    # sits beside pr/ in CI (check-completion.yml). New completions (no base
-    # config) and removed ones (no head config) have nothing to compare: only a
-    # config that HAS an id on both sides with different values is dangerous.
+    # Stable-id audit: a changed config.json id breaks rename detection and orphans per-completion settings.
+    # Compare against the base checkout, which sits beside pr/ in CI (check-completion.yml).
+    # New completions (no base config) and removed ones (no head config) have nothing to compare: only a config that HAS an id on both sides with different values is dangerous.
     $idChanged = @()
     # Version-baseline audit: same base checkout, same both-sides discipline.
-    # Maps completion -> base version, only when both sides carry a non-empty
-    # version and they differ: the report then shows old -> new on the
-    # baseline line, so reviewers see the bump without opening config.json.
+    # Maps completion -> base version, only when both sides carry a non-empty version and they differ: the report then shows old -> new on the baseline line, so reviewers see the bump without opening config.json.
     $versionChanged = @{}
     $workspaceRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
     foreach ($c in $changedCompletions) {
@@ -150,11 +145,8 @@ else {
 
     $jsonChanges = git diff --name-only -- 'completions/' | Where-Object { $_ -match '\.json$' }
 
-    # One validate run, English only: the comment is English-only, and schema /
-    # config / compare checks cover every language file regardless of -Lang
-    # (it only picks the wording). validate renders the per-completion body
-    # (badge, inline CAUTIONs/WARNING, manifest details) into a file, and
-    # returns the counts the todo list below needs as JSON.
+    # One validate run, English only: the comment is English-only, and schema / config / compare checks cover every language file regardless of -Lang (it only picks the wording).
+    # validate renders the per-completion body (badge, inline CAUTIONs/WARNING, manifest details) into a file, and returns the counts the todo list below needs as JSON.
     $runUsage = @{}
     foreach ($h in $hooksUsingRun) { $runUsage[$h.completion] = ($h.apis -join ' / ') }
     $bodyFile = [System.IO.Path]::Combine($PSScriptRoot, 'result-body.md')
@@ -163,9 +155,8 @@ else {
 
     $hasIssues = @($validationData | Where-Object { $_.hasIssues }).Count -gt 0
 
-    # NOTE: the inner $_ below must not be reused for the outer completion;
-    # PowerShell rebinds $_ at every Where-Object, silently comparing each
-    # validation entry against itself. Hence the explicit foreach loops.
+    # NOTE: the inner $_ below must not be reused for the outer completion; PowerShell rebinds $_ at every Where-Object, silently comparing each validation entry against itself.
+    # Hence the explicit foreach loops.
     $failed = [System.Collections.Generic.List[string]]::new()
     foreach ($c in $changedCompletions) {
         $v = $validationData | Where-Object { $_.name -eq $c } | Select-Object -First 1
@@ -218,8 +209,7 @@ else {
         $results += ''
     }
 
-    # validate rendered the per-completion body (badge, inline CAUTIONs and
-    # WARNING, manifest details); splice it in as-is.
+    # validate rendered the per-completion body (badge, inline CAUTIONs and WARNING, manifest details); splice it in as-is.
     $results += Get-Content -LiteralPath $bodyFile -Raw -ErrorAction SilentlyContinue
     Remove-Item -LiteralPath $bodyFile -Force -ErrorAction SilentlyContinue
 }

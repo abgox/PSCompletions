@@ -9,8 +9,7 @@ use crate::messages::msg_cli;
 use crate::output::{fail, key_line, ok, Out};
 use crate::validate::{data_dir_of, name_error, name_status, reset_alias, too_few_params};
 
-/// The entry every listing and every write answers with (design/json.md): the completion's name
-/// and its trigger words — singular inside the item, exactly as `config.json` spells it.
+/// The entry every listing and every write answers with (design/json.md): the completion's name and its trigger words — singular inside the item, exactly as `config.json` spells it.
 fn alias_entry(name: &str, settings: &Settings) -> serde_json::Value {
     json!({
         "name": name,
@@ -104,8 +103,7 @@ pub fn cmd_alias(
                 return fail(out, code, &e, json, false);
             }
             let mut added: Vec<String> = Vec::new();
-            // Every declined alias is recorded with its stable code, so a caller can tell a
-            // wildcard from a word another completion already owns.
+            // Every declined alias is recorded with its stable code, so a caller can tell a wildcard from a word another completion already owns.
             let mut rejected: Vec<serde_json::Value> = Vec::new();
             let reject = |rejected: &mut Vec<serde_json::Value>,
                           a: &String,
@@ -138,10 +136,8 @@ pub fn cmd_alias(
                     );
                     continue;
                 }
-                // A word the completion already has is not rejected: re-declaring it changes
-                // nothing in the list, but it still moves the completion to the end — that is
-                // the explicit way to take a word back from a later claim. A word another
-                // completion also claims is not rejected either: nothing is filtered anywhere.
+                // A word the completion already has is not rejected: re-declaring it changes nothing in the list, but it still moves the completion to the end — that is the explicit way to take a word back from a later claim.
+                // A word another completion also claims is not rejected either: nothing is filtered anywhere.
                 if !settings
                     .alias
                     .get(&name)
@@ -153,8 +149,7 @@ pub fn cmd_alias(
                         .or_default()
                         .push(a.clone());
                 }
-                // Re-declaring moves the completion to the end of the claim order: that is how
-                // it takes a word back from a later claim.
+                // Re-declaring moves the completion to the end of the claim order: that is how it takes a word back from a later claim.
                 settings.reclaim_alias(&name);
                 added.push(a.clone());
             }

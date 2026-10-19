@@ -1,16 +1,14 @@
 #!/bin/sh
 # PSCompletions installer for bash / zsh / fish — no PowerShell involved.
 #
-# It downloads the module package from the PowerShell Gallery, unpacks it into a fixed install
-# directory, and prints the one line to add to your shell's rc file. The data directory (settings
-# and installed completions) belongs to the module and is never touched.
+# It downloads the module package from the PowerShell Gallery, unpacks it into a fixed install directory, and prints the one line to add to your shell's rc file.
+# The data directory (settings and installed completions) belongs to the module and is never touched.
 #
 #   sh install.sh                 # installs, then prints the rc line for every shell
 #
 # The bridges are all installed either way; `$SHELL` only decides which rc line is printed first.
 #
-# The install directory is fixed and not configurable: the path itself is how `psc --self-update`
-# recognises a copy installed by this script (see the README's install section).
+# The install directory is fixed and not configurable: the path itself is how `psc --self-update` recognises a copy installed by this script (see the README's install section).
 
 set -eu
 
@@ -42,8 +40,7 @@ detect_arch() {
     esac
 }
 
-# Fixed per platform, and deliberately a sibling of the module's data directory
-# (`.../com.abgox/PSCompletions`): this one holds code, that one holds user data.
+# Fixed per platform, and deliberately a sibling of the module's data directory (`.../com.abgox/PSCompletions`): this one holds code, that one holds user data.
 install_dir() {
     case "$1" in
         darwin) printf '%s\n' "$HOME/Library/Application Support/PSCompletions" ;;
@@ -60,8 +57,8 @@ detect_shell() {
 
 # --- the package ---------------------------------------------------------------
 
-# One GET, following the Gallery's redirect to its CDN. There is no version in the URL: it always
-# resolves to the newest published package, which is what this script installs.
+# One GET, following the Gallery's redirect to its CDN.
+# There is no version in the URL: it always resolves to the newest published package, which is what this script installs.
 download() { # <url> <file>
     if command -v curl >/dev/null 2>&1; then
         curl -fsSL --retry 2 -A "PSCompletions-install" -o "$2" "$1"
@@ -72,9 +69,8 @@ download() { # <url> <file>
     fi
 }
 
-# The first tool that can unpack a zip wins: `unzip` is common on Linux but not guaranteed,
-# macOS ships bsdtar as `tar`, and python3 is the last resort. GNU tar refuses a zip outright, so
-# a failure here is clean and the next tool is tried.
+# The first tool that can unpack a zip wins: `unzip` is common on Linux but not guaranteed, macOS ships bsdtar as `tar`, and python3 is the last resort.
+# GNU tar refuses a zip outright, so a failure here is clean and the next tool is tried.
 extract() { # <zip> <dest>
     mkdir -p "$2"
     if command -v unzip >/dev/null 2>&1 && unzip -q -o "$1" -d "$2"; then return 0; fi
@@ -88,19 +84,16 @@ package_version() { # <unpacked dir>
     sed -n 's:.*<version>\([^<]*\)</version>.*:\1:p' "$1/PSCompletions.nuspec" 2>/dev/null | head -1
 }
 
-# The same source the bridges read: the module manifest beside them, which exists both in a repo
-# checkout and in an installed package.
+# The same source the bridges read: the module manifest beside them, which exists both in a repo checkout and in an installed package.
 installed_version() { # <install dir>
     sed -n "s/.*ModuleVersion *= *'\([^']*\)'.*/\1/p" "$1/PSCompletions.psd1" 2>/dev/null | head -1
 }
 
 # --- what this needs -----------------------------------------------------------
 
-# Everything the installer itself uses is checked *before* the download: a missing tool should
-# cost one line, not a 12 MB download followed by an extraction failure. `require` collects the
-# gaps so the user sees them all at once, the way a package manager would. It always succeeds —
-# the caller reads `$missing` — because under `set -e` a failing helper would end the script
-# silently, which is exactly the case this check exists for.
+# Everything the installer itself uses is checked *before* the download: a missing tool should cost one line, not a 12 MB download followed by an extraction failure.
+# `require` collects the gaps so the user sees them all at once, the way a package manager would.
+# It always succeeds — the caller reads `$missing` — because under `set -e` a failing helper would end the script silently, which is exactly the case this check exists for.
 require() { # <what it is for> <command...>
     what="$1"
     shift
@@ -124,9 +117,8 @@ preflight() {
 
 # --- installing ----------------------------------------------------------------
 
-# The package is the module directory verbatim: the bridges, the PowerShell module files, the
-# engine binaries under bin/<platform>-<arch>/, and the bundled psc completion. Only this
-# platform's binaries are kept; the NuGet metadata is not part of the module.
+# The package is the module directory verbatim: the bridges, the PowerShell module files, the engine binaries under bin/<platform>-<arch>/, and the bundled psc completion.
+# Only this platform's binaries are kept; the NuGet metadata is not part of the module.
 prune() { # <staging dir> <platform> <arch>
     for d in "$1"/bin/*; do
         [ -d "$d" ] || continue
@@ -135,19 +127,17 @@ prune() { # <staging dir> <platform> <arch>
     rm -rf "$1/_rels" "$1/package" "$1/[Content_Types].xml" "$1/PSCompletions.nuspec"
 }
 
-# Says *how* this copy was installed, for `psc --self-update`. The path already proves where it
-# is; this proves what put it there, so a copy that only happens to sit at that path is never
-# mistaken for one of ours.
+# Says *how* this copy was installed, for `psc --self-update`.
+# The path already proves where it is; this proves what put it there, so a copy that only happens to sit at that path is never mistaken for one of ours.
 write_marker() { # <dir> <version>
     cat >"$1/install.json" <<EOF
 {"method":"install.sh","version":"$2","installed_at":$(date +%s)}
 EOF
 }
 
-# Replace the install directory with the staging one. `mv` is a rename — atomic, and the staging
-# dir is a sibling so it is the same filesystem. The old copy is moved aside first, never deleted
-# in place: if the second move fails the first is undone, and a process still running from the old
-# copy keeps its inodes on Unix.
+# Replace the install directory with the staging one.
+# `mv` is a rename — atomic, and the staging dir is a sibling so it is the same filesystem.
+# The old copy is moved aside first, never deleted in place: if the second move fails the first is undone, and a process still running from the old copy keeps its inodes on Unix.
 swap() { # <staging dir> <install dir>
     old="$2.old.$$"
     if [ -e "$2" ]; then
@@ -185,8 +175,7 @@ usage_lines() { # <dir> <shell>
 print_usage() { # <dir>
     say ""
     say "[PSCompletions] installed in $1"
-    # The detected shell first; all three are printed because all three bridges are installed and
-    # `$SHELL` is only a guess.
+    # The detected shell first; all three are printed because all three bridges are installed and `$SHELL` is only a guess.
     printed=""
     for s in $preferred bash zsh fish; do
         case " $printed " in *" $s "*) continue ;; esac
@@ -220,8 +209,7 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-# `$SHELL` names the *login* shell — a session that switched to another one keeps it — so it only
-# decides the order of the printed rc lines, never what is installed.
+# `$SHELL` names the *login* shell — a session that switched to another one keeps it — so it only decides the order of the printed rc lines, never what is installed.
 preferred="$(detect_shell)"
 
 platform="$(detect_platform)"
@@ -236,25 +224,23 @@ stage="$dir.new.$$"
 dl="$dir.dl.$$"
 cleanup() { rm -rf "$dl" "$stage"; }
 trap cleanup EXIT INT TERM
-# Both scratch directories are siblings of the install directory: same filesystem (so the swap's
-# rename is atomic) and no environment input deciding where they go.
+# Both scratch directories are siblings of the install directory: same filesystem (so the swap's rename is atomic) and no environment input deciding where they go.
 mkdir -p "$(dirname -- "$dir")" "$dl"
 
 say "[PSCompletions] downloading the latest package..."
 pkg="$dl/package.nupkg"
 download "$GALLERY_URL" "$pkg" || die "cannot download the package from $GALLERY_URL"
 
-# A 404 body or a captive-portal page is not a package; checking the zip magic before unpacking
-# turns a confusing extraction error into one clear line.
+# A 404 body or a captive-portal page is not a package; checking the zip magic before unpacking turns a confusing extraction error into one clear line.
 [ "$(dd if="$pkg" bs=1 count=2 2>/dev/null)" = "PK" ] || die "the download is not a zip archive (a proxy or a captive portal may have intercepted it)"
 
 extract "$pkg" "$stage"
 version="$(package_version "$stage")"
 [ -n "$version" ] || die "cannot read the package version (unexpected package layout)"
 
-# The bridges arrived in 8.0.0; an older package would install a directory that cannot work.
+# The bridges arrived in v8; an older package would install a directory that cannot work.
 for s in bash zsh fish; do
-    [ -f "$stage/PSCompletions.$s" ] || die "package $version carries no $s bridge (it needs 8.0.0 or newer)"
+    [ -f "$stage/PSCompletions.$s" ] || die "package $version carries no $s bridge"
 done
 
 current="$(installed_version "$dir" 2>/dev/null || true)"

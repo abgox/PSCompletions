@@ -70,8 +70,7 @@ pub fn parse_args(
     (data, json, language, result_file, yes, rest)
 }
 
-/// Trim trailing separators, then restore a bare Windows drive (`C:` → `C:\`) so it stays
-/// an absolute root instead of a drive-relative path.
+/// Trim trailing separators, then restore a bare Windows drive (`C:` → `C:\`) so it stays an absolute root instead of a drive-relative path.
 pub fn normalize_data_dir(data_dir: &str) -> String {
     let trimmed = data_dir.trim_end_matches(['/', '\\']);
     if trimmed.len() == 2 && trimmed.ends_with(':') {

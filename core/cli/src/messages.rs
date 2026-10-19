@@ -1,7 +1,8 @@
 //! Embedded bilingual CLI messages (`key -> (zh-CN, en-US)`).
 
-/// CLI messages: `key -> (zh-CN, en-US)`. Plain text only (the manifest `info` templates are
-/// PowerShell-bound). Adding a message = add a row.
+/// CLI messages: `key -> (zh-CN, en-US)`.
+/// Plain text only (the manifest `info` templates are PowerShell-bound).
+/// Adding a message = add a row.
 const MESSAGES: &[(&str, &str, &str)] = &[
     ("too_few_params", "参数不足。", "Too few parameters."),
     ("too_many_params", "参数过多。", "Too many parameters."),

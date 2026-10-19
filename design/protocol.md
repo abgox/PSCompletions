@@ -1,7 +1,7 @@
 # Engine protocol (`psc-menu`)
 
-`psc-menu` is the completion engine, host-agnostic: any shell host drives it purely through this
-JSON contract. There is no in-process API to bind — only the files and flags below.
+`psc-menu` is the completion engine, host-agnostic: any shell host drives it purely through this JSON contract.
+There is no in-process API to bind — only the files and flags below.
 
 ## Modes
 
@@ -10,8 +10,9 @@ JSON contract. There is no in-process API to bind — only the files and flags b
 | `menu` (default) | `psc-menu <input.json> --result <out.json>` | interactive TUI menu; build mode builds + ranks candidates first when the input carries a `build` context instead of `items` |
 | `sort` | `psc-menu --sort <input.json> --result <out.json>` | rank host-provided items |
 
-All files are UTF-8 JSON. Results always travel via `--result <file>` (never stdout, avoiding
-encoding issues). The default mode reads keypresses from the console and renders to stdout.
+All files are UTF-8 JSON.
+Results always travel via `--result <file>` (never stdout, avoiding encoding issues).
+The default mode reads keypresses from the console and renders to stdout.
 
 ### Developer / diagnostic flags (not host-facing)
 
@@ -22,9 +23,7 @@ These exist for testing and CI, not for shell hosts to drive:
 | `--self-test` | Run the in-binary smoke test (parse a bundled sample, build state, exercise filter/layout); exits `SUCCESS`/`FAILURE` without touching the terminal. Used by CI to verify each build. |
 | `--panic-test` | Deliberately panic to exercise the panic hook (diagnose output.json error-state writing). |
 
-The candidate-building pipeline lives only in the menu's build mode (a `build` context, see below);
-there is no separate headless `--complete` mode — a future shell that needs candidates without a
-menu reuses the same build path.
+The candidate-building pipeline lives only in the menu's build mode (a `build` context, see below); there is no separate headless `--complete` mode — a future shell that needs candidates without a menu reuses the same build path.
 
 ## Shared types
 
@@ -34,11 +33,9 @@ menu reuses the same build path.
   "tip": "Add files", "usage": "add <FILE>", "example": null, "result_type": null }
 ```
 - `list_item_text` — the rendered row text.
-- `symbol` — predict-symbol display character (`~` switch / `?` stay / empty). For items the
-  host provides, the host pre-maps it; in build mode the engine resolves it (see below).
+- `symbol` — predict-symbol display character (`~` switch / `?` stay / empty). For items the host provides, the host pre-maps it; in build mode the engine resolves it (see below).
 - `tip` / `usage` / `example` — description box text; `null`/absent = no section.
-- `completion_text` / `result_type` — kept for the host-side contract (applying the selection).
-  `result_type` is a number when the host provides one (e.g. TabExpansion2's `16`), else `null`.
+- `completion_text` / `result_type` — kept for the host-side contract (applying the selection). `result_type` is a number when the host provides one (e.g. TabExpansion2's `16`), else `null`.
 - `nospace` — when true, applying appends no trailing space (separator-list continuation).
 
 ### `LuaItem` (built / ranked candidate, build mode + `--sort`)
@@ -50,9 +47,7 @@ menu reuses the same build path.
 - `symbol` — **config key** (`switch` / `stay`) or empty, not the display character.
 - `repeat` — how many times the item may be appended.
 - `nospace` — when true, applying appends no trailing space (separator-list continuation).
-- `is_option` — **engine-internal**: the declared type of the static node the row came from, so
-  consumers compare rows by the manifest's own rule (options case-sensitively, commands
-  case-insensitively) instead of guessing from a leading `-`. Absent/`null` on a hook-injected row.
+- `is_option` — **engine-internal**: the declared type of the static node the row came from, so consumers compare rows by the manifest's own rule (options case-sensitively, commands case-insensitively) instead of guessing from a leading `-`. Absent/`null` on a hook-injected row.
 
 ### `Config` (menu options)
 ```json
@@ -62,32 +57,24 @@ menu reuses the same build path.
   "raw_config": { "completion": { "enable_tip": 1 }, "global": {}, "default": { "enable_tip_usage": 1 } } }
 ```
 - `show_mode`: `auto` / `inline-follow` / `altscreen-follow` / `altscreen-top` / `altscreen-bottom`.
-- `context_switch` / `context_stay` — the display characters the engine uses to resolve
-  `switch` / `stay` symbols in build mode.
-- `raw_config` — layered config for the three tip toggles (`enable_tip` / `enable_tip_usage` /
-  `enable_tip_example`): the engine resolves them per-completion → global → default (stored as
-  `1`/`0` numbers), then folds them into `flags`. The host sends these three toggles in
-  `raw_config`, never directly in `flags`.
+- `context_switch` / `context_stay` — the display characters the engine uses to resolve `switch` / `stay` symbols in build mode.
+- `raw_config` — layered config for the three tip toggles (`enable_tip` / `enable_tip_usage` / `enable_tip_example`): the engine resolves them per-completion → global → default (stored as `1`/`0` numbers), then folds them into `flags`. The host sends these three toggles in `raw_config`, never directly in `flags`.
 
 ### `TerminalInfo`
 ```json
 { "cursor": { "x": 0, "y": 5 }, "buffer": { "w": 120, "h": 30 },
   "window": { "top": 0, "h": 30 }, "platform": "windows" }
 ```
-- `window` — visible window (BufferSize spans the whole scrollback); layout is clipped to it.
-  `null`/absent = the whole buffer is the viewport.
-- `platform` — `windows` / `macos` / `linux` (`darwin` names only the binary bundle
-  directory, never this field).
+- `window` — visible window (BufferSize spans the whole scrollback); layout is clipped to it. `null`/absent = the whole buffer is the viewport.
+- `platform` — `windows` / `macos` / `linux` (`darwin` names only the binary bundle directory, never this field).
 
 ### `OrderInfo` (background order recompute)
 ```json
 { "history": "<PSReadLine history path>", "aliases": ["git", "g"],
   "path": "<order output file>" }
 ```
-`--menu` spawns a background thread that reads `history`, tallies usage, and atomically writes
-the per-command order file plus the shared `_paths.json` / `_commands.json` (see `design/menu.md`).
-The per-command file is `path`; the command's own name reaches the engine through `aliases` (the
-host falls back to the name when it has none), so there is no separate `cmd` field.
+`--menu` spawns a background thread that reads `history`, tallies usage, and atomically writes the per-command order file plus the shared `_paths.json` / `_commands.json` (see `design/menu.md`).
+The per-command file is `path`; the command's own name reaches the engine through `aliases` (the host falls back to the name when it has none), so there is no separate `cmd` field.
 
 ## 1. Menu-mode input (default mode, no flag)
 
@@ -108,31 +95,20 @@ host falls back to the name when it has none), so there is no separate `cmd` fie
 }
 ```
 
-Fields: `items` | `build`, `config`, `terminal`, `order`?, `dir` (the data / order / menu
-directories),
-`initial_filter`?, `arg_tokens`?, `treat_last_as_complete`?.
+Fields: `items` | `build`, `config`, `terminal`, `order`?, `dir` (the data / order / menu directories), `initial_filter`?, `arg_tokens`?, `treat_last_as_complete`?.
 
-`arg_tokens` / `treat_last_as_complete` are the **same pair build mode uses** (below): the tokens
-after the command word, the pending one included, and whether that last token is already finished.
-In items mode the engine derives `initial_filter` (`^<pending>`) from them, so every host fills the
-filter by one rule instead of re-implementing it — and it **ignores** a filter that matches no item,
-leaving the menu unfiltered rather than empty.
+`arg_tokens` / `treat_last_as_complete` are the **same pair build mode uses** (below): the tokens after the command word, the pending one included, and whether that last token is already finished.
+In items mode the engine derives `initial_filter` (`^<pending>`) from them, so every host fills the filter by one rule instead of re-implementing it — and it **ignores** a filter that matches no item, leaving the menu unfiltered rather than empty.
 
-`dir.data` (optional) is the resolved runtime data directory; the engine uses it to locate
-host-side state such as `temp/change.json`.
+`dir.data` (optional) is the resolved runtime data directory; the engine uses it to locate host-side state such as `temp/change.json`.
 
-`dir.order` (optional, always set by the module) is the order-cache directory; the engine prunes
-stale files (older than 90 days) from it in a background thread on each menu open.
+`dir.order` (optional, always set by the module) is the order-cache directory; the engine prunes stale files (older than 90 days) from it in a background thread on each menu open.
 
-`dir.menu` (optional, always set by the module) is the menu temp directory (`temp/menu`); the engine
-prunes stale files (older than 30 minutes) from it in a background thread on each menu open — a
-fallback for input/output files orphaned by a crashed or force-killed menu session (normal
-invocations delete them immediately).
+`dir.menu` (optional, always set by the module) is the menu temp directory (`temp/menu`); the engine prunes stale files (older than 30 minutes) from it in a background thread on each menu open — a fallback for input/output files orphaned by a crashed or force-killed menu session (normal invocations delete them immediately).
 
 ### Build mode
 
-Installed commands omit `items` and pass a build context instead; the engine builds + ranks the
-candidates itself before rendering:
+Installed commands omit `items` and pass a build context instead; the engine builds + ranks the candidates itself before rendering:
 
 ```json
 { "build": { "cmd": "git", "arg_tokens": ["add"], "treat_last_as_complete": false,
@@ -143,36 +119,21 @@ candidates itself before rendering:
              "order": { "cmd_order": "...", "paths_order": "...", "commands_order": "..." } },
   "config": { }, "terminal": { } }
 ```
-> **Ranking is a pair.** Build-mode ranking needs **both** the build-context `order` block in the
-> example above (the cache paths) **and** the menu-mode top-level `order` block (section 1:
-> `history` + `cmd` + `aliases` + `path`). Measured with an A/B/C probe: the history block alone
-> ranks nothing, the cache block alone ranks nothing, the two together rank. So: always pass the
-> cache block, and pass the history block only while `enable_sort_by_history` is on (with the key
-> off, neither is passed, which is what makes the switch actually stop ranking).
+> **Ranking is a pair.** Build-mode ranking needs **both** the build-context `order` block in the example above (the cache paths) **and** the menu-mode top-level `order` block (section 1: `history` + `cmd` + `aliases` + `path`).
+> Measured with an A/B/C probe: the history block alone ranks nothing, the cache block alone ranks nothing, the two together rank.
+> So: always pass the cache block, and pass the history block only while `enable_sort_by_history` is on (with the key off, neither is passed, which is what makes the switch actually stop ranking).
 
 - `manifest` — the language manifest file path.
 - `hooks` — whether to run `hooks.lua` (path derived from the manifest).
-- `config` — per-completion config (keys from `psc completion <name>`).  The engine merges this with
-  `global_config` flat keys and manifest `config` array defaults before exposing to hooks as
-  `psc.config`, so every key always has a resolved value (no manual `or` fallback needed).
-- `global_config` — the full global config (parsed from `settings.json`).  Its flat keys (e.g.
-  `enable_tip`, `language`) are used as the base layer when building `psc.config`; sub-objects
-  like `completion` and `alias` are skipped.  Also used for build-stage switches such as
-  `enable_cache` (result caching).
-- `data` — module-level runtime data (`psc` completion only): settings/completions paths + live
-  config; empty/absent elsewhere.
-- `dir.cache` — result-cache directory (`temp/cache`); empty disables caching (see
-  `design/menu.md`).
+- `config` — per-completion config (keys from `psc completion <name>`).  The engine merges this with `global_config` flat keys and manifest `config` array defaults before exposing to hooks as `psc.config`, so every key always has a resolved value (no manual `or` fallback needed).
+- `global_config` — the full global config (parsed from `settings.json`).  Its flat keys (e.g. `enable_tip`, `language`) are used as the base layer when building `psc.config`; sub-objects like `completion` and `alias` are skipped.  Also used for build-stage switches such as `enable_cache` (result caching).
+- `data` — module-level runtime data (`psc` completion only): settings/completions paths + live config; empty/absent elsewhere.
+- `dir.cache` — result-cache directory (`temp/cache`); empty disables caching (see `design/menu.md`).
 - `dir.log` — `psc.log` debug-output directory (`temp/log`); empty disables logging.
 - `dir.completions` — the completions directory (handed to the hooks as `psc.data.completions`).
-- `file.settings` / `file.completions` — the psc completion's settings and its index (`temp/completions.json`);
-  the engine reads them to derive `psc.data.list` / `alias` / `remote` / `meta`.
+- `file.settings` / `file.completions` — the psc completion's settings and its index (`temp/completions.json`); the engine reads them to derive `psc.data.list` / `alias` / `remote` / `meta`.
 - `order` — history-order file paths used to rank the candidates (see `design/menu.md`).
-- Build produces `Item`s: the engine resolves the manifest tree, runs hooks, order-sorts, maps
-  `switch` / `stay` symbols through `context_switch` / `context_stay`. When the host leaves
-  `initial_filter` out, the engine derives it from the pending word (`^<pending>`) — in build
-  mode and in items mode alike — so the menu opens already filtered by what was typed; a
-  host-provided value is kept as it is.
+- Build produces `Item`s: the engine resolves the manifest tree, runs hooks, order-sorts, maps `switch` / `stay` symbols through `context_switch` / `context_stay`. When the host leaves `initial_filter` out, the engine derives it from the pending word (`^<pending>`) — in build mode and in items mode alike — so the menu opens already filtered by what was typed; a host-provided value is kept as it is.
 
 ## 2. Menu-mode result
 
@@ -185,16 +146,10 @@ candidates itself before rendering:
 { "status": "error", "message": "..." }
 ```
 
-- `selected` — an item was applied. In build mode the engine also returns
-  `completion_text` / `result_type` (the host has no item list to index into); with `items`
-  the host indexes `items[index]`.
-- `input` — no-match auto-apply: a following append applies the filter text (leading `^`
-  stripped). Not produced by Enter.
-- `cancel` — nothing was applied. **When `cancel` is due to no candidates, nothing was
-  rendered** (no `covered_*`, no terminal writes) — the host must not restore anything.
-- Optional on `selected`/`cancel`: `is_show_above`, `covered_top`, `covered_bottom`,
-  `alternate`. `covered_*` give the exact row range to restore; **their absence means nothing
-  was drawn, so no restore** (writing back would make PSReadLine repaint its prediction list).
+- `selected` — an item was applied. In build mode the engine also returns `completion_text` / `result_type` (the host has no item list to index into); with `items` the host indexes `items[index]`.
+- `input` — no-match auto-apply: a following append applies the filter text (leading `^` stripped). Not produced by Enter.
+- `cancel` — nothing was applied. **When `cancel` is due to no candidates, nothing was rendered** (no `covered_*`, no terminal writes) — the host must not restore anything.
+- Optional on `selected`/`cancel`: `is_show_above`, `covered_top`, `covered_bottom`, `alternate`. `covered_*` give the exact row range to restore; **their absence means nothing was drawn, so no restore** (writing back would make PSReadLine repaint its prediction list).
 
 ## 3. `--sort`
 
@@ -204,35 +159,21 @@ Input:
   "tokens": ["npm"], "treat_last_as_complete": false }
 ```
 - `items` — host-provided candidates to rank.
-- `order` — order-file paths (optional; `_commands.json` / `_paths.json` are the shared
-  global files).
+- `order` — order-file paths (optional; `_commands.json` / `_paths.json` are the shared global files).
 - `tokens` — the input line's tokens as the host tokenized them (including the first one).
 - `treat_last_as_complete` — whether the last token is complete (a space followed it).
 
-**Shared-file rule**: the shared global order files are strictly scoped. `_commands.json` applies
-**only when the completion targets the first token** — i.e. `tokens.len() == 1` and
-`!treat_last_as_complete` (completing the root command, e.g. `g<Tab>`). Once the command is
-complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), bare-word candidates rank against
-the per-command order file only. `_paths.json` is not depth-gated but matches only **explicit
-path candidates** (item text containing `/` or `\`, e.g. `cd .\src\<Tab>`); bare words never
-consult it — a subcommand sharing a name with a directory in path history must not inherit its
-weight.
+**Shared-file rule**: the shared global order files are strictly scoped.
+`_commands.json` applies **only when the completion targets the first token** — i.e. `tokens.len() == 1` and `!treat_last_as_complete` (completing the root command, e.g. `g<Tab>`).
+Once the command is complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), bare-word candidates rank against the per-command order file only.
+`_paths.json` is not depth-gated but matches only **explicit path candidates** (item text containing `/` or `\`, e.g. `cd .\src\<Tab>`); bare words never consult it — a subcommand sharing a name with a directory in path history must not inherit its weight.
 
-Result: a `LuaItem` array in ranked order (descending score, stable — items without a score
-keep their relative order).
+Result: a `LuaItem` array in ranked order (descending score, stable — items without a score keep their relative order).
 
 ## Contract notes
 
-- **No candidates → no render**: an empty candidate list makes `--menu` return `cancel`
-  without touching the terminal (no alternate screen, no buffer writes, no output).
-- **Terminal resize**: the engine monitors for terminal resize events during the menu session
-  and re-renders accordingly. The host-provided `terminal` dimensions are used for the initial
-  layout; subsequent resizes are handled internally by the engine.
-- **Symbol keys vs characters**: built items carry `switch` / `stay` keys; the display
-  character is resolved by the engine (build mode) or the host (native items).
-- **Restore is driven by `covered_*`**: the host restores exactly that row range; nothing to
-  restore when the fields are absent.
-- **Tokenization is duplicated by necessity**: the host tokenizes the input buffer
-  (`input_pattern`, required before the engine is invoked, to pick the command and split
-  `arg_tokens`), and the engine tokenizes history lines (`order::tokenize`). They share one
-  grammar (`(?:"[^"]*"|'[^']*'|\S)+`) — keep both in sync when the semantics change.
+- **No candidates → no render**: an empty candidate list makes `--menu` return `cancel` without touching the terminal (no alternate screen, no buffer writes, no output).
+- **Terminal resize**: the engine monitors for terminal resize events during the menu session and re-renders accordingly. The host-provided `terminal` dimensions are used for the initial layout; subsequent resizes are handled internally by the engine.
+- **Symbol keys vs characters**: built items carry `switch` / `stay` keys; the display character is resolved by the engine (build mode) or the host (native items).
+- **Restore is driven by `covered_*`**: the host restores exactly that row range; nothing to restore when the fields are absent.
+- **Tokenization is duplicated by necessity**: the host tokenizes the input buffer (`input_pattern`, required before the engine is invoked, to pick the command and split `arg_tokens`), and the engine tokenizes history lines (`order::tokenize`). They share one grammar (`(?:"[^"]*"|'[^']*'|\S)+`) — keep both in sync when the semantics change.

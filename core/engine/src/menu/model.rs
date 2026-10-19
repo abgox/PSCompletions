@@ -8,30 +8,24 @@ pub struct Input {
     pub terminal: TerminalInfo,
     #[serde(default)]
     pub order: Option<OrderInfo>,
-    /// Directories the host names: the data dir (`is_stale` reads `change.json` from it) and the
-    /// module's temp dirs — the order files, and the menu's own input/output files left behind by a
-    /// crashed session.
+    /// Directories the host names: the data dir (`is_stale` reads `change.json` from it) and the module's temp dirs — the order files, and the menu's own input/output files left behind by a crashed session.
     #[serde(default)]
     pub dir: Dir,
     /// Prefilled filter (`^<token>` from an unfinished token; the menu opens already filtered).
     #[serde(default)]
     pub initial_filter: Option<String>,
-    /// Items mode: the line's tokens after the command word, the pending one included, plus
-    /// whether it is already finished. The engine derives `initial_filter` from these the same
-    /// way build mode does, so every host fills the filter by one rule (and one implementation).
+    /// Items mode: the line's tokens after the command word, the pending one included, plus whether it is already finished.
+    /// The engine derives `initial_filter` from these the same way build mode does, so every host fills the filter by one rule (and one implementation).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub arg_tokens: Vec<String>,
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub treat_last_as_complete: bool,
-    /// Manifest build context (`CompleteInput`), present when the host wants the engine to
-    /// build the candidate items itself instead of passing them; used so the engine builds
-    /// the candidates and renders the menu in a single process call.
+    /// Manifest build context (`CompleteInput`), present when the host wants the engine to build the candidate items itself instead of passing them; used so the engine builds the candidates and renders the menu in a single process call.
     #[serde(default)]
     pub build: Option<serde_json::Value>,
 }
 
-/// The three directories the menu needs, in the same `dir`/`file` vocabulary the host uses
-/// everywhere else.
+/// The three directories the menu needs, in the same `dir`/`file` vocabulary the host uses everywhere else.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Dir {
     /// Data directory (`change.json` lives in it).
@@ -50,8 +44,7 @@ pub struct Dir {
 pub struct OrderInfo {
     /// PSReadLine history file path.
     pub history: String,
-    /// The command's aliases (including the name itself), used to recognize the command in
-    /// history lines.
+    /// The command's aliases (including the name itself), used to recognize the command in history lines.
     #[serde(default)]
     pub aliases: Vec<String>,
     /// Output path of the ordering result JSON (the per-command file, named after the command).
@@ -80,13 +73,13 @@ pub struct Item {
     #[serde(default)]
     #[allow(dead_code)]
     pub result_type: Option<i32>,
-    /// The host must not append its auto space after inserting this item
-    /// (separator-list values: the user types the separator to continue).
+    /// The host must not append its auto space after inserting this item (separator-list values: the user types the separator to continue).
     #[serde(default)]
     pub nospace: bool,
 }
 
-/// Menu config. Width/palette are gone; most fields are kept only as contract.
+/// Menu config.
+/// Width/palette are gone; most fields are kept only as contract.
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct Config {
     /// Hint text shown after `>` when the filter is empty (from the psc completion's info, localized).
@@ -102,10 +95,8 @@ pub struct Config {
     pub context_switch: String,
     #[serde(default = "default_stay_symbol")]
     pub context_stay: String,
-    /// Raw config layers used to resolve the three tip toggles (`enable_tip` /
-    /// `enable_tip_usage` / `enable_tip_example`) per-completion → global → default.
-    /// `{ "completion": {...}, "global": {...}, "default": {...} }`; consumed once by
-    /// `Config::resolve_tip_flags`.
+    /// Raw config layers used to resolve the three tip toggles (`enable_tip` / `enable_tip_usage` / `enable_tip_example`) per-completion → global → default.
+    /// `{ "completion": {...}, "global": {...}, "default": {...} }`; consumed once by `Config::resolve_tip_flags`.
     #[serde(default)]
     pub raw_config: Option<serde_json::Value>,
 }
@@ -115,9 +106,8 @@ impl Config {
         let Some(raw) = self.raw_config.take() else {
             return;
         };
-        // Config values are stored as `0`/`1` (numbers) by the CLI, so accept both numbers
-        // and JSON booleans. A key absent from all three layers keeps the current flag value
-        // (the serde default), matching the documented defaults.
+        // Config values are stored as `0`/`1` (numbers) by the CLI, so accept both numbers and JSON booleans.
+        // A key absent from all three layers keeps the current flag value (the serde default), matching the documented defaults.
         let pick = |key: &str| -> Option<bool> {
             for layer in ["completion", "global", "default"] {
                 let v = raw.get(layer).and_then(|l| l.get(key));

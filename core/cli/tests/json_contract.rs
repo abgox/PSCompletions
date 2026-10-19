@@ -8,9 +8,8 @@ use common::*;
 
 #[test]
 fn json_root_reports_the_run() {
-    // `psc --json` with no command word is the **root** response: what a run needs to know about
-    // itself — where it reads from, the version and language, the sources — instead of repeating it
-    // on every command's answer. No response carries `meta` any more.
+    // `psc --json` with no command word is the **root** response: what a run needs to know about itself — where it reads from, the version and language, the sources — instead of repeating it on every command's answer.
+    // No response carries `meta` any more.
     let d = make_data("json-root", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json"]);
     assert_eq!(code, 0, "{out}");
@@ -74,8 +73,7 @@ fn json_info_unknown_entry_is_name_free_error() {
     let e = v["data"]["completions"][0].clone();
     assert_eq!(e["name"], "zzz-nope");
     assert_eq!(e["ok"], false, "{out}");
-    // The error is an object now: a stable code beside a message that must stay name-free
-    // (the host renders `name: message` itself).
+    // The error is an object now: a stable code beside a message that must stay name-free (the host renders `name: message` itself).
     assert_eq!(e["error"]["code"], "not_available", "{out}");
     assert!(
         !e["error"]["message"].as_str().unwrap().contains("zzz-nope"),
@@ -94,8 +92,8 @@ fn json_config_custom_url_warns() {
     assert_eq!(code, 0, "{out}");
     let v = parse_json(&out);
     assert_eq!(v["ok"], true, "{out}");
-    // A write answers the item a read of that key answers with, plus what it replaced. An
-    // unreviewed source's notice rides alongside it.
+    // A write answers the item a read of that key answers with, plus what it replaced.
+    // An unreviewed source's notice rides alongside it.
     assert_eq!(v["data"]["key"], "url", "{out}");
     assert_eq!(v["data"]["value"], "https://evil.example/x", "{out}");
     assert_eq!(v["data"]["old"], "http://127.0.0.1:9", "{out}");
@@ -103,8 +101,7 @@ fn json_config_custom_url_warns() {
         !v["data"]["warning"].as_str().unwrap_or_default().is_empty(),
         "{out}"
     );
-    // An official candidate carries no warning, and `old` is what the call above wrote — the proof
-    // that a write reports the value it replaced.
+    // An official candidate carries no warning, and `old` is what the call above wrote — the proof that a write reports the value it replaced.
     let (code, out) = psc(
         &d,
         &[
@@ -139,10 +136,8 @@ fn json_config_bad_group() {
 
 #[test]
 fn json_self_update_text_carries_the_template_colors() {
-    // The text is the manifest's `info.self_update.*` template, and its `<@Color>` markup becomes
-    // ANSI **even though the host captures stdout** (so it is not a terminal) — the same rule
-    // `psc tpl` follows. Before this the color was silently stripped, so the page read plain in
-    // every host that captures it (which is all of them).
+    // The text is the manifest's `info.self_update.*` template, and its `<@Color>` markup becomes ANSI **even though the host captures stdout** (so it is not a terminal) — the same rule `psc tpl` follows.
+    // Before this the color was silently stripped, so the page read plain in every host that captures it (which is all of them).
     let d = make_data("json-selfupdate-color", "http://127.0.0.1:9");
     std::fs::create_dir_all(d.join("completions/psc/language")).unwrap();
     std::fs::write(
@@ -167,8 +162,7 @@ fn json_self_update_text_carries_the_template_colors() {
 
 #[test]
 fn json_invalid_subcommand_carries_the_parts_structured() {
-    // `design/json.md` §4 documents `details: { token, valid }` for this failure: the parts travel
-    // structured so a machine caller need not parse the localized `message`.
+    // `design/json.md` §4 documents `details: { token, valid }` for this failure: the parts travel structured so a machine caller need not parse the localized `message`.
     let d = make_data("json-cfg-details", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "config", "badgroup"]);
     assert_eq!(code, 2, "{out}");
@@ -212,9 +206,7 @@ fn json_completion_bad_key() {
 
 #[test]
 fn json_completion_enable_hooks_reset_is_guarded_too() {
-    // `enable_hooks` is meaningless unless the completion declares hooks, and every path that names
-    // the key says so: read, set — and reset, which used to slip past the guard and answer `ok: true`
-    // for a completion with no hooks at all.
+    // `enable_hooks` is meaningless unless the completion declares hooks, and every path that names the key says so: read, set — and reset, which used to slip past the guard and answer `ok: true` for a completion with no hooks at all.
     let d = make_data("json-cmpl-hooks-guard", "http://127.0.0.1:9");
     let (code, out) = psc(
         &d,
@@ -284,9 +276,7 @@ fn json_alias_named_reset_reports_resulting_aliases() {
 
 #[test]
 fn json_alias_named_reset_declares_the_config_words_verbatim() {
-    // Conflicts are deliberately not resolved: the config's words are declared as they are, even
-    // when another completion already claims one — the hosts resolve it by claim order, and the
-    // completion moves to the end of the map so its claim is the later one.
+    // Conflicts are deliberately not resolved: the config's words are declared as they are, even when another completion already claims one — the hosts resolve it by claim order, and the completion moves to the end of the map so its claim is the later one.
     let d = make_data("json-alias-reset-shared", "http://127.0.0.1:9");
     set_live_aliases(&d, &["git"]);
     rewrite_settings(&d, |v| {
@@ -302,8 +292,7 @@ fn json_alias_named_reset_declares_the_config_words_verbatim() {
         serde_json::json!(["git", "shared"]),
         "{out}"
     );
-    // The earlier owner keeps its own list untouched, and `git` is now last in the file — the
-    // claim order the hosts insert in, so its claim wins.
+    // The earlier owner keeps its own list untouched, and `git` is now last in the file — the claim order the hosts insert in, so its claim wins.
     let raw = std::fs::read_to_string(d.join("settings.json")).unwrap();
     assert!(raw.contains("\"shared\""), "{raw}");
     assert!(
@@ -376,8 +365,7 @@ fn a_later_claim_wins_and_a_redeclaration_takes_the_word_back() {
         "removing an alias must not change ownership"
     );
 
-    // The listing shows the claim order, not alphabetical: `aaa` is declared last here, so it is
-    // listed last even though it sorts first — that is how a user reads the current ownership.
+    // The listing shows the claim order, not alphabetical: `aaa` is declared last here, so it is listed last even though it sorts first — that is how a user reads the current ownership.
     let (code, out) = psc(&d, &["alias", "add", "aaa", "extra2"]);
     assert_eq!(code, 0, "{out}");
     let (code, out) = psc(&d, &["--json", "alias"]);
@@ -398,8 +386,7 @@ fn a_later_claim_wins_and_a_redeclaration_takes_the_word_back() {
 
 #[test]
 fn json_a_non_utf8_settings_file_fails_loudly_and_is_left_alone() {
-    // A file we cannot decode is corruption, not absence: the run must stop with an error, and
-    // the file must be left exactly as it is — nothing is backed up, nothing is overwritten.
+    // A file we cannot decode is corruption, not absence: the run must stop with an error, and the file must be left exactly as it is — nothing is backed up, nothing is overwritten.
     let d = make_data("json-settings-non-utf8", "http://127.0.0.1:9");
     let sp = d.join("settings.json");
     // UTF-16LE-ish bytes: not valid UTF-8, and not JSON either.
@@ -428,9 +415,7 @@ fn json_a_non_utf8_settings_file_fails_loudly_and_is_left_alone() {
 
 #[test]
 fn json_completion_reset_answers_only_what_it_reset() {
-    // A completion that is on disk and has stored config but no alias entry: `completion <name>
-    // <key> <value>` allows that (name_status accepts a name whose directory exists), so a reset
-    // must reset it — and then not report it as part of the resulting state.
+    // A completion that is on disk and has stored config but no alias entry: `completion <name> <key> <value>` allows that (name_status accepts a name whose directory exists), so a reset must reset it — and then not report it as part of the resulting state.
     let d = make_data("json-completion-reset-scope", "http://127.0.0.1:9");
     rewrite_settings(&d, |v| {
         v["alias"] = serde_json::json!({});
@@ -456,8 +441,7 @@ fn json_completion_reset_answers_only_what_it_reset() {
 
 #[test]
 fn json_add_repairs_a_non_object_config_entry() {
-    // A settings.json holding a non-object where a config map belongs is valid JSON, so it loads
-    // fine — the merge of the manifest's config defaults must repair it, not unwrap it.
+    // A settings.json holding a non-object where a config map belongs is valid JSON, so it loads fine — the merge of the manifest's config defaults must repair it, not unwrap it.
     let srv = spawn_server(vec![
         (
             "completions.json",
@@ -499,8 +483,7 @@ fn json_add_repairs_a_non_object_config_entry() {
 
 #[test]
 fn json_add_dedups_repeated_names() {
-    // `add demo demo` is one install: two workers would stage into the same pid-suffixed
-    // directory in the same process, and one would delete the other's.
+    // `add demo demo` is one install: two workers would stage into the same pid-suffixed directory in the same process, and one would delete the other's.
     let srv = spawn_server(demo_routes());
     let d = make_data("json-add-dedup", &srv);
     let (code, out) = psc(&d, &["--json", "add", "demo", "demo"]);
@@ -544,8 +527,7 @@ fn json_list_and_init_reject_arguments_they_do_not_take() {
         assert_eq!(v["ok"], false, "{out}");
         assert_eq!(v["error"]["code"], "too_many_params", "{out}");
     }
-    // `init` is internal and has no `--json` form (its payload goes to `--result`), so only the
-    // exit code is asserted here.
+    // `init` is internal and has no `--json` form (its payload goes to `--result`), so only the exit code is asserted here.
     let (code, out) = psc(&d, &["init", "junk"]);
     assert_eq!(code, 2, "{out}");
     assert!(!out.trim().is_empty(), "a usage error must say something");
@@ -553,8 +535,7 @@ fn json_list_and_init_reject_arguments_they_do_not_take() {
 
 #[test]
 fn json_set_paths_reject_surplus_arguments() {
-    // `config <group> <key> <value>` and `completion <name> <key> <value>` must not drop whatever
-    // follows the value in silence — the reset form of the same command already rejects it.
+    // `config <group> <key> <value>` and `completion <name> <key> <value>` must not drop whatever follows the value in silence — the reset form of the same command already rejects it.
     let d = make_data("json-set-surplus", "http://127.0.0.1:9");
     for argv in [
         vec!["--json", "config", "menu", "color_focus", "blue", "JUNK"],
@@ -579,10 +560,9 @@ fn json_set_paths_reject_surplus_arguments() {
 
 #[test]
 fn json_name_errors_use_one_style() {
-    // One code, one line: the **text** mode prints `<name>: <message>` — the colon form the
-    // listings and the status messages already use (`git: git, g`, `git: Added.`). `rm`, `update`
-    // and `add` each built their own prefix and `name_error` had none, so the same failure read
-    // three ways. (The JSON `message` stays name-free: the item already carries `name`.)
+    // One code, one line: the **text** mode prints `<name>: <message>` — the colon form the listings and the status messages already use (`git: git, g`, `git: Added.`).
+    // `rm`, `update` and `add` each built their own prefix and `name_error` had none, so the same failure read three ways.
+    // (The JSON `message` stays name-free: the item already carries `name`.)
     let srv = spawn_server(demo_routes());
     let d = make_data("json-name-error-style", &srv);
 
@@ -626,8 +606,8 @@ fn json_name_errors_use_one_style() {
 
 #[test]
 fn json_update_rename_line_uses_the_one_style() {
-    // A rename is a per-item status line like any other: `old: renamed to new`. It used to be the
-    // one line that glued the name and the status together with a space.
+    // A rename is a per-item status line like any other: `old: renamed to new`.
+    // It used to be the one line that glued the name and the status together with a space.
     let (srv, routes) = spawn_server_mut(vec![
         (
             "completions.json",
@@ -670,9 +650,8 @@ fn json_update_rename_line_uses_the_one_style() {
 
 #[test]
 fn json_list_and_alias_render_an_empty_alias_list_the_same_way() {
-    // `key_line`'s rule: an empty value ends at the colon. Both listings must follow it — they
-    // agreed with neither each other nor `config` / `completion`, and `alias` left an invisible
-    // trailing space in captured output.
+    // `key_line`'s rule: an empty value ends at the colon.
+    // Both listings must follow it — they agreed with neither each other nor `config` / `completion`, and `alias` left an invisible trailing space in captured output.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-empty-alias-line", &srv);
     psc(&d, &["add", "demo"]);
@@ -690,8 +669,8 @@ fn json_list_and_alias_render_an_empty_alias_list_the_same_way() {
 
 #[test]
 fn json_info_block_names_a_failed_entry_once() {
-    // A failure is an error line, not a block entry: it names itself and takes no `[name]` heading,
-    // even when the run's other names succeed. Single-name mode reads the same way.
+    // A failure is an error line, not a block entry: it names itself and takes no `[name]` heading, even when the run's other names succeed.
+    // Single-name mode reads the same way.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-info-block-name", &srv);
     psc(&d, &["add", "demo"]);
@@ -714,10 +693,8 @@ fn json_info_block_names_a_failed_entry_once() {
 
 #[test]
 fn json_info_renders_a_multi_line_description_as_a_block() {
-    // `description` is the one value authored as several lines, so it renders as the label alone
-    // and then its lines at column 0 — a row shape of its own, not a general rule (another field
-    // gets its own decision when it appears). The JSON keeps the index's array (`json.md` §3:
-    // JSON does no display work).
+    // `description` is the one value authored as several lines, so it renders as the label alone and then its lines at column 0 — a row shape of its own, not a general rule (another field gets its own decision when it appears).
+    // The JSON keeps the index's array (`json.md` §3: JSON does no display work).
     let srv = spawn_server(vec![
         (
             "completions.json",
@@ -762,9 +739,7 @@ fn json_info_renders_a_multi_line_description_as_a_block() {
 
 #[test]
 fn json_add_reports_in_argument_order_not_finish_order() {
-    // A worker finishes when it finishes, so the report must slot its line and its entry by
-    // argument position: `demo` downloads while `zzz-nope` fails at once, and the failure used to
-    // print first.
+    // A worker finishes when it finishes, so the report must slot its line and its entry by argument position: `demo` downloads while `zzz-nope` fails at once, and the failure used to print first.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-add-order", &srv);
     let (code, out) = psc(&d, &["add", "demo", "zzz-nope"]);
@@ -787,8 +762,7 @@ fn json_add_reports_in_argument_order_not_finish_order() {
 
 #[test]
 fn json_update_reports_in_argument_order_not_finish_order() {
-    // The same rule as `add`: a worker finishes when it finishes, so each result — its text line
-    // and its JSON entry — follows the argument order.
+    // The same rule as `add`: a worker finishes when it finishes, so each result — its text line and its JSON entry — follows the argument order.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-update-order", &srv);
     psc(&d, &["add", "demo"]);
@@ -849,8 +823,7 @@ fn json_alias_add_success_stdout_is_only_json() {
 
 #[test]
 fn json_add_and_rm_no_args_report_param_err() {
-    // Both commands route an empty argv through the same param_err, so both must report the
-    // identical contract: the envelope's `too_few_params`, and exit 2 (a usage error).
+    // Both commands route an empty argv through the same param_err, so both must report the identical contract: the envelope's `too_few_params`, and exit 2 (a usage error).
     for cmd in ["add", "rm"] {
         let d = make_data(&format!("json-{cmd}-noargs"), "http://127.0.0.1:9");
         let (code, out) = psc(&d, &["--json", cmd]);
@@ -867,8 +840,7 @@ fn json_add_and_rm_no_args_report_param_err() {
 
 // ---------- add/rm flows over the local HTTP source ----------
 
-/// Index branch layout wins when both layouts serve a valid index: the client
-/// must prefer `.../raw/index/completions.json` over `.../raw/main/...`.
+/// Index branch layout wins when both layouts serve a valid index: the client must prefer `.../raw/index/completions.json` over `.../raw/main/...`.
 
 #[test]
 fn json_add_prefers_index_branch_layout() {
@@ -929,14 +901,11 @@ fn json_add_linked_reports_added() {
     );
 }
 
-/// Named update of an installed-but-off-index completion reports an error
-/// (bulk `--all` still skips it silently).
+/// Named update of an installed-but-off-index completion reports an error (bulk `--all` still skips it silently).
 
 #[test]
 fn json_update_named_off_index_errors() {
-    // `git` is installed here while the library does not carry it: neither `not_available` (nowhere)
-    // nor `not_installed` (never added) describes that, and the code must agree with the message a
-    // human reads.
+    // `git` is installed here while the library does not carry it: neither `not_available` (nowhere) nor `not_installed` (never added) describes that, and the code must agree with the message a human reads.
     let srv = spawn_server(vec![(
         "completions.json",
         r#"{"update":{},"meta":{}}"#.into(),
@@ -961,9 +930,7 @@ fn json_update_named_off_index_errors() {
     );
 }
 
-/// Legacy mirrors serving only the old layout keep working: the index-branch
-/// candidate misses (shape check rejects the not-found body) and the client
-/// falls back to `.../raw/main/completions.json`.
+/// Legacy mirrors serving only the old layout keep working: the index-branch candidate misses (shape check rejects the not-found body) and the client falls back to `.../raw/main/completions.json`.
 
 #[test]
 fn json_add_falls_back_to_legacy_layout() {
@@ -988,9 +955,8 @@ fn json_add_falls_back_to_legacy_layout() {
     );
 }
 
-/// Installing a completion that is new to the fresh index must not echo it back
-/// as "new to the library": the per-item result already reported it. Unrelated
-/// newcomers are still reported.
+/// Installing a completion that is new to the fresh index must not echo it back as "new to the library": the per-item result already reported it.
+/// Unrelated newcomers are still reported.
 
 #[test]
 fn json_add_does_not_report_installed_as_new() {
@@ -1072,8 +1038,7 @@ fn json_rm_clears_all_notification_lists() {
 
 #[test]
 fn json_add_and_rm_unknown_name_report_in_band() {
-    // An unknown name is a per-completion failure, not a whole-command abort: the envelope stays
-    // ok, the item carries its name and a stable code, and the run still exits 1.
+    // An unknown name is a per-completion failure, not a whole-command abort: the envelope stays ok, the item carries its name and a stable code, and the run still exits 1.
     let srv = spawn_server(demo_routes());
     for cmd in ["add", "rm"] {
         let d = make_data(&format!("flow-{cmd}-unknown"), &srv);
@@ -1109,8 +1074,7 @@ fn json_update_check_writes_last_check() {
 
 #[test]
 fn json_update_named_updates_version_marker() {
-    // One server whose index is REWRITTEN between calls: add demo at v2, bump the index
-    // to v3, then a named update must refresh `.update` to v3.
+    // One server whose index is REWRITTEN between calls: add demo at v2, bump the index to v3, then a named update must refresh `.update` to v3.
     let (srv, routes) = spawn_server_mut(vec![
         (
             "completions.json",
@@ -1150,8 +1114,7 @@ fn json_update_named_updates_version_marker() {
 
 #[test]
 fn json_add_rejects_a_language_entry_that_escapes_the_staging_dir() {
-    // A downloaded config.json is remote input: its `language` entries name both a URL segment
-    // and a local file, so a traversing tag must be rejected instead of written outside.
+    // A downloaded config.json is remote input: its `language` entries name both a URL segment and a local file, so a traversing tag must be rejected instead of written outside.
     let srv = spawn_server(vec![
         (
             "completions.json",
@@ -1177,9 +1140,8 @@ fn json_update_save_failure_still_emits_one_document() {
     let d = make_data("flow-update-savefail", &srv);
     psc(&d, &["--json", "add", "demo"]);
     let sp = d.join("settings.json");
-    // Make the save fail deterministically: turn settings.json into a *directory*, so the atomic
-    // replace (temp file + rename) cannot land. A read-only file would not do — the save renames
-    // over it, and the containing directory's write permission allows that.
+    // Make the save fail deterministically: turn settings.json into a *directory*, so the atomic replace (temp file + rename) cannot land.
+    // A read-only file would not do — the save renames over it, and the containing directory's write permission allows that.
     std::fs::remove_file(&sp).unwrap();
     std::fs::create_dir(&sp).unwrap();
     let (code, out) = psc(&d, &["--json", "update", "demo"]);
@@ -1189,8 +1151,7 @@ fn json_update_save_failure_still_emits_one_document() {
         1,
         "--json mode owes exactly one document: {out}"
     );
-    // Nothing was persisted, so the command itself failed: one failure envelope rather than a
-    // per-item list that would claim success.
+    // Nothing was persisted, so the command itself failed: one failure envelope rather than a per-item list that would claim success.
     let v = parse_json(&out);
     assert_eq!(v["ok"], false, "{out}");
     assert_eq!(v["error"]["code"], "io", "{out}");
@@ -1198,9 +1159,8 @@ fn json_update_save_failure_still_emits_one_document() {
 
 #[test]
 fn json_update_named_unknown_reports_in_band() {
-    // A NAMED update of a name that is neither installed nor indexed reports the failure
-    // in-band (per-entry ok:false, exit 0). The silent skip applies only to `--all`
-    // sweeps over installed-but-unindexed completions.
+    // A NAMED update of a name that is neither installed nor indexed reports the failure in-band (per-entry ok:false, exit 0).
+    // The silent skip applies only to `--all` sweeps over installed-but-unindexed completions.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-update-skip", &srv);
     let (code, out) = psc(&d, &["--json", "update", "zzz-nope"]);
@@ -1227,9 +1187,8 @@ fn json_update_old_empty_when_everything_current() {
 
 #[test]
 fn json_update_resolves_a_name_with_a_mode_flag_by_precedence() {
-    // A mode flag is an explicit instruction about a whole set, so it wins over a name — the same
-    // way `--all` already wins over `--old`. A name is not an error there: it is redundant when the
-    // flag's set covers it, and the empty-result reply says what actually happened.
+    // A mode flag is an explicit instruction about a whole set, so it wins over a name — the same way `--all` already wins over `--old`.
+    // A name is not an error there: it is redundant when the flag's set covers it, and the empty-result reply says what actually happened.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-update-precedence", &srv);
     psc(&d, &["--json", "add", "demo"]); // installed at v2 == remote
@@ -1265,9 +1224,8 @@ fn json_update_resolves_a_name_with_a_mode_flag_by_precedence() {
 
 #[test]
 fn json_update_with_nothing_to_do_says_so() {
-    // An empty result set is not silence. The module prints `info.update.no` for the very same
-    // empty array (`PSCompletions.psm1`), so the text mode was the only surface saying nothing —
-    // and "nothing out of date" is exactly the case where "everything is up to date" is true.
+    // An empty result set is not silence.
+    // The module prints `info.update.no` for the very same empty array (`PSCompletions.psm1`), so the text mode was the only surface saying nothing — and "nothing out of date" is exactly the case where "everything is up to date" is true.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-update-empty-text", &srv);
     // `git` is installed but is not in the remote index: neither mode selects anything.
@@ -1292,8 +1250,7 @@ fn json_update_with_nothing_to_do_says_so() {
 
 #[test]
 fn json_destructive_operations_need_authorisation() {
-    // The engine never prompts (design/json.md §7): without `--yes` it refuses with exit 2, so a
-    // script gets a decision instead of a hung process, and `--json` never waits on a keypress.
+    // The engine never prompts (design/json.md §7): without `--yes` it refuses with exit 2, so a script gets a decision instead of a hung process, and `--json` never waits on a keypress.
     let d = make_data("json-needs-confirm", "http://127.0.0.1:9");
     for argv in [
         vec!["--json", "rm", "--all"],
@@ -1316,8 +1273,7 @@ fn json_completion_write_reports_the_item_and_the_old_value() {
     assert_eq!(code, 0, "{out}");
     let v = parse_json(&out);
     assert_eq!(v["ok"], true, "{out}");
-    // The item a read of that key answers with — the *stored* value, which here is the number 1
-    // rather than the string the caller typed — plus what it was before (`null`: nothing was set).
+    // The item a read of that key answers with — the *stored* value, which here is the number 1 rather than the string the caller typed — plus what it was before (`null`: nothing was set).
     assert_eq!(v["data"]["name"], "git", "{out}");
     assert_eq!(v["data"]["key"], "enable_tip", "{out}");
     assert_eq!(v["data"]["value"], serde_json::json!(1), "{out}");
@@ -1379,8 +1335,7 @@ fn json_completion_reset_reports_the_resulting_state() {
 
 #[test]
 fn json_completion_writes_are_in_band() {
-    // The `completion` write paths must honour `--json` like `config`'s do: a caller that asks for
-    // the machine contract gets it on every path, not only on the read ones.
+    // The `completion` write paths must honour `--json` like `config`'s do: a caller that asks for the machine contract gets it on every path, not only on the read ones.
     let d = make_data("json-completion-write", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "completion", "git", "enable_tip", "1"]);
     assert_eq!(code, 0, "{out}");
@@ -1395,8 +1350,8 @@ fn json_completion_writes_are_in_band() {
 
 #[test]
 fn json_add_reports_a_local_failure_as_io_not_network() {
-    // The index came back but was unusable: the bytes arrived, so this is a local failure. It used
-    // to be reported as `network`, which sends the user to the wrong place entirely.
+    // The index came back but was unusable: the bytes arrived, so this is a local failure.
+    // It used to be reported as `network`, which sends the user to the wrong place entirely.
     let srv = spawn_server(vec![("completions.json", "{ not json".to_string())]);
     let d = make_data("json-add-local-failure", &srv);
     let (code, out) = psc(&d, &["--json", "add", "demo"]);
@@ -1408,9 +1363,8 @@ fn json_add_reports_a_local_failure_as_io_not_network() {
 
 #[test]
 fn json_rm_removes_a_plain_file_in_the_library() {
-    // The library directory holds completions and nothing else, so a stray file there is junk the
-    // user is entitled to remove. `remove_dir_all` failed on it and the error was swallowed, so `rm`
-    // answered `ok: true` and left the file on disk.
+    // The library directory holds completions and nothing else, so a stray file there is junk the user is entitled to remove.
+    // `remove_dir_all` failed on it and the error was swallowed, so `rm` answered `ok: true` and left the file on disk.
     let d = make_data("json-rm-plain-file", "http://127.0.0.1:9");
     std::fs::write(d.join("completions/plainfile"), "not a completion").unwrap();
     let (code, out) = psc(&d, &["--json", "rm", "plainfile"]);
@@ -1426,8 +1380,7 @@ fn json_rm_removes_a_plain_file_in_the_library() {
 
 #[test]
 fn init_reports_a_failed_result_write() {
-    // `--result` is how a host reads the payload: a swallowed write failure would hand it a missing
-    // file and exit 0, so the host would silently run on nothing.
+    // `--result` is how a host reads the payload: a swallowed write failure would hand it a missing file and exit 0, so the host would silently run on nothing.
     let d = make_data("init-result-write", "http://127.0.0.1:9");
     let bad = d.join("no-such-dir/out.json");
     let (code, out) = psc(&d, &["init", "--result", bad.to_str().unwrap()]);
@@ -1470,9 +1423,8 @@ fn json_completion_key_reset_actually_resets() {
 
 #[test]
 fn json_self_update_reports_an_unmanaged_copy() {
-    // The test binary is not installed by anything, so the method is `unknown` and the payload
-    // names the routes a user should take. `commands` is the part a machine acts on; the version
-    // fields stay strings even when nothing could be read, so the shape never varies.
+    // The test binary is not installed by anything, so the method is `unknown` and the payload names the routes a user should take.
+    // `commands` is the part a machine acts on; the version fields stay strings even when nothing could be read, so the shape never varies.
     let d = make_data("json-self-update", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--json", "--self-update"]);
     assert_eq!(code, 0, "{out}");
@@ -1502,9 +1454,7 @@ fn json_self_update_rejects_arguments() {
 
 #[test]
 fn text_self_update_prints_the_commands_without_the_psc_completion() {
-    // No `psc` completion in this data dir, so the localized templates are missing: the English
-    // fallback must still end with the commands, or the user is told to install something with
-    // nothing to type.
+    // No `psc` completion in this data dir, so the localized templates are missing: the English fallback must still end with the commands, or the user is told to install something with nothing to type.
     let d = make_data("txt-self-update", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--self-update"]);
     assert_eq!(code, 0, "{out}");

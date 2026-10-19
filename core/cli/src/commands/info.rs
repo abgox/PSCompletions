@@ -8,8 +8,8 @@ use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
 use crate::output::{ok, Out};
 use crate::validate::{name_error, name_status};
-/// A Unix timestamp as the human view shows it. The engine carries no timezone database, so this
-/// is UTC and says so; the JSON keeps the raw seconds (design/json.md §3).
+/// A Unix timestamp as the human view shows it.
+/// The engine carries no timezone database, so this is UTC and says so; the JSON keeps the raw seconds (design/json.md §3).
 fn utc_stamp(secs: u64) -> String {
     let days = (secs / 86_400) as i64;
     let rem = secs % 86_400;
@@ -65,8 +65,7 @@ pub fn cmd_info(
                 }));
                 continue;
             }
-            // One fixed key set, `null` where a field is absent (design/json.md §3): a caller never
-            // has to test whether a key is there.
+            // One fixed key set, `null` where a field is absent (design/json.md §3): a caller never has to test whether a key is there.
             let mut alias = serde_json::Value::Null;
             if let Some(a) = settings.alias.get(name) {
                 if !a.is_empty() {
@@ -80,8 +79,7 @@ pub fn cmd_info(
                     if let Some(u) = c.get("url").and_then(|u| u.as_str()) {
                         url = json!(u);
                     }
-                    // The value is reported as a string — the index's own form; a completion's
-                    // `meta.description` is an array, joined the same way (with `\n`).
+                    // The value is reported as a string — the index's own form; a completion's `meta.description` is an array, joined the same way (with `\n`).
                     if let Some(desc) = c.get("description") {
                         let d = match desc {
                             serde_json::Value::String(s) => s.clone(),
@@ -132,8 +130,7 @@ pub fn cmd_info(
         let had_error = entries.iter().any(|e| e["ok"] != true);
         let data = json!({ "completions": entries });
         ok(&data);
-        // A failed entry fails this invocation (design/json.md §6): the exit code is the signal a
-        // script sees without parsing the payload.
+        // A failed entry fails this invocation (design/json.md §6): the exit code is the signal a script sees without parsing the payload.
         return if had_error {
             ExitCode::FAILURE
         } else {
@@ -141,19 +138,15 @@ pub fn cmd_info(
         };
     }
     // A completion is a group, exactly like `config`'s groups: `[name]` then `key: value` rows.
-    // The key names *are* the labels — semantic, identical to the JSON's, and the same in every
-    // language (design/json.md §2) — so there is no label table to keep in step. Naming it on the
-    // command line drops the header, and the `name` row is gone either way: the caller or the
-    // header already said it.
+    // The key names *are* the labels — semantic, identical to the JSON's, and the same in every language (design/json.md §2) — so there is no label table to keep in step.
+    // Naming it on the command line drops the header, and the `name` row is gone either way: the caller or the header already said it.
     let mut had_error = false;
     let single = args.len() == 1;
-    // One level is enough: a `[name]` heading already delimits, and the rows never indent (the
-    // same rule as an ini section, where a value sits at column 0).
+    // One level is enough: a `[name]` heading already delimits, and the rows never indent (the same rule as an ini section, where a value sits at column 0).
     let field = |label: String, value: &str| out.line(&format!("{label}{value}"));
     for name in args {
         let status = name_status(settings, index, completions_dir, name);
-        // A failure is an error line, not a block entry: it names itself, so it takes no `[name]`
-        // heading — the shape single-name mode already uses.
+        // A failure is an error line, not a block entry: it names itself, so it takes no `[name]` heading — the shape single-name mode already uses.
         if let Some((_code, e)) = name_error(&lang, name, status, false) {
             out.line(&e);
             had_error = true;

@@ -6,10 +6,8 @@
 
     $arg = $args
 
-    # `--json` anywhere in the invocation is the machine contract: hand it to the engine as it is
-    # and print what it says — no rendering, no color, and no prompt (design/json.md §7). With no
-    # command word it is the **root** response (§5), not the info page; the shell bridges do the
-    # same, so a caller gets parseable JSON from every host.
+    # `--json` anywhere in the invocation is the machine contract: hand it to the engine as it is and print what it says — no rendering, no color, and no prompt (design/json.md §7).
+    # With no command word it is the **root** response (§5), not the info page; the shell bridges do the same, so a caller gets parseable JSON from every host.
     if ($arg -contains '--json') {
         $pscBinary = $PSCompletions.psc_binary()
         if ($pscBinary) {
@@ -21,8 +19,7 @@
         return
     }
 
-    # Must live in the psm1 (module session state): the renderer is pure, but the
-    # call must resolve here so future host-specific lookups keep working.
+    # Must live in the psm1 (module session state): the renderer is pure, but the call must resolve here so future host-specific lookups keep working.
     function _replace {
         param ($data, $ctx = @{}, $separator = '')
         $PSCompletions.render_engine($data, $ctx, $separator)
@@ -45,8 +42,7 @@
     function _help {
         $PSCompletions.write_with_color((_replace $PSCompletions.info.description @{Version = [string]$PSCompletions.version }))
     }
-    # Forward management commands to the psc CLI (platform-agnostic core); with -Json request
-    # structured output, with -Plain print a read uncolored (a status message takes green).
+    # Forward management commands to the psc CLI (platform-agnostic core); with -Json request structured output, with -Plain print a read uncolored (a status message takes green).
     function _forward_psc {
         param([switch]$Json, [switch]$Quiet, [switch]$Plain)
         $pscBinary = $PSCompletions.psc_binary()
@@ -55,11 +51,9 @@
             return
         }
         $dataDir = $PSCompletions.path.dir.data
-        # The engine never prompts: it refuses a destructive operation unless it is authorised
-        # (design/json.md §7). The host is the one that asks the human, so it supplies the
-        # authorisation here — the single place the module calls the engine. `rm --all` has
-        # already been confirmed by the case that called this; a group `--reset` is not
-        # destructive enough to ask about, so the host simply says yes.
+        # The engine never prompts: it refuses a destructive operation unless it is authorised (design/json.md §7).
+        # The host is the one that asks the human, so it supplies the authorisation here — the single place the module calls the engine.
+        # `rm --all` has already been confirmed by the case that called this; a group `--reset` is not destructive enough to ask about, so the host simply says yes.
         $destructive = ($arg -contains '--reset') -or (($arg | Select-Object -First 1) -eq 'rm' -and ($arg -contains '--all'))
         $authorised = if ($destructive) { @('--yes') } else { @() }
         # psc emits UTF-8, but PowerShell decodes native output via [Console]::OutputEncoding (GBK on Chinese systems); switch temporarily
@@ -78,9 +72,8 @@
         # Render binary errors uniformly in red and stop — check exit before Json
         if ($exit -ne 0) {
             if ($Json) {
-                # A partial failure (`ok:false` per item) is not a whole-command error: hand the
-                # payload back so the caller renders the items. Only an envelope carrying an
-                # `error` is shown as one red line.
+                # A partial failure (`ok:false` per item) is not a whole-command error: hand the payload back so the caller renders the items.
+                # Only an envelope carrying an `error` is shown as one red line.
                 try {
                     $parsed = $text | ConvertFrom-Json
                     if ($null -ne $parsed.data) { return $parsed.data }
@@ -107,8 +100,8 @@
         }
         if (-not $Json) {
             if (-not $Quiet) {
-                # A data read prints the CLI's text as it is; a status message is a message and
-                # takes green. The failure path above stays red either way.
+                # A data read prints the CLI's text as it is; a status message is a message and takes green.
+                # The failure path above stays red either way.
                 if ($Plain) { $raw -join "`n" }
                 else { $PSCompletions.write_with_color((_replace "<@Green>$($raw -join "`n")")) }
             }
@@ -124,8 +117,7 @@
             return $raw
         }
     }
-    # Build the add/update done-template context: trigger aliases plus the
-    # manifest config rows (with stored current values) for [Special Configuration].
+    # Build the add/update done-template context: trigger aliases plus the manifest config rows (with stored current values) for [Special Configuration].
     function _done_ctx {
         param([string]$completion, [string]$display = '')
         $alias = @($PSCompletions.data.alias[$completion])
@@ -161,9 +153,8 @@
     function _render_completion_done {
         param([string]$completion, [string]$kind, [string]$display = '')
         if ($kind -in @('add', 'update')) {
-            # Each of these renders a multi-line block, so consecutive blocks are separated by a
-            # blank line — the same gap the templates put between their own repeated items
-            # (design/templates.md). `rm`'s done is one line per completion and stays tight.
+            # Each of these renders a multi-line block, so consecutive blocks are separated by a blank line — the same gap the templates put between their own repeated items (design/templates.md).
+            # `rm`'s done is one line per completion and stays tight.
             if ($script:_done_block) { $PSCompletions.write_with_color('') }
             $PSCompletions.write_with_color((_replace $PSCompletions.info.$kind.done (_done_ctx $completion $display)))
             $script:_done_block = $true
@@ -200,7 +191,8 @@
                 $PSCompletions.write_with_color((_replace $PSCompletions.info.rm.all_confirm))
                 while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                     # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
-                    # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
+                    # only a bare key decides.
+                    # NumLock/CapsLock/ScrollLock bits are excluded.
                     if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                         if ($PressKey.VirtualKeyCode -eq 13) { $targets = @($PSCompletions.data.list) }
                         else { $PSCompletions.write_with_color((_replace $PSCompletions.info.confirm_cancel)) }
@@ -291,8 +283,7 @@
                     if (-not $anyOk -and -not $rows.Count) {
                         $PSCompletions.write_with_color((_replace $PSCompletions.info.update.no))
                     }
-                    # Consume only the renames actually migrated this run (from the CLI results);
-                    # unmigrated renames (e.g. a different renamed completion) stay for later prompts.
+                    # Consume only the renames actually migrated this run (from the CLI results); unmigrated renames (e.g. a different renamed completion) stay for later prompts.
                     if ($migratedRenamed.Count) {
                         $changes = _get_library_changes
                         if ($changes) {
@@ -318,14 +309,13 @@
             $need_init = $false
         }
         'info' {
-            # A read is the CLI's text, uncolored — the same thing the POSIX bridges print. Data
-            # leaves through `--json`; the human view is one shape everywhere (bridge.md §7).
+            # A read is the CLI's text, uncolored — the same thing the POSIX bridges print.
+            # Data leaves through `--json`; the human view is one shape everywhere (bridge.md §7).
             _forward_psc -Plain
             $need_init = $false
         }
         'alias' {
-            # A read is the CLI's text; `add` / `rm` / `--reset` stay on the action path so the
-            # init refresh and the pending tail still run.
+            # A read is the CLI's text; `add` / `rm` / `--reset` stay on the action path so the init refresh and the pending tail still run.
             if ($arg.Count -eq 1) { _forward_psc -Plain; $need_init = $false }
             else { _forward_psc }
         }
@@ -376,8 +366,8 @@
             else { _forward_psc -Plain; $need_init = $false }
         }
         '--self-update' {
-            # A root-level flag, not a command: the engine detects how this copy was installed and
-            # says what updates it. `-Plain` because the text is a read, like `info`.
+            # A root-level flag, not a command: the engine detects how this copy was installed and says what updates it.
+            # `-Plain` because the text is a read, like `info`.
             _forward_psc -Plain
             $need_init = $false
         }
@@ -387,7 +377,8 @@
             $PSCompletions.write_with_color((_replace $PSCompletions.info.reset.init_confirm))
             while (($PressKey = $host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')).VirtualKeyCode) {
                 # Ignore keys with any modifier (Alt/Ctrl/Shift bits of ControlKeyStates):
-                # only a bare key decides. NumLock/CapsLock/ScrollLock bits are excluded.
+                # only a bare key decides.
+                # NumLock/CapsLock/ScrollLock bits are excluded.
                 if (-not ($PressKey.ControlKeyState -band 0x1F)) {
                     if ($PressKey.VirtualKeyCode -eq 13) {
                         if ([System.IO.Directory]::Exists($PSCompletions.path.dir.data)) {

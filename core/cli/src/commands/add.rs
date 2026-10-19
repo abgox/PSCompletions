@@ -51,8 +51,7 @@ pub fn cmd_add(
     let names = crate::commands::dedup_names(args.iter().cloned());
     // Download multiple completions concurrently (shared client + bounded worker pool).
     let settings_lock = std::sync::Mutex::new(&mut *settings);
-    // Workers finish in any order, so each result takes a slot per argument position: the report —
-    // text lines and the JSON array alike — follows the arguments.
+    // Workers finish in any order, so each result takes a slot per argument position: the report — text lines and the JSON array alike — follows the arguments.
     let results: std::sync::Mutex<Vec<(usize, Vec<String>, serde_json::Value)>> =
         std::sync::Mutex::new(Vec::new());
     let index_ref: &Index = index;

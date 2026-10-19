@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 # Run every bridge test in one go and fail on the first thing that fails:
 #   test.bash / test.zsh / test.fish  — the per-shell suites (headless)
-#   test-pgrp.py                      — the real-terminal properties for all three shells
-#                                       (menu process group, the trigger's apply path, and
-#                                       no shell errors in the session)
-# Requires the engine binaries under module/PSCompletions/bin/<platform>-<arch> (built by
-# CI, shipped in the module package) and python3. Usage: scripts/bridge/test-all.sh [root]
+#   test-pgrp.py                      — the real-terminal properties for all three shells (menu process group, the trigger's apply path, and no shell errors in the session)
+# Requires the engine binaries under module/PSCompletions/bin/<platform>-<arch> (built by CI, shipped in the module package) and python3.
+# Usage: scripts/bridge/test-all.sh [root]
 set -u
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${1:-$(dirname -- "$(dirname -- "$HERE")")}"
@@ -27,8 +25,7 @@ else
 fi
 run "pty tests" python3 "$HERE/test-pgrp.py" "$ROOT"
 
-# Layout: every *shipped* bridge file carries its interpreter shebang — a missing one is the kind
-# of slip no other check sees.
+# Layout: every *shipped* bridge file carries its interpreter shebang — a missing one is the kind of slip no other check sees.
 echo "=== layout checks ==="
 for f in "$ROOT"/module/PSCompletions/PSCompletions{.bash,.zsh,.fish}; do
     if [[ "$(head -c 2 -- "$f")" == "#!" ]]; then

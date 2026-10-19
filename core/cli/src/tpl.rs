@@ -1,23 +1,16 @@
-//! `info` template rendering: the `{{…}}` mini-language that turns the `psc` completion's `info`
-//! strings into display text.
+//! `info` template rendering: the `{{…}}` mini-language that turns the `psc` completion's `info` strings into display text.
 //!
-//! The grammar follows the widespread conventions rather than inventing its own: Mustache/Handlebars
-//! blocks (`{{#each}}…{{/each}}`, same-name closes, `{{else}}`, `{{! comment}}`, `{{> partial}}`,
-//! `\{{` for a literal brace), Jinja/Liquid value pipelines (`{{a.b|filter}}`, `or` for the first
-//! present value), and Handlebars' lowercase `@`-names for what the renderer itself provides.
+//! The grammar follows the widespread conventions rather than inventing its own: Mustache/Handlebars blocks (`{{#each}}…{{/each}}`, same-name closes, `{{else}}`, `{{!
+//! comment}}`, `{{> partial}}`, `\{{` for a literal brace), Jinja/Liquid value pipelines (`{{a.b|filter}}`, `or` for the first present value), and Handlebars' lowercase `@`-names for what the renderer itself provides.
 //!
-//! It stays small on purpose — the templates are hand-edited data
-//! (`completions/psc/language/*.json`), so every rule is total (nothing panics, an unknown
-//! construct re-emits its token) and `tests/fixtures/psc_tpl.json` freezes the rendering of every
-//! template that ships. Anything display text does not need — arithmetic, comparisons,
-//! inheritance — is deliberately absent.
+//! It stays small on purpose — the templates are hand-edited data (`completions/psc/language/*.json`), so every rule is total (nothing panics, an unknown construct re-emits its token) and `tests/fixtures/psc_tpl.json` freezes the rendering of every template that ships.
+//! Anything display text does not need — arithmetic, comparisons, inheritance — is deliberately absent.
 
 use serde_json::Value;
 
 use crate::output::{value_quoted, value_text};
 
-/// Render `data` — an `info.<path>` value: a list of lines joined with `separator`, or a plain
-/// string — with `ctx`, the caller's data (`Version`, `NewVersion`, records, counts, …).
+/// Render `data` — an `info.<path>` value: a list of lines joined with `separator`, or a plain string — with `ctx`, the caller's data (`Version`, `NewVersion`, records, counts, …).
 pub fn render(data: &Value, ctx: &Value, separator: &str) -> String {
     render_with_root(data, ctx, separator, None)
 }
@@ -80,14 +73,13 @@ fn note(state: &mut State, path: &str, outcome: &str) {
 
 /// What the renderer keeps for the templates: the `@`-namespace, plus the include machinery.
 struct State<'a> {
-    /// The `@more` count: items a capped `#each` left out. It survives the loop, which is what the
-    /// "+N more" tail after a `#each` reads.
+    /// The `@more` count: items a capped `#each` left out.
+    /// It survives the loop, which is what the "+N more" tail after a `#each` reads.
     more: usize,
     root: Option<&'a Value>,
     depth: usize,
-    /// What `psc tpl --explain` reports: every name the renderer resolved or missed, and every
-    /// token it had to keep verbatim. A normal render fills it too — a string per lookup is not
-    /// worth a branch — and simply drops it.
+    /// What `psc tpl --explain` reports: every name the renderer resolved or missed, and every token it had to keep verbatim.
+    /// A normal render fills it too — a string per lookup is not worth a branch — and simply drops it.
     notes: Vec<String>,
 }
 
@@ -96,8 +88,7 @@ const MAX_INCLUDE_DEPTH: usize = 8;
 
 /// A path the renderer accepts as a lookup; anything else re-emits its token verbatim.
 ///
-/// `-` belongs here because the data uses it (`scoop-checkver`, `last-check`): a path that cannot
-/// name a key is a silent no-op, which is the one failure mode a total renderer must avoid.
+/// `-` belongs here because the data uses it (`scoop-checkver`, `last-check`): a path that cannot name a key is a silent no-op, which is the one failure mode a total renderer must avoid.
 fn is_path(s: &str) -> bool {
     !s.is_empty()
         && s.chars()
@@ -111,7 +102,8 @@ fn is_filter(s: &str) -> bool {
             .all(|c| c.is_alphanumeric() || c == '_' || c == '-')
 }
 
-/// The filters the renderer knows. An unknown one re-emits its token, so a typo is visible.
+/// The filters the renderer knows.
+/// An unknown one re-emits its token, so a typo is visible.
 fn filter(name: &str, value: Value) -> Option<String> {
     match name {
         "quote" => Some(value_quoted(&value)),
@@ -128,8 +120,7 @@ enum Look {
     Literal,
 }
 
-/// Walk `path` from the current `#each` item (leading `.`), from the engine's `@`-namespace, or
-/// from `ctx`.
+/// Walk `path` from the current `#each` item (leading `.`), from the engine's `@`-namespace, or from `ctx`.
 fn lookup(path: &str, ctx: &Value, item: Option<&Value>, state: &mut State) -> Look {
     let out = lookup_inner(path, ctx, item, state);
     match &out {
@@ -150,8 +141,7 @@ fn lookup_inner(path: &str, ctx: &Value, item: Option<&Value>, state: &State) ->
             None => return Look::Literal,
         }
     } else if let Some(name) = first.strip_prefix('@') {
-        // The `@`-namespace is the renderer's own: it never mixes with the caller's data, so a
-        // host may use `Rest`/`More`/`Index` as data keys without colliding with the engine.
+        // The `@`-namespace is the renderer's own: it never mixes with the caller's data, so a host may use `Rest`/`More`/`Index` as data keys without colliding with the engine.
         match name {
             "more" => return Look::Found(Value::from(state.more)),
             _ => return Look::Literal,
@@ -179,8 +169,8 @@ fn lookup_inner(path: &str, ctx: &Value, item: Option<&Value>, state: &State) ->
     }
 }
 
-/// Resolve one `{{…}}` expression — `a or b`, each alternative optionally piped through filters —
-/// into its text. `None` means "not an expression, re-emit the token".
+/// Resolve one `{{…}}` expression — `a or b`, each alternative optionally piped through filters — into its text.
+/// `None` means "not an expression, re-emit the token".
 fn resolve(expr: &str, ctx: &Value, item: Option<&Value>, state: &mut State) -> Option<String> {
     for alt in split_or(expr) {
         // `path|filter|filter`: the value is looked up first, the filters then run left to right.
@@ -218,14 +208,13 @@ fn resolve(expr: &str, ctx: &Value, item: Option<&Value>, state: &mut State) -> 
     Some(String::new())
 }
 
-/// `a or b or c` — the alternatives, trimmed. Spaces are required around `or`, so a path may still
-/// contain the letters (`order`).
+/// `a or b or c` — the alternatives, trimmed.
+/// Spaces are required around `or`, so a path may still contain the letters (`order`).
 fn split_or(expr: &str) -> Vec<&str> {
     expr.split(" or ").map(str::trim).collect()
 }
 
-/// Truthiness: non-null, non-zero, non-empty, non-empty list — the same set every mainstream
-/// engine treats as falsey.
+/// Truthiness: non-null, non-zero, non-empty, non-empty list — the same set every mainstream engine treats as falsey.
 fn truthy(v: &Value) -> bool {
     match v {
         Value::Null => false,
@@ -243,8 +232,8 @@ enum Tok {
     Tag(String),
 }
 
-/// Split on `{{…}}` (non-greedy: the first `}}` closes a token). `\{{` is a literal `{{` and drops
-/// the backslash.
+/// Split on `{{…}}` (non-greedy: the first `}}` closes a token).
+/// `\{{` is a literal `{{` and drops the backslash.
 fn tokenize(text: &str) -> Vec<Tok> {
     let mut out = Vec::new();
     let mut pos = 0;
@@ -335,9 +324,7 @@ fn take_block(toks: &[Tok], i: usize) -> Block {
     }
 }
 
-/// Split `path [limit=N] [sep='…']` into its parameters, keeping a single-quoted run whole: a
-/// separator may hold whitespace of any kind (`sep=' '`, `sep='\n\n'`), and splitting on
-/// whitespace would flatten it to spaces.
+/// Split `path [limit=N] [sep='…']` into its parameters, keeping a single-quoted run whole: a separator may hold whitespace of any kind (`sep=' '`, `sep='\n\n'`), and splitting on whitespace would flatten it to spaces.
 fn split_spec(rest: &str) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
     let mut cur = String::new();
@@ -360,10 +347,8 @@ fn split_spec(rest: &str) -> Vec<String> {
     out
 }
 
-/// `path [limit=N] [sep='…']` — whitespace-separated parameters, so a separator may contain a
-/// space (`sep=' '`) or a newline. `None` when the spec cannot be read as one (an empty path, or a
-/// `|` filter): the caller then keeps the whole block verbatim (templates.md: a spec that is not a
-/// path renders literally, never silently dropped).
+/// `path [limit=N] [sep='…']` — whitespace-separated parameters, so a separator may contain a space (`sep=' '`) or a newline.
+/// `None` when the spec cannot be read as one (an empty path, or a `|` filter): the caller then keeps the whole block verbatim (templates.md: a spec that is not a path renders literally, never silently dropped).
 fn parse_each(spec: &str) -> Option<(String, Option<usize>, Option<String>)> {
     let mut chars = spec.chars().peekable();
     let mut path = String::new();
@@ -394,9 +379,8 @@ fn parse_each(spec: &str) -> Option<(String, Option<usize>, Option<String>)> {
     Some((path, limit, sep))
 }
 
-/// The source text of a block from its opening token to its close, for a directive the renderer
-/// cannot evaluate. Reconstructed from the tokens: `tokenize` loses nothing, and a tag's
-/// surrounding whitespace is already trimmed by the same rule that trims every expression.
+/// The source text of a block from its opening token to its close, for a directive the renderer cannot evaluate.
+/// Reconstructed from the tokens: `tokenize` loses nothing, and a tag's surrounding whitespace is already trimmed by the same rule that trims every expression.
 fn block_source(toks: &[Tok], open: usize, b: &Block) -> String {
     let mut out = String::new();
     for t in &toks[open..b.next.min(toks.len())] {
@@ -408,8 +392,7 @@ fn block_source(toks: &[Tok], open: usize, b: &Block) -> String {
     out
 }
 
-/// Look one `#if`/`#unless` condition up: the first present alternative, plus whether the whole
-/// condition could not be read at all.
+/// Look one `#if`/`#unless` condition up: the first present alternative, plus whether the whole condition could not be read at all.
 fn condition(
     cond: &str,
     ctx: &Value,
@@ -426,9 +409,8 @@ fn condition(
             Look::Literal => return (None, true),
             Look::Missing => continue,
             Look::Found(v) => {
-                // Blank = absent or empty: an empty string, array or object says nothing, so
-                // `or` moves on (templates.md: first present, non-empty wins). `0` and `false`
-                // are NOT blank — they carry a value.
+                // Blank = absent or empty: an empty string, array or object says nothing, so `or` moves on (templates.md: first present, non-empty wins).
+                // `0` and `false` are NOT blank — they carry a value.
                 let blank = match &v {
                     Value::Null => true,
                     Value::String(s) => s.is_empty(),
@@ -476,8 +458,7 @@ fn render_tokens(toks: &[Tok], ctx: &mut Value, item: Option<&Value>, state: &mu
             continue;
         }
         if BLOCK_OPENERS.iter().any(|k| tag == &format!("#{k}")) {
-            // A block directive with no spec cannot be read: keep the whole block, closer included
-            // (templates.md: a block that cannot be read keeps its whole block, body included).
+            // A block directive with no spec cannot be read: keep the whole block, closer included (templates.md: a block that cannot be read keeps its whole block, body included).
             // Handling it here is also what stops the closer being swallowed by the skip rule below.
             let b = take_block(toks, i);
             note(state, tag, "kept verbatim (unreadable directive)");
@@ -525,8 +506,7 @@ fn render_tokens(toks: &[Tok], ctx: &mut Value, item: Option<&Value>, state: &mu
                     (text, 0)
                 }
             };
-            // `@more` belongs to *this* loop, so it is written only once the body has run: a nested
-            // `each` sets its own, and the tail after `{{/each}}` must read this level's count.
+            // `@more` belongs to *this* loop, so it is written only once the body has run: a nested `each` sets its own, and the tail after `{{/each}}` must read this level's count.
             state.more = more;
             out.push_str(&text);
             i = b.next;
@@ -568,8 +548,8 @@ fn render_tokens(toks: &[Tok], ctx: &mut Value, item: Option<&Value>, state: &mu
     out
 }
 
-/// `{{> path}}`: render another `info.<path>` template with the same context. Values are always
-/// data, so this is the only way one template pulls in another — explicitly.
+/// `{{> path}}`: render another `info.<path>` template with the same context.
+/// Values are always data, so this is the only way one template pulls in another — explicitly.
 fn include(path: &str, ctx: &mut Value, item: Option<&Value>, state: &mut State) -> Option<String> {
     if !is_path(path) || state.depth >= MAX_INCLUDE_DEPTH {
         return None;
@@ -609,11 +589,10 @@ const KNOWN_FILTERS: [&str; 1] = ["quote"];
 /// The `@`-names it defines.
 const KNOWN_AT_NAMES: [&str; 1] = ["more"];
 
-/// `psc tpl --lint`: static findings for one template. Each line names the offending tag; an
-/// empty result means the template is well-formed. Lint the *joined* text, since a block may open
-/// in one line of the `info` list and close in another.
-/// The `.`/`@` checks every path shares — as a plain tag or inside a directive's spec: a `.`-path
-/// needs an enclosing `each`, and an `@`-name must be one the renderer defines.
+/// `psc tpl --lint`: static findings for one template.
+/// Each line names the offending tag; an empty result means the template is well-formed.
+/// Lint the *joined* text, since a block may open in one line of the `info` list and close in another.
+/// The `.`/`@` checks every path shares — as a plain tag or inside a directive's spec: a `.`-path needs an enclosing `each`, and an `@`-name must be one the renderer defines.
 fn lint_path_shape(path: &str, open: &[String], out: &mut Vec<String>) {
     if path.starts_with('.') && !open.iter().any(|k| k == "each") {
         out.push(format!("{path} — no enclosing `#each`"));
@@ -713,16 +692,15 @@ mod tests {
         render(&Value::String(tpl.to_string()), ctx, "")
     }
 
-    /// An unclosed block has no closer to find: the whole rest of the template is emitted
-    /// verbatim (templates.md: never silently dropped), never sliced out of range.
+    /// An unclosed block has no closer to find: the whole rest of the template is emitted verbatim (templates.md: never silently dropped), never sliced out of range.
     #[test]
     fn unclosed_block_renders_its_source_instead_of_panicking() {
         assert_eq!(r("{{#if .X}}body", &json!({})), "{{#if .X}}body");
         assert_eq!(r("a{{#each .Rows}}row", &json!({})), "a{{#each .Rows}}row");
     }
 
-    /// `or` takes the first alternative that is present *and non-empty*: an empty container
-    /// says nothing, so the chain moves on. `0` and `false` carry a value and must stop it.
+    /// `or` takes the first alternative that is present *and non-empty*: an empty container says nothing, so the chain moves on.
+    /// `0` and `false` carry a value and must stop it.
     #[test]
     fn or_skips_blank_alternatives_including_empty_containers() {
         let t = "[{{#if A or B}}yes{{/if}}]";
@@ -799,12 +777,10 @@ mod tests {
         assert_eq!(r("{{N}}", &json!({"N": true})), "1");
         assert_eq!(r("{{N}}", &json!({"N": false})), "0");
         // A container is data like any other value: printed as-is (JSON), with or without a filter.
-        // Rendering it empty without a filter but as JSON with one was the inconsistency this pins
-        // shut — the test's own name said `value_text` while its assertions said `""`.
+        // Rendering it empty without a filter but as JSON with one was the inconsistency this pins shut — the test's own name said `value_text` while its assertions said `""`.
         assert_eq!(r("{{N}}", &json!({"N": [1, 2]})), "[1,2]");
         assert_eq!(r("{{N}}", &json!({"N": {"a": 1}})), r#"{"a":1}"#);
-        // The filter sees that same text; a container's JSON has no surrounding whitespace, so
-        // `quote` is a no-op on it (it exists for padded scalars, which it does quote).
+        // The filter sees that same text; a container's JSON has no surrounding whitespace, so `quote` is a no-op on it (it exists for padded scalars, which it does quote).
         assert_eq!(r("{{N|quote}}", &json!({"N": [1, 2]})), "[1,2]");
         assert_eq!(r("{{N|quote}}", &json!({"N": " a "})), "\" a \"");
     }
@@ -927,8 +903,7 @@ mod tests {
 
     #[test]
     fn an_unevaluable_block_keeps_its_whole_text() {
-        // A directive whose path cannot be resolved (here `.` with no current item) keeps its
-        // block verbatim: the body must never disappear.
+        // A directive whose path cannot be resolved (here `.` with no current item) keeps its block verbatim: the body must never disappear.
         assert_eq!(
             r("[{{#if .X}}body{{/if}}]", &json!({})),
             "[{{#if .X}}body{{/if}}]"
@@ -946,8 +921,7 @@ mod tests {
             r("{{#each Rows}}{{#each .Vals}}{{.}}{{/each}}{{/each}}", &ctx),
             "xy"
         );
-        // A truthy condition takes the body even when that body renders empty; a missing field
-        // is what falls to `else`.
+        // A truthy condition takes the body even when that body renders empty; a missing field is what falls to `else`.
         assert_eq!(
             r(
                 "{{#each Rows}}{{#if .Vals}}yes{{else}}none{{/if}}{{/each}}",
@@ -980,8 +954,7 @@ mod tests {
 
     #[test]
     fn a_value_is_data_and_never_a_template() {
-        // The one boundary worth holding: what a lookup produces is text, so a tip or a remote
-        // description containing braces is printed, not interpreted.
+        // The one boundary worth holding: what a lookup produces is text, so a tip or a remote description containing braces is printed, not interpreted.
         assert_eq!(
             r("{{Tip}}", &json!({"Tip": "{{NotAPath}}"})),
             "{{NotAPath}}"
@@ -1096,9 +1069,8 @@ mod tests {
         );
     }
 
-    /// A directive spec that is not a path cannot be read, so the whole block renders literally —
-    /// closer included. It used to be taken as a path, so the lookup missed and the body fell to the
-    /// `else` branch (or vanished) with nothing to explain it.
+    /// A directive spec that is not a path cannot be read, so the whole block renders literally — closer included.
+    /// It used to be taken as a path, so the lookup missed and the body fell to the `else` branch (or vanished) with nothing to explain it.
     #[test]
     fn an_unreadable_each_spec_keeps_the_whole_block() {
         let ctx = json!({"A": ["x", "y"]});
@@ -1112,9 +1084,8 @@ mod tests {
         );
     }
 
-    /// A known directive with no spec at all is the same kind of unreadable block. It used to emit
-    /// the opener literally and then swallow the closer (the closer matched the "skip closers" rule),
-    /// so the output was neither the source nor a render.
+    /// A known directive with no spec at all is the same kind of unreadable block.
+    /// It used to emit the opener literally and then swallow the closer (the closer matched the "skip closers" rule), so the output was neither the source nor a render.
     #[test]
     fn a_spec_less_directive_keeps_the_whole_block_too() {
         let ctx = json!({"A": 1});
@@ -1123,8 +1094,7 @@ mod tests {
         assert_eq!(lint("{{#if}}x{{/if}}"), vec!["#if — needs a path"]);
     }
 
-    /// `@more` belongs to the loop whose tail reads it: a nested capped `each` must not leave its own
-    /// count behind for the outer `{{/each}}`.
+    /// `@more` belongs to the loop whose tail reads it: a nested capped `each` must not leave its own count behind for the outer `{{/each}}`.
     #[test]
     fn at_more_belongs_to_the_enclosing_loop() {
         let ctx = json!({"Outer": [{"Inner": ["a", "b", "c"]}, {"Inner": []}]});

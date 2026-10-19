@@ -10,9 +10,7 @@ const USAGE: &str = "usage: psc-menu <input.json> --result <output.json>";
 static RESULT_PATH: OnceLock<std::path::PathBuf> = OnceLock::new();
 
 /// Persist the built items back into the host's input file, which `app::run` then re-reads.
-/// A failure here must reach `build_error`, never be swallowed: the file would keep the host's
-/// original `items: []`, `app::run` would return a plain `cancel`, and the host would have no
-/// way to tell why the menu did not open.
+/// A failure here must reach `build_error`, never be swallowed: the file would keep the host's original `items: []`, `app::run` would return a plain `cancel`, and the host would have no way to tell why the menu did not open.
 fn write_build_result<T: serde::Serialize>(path: &str, input: &T) -> Result<(), String> {
     let json =
         serde_json::to_string(input).map_err(|e| format!("failed to encode build result: {e}"))?;
@@ -83,9 +81,7 @@ fn main() -> ExitCode {
 
     let _ = RESULT_PATH.set(std::path::PathBuf::from(&result_path));
     std::panic::set_hook(Box::new(|info| {
-        // The release profile sets `panic = "abort"`, so `TermGuard::drop` never runs: put the
-        // terminal back here (raw mode off, cursor shown, alternate screen left) before aborting,
-        // or the user's shell is left looking dead until they run `reset`.
+        // The release profile sets `panic = "abort"`, so `TermGuard::drop` never runs: put the terminal back here (raw mode off, cursor shown, alternate screen left) before aborting, or the user's shell is left looking dead until they run `reset`.
         psc_engine::menu::app::restore_terminal();
         if let Some(path) = RESULT_PATH.get() {
             let out = model::Output::error(format!("panic in menu: {info}"));
@@ -100,11 +96,9 @@ fn main() -> ExitCode {
         panic!("intentional panic-test");
     }
 
-    // Build mode: when the host passes a manifest build context instead of items, build the
-    // candidates here so the menu runs in a single process call. A build failure is reported
-    // via an error result (never silently cancelled) so the host can surface it.
-    // The keepalive variant also returns the hook session (VM + lazy callbacks) for
-    // on-selection evaluation during the menu; `None` without hooks or on cache hits.
+    // Build mode: when the host passes a manifest build context instead of items, build the candidates here so the menu runs in a single process call.
+    // A build failure is reported via an error result (never silently cancelled) so the host can surface it.
+    // The keepalive variant also returns the hook session (VM + lazy callbacks) for on-selection evaluation during the menu; `None` without hooks or on cache hits.
     let mut build_error: Option<String> = None;
     let mut hook_session: Option<psc_engine::engine::hooks::HookSession> = None;
     if let Ok(text) = std::fs::read_to_string(&input_path) {
@@ -129,9 +123,7 @@ fn main() -> ExitCode {
                                 .iter()
                                 .map(|it| lua_to_model_item(it, &switch_sym, &stay_sym))
                                 .collect();
-                            // `=`-attached value: the menu shows bare values, but the host
-                            // replaces the whole word, so prefix the option head back
-                            // (`--format=` + `json`) for the inserted text only.
+                            // `=`-attached value: the menu shows bare values, but the host replaces the whole word, so prefix the option head back (`--format=` + `json`) for the inserted text only.
                             apply_value_prefix(&mut input.items, &ctx);
                             if input.initial_filter.is_none() {
                                 input.initial_filter = ctx
@@ -150,9 +142,8 @@ fn main() -> ExitCode {
                 }
             }
 
-            // Items mode (a host's own candidate list): fill the filter from the pending word,
-            // exactly as build mode does from its context. `with_initial_filter` ignores a filter
-            // that matches nothing, so a path slot — whose items display leaves — opens unfiltered.
+            // Items mode (a host's own candidate list): fill the filter from the pending word, exactly as build mode does from its context.
+            // `with_initial_filter` ignores a filter that matches nothing, so a path slot — whose items display leaves — opens unfiltered.
             if input.build.is_none() && input.initial_filter.is_none() {
                 if !input.treat_last_as_complete {
                     if let Some(last) = input.arg_tokens.last() {
@@ -162,8 +153,7 @@ fn main() -> ExitCode {
                     }
                 }
                 if input.initial_filter.is_some() {
-                    // Rewrite like the build branch: keeps the modes symmetric and lets a suite
-                    // read back what the engine decided.
+                    // Rewrite like the build branch: keeps the modes symmetric and lets a suite read back what the engine decided.
                     if let Ok(json) = serde_json::to_string(&input) {
                         let _ = std::fs::write(&input_path, json);
                     }
@@ -200,8 +190,8 @@ fn main() -> ExitCode {
     }
 }
 
-/// Smoke test for CI: parse a bundled sample, build state, exercise filters
-/// and layout. No terminal is touched.
+/// Smoke test for CI: parse a bundled sample, build state, exercise filters and layout.
+/// No terminal is touched.
 fn self_test() -> Result<(), String> {
     let input: model::Input =
         serde_json::from_str(SAMPLE_INPUT).map_err(|e| format!("sample parse: {e}"))?;

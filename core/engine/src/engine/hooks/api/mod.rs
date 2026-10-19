@@ -1,5 +1,5 @@
-//! Shared helpers, the independent `psc.env`, and module-level re-exports of the `psc.*`
-//! capability groups (run / fs / formats / items). Contract: `design/hooks.md` §5.
+//! Shared helpers, the independent `psc.env`, and module-level re-exports of the `psc.*` capability groups (run / fs / formats / items).
+//! Contract: `design/hooks.md` §5.
 
 mod formats;
 mod fs;
@@ -9,8 +9,7 @@ mod run;
 use mlua::{Lua, Table, Value};
 
 /// Coerce a Lua value to a string using `tostring` semantics (numbers/bools included).
-/// Returns `None` for `nil` or un-coercible values — a nil argument to a `psc.*` API must
-/// never crash the hook, it just yields "no result" (see `design/hooks.md` §nil-safety).
+/// Returns `None` for `nil` or un-coercible values — a nil argument to a `psc.*` API must never crash the hook, it just yields "no result" (see `design/hooks.md` §nil-safety).
 pub(crate) fn coerce_string_opt(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     Ok(lua.coerce_string(v)?.map(|s| s.to_string_lossy()))
 }
@@ -18,8 +17,8 @@ pub(crate) fn coerce_string_opt(lua: &Lua, v: Value) -> mlua::Result<Option<Stri
 pub(crate) use super::LuaItem;
 use super::{LazyEntry, LazyField};
 /// Resolve a tip value to text: a plain string is used as-is; a **localized table**
-/// `{ ["en-US"] = "...", ["zh-CN"] = "..." }` picks the entry matching `language`
-/// (fallback `"en-US"`, then the first entry). Nil/other → None.
+/// `{ ["en-US"] = "...", ["zh-CN"] = "..." }` picks the entry matching `language` (fallback `"en-US"`, then the first entry).
+/// Nil/other → None.
 pub(crate) fn resolve_localized(
     lua: &Lua,
     tip: Option<Value>,
@@ -48,9 +47,8 @@ pub(crate) fn resolve_localized(
     }
 }
 
-/// Resolve a usage/example value: a plain string is used as-is; a `{ cmd, desc }`
-/// object renders as `cmd  # desc` (just `cmd` without desc, dropped without cmd) —
-/// mirroring the static manifest's object entries. Nil/other → None.
+/// Resolve a usage/example value: a plain string is used as-is; a `{ cmd, desc }` object renders as `cmd  # desc` (just `cmd` without desc, dropped without cmd) — mirroring the static manifest's object entries.
+/// Nil/other → None.
 pub(crate) fn resolve_usage_example(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     match v {
         Value::Nil => Ok(None),
@@ -75,17 +73,14 @@ pub(crate) fn resolve_usage_example(lua: &Lua, v: Value) -> mlua::Result<Option<
         _ => Ok(coerce_string_opt(lua, v)?),
     }
 }
-/// Take a lock, recovering from poisoning: a worker that panicked while holding it poisons the
-/// mutex, and `lock().unwrap()` would then panic every later access — one worker's death turning
-/// into a cascade. The panic still propagates at scope exit (see `parallel_map`); the slots fill.
+/// Take a lock, recovering from poisoning: a worker that panicked while holding it poisons the mutex, and `lock().unwrap()` would then panic every later access — one worker's death turning into a cascade.
+/// The panic still propagates at scope exit (see `parallel_map`); the slots fill.
 fn lock_recover<T>(m: &std::sync::Mutex<T>) -> std::sync::MutexGuard<'_, T> {
     m.lock().unwrap_or_else(|e| e.into_inner())
 }
 
 /// Bounded worker-pool parallelism: call `f` on each input, results in input order (std threads, no deps).
-/// A panic in `f` propagates at scope exit (the worker threads are joined there), aborting the
-/// call — callers pass non-panicking closures (IO reads returning `Result`/`Option`), so this is
-/// acceptable; every slot is always written by its worker before the scope returns.
+/// A panic in `f` propagates at scope exit (the worker threads are joined there), aborting the call — callers pass non-panicking closures (IO reads returning `Result`/`Option`), so this is acceptable; every slot is always written by its worker before the scope returns.
 fn parallel_map<T: Sync, R: Send, F: Fn(&T) -> R + Sync>(inputs: &[T], f: F) -> Vec<R> {
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::Mutex;
@@ -124,8 +119,7 @@ mod tests_lock_recover {
 
     #[test]
     fn a_poisoned_lock_is_recovered_not_panicked_on() {
-        // A worker that panics while holding the mutex poisons it; `lock().unwrap()` then panicked
-        // on every later access, so one worker's death cascaded through the rest.
+        // A worker that panics while holding the mutex poisons it; `lock().unwrap()` then panicked on every later access, so one worker's death cascaded through the rest.
         let m = std::sync::Mutex::new(0);
         let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
             let _held = m.lock().unwrap();
@@ -213,11 +207,8 @@ pub(crate) fn items_to_table(lua: &Lua, items: &[LuaItem]) -> mlua::Result<Table
 
 /// Items returned by Lua → Rust completion items.
 /// The external contract is `name`; `text` is an internal field and must not appear in Lua land.
-/// `usage`/`example` accept the same `{ cmd, desc }` objects as the manifest (see
-/// `resolve_usage_example`), since direct `completions` table ops bypass `psc.add`.
-/// A `tip`/`usage`/`example` holding a function is NOT resolved here — it is collected
-/// into `lazy` (keyed by item text; positions shift under order-sort) for on-selection
-/// evaluation by the menu session, and reads back as empty.
+/// `usage`/`example` accept the same `{ cmd, desc }` objects as the manifest (see `resolve_usage_example`), since direct `completions` table ops bypass `psc.add`.
+/// A `tip`/`usage`/`example` holding a function is NOT resolved here — it is collected into `lazy` (keyed by item text; positions shift under order-sort) for on-selection evaluation by the menu session, and reads back as empty.
 pub(crate) fn table_to_items(
     lua: &Lua,
     t: &Table,
@@ -279,9 +270,7 @@ pub(crate) fn table_to_items(
     Ok(out)
 }
 
-/// Read one description field: a function value registers a lazy entry (reads back
-/// as empty); anything else follows the existing conversion (strings as-is,
-/// `{ cmd, desc }` objects for usage/example, error otherwise).
+/// Read one description field: a function value registers a lazy entry (reads back as empty); anything else follows the existing conversion (strings as-is, `{ cmd, desc }` objects for usage/example, error otherwise).
 fn take_lazy_or_string(
     lua: &Lua,
     item: &Table,

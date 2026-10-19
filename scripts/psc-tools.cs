@@ -1,9 +1,6 @@
 // Compiled at runtime via Add-Type by scripts/*.ps1 (no build step required).
 //
-// SortCheck: read-only check whether a parsed manifest is already in the exact
-//   form sort-json.ps1's rebuild produces. A null verdict must GUARANTEE that:
-//   when in doubt, report a violation — falling back to the rebuild only costs
-//   time, while a wrong "canonical" skips necessary writes.
+// SortCheck: read-only check whether a parsed manifest is already in the exact form sort-json.ps1's rebuild produces. A null verdict must GUARANTEE that: when in doubt, report a violation — falling back to the rebuild only costs time, while a wrong "canonical" skips necessary writes.
 // Diff: structural/translation differ for compare-json.ps1.
 namespace PscTools {
     using System;
@@ -12,8 +9,7 @@ namespace PscTools {
     using System.Management.Automation;
     using System.Text.RegularExpressions;
 
-    // Canonicality checker for sort-json: returns null when the tree already has
-    // exactly the form the rebuild would produce, else a short reason string.
+    // Canonicality checker for sort-json: returns null when the tree already has exactly the form the rebuild would produce, else a short reason string.
     public static class SortCheck
     {
         static readonly string[] TopLevel = { "meta", "next", "option", "global_option", "config", "info" };
@@ -277,10 +273,8 @@ namespace PscTools {
         }
     }
 
-    // Structural/translation differ: walks both trees together and records every
-    // difference (missing/extra items, type mismatches, value diffs, untranslated
-    // text, usage-rule violations). Input trees come from ConvertFrom-Json
-    // -AsHashtable; issue order follows the trees' natural enumeration order.
+    // Structural/translation differ: walks both trees together and records every difference (missing/extra items, type mismatches, value diffs, untranslated text, usage-rule violations). 
+    // Input trees come from ConvertFrom-Json -AsHashtable; issue order follows the trees' natural enumeration order.
     public sealed class DiffIssue
     {
         public string Path;
@@ -387,15 +381,13 @@ namespace PscTools {
             return null;
         }
 
-        // Comparison is strict 1:1: values are compared exactly as parsed, with no
-        // implicit coercion between arrays, objects and scalars.
+        // Comparison is strict 1:1: values are compared exactly as parsed, with no implicit coercion between arrays, objects and scalars.
         static object NormalizeValue(object value, string key)
         {
             return value;
         }
 
-        // Audit helper: reports structural fields whose parsed value is not an
-        // array (next / option / global_option / config / alias).
+        // Audit helper: reports structural fields whose parsed value is not an array (next / option / global_option / config / alias).
         public static List<string> ScanNonArrayStructurals(object root, string label)
         {
             var found = new List<string>();
@@ -569,9 +561,7 @@ namespace PscTools {
 
                 var currentPath = path.Length > 0 ? path + " > " + keyStr : keyStr;
                 var childSkip = skipValueCheck || (Opts.CompletionName == "psc" && keyStr != "name");
-                // `info` is declared an open hook-data object: the schema puts no
-                // name-uniqueness contract on it, so arrays inside it are ordinary
-                // data and must not be held to the manifest item rules.
+                // `info` is declared an open hook-data object: the schema puts no name-uniqueness contract on it, so arrays inside it are ordinary data and must not be held to the manifest item rules.
                 var childOpen = openData || keyStr == "info";
 
                 CompareValue(baseVal, targetVal, currentPath, keyStr, childSkip, childOpen);
@@ -699,10 +689,8 @@ namespace PscTools {
         static void TestDuplicates(IList arr, string path, string sideLabel)
         {
             if (arr == null || arr.Count < 2) return;
-            // Menu rows are expanded from every display spelling (name + each
-            // alias), so a collision on any spelling shows twice. Track all
-            // spellings, not just name (e.g. `--file` with alias `-F` plus a
-            // standalone `-F` node, or name == alias within one item).
+            // Menu rows are expanded from every display spelling (name + each alias), so a collision on any spelling shows twice.
+            // Track all spellings, not just name (e.g. `--file` with alias `-F` plus a standalone `-F` node, or name == alias within one item).
             var seen = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var item in arr)
             {

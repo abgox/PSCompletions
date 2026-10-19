@@ -1,5 +1,4 @@
-//! Post-operation library diff + psc self-heal: after add/update/init, diff the pre-operation
-//! index snapshot against the fresh one and persist `temp/change.json`.
+//! Post-operation library diff + psc self-heal: after add/update/init, diff the pre-operation index snapshot against the fresh one and persist `temp/change.json`.
 
 use crate::data::{Index, LibraryChanges, Settings};
 use crate::net::{
@@ -20,9 +19,8 @@ pub fn psc_completion_present(completions_dir: &str) -> bool {
             .exists()
 }
 
-/// Re-fetch the psc completion (remote index + files) when its files are missing, restoring
-/// the module's `info` templates and management completions. Best-effort: an offline failure
-/// is tolerated because every later `psc init` (each session / menu start) retries it.
+/// Re-fetch the psc completion (remote index + files) when its files are missing, restoring the module's `info` templates and management completions.
+/// Best-effort: an offline failure is tolerated because every later `psc init` (each session / menu start) retries it.
 pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data_dir: &str) {
     let urls = resolve_urls(settings);
     // The index is fetched from the index branch first; content files stay on main.
@@ -44,8 +42,7 @@ pub fn restore_psc_completion(settings_path: &str, settings: &mut Settings, data
 }
 
 /// Fetch the newest remote module version (first URL that returns a parseable `module/version.json`).
-/// The CLI does not compare versions — it records whatever it fetched; the module compares the
-/// value against its installed version at render time (replaces the background job / env var).
+/// The CLI does not compare versions — it records whatever it fetched; the module compares the value against its installed version at render time (replaces the background job / env var).
 pub fn fetch_module_version(settings: &Settings) -> Option<String> {
     let urls = resolve_urls(settings);
     for u in urls {
@@ -68,10 +65,7 @@ pub fn fetch_module_version(settings: &Settings) -> Option<String> {
     None
 }
 
-/// Pure post-operation diff: compute `added`/`removed`/`renamed`/`update` from the fresh index
-/// and the installed settings, folding in the renames already executed during this command
-/// (they no longer appear in the post-state diff — the old name is gone from settings — so
-/// without them a rename would be misreported as added+removed).
+/// Pure post-operation diff: compute `added`/`removed`/`renamed`/`update` from the fresh index and the installed settings, folding in the renames already executed during this command (they no longer appear in the post-state diff — the old name is gone from settings — so without them a rename would be misreported as added+removed).
 pub fn compute_post_changes(
     data_dir: &str,
     settings: &Settings,
@@ -103,8 +97,7 @@ pub fn compute_post_changes(
         .iter()
         .filter(|n| !old_list.contains(n))
         .filter(|n| !rename_vals.contains(*n))
-        // Names this command just operated on got their own per-item result lines;
-        // reporting them again as "new to the library" is pure noise.
+        // Names this command just operated on got their own per-item result lines; reporting them again as "new to the library" is pure noise.
         .filter(|n| !operated.contains(n))
         .cloned()
         .collect();
@@ -142,12 +135,9 @@ pub fn compute_post_changes(
     changes
 }
 
-/// After an add/update completes, refresh temp/change.json (update/added/removed/renamed/module)
-/// by diffing the pre-operation index snapshot against the fresh one, and record the remote module
-/// version. Runs synchronously AFTER the operation so a completion this command just touched is
-/// not reported as needing an update; `old_list` is captured before `download_list` overwrites the
-/// cache. On a fetch failure the existing `module` value is preserved (don't drop a pending notice
-/// just because one check hit the network and another didn't).
+/// After an add/update completes, refresh temp/change.json (update/added/removed/renamed/module) by diffing the pre-operation index snapshot against the fresh one, and record the remote module version.
+/// Runs synchronously AFTER the operation so a completion this command just touched is not reported as needing an update; `old_list` is captured before `download_list` overwrites the cache.
+/// On a fetch failure the existing `module` value is preserved (don't drop a pending notice just because one check hit the network and another didn't).
 pub fn record_post_check(
     data_dir: &str,
     settings: &Settings,
@@ -181,8 +171,7 @@ mod tests {
     use super::*;
     use crate::data::Settings;
 
-    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path
-    // would let one test's cleanup clobber another's fixtures.
+    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path would let one test's cleanup clobber another's fixtures.
     fn test_base() -> std::path::PathBuf {
         use std::sync::atomic::{AtomicU64, Ordering};
         static COUNTER: AtomicU64 = AtomicU64::new(0);
@@ -227,8 +216,7 @@ mod tests {
         index.update.insert("bar".to_string(), "v1".to_string());
         let old_list = vec!["foo".to_string()];
 
-        // Without the executed_renames parameter the post-state diff would report
-        // added=["bar"] + removed=["foo"]; the merge must turn it into a single rename.
+        // Without the executed_renames parameter the post-state diff would report added=["bar"] + removed=["foo"]; the merge must turn it into a single rename.
         let changes = compute_post_changes(
             data_dir,
             &settings,
@@ -286,8 +274,7 @@ mod tests {
 
     #[test]
     fn record_post_check_writes_last_check_even_offline() {
-        // last_check drives the menu's stale-update hint: it must land in change.json on
-        // every post-check, including when the module-version fetch fails (offline).
+        // last_check drives the menu's stale-update hint: it must land in change.json on every post-check, including when the module-version fetch fails (offline).
         let base = test_base();
         let data_dir = base.to_str().unwrap();
         std::fs::create_dir_all(format!("{data_dir}/completions/foo")).unwrap();
@@ -324,8 +311,7 @@ mod tests {
 
     #[test]
     fn operated_names_are_not_reported_as_added() {
-        // `add xxx` right when xxx lands in the fresh index: the per-item result
-        // line already told the user, so the library diff must not report it again.
+        // `add xxx` right when xxx lands in the fresh index: the per-item result line already told the user, so the library diff must not report it again.
         let base = test_base();
         let data_dir = base.to_str().unwrap();
         let settings = Settings {

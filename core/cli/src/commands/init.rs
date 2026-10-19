@@ -20,9 +20,8 @@ pub fn cmd_init(
     result_file: Option<&str>,
     out: &Out,
 ) -> ExitCode {
-    // Internal command: the module passes only the global flags, so anything left over is a wrong
-    // invocation — a usage error, not a silent success. `init` has no `--json` form (its payload
-    // goes to `--result`), so the message goes to stdout and the exit code carries the verdict.
+    // Internal command: the module passes only the global flags, so anything left over is a wrong invocation — a usage error, not a silent success.
+    // `init` has no `--json` form (its payload goes to `--result`), so the message goes to stdout and the exit code carries the verdict.
     if !args.is_empty() {
         out.line(&crate::messages::msg_cli(
             &settings.language(),
@@ -68,17 +67,14 @@ pub fn cmd_init(
         }
     }
 
-    // The psc completion is the module's own: it carries the `info` templates and the
-    // management completions. Install always bundles it; if its files are gone (a wiped
-    // data dir or a partial deletion) re-fetch it so the init payload is not missing info.
-    // This is the only network path in `init` — it fires solely in that extreme case; an
-    // offline failure is tolerated because every later `psc init` retries it.
+    // The psc completion is the module's own: it carries the `info` templates and the management completions.
+    // Install always bundles it; if its files are gone (a wiped data dir or a partial deletion) re-fetch it so the init payload is not missing info.
+    // This is the only network path in `init` — it fires solely in that extreme case; an offline failure is tolerated because every later `psc init` retries it.
     if !psc_completion_present(completions_dir) {
         restore_psc_completion(settings_path, settings, data_dir);
     }
 
-    // Sorted by completion name so a legacy trigger collision (two completions
-    // claiming the same word) always resolves to the same owner on every machine.
+    // Sorted by completion name so a legacy trigger collision (two completions claiming the same word) always resolves to the same owner on every machine.
     // New collisions are rejected at write time.
     // The order is the claim order: later claims overwrite earlier ones, so the last claim wins.
     let names: Vec<&String> = settings.alias.keys().collect();
@@ -92,8 +88,7 @@ pub fn cmd_init(
     }
 
     // `list` = known completions from the local completions.json index (stub `psc` when absent).
-    // Re-read the file: `init`'s psc restore may have just downloaded it (it was absent at
-    // startup), so the `index` loaded in main() would be stale here.
+    // Re-read the file: `init`'s psc restore may have just downloaded it (it was absent at startup), so the `index` loaded in main() would be stale here.
     let index_json = format!("{data_dir}/temp/completions.json");
     let index_list: Vec<String> = Index::load(&index_json)
         .map(|i| i.remote_names())
@@ -125,10 +120,8 @@ pub fn cmd_init(
     });
     let text = serde_json::to_string(&result).unwrap_or_default();
     if let Some(path) = result_file {
-        // The init JSON is large (psc `info` templates); write to a file so the module can
-        // read it without console width wrapping corrupting the payload.
-        // A swallowed failure here would hand the host a missing file while the exit code said
-        // success, so it is reported like the settings save above.
+        // The init JSON is large (psc `info` templates); write to a file so the module can read it without console width wrapping corrupting the payload.
+        // A swallowed failure here would hand the host a missing file while the exit code said success, so it is reported like the settings save above.
         if let Err(e) = std::fs::write(path, text) {
             out.line(&format!("error: {e}"));
             return ExitCode::FAILURE;

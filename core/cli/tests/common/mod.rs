@@ -1,5 +1,4 @@
-//! Helpers shared by the CLI contract tests: the fixture data dir, the binary runner and the
-//! JSON parsing they both need.
+//! Helpers shared by the CLI contract tests: the fixture data dir, the binary runner and the JSON parsing they both need.
 
 #![allow(dead_code, unused_imports)]
 
@@ -14,8 +13,7 @@ pub fn bin() -> &'static str {
     env!("CARGO_BIN_EXE_psc")
 }
 
-/// The one place a port is opened: `127.0.0.1:0` makes the OS pick a free one, so tests never
-/// collide and no fixed port exists anywhere in the suite.
+/// The one place a port is opened: `127.0.0.1:0` makes the OS pick a free one, so tests never collide and no fixed port exists anywhere in the suite.
 fn serve(routes: Arc<Mutex<HashMap<String, String>>>) -> String {
     let listener = TcpListener::bind(("127.0.0.1", 0)).unwrap();
     let port = listener.local_addr().unwrap().port();
@@ -51,8 +49,7 @@ fn serve(routes: Arc<Mutex<HashMap<String, String>>>) -> String {
     format!("http://127.0.0.1:{port}")
 }
 
-/// A route table keyed by path without the leading `/` (`"completions.json"`) — the form
-/// `demo_routes` uses; a leading `/` is tolerated.
+/// A route table keyed by path without the leading `/` (`"completions.json"`) — the form `demo_routes` uses; a leading `/` is tolerated.
 fn route_map(routes: Vec<(&'static str, String)>) -> HashMap<String, String> {
     routes
         .into_iter()
@@ -60,14 +57,13 @@ fn route_map(routes: Vec<(&'static str, String)>) -> HashMap<String, String> {
         .collect()
 }
 
-/// Minimal HTTP/1.1 server serving canned JSON bodies per exact path. Detached thread;
-/// routes live for the whole test process (fine for tests).
+/// Minimal HTTP/1.1 server serving canned JSON bodies per exact path.
+/// Detached thread; routes live for the whole test process (fine for tests).
 pub fn spawn_server(routes: Vec<(&'static str, String)>) -> String {
     serve(Arc::new(Mutex::new(route_map(routes))))
 }
 
-/// `spawn_server`, but the route table comes back too, so a test can rewrite it between
-/// calls — e.g. bump the remote index from v2 to v3 and re-run `update`.
+/// `spawn_server`, but the route table comes back too, so a test can rewrite it between calls — e.g. bump the remote index from v2 to v3 and re-run `update`.
 pub fn spawn_server_mut(
     routes: Vec<(&'static str, String)>,
 ) -> (String, Arc<Mutex<HashMap<String, String>>>) {
@@ -76,8 +72,7 @@ pub fn spawn_server_mut(
     (url, map)
 }
 
-/// Fixture data dir: one installed completion (`git`) plus a settings file whose source
-/// URL points at the local server, so every network touch stays offline.
+/// Fixture data dir: one installed completion (`git`) plus a settings file whose source URL points at the local server, so every network touch stays offline.
 pub fn make_data(tag: &str, url: &str) -> PathBuf {
     use std::sync::atomic::{AtomicU64, Ordering};
     static COUNTER: AtomicU64 = AtomicU64::new(0);
@@ -120,8 +115,7 @@ pub fn parse_json(s: &str) -> serde_json::Value {
     serde_json::from_str(s).unwrap_or_else(|e| panic!("stdout must be valid JSON ({e}): {s}"))
 }
 
-/// The envelope says the run succeeded: `ok` is true and, when the payload is a per-item
-/// collection, every item succeeded too.
+/// The envelope says the run succeeded: `ok` is true and, when the payload is a per-item collection, every item succeeded too.
 pub fn v_ok(v: &serde_json::Value) -> bool {
     if v["ok"] != true {
         return false;

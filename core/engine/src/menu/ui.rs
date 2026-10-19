@@ -14,8 +14,7 @@ const STRUCT_C: Color = Color::DarkGray;
 
 /// Left track: marks focus together with the selection marker (the selected row turns red).
 const TRACK: char = '\u{258D}'; // ▍
-/// Arrow left of the selected item (double focus marker; no right `>` — it would
-/// collide with predict symbols like `~`).
+/// Arrow left of the selected item (double focus marker; no right `>` — it would collide with predict symbols like `~`).
 const SELECT_L: char = '>';
 /// Divider line between the count and the list.
 const DIVIDER: char = '\u{2500}'; // ─
@@ -32,8 +31,8 @@ const TIP_BOX_V: char = '\u{2502}'; // │
 
 /// Parse a color string into a `ratatui::style::Color`.
 ///
-/// Supports named colors (`red`, `cyan`, …), 256-color index (`0`–`255`), and
-/// 24-bit RGB (`#rrggbb`).  Falls back to the given default on unrecognized input.
+/// Supports named colors (`red`, `cyan`, …), 256-color index (`0`–`255`), and 24-bit RGB (`#rrggbb`).
+/// Falls back to the given default on unrecognized input.
 fn parse_color(s: &str, fallback: Color) -> Color {
     match s.to_lowercase().as_str() {
         "red" => Color::Red,
@@ -77,8 +76,7 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg
     let max_content = (term.buffer.w as usize).saturating_sub(content_x as usize);
 
     let below = !state.is_show_above;
-    // Below the cursor, blank the whole viewport underneath so PSReadLine's command-history
-    // prediction list (rendered below the menu) never shows through.
+    // Below the cursor, blank the whole viewport underneath so PSReadLine's command-history prediction list (rendered below the menu) never shows through.
     let viewport_bottom = match &term.window {
         Some(w) => (w.top + w.h) as u16,
         None => term.buffer.h,
@@ -171,9 +169,8 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg
         max_content,
     );
     let count_text = format!("{}{}", cur_text, tail_text);
-    // While the selected row's peek is in flight, withhold the static symbol: the peek
-    // (which runs the hook) may correct it, and showing a value that is about to change
-    // would make the symbol visibly flip. Once the peek result lands, it is shown.
+    // While the selected row's peek is in flight, withhold the static symbol: the peek (which runs the hook) may correct it, and showing a value that is about to change would make the symbol visibly flip.
+    // Once the peek result lands, it is shown.
     let sel_symbol = if state.peek_pending {
         ""
     } else {
@@ -298,10 +295,9 @@ pub fn render(frame: &mut Frame, state: &mut MenuState, term: &TerminalInfo, cfg
         draw_tip(buf, state, term);
     }
 
-    // Wrap-up: reset the diff option on cells with real content so the AlwaysUpdate left
-    // by clear_rect does not force-resend text (incl. URL links) every frame → the terminal
-    // redraws repeatedly and VSCode's link underline flickers. Blank cells keep
-    // AlwaysUpdate (force-cleared every frame, erasing stale terminal content under the menu).
+    // Wrap-up: reset the diff option on cells with real content so the AlwaysUpdate left by clear_rect does not force-resend text (incl.
+    // URL links) every frame → the terminal redraws repeatedly and VSCode's link underline flickers.
+    // Blank cells keep AlwaysUpdate (force-cleared every frame, erasing stale terminal content under the menu).
     for cell in buf.content.iter_mut() {
         if cell.symbol() != " " {
             cell.set_diff_option(CellDiffOption::None);
@@ -421,8 +417,7 @@ fn draw_tip(buf: &mut Buffer, state: &mut MenuState, term: &TerminalInfo) {
     let box_h = visible + 2;
     let box_rect = (box_x, box_top, box_w as u16, box_h as u16);
 
-    // Clear the box + the gap rows to the menu with whole blank rows (stale content must
-    // not peek through beside a narrow box).
+    // Clear the box + the gap rows to the menu with whole blank rows (stale content must not peek through beside a narrow box).
     let (clear_y, clear_h) = if state.tip_placement == TipPlacement::Above {
         (box_top as i32, box_h as i32 + TIP_GAP)
     } else {
@@ -523,10 +518,8 @@ fn draw_tip(buf: &mut Buffer, state: &mut MenuState, term: &TerminalInfo) {
 
 /// Fill a rect with spaces + the given background (background coverage, see `design/menu.md`).
 ///
-/// Spaces are marked `AlwaysUpdate`: ratatui's first-frame diff skips default cells, so plain
-/// spaces would never erase the stale terminal content underneath. Only the **first** cover of
-/// a cell marks `AlwaysUpdate`; afterwards the normal diff applies (no per-frame resend, which
-/// made VSCode re-detect links and flicker the hover underline).
+/// Spaces are marked `AlwaysUpdate`: ratatui's first-frame diff skips default cells, so plain spaces would never erase the stale terminal content underneath.
+/// Only the **first** cover of a cell marks `AlwaysUpdate`; afterwards the normal diff applies (no per-frame resend, which made VSCode re-detect links and flicker the hover underline).
 fn clear_rect(
     buf: &mut Buffer,
     rect: (u16, u16, u16, u16),
@@ -609,8 +602,7 @@ fn put_item_line(
     }
 }
 
-/// A row in the description container: split at the `# explanation` separator before
-/// wrapping, so continuation lines keep their corresponding color.
+/// A row in the description container: split at the `# explanation` separator before wrapping, so continuation lines keep their corresponding color.
 #[derive(Debug, Clone)]
 enum TipRow {
     /// Section header (`[Usage]` / `[Description]` / `[Example]`, bold structural color).
@@ -623,8 +615,7 @@ enum TipRow {
     Split(String, String),
 }
 
-/// Wrap a line into `(start byte, text)` rows at `width`, so each row can be classified
-/// as cmd or desc by its separator position.
+/// Wrap a line into `(start byte, text)` rows at `width`, so each row can be classified as cmd or desc by its separator position.
 fn wrap_rows(line: &str, width: usize) -> Vec<(usize, String)> {
     let mut out = Vec::new();
     let mut cur = String::new();
@@ -662,8 +653,7 @@ fn wrap_tip(lines: &[(bool, String)], width: usize) -> Vec<TipRow> {
                     out.push(TipRow::Section(row));
                 }
             } else if let Some(sep) = find_desc_separator(seg) {
-                // Classify each wrapped row relative to the separator: before → default,
-                // after → secondary, crossing → an in-row split.
+                // Classify each wrapped row relative to the separator: before → default, after → secondary, crossing → an in-row split.
                 for (start, row) in wrap_rows(seg, width) {
                     let end = start + row.len();
                     if end <= sep {
@@ -686,10 +676,8 @@ fn wrap_tip(lines: &[(bool, String)], width: usize) -> Vec<TipRow> {
     out
 }
 
-/// Find the `# explanation` separator position in a usage/example row (returns the byte
-/// index of the `#` itself). Rule: at least 2 spaces before the `#` and 1 space after
-/// (the engine joins `{cmd, desc}` as `cmd  # desc`), so a `#` that is bare or wrapped by
-/// a single space inside command text is not misjudged as a separator.
+/// Find the `# explanation` separator position in a usage/example row (returns the byte index of the `#` itself).
+/// Rule: at least 2 spaces before the `#` and 1 space after (the engine joins `{cmd, desc}` as `cmd  # desc`), so a `#` that is bare or wrapped by a single space inside command text is not misjudged as a separator.
 fn find_desc_separator(line: &str) -> Option<usize> {
     let bytes = line.as_bytes();
     for i in 0..bytes.len() {
@@ -731,8 +719,7 @@ mod tests {
         assert_eq!(find_desc_separator("cmd  #desc"), None);
     }
 
-    /// A `#RRGGBB` value is 7 *bytes* only when it is 7 ASCII chars: `#a€bc` is 7 bytes but
-    /// 5 chars, so byte slicing would split the `€` and panic on the first rendered frame.
+    /// A `#RRGGBB` value is 7 *bytes* only when it is 7 ASCII chars: `#a€bc` is 7 bytes but 5 chars, so byte slicing would split the `€` and panic on the first rendered frame.
     #[test]
     fn parse_color_falls_back_on_multibyte_input() {
         assert_eq!(parse_color("#a\u{20ac}bc", Color::Red), Color::Red);

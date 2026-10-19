@@ -1,9 +1,7 @@
 //! `psc --self-update` — say how this copy was installed, and what updates it.
 //!
-//! The text is the `psc` completion's own `info.self_update.*` templates, rendered by the one
-//! `{{…}}` implementation (`tpl`), so the advice is localized like every other user-facing string.
-//! The detection itself lives in `install`; this file only reports it — except for the one case the
-//! CLI can act on, a script install, where it fetches the installer fresh and runs it.
+//! The text is the `psc` completion's own `info.self_update.*` templates, rendered by the one `{{…}}` implementation (`tpl`), so the advice is localized like every other user-facing string.
+//! The detection itself lives in `install`; this file only reports it — except for the one case the CLI can act on, a script install, where it fetches the installer fresh and runs it.
 
 use std::process::ExitCode;
 
@@ -36,16 +34,14 @@ pub fn cmd_self_update(
         .dir()
         .and_then(install::installed_version)
         .unwrap_or_default();
-    // The newest version is whatever the last library check recorded; only when that is missing
-    // (the file is written by add/update, not by init) ask the source itself.
+    // The newest version is whatever the last library check recorded; only when that is missing (the file is written by add/update, not by init) ask the source itself.
     let latest = LibraryChanges::load(data_dir).module.unwrap_or_default();
     let latest = if latest.is_empty() {
         crate::postcheck::fetch_module_version(settings).unwrap_or_default()
     } else {
         latest
     };
-    // The installer's one-liner for an unmanaged copy comes from the same source prefix the
-    // completions do, so a mirror the user configured is honoured here too.
+    // The installer's one-liner for an unmanaged copy comes from the same source prefix the completions do, so a mirror the user configured is honoured here too.
     let installer_url = crate::net::resolve_urls(settings)
         .first()
         .map(|base| format!("curl -fsSL {}/install.sh | sh", base.trim_end_matches('/')))
@@ -53,8 +49,7 @@ pub fn cmd_self_update(
     let commands = install::update_commands(&method, &installer_url);
     let kind = method.kind();
 
-    // A script install is the one we own: fetch the installer itself, so a changed script takes
-    // effect on the next run (the installed copy never carries one), and run it.
+    // A script install is the one we own: fetch the installer itself, so a changed script takes effect on the next run (the installed copy never carries one), and run it.
     let mut ran = false;
     if matches!(method, Method::Script { .. }) {
         match run_installer(settings, data_dir) {
@@ -103,9 +98,8 @@ pub fn cmd_self_update(
         "Commands": commands.join("\n"),
     });
     let text = crate::tpl::render_with_root(&template, &ctx, "", Some(&info));
-    // Color is the caller's decision, exactly as in `psc tpl`: the hosts render into a captured
-    // stdout, where a TTY test answers "no" and silently drops the color the templates carry. The
-    // trailing reset closes the last tag, which no template line closes itself.
+    // Color is the caller's decision, exactly as in `psc tpl`: the hosts render into a captured stdout, where a TTY test answers "no" and silently drops the color the templates carry.
+    // The trailing reset closes the last tag, which no template line closes itself.
     print!("{}", Out { color: true }.render(&text));
     print!("\x1b[0m");
     ExitCode::SUCCESS

@@ -18,8 +18,8 @@ fn config_get(settings: &Settings, key: &str) -> String {
         .unwrap_or_default()
 }
 
-/// The items a `config` listing answers with, optionally narrowed to one group or one key. A
-/// reset reports the same items, so this is the one place the shape is built.
+/// The items a `config` listing answers with, optionally narrowed to one group or one key.
+/// A reset reports the same items, so this is the one place the shape is built.
 fn config_items(
     settings: &Settings,
     group: Option<&str>,
@@ -38,8 +38,7 @@ fn config_items(
         .collect()
 }
 
-/// The raw stored value: numbers stay numbers and an absent key is `null` — the display form
-/// (`value_str`'s quoting) belongs to the text mode only.
+/// The raw stored value: numbers stay numbers and an absent key is `null` — the display form (`value_str`'s quoting) belongs to the text mode only.
 fn raw_value(settings: &Settings, key: &str) -> serde_json::Value {
     settings
         .config
@@ -60,8 +59,7 @@ pub fn cmd_config(
     if args.iter().any(|a| a == "--reset") {
         let defaults = default_config(&settings.language());
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
-        // A reset takes at most `<group> <key>`: more is a parameter-count error, not a silent
-        // no-op (the chain below has no fallback branch).
+        // A reset takes at most `<group> <key>`: more is a parameter-count error, not a silent no-op (the chain below has no fallback branch).
         if params.len() > 2 {
             return crate::validate::too_many_params(out, lang, json);
         }
@@ -153,8 +151,7 @@ pub fn cmd_config(
             return fail(out, "io", &format!("error: {e}"), json, false);
         }
         if json {
-            // A reset answers the same shape the read of that scope answers with — the resulting
-            // state (design/json.md §8).
+            // A reset answers the same shape the read of that scope answers with — the resulting state (design/json.md §8).
             if params.len() <= 1 {
                 let entries = config_items(settings, params.first().map(|p| p.as_str()), None);
                 let data = json!({ "config": entries });
@@ -185,13 +182,11 @@ pub fn cmd_config(
     }
     let group = args[0].as_str();
     if !CONFIG_GROUPS.contains(&group) {
-        // Name the offending token and the valid set: a bare "invalid subcommand" leaves the
-        // reader guessing, and this text is the interface in the shells.
+        // Name the offending token and the valid set: a bare "invalid subcommand" leaves the reader guessing, and this text is the interface in the shells.
         let msg = msg_cli(lang, "invalid_subcommand_named")
             .replace("{{Token}}", group)
             .replace("{{Valid}}", &CONFIG_GROUPS.join(", "));
-        // The same two parts also travel structured, so a machine caller reads them instead of
-        // parsing a localized message (design/json.md §4).
+        // The same two parts also travel structured, so a machine caller reads them instead of parsing a localized message (design/json.md §4).
         let details = json!({ "token": group, "valid": CONFIG_GROUPS });
         return fail_details(out, "invalid_subcommand", &msg, Some(details), json, true);
     }
@@ -234,8 +229,7 @@ pub fn cmd_config(
         }
         return ExitCode::SUCCESS;
     }
-    // `config <group> <key> <value>` takes exactly three arguments: anything after the value is a
-    // usage error, exactly as the reset form rejects it.
+    // `config <group> <key> <value>` takes exactly three arguments: anything after the value is a usage error, exactly as the reset form rejects it.
     if args.len() > 3 {
         return crate::validate::too_many_params(out, lang, json);
     }
@@ -248,8 +242,7 @@ pub fn cmd_config(
             true,
         );
     };
-    // What this write answers with: the item a read of that key returns, plus what the value was
-    // before — `null` when the key had none (design/json.md §8).
+    // What this write answers with: the item a read of that key returns, plus what the value was before — `null` when the key had none (design/json.md §8).
     let old = raw_value(settings, key);
     // A corrupt `config` (e.g. `{"config": 123}`) must not turn a set into a silent no-op.
     if !settings.config.is_object() {
@@ -281,8 +274,8 @@ pub fn cmd_config(
             )
         });
     if json {
-        // The item a read of that key answers with, plus what it was before. An unreviewed
-        // source's notice rides alongside it, so a caller can surface it without parsing prose.
+        // The item a read of that key answers with, plus what it was before.
+        // An unreviewed source's notice rides alongside it, so a caller can surface it without parsing prose.
         let mut data = json!({ "key": key, "value": value, "old": old });
         if untrusted {
             data["warning"] = json!(msg_cli(lang, "url_untrusted"));

@@ -24,11 +24,8 @@ pub fn lua_to_model_item(it: &hooks::LuaItem, switch_sym: &str, stay_sym: &str) 
     }
 }
 
-/// `=`-attached value (`--format=j<TAB>`) or separator-list value
-/// (`--exclude a,b<TAB>`): the menu lists bare values, but the host replaces
-/// the whole word — prefix the rebuild head back onto the inserted text only
-/// (display text stays bare). The head is the `=` head plus any completed
-/// list segments (`--format=`, `a,`, `--format=a,`); empty for plain values.
+/// `=`-attached value (`--format=j<TAB>`) or separator-list value (`--exclude a,b<TAB>`): the menu lists bare values, but the host replaces the whole word — prefix the rebuild head back onto the inserted text only (display text stays bare).
+/// The head is the `=` head plus any completed list segments (`--format=`, `a,`, `--format=a,`); empty for plain values.
 pub fn apply_value_prefix(items: &mut [model::Item], ctx: &completion::ResolvedContext) {
     let Some(p) = ctx.pending.as_ref() else {
         return;
@@ -74,8 +71,7 @@ pub struct CompleteInput {
     pub cwd: String,
     #[serde(default)]
     pub config: serde_json::Value,
-    /// Full global config (module `menu` group etc.), for build-stage switches like
-    /// `enable_cache`.
+    /// Full global config (module `menu` group etc.), for build-stage switches like `enable_cache`.
     #[serde(default)]
     pub global_config: serde_json::Value,
     /// Module-level data (psc completion only): live config + menu colors.
@@ -84,8 +80,7 @@ pub struct CompleteInput {
     /// Order-file paths, present when history sorting is enabled.
     #[serde(default)]
     pub order: Option<CompleteOrder>,
-    /// Directories: the psc completion's own tree, the result cache and the log dir (the last two
-    /// are module temp dirs; empty disables caching / logging).
+    /// Directories: the psc completion's own tree, the result cache and the log dir (the last two are module temp dirs; empty disables caching / logging).
     #[serde(default)]
     pub dir: BuildDirs,
     /// Files: the psc completion's settings and its index.
@@ -175,8 +170,7 @@ pub fn build_psc_data(input: &CompleteInput) -> serde_json::Value {
             data[key] = v.clone();
         }
     }
-    // The completions directory is a protocol path now (`dir.completions`), but the hooks read it
-    // off the psc data they are handed — so the derived output keeps the name they know.
+    // The completions directory is a protocol path now (`dir.completions`), but the hooks read it off the psc data they are handed — so the derived output keeps the name they know.
     if !input.dir.completions.is_empty() {
         data["completions"] = serde_json::json!(input.dir.completions);
     }
@@ -197,21 +191,15 @@ pub struct SortInput {
     pub treat_last_as_complete: bool,
 }
 
-/// Whether the completion targets the first token of the input line (root-command name or
-/// path): only then does the shared global command-frequency file (`_commands.json`) apply. Once
-/// the command is complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), the candidates
-/// are the command's own subcommands/arguments and must rank against the per-command order file
-/// only. The shared path-leaf frequency (`_paths.json`) is not depth-gated, but matches only
-/// explicit path candidates (text containing `/` or `\`, e.g. `cd .\src\<Tab>`) — bare words
-/// never consult it.
+/// Whether the completion targets the first token of the input line (root-command name or path): only then does the shared global command-frequency file (`_commands.json`) apply.
+/// Once the command is complete (`npm <Tab>`) or more tokens follow (`git st<Tab>`), the candidates are the command's own subcommands/arguments and must rank against the per-command order file only.
+/// The shared path-leaf frequency (`_paths.json`) is not depth-gated, but matches only explicit path candidates (text containing `/` or `\`, e.g. `cd .\src\<Tab>`) — bare words never consult it.
 pub fn sort_input_is_root(input: &SortInput) -> bool {
     input.tokens.len() == 1 && !input.treat_last_as_complete
 }
 
-/// Rank the candidate items using the history-order files: per-command order, (root completions
-/// only) the global command frequency, and — for path-shaped candidates at any depth — the
-/// global path-leaf frequency. Items without a score keep their original relative order
-/// (stable sort).
+/// Rank the candidate items using the history-order files: per-command order, (root completions only) the global command frequency, and — for path-shaped candidates at any depth — the global path-leaf frequency.
+/// Items without a score keep their original relative order (stable sort).
 pub fn apply_order_sort(
     items: &mut [hooks::LuaItem],
     order: &Option<CompleteOrder>,
@@ -219,9 +207,8 @@ pub fn apply_order_sort(
 ) {
     let Some(o) = order else { return };
     let cmd_order = read_order_map(&o.cmd_order);
-    // `_paths.json` keys by path-leaf name and matches only path-shaped candidates (an explicit
-    // path completion such as `cd .\src\<Tab>`), so it is not gated on `use_shared`. Bare words
-    // never consult it — otherwise unrelated path history leaks into subcommand ranking.
+    // `_paths.json` keys by path-leaf name and matches only path-shaped candidates (an explicit path completion such as `cd .\src\<Tab>`), so it is not gated on `use_shared`.
+    // Bare words never consult it — otherwise unrelated path history leaks into subcommand ranking.
     // Only the root-command frequency (`_commands.json`) must not leak into subcommand ranking.
     let paths_order = read_order_map(&o.paths_order);
     let commands_order = if use_shared {
@@ -264,17 +251,11 @@ pub fn item_score(
     paths_order: &HashMap<String, i64>,
     commands_order: &HashMap<String, i64>,
 ) -> i64 {
-    // Mirror the writer's key normalization (order.rs `normalize_key`): surrounding quotes
-    // are stripped so a quoted candidate (`"#FFA500"`) matches the quote-stripped key from
-    // a quoted history token (`'#ffa500'`); the path branch mirrors `path_segments`.
-    // Case: the writer keeps the original spelling, so the exact spelling is tried
-    // first (`-D` history promotes `-D`, not `-d`); the lowercased fallback is the
-    // same case-folding the filter uses, so differently-cased spellings of the
-    // same key still match.
+    // Mirror the writer's key normalization (order.rs `normalize_key`): surrounding quotes are stripped so a quoted candidate (`"#FFA500"`) matches the quote-stripped key from a quoted history token (`'#ffa500'`); the path branch mirrors `path_segments`.
+    // Case: the writer keeps the original spelling, so the exact spelling is tried first (`-D` history promotes `-D`, not `-d`); the lowercased fallback is the same case-folding the filter uses, so differently-cased spellings of the same key still match.
     let text = it.text.trim_matches('"').trim_matches('\'');
     if text.contains('/') || text.contains('\\') {
-        // A trailing separator (a directory candidate like `.\src\`) is ignored so the
-        // directory's own name is the leaf — matching how `_paths.json` keys them.
+        // A trailing separator (a directory candidate like `.\src\`) is ignored so the directory's own name is the leaf — matching how `_paths.json` keys them.
         let leaf = text
             .trim_end_matches(['/', '\\'])
             .rsplit(['/', '\\'])
@@ -285,8 +266,7 @@ pub fn item_score(
         }
         return paths_order.get(&leaf.to_lowercase()).copied().unwrap_or(0);
     }
-    // Bare words never consult `_paths.json`: a subcommand sharing a name with a directory in
-    // path history (e.g. npm `test` vs a `test\` folder) must not inherit its weight.
+    // Bare words never consult `_paths.json`: a subcommand sharing a name with a directory in path history (e.g. npm `test` vs a `test\` folder) must not inherit its weight.
     if let Some(s) = cmd_order.get(text) {
         return *s;
     }
@@ -303,17 +283,17 @@ pub fn item_score(
     0
 }
 
-/// Build candidate items from a manifest context: read manifest → build tree → resolve → run
-/// hooks → order-sort. Returns the items plus the resolved context. Used by the menu's build mode.
+/// Build candidate items from a manifest context: read manifest → build tree → resolve → run hooks → order-sort.
+/// Returns the items plus the resolved context.
+/// Used by the menu's build mode.
 pub fn build_candidate_items(
     input: &CompleteInput,
 ) -> Result<(Vec<hooks::LuaItem>, completion::ResolvedContext), String> {
     build_candidate_items_inner(input, false).map(|(items, ctx, _)| (items, ctx))
 }
 
-/// Build-mode entry for the interactive menu: like `build_candidate_items` but keeps
-/// the hook VM + lazy callbacks alive for on-selection evaluation. Peeks and headless
-/// callers use the plain variant (session dropped); only the top-level menu build keeps it.
+/// Build-mode entry for the interactive menu: like `build_candidate_items` but keeps the hook VM + lazy callbacks alive for on-selection evaluation.
+/// Peeks and headless callers use the plain variant (session dropped); only the top-level menu build keeps it.
 pub fn build_candidate_items_keepalive(
     input: &CompleteInput,
 ) -> Result<
@@ -347,9 +327,9 @@ fn build_candidate_items_inner(
     let static_items: Vec<hooks::LuaItem> =
         resolved.items.iter().map(hooks::LuaItem::from).collect();
 
-    // Result cache: covers both static resolve and hook output (the built items). The signature
-    // covers everything that can change the result; a hit within 10s of the cache file's
-    // creation reuses it. hooks_mtime is part of the signature only when a hook actually exists.
+    // Result cache: covers both static resolve and hook output (the built items).
+    // The signature covers everything that can change the result; a hit within 10s of the cache file's creation reuses it.
+    // hooks_mtime is part of the signature only when a hook actually exists.
     let cache_enabled = input
         .global_config
         .get("enable_cache")
@@ -379,10 +359,8 @@ fn build_candidate_items_inner(
     let (final_items, mut session) = if input.hooks {
         if let Some(hook_path) = hooks_path(&input.manifest) {
             if let Ok(script) = std::fs::read_to_string(&hook_path) {
-                // Merge config layers: global (with built-in defaults) → manifest
-                // defaults → per-completion overrides.  The host already merged
-                // built-in defaults into global_config, so we just extract its flat
-                // keys (skipping sub-objects like "completion"/"alias").
+                // Merge config layers: global (with built-in defaults) → manifest defaults → per-completion overrides.
+                // The host already merged built-in defaults into global_config, so we just extract its flat keys (skipping sub-objects like "completion"/"alias").
                 let mut merged_config = serde_json::Map::new();
                 if let Some(global) = input.global_config.as_object() {
                     for (k, v) in global {
@@ -443,9 +421,7 @@ fn build_candidate_items_inner(
                     config,
                     manifest: json.clone(),
                     data: build_psc_data(input),
-                    // Tip language follows the manifest variant actually loaded (the
-                    // host resolves it per-completion first, then global): static and
-                    // hook-produced tips always agree.
+                    // Tip language follows the manifest variant actually loaded (the host resolves it per-completion first, then global): static and hook-produced tips always agree.
                     language: manifest_language(&input.manifest).unwrap_or_else(|| {
                         input
                             .global_config
@@ -461,8 +437,7 @@ fn build_candidate_items_inner(
                     Ok((items, sess)) => (items, Some(sess)),
                     Err(e) => {
                         eprintln!("hook error: {e}");
-                        // Surface hook failures in the debug log so authors can inspect them
-                        // (the menu still falls back to the static items).
+                        // Surface hook failures in the debug log so authors can inspect them (the menu still falls back to the static items).
                         let path = context
                             .path
                             .iter()
@@ -488,10 +463,8 @@ fn build_candidate_items_inner(
         (static_items, None)
     };
 
-    // Separator-list continuation (`--exclude a,<TAB>`): every item here is a
-    // value of the same slot — drop already-used segments (hooks-added ones
-    // included) and take no auto space. Static items already carry both from
-    // resolve; this covers what hooks added or rebuilt.
+    // Separator-list continuation (`--exclude a,<TAB>`): every item here is a value of the same slot — drop already-used segments (hooks-added ones included) and take no auto space.
+    // Static items already carry both from resolve; this covers what hooks added or rebuilt.
     let mut final_items = final_items;
     if let Some(p) = resolved.context.pending.as_ref() {
         if p.list_sep.is_some() {
@@ -502,18 +475,15 @@ fn build_candidate_items_inner(
         }
     }
 
-    // Prune lazy callbacks of filtered-out rows against the FINAL list (repeat
-    // filtering already ran inside the hook; separator filtering ran above), then
-    // decide the cache from what actually survives.
+    // Prune lazy callbacks of filtered-out rows against the FINAL list (repeat filtering already ran inside the hook; separator filtering ran above), then decide the cache from what actually survives.
     if let Some(sess) = session.as_mut() {
         sess.prune_to(&final_items);
     }
     let has_lazy = session.as_ref().is_some_and(|s| s.has_pending());
 
     if let Some(sig) = cache_sig {
-        // Lazy hooks are never cached: their tips resolve after the menu opens, which a
-        // cache hit could never replay. Re-running is cheap by design (names only —
-        // the expensive reads moved into the callbacks).
+        // Lazy hooks are never cached: their tips resolve after the menu opens, which a cache hit could never replay.
+        // Re-running is cheap by design (names only — the expensive reads moved into the callbacks).
         if !has_lazy {
             cache_store(input, sig, &final_items);
         }
@@ -525,13 +495,10 @@ fn build_candidate_items_inner(
 }
 
 /// Peek where applying `candidate` at `input` lands.
-/// Returns `Some("switch")` if the landing is richer than the parent layer,
-/// `Some("stay")` if the landing menu is alive, `None` if the landing is
-/// dead (empty next menu).
+/// Returns `Some("switch")` if the landing is richer than the parent layer, `Some("stay")` if the landing menu is alive, `None` if the landing is dead (empty next menu).
 ///
 /// Parses the manifest from scratch on each call (backward-compatible entry point).
-/// Prefer `peek_predict_symbol_with_tree` when a pre-parsed tree is available
-/// (e.g. from the menu background peek thread) to avoid redundant manifest I/O.
+/// Prefer `peek_predict_symbol_with_tree` when a pre-parsed tree is available (e.g. from the menu background peek thread) to avoid redundant manifest I/O.
 pub fn peek_has_next(input: &CompleteInput, candidate: &str) -> bool {
     peek_predict_symbol(input, candidate).is_some()
 }
@@ -543,10 +510,8 @@ pub fn peek_predict_symbol(input: &CompleteInput, candidate: &str) -> Option<Str
     peek_predict_symbol_with_tree(input, candidate, &tree)
 }
 
-/// Like `peek_predict_symbol`, but uses a pre-parsed `Tree` for the fast path
-/// and global-option extraction, avoiding redundant manifest reads.
-/// The `build_candidate_items` slow path still reads the manifest internally
-/// (mitigated by the result cache).
+/// Like `peek_predict_symbol`, but uses a pre-parsed `Tree` for the fast path and global-option extraction, avoiding redundant manifest reads.
+/// The `build_candidate_items` slow path still reads the manifest internally (mitigated by the result cache).
 pub fn peek_predict_symbol_with_tree(
     input: &CompleteInput,
     candidate: &str,
@@ -555,10 +520,8 @@ pub fn peek_predict_symbol_with_tree(
     peek_predict_symbol_inner(input, candidate, tree, None)
 }
 
-/// Like `peek_predict_symbol_with_tree`, but with pre-computed parent items
-/// to avoid redundant `build_candidate_items` calls for every candidate.
-/// The caller is responsible for ensuring `parent_items` matches `input`
-/// (same `arg_tokens`, same `treat_last_as_complete`).
+/// Like `peek_predict_symbol_with_tree`, but with pre-computed parent items to avoid redundant `build_candidate_items` calls for every candidate.
+/// The caller is responsible for ensuring `parent_items` matches `input` (same `arg_tokens`, same `treat_last_as_complete`).
 pub(crate) fn peek_predict_symbol_with_tree_cached(
     input: &CompleteInput,
     candidate: &str,
@@ -616,21 +579,16 @@ fn peek_predict_symbol_inner(
             .map(|it| ambient_key(&it.text, it.is_option))
             .collect()
     };
-    // Exclude ambient items: `global_option` plus whatever the peek layer
-    // merely inherits (ancestor options bubbling down, or root `option` as
-    // the fallback source). Such items appear in both lists without opening
-    // a new layer, so they must not count as new or remaining (see
-    // design/completion.md).
+    // Exclude ambient items: `global_option` plus whatever the peek layer merely inherits (ancestor options bubbling down, or root `option` as the fallback source).
+    // Such items appear in both lists without opening a new layer, so they must not count as new or remaining (see design/completion.md).
     let mut globals: std::collections::HashSet<String> = tree
         .global_options
         .iter()
         .flat_map(|n| n.all_names().map(|a| ambient_key(a, Some(n.is_option))))
         .collect();
     if in_value_slot && stack.is_empty() {
-        // An option value at the root: the parent menu lists only value
-        // candidates, and consuming the value drops back to the root layer, so
-        // every root candidate (commands *and* options) is ambient here. A
-        // reset command layer is `stay`, never `switch` (design/completion.md §3).
+        // An option value at the root: the parent menu lists only value candidates, and consuming the value drops back to the root layer, so every root candidate (commands *and* options) is ambient here.
+        // A reset command layer is `stay`, never `switch` (design/completion.md §3).
         globals.extend(
             tree.next
                 .iter()
@@ -659,25 +617,16 @@ fn peek_predict_symbol_inner(
         return Some("switch".into());
     }
     // No new layer: check if staying in the same layer still has completions.
-    // A candidate gets "stay" when selecting it leaves the candidate list
-    // unchanged (i.e. the context doesn't shift).  This is true for option
-    // flags and dynamic values, but NOT for manifest commands — selecting
-    // a command removes its siblings from the list, so the context has moved.
-    // (The fast path above already returns "switch" for candidates with static
-    // candidates, so we don't re-check.)
-    // Landing is alive (non-empty, checked above) with nothing beyond the
-    // parent: flags, values and leaf commands alike keep the menu working.
-    // Only the landing matters here — never remainder composition, never
-    // the item kind. Ambient exclusion lives solely in the `has_new`
-    // computation above (it guards `switch` against ubiquitous items
-    // faking a new layer).
+    // A candidate gets "stay" when selecting it leaves the candidate list unchanged (i.e. the context doesn't shift).
+    // This is true for option flags and dynamic values, but NOT for manifest commands — selecting a command removes its siblings from the list, so the context has moved.
+    // (The fast path above already returns "switch" for candidates with static candidates, so we don't re-check.) Landing is alive (non-empty, checked above) with nothing beyond the parent: flags, values and leaf commands alike keep the menu working.
+    // Only the landing matters here — never remainder composition, never the item kind.
+    // Ambient exclusion lives solely in the `has_new` computation above (it guards `switch` against ubiquitous items faking a new layer).
     Some("stay".into())
 }
 
-/// Ambient comparison key: the same split `completion::Node::matches` uses — options compare
-/// case-sensitively, commands and values case-insensitively. The type comes from the manifest
-/// (`LuaItem::is_option`); only a hook-injected row that no node declares carries none, and the
-/// leading `-` is the only hint left for that row.
+/// Ambient comparison key: the same split `completion::Node::matches` uses — options compare case-sensitively, commands and values case-insensitively.
+/// The type comes from the manifest (`LuaItem::is_option`); only a hook-injected row that no node declares carries none, and the leading `-` is the only hint left for that row.
 fn ambient_key(text: &str, declared_option: Option<bool>) -> String {
     if declared_option.unwrap_or_else(|| text.starts_with('-')) {
         text.to_string()
@@ -691,18 +640,12 @@ fn has_static_candidates(node: &completion::Node) -> bool {
         || (node.option_is_array && !node.option.is_empty())
 }
 
-/// Walk `arg_tokens` (the typed command words after the command name) through the
-/// tree's command chain to find the deepest matching context node plus the full
-/// command stack. Commands push their node as the new context; options (bubbled
-/// or global) are consumed without changing the context, matching the same
-/// context-maintenance behaviour that `completion::resolve` uses.
+/// Walk `arg_tokens` (the typed command words after the command name) through the tree's command chain to find the deepest matching context node plus the full command stack.
+/// Commands push their node as the new context; options (bubbled or global) are consumed without changing the context, matching the same context-maintenance behaviour that `completion::resolve` uses.
 ///
-/// Also reports whether the input sits in an **option value slot** — the pending
-/// word belongs to an option that takes a value. That state has an empty command
-/// stack exactly like the root does, so `stack.is_empty()` alone cannot tell the
-/// two apart. Like `completion::resolve`, an unrecognized word does not move the
-/// context and does not stop the walk: whether some earlier word happened to be a
-/// defined command must not change how a later option is read.
+/// Also reports whether the input sits in an **option value slot** — the pending word belongs to an option that takes a value.
+/// That state has an empty command stack exactly like the root does, so `stack.is_empty()` alone cannot tell the two apart.
+/// Like `completion::resolve`, an unrecognized word does not move the context and does not stop the walk: whether some earlier word happened to be a defined command must not change how a later option is read.
 fn resolve_context_stack<'a>(
     tree: &'a completion::Tree,
     arg_tokens: &[String],
@@ -716,7 +659,8 @@ fn resolve_context_stack<'a>(
     let mut stack: Vec<&'a completion::Node> = Vec::new();
     let mut in_value_slot = false;
     for (i, token) in arg_tokens.iter().enumerate() {
-        // 1. Try the command chain (`next`).
+        // 1.
+        // Try the command chain (`next`).
         let next = if let Some(c) = ctx {
             c.next.iter().find(|n| n.matches(token))
         } else {
@@ -728,9 +672,10 @@ fn resolve_context_stack<'a>(
             in_value_slot = false;
             continue;
         }
-        // 2. Not a command — check if it's an option (bubbling → root → global).
-        //    Options don't switch context, so keep ctx and stack unchanged.
-        //    An `=`-attached word carries its value inline, so match on the head.
+        // 2.
+        // Not a command — check if it's an option (bubbling → root → global).
+        // Options don't switch context, so keep ctx and stack unchanged.
+        // An `=`-attached word carries its value inline, so match on the head.
         let head = completion::split_eq_token(token)
             .map(|(left, _)| left)
             .unwrap_or(token.as_str());
@@ -745,10 +690,11 @@ fn resolve_context_stack<'a>(
             in_value_slot = o.next_is_array || (o.option_is_array && !o.option.is_empty());
             continue;
         }
-        // 3. A free-form word. Inside a value slot it is that option's value;
-        //    outside one it is an unknown token at the current context. Either
-        //    way the context is unchanged — keep walking. The slot only stays
-        //    open while the word is still the one being typed.
+        // 3.
+        // A free-form word.
+        // Inside a value slot it is that option's value; outside one it is an unknown token at the current context.
+        // Either way the context is unchanged — keep walking.
+        // The slot only stays open while the word is still the one being typed.
         let pending_word = i + 1 == arg_tokens.len() && !treat_last_as_complete;
         if !(in_value_slot && pending_word) {
             in_value_slot = false;
@@ -757,16 +703,10 @@ fn resolve_context_stack<'a>(
     (ctx, stack, in_value_slot)
 }
 
-/// Find the node a candidate row came from: a **direct** child of the current
-/// context's `option`/`next` (or of the root tree when `ctx` is `None`), plus
-/// global options. Deliberately not recursive — a deeper node that happens to
-/// share the spelling is a *different* option, and borrowing its candidates
-/// would mislabel the row's landing (design/completion.md §3).
+/// Find the node a candidate row came from: a **direct** child of the current context's `option`/`next` (or of the root tree when `ctx` is `None`), plus global options.
+/// Deliberately not recursive — a deeper node that happens to share the spelling is a *different* option, and borrowing its candidates would mislabel the row's landing (design/completion.md §3).
 ///
-/// Options are searched before `next` so this agrees with the resolve walk
-/// (`find_option_node` first): a manifest that declares one name in both a `next`
-/// and an `option` array of the same node is a defect, and the two call sites must
-/// not disagree about which reading won.
+/// Options are searched before `next` so this agrees with the resolve walk (`find_option_node` first): a manifest that declares one name in both a `next` and an `option` array of the same node is a defect, and the two call sites must not disagree about which reading won.
 fn find_node_in_context<'a>(
     ctx: Option<&'a completion::Node>,
     tree: &'a completion::Tree,
@@ -800,8 +740,7 @@ pub fn hooks_path(manifest: &str) -> Option<String> {
         .map(|p| p.to_string_lossy().to_string())
 }
 
-/// Language variant of the loaded manifest (`<cmd>/language/<lang>.json` → `<lang>`);
-/// `None` when the path has no file stem (the caller falls back to global config).
+/// Language variant of the loaded manifest (`<cmd>/language/<lang>.json` → `<lang>`); `None` when the path has no file stem (the caller falls back to global config).
 pub fn manifest_language(manifest: &str) -> Option<String> {
     let stem = manifest.rsplit(['/', '\\']).next()?.strip_suffix(".json")?;
     if stem.is_empty() {
@@ -810,15 +749,13 @@ pub fn manifest_language(manifest: &str) -> Option<String> {
     Some(stem.to_string())
 }
 
-/// Result cache: a 10-second disk cache keyed by the completion context, so quickly re-opening
-/// the same menu reuses the built items (static resolve and/or hook output) instead of
-/// rebuilding them (scoop's ~600ms scan, etc.).
+/// Result cache: a 10-second disk cache keyed by the completion context, so quickly re-opening the same menu reuses the built items (static resolve and/or hook output) instead of rebuilding them (scoop's ~600ms scan, etc.).
 const CACHE_TTL: std::time::Duration = std::time::Duration::from_secs(10);
 
-/// A completion-context signature: everything that can change the built items. `hooks.lua`'s
-/// path is deliberately excluded (it is fixed per completion, already implied by `cmd`); its
-/// mtime IS included so an updated hook invalidates stale results. `manifest` includes the
-/// language variant (en-US vs zh-CN). Returns a fixed-size hash usable as a safe filename.
+/// A completion-context signature: everything that can change the built items.
+/// `hooks.lua`'s path is deliberately excluded (it is fixed per completion, already implied by `cmd`); its mtime IS included so an updated hook invalidates stale results.
+/// `manifest` includes the language variant (en-US vs zh-CN).
+/// Returns a fixed-size hash usable as a safe filename.
 pub fn hook_signature(input: &CompleteInput, manifest_mtime: u64, hooks_mtime: Option<u64>) -> u64 {
     use std::hash::{Hash, Hasher};
     let mut h = std::collections::hash_map::DefaultHasher::new();
@@ -835,16 +772,14 @@ pub fn hook_signature(input: &CompleteInput, manifest_mtime: u64, hooks_mtime: O
     input.config.to_string().hash(&mut h);
     // Global config (e.g. `language`, which hooks read for localized tips) can change the result.
     input.global_config.to_string().hash(&mut h);
-    // Module-level data files (psc completion: settings.json / completions.json) drive the
-    // dynamic lists; their mtime changes when the installed/remote completions change.
+    // Module-level data files (psc completion: settings.json / completions.json) drive the dynamic lists; their mtime changes when the installed/remote completions change.
     for path in psc_data_file_paths(input) {
         file_mtime_nanos(&path).hash(&mut h);
     }
     h.finish()
 }
 
-/// The module data files `build_psc_data` reads (`settings` / `completions_json` paths), used
-/// to invalidate the result cache when the installed/remote completion set changes.
+/// The module data files `build_psc_data` reads (`settings` / `completions_json` paths), used to invalidate the result cache when the installed/remote completion set changes.
 pub fn psc_data_file_paths(input: &CompleteInput) -> Vec<String> {
     [&input.file.settings, &input.file.completions]
         .iter()
@@ -864,7 +799,8 @@ pub fn file_mtime_nanos(path: &str) -> Option<u64> {
         })
 }
 
-/// Try to load the cached hook result for this context. Returns `Some(items)` on a hit.
+/// Try to load the cached hook result for this context.
+/// Returns `Some(items)` on a hit.
 pub fn cache_load(input: &CompleteInput, sig: u64) -> Option<Vec<hooks::LuaItem>> {
     if input.dir.cache.is_empty() {
         return None;
@@ -890,10 +826,9 @@ pub fn cache_load(input: &CompleteInput, sig: u64) -> Option<Vec<hooks::LuaItem>
     Some(items)
 }
 
-/// Delete every expired cache file in the directory (older than `CACHE_TTL`). Only the
-/// currently-hit file is removed lazily in `cache_load`; the rest would linger forever, so
-/// sweep them on each store. Expiry is judged by the file's `created` field (same rule as
-/// `cache_load`), not the filesystem mtime.
+/// Delete every expired cache file in the directory (older than `CACHE_TTL`).
+/// Only the currently-hit file is removed lazily in `cache_load`; the rest would linger forever, so sweep them on each store.
+/// Expiry is judged by the file's `created` field (same rule as `cache_load`), not the filesystem mtime.
 pub fn cache_cleanup(cache_dir: &str) {
     let dir = cache_dir.trim_end_matches(['/', '\\']);
     if dir.is_empty() {
@@ -916,10 +851,8 @@ pub fn cache_cleanup(cache_dir: &str) {
         if !is_json {
             continue;
         }
-        // A file that cannot be read back — truncated by a crash, or otherwise corrupt — can never
-        // expire on its own (`created` is what says so), so it would sit in the cache forever. An
-        // atomic write (`cache_store`) means a file is either complete or absent, so an unreadable
-        // one is safe to remove.
+        // A file that cannot be read back — truncated by a crash, or otherwise corrupt — can never expire on its own (`created` is what says so), so it would sit in the cache forever.
+        // An atomic write (`cache_store`) means a file is either complete or absent, so an unreadable one is safe to remove.
         let expired = match std::fs::read_to_string(&path)
             .ok()
             .and_then(|t| serde_json::from_str::<serde_json::Value>(&t).ok())
@@ -951,9 +884,8 @@ pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
     let Ok(text) = serde_json::to_string(&v) else {
         return;
     };
-    // Atomic: a reader (`cache_load`) must never see a half-written signature, and a crash
-    // mid-write must not leave one behind — the same reason `settings.json` goes through a tmp
-    // file. The tmp is cleaned up on either failure; a successful rename moves it away.
+    // Atomic: a reader (`cache_load`) must never see a half-written signature, and a crash mid-write must not leave one behind — the same reason `settings.json` goes through a tmp file.
+    // The tmp is cleaned up on either failure; a successful rename moves it away.
     let tmp = format!("{dir}/{sig}.json.{}.tmp", std::process::id());
     if std::fs::write(&tmp, text).is_err() || std::fs::rename(&tmp, &path).is_err() {
         let _ = std::fs::remove_file(&tmp);
@@ -964,26 +896,22 @@ pub fn cache_store(input: &CompleteInput, sig: u64, items: &[hooks::LuaItem]) {
 mod tests {
     use super::ambient_key;
 
-    /// The ambient key follows the manifest's declared type, not the spelling: a declared
-    /// option is case-sensitive even when its name has no leading `-`, and a declared command
-    /// is case-insensitive even when it does (`--self-update`). Only a hook-injected row that
-    /// no node declares has no type, and the `-` hint is all that is left for it.
+    /// The ambient key follows the manifest's declared type, not the spelling: a declared option is case-sensitive even when its name has no leading `-`, and a declared command is case-insensitive even when it does (`--self-update`).
+    /// Only a hook-injected row that no node declares has no type, and the `-` hint is all that is left for it.
     #[test]
     fn ambient_key_follows_the_declared_type_not_the_shape() {
         // Declared option, option-shaped name: case-sensitive.
         assert_eq!(ambient_key("--Foo", Some(true)), "--Foo");
         // Declared option with a non-`-` name (the manifest defect shape): still case-sensitive.
         assert_eq!(ambient_key("config", Some(true)), "config");
-        // Declared command that looks like an option: case-insensitive, so it never collides
-        // with the `-` heuristic and folds like every other command.
+        // Declared command that looks like an option: case-insensitive, so it never collides with the `-` heuristic and folds like every other command.
         assert_eq!(ambient_key("--SELF", Some(false)), "--self");
         // Undeclared (hook-injected) rows fall back to the shape.
         assert_eq!(ambient_key("--Foo", None), "--Foo");
         assert_eq!(ambient_key("Foo", None), "foo");
     }
 
-    /// The build context's `dir`/`file` are what `build_psc_data` reads: the index feeds `remote`
-    /// and the settings feed `list`/`alias`, and the completions directory reaches the hooks.
+    /// The build context's `dir`/`file` are what `build_psc_data` reads: the index feeds `remote` and the settings feed `list`/`alias`, and the completions directory reaches the hooks.
     #[test]
     fn build_psc_data_reads_the_named_files() {
         let dir = std::env::temp_dir().join(format!("psc-pscdata-{}", std::process::id()));
@@ -1086,8 +1014,7 @@ mod tests {
         cmd_order.insert("#ffa500".into(), 51);
         cmd_order.insert("black".into(), 40);
         let empty = HashMap::new();
-        // Quoted candidate (the manifest wraps color values in quotes) matches the
-        // quote-stripped key the writer stored from a quoted history token.
+        // Quoted candidate (the manifest wraps color values in quotes) matches the quote-stripped key the writer stored from a quoted history token.
         let quoted = hooks::LuaItem {
             text: "\"#FFA500\"".into(),
             ..Default::default()
@@ -1127,8 +1054,7 @@ mod tests {
         // Each spelling scores under its own key: `-D` history promotes `-D`, not `-d`.
         assert_eq!(item_score(&item("-D"), &cmd, &empty, &empty), 9);
         assert_eq!(item_score(&item("-d"), &cmd, &empty, &empty), 3);
-        // Case-folding: a key stored in one case still matches a candidate spelled
-        // in another (history `'#ffa500'` vs candidate `"#FFA500"`).
+        // Case-folding: a key stored in one case still matches a candidate spelled in another (history `'#ffa500'` vs candidate `"#FFA500"`).
         let mut folded: HashMap<String, i64> = HashMap::new();
         folded.insert("-d".into(), 5);
         assert_eq!(item_score(&item("-D"), &folded, &empty, &empty), 5);
@@ -1140,8 +1066,7 @@ mod tests {
         let mut paths: HashMap<String, i64> = HashMap::new();
         paths.insert("test".into(), 45);
         let empty = HashMap::new();
-        // A bare word (npm's `test` subcommand) must not inherit the shared path-leaf weight
-        // of a same-named directory in `_paths.json` — unscored → keeps manifest order.
+        // A bare word (npm's `test` subcommand) must not inherit the shared path-leaf weight of a same-named directory in `_paths.json` — unscored → keeps manifest order.
         let word = hooks::LuaItem {
             text: "test".into(),
             ..Default::default()
@@ -1193,11 +1118,8 @@ mod tests {
 
     #[test]
     fn peek_gives_stay_in_ambient_only_layer() {
-        // `menu` is a leaf: its candidates are the bubbled `--aaa`/`--bbb`
-        // (from `config`) plus `--help`. Applying `--aaa` lands in an
-        // alive menu, so the symbol is `stay` — `?` reports the landing
-        // only, never remainder composition, never the item kind
-        // (see design/completion.md).
+        // `menu` is a leaf: its candidates are the bubbled `--aaa`/`--bbb` (from `config`) plus `--help`.
+        // Applying `--aaa` lands in an alive menu, so the symbol is `stay` — `?` reports the landing only, never remainder composition, never the item kind (see design/completion.md).
         let dir = std::env::temp_dir().join(format!("psc-peek-test-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1233,9 +1155,7 @@ mod tests {
     #[test]
     fn peek_gives_stay_to_flag_beside_subcommands() {
         // npm-like root: `run`/`install` subcommands plus boolean flags.
-        // Applying `--aaa` stays in the root layer with `run`/`install`
-        // still reachable, so the async peek assigns `stay` — the static
-        // phase only fast-paths `switch` (see design/completion.md).
+        // Applying `--aaa` stays in the root layer with `run`/`install` still reachable, so the async peek assigns `stay` — the static phase only fast-paths `switch` (see design/completion.md).
         let dir = std::env::temp_dir().join(format!("psc-peek-stay-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1265,11 +1185,9 @@ mod tests {
 
     #[test]
     fn peek_gives_stay_to_global_flag_with_followups() {
-        // `npm --allow-file`-like: a global boolean flag. Applying it lands
-        // in an alive menu, so it is `stay` — at the root and in an
-        // ambient-only leaf alike. A leaf command lands in an alive
-        // ambient-only layer → `stay` as well; no symbol means a dead
-        // (empty) landing.
+        // `npm --allow-file`-like: a global boolean flag.
+        // Applying it lands in an alive menu, so it is `stay` — at the root and in an ambient-only leaf alike.
+        // A leaf command lands in an alive ambient-only layer → `stay` as well; no symbol means a dead (empty) landing.
         let dir = std::env::temp_dir().join(format!("psc-peek-global-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1399,9 +1317,8 @@ mod tests {
 
     #[test]
     fn lazy_hook_bypasses_result_cache() {
-        // A hook with lazy callbacks is never cached (a cache hit could not replay
-        // them), so every build re-runs it. Proved by counting hook executions via
-        // the append-only debug log; the same hook without lazy serves run 2 from cache.
+        // A hook with lazy callbacks is never cached (a cache hit could not replay them), so every build re-runs it.
+        // Proved by counting hook executions via the append-only debug log; the same hook without lazy serves run 2 from cache.
         use std::sync::atomic::{AtomicU64, Ordering};
         static SEQ: AtomicU64 = AtomicU64::new(0);
         let n = SEQ.fetch_add(1, Ordering::SeqCst);
@@ -1435,8 +1352,7 @@ mod tests {
             2,
             "lazy hook must re-run (no cache): {log}"
         );
-        // Control: rewriting the hook (new mtime, new signature) without lazy stores
-        // once and serves the second run from cache.
+        // Control: rewriting the hook (new mtime, new signature) without lazy stores once and serves the second run from cache.
         std::fs::write(
             dir.join("hooks.lua"),
             r#"psc.log("plain-ran"); psc.add({ name = "dyn" })"#,
@@ -1538,8 +1454,7 @@ mod tests {
                 .to_string(),
         )
         .unwrap();
-        // A corrupt file has no readable `created`, so it can never expire on its own: it must be
-        // cleaned by the same pass, or it sits in the cache forever.
+        // A corrupt file has no readable `created`, so it can never expire on its own: it must be cleaned by the same pass, or it sits in the cache forever.
         let corrupt = format!("{}/{}.json", dir.to_string_lossy(), 333u64);
         std::fs::write(&corrupt, "{ not json").unwrap();
         cache_cleanup(&dir.to_string_lossy());
@@ -1560,8 +1475,7 @@ mod tests {
 
     #[test]
     fn cache_store_writes_atomically_and_leaves_no_temp_file() {
-        // A reader must never see a half-written signature, so the write goes through a tmp file
-        // and a rename; a leftover tmp would mean that path is broken.
+        // A reader must never see a half-written signature, so the write goes through a tmp file and a rename; a leftover tmp would mean that path is broken.
         let dir = std::env::temp_dir().join("psc-cache-atomic");
         let _ = std::fs::remove_dir_all(&dir);
         std::fs::create_dir_all(&dir).unwrap();
@@ -1669,8 +1583,7 @@ mod tests {
             ..Default::default()
         };
 
-        // Non-root native fallback (`npm <Tab>`): `ls`/`list` must NOT pick up their
-        // root-command frequency; only `run` (npm's own order file) ranks first.
+        // Non-root native fallback (`npm <Tab>`): `ls`/`list` must NOT pick up their root-command frequency; only `run` (npm's own order file) ranks first.
         let mut items = vec![item("ls"), item("run"), item("list")];
         apply_order_sort(&mut items, &order, false);
         let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
@@ -1715,9 +1628,7 @@ mod tests {
             ..Default::default()
         };
 
-        // `cd <Tab>` (non-root: one completed token): bare dir-name candidates are not an
-        // explicit path completion — none picks up the shared `core` weight, so the native
-        // order is kept (stable).
+        // `cd <Tab>` (non-root: one completed token): bare dir-name candidates are not an explicit path completion — none picks up the shared `core` weight, so the native order is kept (stable).
         let mut items = vec![item("docs"), item("core"), item("assets")];
         apply_order_sort(&mut items, &order, false);
         let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
@@ -1727,8 +1638,7 @@ mod tests {
             "bare-word candidates never rank by shared path frequency"
         );
 
-        // `cd .\src\<Tab>` style: path-shaped candidates rank by leaf even after the command
-        // is complete.
+        // `cd .\src\<Tab>` style: path-shaped candidates rank by leaf even after the command is complete.
         let mut items = vec![item(".\\assets\\"), item(".\\core\\")];
         apply_order_sort(&mut items, &order, false);
         let texts: Vec<&str> = items.iter().map(|i| i.text.as_str()).collect();
@@ -1830,9 +1740,7 @@ mod tests {
 
     #[test]
     fn peek_judges_a_value_slot_landing_as_ambient() {
-        // At a separator-list tail the parent menu shows only value candidates
-        // (by design), so the landing — the root option layer reached after the
-        // value is consumed — must not read as "new fruit".
+        // At a separator-list tail the parent menu shows only value candidates (by design), so the landing — the root option layer reached after the value is consumed — must not read as "new fruit".
         let dir = std::env::temp_dir().join(format!("psc-peek-sep-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1861,8 +1769,8 @@ mod tests {
             file: BuildFiles::default(),
         };
 
-        // `a --exclude=aa,<Tab>`: the pending token is `aa,` (tail empty) and the
-        // row rebuilds to `--exclude=aa,bb`. Landing is the root menu.
+        // `a --exclude=aa,<Tab>`: the pending token is `aa,` (tail empty) and the row rebuilds to `--exclude=aa,bb`.
+        // Landing is the root menu.
         let attached = base(vec!["--exclude=aa,"], false);
         assert_eq!(
             peek_predict_symbol(&attached, "--exclude=aa,bb"),
@@ -1885,9 +1793,7 @@ mod tests {
             "command-prefixed landing"
         );
 
-        // An *undefined* leading word is just `unknown`: it must not change the
-        // answer, because whether some earlier word happened to be a defined
-        // command says nothing about how `--exclude=aa,` should be read.
+        // An *undefined* leading word is just `unknown`: it must not change the answer, because whether some earlier word happened to be a defined command says nothing about how `--exclude=aa,` should be read.
         for prefix in ["zzz", "not-a-command", "123"] {
             let unknown_prefix = base(vec![prefix, "--exclude=aa,"], false);
             assert_eq!(
@@ -1905,8 +1811,7 @@ mod tests {
             "space form behind an unknown word"
         );
 
-        // The first level, before any segment is typed: `a --exclude=<Tab>`
-        // offers both `aa` and `bb`, and both land on the root menu.
+        // The first level, before any segment is typed: `a --exclude=<Tab>` offers both `aa` and `bb`, and both land on the root menu.
         let first = base(vec!["--exclude="], false);
         assert_eq!(
             peek_predict_symbol(&first, "--exclude=aa"),
@@ -1928,10 +1833,9 @@ mod tests {
 
     #[test]
     fn peek_does_not_borrow_a_deeper_node_with_the_same_name() {
-        // Root `-m` is `--model` (no static candidates). A nested `upgrade`
-        // owns a *different* `-m` (`--method`) that does have values. The row
-        // being previewed is the root one, so its landing must be judged from
-        // the root node, not from the unrelated descendant.
+        // Root `-m` is `--model` (no static candidates).
+        // A nested `upgrade` owns a *different* `-m` (`--method`) that does have values.
+        // The row being previewed is the root one, so its landing must be judged from the root node, not from the unrelated descendant.
         let dir = std::env::temp_dir().join(format!("psc-peek-deep-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1962,8 +1866,7 @@ mod tests {
 
     #[test]
     fn peek_keeps_case_variant_options_distinct() {
-        // `-b` and `-B` are different options: the peek layer must not treat
-        // one as ambient merely because the other is already visible.
+        // `-b` and `-B` are different options: the peek layer must not treat one as ambient merely because the other is already visible.
         let dir = std::env::temp_dir().join(format!("psc-peek-case-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");
@@ -1995,8 +1898,7 @@ mod tests {
 
     #[test]
     fn peek_matches_commands_case_insensitively() {
-        // Commands stay case-insensitive: `RUN` resolves to the `run` node,
-        // so its static candidates still predict `switch`.
+        // Commands stay case-insensitive: `RUN` resolves to the `run` node, so its static candidates still predict `switch`.
         let dir = std::env::temp_dir().join(format!("psc-peek-cmd-case-{}", std::process::id()));
         let _ = std::fs::create_dir_all(&dir);
         let manifest = dir.join("manifest.json");

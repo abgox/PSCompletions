@@ -24,10 +24,8 @@ pub fn cmd_rm(
     let all = args.iter().any(|a| a == "--all");
     let completions_dir = format!("{data_dir}/completions");
     let names: Vec<String> = if all {
-        // Disk is the source of truth for `rm --all`: settings may be empty or stale
-        // (a lost settings.json, manual copies). `psc` itself is kept - it is the
-        // module's own completion and init re-adds it anyway, so there's no network
-        // round-trip to re-fetch it here.
+        // Disk is the source of truth for `rm --all`: settings may be empty or stale (a lost settings.json, manual copies).
+        // `psc` itself is kept - it is the module's own completion and init re-adds it anyway, so there's no network round-trip to re-fetch it here.
         let mut names = settings.list();
         if let Ok(entries) = std::fs::read_dir(&completions_dir) {
             for e in entries.flatten() {
@@ -56,9 +54,8 @@ pub fn cmd_rm(
     let mut removed_any = false;
     for name in &names {
         let status = name_status(settings, index, &completions_dir, name);
-        // One owner for the code + text pair (`validate::name_error`), so an unknown name reads
-        // exactly as it does for `info`. The JSON item carries `name` itself, so its message stays
-        // bare — the shape every per-item entry uses (design/json.md §3).
+        // One owner for the code + text pair (`validate::name_error`), so an unknown name reads exactly as it does for `info`.
+        // The JSON item carries `name` itself, so its message stays bare — the shape every per-item entry uses (design/json.md §3).
         if let Some((code, text)) = name_error(lang, name, status, true) {
             if !json {
                 out.line(&text);
@@ -82,8 +79,7 @@ pub fn cmd_rm(
         }
         results.push(serde_json::json!({"name": name, "ok": true}));
     }
-    // Drop removed completions from every persisted notification list: a name the
-    // user just removed must not keep surfacing as new/removed/renamed/out-of-date.
+    // Drop removed completions from every persisted notification list: a name the user just removed must not keep surfacing as new/removed/renamed/out-of-date.
     let mut changes = LibraryChanges::load(data_dir);
     changes.update.retain(|u| !names.iter().any(|n| n == u));
     changes.added.retain(|u| !names.iter().any(|n| n == u));

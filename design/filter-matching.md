@@ -5,30 +5,25 @@
 
 ## 1. Two matching modes
 
-The menu filter has two mutually exclusive modes, chosen by the `menu` group config
-`filter_mode` (default `"wildcard"`):
+The menu filter has two mutually exclusive modes, chosen by the `menu` group config `filter_mode` (default `"wildcard"`):
 
 | Mode | Config value | Default behavior |
 | --- | --- | --- |
 | Subsequence | `subsequence` | chars match **in order**, non-contiguously, **all chars literal** |
 | Wildcard | `wildcard` | `*` wildcards; everything else literal (contiguous) |
 
-Both modes are case-insensitive at the **ASCII level** (`eq_ignore_ascii_case`): `A` matches `a`
-and vice versa, but non-ASCII letters (e.g. `é` vs `É`) do **not** fold — matching is ordinal, not
+Both modes are case-insensitive at the **ASCII level** (`eq_ignore_ascii_case`): `A` matches `a` and vice versa, but non-ASCII letters (e.g. `é` vs `É`) do **not** fold — matching is ordinal, not
 culture/Unicode-aware. The filter matches against the item's **rendered row text**
 (`list_item_text`), not the completion text or aliases.
 
 ## 2. Subsequence mode
 
-- Every char of the filter must appear in the item text **in order**, not
-  necessarily contiguously. **`*`, `?`, `**` have no special meaning — they are
+- Every char of the filter must appear in the item text **in order**, not necessarily contiguously. **`*`, `?`, `**` have no special meaning — they are
   ordinary literal characters.**
   - `vscode` → matches `Visual Studio Code`.
-- **`^` prefix**: anchors the **first pattern char** at the start of the item; the
-  rest still matches as subsequence.
+- **`^` prefix**: anchors the **first pattern char** at the start of the item; the rest still matches as subsequence.
   - `^add` → the item starts with `a`, and `dd` appears in order afterwards.
-  - `^*add` → the item starts with the literal `*`, then `add` in order (the `*`
-    is a literal pattern char, and `^` anchors it).
+  - `^*add` → the item starts with the literal `*`, then `add` in order (the `*` is a literal pattern char, and `^` anchors it).
 
 ## 3. Wildcard mode
 
@@ -37,27 +32,19 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
 - **`**`** — the escape for a literal `*` (greedy pairing, left to right).
   - `a**b` → the literal substring `a*b`.
   - `a***b` → `a*` (literal) then anything, then `b`.
-- **Leading single `*` (not `**`) forces subsequence mode.** The marker is
-  stripped and the rest is subsequence-matched with **every char literal** (no
-  `**` escape, no `?`/`*` special meaning).
+- **Leading single `*` (not `**`) forces subsequence mode.** The marker is stripped and the rest is subsequence-matched with **every char literal** (no `**` escape, no `?`/`*` special meaning).
   - `*abc` → subsequence `a-b-c` (not contiguous).
   - `*a*b` → subsequence `a`, literal `*`, `b` in order.
-  - `*^abc` → subsequence of the literal chars `^`, `a`, `b`, `c` (the `^` is
-    literal because it is not the first char of the filter).
-- **Every other character is literal**, including `?`, `[`, `]`, backtick and
-  backslash.
+  - `*^abc` → subsequence of the literal chars `^`, `a`, `b`, `c` (the `^` is literal because it is not the first char of the filter).
+- **Every other character is literal**, including `?`, `[`, `]`, backtick and backslash.
 - **`^` prefix**: anchors the **whole** pattern at the start of the item.
   - `^git` → the item starts with `git`.
 
 ## 4. `^` and `*` are mode-dependent / position-dependent
 
-- `^` only acts as the prefix marker at the **very first char** of the filter.
-  Elsewhere it is a literal.
-- `*` at the start only forces subsequence in **wildcard** mode. In subsequence
-  mode it is a literal char.
-- When both markers are present, `^` is read **first** (it is only a marker at
-  position 0) and `*` second: `^*abc` is an anchored forced-subsequence. A leading
-  `*` cannot escape the anchor — write `*^abc` to make the `^` literal instead.
+- `^` only acts as the prefix marker at the **very first char** of the filter. Elsewhere it is a literal.
+- `*` at the start only forces subsequence in **wildcard** mode. In subsequence mode it is a literal char.
+- When both markers are present, `^` is read **first** (it is only a marker at position 0) and `*` second: `^*abc` is an anchored forced-subsequence. A leading `*` cannot escape the anchor — write `*^abc` to make the `^` literal instead.
 
 | Filter | Subsequence config | Wildcard config |
 | --- | --- | --- |
@@ -78,63 +65,44 @@ culture/Unicode-aware. The filter matches against the item's **rendered row text
 
 ## 4.1 Exact match pins first
 
-When the filter names an item exactly (modulo the `^` / leading-`*` markers), that
-item sorts ahead of mere substring/subsequence hits, stably, in both modes:
+When the filter names an item exactly (modulo the `^` / leading-`*` markers), that item sorts ahead of mere substring/subsequence hits, stably, in both modes:
 
 | Filter | Matches in order |
 | --- | --- |
 | `AB` over `xaby, ab, zabw` | `ab`, `xaby`, `zabw` |
 | `^AB` over `abx, ab` | `ab`, `abx` |
 
-A filter that is still a pattern never pins (`a*b` keeps manifest order) — there is
-no single exact name in it. Comparison is ASCII case-insensitive, like matching.
-This is what makes an exact name surface first out of thousands of
-substring hits with no extra syntax.
+A filter that is still a pattern never pins (`a*b` keeps manifest order) — there is no single exact name in it.
+Comparison is ASCII case-insensitive, like matching.
+This is what makes an exact name surface first out of thousands of substring hits with no extra syntax.
 
 ## 4.2 Edge cases
 
-- **Empty filter** matches **every** item (the full list is returned unchanged); a filter
-  consisting only of whitespace is treated as a literal string (a space cannot be typed into
-  the filter — the space key applies the selection — so this is unreachable in practice).
-- **No end anchor**: there is no `$` operator. Only `^` anchors to the start of the item;
-  everything else is a contains/subsequence match. `$` is an ordinary literal character.
-- **No length cap**: each keystroke re-scans the full candidate list linearly (with the
-  highlight pass for the selected row); there is no index or substring cache. Candidate lists
-  are typically tens to a few hundred items, so this is fine; very large lists (thousands)
-  would benefit from caching, which is currently out of scope.
+- **Empty filter** matches **every** item (the full list is returned unchanged); a filter consisting only of whitespace is treated as a literal string (a space cannot be typed into the filter — the space key applies the selection — so this is unreachable in practice).
+- **No end anchor**: there is no `$` operator. Only `^` anchors to the start of the item; everything else is a contains/subsequence match. `$` is an ordinary literal character.
+- **No length cap**: each keystroke re-scans the full candidate list linearly (with the highlight pass for the selected row); there is no index or substring cache. Candidate lists are typically tens to a few hundred items, so this is fine; very large lists (thousands) would benefit from caching, which is currently out of scope.
 
 ## 5. Design decisions
 
-- **`?` is a literal character** (no single-char wildcard). PowerShell `-like` heritage proved
-  almost never useful for completion names; treating `?` literally keeps the grammar minimal.
-- **`**` self-escape for a literal `*`.** Escaping is rare (names rarely contain
-  `*`); a self-documenting "double star = literal star" keeps the grammar minimal.
-- **`*` at the start forces subsequence in wildcard mode.** A leading `*` is
-  otherwise redundant in wildcard mode (the pattern is already wrapped in a
-  wildcard), so reusing it costs nothing and gives a quick way to switch to fuzzy
-  matching. In subsequence mode `*` stays literal (no force marker).
-- **`^` anchors "the start"; the granularity follows the mode** — subsequence
-  anchors the first pattern char, wildcard anchors the whole pattern.
+- **`?` is a literal character** (no single-char wildcard). PowerShell `-like` heritage proved almost never useful for completion names; treating `?` literally keeps the grammar minimal.
+- **`**` self-escape for a literal `*`.** Escaping is rare (names rarely contain `*`); a self-documenting "double star = literal star" keeps the grammar minimal.
+- **`*` at the start forces subsequence in wildcard mode.** A leading `*` is otherwise redundant in wildcard mode (the pattern is already wrapped in a wildcard), so reusing it costs nothing and gives a quick way to switch to fuzzy matching. In subsequence mode `*` stays literal (no force marker).
+- **`^` anchors "the start"; the granularity follows the mode** — subsequence anchors the first pattern char, wildcard anchors the whole pattern.
 
 ## 6. Implementation
 
 - `core/engine/src/menu/filter.rs`:
-  - `filter_items` — entry point: strips a leading `^`, resolves mode (subsequence
-    config, or wildcard with `**` / leading-`*` / plain), then matches.
+  - `filter_items` — entry point: strips a leading `^`, resolves mode (subsequence config, or wildcard with `**` / leading-`*` / plain), then matches.
   - `subsequence_match` / `prefix_subsequence_match` — subsequence mode.
   - `parse_wildcard` — tokenizes into `Pat` (`Lit` / `Any`).
   - `wildcard_match` — wildcard matching with backtracking.
   - `wildcard_segments` / `wildcard_highlight` — highlight byte ranges.
-- `state/mod.rs::match_segments` — public highlight entry used by the menu UI; resolves
-  the mode exactly like `filter_items` so highlights always match. It takes the resolved
-  `use_subsequence` flag (callers map `filter_mode` to it); keep both in sync when the
-  resolution rule changes.
+- `state/mod.rs::match_segments` — public highlight entry used by the menu UI; resolves the mode exactly like `filter_items` so highlights always match. It takes the resolved `use_subsequence` flag (callers map `filter_mode` to it); keep both in sync when the resolution rule changes.
 - Config: `filter_mode` (`menu` group).
 
 ## 7. Examples
 
-Representative real-world filters (the full per-filter behavior across both modes lives in the
-table in §4):
+Representative real-world filters (the full per-filter behavior across both modes lives in the table in §4):
 
 | Filter | Mode | Matches |
 | --- | --- | --- |

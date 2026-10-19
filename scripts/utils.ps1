@@ -4,9 +4,8 @@
 function Get-RecentCompletions {
     param(
         [string]$CompletionsDir,
-        # A change to hooks.lua counts as a change to its completion too. Off by
-        # default because the manifests are what most callers rewrite; a caller
-        # that reads hooks.lua (check-hook-targets) asks for it.
+        # A change to hooks.lua counts as a change to its completion too.
+        # Off by default because the manifests are what most callers rewrite; a caller that reads hooks.lua (check-hook-targets) asks for it.
         [switch]$IncludeHooks
     )
 
@@ -46,13 +45,11 @@ function Get-RecentCompletions {
 }
 
 function Format-PscText {
-    # Fills `{Name}` placeholders in a `scripts/language/*.json` message. Deliberately not the
-    # engine's template language: these scripts run in a fresh clone, where no `psc` binary has
-    # been built yet.
+    # Fills `{Name}` placeholders in a `scripts/language/*.json` message.
+    # Deliberately not the engine's template language: these scripts run in a fresh clone, where no `psc` binary has been built yet.
     #
-    # A message is either one string or a list of lines, and the lines already carry their own
-    # newlines, so the list is joined with nothing — that reproduces the single string these
-    # messages used to be. A caller only joins the *values* it passes (e.g. `($names -join ' ')`).
+    # A message is either one string or a list of lines, and the lines already carry their own newlines, so the list is joined with nothing — that reproduces the single string these messages used to be.
+    # A caller only joins the *values* it passes (e.g. `($names -join ' ')`).
     param([Parameter(Mandatory)][object]$Text, [hashtable]$Values = @{})
 
     if ($Text -is [array]) { $Text = $Text -join '' } else { $Text = [string]$Text }

@@ -1,7 +1,8 @@
 use crate::menu::model::{Config, Item};
 
 /// Filter the items by the given filter string (semantics: `design/filter-matching.md`).
-/// The empty filter matches everything. Returns the indices (into `items`) of matches.
+/// The empty filter matches everything.
+/// Returns the indices (into `items`) of matches.
 pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config) -> Vec<usize> {
     if filter.is_empty() {
         return (0..items.len()).collect();
@@ -17,8 +18,7 @@ pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config)
     } else {
         (false, actual)
     };
-    // Wildcard mode: the pattern is the same for every candidate and this runs on every keypress,
-    // so parse it once (and build the prefix/contains wrapper once) instead of per item.
+    // Wildcard mode: the pattern is the same for every candidate and this runs on every keypress, so parse it once (and build the prefix/contains wrapper once) instead of per item.
     let wildcard = if use_subseq {
         None
     } else {
@@ -50,10 +50,8 @@ pub fn filter_items(items: &[Item], filter: &str, is_prefix: bool, cfg: &Config)
             out.push(i);
         }
     }
-    // Exact matches pin first: when the filter names an item exactly (modulo the
-    // `^` / leading-`*` markers), that item is what the user wants — ahead of mere
-    // substring/subsequence hits, stably. A filter that is still a pattern (contains
-    // `*`, e.g. `h*f`) never pins: there is no single exact name in it.
+    // Exact matches pin first: when the filter names an item exactly (modulo the `^` / leading-`*` markers), that item is what the user wants — ahead of mere substring/subsequence hits, stably.
+    // A filter that is still a pattern (contains `*`, e.g. `h*f`) never pins: there is no single exact name in it.
     let mut core = filter;
     if is_prefix {
         core = core.strip_prefix('^').unwrap_or(core);
@@ -102,8 +100,9 @@ fn parse_wildcard(s: &str) -> Vec<Pat> {
     out
 }
 
-/// Wildcard matching (case-insensitive). Only `Any` consumes wildcard chars;
-/// `Lit` must match the text char. Standard backtracking over the last `Any`.
+/// Wildcard matching (case-insensitive).
+/// Only `Any` consumes wildcard chars; `Lit` must match the text char.
+/// Standard backtracking over the last `Any`.
 fn wildcard_match(pat: &[Pat], text: &str) -> bool {
     let text: Vec<char> = text.chars().collect();
     let mut pi = 0usize;
@@ -144,9 +143,10 @@ fn wildcard_match(pat: &[Pat], text: &str) -> bool {
     pi == pat.len()
 }
 
-/// Highlight byte ranges for `text` matching the wildcard pattern, built with the same
-/// pattern construction as `filter_items`. `Any` is not highlighted, `Lit` (incl. the
-/// literal star escaped by `**`) is. `None` on no match.
+/// Highlight byte ranges for `text` matching the wildcard pattern, built with the same pattern construction as `filter_items`.
+/// `Any` is not highlighted, `Lit` (incl.
+/// the literal star escaped by `**`) is.
+/// `None` on no match.
 pub fn wildcard_segments(text: &str, actual: &str, is_prefix: bool) -> Option<Vec<(usize, usize)>> {
     let mut pattern = parse_wildcard(actual);
     if is_prefix {
@@ -158,19 +158,17 @@ pub fn wildcard_segments(text: &str, actual: &str, is_prefix: bool) -> Option<Ve
     wildcard_highlight(&pattern, text)
 }
 
-/// Like `wildcard_match`, but records the byte ranges of text chars consumed by `Lit`
-/// pattern chars (`Any` is not highlighted).
+/// Like `wildcard_match`, but records the byte ranges of text chars consumed by `Lit` pattern chars (`Any` is not highlighted).
 ///
-/// On backtracking, drops the literal highlights hit in the failed segment (those chars
-/// are re-consumed by the star). Returns `None` when `text` does not match the pattern.
+/// On backtracking, drops the literal highlights hit in the failed segment (those chars are re-consumed by the star).
+/// Returns `None` when `text` does not match the pattern.
 fn wildcard_highlight(pat: &[Pat], text: &str) -> Option<Vec<(usize, usize)>> {
     let text_chars: Vec<(char, usize)> = text.char_indices().map(|(b, c)| (c, b)).collect();
     let mut pi = 0usize;
     let mut ti = 0usize;
     let mut star: Option<usize> = None;
     let mut mark = 0usize;
-    // (text char index, byte start, byte end) — used to drop a failed segment's highlights
-    // by index on backtracking.
+    // (text char index, byte start, byte end) — used to drop a failed segment's highlights by index on backtracking.
     let mut hl: Vec<(usize, usize, usize)> = Vec::new();
     while ti < text_chars.len() {
         if pi < pat.len() {
@@ -218,8 +216,7 @@ fn wildcard_highlight(pat: &[Pat], text: &str) -> Option<Vec<(usize, usize)>> {
     if pi != pat.len() {
         return None;
     }
-    // Merge adjacent segments in text order (e.g. the a and d hit by "ad" merge into one,
-    // matching the old behavior).
+    // Merge adjacent segments in text order (e.g. the a and d hit by "ad" merge into one, matching the old behavior).
     let mut out: Vec<(usize, usize)> = Vec::new();
     for (_, s, e) in hl {
         if let Some(last) = out.last_mut() {
@@ -245,8 +242,7 @@ fn subsequence_match(pattern: &str, text: &str) -> bool {
     pi == pat.len()
 }
 
-/// Prefix subsequence match: `text` starts with `pattern[0]` and the rest of
-/// `pattern` appears in order afterwards.
+/// Prefix subsequence match: `text` starts with `pattern[0]` and the rest of `pattern` appears in order afterwards.
 fn prefix_subsequence_match(pattern: &str, text: &str) -> bool {
     let pat: Vec<char> = pattern.chars().collect();
     if pat.is_empty() {
@@ -370,7 +366,8 @@ mod tests {
     #[test]
     fn wildcard_star() {
         let its = items(&["abc", "axc", "abbc"]);
-        // 'a' + 'b' + ... : 'a' and 'b' in order with anything between
+        // 'a' + 'b' + ...
+        // : 'a' and 'b' in order with anything between
         assert_eq!(filter_items(&its, "a*b", false, &cfg(false)), vec![0, 2]);
         // A single * = any number of chars.
         assert_eq!(filter_items(&its, "a*c", false, &cfg(false)), vec![0, 1, 2]);
@@ -378,10 +375,7 @@ mod tests {
 
     #[test]
     fn wildcard_highlight_backtrack_drops_failed_prefix() {
-        // `open` matching Microsoft.OpenJDK.25: o first hits the first o of Microsoft, then
-        // p fails and backtracks → that highlight must be dropped, leaving only the
-        // O-p-e-n of OpenJDK highlighted (merged into one segment 10..14); the o inside
-        // Microsoft must not be highlighted.
+        // `open` matching Microsoft.OpenJDK.25: o first hits the first o of Microsoft, then p fails and backtracks → that highlight must be dropped, leaving only the O-p-e-n of OpenJDK highlighted (merged into one segment 10..14); the o inside Microsoft must not be highlighted.
         let segs = wildcard_segments("Microsoft.OpenJDK.25", "open", false).unwrap();
         assert_eq!(segs, vec![(10, 14)]);
     }
@@ -403,14 +397,14 @@ mod tests {
     #[test]
     fn wildcard_question_is_literal() {
         let its = items(&["axc", "a?c"]);
-        // ? is no longer a single-char wildcard but a literal character.
+        // ?
+        // is no longer a single-char wildcard but a literal character.
         assert_eq!(filter_items(&its, "a?c", false, &cfg(false)), vec![1]);
     }
 
     #[test]
     fn leading_star_forces_subsequence_in_wildcard() {
-        // Under the wildcard config, a single leading `*` forces subsequence: a-b-c scattered
-        // in order (≠ contiguous containment).
+        // Under the wildcard config, a single leading `*` forces subsequence: a-b-c scattered in order (≠ contiguous containment).
         let its = items(&["xabc", "xaybc"]);
         assert_eq!(filter_items(&its, "abc", false, &cfg(false)), vec![0]); // contiguous containment
         assert_eq!(filter_items(&its, "*abc", false, &cfg(false)), vec![0, 1]); // forced subsequence
@@ -434,8 +428,8 @@ mod tests {
 
     #[test]
     fn doubled_caret_anchors_literal_caret() {
-        // `^^abc`: exactly one leading `^` is stripped. Subsequence config: the first
-        // pattern char `^` is anchored (literal), then `abc` as a subsequence.
+        // `^^abc`: exactly one leading `^` is stripped.
+        // Subsequence config: the first pattern char `^` is anchored (literal), then `abc` as a subsequence.
         let its = items(&["^abc", "^aXbYc", "x^abc"]);
         assert_eq!(filter_items(&its, "^^abc", true, &cfg(true)), vec![0, 1]);
         // Wildcard config: starts with the literal text `^abc`.

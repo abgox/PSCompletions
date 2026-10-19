@@ -1,6 +1,5 @@
 //! PSCompletions CLI library (`psc`).
-//! Platform-agnostic management CLI: module data layer (settings.json / completions.json /
-//! psc info), network fetches, and the command implementations.
+//! Platform-agnostic management CLI: module data layer (settings.json / completions.json / psc info), network fetches, and the command implementations.
 
 pub mod commands;
 pub mod data;

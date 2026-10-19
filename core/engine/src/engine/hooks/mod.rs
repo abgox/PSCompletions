@@ -1,5 +1,5 @@
-//! Lua dynamic-completion runtime: runs `hooks.lua` in the Rust core process, implementing
-//! the `psc.*` API. Contract: `design/hooks.md`.
+//! Lua dynamic-completion runtime: runs `hooks.lua` in the Rust core process, implementing the `psc.*` API.
+//! Contract: `design/hooks.md`.
 
 mod api;
 mod bindings;
@@ -80,16 +80,14 @@ pub struct HookContext {
     pub cmd: String,
     /// Subcommand path (without options/values): `git stash pop` → `["stash","pop"]`.
     pub path: Vec<String>,
-    /// Typed layer chain: `(kind, canonical)` per context switch — commands always, options
-    /// when they have a `next` array (even empty) or a non-empty `option` array. Drives
-    /// `psc.on` location matching.
+    /// Typed layer chain: `(kind, canonical)` per context switch — commands always, options when they have a `next` array (even empty) or a non-empty `option` array.
+    /// Drives `psc.on` location matching.
     pub layers: Vec<(String, String)>,
     pub typing: Typing,
     /// Raw token list (kept for unusual cases).
     pub tokens: Vec<Token>,
-    /// The current command's fully-resolved config: per-completion overrides, global config
-    /// values, built-in defaults, and manifest `config` array defaults, merged in
-    /// `build_candidate_items`.  Hooks receive the final value directly.
+    /// The current command's fully-resolved config: per-completion overrides, global config values, built-in defaults, and manifest `config` array defaults, merged in `build_candidate_items`.
+    /// Hooks receive the final value directly.
     pub config: serde_json::Value,
     /// Raw manifest text (parsed as JSON), so hooks can read static data (e.g. git config keys).
     #[serde(default)]
@@ -139,9 +137,8 @@ pub struct LuaItem {
     /// Engine-internal: offered as a separator-list value (no auto space).
     /// Round-trips through Lua tables so hook-preserved static items keep it.
     pub nospace: bool,
-    /// The declared type of the static node this row came from (`Some`), or `None` for a
-    /// hook-injected row that no manifest declares. Round-trips so a consumer can compare
-    /// rows by the manifest's own rule instead of guessing from a leading `-`.
+    /// The declared type of the static node this row came from (`Some`), or `None` for a hook-injected row that no manifest declares.
+    /// Round-trips so a consumer can compare rows by the manifest's own rule instead of guessing from a leading `-`.
     pub is_option: Option<bool>,
 }
 
@@ -168,11 +165,9 @@ pub enum LazyField {
     Example,
 }
 
-/// One unevaluated `tip`/`usage`/`example` callback, collected at hook read-back
-/// time. Keyed by item text (not index): history-order ranking re-sorts the item
-/// list after the hook returns, so positions are stale by menu time while names
-/// are stable. The function handle is tied to its session VM (same thread only —
-/// `mlua` values are `!Send`, so a session never crosses threads).
+/// One unevaluated `tip`/`usage`/`example` callback, collected at hook read-back time.
+/// Keyed by item text (not index): history-order ranking re-sorts the item list after the hook returns, so positions are stale by menu time while names are stable.
+/// The function handle is tied to its session VM (same thread only — `mlua` values are `!Send`, so a session never crosses threads).
 pub struct LazyEntry {
     pub key: String,
     pub field: LazyField,

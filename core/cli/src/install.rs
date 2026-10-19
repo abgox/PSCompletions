@@ -1,9 +1,7 @@
 //! `psc --self-update`: how was this copy installed, and what updates it?
 //!
-//! Detection is by evidence, never by a guess — the fixed directory `install.sh` uses *plus* its
-//! `install.json` marker, scoop's `apps\<name>\current\` shape, or a module directory that sits
-//! under `PSModulePath` and carries `bin/` beside `PSCompletions.psd1`. Anything else is reported
-//! as unmanaged, so a source checkout is never mistaken for a copy we are allowed to replace.
+//! Detection is by evidence, never by a guess — the fixed directory `install.sh` uses *plus* its `install.json` marker, scoop's `apps\<name>\current\` shape, or a module directory that sits under `PSModulePath` and carries `bin/` beside `PSCompletions.psd1`.
+//! Anything else is reported as unmanaged, so a source checkout is never mistaken for a copy we are allowed to replace.
 //! See `design/psc-cli.md` for the detection rules.
 
 use std::path::{Path, PathBuf};
@@ -13,9 +11,8 @@ use std::path::{Path, PathBuf};
 pub enum Method {
     /// Our own `install.sh`: the fixed directory, and a marker that says so.
     Script { dir: PathBuf },
-    /// scoop, whose manifest name is part of the binary's own path. Both names may be installed at
-    /// once, and each is a separate install with its own `scoop update`, so every installed app is
-    /// carried — not only the running one.
+    /// scoop, whose manifest name is part of the binary's own path.
+    /// Both names may be installed at once, and each is a separate install with its own `scoop update`, so every installed app is carried — not only the running one.
     Scoop { root: PathBuf, apps: Vec<String> },
     /// The PowerShell module, installed from the Gallery into `PSModulePath`.
     Module { dir: PathBuf },
@@ -44,8 +41,7 @@ impl Method {
     }
 }
 
-/// Everything detection reads from outside the binary's own path, made explicit so the tests never
-/// mutate the process environment.
+/// Everything detection reads from outside the binary's own path, made explicit so the tests never mutate the process environment.
 #[derive(Debug, Default, Clone)]
 pub struct Ctx {
     /// The fixed directory `install.sh` installs into.
@@ -58,8 +54,7 @@ pub struct Ctx {
     pub windows: bool,
 }
 
-/// The directory `install.sh` installs into — the same per-platform rule the script uses, and a
-/// sibling of the module's data directory: that one holds user data, this one holds code.
+/// The directory `install.sh` installs into — the same per-platform rule the script uses, and a sibling of the module's data directory: that one holds user data, this one holds code.
 pub fn script_dir() -> Option<PathBuf> {
     let home = PathBuf::from(std::env::var_os("HOME")?);
     if std::env::consts::OS == "macos" {
@@ -99,8 +94,8 @@ pub fn detect_in(exe: &Path, ctx: &Ctx) -> Method {
         }
     }
     if let Some((root, name)) = scoop_app(exe, ctx) {
-        // Every app this scoop has, not only the running one: both names can be installed, and
-        // each needs its own `scoop update`. A failed listing falls back to the running app.
+        // Every app this scoop has, not only the running one: both names can be installed, and each needs its own `scoop update`.
+        // A failed listing falls back to the running app.
         let apps = {
             let found = scoop_apps(&root);
             if found.is_empty() {
@@ -119,9 +114,8 @@ pub fn detect_in(exe: &Path, ctx: &Ctx) -> Method {
     Method::Unknown
 }
 
-/// The marker `install.sh` writes. Its presence *and* its method string are the claim: a copy that
-/// merely happens to sit at that path — a module installed there by hand — is not ours to replace,
-/// which is why a missing marker falls through instead of being assumed.
+/// The marker `install.sh` writes.
+/// Its presence *and* its method string are the claim: a copy that merely happens to sit at that path — a module installed there by hand — is not ours to replace, which is why a missing marker falls through instead of being assumed.
 fn marker_says_install_sh(dir: &Path) -> bool {
     std::fs::read_to_string(dir.join("install.json"))
         .ok()
@@ -130,21 +124,19 @@ fn marker_says_install_sh(dir: &Path) -> bool {
         .is_some_and(|m| m == "install.sh")
 }
 
-/// The two names PSCompletions is published under: the lowercase `pscompletions` (the `main`
-/// bucket, so the plain one comes first) and the author-qualified `abgox.PSCompletions`.
+/// The two names PSCompletions is published under: the lowercase `pscompletions` (the `main` bucket, so the plain one comes first) and the author-qualified `abgox.PSCompletions`.
 const SCOOP_APPS: [&str; 2] = ["pscompletions", "abgox.PSCompletions"];
 
-/// scoop's own root, found through its command: `scoop` lives in `<root>\shims`, so the directory
-/// holding the command tells us the root without trusting any variable — a user need not have set
-/// `SCOOP` at all. `None` means "scoop is not installed here", and then nothing is scoop.
+/// scoop's own root, found through its command: `scoop` lives in `<root>\shims`, so the directory holding the command tells us the root without trusting any variable — a user need not have set `SCOOP` at all.
+/// `None` means "scoop is not installed here", and then nothing is scoop.
 fn scoop_root(ctx: &Ctx) -> Option<PathBuf> {
     for dir in &ctx.path {
         for name in ["scoop.cmd", "scoop.ps1", "scoop.exe", "scoop"] {
             if !dir.join(name).is_file() {
                 continue;
             }
-            // `<root>\shims\scoop.cmd`: only that shape names a scoop root. Windows ignores case,
-            // so the component is compared that way.
+            // `<root>\shims\scoop.cmd`: only that shape names a scoop root.
+            // Windows ignores case, so the component is compared that way.
             if dir
                 .file_name()
                 .is_some_and(|n| n.eq_ignore_ascii_case("shims"))
@@ -156,11 +148,9 @@ fn scoop_root(ctx: &Ctx) -> Option<PathBuf> {
     None
 }
 
-/// scoop's layout is `<root>\apps\<name>\…`, and the app name is in the binary's own path. Only
-/// the `apps` level is judged: below it scoop keeps both `current` (a junction) and the real
-/// version directories, so anything deeper is none of our business. Both separators are split on,
-/// since the check must work on a Windows path even when the tests run on Unix; Windows ignores
-/// case, so every comparison here does too.
+/// scoop's layout is `<root>\apps\<name>\…`, and the app name is in the binary's own path.
+/// Only the `apps` level is judged: below it scoop keeps both `current` (a junction) and the real version directories, so anything deeper is none of our business.
+/// Both separators are split on, since the check must work on a Windows path even when the tests run on Unix; Windows ignores case, so every comparison here does too.
 fn scoop_app(exe: &Path, ctx: &Ctx) -> Option<(PathBuf, String)> {
     if !ctx.windows {
         return None;
@@ -207,8 +197,7 @@ fn scoop_apps(root: &Path) -> Vec<String> {
         .collect()
 }
 
-/// The PowerShell module layout: the binary in `<module>/bin/<platform>-<arch>/`, with the module
-/// manifest beside `bin/`.
+/// The PowerShell module layout: the binary in `<module>/bin/<platform>-<arch>/`, with the module manifest beside `bin/`.
 fn module_dir(exe: &Path) -> Option<PathBuf> {
     let bin = exe.parent()?.parent()?;
     if bin.file_name()? != "bin" {
@@ -221,16 +210,13 @@ fn module_dir(exe: &Path) -> Option<PathBuf> {
     None
 }
 
-/// The installer itself, fetched from the same source prefix the completions come from — so a
-/// changed script takes effect on the next run, and a stale local copy can never be reused (an
-/// installed package does not carry one at all).
+/// The installer itself, fetched from the same source prefix the completions come from — so a changed script takes effect on the next run, and a stale local copy can never be reused (an installed package does not carry one at all).
 pub fn fetch_installer(settings: &crate::data::Settings) -> Result<String, String> {
     crate::net::fetch_text(&crate::net::resolve_urls(settings), "install.sh")
         .map_err(|e| e.message().to_string())
 }
 
-/// The installed version, from the manifest beside the bridges and the binaries — the one source
-/// that exists in a repo checkout and in an installed package alike (the bridges read it too).
+/// The installed version, from the manifest beside the bridges and the binaries — the one source that exists in a repo checkout and in an installed package alike (the bridges read it too).
 pub fn installed_version(dir: &Path) -> Option<String> {
     let text = std::fs::read_to_string(dir.join("PSCompletions.psd1")).ok()?;
     for line in text.lines() {
@@ -248,23 +234,20 @@ pub fn installed_version(dir: &Path) -> Option<String> {
     None
 }
 
-/// The commands a user runs to update this copy. `Script` has none: there the CLI runs the
-/// installer itself, because it already knows the source URLs and the script owns the swap.
-/// `installer_url` is the fetched installer's one-liner for an unmanaged copy, built by the caller
-/// from the same source prefix the completions come from.
+/// The commands a user runs to update this copy.
+/// `Script` has none: there the CLI runs the installer itself, because it already knows the source URLs and the script owns the swap.
+/// `installer_url` is the fetched installer's one-liner for an unmanaged copy, built by the caller from the same source prefix the completions come from.
 pub fn update_commands(method: &Method, installer_url: &str) -> Vec<String> {
     match method {
         Method::Script { .. } => Vec::new(),
         Method::Scoop { apps, .. } => apps.iter().map(|a| format!("scoop update {a}")).collect(),
-        // Both PowerShell routes are printed: the CLI cannot tell which one is available, and the
-        // module's own update notice names both for the same reason.
+        // Both PowerShell routes are printed: the CLI cannot tell which one is available, and the module's own update notice names both for the same reason.
         Method::Module { .. } => vec![
             "Update-PSResource PSCompletions".to_string(),
             "Update-Module PSCompletions".to_string(),
         ],
-        // Nothing installed it, so the advice is how to install it. The short commands come first
-        // and the install script's one-liner last: it is long, and on Linux and macOS it is the one
-        // that needs no PowerShell at all.
+        // Nothing installed it, so the advice is how to install it.
+        // The short commands come first and the install script's one-liner last: it is long, and on Linux and macOS it is the one that needs no PowerShell at all.
         Method::Unknown => {
             let mut out = vec![
                 "Install-Module PSCompletions".to_string(),
@@ -339,8 +322,8 @@ mod tests {
 
     #[test]
     fn the_fixed_path_without_the_marker_is_not_ours() {
-        // The case the marker exists for: a *module* installed at our path. Replacing it would
-        // overwrite someone else's install, so the path alone must never be enough.
+        // The case the marker exists for: a *module* installed at our path.
+        // Replacing it would overwrite someone else's install, so the path alone must never be enough.
         let base = test_base("nomarker");
         let dir = make_module(&base);
         let exe = dir.join("bin/linux-x64/psc");
@@ -353,11 +336,9 @@ mod tests {
 
     #[test]
     fn scoop_names_the_app_from_its_own_root() {
-        // The root comes from scoop's command: `scoop.cmd` lives in `<root>\shims`, so the
-        // directory holding it names the root — no variable needed. Only the `apps` level is
-        // judged, so `current` (a junction) and a real version directory are both accepted, and
-        // Windows' case insensitivity is honoured. The binary path is written with backslashes
-        // while the fake tree uses this machine's separator: exactly the mixture to survive.
+        // The root comes from scoop's command: `scoop.cmd` lives in `<root>\shims`, so the directory holding it names the root — no variable needed.
+        // Only the `apps` level is judged, so `current` (a junction) and a real version directory are both accepted, and Windows' case insensitivity is honoured.
+        // The binary path is written with backslashes while the fake tree uses this machine's separator: exactly the mixture to survive.
         let base = test_base("scoop");
         let root = base.join("scoop");
         let ctx = ctx_scoop(&root);
@@ -380,8 +361,7 @@ mod tests {
             ),
         ] {
             let exe = format!(r"{}\{tail}", root.display());
-            // No `apps/` directory in the fake tree, so the installed-app listing is empty and the
-            // running app alone is carried — spelled canonically, not as the path spelled it.
+            // No `apps/` directory in the fake tree, so the installed-app listing is empty and the running app alone is carried — spelled canonically, not as the path spelled it.
             let canonical = if want.eq_ignore_ascii_case("pscompletions") {
                 "pscompletions"
             } else {
@@ -401,8 +381,7 @@ mod tests {
 
     #[test]
     fn both_scoop_names_installed_are_both_reported() {
-        // The two manifest names are separate installs, so both are carried — the running one alone
-        // would leave the other never updated.
+        // The two manifest names are separate installs, so both are carried — the running one alone would leave the other never updated.
         let base = test_base("scoop-both");
         let root = base.join("scoop");
         let ctx = ctx_scoop(&root);
@@ -457,8 +436,7 @@ mod tests {
 
     #[test]
     fn only_our_own_apps_count() {
-        // Another app under our scoop root, or our name under another root: neither is ours, and
-        // saying it is would print a command that cannot work.
+        // Another app under our scoop root, or our name under another root: neither is ours, and saying it is would print a command that cannot work.
         let base = test_base("scoop-other");
         let root = base.join("scoop");
         let ctx = ctx_scoop(&root);
@@ -490,8 +468,7 @@ mod tests {
 
     #[test]
     fn a_checkout_looks_like_a_module_but_is_not_managed() {
-        // The repo's own layout is the module layout; without PSModulePath it stays unknown, so
-        // the advice is "install it properly" rather than a PowerShell command that cannot work.
+        // The repo's own layout is the module layout; without PSModulePath it stays unknown, so the advice is "install it properly" rather than a PowerShell command that cannot work.
         let base = test_base("checkout");
         let dir = make_module(&base);
         let exe = dir.join("bin/linux-x64/psc");

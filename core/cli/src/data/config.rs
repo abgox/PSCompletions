@@ -1,6 +1,5 @@
-//! Config registry, migration and sanitization. Every config key is defined here (one row
-//! per key, so new keys/groups are added by appending a row); migration and sanitization
-//! live alongside.
+//! Config registry, migration and sanitization.
+//! Every config key is defined here (one row per key, so new keys/groups are added by appending a row); migration and sanitization live alongside.
 
 use serde_json::{Map, Value};
 
@@ -204,9 +203,7 @@ pub fn migrate_config(config: &mut Map<String, Value>) -> bool {
         }
     }
     // Symbol migration: old symbol keys -> current symbol keys.
-    // - First-generation keys like SpaceTab map directly to the current names (switch/stay)
-    // - continue (the symbol was once called continue, now switch) -> switch
-    // - WriteSpaceTab / input have been removed (input is expressed via the usage placeholder) -> drop
+    // - First-generation keys like SpaceTab map directly to the current names (switch/stay) - continue (the symbol was once called continue, now switch) -> switch - WriteSpaceTab / input have been removed (input is expressed via the usage placeholder) -> drop
     if config.remove("WriteSpaceTab").is_some() {
         changed = true;
     }
@@ -303,9 +300,8 @@ pub fn migrate_config(config: &mut Map<String, Value>) -> bool {
     changed
 }
 
-/// Revert invalid config values to defaults so corrupt/manually edited config cannot silently
-/// change behavior. Returns whether anything changed (migration, whitelist cleanup, default
-/// backfill, value correction) — the caller persists the corrected config based on this.
+/// Revert invalid config values to defaults so corrupt/manually edited config cannot silently change behavior.
+/// Returns whether anything changed (migration, whitelist cleanup, default backfill, value correction) — the caller persists the corrected config based on this.
 pub fn sanitize_config(config: &mut Map<String, Value>, defaults: &Value) -> bool {
     let mut changed = migrate_config(config);
     // Whitelist: drop obsolete keys, keeping only the current CONFIG_KEYS plus `completion`.

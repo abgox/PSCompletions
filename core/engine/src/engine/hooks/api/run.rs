@@ -8,16 +8,12 @@ use super::parallel_map;
 use super::{json_to_lua, table_to_strings};
 
 /// `psc.run({cmd, arg, ...}, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
-/// Returns stdout lines; when `format` is `"json"`/`"toml"`/`"yaml"`, parses the output and
-/// returns a table. `nil` on failure (spawn error / timeout / unparseable output) — strict
-/// failure semantics, hooks guard with `or {}`.
-/// `default_cwd` is the hook's working directory (the user's location): used when `cwd` is not
-/// given, so commands run in the user's current directory rather than the engine process's
-/// inherited one (which can lag after `cd` on some hosts).
+/// Returns stdout lines; when `format` is `"json"`/`"toml"`/`"yaml"`, parses the output and returns a table.
+/// `nil` on failure (spawn error / timeout / unparseable output) — strict failure semantics, hooks guard with `or {}`.
+/// `default_cwd` is the hook's working directory (the user's location): used when `cwd` is not given, so commands run in the user's current directory rather than the engine process's inherited one (which can lag after `cd` on some hosts).
 /// `env` is a table of key-value pairs injected into the child process environment.
-/// `capture_fd` is an extra file descriptor to capture (e.g. `8` for Python argcomplete which
-/// writes completions to fd 8). When set, the command is run through the shell with `8>&1`
-/// redirection so the fd's output is merged into stdout and captured.
+/// `capture_fd` is an extra file descriptor to capture (e.g. `8` for Python argcomplete which writes completions to fd 8).
+/// When set, the command is run through the shell with `8>&1` redirection so the fd's output is merged into stdout and captured.
 pub(crate) fn api_run(
     lua: &Lua,
     args: Variadic<Value>,
@@ -53,9 +49,7 @@ pub(crate) fn api_run(
         None => None,
     };
     let env_map = parse_env(&opts)?;
-    // An empty argv runs nothing, shell or not: wrapping it would turn "no command" into
-    // `sh -c ""` (or `sh -c " 8>&1"`), so the same call would run a shell with `shell`/`capture_fd`
-    // set and nothing at all without them.
+    // An empty argv runs nothing, shell or not: wrapping it would turn "no command" into `sh -c ""` (or `sh -c " 8>&1"`), so the same call would run a shell with `shell`/`capture_fd` set and nothing at all without them.
     if argv.is_empty() {
         return Ok(Value::Nil);
     }
@@ -89,9 +83,10 @@ pub(crate) fn api_run(
     }
 }
 
-/// `psc.run_batch({ {cmd,...}, ... }, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
-/// Runs commands in parallel; returns their outputs in input order. With `format`,
-/// each output is parsed with that format (parallel commands are of the same type).
+/// `psc.run_batch({ {cmd,...}, ...
+/// }, {timeout?, cwd?, format?, shell?, env?, capture_fd?})`.
+/// Runs commands in parallel; returns their outputs in input order.
+/// With `format`, each output is parsed with that format (parallel commands are of the same type).
 /// A failed/unparseable command yields `nil` at its index (strict failure semantics).
 pub(crate) fn api_run_batch(
     lua: &Lua,
@@ -143,8 +138,7 @@ pub(crate) fn api_run_batch(
         Some(cwd.as_str())
     };
     let outputs: Vec<Option<Vec<String>>> = parallel_map(&cmds, |cmd| {
-        // Same rule as `psc.run`: an empty command runs nothing, so it is never wrapped into a
-        // shell (`sh -c ""`) just because `shell`/`capture_fd` was set.
+        // Same rule as `psc.run`: an empty command runs nothing, so it is never wrapped into a shell (`sh -c ""`) just because `shell`/`capture_fd` was set.
         let argv = if effective_shell && !cmd.is_empty() {
             wrap_shell_with_capture(cmd, capture_fd)
         } else {
@@ -176,19 +170,16 @@ pub(crate) fn api_run_batch(
     Ok(t)
 }
 
-/// Wrap a command line in the platform shell so batch/PowerShell shims (e.g. `scoop`) can be
-/// executed: `psc.run({ "scoop", "config" }, { shell = true })` → `cmd /c "scoop config"` on
-/// Windows, `sh -c "scoop config"` elsewhere. Arguments containing whitespace or quotes are
-/// quoted so the shell sees them as single words.
+/// Wrap a command line in the platform shell so batch/PowerShell shims (e.g. `scoop`) can be executed: `psc.run({ "scoop", "config" }, { shell = true })` → `cmd /c "scoop config"` on Windows, `sh -c "scoop config"` elsewhere.
+/// Arguments containing whitespace or quotes are quoted so the shell sees them as single words.
 #[allow(dead_code)]
 fn wrap_shell(argv: &[String]) -> Vec<String> {
     wrap_shell_with_capture(argv, None)
 }
 
-/// Like `wrap_shell` but optionally captures an extra file descriptor (e.g. `8` for Python
-/// argcomplete which writes completions to fd 8). The fd is redirected to stdout (`8>&1`) so
-/// `run_cmd_raw`'s piped stdout captures it. The redirection is appended after the quoted args,
-/// outside any per-arg quotes, so the shell parses it as redirection syntax, not as an argument.
+/// Like `wrap_shell` but optionally captures an extra file descriptor (e.g. `8` for Python argcomplete which writes completions to fd 8).
+/// The fd is redirected to stdout (`8>&1`) so `run_cmd_raw`'s piped stdout captures it.
+/// The redirection is appended after the quoted args, outside any per-arg quotes, so the shell parses it as redirection syntax, not as an argument.
 fn wrap_shell_with_capture(argv: &[String], capture_fd: Option<i32>) -> Vec<String> {
     let joined: Vec<String> = argv.iter().map(|a| shell_quote(a)).collect();
     let mut line = joined.join(" ");
@@ -202,8 +193,8 @@ fn wrap_shell_with_capture(argv: &[String], capture_fd: Option<i32>) -> Vec<Stri
     }
 }
 
-/// Quote an argument for a POSIX-ish shell: wrap in double quotes when it contains whitespace
-/// or quotes, escaping inner double quotes. Plain safe args pass through untouched.
+/// Quote an argument for a POSIX-ish shell: wrap in double quotes when it contains whitespace or quotes, escaping inner double quotes.
+/// Plain safe args pass through untouched.
 fn shell_quote(arg: &str) -> String {
     let needs_quote = arg.is_empty() || arg.chars().any(|c| c.is_whitespace() || c == '"');
     if !needs_quote {
@@ -230,8 +221,8 @@ fn parse_env(opts: &Option<Table>) -> mlua::Result<Option<Vec<(String, String)>>
     Ok(Some(pairs))
 }
 
-/// Run a command, return its stdout lines. `None` on failure (empty argv / spawn error /
-/// timeout); `Some(lines)` on success (possibly empty stdout).
+/// Run a command, return its stdout lines.
+/// `None` on failure (empty argv / spawn error / timeout); `Some(lines)` on success (possibly empty stdout).
 /// `env` — optional key-value pairs merged into the child process environment.
 /// Note: stdout is drained concurrently so a full pipe buffer (>64KB) cannot block the child.
 pub(crate) fn run_cmd_raw(
@@ -245,8 +236,7 @@ pub(crate) fn run_cmd_raw(
     }
     let mut cmd = Command::new(&argv[0]);
     cmd.args(&argv[1..])
-        // stdin is /dev/null, never inherited: the engine is reading the terminal, so a child that
-        // read stdin would eat the user's keystrokes.
+        // stdin is /dev/null, never inherited: the engine is reading the terminal, so a child that read stdin would eat the user's keystrokes.
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::null());
@@ -260,9 +250,8 @@ pub(crate) fn run_cmd_raw(
         Ok(c) => c,
         Err(_) => return None,
     };
-    // Drain stdout on a helper thread and hand the text back over a channel. The channel
-    // lets us give up without joining: a grandchild holding the pipe's write end keeps EOF
-    // away forever, and `join()` on that thread would hang the whole hook.
+    // Drain stdout on a helper thread and hand the text back over a channel.
+    // The channel lets us give up without joining: a grandchild holding the pipe's write end keeps EOF away forever, and `join()` on that thread would hang the whole hook.
     let (tx, rx) = std::sync::mpsc::channel();
     if let Some(s) = child.stdout.take() {
         std::thread::spawn(move || {
@@ -278,8 +267,7 @@ pub(crate) fn run_cmd_raw(
         match child.try_wait() {
             Ok(Some(_)) => break false,
             Ok(None) => {
-                // Also stop when the hook's total budget is already spent, so a fresh
-                // subprocess never runs its full timeout after the hook has timed out.
+                // Also stop when the hook's total budget is already spent, so a fresh subprocess never runs its full timeout after the hook has timed out.
                 let hook_expired = crate::engine::hooks::runner::is_hook_expired();
                 if Instant::now() >= deadline || hook_expired {
                     break true;
@@ -294,8 +282,7 @@ pub(crate) fn run_cmd_raw(
         let _ = child.wait();
         return None;
     }
-    // A non-zero exit code is a failure: strict semantics — hooks must not treat a failed
-    // command's (possibly partial) stdout as valid candidates.
+    // A non-zero exit code is a failure: strict semantics — hooks must not treat a failed command's (possibly partial) stdout as valid candidates.
     let status = match child.wait() {
         Ok(s) => s,
         Err(_) => return None,
@@ -303,8 +290,7 @@ pub(crate) fn run_cmd_raw(
     if !status.success() {
         return None;
     }
-    // Wait briefly for the drained output; fall back to nothing when the pipe never
-    // reaches EOF (grandchild still holding it) instead of blocking indefinitely.
+    // Wait briefly for the drained output; fall back to nothing when the pipe never reaches EOF (grandchild still holding it) instead of blocking indefinitely.
     let stdout: String = rx
         .recv_timeout(Duration::from_millis(200))
         .unwrap_or_default();

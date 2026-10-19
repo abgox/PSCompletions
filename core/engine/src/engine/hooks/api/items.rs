@@ -1,18 +1,15 @@
 //! `psc.*` item-building and manipulation: add / items / contains / concat / split / join.
 //!
-//! The external contract uses `name` on items everywhere hooks can see them (static
-//! `completions`, `cs` after `add`, `items` output). The internal `text` shape is only
-//! applied at the read-back boundary (`table_to_items` in `api/mod.rs`).
+//! The external contract uses `name` on items everywhere hooks can see them (static `completions`, `cs` after `add`, `items` output).
+//! The internal `text` shape is only applied at the read-back boundary (`table_to_items` in `api/mod.rs`).
 
 use mlua::{Lua, Table, Value};
 
 use super::{coerce_string_opt, resolve_localized, resolve_usage_example};
 
 /// Normalize an item table: keep the external `name` key and resolve localized fields.
-/// The internal `text` shape stays a Rust-side detail, only applied at the read-back
-/// boundary (`table_to_items`).
-/// A `tip`/`usage`/`example` holding a function is kept as-is: it becomes a lazy
-/// callback evaluated on selection (see `table_to_items`), never resolved here.
+/// The internal `text` shape stays a Rust-side detail, only applied at the read-back boundary (`table_to_items`).
+/// A `tip`/`usage`/`example` holding a function is kept as-is: it becomes a lazy callback evaluated on selection (see `table_to_items`), never resolved here.
 fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Table> {
     let name: String = item.get("name")?;
     let t = lua.create_table()?;
@@ -44,11 +41,9 @@ fn item_to_internal(lua: &Lua, item: &Table, language: &str) -> mlua::Result<Tab
     Ok(t)
 }
 
-/// `psc.add(x)` — append a completion item (single table) or a batch (array of tables)
-/// to the **current accumulation target** (implicit; routed by the engine).
+/// `psc.add(x)` — append a completion item (single table) or a batch (array of tables) to the **current accumulation target** (implicit; routed by the engine).
 ///
-/// Returns the stored entry (single form) or the stored entries (array form), **by
-/// reference**: mutating them before the build finalizes applies to the menu.
+/// Returns the stored entry (single form) or the stored entries (array form), **by reference**: mutating them before the build finalizes applies to the menu.
 /// Empty names are skipped.
 pub(crate) fn api_add(lua: &Lua, tbl: &Table, x: Value, language: &str) -> mlua::Result<Value> {
     let mut added: Vec<Table> = Vec::new();
@@ -82,11 +77,9 @@ pub(crate) fn api_add(lua: &Lua, tbl: &Table, x: Value, language: &str) -> mlua:
     }
 }
 
-/// Append one item; returns the stored normalized entry table (by reference),
-/// None when skipped (empty name).
+/// Append one item; returns the stored normalized entry table (by reference), None when skipped (empty name).
 fn append_one(lua: &Lua, tbl: &Table, item: &Table, language: &str) -> mlua::Result<Option<Table>> {
-    // Missing or blank `name` → skip (no hard error); a table without `name` (e.g. a stray
-    // `{ text = "x" }`) is treated as not-a-completion and dropped.
+    // Missing or blank `name` → skip (no hard error); a table without `name` (e.g. a stray `{ text = "x" }`) is treated as not-a-completion and dropped.
     let Some(name) = item.get::<Option<String>>("name")? else {
         return Ok(None);
     };
@@ -165,7 +158,8 @@ pub(crate) fn api_concat(lua: &Lua, args: mlua::Variadic<Value>) -> mlua::Result
     Ok(t)
 }
 
-/// `psc.split(s, sep?)` → split a string into an array. A nil `s` yields an empty table.
+/// `psc.split(s, sep?)` → split a string into an array.
+/// A nil `s` yields an empty table.
 pub(crate) fn api_split(lua: &Lua, (s, sep): (Value, Option<String>)) -> mlua::Result<Table> {
     let t = lua.create_table()?;
     let Some(s) = coerce_string_opt(lua, s)? else {
@@ -184,8 +178,8 @@ pub(crate) fn api_split(lua: &Lua, (s, sep): (Value, Option<String>)) -> mlua::R
 
 /// `psc.join(v, sep?)` → join into a string (the complement of `psc.split`); default separator
 /// is a space, matching `split`. Accepts a **string** (returned as-is) or an **array**
-/// (elements joined; non-string elements are coerced via `tostring`). A nil value yields an
-/// empty string.
+/// (elements joined; non-string elements are coerced via `tostring`).
+/// A nil value yields an empty string.
 pub(crate) fn api_join(lua: &Lua, (v, sep): (Value, Option<String>)) -> mlua::Result<String> {
     let Value::Table(t) = v else {
         // A string is returned as-is; nil/other → empty string.
@@ -204,12 +198,10 @@ pub(crate) fn api_join(lua: &Lua, (v, sep): (Value, Option<String>)) -> mlua::Re
 
 /// `psc.contains(v, target, opts?)` → membership / pattern check.
 ///
-/// - Default (exact): `v` is an array, `target` is matched exactly (case-insensitive unless
-///   `opts.case_sensitive`). A `nil`/non-string `target` never matches — a common hook pattern
-///   is `psc.contains(list, cmd0)` where `cmd0` is nil at the root level.
-/// - With `opts.pattern` true: `v` may be a **string or an array** — a string is matched against
-///   `target` as a Lua pattern (`string.find`), an array matches when any element does. This
-///   handles manifest fields that may be a string OR an array.
+/// - Default (exact): `v` is an array, `target` is matched exactly (case-insensitive unless `opts.case_sensitive`).
+///   A `nil`/non-string `target` never matches — a common hook pattern is `psc.contains(list, cmd0)` where `cmd0` is nil at the root level.
+/// - With `opts.pattern` true: `v` may be a **string or an array** — a string is matched against `target` as a Lua pattern (`string.find`), an array matches when any element does.
+///   This handles manifest fields that may be a string OR an array.
 pub(crate) fn api_contains(
     lua: &Lua,
     (v, target, opts): (Value, Option<String>, Option<Table>),
@@ -257,8 +249,7 @@ pub(crate) fn api_contains(
                 } else {
                     (text.to_lowercase(), needle.to_lowercase())
                 };
-                // `string.find` raises on a malformed pattern; a predicate degrades to `false`
-                // instead of taking the hook down with it.
+                // `string.find` raises on a malformed pattern; a predicate degrades to `false` instead of taking the hook down with it.
                 let r: Value = match find.call((text_check, needle_check)) {
                     Ok(r) => r,
                     Err(_) => return Ok(false),

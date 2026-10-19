@@ -29,10 +29,8 @@ pub fn hooks_declared_disabled(data_dir: &str, name: &str) -> bool {
         .unwrap_or(false)
 }
 
-/// The `enable_hooks` guard, shared by every path that names that key — read, set and **key
-/// reset**: the key is meaningless unless the completion's `config.json` declares `hooks`. A
-/// whole-completion or whole-scope reset is deliberately not guarded, because it also resets the
-/// keys that do apply.
+/// The `enable_hooks` guard, shared by every path that names that key — read, set and **key reset**: the key is meaningless unless the completion's `config.json` declares `hooks`.
+/// A whole-completion or whole-scope reset is deliberately not guarded, because it also resets the keys that do apply.
 fn hooks_guard(
     data_dir: &str,
     name: &str,
@@ -50,8 +48,7 @@ fn hooks_guard(
     (!has_hooks).then(|| ("no_hooks", msg_cli(lang, "no_hooks")))
 }
 
-/// Every completion whose stored special config is not empty — the set the listing reports and a
-/// reset answers with (an emptied entry is dropped, so "default" means absent).
+/// Every completion whose stored special config is not empty — the set the listing reports and a reset answers with (an emptied entry is dropped, so "default" means absent).
 fn completion_configs(settings: &Settings) -> Vec<(String, serde_json::Map<String, Value>)> {
     settings
         .config
@@ -86,9 +83,8 @@ pub fn cmd_completion(
         let data_dir = data_dir_of(settings_path);
         let params: Vec<&String> = args.iter().filter(|a| *a != "--reset").collect();
         let names: Vec<String> = if params.is_empty() {
-            // The reset set must be the set the answer reports (design/json.md §8): the
-            // completions that have stored config. A completion with a trigger word but no config
-            // was a no-op reset anyway — empty defaults drop the entry.
+            // The reset set must be the set the answer reports (design/json.md §8): the completions that have stored config.
+            // A completion with a trigger word but no config was a no-op reset anyway — empty defaults drop the entry.
             completion_configs(settings)
                 .into_iter()
                 .map(|(n, _)| n)
@@ -109,8 +105,7 @@ pub fn cmd_completion(
                 } else {
                     comp.insert(n.clone(), defaults);
                 }
-                // Re-apply the manifest's `hooks` declaration: a `hooks: false` completion
-                // stays disabled after a reset (its author-declared default).
+                // Re-apply the manifest's `hooks` declaration: a `hooks: false` completion stays disabled after a reset (its author-declared default).
                 if hooks_declared_disabled(&data_dir, n) {
                     let entry = comp
                         .entry(n.clone())
@@ -128,15 +123,13 @@ pub fn cmd_completion(
                 *obj = comp;
             }
         } else {
-            // Exactly one key per reset; surplus args are a parameter-count error, not a
-            // subcommand one.
+            // Exactly one key per reset; surplus args are a parameter-count error, not a subcommand one.
             if params.len() > 2 {
                 return crate::validate::too_many_params(out, lang, json);
             }
             let name = params[0].clone();
             let key = params[1].clone();
-            // The same guard the read / set path applies: resetting `enable_hooks` is no more
-            // meaningful than reading it when the completion declares no hooks.
+            // The same guard the read / set path applies: resetting `enable_hooks` is no more meaningful than reading it when the completion declares no hooks.
             if let Some((code, e)) = hooks_guard(&data_dir, &name, &key, lang) {
                 return fail(out, code, &e, json, true);
             }
@@ -159,16 +152,14 @@ pub fn cmd_completion(
             }
             let defaults = completion_defaults(&data_dir, &name, &settings.language());
             {
-                // Ensure the entry like the whole-scope reset above does: without it, a completion
-                // with no stored config skipped this block entirely and still answered `ok: true`.
+                // Ensure the entry like the whole-scope reset above does: without it, a completion with no stored config skipped this block entirely and still answered `ok: true`.
                 let n = ensure_completion_entry(settings, &name);
                 match defaults.get(&key) {
                     Some(v) => {
                         n.insert(key.clone(), v.clone());
                     }
                     None => {
-                        // `enable_hooks` has no manifest default; resetting it re-applies
-                        // the config.json declaration (a `hooks: false` completion stays off).
+                        // `enable_hooks` has no manifest default; resetting it re-applies the config.json declaration (a `hooks: false` completion stays off).
                         if key == "enable_hooks" && hooks_declared_disabled(&data_dir, &name) {
                             n.insert("enable_hooks".to_string(), serde_json::json!(0));
                         } else {
@@ -243,8 +234,7 @@ pub fn cmd_completion(
             return ok(&data);
         } else {
             // Each completion is a group, exactly like `config`: `[name]` then `  key: value`.
-            // The named forms below drop the header (`completion <name>`) or the key
-            // (`completion <name> <key>`) — the caller already said which one it wants.
+            // The named forms below drop the header (`completion <name>`) or the key (`completion <name> <key>`) — the caller already said which one it wants.
             for (n, cfg) in entries {
                 out.line(&format!("[{n}]"));
                 for (k, v) in cfg {
@@ -333,8 +323,7 @@ pub fn cmd_completion(
         }
         return ExitCode::SUCCESS;
     }
-    // `completion <name> <key> <value>` takes exactly three arguments: anything after the value is
-    // a usage error, exactly as the reset form rejects it.
+    // `completion <name> <key> <value>` takes exactly three arguments: anything after the value is a usage error, exactly as the reset form rejects it.
     if args.len() > 3 {
         return crate::validate::too_many_params(out, lang, json);
     }
@@ -367,8 +356,7 @@ pub fn cmd_completion(
             true,
         );
     }
-    // What this write answers with: the item a read of that key returns, plus what the value was
-    // before — `null` when the key had none (design/json.md §8).
+    // What this write answers with: the item a read of that key returns, plus what the value was before — `null` when the key had none (design/json.md §8).
     let old = settings
         .config
         .get("completion")
@@ -377,8 +365,7 @@ pub fn cmd_completion(
         .cloned()
         .unwrap_or(serde_json::Value::Null);
     {
-        // Recover a corrupt settings.json (reset config/completion/name entries that aren't objects)
-        // to avoid an unwrap panic
+        // Recover a corrupt settings.json (reset config/completion/name entries that aren't objects) to avoid an unwrap panic
         let comp = ensure_completion_map(settings);
         let n = comp
             .entry(name.clone())
@@ -406,8 +393,7 @@ pub fn cmd_completion(
 mod tests {
     use super::*;
 
-    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path
-    // would let one test's cleanup clobber another's fixtures.
+    // Each test gets a unique dir: Rust runs tests in parallel, so sharing one path would let one test's cleanup clobber another's fixtures.
     fn test_base() -> std::path::PathBuf {
         use std::sync::atomic::{AtomicU64, Ordering};
         static COUNTER: AtomicU64 = AtomicU64::new(0);

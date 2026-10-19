@@ -8,8 +8,7 @@ use super::parallel_map;
 /// A directory entry as listed by `ls_entries`: `(name, full path, is_dir, is_link)`.
 pub(crate) type LsEntry = (String, String, bool, bool);
 
-/// Read a Lua array table (1..raw_len) into a Vec<String>;
-/// nil/non-string elements are skipped (a `nil` in a `psc.run` argv or batch list must not crash the hook).
+/// Read a Lua array table (1..raw_len) into a Vec<String>; nil/non-string elements are skipped (a `nil` in a `psc.run` argv or batch list must not crash the hook).
 pub(crate) fn table_to_strings(t: &Table) -> mlua::Result<Vec<String>> {
     let mut out = Vec::new();
     for i in 1..=t.raw_len() {
@@ -46,8 +45,8 @@ pub(crate) fn api_exist(lua: &Lua, cwd: &str, path: String) -> mlua::Result<bool
     Ok(resolve(cwd, &path).exists())
 }
 
-/// `psc.ls(path)` → `{ {name, path, is_dir, is_link}, ... }`; nil if the directory does not exist
-/// (strict failure semantics; an empty dir yields an empty array).
+/// `psc.ls(path)` → `{ {name, path, is_dir, is_link}, ...
+/// }`; nil if the directory does not exist (strict failure semantics; an empty dir yields an empty array).
 pub(crate) fn api_ls(lua: &Lua, cwd: &str, path: String) -> mlua::Result<Option<Table>> {
     let Ok(entries) = ls_entries(cwd, &path) else {
         return Ok(None);
@@ -81,8 +80,7 @@ fn ls_entries(cwd: &str, path: &str) -> std::io::Result<Vec<LsEntry>> {
     Ok(out)
 }
 
-/// `psc.ls_batch({dir,...})` → list several directories in parallel; `{ [index] = entries | nil }`
-/// (nil for a missing/unreadable dir — strict failure semantics).
+/// `psc.ls_batch({dir,...})` → list several directories in parallel; `{ [index] = entries | nil }` (nil for a missing/unreadable dir — strict failure semantics).
 pub(crate) fn api_ls_batch(lua: &Lua, cwd: &str, dirs: Vec<String>) -> mlua::Result<Table> {
     let resolved: Vec<(String, String)> = dirs
         .iter()
@@ -111,15 +109,12 @@ pub(crate) fn api_ls_batch(lua: &Lua, cwd: &str, dirs: Vec<String>) -> mlua::Res
     Ok(t)
 }
 
-/// `psc.glob(pattern)` → array of matching file paths, always **absolute** (the pattern is
-/// resolved against `cwd`; an absolute pattern ignores it). The pattern may contain `*`/`?`/`**`
-/// and `{a,b}` alternation (via `globset`, like `ripgrep`); nil for an invalid pattern (strict
-/// failure semantics; a valid pattern with no match yields an empty array).
-/// The walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (via `ignore` crate,
-/// like `ripgrep`): ignored files are never returned. `hidden` is `false` so dotfiles
-/// like `.env.*` still match when the pattern asks for them.
-/// Windows: glob treats `\` as an escape, so native backslash paths from hook authors fail;
-/// normalize them to `/`. On non-Windows, `\` is a legal filename character (rare), so it stays literal.
+/// `psc.glob(pattern)` → array of matching file paths, always **absolute** (the pattern is resolved against `cwd`; an absolute pattern ignores it).
+/// The pattern may contain `*`/`?`/`**` and `{a,b}` alternation (via `globset`, like `ripgrep`); nil for an invalid pattern (strict failure semantics; a valid pattern with no match yields an empty array).
+/// The walk respects `.gitignore`/`.ignore`/`.git/info/exclude` (via `ignore` crate, like `ripgrep`): ignored files are never returned.
+/// `hidden` is `false` so dotfiles like `.env.*` still match when the pattern asks for them.
+/// Windows: glob treats `\` as an escape, so native backslash paths from hook authors fail; normalize them to `/`.
+/// On non-Windows, `\` is a legal filename character (rare), so it stays literal.
 pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
     if cfg!(windows) {
         pattern.replace('\\', "/")
@@ -128,16 +123,13 @@ pub(crate) fn normalize_glob_pattern(pattern: &str) -> String {
     }
 }
 
-/// Wall-clock budget for a single `glob` walk. Deliberately far below the hook's 10 s cap: a
-/// completion menu that takes seconds to open is broken no matter what it finds, so a slow walk
-/// returns the matches it already has instead of making the user wait. Measured on a 50k-file
-/// tree (~0.6 s to walk), this leaves ample headroom for any legitimate listing while keeping the
-/// worst case imperceptible.
+/// Wall-clock budget for a single `glob` walk.
+/// Deliberately far below the hook's 10 s cap: a completion menu that takes seconds to open is broken no matter what it finds, so a slow walk returns the matches it already has instead of making the user wait.
+/// Measured on a 50k-file tree (~0.6 s to walk), this leaves ample headroom for any legitimate listing while keeping the worst case imperceptible.
 pub(crate) const GLOB_BUDGET: Duration = Duration::from_millis(500);
 
-/// When a walk must stop: its own budget, or whatever is left of the hook's deadline, whichever
-/// comes first. `hook_deadline` is a parameter (rather than read from the process-global slot) so
-/// the composition is testable without shared state.
+/// When a walk must stop: its own budget, or whatever is left of the hook's deadline, whichever comes first.
+/// `hook_deadline` is a parameter (rather than read from the process-global slot) so the composition is testable without shared state.
 pub(crate) fn glob_stop_at(now: Instant, hook_deadline: Option<Instant>) -> Instant {
     match hook_deadline {
         Some(hook) => (now + GLOB_BUDGET).min(hook),
@@ -145,8 +137,8 @@ pub(crate) fn glob_stop_at(now: Instant, hook_deadline: Option<Instant>) -> Inst
     }
 }
 
-/// `psc.glob(pattern)` → array of matching file paths (see `normalize_glob_pattern` for the
-/// pattern and ignore-file contract). The walk is time-bounded — see `glob_walk`.
+/// `psc.glob(pattern)` → array of matching file paths (see `normalize_glob_pattern` for the pattern and ignore-file contract).
+/// The walk is time-bounded — see `glob_walk`.
 pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Option<Vec<String>>> {
     let _ = lua;
     let normalized = normalize_glob_pattern(&pattern);
@@ -217,16 +209,12 @@ pub(crate) fn api_glob(lua: &Lua, cwd: &str, pattern: String) -> mlua::Result<Op
     Ok(Some(glob_walk(walk_root, &matcher, max_depth, stop_at)))
 }
 
-/// Walk `walk_root` (respecting ignore files, like ripgrep) and collect the paths `matcher`
-/// accepts, stopping at `stop_at`.
+/// Walk `walk_root` (respecting ignore files, like ripgrep) and collect the paths `matcher` accepts, stopping at `stop_at`.
 ///
-/// The walk is time-bounded, not count-bounded: the menu scrolls without a practical item limit,
-/// so a result is never truncated for being large — only for taking too long to find. A partial
-/// result degrades gracefully (the shallowest matches arrive first, and those are nearly always
-/// the ones wanted), whereas a hang blocks the menu outright.
+/// The walk is time-bounded, not count-bounded: the menu scrolls without a practical item limit, so a result is never truncated for being large — only for taking too long to find.
+/// A partial result degrades gracefully (the shallowest matches arrive first, and those are nearly always the ones wanted), whereas a hang blocks the menu outright.
 ///
-/// `stop_at` is an explicit parameter (not read from the process-global slot) so the bound is
-/// testable without shared state.
+/// `stop_at` is an explicit parameter (not read from the process-global slot) so the bound is testable without shared state.
 pub(crate) fn glob_walk(
     walk_root: &std::path::Path,
     matcher: &globset::GlobMatcher,
@@ -250,15 +238,11 @@ pub(crate) fn glob_walk(
     let mut out = Vec::new();
     let mut seen = std::collections::HashSet::new();
     for entry in walker {
-        // A recursive glob is a native walk: it burns wall-clock time without executing one
-        // Lua instruction, so the VM instruction-count hook can never interrupt it. Checking
-        // the clock here is what keeps a huge/deep tree from freezing the menu (the same
-        // reason `psc.run` checks the deadline — see `api/run.rs`).
+        // A recursive glob is a native walk: it burns wall-clock time without executing one Lua instruction, so the VM instruction-count hook can never interrupt it.
+        // Checking the clock here is what keeps a huge/deep tree from freezing the menu (the same reason `psc.run` checks the deadline — see `api/run.rs`).
         //
-        // Checked on **every** entry: polling every N entries left a gap in which a small tree
-        // (fewer entries than the interval) walked to the end with the deadline long past, and on
-        // a slow filesystem that gap is a stall the user feels. `Instant::now()` costs nothing
-        // beside the walk itself.
+        // Checked on **every** entry: polling every N entries left a gap in which a small tree (fewer entries than the interval) walked to the end with the deadline long past, and on a slow filesystem that gap is a stall the user feels.
+        // `Instant::now()` costs nothing beside the walk itself.
         if Instant::now() >= stop_at {
             break;
         }
@@ -271,15 +255,12 @@ pub(crate) fn glob_walk(
     out
 }
 
-/// `psc.path(...)` → normalize/join path segments into one path using the **native platform
-/// separator** (`\` on Windows, `/` elsewhere): a single argument normalizes its separators
-/// (on Windows `/` → `\`), multiple arguments are joined with that separator. Duplicate
-/// separators collapse (`"a/" + "/b"` → `"a\b"` on Windows, `"a/b"` elsewhere). A leading
-/// separator (absolute segment) and a drive root like `C:\` are preserved. The result is
-/// valid as an input to every `psc.*` file API on its platform.
+/// `psc.path(...)` → normalize/join path segments into one path using the **native platform separator** (`\` on Windows, `/` elsewhere): a single argument normalizes its separators (on Windows `/` → `\`), multiple arguments are joined with that separator.
+/// Duplicate separators collapse (`"a/" + "/b"` → `"a\b"` on Windows, `"a/b"` elsewhere).
+/// A leading separator (absolute segment) and a drive root like `C:\` are preserved.
+/// The result is valid as an input to every `psc.*` file API on its platform.
 pub(crate) fn api_path(_lua: &Lua, parts: mlua::MultiValue) -> mlua::Result<String> {
-    // Collect positional arguments; non-string values (nil, numbers, tables) are skipped,
-    // mirroring the tolerant nil-handling of the other string-collecting APIs.
+    // Collect positional arguments; non-string values (nil, numbers, tables) are skipped, mirroring the tolerant nil-handling of the other string-collecting APIs.
     let parts: Vec<String> = parts
         .into_iter()
         .filter_map(|v| match v {
@@ -295,8 +276,7 @@ pub(crate) fn api_path(_lua: &Lua, parts: mlua::MultiValue) -> mlua::Result<Stri
             '/'
         }
     }
-    /// Collapse runs of the separator to a single one (keeping a leading/trailing one, so
-    /// `/usr`, `C:\` etc. are preserved).
+    /// Collapse runs of the separator to a single one (keeping a leading/trailing one, so `/usr`, `C:\` etc. are preserved).
     fn collapse_seps(s: &str, sep: char) -> String {
         let mut out = String::new();
         let mut prev_sep = false;
@@ -342,8 +322,7 @@ pub(crate) fn api_path(_lua: &Lua, parts: mlua::MultiValue) -> mlua::Result<Stri
     Ok(out)
 }
 
-/// `psc.read_batch({path,...})` → read files in parallel; returns `{ [original path] = content | nil }`
-/// (nil for a missing/unreadable file — strict failure semantics).
+/// `psc.read_batch({path,...})` → read files in parallel; returns `{ [original path] = content | nil }` (nil for a missing/unreadable file — strict failure semantics).
 pub(crate) fn api_read_batch(lua: &Lua, cwd: &str, paths: Vec<String>) -> mlua::Result<Table> {
     let resolved: Vec<(String, String)> = paths
         .iter()

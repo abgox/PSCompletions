@@ -8,15 +8,14 @@ use super::api::{items_to_table, resolve_localized, resolve_usage_example, table
 use super::bindings::build_psc_table;
 use super::{HookContext, LazyEntry, LazyField, LuaItem};
 
-/// The running hook's total deadline as `Instant` (None = none). A process global —
-/// not a thread-local — so `psc.run_batch`'s worker threads see it too and cut their
-/// subprocesses short once the hook's budget is spent. One hook runs at a time per
-/// process, so a single slot is enough. Uses `Instant` to avoid `SystemTime` clock skew.
+/// The running hook's total deadline as `Instant` (None = none).
+/// A process global — not a thread-local — so `psc.run_batch`'s worker threads see it too and cut their subprocesses short once the hook's budget is spent.
+/// One hook runs at a time per process, so a single slot is enough.
+/// Uses `Instant` to avoid `SystemTime` clock skew.
 pub(crate) static HOOK_DEADLINE: std::sync::Mutex<Option<Instant>> = std::sync::Mutex::new(None);
 
 /// The running hook's deadline, or `None` when no hook is running / the slot is contended.
-/// Read it from a blocking `psc.*` call (one that executes no Lua instructions, so the
-/// instruction-count hook cannot interrupt it) to cut that call short instead of hanging.
+/// Read it from a blocking `psc.*` call (one that executes no Lua instructions, so the instruction-count hook cannot interrupt it) to cut that call short instead of hanging.
 pub(crate) fn hook_deadline() -> Option<Instant> {
     HOOK_DEADLINE.try_lock().ok().and_then(|g| *g)
 }
@@ -27,9 +26,8 @@ pub(crate) fn is_hook_expired() -> bool {
 
 struct HookDeadlineGuard;
 impl HookDeadlineGuard {
-    /// Arm the process-global deadline and hand back the guard that clears it. Only a guard ever
-    /// sets the slot, so it cannot be left behind: the fallible step (installing the Lua hook) runs
-    /// first, and a failure there never reaches this call.
+    /// Arm the process-global deadline and hand back the guard that clears it.
+    /// Only a guard ever sets the slot, so it cannot be left behind: the fallible step (installing the Lua hook) runs first, and a failure there never reaches this call.
     fn arm(deadline: Instant) -> Self {
         if let Ok(mut guard) = HOOK_DEADLINE.lock() {
             *guard = Some(deadline);
@@ -75,15 +73,12 @@ const HOOK_TIMEOUT: Duration = Duration::from_secs(10);
 /// Instruction-counting interval: the timeout is polled every this many VM instructions.
 const HOOK_INSTRUCTION_INTERVAL: u32 = 1_000_000;
 
-/// Per-field lazy evaluation budget: a single tip/usage/example callback must be a
-/// fast local read (a manifest parse is milliseconds). This only guards hangs —
-/// `psc.run` inside a callback observes the same deadline and is cut short too.
+/// Per-field lazy evaluation budget: a single tip/usage/example callback must be a fast local read (a manifest parse is milliseconds).
+/// This only guards hangs — `psc.run` inside a callback observes the same deadline and is cut short too.
 const LAZY_EVAL_TIMEOUT: Duration = Duration::from_secs(5);
 
-/// A kept-alive hook VM plus its unevaluated lazy callbacks, owned by the menu
-/// session on the main thread for the whole TUI lifetime. Selections resolve
-/// callbacks on demand; everything else (peeks, cache, repeat filtering) only
-/// ever sees plain strings.
+/// A kept-alive hook VM plus its unevaluated lazy callbacks, owned by the menu session on the main thread for the whole TUI lifetime.
+/// Selections resolve callbacks on demand; everything else (peeks, cache, repeat filtering) only ever sees plain strings.
 pub struct HookSession {
     lua: Lua,
     lazy: Vec<LazyEntry>,
@@ -98,9 +93,8 @@ impl HookSession {
         !self.lazy.is_empty()
     }
 
-    /// Drop lazy entries whose rows are gone from the final list (repeat /
-    /// separator filtering dropped them after the hook ran). Keyed by text,
-    /// orphans could never resolve — prune once, at handoff, instead.
+    /// Drop lazy entries whose rows are gone from the final list (repeat / separator filtering dropped them after the hook ran).
+    /// Keyed by text, orphans could never resolve — prune once, at handoff, instead.
     pub fn prune_to(&mut self, items: &[LuaItem]) {
         if self.lazy.is_empty() {
             return;
@@ -110,15 +104,13 @@ impl HookSession {
         self.lazy.retain(|e| live.contains(&e.key));
     }
 
-    /// Drain pending lazy entries for the item text, evaluate each, and return
-    /// (field, resolved text) pairs. Every entry resolves at most once — failures
-    /// (error/timeout) cache as empty and are logged once to `error.log`.
+    /// Drain pending lazy entries for the item text, evaluate each, and return (field, resolved text) pairs.
+    /// Every entry resolves at most once — failures (error/timeout) cache as empty and are logged once to `error.log`.
     pub fn resolve_for(&mut self, key: &str) -> Vec<(LazyField, Option<String>)> {
         self.resolve_for_with_timeout(key, LAZY_EVAL_TIMEOUT)
     }
 
-    /// Implementation of `resolve_for` with an explicit budget (so tests can use
-    /// a short one).
+    /// Implementation of `resolve_for` with an explicit budget (so tests can use a short one).
     pub fn resolve_for_with_timeout(
         &mut self,
         key: &str,
@@ -174,8 +166,8 @@ impl HookSession {
 }
 
 /// Arm the VM instruction-count hook + the process-global deadline for `timeout`.
-/// The returned guard clears the global slot on drop. Shared by full-hook runs
-/// and single lazy evaluations.
+/// The returned guard clears the global slot on drop.
+/// Shared by full-hook runs and single lazy evaluations.
 fn arm_timeout(lua: &Lua, timeout: Duration) -> mlua::Result<HookDeadlineGuard> {
     let deadline = Instant::now() + timeout;
     lua.set_hook(
@@ -191,8 +183,7 @@ fn arm_timeout(lua: &Lua, timeout: Duration) -> mlua::Result<HookDeadlineGuard> 
             }
         },
     )?;
-    // The deadline is armed only after the hook is installed: the guard is what clears the slot, so
-    // arming it before a fallible call would leave a stale deadline for `is_hook_expired`.
+    // The deadline is armed only after the hook is installed: the guard is what clears the slot, so arming it before a fallible call would leave a stale deadline for `is_hook_expired`.
     Ok(HookDeadlineGuard::arm(deadline))
 }
 
@@ -214,9 +205,8 @@ pub(crate) fn run_hook_with_timeout(
 ) -> mlua::Result<Vec<LuaItem>> {
     Ok(run_hook_keepalive_with_timeout(context, script, static_items, timeout)?.0)
 }
-/// Execute a `hooks.lua` script with the default timeout, keeping the VM and its
-/// lazy callbacks alive for the menu session. Plain `run_hook` callers (tests,
-/// peeks) use the dropping wrapper and see no behavior change.
+/// Execute a `hooks.lua` script with the default timeout, keeping the VM and its lazy callbacks alive for the menu session.
+/// Plain `run_hook` callers (tests, peeks) use the dropping wrapper and see no behavior change.
 pub(crate) fn run_hook_keepalive(
     context: &HookContext,
     script: &str,
@@ -225,10 +215,8 @@ pub(crate) fn run_hook_keepalive(
     run_hook_keepalive_with_timeout(context, script, static_items, HOOK_TIMEOUT)
 }
 
-/// Implementation of `run_hook` with a kept-alive session: same as
-/// `run_hook_with_timeout` but returns the VM and its lazy callbacks for the
-/// menu session instead of dropping them. Plain `run_hook` callers (tests,
-/// peeks) use the dropping wrapper and see no behavior change.
+/// Implementation of `run_hook` with a kept-alive session: same as `run_hook_with_timeout` but returns the VM and its lazy callbacks for the menu session instead of dropping them.
+/// Plain `run_hook` callers (tests, peeks) use the dropping wrapper and see no behavior change.
 pub(crate) fn run_hook_keepalive_with_timeout(
     context: &HookContext,
     script: &str,
@@ -239,8 +227,7 @@ pub(crate) fn run_hook_keepalive_with_timeout(
     let script = psc_common::strip_bom(script);
     let _deadline_guard = arm_timeout(&lua, timeout)?;
     let mut lazy: Vec<LazyEntry> = Vec::new();
-    // The ONE live candidate list: seeded with static expansion, mutated by handlers
-    // (via the implicit `psc.add` target) and read back when the hook returns nothing.
+    // The ONE live candidate list: seeded with static expansion, mutated by handlers (via the implicit `psc.add` target) and read back when the hook returns nothing.
     let live = items_to_table(&lua, static_items)?;
     let add_target: super::bindings::AddTarget =
         std::rc::Rc::new(std::cell::RefCell::new(live.clone()));
@@ -258,16 +245,14 @@ pub(crate) fn run_hook_keepalive_with_timeout(
     lua.globals().set("completions", live.clone())?;
     let result: Value = lua.load(script).call(())?;
     let explicit_return = matches!(result, Value::Table(_));
-    // For reordering: dynamic items should appear before static so users quickly see
-    // the contextual completions; history-based ordering in the menu layer will then
-    // apply within that merged sequence.
+    // For reordering: dynamic items should appear before static so users quickly see the contextual completions; history-based ordering in the menu layer will then apply within that merged sequence.
     let static_exact: std::collections::HashSet<&str> =
         static_items.iter().map(|i| i.text.as_str()).collect();
     let static_folded: std::collections::HashSet<String> =
         static_items.iter().map(|i| i.text.to_lowercase()).collect();
     let mut items = match result {
-        // Nothing returned → the live candidate list (static seed + every registered
-        // contribution) is the result. Reorder to put dynamic first.
+        // Nothing returned → the live candidate list (static seed + every registered contribution) is the result.
+        // Reorder to put dynamic first.
         Value::Nil => {
             let snapshot = add_target.borrow().clone();
             let all = table_to_items(&lua, &snapshot, &mut lazy, &context.language)?;
@@ -284,16 +269,15 @@ pub(crate) fn run_hook_keepalive_with_timeout(
             dynamic
         }
         Value::Table(t) => table_to_items(&lua, &t, &mut lazy, &context.language)?,
-        // A stray return value (e.g. `return "x"`) is almost always a hook bug; fail loudly
-        // instead of silently dropping every dynamic item.
+        // A stray return value (e.g. `return "x"`) is almost always a hook bug; fail loudly instead of silently dropping every dynamic item.
         other => {
             return Err(mlua::Error::RuntimeError(format!(
                 "hook must return an array of items or nothing, got {other:?}"
             )))
         }
     };
-    // Mixing warning: an explicit return REPLACES the candidate list, discarding any
-    // psc.on contributions made during this build. Surface it instead of hiding it.
+    // Mixing warning: an explicit return REPLACES the candidate list, discarding any psc.on contributions made during this build.
+    // Surface it instead of hiding it.
     if injected.get() && explicit_return {
         let msg = format!(
             "[{}{}] warning: explicit return discarded psc.on contributions\n",
@@ -341,9 +325,8 @@ mod tests {
 
     #[test]
     fn the_deadline_guard_is_what_arms_and_clears_the_slot() {
-        // The global slot is only ever set by holding a guard, which is what makes a stale deadline
-        // impossible: `arm_timeout` installs the Lua hook first, and a failure there returns before
-        // any guard exists. `is_hook_expired` reads this slot.
+        // The global slot is only ever set by holding a guard, which is what makes a stale deadline impossible: `arm_timeout` installs the Lua hook first, and a failure there returns before any guard exists.
+        // `is_hook_expired` reads this slot.
         *HOOK_DEADLINE.lock().unwrap() = None;
         {
             let _guard = HookDeadlineGuard::arm(Instant::now() + Duration::from_secs(60));

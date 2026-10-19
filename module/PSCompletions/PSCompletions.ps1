@@ -64,23 +64,18 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
             $isSpaceTab = $buffer[-1] -eq ' '
             $matches = [regex]::Matches($buffer, $PSCompletions.input_pattern)
             if (!$matches.Count) { return }
-            # A separator ends the command being edited: what follows the last unquoted one is a
-            # fresh command line, so *its* command word and tokens are what the menu needs
-            # (`git status | grep <Tab>` completes grep, not git). The word offsets below stay
-            # absolute — the last token is the same either way — and an empty segment (the line
-            # ends on a separator) has no command to look up, so it falls through to the host.
+            # A separator ends the command being edited: what follows the last unquoted one is a fresh command line, so *its* command word and tokens are what the menu needs (`git status | grep <Tab>` completes grep, not git).
+            # The word offsets below stay absolute — the last token is the same either way — and an empty segment (the line ends on a separator) has no command to look up, so it falls through to the host.
             $inputs = @()
             foreach ($match in [regex]::Matches($PSCompletions.command_segment($buffer), $PSCompletions.input_pattern)) { $inputs += $match.Value }
-            # An empty segment (the line ends on a separator) has no command word, and everything
-            # below — the trigger map, the native path, `--sort` — reads the last token as the word
-            # being completed. One empty token says exactly that, and keeps the list non-empty.
+            # An empty segment (the line ends on a separator) has no command word, and everything below — the trigger map, the native path, `--sort` — reads the last token as the word being completed.
+            # One empty token says exactly that, and keeps the list non-empty.
             if (!$inputs.Count) { $inputs = @('') }
 
             $first = $inputs[0] -replace '\.(exe|cmd|bat)$', ''
             $isSudo = $first -eq 'sudo' -or $PSCompletions.data.aliasMap[$first] -eq 'sudo'
             if (-not $isSudo -and $first -and $null -eq $PSCompletions.data.aliasMap[$first] -and $first -notmatch '[*?]') {
-                # A literal lookup: `$first` is a command word, not a wildcard pattern — `[s` is a
-                # valid word and an invalid pattern, and an empty one is not a name at all.
+                # A literal lookup: `$first` is a command word, not a wildcard pattern — `[s` is a valid word and an invalid pattern, and an empty one is not a name at all.
                 $shellTarget = (Get-Alias -Name ([System.Management.Automation.WildcardPattern]::Escape($first)) -ErrorAction SilentlyContinue).Definition -replace '\.(exe|cmd|bat)$', ''
                 if ($shellTarget) { $isSudo = $shellTarget -eq 'sudo' -or $PSCompletions.data.aliasMap[$shellTarget] -eq 'sudo' }
             }
@@ -129,17 +124,13 @@ New-Variable -Name PSCompletions -Option Constant -Value @{
                 if (!$filter_list) { return }
 
                 $PSCompletions.cmd = $cmd = $inputs[0]
-                # The native path's candidates are the host's; the pending word still tells the
-                # engine what to fill the filter with (it ignores a filter that matches nothing).
-                # The pending word can be the command word itself (`pyt<Tab>`): send the whole
-                # token list, the engine reads only its last element.
+                # The native path's candidates are the host's; the pending word still tells the engine what to fill the filter with (it ignores a filter that matches nothing).
+                # The pending word can be the command word itself (`pyt<Tab>`): send the whole token list, the engine reads only its last element.
                 $PSCompletions.menu.arg_tokens = @($inputs)
                 $PSCompletions.menu.treat_last_as_complete = $buffer[-1] -eq ' '
                 if (![System.Management.Automation.WildcardPattern]::ContainsWildcardCharacters($cmd)) {
-                    # Hand the raw input tokens to the engine: it decides whether the first token
-                    # is still being completed (`g<Tab>`, `.\src\<Tab>`) and only then consults
-                    # the shared global files (_commands.json / _paths.json). Once the command is
-                    # complete (`npm <Tab>`) the candidates are its own subcommands.
+                    # Hand the raw input tokens to the engine: it decides whether the first token is still being completed (`g<Tab>`, `.\src\<Tab>`) and only then consults the shared global files (_commands.json / _paths.json).
+                    # Once the command is complete (`npm <Tab>`) the candidates are its own subcommands.
                     $filter_list = $PSCompletions.apply_completions_sort($cmd, $filter_list, $inputs, $PSCompletions.buffer_before_cursor[-1] -eq ' ')
                 }
                 $result = $PSCompletions.menu.show_module_menu($filter_list)
@@ -205,13 +196,12 @@ Add-Member -InputObject $PSCompletions -MemberType ScriptMethod initialize {
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_engine -Force {
         param ($data, $ctx = @{}, $separator = '')
-        # The engine renders: this module hands over the template value and its context and never
-        # interprets either. `--markup` keeps the `<@Color>` markup for `write_with_color`.
+        # The engine renders: this module hands over the template value and its context and never interprets either.
+        # `--markup` keeps the `<@Color>` markup for `write_with_color`.
         $request = @{ data = $data; ctx = $ctx; sep = $separator } | ConvertTo-Json -Depth 32 -Compress
         $bin = $PSCompletions.psc_binary()
         if (!$bin) { return '' }
-        # A native process reads/writes UTF-8; PowerShell would otherwise use [Console]::OutputEncoding
-        # (GBK on Chinese systems).
+        # A native process reads/writes UTF-8; PowerShell would otherwise use [Console]::OutputEncoding (GBK on Chinese systems).
         $oldConsole = [Console]::OutputEncoding
         $oldOutput = $OutputEncoding
         [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
@@ -450,8 +440,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     Add-Member -InputObject $PSCompletions.menu -MemberType ScriptMethod menu_binary -Force {
         if ($null -ne $PSCompletions.menu.menu_binary_cache) { return $PSCompletions.menu.menu_binary_cache }
         $binRoot = [System.IO.Path]::Combine($PSCompletions.path.dir.root, 'bin')
-        # 'darwin' names the binary bundle directory (bin/<platform>-<arch>/); the engine-facing
-        # platform field uses 'macos' instead — two intentional spellings, do not unify.
+        # 'darwin' names the binary bundle directory (bin/<platform>-<arch>/); the engine-facing platform field uses 'macos' instead — two intentional spellings, do not unify.
         $platform = if ($PSEdition -eq 'Desktop' -or $IsWindows) { 'windows' } elseif ($IsMacOS) { 'darwin' } else { 'linux' }
         try {
             $arch = [System.Runtime.InteropServices.RuntimeInformation]::ProcessArchitecture.ToString()
@@ -482,8 +471,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
         param($filter_list)
         try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
         if (-not $filter_list) { return '' }
-        # Build mode: get_completion hands a build context (hashtable with `build`) instead of items;
-        # the engine builds + ranks the candidates inside the menu process.
+        # Build mode: get_completion hands a build context (hashtable with `build`) instead of items; the engine builds + ranks the candidates inside the menu process.
         $isBuild = ($filter_list -is [hashtable]) -and $filter_list.ContainsKey('build')
         $menu = $PSCompletions.menu
         $config = $PSCompletions.config
@@ -565,8 +553,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             order = $PSCompletions.path.dir.order
             menu  = $PSCompletions.path.dir.menu
         }
-        # Items mode forwards the line's tokens the same way: the engine derives the filter and
-        # ignores it when it matches nothing, so no host needs its own rule.
+        # Items mode forwards the line's tokens the same way: the engine derives the filter and ignores it when it matches nothing, so no host needs its own rule.
         if ($null -ne $PSCompletions.menu.arg_tokens) {
             $input.arg_tokens = @($PSCompletions.menu.arg_tokens)
             $input.treat_last_as_complete = [bool]$PSCompletions.menu.treat_last_as_complete
@@ -694,12 +681,10 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             $errorMsg = $_.Exception.Message
         }
         finally {
-            # Restore the saved buffer region on every non-alternate exit. When the menu reported
-            # a covered range, restore exactly that. When it died abnormally (timeout / crash /
-            # missing result) it may have drawn content without reporting coverage — restore the
-            # whole saved region so no residue is left. A normal cancel (no error, no coverage)
-            # means nothing was rendered, so skip the restore (writing it back would trigger
-            # PSReadLine to repaint its prediction list).
+            # Restore the saved buffer region on every non-alternate exit.
+            # When the menu reported a covered range, restore exactly that.
+            # When it died abnormally (timeout / crash / missing result) it may have drawn content without reporting coverage — restore the whole saved region so no residue is left.
+            # A normal cancel (no error, no coverage) means nothing was rendered, so skip the restore (writing it back would trigger PSReadLine to repaint its prediction list).
             if ($bufferSaved -and -not ($result -and $result.alternate)) {
                 try {
                     $hasCovered = $result -and $null -ne $result.covered_top -and $null -ne $result.covered_bottom
@@ -738,9 +723,7 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
                 }
             }
             # Restore encoding/cursor in finally so a throw mid-menu still recovers both.
-            # Restore the cursor on every platform: the alternate-screen leave only returns the
-            # terminal to the main screen; repositioning the cursor back to the input line is our
-            # job (on Windows the menu also leaves it at the last drawn spot otherwise).
+            # Restore the cursor on every platform: the alternate-screen leave only returns the terminal to the main screen; repositioning the cursor back to the input line is our job (on Windows the menu also leaves it at the last drawn spot otherwise).
             try { [Console]::OutputEncoding = $savedOutputEncoding } catch { }
             try { $rawUI.CursorPosition = $originCursor } catch { }
         }
@@ -769,12 +752,9 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
             return
         }
     }
-    # The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`,
-    # `||`). A separator ends a command, so what follows it is a fresh command line whose own
-    # command word and tokens are what the menu completes (`git status | grep <Tab>` completes
-    # `grep`). PowerShell's own parser marks them, so quotes, here-strings and redirections
-    # (`2>&1`, `&>`) need nothing of our own; an empty result means the line ends on a separator,
-    # so there is no command to look up and the caller falls through to the host.
+    # The command being edited: everything after the last unquoted separator (`|`, `;`, `&`, `&&`, `||`).
+    # A separator ends a command, so what follows it is a fresh command line whose own command word and tokens are what the menu completes (`git status | grep <Tab>` completes `grep`).
+    # PowerShell's own parser marks them, so quotes, here-strings and redirections (`2>&1`, `&>`) need nothing of our own; an empty result means the line ends on a separator, so there is no command to look up and the caller falls through to the host.
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod command_segment -Force {
         param([string]$Text)
         if ([string]::IsNullOrEmpty($Text)) { return $Text }
@@ -926,8 +906,8 @@ Refer to: https://pscompletions.abgox.com/docs/binary-not-found
     }
     Add-Member -InputObject $PSCompletions -MemberType ScriptMethod render_pending -Force {
         try { Microsoft.PowerShell.Core\Set-StrictMode -Off } catch { }
-        # Pending module/library notifications appended AFTER a psc command's output. Not one-shot:
-        # a newer module version and pending updates persist until the user acts on them.
+        # Pending module/library notifications appended AFTER a psc command's output.
+        # Not one-shot: a newer module version and pending updates persist until the user acts on them.
         $showLibrary = -not $PSCompletions.pending_skip_library
         $PSCompletions.pending_skip_library = $false
         # Module update: change.json's module field records the newest remote version the CLI fetched.

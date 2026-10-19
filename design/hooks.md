@@ -1,24 +1,21 @@
 # PSCompletions Lua Hooks
 
-> Status: **current**. Dynamic completions run as Lua scripts inside the Rust core process.
-> This is the authoritative reference for the hooks subsystem — architecture, contract, and the
-> full `psc.*` API. Operating manual for the completions workflow: `AGENTS.md`.
+> Status: **current**.
+> Dynamic completions run as Lua scripts inside the Rust core process.
+> This is the authoritative reference for the hooks subsystem — architecture, contract, and the full `psc.*` API.
+> Operating manual for the completions workflow: `AGENTS.md`.
 >
-> **Editor experience**: `types/psc.lua` models the `psc` global and `completions`
-> with EmmyLua annotations — with the VSCode "Lua" extension you get autocomplete and argument
-> checks inside `completions/*/hooks.lua`.
+> **Editor experience**: `types/psc.lua` models the `psc` global and `completions` with EmmyLua annotations — with the VSCode "Lua" extension you get autocomplete and argument checks inside `completions/*/hooks.lua`.
 >
 > Scoping rule for `types/psc.lua`: it models only APIs usable by **every** hook.
-> Members that exist engine-wide but are meaningful to a single completion (e.g. `psc._data`,
-> which is psc-only) stay out, so they never compete for attention in other authors'
-> completion lists. Single-completion capabilities live in that completion's own `hooks.lua`
-> (suppressing the LSP diagnostic locally if needed).
+> Members that exist engine-wide but are meaningful to a single completion (e.g. `psc._data`, which is psc-only) stay out, so they never compete for attention in other authors' completion lists.
+> Single-completion capabilities live in that completion's own `hooks.lua` (suppressing the LSP diagnostic locally if needed).
 
 ## 1. Role of hooks
 
 Static manifests capture a tool's fixed structure (subcommands, options, aliases, tooltips).
-Dynamic values — things that depend on **runtime local state** (git branches, npm scripts,
-installed packages, files, env vars) — cannot be known at authoring time. Hooks fill that gap:
+Dynamic values — things that depend on **runtime local state** (git branches, npm scripts, installed packages, files, env vars) — cannot be known at authoring time.
+Hooks fill that gap:
 
 - Hook output is **merged** with the static items, never a replacement.
 - The hook runs only when the tool's `config.json` has `"hooks": true` and `hooks.lua` exists.
@@ -34,23 +31,15 @@ PowerShell thin bridge:
 ```
 
 - Lua runs **in-process** via `mlua` (no separate interpreter process, no IPC cost).
-- Rust **pre-parses the context** (subcommand path, pending token, last option, completed
-  tokens) and exposes it as `psc.*` values, so hooks never rebuild it from raw input.
-- The `completions` global is the **live candidate list**, seeded once with the static expansion
-  (one row per alias form). Hook top-level code and `psc.on` handlers mutate it directly via
-  `psc.add` or plain Lua table operations; whatever it holds when the hook finishes is what the
-  menu shows (after repeat filtering and symbol/tip overrides).
-- `psc.on(spec, handler)` registrations are evaluated **at most once per build**,
-  handlers run sequentially.
+- Rust **pre-parses the context** (subcommand path, pending token, last option, completed tokens) and exposes it as `psc.*` values, so hooks never rebuild it from raw input.
+- The `completions` global is the **live candidate list**, seeded once with the static expansion (one row per alias form). Hook top-level code and `psc.on` handlers mutate it directly via `psc.add` or plain Lua table operations; whatever it holds when the hook finishes is what the menu shows (after repeat filtering and symbol/tip overrides).
+- `psc.on(spec, handler)` registrations are evaluated **at most once per build**, handlers run sequentially.
 
 ## 3. Hook contract
 
-The `hooks.lua` script's **top-level body** is unconditional direct manipulation, and
-`psc.on(spec, handler)` registrations are conditional direct manipulation — both
-operate on the same live `completions` list.
+The `hooks.lua` script's **top-level body** is unconditional direct manipulation, and `psc.on(spec, handler)` registrations are conditional direct manipulation — both operate on the same live `completions` list.
 
-> Encoding: a leading UTF-8 BOM is stripped before execution (Windows editors often emit
-> one), mirroring the BOM-tolerant read of static manifests.
+> Encoding: a leading UTF-8 BOM is stripped before execution (Windows editors often emit one), mirroring the BOM-tolerant read of static manifests.
 
 ```lua
 -- declarative: runs only when the current position matches spec
@@ -67,32 +56,21 @@ end)
 ```
 
 - `completions` — live candidate list, seeded with static items. Items use the **`name`** key.
-- Top-level code and `psc.on` handlers mutate `completions` directly: `psc.add(item)` appends,
-  `completions[i] = ...` / `table.insert` can rewrite.
+- Top-level code and `psc.on` handlers mutate `completions` directly: `psc.add(item)` appends, `completions[i] = ...` / `table.insert` can rewrite.
 - Return `nil` (or nothing) → live list is the result. Returning an explicit array **replaces**
-  the live list entirely (documented: do not mix a replacing return with `psc.on` in the same file;
-  the engine warns when an explicit return discards `psc.on` contributions).
-  Returning anything else (e.g. a string) is an error. Malformed rows (non-table,
-  missing/blank `name`) are skipped, never fatal.
-- Completion item shape: `{ name, tip?, usage?, example?, symbol?, repeat?/repeat_count?, nospace?, is_option? }`.
-  `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections —
-  each accepts a plain string or a `{ cmd, desc }` object (rendered `cmd  # desc`, just `cmd`
-  without `desc`), mirroring the manifest's object entries. `tip` accepts a plain string or a
+the live list entirely (documented: do not mix a replacing return with `psc.on` in the same file; the engine warns when an explicit return discards `psc.on` contributions).
+Returning anything else (e.g. a string) is an error.
+Malformed rows (non-table, missing/blank `name`) are skipped, never fatal.
+- Completion item shape: `{ name, tip?, usage?, example?, symbol?, repeat?/repeat_count?, nospace?, is_option? }`. `usage` / `example` are optional text lines shown as the `[Usage]` / `[Example]` tip sections — each accepts a plain string or a `{ cmd, desc }` object (rendered `cmd  # desc`, just `cmd` without `desc`), mirroring the manifest's object entries. `tip` accepts a plain string or a
   localized table; an absent `tip` falls back to `name`. All three also accept a **function**
-  (lazy — see below); a function tip has no name-fallback (unresolved reads back empty).
-- **`is_option` is engine-internal**, like `nospace`: the declared type of the static node the row
-  came from, round-tripped so a hook-preserved static item keeps it. Absent means the row is
-  hook-injected and no manifest declares it. Consumers compare rows by the manifest's own rule
-  (options case-sensitively, commands case-insensitively) instead of guessing from a leading `-`.
-- **`text` is an engine-internal field**: everywhere a hook can see an item, it is the `name` key.
-  Do not read or write `text` on items.
-- The menu performs filtering/prefix matching; hooks return the **full candidate set** via the live list.
-  Dynamic items added via `psc.add`/`psc.on` are ordered **before** static items so contextual completions are visible first; history-based ranking (`order.rs`) then applies within that sequence.
+(lazy — see below); a function tip has no name-fallback (unresolved reads back empty).
+- **`is_option` is engine-internal**, like `nospace`: the declared type of the static node the row came from, round-tripped so a hook-preserved static item keeps it. Absent means the row is hook-injected and no manifest declares it. Consumers compare rows by the manifest's own rule (options case-sensitively, commands case-insensitively) instead of guessing from a leading `-`.
+- **`text` is an engine-internal field**: everywhere a hook can see an item, it is the `name` key. Do not read or write `text` on items.
+- The menu performs filtering/prefix matching; hooks return the **full candidate set** via the live list. Dynamic items added via `psc.add`/`psc.on` are ordered **before** static items so contextual completions are visible first; history-based ranking (`order.rs`) then applies within that sequence.
 
 ### Lazy `tip` / `usage` / `example` functions
 
-Pass a zero-arg function instead of a value and it is evaluated **once, when its row is
-selected** (highlighted) — not when the hook runs, not on apply:
+Pass a zero-arg function instead of a value and it is evaluated **once, when its row is selected** (highlighted) — not when the hook runs, not on apply:
 
 ```lua
 -- scoop-style: list names now (cheap), parse each manifest on selection
@@ -104,31 +82,17 @@ for _, app in ipairs(names) do
 end
 ```
 
-- The closure sees hook locals and the full `psc.*` API (upvalues are preserved —
-  the hook VM stays alive for the menu session). It returns a string, a localized
-  table (`tip`) / `{ cmd, desc }` object (`usage` / `example`), or nil (no text).
-- Each field resolves at most once and is cached; errors and timeouts resolve empty
-  (logged once to `error.log`, never retried, never fatal).
-- **Budget**: one evaluation gets 5 seconds (matches `psc.run`'s default timeout;
-  a manifest parse is milliseconds). Keep callbacks to fast local reads — evaluation
-  is synchronous on the main thread and blocks navigation while it runs. The budget
-  shares the process-global deadline slot with background symbol peeks; if the two
-  overlap, budgets may stretch or cut early — both sides degrade gracefully (empty
-  tip / missing symbol), never fatal.
-- **Result cache is bypassed** while any lazy callback is pending: cached items could
-  never replay their functions. Re-running is cheap by design (names only).
-- A callback must not rely on `psc.add` (the live list is already snapshotted —
-  appends land nowhere visible).
+- The closure sees hook locals and the full `psc.*` API (upvalues are preserved — the hook VM stays alive for the menu session). It returns a string, a localized table (`tip`) / `{ cmd, desc }` object (`usage` / `example`), or nil (no text).
+- Each field resolves at most once and is cached; errors and timeouts resolve empty (logged once to `error.log`, never retried, never fatal).
+- **Budget**: one evaluation gets 5 seconds (matches `psc.run`'s default timeout; a manifest parse is milliseconds). Keep callbacks to fast local reads — evaluation is synchronous on the main thread and blocks navigation while it runs. The budget shares the process-global deadline slot with background symbol peeks; if the two overlap, budgets may stretch or cut early — both sides degrade gracefully (empty tip / missing symbol), never fatal.
+- **Result cache is bypassed** while any lazy callback is pending: cached items could never replay their functions. Re-running is cheap by design (names only).
+- A callback must not rely on `psc.add` (the live list is already snapshotted — appends land nowhere visible).
 
 ### Async evaluation (future)
 
-Evaluation is synchronous today: a slow callback blocks navigation up to its 5 s
-budget. True separation needs a dedicated VM-owner thread (mlua values are `!Send`,
-so the session VM cannot move to a worker) with a request channel from the menu
-loop — queued per-row evaluations, current selection first, stale results dropped
-by generation, same 5 s cap per callback. Do that when real hooks (not fixtures)
-prove the synchronous hitch user-visible; until then the budget + keep-it-fast
-rule stands.
+Evaluation is synchronous today: a slow callback blocks navigation up to its 5 s budget.
+True separation needs a dedicated VM-owner thread (mlua values are `!Send`, so the session VM cannot move to a worker) with a request channel from the menu loop — queued per-row evaluations, current selection first, stale results dropped by generation, same 5 s cap per callback.
+Do that when real hooks (not fixtures) prove the synchronous hitch user-visible; until then the budget + keep-it-fast rule stands.
 
 ## 4. psc.\* Context Values
 
@@ -142,36 +106,21 @@ rule stands.
 | `psc.cwd` | The current working directory. |
 | `psc.platform` | The current system platform. (`"windows"` / `"macos"` / `"linux"`) |
 
-> **A Windows-only environment variable needs a platform guard.** `APPDATA` is always
-> empty on Linux, and `psc.path("")` degrades to a path relative to the current directory, so
-> the lookup silently succeeds somewhere wrong. Prefer a portable path first and put the
-> Windows one behind a non-empty check:
+> **A Windows-only environment variable needs a platform guard.** `APPDATA` is always empty on Linux, and `psc.path("")` degrades to a path relative to the current directory, so the lookup silently succeeds somewhere wrong.
+> Prefer a portable path first and put the Windows one behind a non-empty check:
 >
-> ```lua
-> -- wrong
-> local cfg = psc.json(psc.path(psc.env("APPDATA") or "", "Claude", "settings.json"))
+> ```lua -- wrong local cfg = psc.json(psc.path(psc.env("APPDATA") or "", "Claude", "settings.json"))
 >
-> -- right
-> local home = psc.env("HOME") or psc.env("USERPROFILE") or ""
-> local cfg = psc.json(psc.path(home, ".claude", "settings.json"))
-> if not cfg and psc.platform == "windows" then
->     local appdata = psc.env("APPDATA") or ""
->     if appdata ~= "" then
->         cfg = psc.json(psc.path(appdata, "Claude", "settings.json"))
->     end
-> end
-> ```
+> -- right local home = psc.env("HOME") or psc.env("USERPROFILE") or "" local cfg = psc.json(psc.path(home, ".claude", "settings.json")) if not cfg and psc.platform == "windows" then local appdata = psc.env("APPDATA") or "" if appdata ~= "" then cfg = psc.json(psc.path(appdata, "Claude", "settings.json")) end end ```
 >
-> `HOME or USERPROFILE or ""` is safe on its own — `HOME` exists on Linux. The dangerous
-> shape is narrower: a **Windows-only variable as the first link of an `or ""` chain**. The
-> worked counter-example is `completions/claude/hooks.lua`, which still gets this wrong.
+> `HOME or USERPROFILE or ""` is safe on its own — `HOME` exists on Linux.
+> The dangerous shape is narrower: a **Windows-only variable as the first link of an `or ""` chain**.
+> The worked counter-example is `completions/claude/hooks.lua`, which still gets this wrong.
 > Background: [`decisions/authoring.md`](../decisions/authoring.md#d19).
 
 ## 5. psc.\* Capability Functions (Rust)
 
-The functions split into three groups: **completion-item** (build/manipulate completion
-items), **data acquisition** (fetch data from the system), and **data operations** (generic
-array/string tools).
+The functions split into three groups: **completion-item** (build/manipulate completion items), **data acquisition** (fetch data from the system), and **data operations** (generic array/string tools).
 
 ### Completion-item
 
@@ -202,12 +151,10 @@ array/string tools).
 | `psc.env(name)` | `string?` | Environment variable; nil if unset. |
 | `psc.which(name)` | `string?` | Full path of the first executable found in PATH (PATHEXT on Windows, exec bit on Unix); nil when not found. |
 
-> **Batch convention**: the `*_batch` suffix processes a whole group at once (parallel under the
-> hood, but that is an implementation detail). Run/ls batches return results **in input order**;
-> read/json/toml/yaml batches return `{ [original-path] = value }` maps. **Failure semantics are
-> strict**: a failed/unreadable/unparseable entry yields **nil** at that position, matching the
-> single-value APIs — hooks guard with `or {}` / `if x then` / `x and x.field`. `glob` needs no
-> batch — one `**` call covers a whole tree.
+> **Batch convention**: the `*_batch` suffix processes a whole group at once (parallel under the hood, but that is an implementation detail).
+> Run/ls batches return results **in input order**; read/json/toml/yaml batches return `{ [original-path] = value }` maps.
+> **Failure semantics are strict**: a failed/unreadable/unparseable entry yields **nil** at that position, matching the single-value APIs — hooks guard with `or {}` / `if x then` / `x and x.field`.
+> `glob` needs no batch — one `**` call covers a whole tree.
 
 ### Data operations
 
@@ -220,9 +167,7 @@ array/string tools).
 | `psc.eq(a, b, opts?)` | String equality; **case-insensitive by default**, `opts.case_sensitive` true → exact. A **nil** argument never matches (returns `false`, never errors). |
 | `psc.trim(text, opts?)` | Trim characters; whitespace by default, `opts.chars` (a string whose characters form the trim set) overrides it (an empty string trims nothing). `opts.mode` is `"start"`/`"end"`/`"both"` (default `"both"`). |
 
-> **Optional behavior goes in an `opts` table** (`contains`'s
-> `case_sensitive`/`pattern`, `trim`'s `mode`/`chars`, `run`'s `timeout`/`cwd`/`format`) — keys self-explain at the
-> call site, extensible, consistent across the API.
+> **Optional behavior goes in an `opts` table** (`contains`'s `case_sensitive`/`pattern`, `trim`'s `mode`/`chars`, `run`'s `timeout`/`cwd`/`format`) — keys self-explain at the call site, extensible, consistent across the API.
 
 ## 6. Mental model
 
@@ -235,8 +180,7 @@ psc.on({ command = "exec" }, function()
 end)
 ```
 
-Inside a handler, empty results need no explicit guard — `psc.add` is a no-op on an
-empty array or empty name:
+Inside a handler, empty results need no explicit guard — `psc.add` is a no-op on an empty array or empty name:
 
 ```lua
 psc.on({}, function()
@@ -253,57 +197,22 @@ Only branch on a result inside a handler when you genuinely need to (e.g. "no ou
 
 ## 7. Critical Semantics (pitfalls — follow these)
 
-0. **Failure semantics are strict**: every data API returns `nil` on failure (`read`/`json`/
-   `toml`/`yaml`/`env`/`which`, `run`/`run` with `format`/`ls`/`glob`, and each `*_batch`
-   element). A "success but empty" result is distinct from failure — `run`/`ls`/`glob` yield an
-   empty array on success with nothing to show, nil only on actual failure. Hooks guard with
-   `or {}` (iterate), `if x then` (branch), or `x and x.field` (index) — the LSP surfaces these
-   as optional types. No API throws on I/O or parse failure — a hook never crashes on bad input, it
-   degrades to empty.
+0. **Failure semantics are strict**: every data API returns `nil` on failure (`read`/`json`/ `toml`/`yaml`/`env`/`which`, `run`/`run` with `format`/`ls`/`glob`, and each `*_batch` element). A "success but empty" result is distinct from failure — `run`/`ls`/`glob` yield an empty array on success with nothing to show, nil only on actual failure. Hooks guard with `or {}` (iterate), `if x then` (branch), or `x and x.field` (index) — the LSP surfaces these as optional types. No API throws on I/O or parse failure — a hook never crashes on bad input, it degrades to empty.
 
-0. **Every API tolerates `nil` arguments** — passing a nil never crashes the hook; it
-   yields the empty result for that API's type (`nil` for single-value readers and lookups
-   like `token`, `false` for predicates like `exist`/`contains`/`eq`, an empty array for
-   list/batch builders).
-   `add` becomes a no-op. A nil element inside a batch list or `run` argv
-   is skipped. **Callers are still responsible** for not applying operators to a nil result
-   (`#psc.run(x)` when `run` returns nil fails) — guard with `or {}` as above.
+0. **Every API tolerates `nil` arguments** — passing a nil never crashes the hook; it yields the empty result for that API's type (`nil` for single-value readers and lookups like `token`, `false` for predicates like `exist`/`contains`/`eq`, an empty array for list/batch builders). `add` becomes a no-op. A nil element inside a batch list or `run` argv is skipped. **Callers are still responsible** for not applying operators to a nil result (`#psc.run(x)` when `run` returns nil fails) — guard with `or {}` as above.
 
-1. **`psc.tokens` excludes the word being typed**; the partial word lives in `psc.typing`.
-	   Therefore:
-	   - `psc.tokens[#psc.tokens]` = **the last completed token**. Use it to detect "currently
-	     completing an option's value" (e.g. `scoop install -a x86<TAB>` → last completed token is `-a`).
-	   - `psc.token({name=name})` only finds **completed** tokens — the partial word being typed never
-	     counts. An option-consumed value matches as `type = "value"` (not `"unknown"`).
+1. **`psc.tokens` excludes the word being typed**; the partial word lives in `psc.typing`. Therefore:
+	   - `psc.tokens[#psc.tokens]` = **the last completed token**. Use it to detect "currently completing an option's value" (e.g. `scoop install -a x86<TAB>` → last completed token is `-a`).
+	   - `psc.token({name=name})` only finds **completed** tokens — the partial word being typed never counts. An option-consumed value matches as `type = "value"` (not `"unknown"`).
  2. **Case — insensitive by default**:
-    - **Name-matching APIs are case-insensitive by default** (`psc.contains`,
-      `psc.token`, `psc.eq`)
-    - **Token/input values keep the user's original casing** — `psc.tokens[].name` is the
-      **canonical** name (aliases expanded, e.g. `-m` → `--move`), `psc.tokens[].input` is the raw
-      input, **not lowercased**. Compare against literals with `psc.eq` (single value) /
-      `psc.contains` (a list) or `psc.token({name="--move"})` instead of `==`.
-3. **Lua patterns ≠ regex**: Lua patterns escape with `%` where regex uses `\` — `\d`→`%d`,
-   `\w`→`%w`, `\s`→`%s`. Escape literal metacharacters too — `-` is the (lazy) quantifier, so a
-    literal dash must be `%-` (e.g. `^%-%-` matches a leading `--`). This applies to
-    `psc.contains` with `{ pattern = true }`.
-4. **`gsub` returns two values** (string + replacement count). When used as the last argument of
-   `table.insert` etc., or assigned to a single variable, wrap in parentheses:
-   `table.insert(x, (s:gsub(" | ", "\n")))` or `local t = (s:gsub(...))`.
- 5. **Manifest fields may be a string OR an array** (e.g. scoop's `description`, `pre_install`):
-    check with Lua primitives, don't branch on `type(x) == "string"`. A **string** field is
-    truthy in Lua when present (`if c.link`), an **array** field needs an explicit emptiness
-    check because Lua empty tables are truthy (`if c.persist and next(c.persist) ~= nil`).
- 6. **Encoding**: `psc.run` output goes through `from_utf8_lossy`; non-UTF-8 (e.g. GBK) content
-    becomes `�`. Strip NULs from wsl's UTF-16 output with `line:gsub("%z","")`.
- 7. **Do not reconstruct context from raw input**: use `psc.tokens` (filter by `type`) or
-  	    `psc.token({type="command"})` / `psc.token({type="option"})` for the subcommand/option
-  	    path, and `psc.tokens`/`psc.token` for "what was typed". Raw input is not canonical.
- 	 8. **"Command/option wins" — option value vs known command/option**: an option that declares
- 	    `next` (even empty) consumes the next token as its value — **unless** that token matches a
- 	    known command or option, in which case the option acts as a flag (does not consume the
- 	    token). After consuming a value, the context automatically resets to the nearest command
- 	    context, so subcommands remain reachable. This means `psc.on({ option = "--flag" }, ...)`
- 	    fires only when the next token is genuinely a free-form value, not a known command/option.
+    - **Name-matching APIs are case-insensitive by default** (`psc.contains`, `psc.token`, `psc.eq`)
+    - **Token/input values keep the user's original casing** — `psc.tokens[].name` is the **canonical** name (aliases expanded, e.g. `-m` → `--move`), `psc.tokens[].input` is the raw input, **not lowercased**. Compare against literals with `psc.eq` (single value) / `psc.contains` (a list) or `psc.token({name="--move"})` instead of `==`.
+3. **Lua patterns ≠ regex**: Lua patterns escape with `%` where regex uses `\` — `\d`→`%d`, `\w`→`%w`, `\s`→`%s`. Escape literal metacharacters too — `-` is the (lazy) quantifier, so a literal dash must be `%-` (e.g. `^%-%-` matches a leading `--`). This applies to `psc.contains` with `{ pattern = true }`.
+4. **`gsub` returns two values** (string + replacement count). When used as the last argument of `table.insert` etc., or assigned to a single variable, wrap in parentheses: `table.insert(x, (s:gsub(" | ", "\n")))` or `local t = (s:gsub(...))`.
+ 5. **Manifest fields may be a string OR an array** (e.g. scoop's `description`, `pre_install`): check with Lua primitives, don't branch on `type(x) == "string"`. A **string** field is truthy in Lua when present (`if c.link`), an **array** field needs an explicit emptiness check because Lua empty tables are truthy (`if c.persist and next(c.persist) ~= nil`).
+ 6. **Encoding**: `psc.run` output goes through `from_utf8_lossy`; non-UTF-8 (e.g. GBK) content becomes `�`. Strip NULs from wsl's UTF-16 output with `line:gsub("%z","")`.
+ 7. **Do not reconstruct context from raw input**: use `psc.tokens` (filter by `type`) or `psc.token({type="command"})` / `psc.token({type="option"})` for the subcommand/option path, and `psc.tokens`/`psc.token` for "what was typed". Raw input is not canonical.
+ 	 8. **"Command/option wins" — option value vs known command/option**: an option that declares `next` (even empty) consumes the next token as its value — **unless** that token matches a known command or option, in which case the option acts as a flag (does not consume the token). After consuming a value, the context automatically resets to the nearest command context, so subcommands remain reachable. This means `psc.on({ option = "--flag" }, ...)` fires only when the next token is genuinely a free-form value, not a known command/option.
 
 ## 8. Common Pattern
 
@@ -330,11 +239,8 @@ No explicit return needed: `nil` → live list.
 
 ### Mounting shared values defined in the manifest
 
-When several subcommands share the same value list, define the list **once** in the manifest (as
-the `next` of a chosen node, e.g. `config` → `set` → `next`) and mount it from a handler with
-`psc.mount_items({ "next", "config", "next", "set", "next" })` — it returns the **direct children** of
-that array with their tips. This keeps the values (and their localized tips) in the manifest
-instead of hardcoding them in the hook:
+When several subcommands share the same value list, define the list **once** in the manifest (as the `next` of a chosen node, e.g. `config` → `set` → `next`) and mount it from a handler with `psc.mount_items({ "next", "config", "next", "set", "next" })` — it returns the **direct children** of that array with their tips.
+This keeps the values (and their localized tips) in the manifest instead of hardcoding them in the hook:
 
 ```lua
 psc.on({ command = { "config", "set" } }, function()
@@ -342,10 +248,7 @@ psc.on({ command = { "config", "set" } }, function()
 end)
 ```
 
-The same single-source rule covers a `help`-style command whose slot takes the
-tool's own subcommands (`dart help <command>`): mount the root table instead of
-duplicating it — every added or removed command would otherwise need the same edit
-in two places, in two languages, and no gate compares the two copies:
+The same single-source rule covers a `help`-style command whose slot takes the tool's own subcommands (`dart help <command>`): mount the root table instead of duplicating it — every added or removed command would otherwise need the same edit in two places, in two languages, and no gate compares the two copies:
 
 ```lua
 psc.on({ command = "help" }, function()
@@ -353,36 +256,24 @@ psc.on({ command = "help" }, function()
 end)
 ```
 
-Three conditions, all required. The value set is **exactly** the static set —
-prove it by rejection (`dart help bogus` answers `Could not find a command named`
-with a non-zero exit) and by diffing the listing against the manifest. The slot
-takes **names**, not documentation — a `help` that takes topics (`gh`, `go`,
-`rclone` all do) keeps its own static `next`, even where spellings coincide.
-And the set is big enough to matter: below a handful of entries the duplication
-is cheaper than the hook file, the `hooks: true` flag, and the checker run.
-Mounting re-surfaces the manifest entries — tips and localizations included — so
-it creates no second source, which is why this is not an `R-16` violation.
+Three conditions, all required.
+The value set is **exactly** the static set — prove it by rejection (`dart help bogus` answers `Could not find a command named` with a non-zero exit) and by diffing the listing against the manifest.
+The slot takes **names**, not documentation — a `help` that takes topics (`gh`, `go`, `rclone` all do) keeps its own static `next`, even where spellings coincide.
+And the set is big enough to matter: below a handful of entries the duplication is cheaper than the hook file, the `hooks: true` flag, and the checker run.
+Mounting re-surfaces the manifest entries — tips and localizations included — so it creates no second source, which is why this is not an `R-16` violation.
 
-Mounting is not querying: it reads no runtime state and shells out to nothing,
-so it has no staleness class of its own — it goes stale exactly when the manifest
-it mounts goes stale, and the update audit that refreshes the table refreshes the
-help slot in the same edit. A hook that shells out to enumerate its values is
-different in both directions: it tracks upstream additions for free, but when its
-query shape changes it degrades to a silent empty slot that no gate re-checks
-until someone touches the hook. Static tables stale the third way (upstream adds
-a value; the `--help` diff at the next update catches it). Judge each slot by
-which staleness it can afford: mounted commands, queried dynamics, static topics.
+Mounting is not querying: it reads no runtime state and shells out to nothing, so it has no staleness class of its own — it goes stale exactly when the manifest it mounts goes stale, and the update audit that refreshes the table refreshes the help slot in the same edit.
+A hook that shells out to enumerate its values is different in both directions: it tracks upstream additions for free, but when its query shape changes it degrades to a silent empty slot that no gate re-checks until someone touches the hook.
+Static tables stale the third way (upstream adds a value; the `--help` diff at the next update catches it).
+Judge each slot by which staleness it can afford: mounted commands, queried dynamics, static topics.
 
-The handful threshold above is not about CPU — a mount costs none. It is about
-the disabled-hook empty slot (a user-disabled hook offers nothing; a static copy
-always works), the gate surface a hook file carries (`luac`, `check-hook-targets`,
-re-probing on every touch), and the typo radius (a wrong `mount_items` path
-converts nothing, silently). A few lines of duplication carry none of that.
+The handful threshold above is not about CPU — a mount costs none.
+It is about the disabled-hook empty slot (a user-disabled hook offers nothing; a static copy always works), the gate surface a hook file carries (`luac`, `check-hook-targets`, re-probing on every touch), and the typo radius (a wrong `mount_items` path converts nothing, silently).
+A few lines of duplication carry none of that.
 
 ### Declarative `psc.on`
 
-The core primitive of the declarative hooks style: instead of branching on context and
-stuffing a global table, declare where dynamic candidates live and who handles them.
+The core primitive of the declarative hooks style: instead of branching on context and stuffing a global table, declare where dynamic candidates live and who handles them.
 The location leads, the handler hangs last — like a route + handler.
 
 ```lua
@@ -423,78 +314,25 @@ end)
 
 Contract:
 
-- `spec.command` — command chain from the root (canonical names; string or array of
-	  strings). `""` is a wildcard matching any command at that position; `{"", "set"}` matches
-	  any depth-1 command's `set` child. Injects when the current layer chain equals it (segment-wise,
-	  `""` matches any, others case-insensitive). The chain is **root-anchored**: its length
-	  must equal the typed command depth. **Slot gating**: this pins the first positional
-	  argument after the chain — by default an `unknown` token after the chain (a typed value
-	  the engine does not recognize) suppresses injection, because the slot is already filled;
-	  `multiple = true` keeps matching through any number of positional arguments.
-- `spec.option` — an option chain matched as a **suffix** of the completed option sequence
-  (string = a length-1 chain; array = a contiguous suffix, in order). Option values never
-  enter the sequence, so `--move val --copy` still matches `{"--move","--copy"}`. `""`
-  wildcards a segment; other segments must start with `-`. A trailing `=` in a segment is
-  not identity (`"--format="` matches `--format`, including its `=`-attached uses).
-  The suffix is deliberately
-	  NOT root-anchored: the option sequence has no root, and full anchoring would silently
-	  break every existing single-option spec. An option with `next` (empty or not) consumes
-	  the next token as its value (`type = "value"`), subject to "command/option wins" — a
-	  known command or option takes priority, making the option act as a flag. After value
-	  consumption, the context resets to the nearest command context, so subsequent
-	  subcommands remain completable. **Slot gating**: this pins the value slot of the chain's
-	  last option — by default injection requires that slot to be still unfilled (the last
-	  completed token must be that option); once a value has been typed, `multiple = true` is
-	  required to keep matching.
-- `spec = {}` or omitted keys — targets the root context (the first positional argument).
-	  `command` and `option` may coexist
-	  as AND — both must match to inject (e.g. `{ command="install", option={"--color","--arch"} }`
-	  = under `install` with the option sequence ending `--color, --arch`).
-- `spec.multiple` — boolean, default `false`. The location's slot may keep matching after it
-	  has been filled once. **In one line: `false` runs the handler at the location's first
-	  unfilled slot only; `true` runs it at every argument position of that location.** The
-	  everyday case is a command taking **any number of names** — after `apt install a`, the
-	  next Tab must still list packages (the `install` example above); without `multiple`
-	  that slot has nothing left to offer. `git rebase <Tab>` is the free-form twin:
-	  `{ command = "rebase" }` fires there but not at `git rebase abcdefg <Tab>`, while
-	  `multiple = true` fires at both and at every further positional argument (known static
-	  values and dynamic `unknown` inputs alike). The static menu is built from the manifest
-	  regardless, so a handler that must *act* at a deeper position — not merely inject there —
-	  needs `multiple = true` or it silently skips it: once a value has been typed, the
-	  context resets to the nearest command ([`completion.md`](completion.md) §2), whose
-	  options and subcommands are still offered. Stripping an option the CLI rejects below
-	  the location is the typical case.
-- **Spec arrays** — `spec` may be an array of spec tables (OR): any matching element injects;
-	  each element independently follows the single-spec rules (including AND). Mixing named
-	  keys with array elements in one table raises.
-- Returns **nothing** — there is no placeholder table; all output goes through direct
-  `psc.add` / `completions` ops inside the handler.
-- Validation (failures are logged to `error.log` — a 1 MB-capped, 7-day-age-rotated file in
-  `data/temp/log/`; see §12 — registration becomes inert — never a process fault):
-  unknown spec keys raise; `command` segments must be strings, empty array rejected (omit to target root),
-  `""` is wildcard — a `next` entry may itself be option-shaped (`--self-update`), so `command` is
-  deliberately not shape-constrained; `option` segments must start with `-` (or be `""` wildcards), empty array rejected;
-  the last named segment of each chain is resolved through the manifest at
-  registration time — **in the position the key declares**: a `command` target must be declared in a
-  `next` array (a subcommand), an `option` target in an `option` / `global_option` array. A name the
-  manifest declares as the other kind raises with that reason, not a bare "unknown" (unknown targets
-  raise, aliases accepted). For `AND` specs (`command`+`option`) either unknown side makes the whole spec inert (logged); single-key unknown still raises.
+- `spec.command` — command chain from the root (canonical names; string or array of strings). `""` is a wildcard matching any command at that position; `{"", "set"}` matches any depth-1 command's `set` child. Injects when the current layer chain equals it (segment-wise, `""` matches any, others case-insensitive). The chain is **root-anchored**: its length must equal the typed command depth. **Slot gating**: this pins the first positional argument after the chain — by default an `unknown` token after the chain (a typed value the engine does not recognize) suppresses injection, because the slot is already filled; `multiple = true` keeps matching through any number of positional arguments.
+- `spec.option` — an option chain matched as a **suffix** of the completed option sequence (string = a length-1 chain; array = a contiguous suffix, in order). Option values never enter the sequence, so `--move val --copy` still matches `{"--move","--copy"}`. `""` wildcards a segment; other segments must start with `-`. A trailing `=` in a segment is not identity (`"--format="` matches `--format`, including its `=`-attached uses). The suffix is deliberately NOT root-anchored: the option sequence has no root, and full anchoring would silently break every existing single-option spec. An option with `next` (empty or not) consumes the next token as its value (`type = "value"`), subject to "command/option wins" — a known command or option takes priority, making the option act as a flag. After value consumption, the context resets to the nearest command context, so subsequent subcommands remain completable. **Slot gating**: this pins the value slot of the chain's last option — by default injection requires that slot to be still unfilled (the last completed token must be that option); once a value has been typed, `multiple = true` is required to keep matching.
+- `spec = {}` or omitted keys — targets the root context (the first positional argument). `command` and `option` may coexist as AND — both must match to inject (e.g. `{ command="install", option={"--color","--arch"} }` = under `install` with the option sequence ending `--color, --arch`).
+- `spec.multiple` — boolean, default `false`. The location's slot may keep matching after it has been filled once. **In one line: `false` runs the handler at the location's first unfilled slot only; `true` runs it at every argument position of that location.** The everyday case is a command taking **any number of names** — after `apt install a`, the next Tab must still list packages (the `install` example above); without `multiple` that slot has nothing left to offer. `git rebase <Tab>` is the free-form twin: `{ command = "rebase" }` fires there but not at `git rebase abcdefg <Tab>`, while `multiple = true` fires at both and at every further positional argument (known static values and dynamic `unknown` inputs alike). The static menu is built from the manifest regardless, so a handler that must *act* at a deeper position — not merely inject there — needs `multiple = true` or it silently skips it: once a value has been typed, the context resets to the nearest command ([`completion.md`](completion.md) §2), whose options and subcommands are still offered. Stripping an option the CLI rejects below the location is the typical case.
+- **Spec arrays** — `spec` may be an array of spec tables (OR): any matching element injects; each element independently follows the single-spec rules (including AND). Mixing named keys with array elements in one table raises.
+- Returns **nothing** — there is no placeholder table; all output goes through direct `psc.add` / `completions` ops inside the handler.
+- Validation (failures are logged to `error.log` — a 1 MB-capped, 7-day-age-rotated file in `data/temp/log/`; see §12 — registration becomes inert — never a process fault): unknown spec keys raise; `command` segments must be strings, empty array rejected (omit to target root), `""` is wildcard — a `next` entry may itself be option-shaped (`--self-update`), so `command` is deliberately not shape-constrained; `option` segments must start with `-` (or be `""` wildcards), empty array rejected; the last named segment of each chain is resolved through the manifest at registration time — **in the position the key declares**: a `command` target must be declared in a `next` array (a subcommand), an `option` target in an `option` / `global_option` array. A name the manifest declares as the other kind raises with that reason, not a bare "unknown" (unknown targets raise, aliases accepted). For `AND` specs (`command`+`option`) either unknown side makes the whole spec inert (logged); single-key unknown still raises.
 - Each registration runs **at most once per build** (inject only); handlers run sequentially.
-- Handler is zero-arg, manipulates candidates via `psc.add` / direct `completions` ops; errors are
-	  logged, partial mutations persist, siblings unaffected; `psc.on` inside a handler is a recursion error.
+- Handler is zero-arg, manipulates candidates via `psc.add` / direct `completions` ops; errors are logged, partial mutations persist, siblings unaffected; `psc.on` inside a handler is a recursion error.
 
-Injected items are part of the live list (no separate merge step) and participate in repeat filtering
-like any dynamic item. Returning an explicit array from the hook still **replaces** the live list
-(the engine warns when an explicit return discards `psc.on` contributions).
+Injected items are part of the live list (no separate merge step) and participate in repeat filtering like any dynamic item.
+Returning an explicit array from the hook still **replaces** the live list (the engine warns when an explicit return discards `psc.on` contributions).
 
-Boundaries: `--opt=value` equals-form value positions are detected — the option counts as
-completed and the tail is the value slot, so hooks see the same shape as the space-separated form. A
-valueless flag written with `=` is not split; the whole word stays one token.
+Boundaries: `--opt=value` equals-form value positions are detected — the option counts as completed and the tail is the value slot, so hooks see the same shape as the space-separated form.
+A valueless flag written with `=` is not split; the whole word stays one token.
 
 ### Localized tips
 
-`tip` (in `psc.add`) accepts a **localized table** keyed by language code, so the
-same item shows a translated description per user language:
+`tip` (in `psc.add`) accepts a **localized table** keyed by language code, so the same item shows a translated description per user language:
 
 ```lua
 psc.add({
@@ -506,16 +344,15 @@ psc.add({
 })
 ```
 
-The engine picks the entry matching the loaded manifest's language variant (the host
-resolves it per-completion first, then global), falling back to `"en-US"`, then the first
-entry. `en-US` is the required fallback key; `zh-CN` is optional. The language keys are declared
-as named fields on `psc_localized` in `types/psc.lua`, so the editor completes `["en-US"]` /
-`["zh-CN"]` inside the table literal and explains each key on hover. Extra language codes remain
-allowed via the index signature.
+The engine picks the entry matching the loaded manifest's language variant (the host resolves it per-completion first, then global), falling back to `"en-US"`, then the first entry.
+`en-US` is the required fallback key; `zh-CN` is optional.
+The language keys are declared as named fields on `psc_localized` in `types/psc.lua`, so the editor completes `["en-US"]` / `["zh-CN"]` inside the table literal and explains each key on hover.
+Extra language codes remain allowed via the index signature.
 
 ## 9. Style Guide
 
-This section is normative for AI and human authors. `design/hooks.md` is the style authority.
+This section is normative for AI and human authors.
+`design/hooks.md` is the style authority.
 
 - **Comments — why only, one line**: explain *why* when the code is not self-evident, not *what*. Keep a single short line in **English**. Do not add a file header like `-- <tool> dynamic completions` or section labels like `-- node commands` — the `psc.on` spec already says it. Generic headers and what-only section comments are forbidden.
 - **Registration — one array per producer, split only with a reason**: `psc.on` takes either one spec or an array of them (`psc_on_spec|psc_on_spec[]`, any spec matching), so both shapes are valid API; the *grouping* is a style decision, and `psc.on` has no per-command multi-handler entry, which fixes the axis you can group on.
@@ -527,46 +364,32 @@ This section is normative for AI and human authors. `design/hooks.md` is the sty
 - **Targets — validate against the manifest before adding**: every `command`/`option` in a spec must exist in `completions/<cmd>/language/en-US.json` and be a location that actually takes a runtime value — commands need a positional placeholder (`usage` with `<...>`/`[...]` or a free-form position), options need `next: []`/`next: [...]` (value-taking). **Match the value kind to the slot**: judge by what the CLI itself accepts there — its `--help` usage, docs, and examples — not by the manifest alone. Never offer files at a context whose slot takes subcommands, names, keys, or nothing — e.g., offering a config file at a `build` subcommand slot where only subcommand names are valid. If a slot accepts files but the manifest shows no placeholder, add the `usage` placeholder (`[FILES]...`) so the slot is documented. For allowed `psc.ls` candidates in a relative file or directory slot, use `entry.name` as the completion `name`; use `entry.path` only when the slot requires an absolute path or as a tip.
 - **File candidates — hooks do not do path completion; native completion owns paths.** Default to no file candidates. Native path completion works **inside the current directory** and only once the user has typed a path prefix (`./`, `../`, `/`, `C:\`, `~/`); it never searches by name at a depth the user has not typed. A hook's file list is **unbounded by construction** — it grows with the repository — so it buries the subcommands and options the user is actually looking for, and the user normally already knows where their own file is. A hook adds nothing the shell cannot already give it, so the rule is a ban rather than a boundary.
 
-  **No hook may offer a file path as a completion candidate**, and this does not depend on how the
-  path was obtained: `psc.glob` with or without a wildcard (`psc.glob(".env")` is still
-  `psc.glob`), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
-  Keying the rule on the API would only let an author route around it by picking another one — which
-  is the drift a hard rule exists to prevent.
+**No hook may offer a file path as a completion candidate**, and this does not depend on how the path was obtained: `psc.glob` with or without a wildcard (`psc.glob(".env")` is still `psc.glob`), a `psc.ls` of the current directory, and a `psc.run` of `ls` all count the same.
+Keying the rule on the API would only let an author route around it by picking another one — which is the drift a hard rule exists to prevent.
 
-  The exception is a **slot that takes a *name* the CLI cannot enumerate itself**, sourced from a
-  known directory — `hugo --theme` wants a theme *name*, not a path, so `psc.ls("themes")` stands;
-  `typst init` wants a package *name*, so `psc.ls` over the package cache stands. All three of these
-  must hold: the directory is known and fixed (`themes/`, not "any directory in the tree"), the
-  candidate surfaced is `entry.name` and never `entry.path`, and the CLI's slot takes a name rather
-  than a path. Where a slot wants a path and there is nothing to enumerate, offer nothing and let
-  native path completion take it.
+The exception is a **slot that takes a *name* the CLI cannot enumerate itself**, sourced from a known directory — `hugo --theme` wants a theme *name*, not a path, so `psc.ls("themes")` stands; `typst init` wants a package *name*, so `psc.ls` over the package cache stands.
+All three of these must hold: the directory is known and fixed (`themes/`, not "any directory in the tree"), the candidate surfaced is `entry.name` and never `entry.path`, and the CLI's slot takes a name rather than a path.
+Where a slot wants a path and there is nothing to enumerate, offer nothing and let native path completion take it.
 
-  A **CLI-filtered subset** is a separate case and is not this exception: the hook runs a command
-  whose own answer *is* the candidate set, so the set is bounded by what the user did rather than by
-  how big the repository is. It is legal only when the answer also carries something native
-  completion cannot produce — a status code, not the bare path. The two-question test that keeps it
-  apart from general path browsing is in `../authoring/hooks.md`.
+A **CLI-filtered subset** is a separate case and is not this exception: the hook runs a command whose own answer *is* the candidate set, so the set is bounded by what the user did rather than by how big the repository is.
+It is legal only when the answer also carries something native completion cannot produce — a status code, not the bare path.
+The two-question test that keeps it apart from general path browsing is in `../authoring/hooks.md`.
 
-  **The API is free; only the offering is banned.** `psc.glob` may discover the files that hold data
-  the CLI cannot enumerate, provided the path never becomes the selectable value. `scoop` globs
-  `**/*.json` across every bucket and offers the app **names** read out of those manifests with
-  `psc.json_batch` — no CLI call lists installable apps, so the glob is the only source and nothing
-  can be moved into `next`. `pm2` globs `ecosystem.config.*` and offers `name = p`: the path *is* the
-  candidate, so it is out.
+**The API is free; only the offering is banned.** `psc.glob` may discover the files that hold data the CLI cannot enumerate, provided the path never becomes the selectable value.
+`scoop` globs `**/*.json` across every bucket and offers the app **names** read out of those manifests with `psc.json_batch` — no CLI call lists installable apps, so the glob is the only source and nothing can be moved into `next`.
+`pm2` globs `ecosystem.config.*` and offers `name = p`: the path *is* the candidate, so it is out.
 
-  A **bare filename** is not a workaround. Stripping the directory leaves a repository-sized list,
-  so the objection stands; and a basename in a path slot is usually a broken argument. What decides
-  it is the slot's expected kind, not the shape of the string. A path in a `tip` is explanatory
-  text — it neither licenses an offering nor invalidates one.
+A **bare filename** is not a workaround.
+Stripping the directory leaves a repository-sized list, so the objection stands; and a basename in a path slot is usually a broken argument.
+What decides it is the slot's expected kind, not the shape of the string.
+A path in a `tip` is explanatory text — it neither licenses an offering nor invalidates one.
 
-  Never register one handler that injects the same candidate list into several unrelated contexts (`{ command = "check" }, { command = "ci" }, { command = "format" }` all offering the same list) — the candidates then compete with each context's own options. A **wandering** path handler has no slot to be registered at: those contexts have nothing to do with paths, so the list is noise everywhere it lands. That is a claim about unrelated contexts, not about paths in general — a CLI-filtered subset has a real slot, and the two-question test in `../authoring/hooks.md` is what separates it from general path browsing.
+Never register one handler that injects the same candidate list into several unrelated contexts (`{ command = "check" }, { command = "ci" }, { command = "format" }` all offering the same list) — the candidates then compete with each context's own options.
+A **wandering** path handler has no slot to be registered at: those contexts have nothing to do with paths, so the list is noise everywhere it lands.
+That is a claim about unrelated contexts, not about paths in general — a CLI-filtered subset has a real slot, and the two-question test in `../authoring/hooks.md` is what separates it from general path browsing.
 - **Target names — the longest form, and check them mechanically**: `psc.on` matches a `command` segment against the **canonical** name (`bindings.rs` calls a segment *"an exact canonical name"*) and anchors the chain at the root, so a target naming an **alias** never fires — silently, with nothing reported. A manifest that stores `add` as an alias of `stage` cannot be targeted as `command = "add"`. Which spelling to write is not a judgement call: `sort-json.ps1` puts the longest form in `name` on every run, so **write the longest form** and the script has already made it canonical. A tool whose own primary name is shorter — jj's `evolog`, mise's `ls` — is normal and is not an error, because the tool's preference is not what `psc.on` compares against. Verify with `./scripts/check-hook-targets.ps1 [name...]`, which resolves every target against the manifest; it is the only check that catches this, since `compare-json` and `validate-completion` only look at internal consistency. Nine were found this way across the repository, all of this one kind. To find a canonical name: `python3 -c "import json;d=json.load(open('completions/X/language/en-US.json'));print([(i['name'],i.get('alias')) for i in d['next']])"`. Copy the manifest's spelling exactly, `=` included: an attached-value option is declared `--vo=`, so the target is `option = "--vo="`, not `"--vo"` — the engine strips one trailing `=` when matching, but `check-hook-targets.ps1` resolves the target literally, so the short form fails the gate.
 - **Data — never write an empty tip**: some CLIs list an option with no description at all (podman does this for `--help` in some contexts), and a parser that transcribes faithfully will emit `"tip": [""]`, which the schema rejects. Substitute a generic description or drop the field; do not pass the empty string through.
-- **One shape per producer — no plaintext retry**: read the structured form and stop there. A
-  fallback earns its keep only from *evidence that a build cannot serve the first shape*; one
-  justified by "the first read might fail" is dead code, because every reachable state either
-  returns before it or reaches it with a valid empty result and turns it into a duplicate read.
-  A retry between two forms of the same query is a different thing and is allowed (§10.1).
+- **One shape per producer — no plaintext retry**: read the structured form and stop there. A fallback earns its keep only from *evidence that a build cannot serve the first shape*; one justified by "the first read might fail" is dead code, because every reachable state either returns before it or reaches it with a valid empty result and turns it into a duplicate read. A retry between two forms of the same query is a different thing and is allowed (§10.1).
 
   ```lua
   -- right
@@ -597,12 +420,9 @@ This section is normative for AI and human authors. `design/hooks.md` is the sty
 ## 10. Performance: parallel primitives
 
 The menu waits for the hook to finish before showing, so a slow hook delays every Tab press.
-Hooks run in a **single Lua thread**; parallelism is deliberately confined to the Rust `*_batch`
-API (signatures in the §5 table). The `*_batch` primitives run on a **bounded worker pool** and
-return the **full** result, so hook behavior is identical to a sequential loop — only wall-clock
-time improves. Use them when iterating over many **independent** items; keep sequential logic when
-each step depends on the previous one's result (a two-pass parallel fetch can break such
-dependencies, e.g. bucket manifests needing `i.bucket` from the first pass):
+Hooks run in a **single Lua thread**; parallelism is deliberately confined to the Rust `*_batch` API (signatures in the §5 table).
+The `*_batch` primitives run on a **bounded worker pool** and return the **full** result, so hook behavior is identical to a sequential loop — only wall-clock time improves.
+Use them when iterating over many **independent** items; keep sequential logic when each step depends on the previous one's result (a two-pass parallel fetch can break such dependencies, e.g. bucket manifests needing `i.bucket` from the first pass):
 
 ```lua
 -- Sequential: N file reads one after another
@@ -624,9 +444,8 @@ Do **not** spawn threads from Lua.
 
 ### 10.1 Two hand-written calls, not just a loop
 
-The example above is fan-out over N items. A producer that issues **two separate
-`psc.run` calls** is the same question and needs the same answer: if the second
-does not consume the first's output, batch them.
+The example above is fan-out over N items.
+A producer that issues **two separate `psc.run` calls** is the same question and needs the same answer: if the second does not consume the first's output, batch them.
 
 ```lua
 -- wrong: two independent queries, run one after the other
@@ -650,15 +469,10 @@ for _, b in ipairs(r[2] or {}) do
 end
 ```
 
-Wall clock is rarely the reason — two `git branch` calls in a small repository
-measured 6.0 ms against 4.3 ms. The better reasons are that `run_batch` drains
-stdout concurrently, so a query with large output (`git branch -r` on a repo with
-many remotes) cannot wedge on a full pipe, and that the rewrite costs nothing in
-clarity.
+Wall clock is rarely the reason — two `git branch` calls in a small repository measured 6.0 ms against 4.3 ms.
+The better reasons are that `run_batch` drains stdout concurrently, so a query with large output (`git branch -r` on a repo with many remotes) cannot wedge on a full pipe, and that the rewrite costs nothing in clarity.
 
-**The trap: a retry chain looks identical and must stay sequential.** The second
-command should not run at all when the first succeeded, so batching it changes
-behaviour, not just timing:
+**The trap: a retry chain looks identical and must stay sequential.** The second command should not run at all when the first succeeded, so batching it changes behaviour, not just timing:
 
 ```lua
 -- retry, NOT batchable
@@ -669,79 +483,40 @@ if not lines then lines = psc.run({ "copilot", "plugin", "list" }) end
 local lines = psc.run({ "sfsu", "list" }) or psc.run({ "scoop", "list" }, { shell = true })
 ```
 
-Neither shape can be detected by looking for an early `return` or a deeper
-indentation — the second call sits at the same level in both. Decide by asking
-whether the second command is *wanted* when the first succeeds, not by looking
-at the code's shape.
+Neither shape can be detected by looking for an early `return` or a deeper indentation — the second call sits at the same level in both.
+Decide by asking whether the second command is *wanted* when the first succeeds, not by looking at the code's shape.
 
 ## 11. Security
 
-- **Sandbox**: Lua sees only `psc.*` + a restricted standard library. The safe, side-effect-free
-  libs `table`/`string`/`math`/`utf8`/`coroutine` are available; `os` keeps only the harmless
-  time/locale functions (`time`/`date`/`clock`/`difftime`/`setlocale`). All direct system access is
-  disabled — `io`, `package`/`require`, `dofile`/`loadfile`/`load`, `debug`, and
-  `os.execute`/`os.exit`/`os.remove`/`os.rename`/`os.tmpname` are removed; `os.getenv` is removed
-  too (use `psc.env` instead, the single entry for environment variables). Reading files goes
-  through `psc.read`/`psc.json`/`psc.ls`/`psc.glob`; subprocesses go through `psc.run`
-  (timeout, captured output, cross-platform).
-- **Timeout**: `psc.run` defaults to a 5 s timeout for a single subprocess, and the whole hook
-  script is capped at 10 s (checked by an instruction-count hook) so neither a hung command nor an
-  infinite Lua loop can block completion. The cap covers Lua instructions and subprocess waits.
-  Blocking file APIs are **not** covered by the instruction-count hook (a native walk executes no
-  Lua instructions, so the VM hook can never fire mid-call); `psc.glob` therefore carries its own
-  **500 ms budget** and stops there, and `psc.read`/`psc.json`/`psc.ls` stay untimed — a hung
-  network share can still block those (a known limitation, not a sandbox escape).
-- **Glob is time-bounded, not count-bounded**: the 500 ms budget is per `glob` call and is
-  deliberately far below the 10 s hook cap — a completion menu that waits seconds is broken no
-  matter what it finds. A walk that runs out of time returns the matches it already found, so the
-  result is a **partial** array (the shallowest matches arrive first, and those are nearly always
-  the wanted ones) rather than a hang. There is deliberately **no** match-count cap: the menu
-  scrolls without a practical item limit, so a result is never truncated merely for being large.
-  A hook that needs completeness over a huge tree must not rely on `glob` — narrow the pattern
-  instead. Note the budget is per call, so a hook making several `glob` calls spends up to
-  500 ms each.
+- **Sandbox**: Lua sees only `psc.*` + a restricted standard library. The safe, side-effect-free libs `table`/`string`/`math`/`utf8`/`coroutine` are available; `os` keeps only the harmless time/locale functions (`time`/`date`/`clock`/`difftime`/`setlocale`). All direct system access is disabled — `io`, `package`/`require`, `dofile`/`loadfile`/`load`, `debug`, and `os.execute`/`os.exit`/`os.remove`/`os.rename`/`os.tmpname` are removed; `os.getenv` is removed too (use `psc.env` instead, the single entry for environment variables). Reading files goes through `psc.read`/`psc.json`/`psc.ls`/`psc.glob`; subprocesses go through `psc.run` (timeout, captured output, cross-platform).
+- **Timeout**: `psc.run` defaults to a 5 s timeout for a single subprocess, and the whole hook script is capped at 10 s (checked by an instruction-count hook) so neither a hung command nor an infinite Lua loop can block completion. The cap covers Lua instructions and subprocess waits. Blocking file APIs are **not** covered by the instruction-count hook (a native walk executes no Lua instructions, so the VM hook can never fire mid-call); `psc.glob` therefore carries its own **500 ms budget** and stops there, and `psc.read`/`psc.json`/`psc.ls` stay untimed — a hung network share can still block those (a known limitation, not a sandbox escape).
+- **Glob is time-bounded, not count-bounded**: the 500 ms budget is per `glob` call and is deliberately far below the 10 s hook cap — a completion menu that waits seconds is broken no matter what it finds. A walk that runs out of time returns the matches it already found, so the result is a **partial** array (the shallowest matches arrive first, and those are nearly always the wanted ones) rather than a hang. There is deliberately **no** match-count cap: the menu scrolls without a practical item limit, so a result is never truncated merely for being large. A hook that needs completeness over a huge tree must not rely on `glob` — narrow the pattern instead. Note the budget is per call, so a hook making several `glob` calls spends up to 500 ms each.
 - **Read-only files**: file APIs are read-only.
-- **Windows shim executables**: `psc.run` spawns the command directly — on Windows, batch/powerShell
-  **shims** (e.g. `scoop`'s extension-less wrapper) cannot be spawned that way. Run them through the
-  shell instead: `psc.run({ "scoop", "config" }, { shell = true })`. (Or wrap manually with
-  `cmd /c` when you need precise control.) Prefer `psc.which` first when in doubt.
-- **Trust model**: a completion's `hooks.lua` runs with the full `psc.*` power — `psc.run` can
-  execute arbitrary subprocesses in the user's cwd, and `psc.read`/`psc.glob` can read any file.
-  Installing a completion means trusting its hooks; see `trust.md` for the sandbox guarantees,
-  official sources, and the custom-source warning.
+- **Windows shim executables**: `psc.run` spawns the command directly — on Windows, batch/powerShell **shims** (e.g. `scoop`'s extension-less wrapper) cannot be spawned that way. Run them through the shell instead: `psc.run({ "scoop", "config" }, { shell = true })`. (Or wrap manually with `cmd /c` when you need precise control.) Prefer `psc.which` first when in doubt.
+- **Trust model**: a completion's `hooks.lua` runs with the full `psc.*` power — `psc.run` can execute arbitrary subprocesses in the user's cwd, and `psc.read`/`psc.glob` can read any file. Installing a completion means trusting its hooks; see `trust.md` for the sandbox guarantees, official sources, and the custom-source warning.
 
 ## 12. Logging: `psc.log` (debug) and `error.log` (runtime)
 
-Two append-only logs live side-by-side in the host-provided `log_dir` (`data/temp/log/`), share
-the same rotation/retention and the same “empty dir disables silently” rule:
+Two append-only logs live side-by-side in the host-provided `log_dir` (`data/temp/log/`), share the same rotation/retention and the same “empty dir disables silently” rule:
 
-- `debug.log` — written by `psc.log(...)` (dev-time, explicit). Sits apart from the layer-A
-  pure-data functions:
+- `debug.log` — written by `psc.log(...)` (dev-time, explicit). Sits apart from the layer-A pure-data functions:
 
   ```lua
   psc.log(branches)                   -- data/temp/log/debug.log
   psc.log(fn())                       -- every returned value, one per line
   ```
 
-  Accepts **any number of arguments** and appends a formatted dump of each
-  (any type, recursively expanded: primitives, tables with numeric keys `[N]` first then sorted
-  string keys, functions as `<function>`, cyclic references as `<cycle>`, long strings
-  truncated) to `debug.log` — one line per value. A multi-return call like
-  `psc.log(fn())` prints every value; none is mistaken for a file name.
+Accepts **any number of arguments** and appends a formatted dump of each (any type, recursively expanded: primitives, tables with numeric keys `[N]` first then sorted string keys, functions as `<function>`, cyclic references as `<cycle>`, long strings truncated) to `debug.log` — one line per value.
+A multi-return call like `psc.log(fn())` prints every value; none is mistaken for a file name.
 
-- `error.log` — written by the engine on hook runtime failures (spec validation, unknown
-  target, handler panic, recursion; see §8). Same directory as `debug.log`
-  (`data/temp/log/error.log`); never a process fault — the failing registration/handler is
-  inert, siblings/partial mutations persist.
+- `error.log` — written by the engine on hook runtime failures (spec validation, unknown target, handler panic, recursion; see §8). Same directory as `debug.log` (`data/temp/log/error.log`); never a process fault — the failing registration/handler is inert, siblings/partial mutations persist.
 
 Common rules (applied by the engine on each append to either file):
 
 - Each line is prefixed with a local timestamp (`YYYY-MM-DD HH:MM:SS`).
-- **Size cap (1 MB)**: when the file exceeds 1 MB, the front half is dropped and the tail
-  is kept from the next complete line, prepended with a `[truncated]` marker.
-- **Age (7 days)**: an mtime older than 7 days is removed before appending, so long-unused
-  logs are reset.
+- **Size cap (1 MB)**: when the file exceeds 1 MB, the front half is dropped and the tail is kept from the next complete line, prepended with a `[truncated]` marker.
+- **Age (7 days)**: an mtime older than 7 days is removed before appending, so long-unused logs are reset.
 - Empty `log_dir` (host not configured) disables both logs silently.
 
-`psc.log` is a **development-time** tool. In `types/psc.lua` it is marked `@deprecated` so the editor
-highlights every `psc.log` call in `hooks.lua`, reminding the author to remove it before shipping.
+`psc.log` is a **development-time** tool.
+In `types/psc.lua` it is marked `@deprecated` so the editor highlights every `psc.log` call in `hooks.lua`, reminding the author to remove it before shipping.

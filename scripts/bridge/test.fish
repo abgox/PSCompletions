@@ -1,14 +1,9 @@
 #!/usr/bin/env fish
-# Headless bridge tests (fish): build input through the bridge's own _psc_write_input,
-# run psc-menu headless (build rewrites the input file) and assert the candidates; plus
-# the rules the engine never sees — routing, result application, candidate escaping, key
-# mapping, history normalisation, config forwarding, management text.
+# Headless bridge tests (fish): build input through the bridge's own _psc_write_input, run psc-menu headless (build rewrites the input file) and assert the candidates; plus the rules the engine never sees — routing, result application, candidate escaping, key mapping, history normalisation, config forwarding, management text.
 # Usage: fish --no-config scripts/bridge/test.fish [repo-root]
 set -g ROOT (realpath -- (dirname (status --current-filename))/../..)
 test (count $argv) -ge 1; and set -g ROOT (realpath -- $argv[1])
-# The user's environment must not reach the tests: fish sources config.fish and conf.d before this
-# script runs (only `--no-config` stops that), and a bridge conf.d already sourced blocks the
-# `source` below — the bridges guard on `_PSC_LOADED` — leaving the suite testing the wrong file.
+# The user's environment must not reach the tests: fish sources config.fish and conf.d before this script runs (only `--no-config` stops that), and a bridge conf.d already sourced blocks the `source` below — the bridges guard on `_PSC_LOADED` — leaving the suite testing the wrong file.
 if set -q _PSC_LOADED
     echo "test.fish: a PSCompletions bridge is already loaded in this shell; run the suite with --no-config" >&2
     exit 1
@@ -166,8 +161,7 @@ route_case typing    'git che'      build
 route_case unknown   'foo bar'      native
 route_case cmd-path  'cd ~/'        native
 set -l rcmd (_psc_route 'git')
-# A pending token that is a lone `--` must survive the route's emit: fish's `echo` would
-# swallow it as its own end-of-options marker and the engine would open an unfiltered menu.
+# A pending token that is a lone `--` must survive the route's emit: fish's `echo` would swallow it as its own end-of-options marker and the engine would open an unfiltered menu.
 set -l rdash (_psc_route 'psc --')
 expect route-dash-arg $rdash[4] --
 expect route-cmd-word $rcmd[1] native
@@ -182,9 +176,8 @@ expect route-args2 "$r3[5]" push
 set -l r4 (_psc_route 'git stash app')
 expect route-pending-last "$r4[3]" 0
 expect route-pending-args "$(string join ' ' -- $r4[4..-1])" 'stash app'
-# The pending token is part of arg_tokens (the engine treats the last one as unfinished and
-# pre-fills the filter from it). Asserted as the **whole** list: dropping it builds the parent
-# context — `psc al<Tab>` showed the root unfiltered, `psc add <Tab>` git's/git add's root.
+# The pending token is part of arg_tokens (the engine treats the last one as unfinished and pre-fills the filter from it).
+# Asserted as the **whole** list: dropping it builds the parent context — `psc al<Tab>` showed the root unfiltered, `psc add <Tab>` git's/git add's root.
 expect route-args-trailing-space "$(string join ' ' -- $r3[4..-1])" 'stash push app'
 set -l r7 (_psc_route 'psc add ')
 expect route-args-context "$(string join ' ' -- $r7[4..-1])" 'add'
@@ -192,8 +185,7 @@ set -l r8 (_psc_route 'psc al')
 expect route-args-pending-token "$(string join ' ' -- $r8[4..-1])" 'al'
 expect route-args-pending-flag "$r8[3]" 0
 
-# The engine turns that last unfinished token into the menu's initial filter (`^text`),
-# which is what makes `psc al<Tab>` open narrowed instead of listing the whole root.
+# The engine turns that last unfinished token into the menu's initial filter (`^text`), which is what makes `psc al<Tab>` open narrowed instead of listing the whole root.
 set -l rinp "$PSCOMPLETIONS_DATA_DIR/temp/menu/route-filter.json"
 set -l rout "$rinp-out.json"
 _psc_write_input $rinp psc $r8[3] "$PSCOMPLETIONS_DATA_DIR/completions/psc/language/en-US.json" 1 0 0 120 30 "" "$_PSC_ENGINE_PLATFORM" "$PWD" "$PSCOMPLETIONS_DATA_DIR" $r8[4..-1]
@@ -205,8 +197,7 @@ print(json.load(open(sys.argv[1],encoding="utf-8")).get("initial_filter") or "")
 rm -f $rinp $rout
 
 # Routing -> build, end to end: the context the line resolves to decides the candidates.
-# `psc add` has its own context (the completions available to install); showing the root
-# here was a real defect that every direct-args case missed.
+# `psc add` has its own context (the completions available to install); showing the root here was a real defect that every direct-args case missed.
 function route_build_case --argument-names name line hooks min
     set -l want $argv[5..-1]
     set -l route (_psc_route "$line")
@@ -238,8 +229,7 @@ apply_case next-word      'git  status'      4  'status'         0 'git status s
 apply_case attached-head  'git log --format=' 17 '--format='     0 'git log --format='
 apply_case attached-filled 'git log --format=' 17 '--format=pretty' 0 'git log --format=pretty '
 apply_case engine-nospace 'git log --format=' 14 '--format=x'     1 'git log --format=x'
-# Cursor inside a word with a following word: the rest of the token stays put and no
-# space is appended (a word already follows).
+# Cursor inside a word with a following word: the rest of the token stays put and no space is appended (a word already follows).
 apply_case cursor-tail    'git checkout -b'  12 'checkout'       0 'git checkout -b'
 set -g _PSC_CFG_KEYS enable_append_space
 set -g _PSC_CFG_VALS 0
@@ -247,8 +237,7 @@ apply_case no-append-space 'git '            4  'status'         0 'git status'
 set -g _PSC_CFG_KEYS; set -g _PSC_CFG_VALS
 set -l cur (_psc_apply_text 5 'checkout' 0 'git c')
 expect apply-cursor "$cur[1]" 13
-# A multi-line buffer is a list of lines — that is what `commandline -b` yields — and the
-# cursor is a whole-buffer character offset, so the untouched lines must come back unchanged.
+# A multi-line buffer is a list of lines — that is what `commandline -b` yields — and the cursor is a whole-buffer character offset, so the untouched lines must come back unchanged.
 set -l ml (_psc_apply_text 8 'checkout' 0 'git chec' 'tail')
 expect apply-multiline-lines (count $ml) 3
 expect apply-multiline-1 "$ml[2]" 'git checkout '
@@ -257,23 +246,18 @@ set -l ml2 (_psc_apply_text 10 'checkout' 0 'a' 'git chec')
 expect apply-multiline-line2-cursor "$ml2[1]" 15
 expect apply-multiline-line2-1 "$ml2[2]" 'a'
 expect apply-multiline-line2-2 "$ml2[3]" 'git checkout '
-# A space only for an ordinary candidate: never for a container, an attached value, or
-# when a word already follows (the PS bridge's handle_menu_output).
+# A space only for an ordinary candidate: never for a container, an attached value, or when a word already follows (the PS bridge's handle_menu_output).
 apply_case container-nospace 'cat /tmp/a'  10 '/tmp/a b/' 1 'cat /tmp/a b/'
 
 # --- word boundary respects escapes and quotes -------------------------------
-# A path with a space arrives escaped (`/tmp/psc\ t/`) or quoted (`'/tmp/psc t/'`); the
-# naive `^.* ` split cut at the escaped space and concatenated the pick after the old
-# text instead of replacing it — the defect the interactive pass reported.
+# A path with a space arrives escaped (`/tmp/psc\ t/`) or quoted (`'/tmp/psc t/'`); the naive `^.* ` split cut at the escaped space and concatenated the pick after the old text instead of replacing it — the defect the interactive pass reported.
 apply_case word-escaped-dir  'cd /tmp/psc\ t/'       15 '/tmp/psc t/az zdir/'  1 'cd /tmp/psc t/az zdir/'
 apply_case word-quoted-dir   "cd '/tmp/psc t/'"      16 '/tmp/psc t/az zdir/'  1 "cd /tmp/psc t/az zdir/"
 apply_case word-escaped-file 'cat /tmp/psc\ t/plain' 21 '/tmp/psc t/plain.txt' 0 'cat /tmp/psc t/plain.txt '
 
 # --- items menu: the candidate list travels in a file, not argv --------------
-# A host capture can run to thousands of entries; passing them as argv (or in an
-# environment variable) overflows at 128 KB per argument, and 8000 path candidates are
-# ~160 KB. Build the lists in one shot: appending element by element with `set -a` is
-# quadratic in fish (7.8 s for 20000) and would make this gate unusably slow.
+# A host capture can run to thousands of entries; passing them as argv (or in an environment variable) overflows at 128 KB per argument, and 8000 path candidates are ~160 KB.
+# Build the lists in one shot: appending element by element with `set -a` is quadratic in fish (7.8 s for 20000) and would make this gate unusably slow.
 set -g items_probe "$PSCOMPLETIONS_DATA_DIR/temp/menu/items-probe.json"
 rm -f $items_probe
 functions _psc_spawn > /tmp/psc-spawn-saved.fish
@@ -305,8 +289,8 @@ print("%s|%s" % (i.get("list_item_text"), i.get("completion_text")))
 rm -f $items_probe
 
 # --- a config read is plain data, not a status -------------------------------
-# Color is the bridge's status convention, but a *value* is data: `set v (psc config <g> <k>)`
-# must come back clean. Failures still take the red path.
+# Color is the bridge's status convention, but a *value* is data: `set v (psc config <g> <k>)` must come back clean.
+# Failures still take the red path.
 set -l read_stub "$PSCOMPLETIONS_DATA_DIR/temp/read-stub.sh"
 printf '#!/bin/sh\necho "enable_cache: 0"\nexit 0\n' > $read_stub
 chmod +x $read_stub
@@ -330,9 +314,8 @@ end
 set -g _PSC_BIN $save_bin_r
 rm -f $read_stub
 # --- watchdog restores the terminal modes the menu enabled -------------------
-# A force-killed menu cannot turn off crossterm's modes itself. Leaving mouse capture on made
-# the terminal keep reporting `ESC [ < b;x;y M` as literal input and the shell unusable
-# (found by hand); the watchdog must write the whole set, not just leave the alt screen.
+# A force-killed menu cannot turn off crossterm's modes itself.
+# Leaving mouse capture on made the terminal keep reporting `ESC [ < b;x;y M` as literal input and the shell unusable (found by hand); the watchdog must write the whole set, not just leave the alt screen.
 set -l reset_ok 1
 for seq in '1000l' '1002l' '1003l' '1006l' '1015l' '1049l' '25h' '2004l'
     string match -q -- "*?$seq*" $_PSC_RESET_TERM; or set reset_ok 0
@@ -347,9 +330,8 @@ test $flush_sites -ge 1; or bad "reset-term-discards-queued-input sites=$flush_s
 test $reset_sites -ge 2; or bad "reset-term-used-by-watchdog sites=$reset_sites"
 
 # --- no-match auto-apply: the engine's input status carries the filter text ----------
-# Build mode applies the returned text like a selected candidate; items mode must keep
-# answering by index, so it stays `input` there. Behavioural: fish's spawn driver is python,
-# so a stub menu that writes the result exercises the real path.
+# Build mode applies the returned text like a selected candidate; items mode must keep answering by index, so it stays `input` there.
+# Behavioural: fish's spawn driver is python, so a stub menu that writes the result exercises the real path.
 set -l in_stub "$PSCOMPLETIONS_DATA_DIR/temp/input-stub.sh"
 set -l in_in "$PSCOMPLETIONS_DATA_DIR/temp/menu/input-in.json"
 set -l in_out "$PSCOMPLETIONS_DATA_DIR/temp/menu/input-out.json"
@@ -361,8 +343,7 @@ rm -f $in_stub $in_in $in_out
 expect input-status-applied "$in_got[1]|$in_got[2]|$in_got[3]" "selected|aaa|0"
 
 # --- native candidate escaping (fish's own insertion, recorded) --------------
-# Differential: `_psc_escape` must reproduce what fish's own completion inserts —
-# backslashes before the specials, a leading `~` left bare.
+# Differential: `_psc_escape` must reproduce what fish's own completion inserts — backslashes before the specials, a leading `~` left bare.
 set -l cases 'sp ace' 'sp\ ace' "sq'uote" "sq\\'uote" 'dq"uote' 'dq\\"uote' \
     'dol$lar' 'dol\\$lar' 'star*' 'star\\*' 'par(en' 'par\\(en' 'amp&' 'amp\\&' \
     'hash#' 'hash\\#' 'bang!' 'bang!' 'back\slash' 'back\\\\slash' 'semi;colon' 'semi\\;colon' \
@@ -390,8 +371,7 @@ else
 end
 
 # --- native pick trailing rules ----------------------------------------------
-# A container is recognised from the candidate text (trailing `/`), and it never takes a
-# trailing space; `enable_path_trailing_separator` decides whether the `/` stays.
+# A container is recognised from the candidate text (trailing `/`), and it never takes a trailing space; `enable_path_trailing_separator` decides whether the `/` stays.
 set -g _PSC_CFG_KEYS; set -g _PSC_CFG_VALS
 _psc_pick_text /tmp/psc-cfg-probe/adir/
 expect 'pick dir + separator on' "$_PSC_PICK_TEXT/$_PSC_PICK_NOSPACE" '/tmp/psc-cfg-probe/adir//1'
@@ -418,9 +398,8 @@ bind -M insert | string match -q '*ctrl-space*'; and ok 'trigger bound (insert)'
 _psc_bind_trigger Tab
 
 # --- native completion off: the trigger goes back to the host ----------------
-# fish has a per-key fallback the other hosts lack, so `0` hands the trigger to fish's
-# own completion instead of completing nothing. Stub the `commandline` builtin (a
-# function of the same name shadows it) to observe the call headlessly.
+# fish has a per-key fallback the other hosts lack, so `0` hands the trigger to fish's own completion instead of completing nothing.
+# Stub the `commandline` builtin (a function of the same name shadows it) to observe the call headlessly.
 set -l nlog "$PSCOMPLETIONS_DATA_DIR/temp/native-off.log"
 rm -f $nlog
 function commandline
@@ -444,10 +423,8 @@ expect trigger-key-read (_psc_read_trigger_key) 'Ctrl+Space'
 printf '%s\n' '{"alias":{"git":["git"],"psc":["psc"],"scoop":["scoop"]},"config":{"language":"en-US"}}' > $PSCOMPLETIONS_DATA_DIR/settings.json
 reset_caches
 
-# The engine renders the tips, so the *display* language is not the bridge's business — but
-# which manifest is handed to the engine is. The rule (the same python in all three ports):
-# per-completion override -> module-declared -> global, and a value the completion does not
-# declare falls back to the completion's first declared language.
+# The engine renders the tips, so the *display* language is not the bridge's business — but which manifest is handed to the engine is.
+# The rule (the same python in all three ports): per-completion override -> module-declared -> global, and a value the completion does not declare falls back to the completion's first declared language.
 set -l lang_save (cat $PSCOMPLETIONS_DATA_DIR/settings.json)
 function lang_case --argument-names name settings cmd want
     reset_caches
@@ -461,8 +438,7 @@ lang_case no-settings         '{}' git en-US
 printf '%s\n' $lang_save > $PSCOMPLETIONS_DATA_DIR/settings.json
 reset_caches
 
-# Every engine-side key is forwarded through raw_config/flags; enable_sort_by_history
-# drives the presence of the order block.
+# Every engine-side key is forwarded through raw_config/flags; enable_sort_by_history drives the presence of the order block.
 set -g manifest "$PSCOMPLETIONS_DATA_DIR/completions/git/language/en-US.json"
 set -g cfgin "$PSCOMPLETIONS_DATA_DIR/temp/menu/cfginput.json"
 function check_input --argument-names name want h
@@ -530,8 +506,7 @@ else
 end
 
 # --- fish history normalisation ---------------------------------------------
-# fish's history file is YAML-ish; the engine reads plain command lines, so the bridge
-# must hand it a normalised copy (and only rebuild it when the source changed).
+# fish's history file is YAML-ish; the engine reads plain command lines, so the bridge must hand it a normalised copy (and only rebuild it when the source changed).
 set -gx XDG_DATA_HOME /tmp/psc-fish-xdg
 rm -rf $XDG_DATA_HOME
 mkdir -p $XDG_DATA_HOME/fish
@@ -553,8 +528,7 @@ if string match -q '*PSCompletions*' -- "$bare"
 else
     bad psc-bare-description " [$bare]"
 end
-# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the
-# run's own facts — never the info page, and never the binary's own usage text.
+# Flags only, no command word: with `--json` that is the **root** response (design/json.md §5) — the run's own facts — never the info page, and never the binary's own usage text.
 set -l flags_only (psc --json 2>&1); set -l flags_rc $status
 if test $flags_rc -eq 0; and string match -q '{*' -- "$flags_only"
     ok root-json-for-json-flag
@@ -582,8 +556,7 @@ else
 end
 set -g _PSC_PY $save_py
 
-# A rendered line is terminated by the caller, and a forwarded status line is colored
-# by the bridge (green on success, red on failure) — the PS bridge's _forward_psc.
+# A rendered line is terminated by the caller, and a forwarded status line is colored by the bridge (green on success, red on failure) — the PS bridge's _forward_psc.
 set -l stub "$PSCOMPLETIONS_DATA_DIR/temp/stub-bin.sh"
 printf '%s\n' '#!/bin/sh' "case \"\$*\" in *\" tpl \"*) exec \"$_PSC_BIN\" \"\$@\" ;; esac" "echo '{\"ok\":true,\"data\":{\"completions\":[{\"name\":\"git\",\"ok\":true}]}}'" > $stub
 chmod +x $stub
@@ -683,9 +656,8 @@ set -g -x PSCOMPLETIONS_DATA_DIR $save_dir2
 rm -rf $fresh
 
 # --- install shape: sourcing a symlink must still resolve the module -------------
-# The documented fish install is a conf.d symlink (and bash a `.bashrc.d` drop-in); the
-# sourced path is then the link, while the binaries and the bundled psc completion sit next
-# to the real file. `status --current-filename` does not resolve it, so the bridge does.
+# The documented fish install is a conf.d symlink (and bash a `.bashrc.d` drop-in); the sourced path is then the link, while the binaries and the bundled psc completion sit next to the real file.
+# `status --current-filename` does not resolve it, so the bridge does.
 set -l linkdir /tmp/psc-link-test
 mkdir -p $linkdir
 ln -sfn $BRIDGE $linkdir/PSCompletions.fish
@@ -693,8 +665,7 @@ set -l got (fish --no-config -c "source $linkdir/PSCompletions.fish; echo \$_PSC
 expect symlink-sourcing-resolves-module "$got" (dirname $BRIDGE)
 
 # --- install shape: an installed copy has no ../version.json, so the version is the psd1's ----
-# An installed copy *is* the package root: the bridge sits beside bin/ and PSCompletions.psd1,
-# and there is no `../version.json` (that file is repo-only).
+# An installed copy *is* the package root: the bridge sits beside bin/ and PSCompletions.psd1, and there is no `../version.json` (that file is repo-only).
 set -l pkgdir /tmp/psc-pkg-test
 rm -rf $pkgdir
 mkdir -p $pkgdir

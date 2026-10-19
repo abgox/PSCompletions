@@ -61,9 +61,8 @@ fn explicit_return_skips_malformed_rows_and_resolves_localized_tip() {
 
 #[test]
 fn a_wrong_typed_optional_field_skips_the_row_not_the_hook() {
-    // §3: malformed rows are skipped, never fatal; §7.0: bad input degrades, never crashes. The
-    // three fields below used to abort the whole item build, so one hook typo took every
-    // candidate with it — the static seed included.
+    // §3: malformed rows are skipped, never fatal; §7.0: bad input degrades, never crashes.
+    // The three fields below used to abort the whole item build, so one hook typo took every candidate with it — the static seed included.
     let script = r#"
         return {
             { name = "good", symbol = "s", nospace = true },
@@ -142,15 +141,11 @@ fn hook_times_out_on_infinite_loop() {
 
 #[test]
 fn run_batch_subprocess_cut_short_by_global_deadline() {
-    // Regression guard for the process-global deadline: while psc.run_batch blocks inside
-    // a C function the VM instruction-count hook cannot fire, so the batch workers
-    // themselves must observe the global budget and cut their subprocess short. Without
-    // it this test stalls for the full per-command timeout before returning.
+    // Regression guard for the process-global deadline: while psc.run_batch blocks inside a C function the VM instruction-count hook cannot fire, so the batch workers themselves must observe the global budget and cut their subprocess short.
+    // Without it this test stalls for the full per-command timeout before returning.
     //
-    // NOTE on parallelism: the deadline is a process-global slot, and sibling hook tests
-    // running in parallel overwrite/clear it around their own windows. That interference
-    // is harmless in production (one hook per process) but can void THIS test's window,
-    // so we retry: a clean attempt always unwinds right after the 300ms budget.
+    // NOTE on parallelism: the deadline is a process-global slot, and sibling hook tests running in parallel overwrite/clear it around their own windows.
+    // That interference is harmless in production (one hook per process) but can void THIS test's window, so we retry: a clean attempt always unwinds right after the 300ms budget.
     #[cfg(windows)]
     let cmd = [
         "ping".to_string(),
@@ -191,12 +186,9 @@ fn run_batch_subprocess_cut_short_by_global_deadline() {
 
 #[test]
 fn hook_completes_well_within_timeout() {
-    // A normal hook (pure computation + psc.run) must finish without being killed by the
-    // deadline. The budget is generous (still well under the 10 s cap) so parallel test
-    // load cannot exhaust it before the subprocess finishes — the assertion is about
-    // completing with correct output, not about a tight timing window.
-    // `echo` is a shell builtin on Windows, not an executable: spawning it directly
-    // fails there, so run through the platform shell instead.
+    // A normal hook (pure computation + psc.run) must finish without being killed by the deadline.
+    // The budget is generous (still well under the 10 s cap) so parallel test load cannot exhaust it before the subprocess finishes — the assertion is about completing with correct output, not about a tight timing window.
+    // `echo` is a shell builtin on Windows, not an executable: spawning it directly fails there, so run through the platform shell instead.
     let script = r#"
     local t = {}
     for i = 1, 1000 do t[i] = { name = "x" .. i } end
@@ -212,9 +204,8 @@ fn hook_completes_well_within_timeout() {
 
 #[test]
 fn hook_sees_empty_config_when_host_passes_null() {
-    // The host passes `config.completion[<cmd>]`, which is JSON null for an unconfigured
-    // completion. `psc.config` must surface as an empty table (not nil) so hooks that
-    // index it (e.g. git's `psc.config.max_commit`) don't crash on a nil index.
+    // The host passes `config.completion[<cmd>]`, which is JSON null for an unconfigured completion.
+    // `psc.config` must surface as an empty table (not nil) so hooks that index it (e.g. git's `psc.config.max_commit`) don't crash on a nil index.
     let script = r#"
         if type(psc.config) == "table" then
         psc.add({ name = "ok-" .. tostring(psc.config.max_commit) })
@@ -291,8 +282,7 @@ fn static_rows(texts: &[&str]) -> Vec<LuaItem> {
 
 #[test]
 fn case_variant_contribution_sorts_dynamic_first() {
-    // A different-case contribution is a different row: it keeps dynamic-first
-    // ordering instead of merging into the static tail.
+    // A different-case contribution is a different row: it keeps dynamic-first ordering instead of merging into the static tail.
     let mut c = root_provide_ctx();
     c.layers = vec![("command".into(), "exec".into())];
     let script = r#"
@@ -326,9 +316,8 @@ fn provide_injects_inside_command_context_and_stamps_repeat() {
 
 #[test]
 fn provide_no_injection_or_switch_at_parent_including_aliases() {
-    // Targeting a command that the user has not entered yet: the spec must not fire, and must
-    // not stamp a switch on the parent rows either — otherwise the menu would promise a landing
-    // the hook cannot deliver. The alias `x` is included so alias resolution cannot sneak a match.
+    // Targeting a command that the user has not entered yet: the spec must not fire, and must not stamp a switch on the parent rows either — otherwise the menu would promise a landing the hook cannot deliver.
+    // The alias `x` is included so alias resolution cannot sneak a match.
     let script = r#"
     psc.on({ command = "exec" }, function()
         psc.add({ name = "eslint" })
@@ -376,13 +365,8 @@ fn capture_error_log(c: &mut HookContext, script: &str) -> String {
 
 #[test]
 fn collect_node_names_matches_name_alias_case_and_every_scope() {
-    // `collect_node_names` is what validates a psc.on target against the manifest, and its
-    // contract promises five things: a target matches by canonical name OR by any alias,
-    // case-insensitively, the walk reaches scoped `option` arrays as well as the root
-    // `global_option` array, and — since the manifest already fixes each node's type by the
-    // array it sits in — a name is only ever found in the position its spec key declares.
-    // Each is pinned here because a miss fails silently - the hook's handler just never fires,
-    // with no error to explain it.
+    // `collect_node_names` is what validates a psc.on target against the manifest, and its contract promises five things: a target matches by canonical name OR by any alias, case-insensitively, the walk reaches scoped `option` arrays as well as the root `global_option` array, and — since the manifest already fixes each node's type by the array it sits in — a name is only ever found in the position its spec key declares.
+    // Each is pinned here because a miss fails silently - the hook's handler just never fires, with no error to explain it.
     let manifest = serde_json::json!({
         "next": [
             { "name": "install", "alias": ["i"], "next": [ { "name": "add" } ] },
@@ -420,9 +404,8 @@ fn collect_node_names_matches_name_alias_case_and_every_scope() {
         collect_node_names(&manifest, "--HELP", opt),
         Some(vec!["--help".to_string(), "-h".to_string()])
     );
-    // The declared position is part of the lookup: an option is not a command target, a
-    // command is not an option target, and an option's `next` entries are candidate VALUES,
-    // not targets of either kind. Writing the wrong key must miss.
+    // The declared position is part of the lookup: an option is not a command target, a command is not an option target, and an option's `next` entries are candidate VALUES, not targets of either kind.
+    // Writing the wrong key must miss.
     assert_eq!(collect_node_names(&manifest, "-j", cmd), Some(Vec::new()));
     assert_eq!(
         collect_node_names(&manifest, "install", opt),
@@ -430,16 +413,14 @@ fn collect_node_names_matches_name_alias_case_and_every_scope() {
     );
     assert_eq!(collect_node_names(&manifest, "auto", cmd), Some(Vec::new()));
     assert_eq!(collect_node_names(&manifest, "auto", opt), Some(Vec::new()));
-    // An unknown target yields an EMPTY vec, not None - None only means the manifest root is
-    // not an object. Callers rely on is_none_or(|v| v.is_empty()) to reject it, so pin the
-    // distinction: a future reader must not "simplify" that into is_none().
+    // An unknown target yields an EMPTY vec, not None - None only means the manifest root is not an object.
+    // Callers rely on is_none_or(|v| v.is_empty()) to reject it, so pin the distinction: a future reader must not "simplify" that into is_none().
     assert_eq!(collect_node_names(&manifest, "nope", cmd), Some(Vec::new()));
     assert_eq!(
         collect_node_names(&serde_json::json!([1, 2]), "x", cmd),
         None
     );
-    // Repeat lookups hit the memo cache; results must not drift from the first call, and the
-    // cache key must include the kind (the two lookups below differ only by kind).
+    // Repeat lookups hit the memo cache; results must not drift from the first call, and the cache key must include the kind (the two lookups below differ only by kind).
     assert_eq!(
         collect_node_names(&manifest, "INSTALL", cmd),
         Some(vec!["install".to_string(), "i".to_string()])
@@ -465,9 +446,8 @@ fn provide_unknown_target_fails_loudly() {
 
 #[test]
 fn a_nested_psc_on_is_a_recursion_error_even_when_it_would_not_match() {
-    // §8: `psc.on` inside a handler is a recursion error. The check used to sit behind the match,
-    // so a nested registration whose spec did *not* match no-oped in silence — the same authoring
-    // mistake, with nothing anywhere to explain it.
+    // §8: `psc.on` inside a handler is a recursion error.
+    // The check used to sit behind the match, so a nested registration whose spec did *not* match no-oped in silence — the same authoring mistake, with nothing anywhere to explain it.
     let mut c = root_provide_ctx();
     c.layers = vec![("command".into(), "exec".into())];
     let logged = capture_error_log(
@@ -486,10 +466,9 @@ fn a_nested_psc_on_is_a_recursion_error_even_when_it_would_not_match() {
 
 #[test]
 fn provide_target_in_the_wrong_position_fails_loudly() {
-    // The manifest fixes each node's type by the array it sits in, so a spec's key has to
-    // agree with it. Both directions must be reported: a `next` entry (a command) targeted as
-    // an option, and an `option` entry targeted as a command. Either one used to register and
-    // then never fire, with nothing to explain why.
+    // The manifest fixes each node's type by the array it sits in, so a spec's key has to agree with it.
+    // Both directions must be reported: a `next` entry (a command) targeted as an option, and an `option` entry targeted as a command.
+    // Either one used to register and then never fire, with nothing to explain why.
     let mut c = root_provide_ctx();
     c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
     let logged = capture_error_log(
@@ -521,9 +500,8 @@ fn provide_rejects_wrong_provider_type_degrades_with_log() {
 
 #[test]
 fn api_misuse_degrades_without_aborting() {
-    // A grab-bag of authoring mistakes across several APIs: none may abort the process. Each
-    // must degrade instead (yield nil / add nothing) and leave the static menu intact, so one
-    // bad call still shows the authored candidates rather than an empty or crashed menu.
+    // A grab-bag of authoring mistakes across several APIs: none may abort the process.
+    // Each must degrade instead (yield nil / add nothing) and leave the static menu intact, so one bad call still shows the authored candidates rather than an empty or crashed menu.
     let script = r#"
     psc.add(5)
     psc.add(5)
@@ -548,8 +526,7 @@ fn provide_provider_error_is_isolated_and_logged() {
     let dir = std::env::temp_dir().join(format!("psc-provide-log-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     c.log_dir = dir.to_string_lossy().to_string();
-    // The failing handler must degrade; the imperative add below still lands,
-    // AND the failure surfaces in error.log (isolation must not mean invisibility).
+    // The failing handler must degrade; the imperative add below still lands, AND the failure surfaces in error.log (isolation must not mean invisibility).
     let script = r#"
     psc.on({ command = "exec" }, function() error("boom") end)
     psc.add({ name = "alive" })
@@ -621,10 +598,8 @@ fn provide_empty_command_chain_is_redundant() {
 
 #[test]
 fn provide_option_like_command_name_matches_by_command_key() {
-    // A command is a command because the manifest puts it in `next`, not because its name
-    // avoids a `-` prefix: `psc --self-update` is a real command, so `command` must both
-    // register and match it. The array form used to reject an option-like segment while the
-    // string form never checked, so the two shapes disagreed and the spec went silently dead.
+    // A command is a command because the manifest puts it in `next`, not because its name avoids a `-` prefix: `psc --self-update` is a real command, so `command` must both register and match it.
+    // The array form used to reject an option-like segment while the string form never checked, so the two shapes disagreed and the spec went silently dead.
     let mut c = root_provide_ctx();
     c.manifest = serde_json::json!({ "next": [ { "name": "--self-update" } ] });
     c.layers = vec![("command".into(), "--self-update".into())];
@@ -653,9 +628,8 @@ fn provide_option_like_command_name_matches_by_command_key() {
 
 #[test]
 fn provide_non_option_segment_in_option_chain_fails_loudly() {
-    // Every segment of an `option` chain must look like an option. Note the two shapes that are
-    // deliberately NOT errors, and so are absent here: an empty `command` string is a wildcard,
-    // and an empty `option` segment is its symmetric chain wildcard.
+    // Every segment of an `option` chain must look like an option.
+    // Note the two shapes that are deliberately NOT errors, and so are absent here: an empty `command` string is a wildcard, and an empty `option` segment is its symmetric chain wildcard.
     let mut c = root_provide_ctx();
     let logged = capture_error_log(&mut c, r#"psc.on({ option = "config" }, function() end)"#);
     assert!(
@@ -823,8 +797,7 @@ fn provide_option_chain_matches_suffix() {
 
 #[test]
 fn provide_option_chain_ignores_values_between_options() {
-    // `install --color val --arch <Tab>`: the value token never enters the option
-    // sequence, so the sequence stays [--color, --arch] and the chain still matches.
+    // `install --color val --arch <Tab>`: the value token never enters the option sequence, so the sequence stays [--color, --arch] and the chain still matches.
     let mut c = root_provide_ctx();
     c.layers = vec![("command".into(), "install".into())];
     c.tokens = vec![
@@ -968,7 +941,8 @@ fn provide_command_isolated_from_value_position() {
 #[test]
 fn provide_multiple_command_unknown_slot_gating() {
     // `branch foo <Tab>` — foo is an unknown in branch's positional slot.
-    // Default: the slot is filled, no inject. multiple: keeps matching.
+    // Default: the slot is filled, no inject.
+    // multiple: keeps matching.
     let mk = |tokens: Vec<Token>| branch_ctx(vec![("command".into(), "branch".into())], tokens);
     let tokens = vec![
         Token {
@@ -1005,9 +979,7 @@ fn provide_multiple_command_unknown_slot_gating() {
 
 #[test]
 fn provide_multiple_command_static_value_depth() {
-    // A static value in the manifest (`next` entry) pushes a command layer, so the exact
-    // match dies once it is typed; `multiple` (prefix) keeps matching through deeper
-    // positional layers.
+    // A static value in the manifest (`next` entry) pushes a command layer, so the exact match dies once it is typed; `multiple` (prefix) keeps matching through deeper positional layers.
     let manifest = serde_json::json!({
         "next": [
             { "name": "rebase", "next": [ { "name": "abcdefg" } ] }
@@ -1060,7 +1032,8 @@ fn provide_multiple_command_static_value_depth() {
 #[test]
 fn provide_multiple_option_value_slot_gating() {
     // `branch --contains x <Tab>` — --contains (next: []) consumed x as its value.
-    // Default: the option's value slot is filled, no inject. multiple: keeps matching.
+    // Default: the option's value slot is filled, no inject.
+    // multiple: keeps matching.
     let mk = |tokens: Vec<Token>| branch_ctx(vec![("command".into(), "branch".into())], tokens);
     let tokens = vec![
         Token {
@@ -1098,8 +1071,7 @@ fn provide_multiple_option_value_slot_gating() {
 
 #[test]
 fn provide_multiple_and_option_value_slot_gating() {
-    // The `--type xxx <Tab>` scenario: an AND spec whose option value slot is filled
-    // blocks by default and keeps matching with `multiple`.
+    // The `--type xxx <Tab>` scenario: an AND spec whose option value slot is filled blocks by default and keeps matching with `multiple`.
     let mk = |tokens: Vec<Token>, layers: Vec<(String, String)>| branch_ctx(layers, tokens);
     let tokens = vec![
         Token {
@@ -1138,8 +1110,7 @@ fn provide_multiple_and_option_value_slot_gating() {
 
 #[test]
 fn provide_multiple_stays_out_of_unrelated_option_value() {
-    // `branch --contains <Tab>` (value pending): the frontier is --contains' value
-    // position, NOT branch's positional slot — even `multiple` must not inject.
+    // `branch --contains <Tab>` (value pending): the frontier is --contains' value position, NOT branch's positional slot — even `multiple` must not inject.
     let c = branch_ctx(
         vec![
             ("command".into(), "branch".into()),
@@ -1170,8 +1141,7 @@ fn provide_multiple_stays_out_of_unrelated_option_value() {
         "must not fire inside an unrelated option's value position"
     );
 
-    // Once the value is typed the layer chain truncates back to the command: the
-    // positional slot is reachable again — options and their values never block it.
+    // Once the value is typed the layer chain truncates back to the command: the positional slot is reachable again — options and their values never block it.
     let c2 = branch_ctx(
         vec![("command".into(), "branch".into())],
         vec![
@@ -1214,8 +1184,7 @@ fn provide_multiple_stays_out_of_unrelated_option_value() {
 
 #[test]
 fn provide_multiple_option_chain_broken_by_new_option() {
-    // `branch --contains x --merged <Tab>`: the option sequence is [--contains, --merged],
-    // the chain no longer ends with --contains → no match even with `multiple`.
+    // `branch --contains x --merged <Tab>`: the option sequence is [--contains, --merged], the chain no longer ends with --contains → no match even with `multiple`.
     let c = branch_ctx(
         vec![("command".into(), "branch".into())],
         vec![
@@ -1256,8 +1225,7 @@ fn provide_multiple_option_chain_broken_by_new_option() {
 
 #[test]
 fn provide_multiple_unknown_before_chain_does_not_block() {
-    // `git foo rebase <Tab>`: the unknown sits BEFORE the matched chain — the slot is
-    // still open, the default injects.
+    // `git foo rebase <Tab>`: the unknown sits BEFORE the matched chain — the slot is still open, the default injects.
     let mut c = ctx();
     c.manifest = serde_json::json!({ "next": [ { "name": "rebase" } ] });
     c.layers = vec![("command".into(), "rebase".into())];
@@ -1326,8 +1294,7 @@ fn provide_multiple_validation() {
     );
     assert!(logged.contains("multiple must be a boolean"), "{logged}");
 
-    // Explicit `false` behaves exactly like the default (Lua collapses duplicate table
-    // keys, so the in-Rust duplicate guard is defense-in-depth only).
+    // Explicit `false` behaves exactly like the default (Lua collapses duplicate table keys, so the in-Rust duplicate guard is defense-in-depth only).
     let c2 = branch_ctx(
         vec![("command".into(), "branch".into())],
         vec![
@@ -1358,8 +1325,7 @@ fn provide_multiple_validation() {
 
 #[test]
 fn lazy_tip_resolves_on_demand_with_closure() {
-    // A function-valued tip is collected, not resolved: items read back empty and the
-    // session holds the callback (closures over hook locals work — no re-execution).
+    // A function-valued tip is collected, not resolved: items read back empty and the session holds the callback (closures over hook locals work — no re-execution).
     let script = r#"
         local prefix = "app-"
         psc.add({ name = "alpha", tip = function() return prefix .. "alpha-tip" end })
@@ -1437,8 +1403,7 @@ fn mount_items_mounts_tips_usage_example_and_no_symbol() {
         psc.add(psc.mount_items({ "next", "config", "next" }))
 "#;
     let out = run_hook(&nested_manifest_ctx(), script, &empty_static()).unwrap();
-    // Direct children of config.next only: set, get, delete, verbose (no recursion into
-    // get's next or verbose's option).
+    // Direct children of config.next only: set, get, delete, verbose (no recursion into get's next or verbose's option).
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
     assert_eq!(texts, vec!["set", "get", "delete", "verbose"]);
     for item in &out {
@@ -1762,8 +1727,7 @@ fn mount_items_roots_from_any_top_level_field() {
 
 #[test]
 fn mount_items_source_only_path_mounts_root_array() {
-    // A single-segment path mounts the manifest's root-level array: { "next" } yields the
-    // root's subcommands (brew's add_commands relies on this).
+    // A single-segment path mounts the manifest's root-level array: { "next" } yields the root's subcommands (brew's add_commands relies on this).
     let script = r#"
         psc.add(psc.mount_items({ "next" }))
 "#;
@@ -1817,8 +1781,7 @@ fn mount_items_chain_mirrors_manifest_structure() {
 
 #[test]
 fn mount_items_expands_aliases() {
-    // Aliases ride along: each mounted node yields its canonical name plus every
-    // alias (same tip), mirroring the static menu's name/alias expansion.
+    // Aliases ride along: each mounted node yields its canonical name plus every alias (same tip), mirroring the static menu's name/alias expansion.
     let mut c = nested_manifest_ctx();
     c.manifest = serde_json::json!({
         "next": [
@@ -1900,8 +1863,8 @@ fn add_without_tip_falls_back_to_the_name() {
 
 #[test]
 fn add_tip_empty_string_opts_out_of_the_default() {
-    // `tip = ""` is the per-item escape hatch: an explicitly empty tip means "no description",
-    // and must not be replaced by the name. `enable_tip = false` remains the global opt-out.
+    // `tip = ""` is the per-item escape hatch: an explicitly empty tip means "no description", and must not be replaced by the name.
+    // `enable_tip = false` remains the global opt-out.
     let script = r#"
         psc.add({ name = "kept", tip = "" })
         psc.add({ name = "defaulted" })
@@ -2092,8 +2055,8 @@ fn run_command_unix() {
 #[test]
 #[cfg(target_os = "linux")]
 fn run_child_stdin_is_not_the_terminal() {
-    // A hook's child must never inherit the terminal's input: the engine is reading it, so a child
-    // that reads stdin eats the user's keystrokes. fd 0 is /dev/null instead, and nothing else.
+    // A hook's child must never inherit the terminal's input: the engine is reading it, so a child that reads stdin eats the user's keystrokes.
+    // fd 0 is /dev/null instead, and nothing else.
     let script = r#"
         for _, l in ipairs(psc.run({"readlink", "/proc/self/fd/0"})) do
         psc.add({ name = l })
@@ -2105,9 +2068,7 @@ fn run_child_stdin_is_not_the_terminal() {
 
 #[test]
 fn run_with_shell_option() {
-    // `shell = true` routes the command through the platform shell (`cmd /c` on Windows,
-    // `sh -c` elsewhere) — a built-in shell keyword is used so it works even where the
-    // bare command would not be directly spawnable.
+    // `shell = true` routes the command through the platform shell (`cmd /c` on Windows, `sh -c` elsewhere) — a built-in shell keyword is used so it works even where the bare command would not be directly spawnable.
     let script = if cfg!(windows) {
         r#"
         for _, l in ipairs(psc.run({"echo", "shell-ok"}, { shell = true })) do
@@ -2127,9 +2088,9 @@ fn run_with_shell_option() {
 
 #[test]
 fn run_with_shell_option_and_quoted_arg() {
-    // An argument containing whitespace must stay one word through the shell. On Windows,
-    // `cmd /c` echoes the quoted token verbatim (`"two words"`); on POSIX shells the quotes
-    // are consumed. Assert the word is present either way.
+    // An argument containing whitespace must stay one word through the shell.
+    // On Windows, `cmd /c` echoes the quoted token verbatim (`"two words"`); on POSIX shells the quotes are consumed.
+    // Assert the word is present either way.
     let script = if cfg!(windows) {
         r#"
     local v = psc.run({"echo", "two words"}, { shell = true })
@@ -2150,9 +2111,7 @@ fn run_with_shell_option_and_quoted_arg() {
 
 #[test]
 fn run_uses_hook_cwd_when_not_specified() {
-    // `psc.run` without a `cwd` option must run in the hook's working directory (the user's
-    // current location), NOT the engine process's inherited cwd — the two can differ after a
-    // `cd` in the host (process-level CurrentDirectory lags `$PWD` on some hosts).
+    // `psc.run` without a `cwd` option must run in the hook's working directory (the user's current location), NOT the engine process's inherited cwd — the two can differ after a `cd` in the host (process-level CurrentDirectory lags `$PWD` on some hosts).
     let dir = std::env::temp_dir().join("psc-run-cwd-test");
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
@@ -2236,9 +2195,8 @@ fn ls_and_glob_api() {
 
 #[test]
 fn path_api_joins_and_normalizes() {
-    // Segments join with the native separator, duplicate separators collapse, a leading
-    // separator (absolute) is preserved. Empty results can't be added (empty names are
-    // filtered), so they're asserted via a Lua-side comparison.
+    // Segments join with the native separator, duplicate separators collapse, a leading separator (absolute) is preserved.
+    // Empty results can't be added (empty names are filtered), so they're asserted via a Lua-side comparison.
     let script = r#"
     psc.add({ name = psc.path("a", "b", "c.txt") })
     psc.add({ name = psc.path("/usr", "bin") })
@@ -2300,8 +2258,7 @@ fn glob_pattern_normalizes_backslashes_on_windows() {
 
 #[test]
 fn glob_respects_gitignore_and_brace() {
-    // .gitignore is respected (like ripgrep/ignore); brace via globset;
-    // absolute patterns work by joining cwd only when relative.
+    // .gitignore is respected (like ripgrep/ignore); brace via globset; absolute patterns work by joining cwd only when relative.
     let base = std::env::temp_dir().join("psc-glob-ignore-test");
     let _ = std::fs::remove_dir_all(&base);
     let dir = base.join("proj");
@@ -2335,8 +2292,7 @@ fn glob_respects_gitignore_and_brace() {
     ctx2.cwd = dir_s.clone();
     let out = run_hook(&ctx2, &script, &empty_static()).unwrap();
     let texts: Vec<&str> = out.iter().map(|i| i.text.as_str()).collect();
-    // star: only a.md (b.txt not .md); rec: a.md + sub/c.md (node_modules/x.md and ignored.log are gitignored);
-    // brace: a.md + b.txt; ignored: 0 (ignored.log is gitignored)
+    // star: only a.md (b.txt not .md); rec: a.md + sub/c.md (node_modules/x.md and ignored.log are gitignored); brace: a.md + b.txt; ignored: 0 (ignored.log is gitignored)
     assert_eq!(
         texts,
         vec!["star-1", "rec-2", "brace-2", "ignored-0"],
@@ -2371,8 +2327,7 @@ fn run_without_format_returns_nil_on_failure() {
 
 #[test]
 fn run_returns_nil_on_nonzero_exit() {
-    // Strict failure semantics: a command that runs but exits non-zero must yield nil, even
-    // when it printed output before failing.
+    // Strict failure semantics: a command that runs but exits non-zero must yield nil, even when it printed output before failing.
     let script = r#"
     local v = psc.run({ "echo junk & exit 1" }, { shell = true })
     if v == nil then return { { name = "nil-ok" } } end
@@ -2478,12 +2433,9 @@ fn test_matcher(dir: &std::path::Path, prefix: &str, suffix: &str) -> globset::G
 
 #[test]
 fn glob_walk_cuts_short_at_stop_instant() {
-    // Regression guard: the instruction-count timeout cannot fire inside a native walk (it
-    // executes no Lua instructions), so the walk must honor its own stop instant. A stop time
-    // already in the past must stop it early and hand back a partial result — unbounded, it
-    // returns all 300 files and freezes the menu on a deep tree.
-    // Driven through `glob_walk` directly (the instant is a parameter, not the process-global
-    // slot), so the assertion is deterministic and cannot interfere with sibling hook tests.
+    // Regression guard: the instruction-count timeout cannot fire inside a native walk (it executes no Lua instructions), so the walk must honor its own stop instant.
+    // A stop time already in the past must stop it early and hand back a partial result — unbounded, it returns all 300 files and freezes the menu on a deep tree.
+    // Driven through `glob_walk` directly (the instant is a parameter, not the process-global slot), so the assertion is deterministic and cannot interfere with sibling hook tests.
     let base = std::env::temp_dir().join("psc-glob-deadline-test");
     let _ = std::fs::remove_dir_all(&base);
     make_files(&base, 300, "f", ".txt");
@@ -2513,8 +2465,7 @@ fn glob_walk_cuts_short_at_stop_instant() {
 
 #[test]
 fn glob_walk_honors_the_deadline_before_any_poll_interval() {
-    // The clock used to be read only every 256 entries, so a tree smaller than that walked to the
-    // end with the deadline long past — on a slow filesystem that gap is a stall the user feels.
+    // The clock used to be read only every 256 entries, so a tree smaller than that walked to the end with the deadline long past — on a slow filesystem that gap is a stall the user feels.
     // Every entry is checked now, so a past deadline stops the walk at the first one.
     let base = std::env::temp_dir().join("psc-glob-deadline-small");
     let _ = std::fs::remove_dir_all(&base);
@@ -2530,8 +2481,8 @@ fn glob_walk_honors_the_deadline_before_any_poll_interval() {
 
 #[test]
 fn glob_stop_at_takes_the_earlier_bound() {
-    // A glob must never outlast the hook it runs in, but it also has its own (much shorter)
-    // budget so a menu never waits seconds. Whichever bound lands first wins.
+    // A glob must never outlast the hook it runs in, but it also has its own (much shorter) budget so a menu never waits seconds.
+    // Whichever bound lands first wins.
     let now = Instant::now();
 
     // No hook deadline (no hook running): the glob's own budget applies.
@@ -2546,8 +2497,7 @@ fn glob_stop_at_takes_the_earlier_bound() {
     let slack = glob_stop_at(now, Some(now + Duration::from_secs(3600)));
     assert_eq!(slack, now + GLOB_BUDGET);
 
-    // A hook deadline nearer than the budget: the hook's remaining time wins, so a glob can
-    // never push the hook past its own cap.
+    // A hook deadline nearer than the budget: the hook's remaining time wins, so a glob can never push the hook past its own cap.
     let tight = now + Duration::from_millis(50);
     assert_eq!(glob_stop_at(now, Some(tight)), tight);
 }
@@ -2796,8 +2746,7 @@ fn batch_missing_entries_yield_nil() {
 
 #[test]
 fn json_with_comments_and_trailing_commas_parses() {
-    // JSONC tolerance: comments + trailing commas parse; string content
-    // (URLs, comment-like text) survives the strip pipeline untouched.
+    // JSONC tolerance: comments + trailing commas parse; string content (URLs, comment-like text) survives the strip pipeline untouched.
     let dir = std::env::temp_dir().join("psc-jsonc-test");
     let _ = std::fs::create_dir_all(&dir);
     let f = dir.join("settings.jsonc");
@@ -3063,9 +3012,8 @@ fn contains_pattern_mode_handles_string_and_array() {
 
 #[test]
 fn contains_treats_a_malformed_pattern_as_no_match() {
-    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it
-    // degrades to empty", and a predicate degrades to `false`. `string.find` raises on a malformed
-    // pattern (a trailing `%`, an unfinished class), and that used to take the whole hook down.
+    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it degrades to empty", and a predicate degrades to `false`.
+    // `string.find` raises on a malformed pattern (a trailing `%`, an unfinished class), and that used to take the whole hook down.
     let script = r#"
     return {
         { name = tostring(psc.contains("abc", "%", { pattern = true })) },
@@ -3079,9 +3027,8 @@ fn contains_treats_a_malformed_pattern_as_no_match() {
 
 #[test]
 fn a_non_utf8_string_never_crashes_an_api() {
-    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it
-    // degrades to empty". A Lua string is a byte string, so `string.char(255)` is constructible, and
-    // several APIs used to throw on it instead of degrading.
+    // §7 item 0: "No API throws on I/O or parse failure — a hook never crashes on bad input, it degrades to empty".
+    // A Lua string is a byte string, so `string.char(255)` is constructible, and several APIs used to throw on it instead of degrading.
     let script = r#"
     local bad = string.char(255)
     local names = psc.items({ "a", bad, "b" })
@@ -3099,8 +3046,7 @@ fn a_non_utf8_string_never_crashes_an_api() {
 
 #[test]
 fn items_skips_empty_and_blank_strings() {
-    // `psc.items` without fn uses each string element as the name; empty/blank strings are
-    // skipped (they carry no usable name).
+    // `psc.items` without fn uses each string element as the name; empty/blank strings are skipped (they carry no usable name).
     let script = r#"
     local items = psc.items({ "a", "", "b", "   ", "c" })
     return { { name = #items .. ":" .. items[1].name .. items[2].name .. items[3].name } }
@@ -3218,8 +3164,7 @@ fn exist_and_read_resolve_against_cwd() {
 
 #[test]
 fn all_apis_tolerate_nil_arguments() {
-    // Every psc.* API must return a safe empty result (never a Lua error) when called with
-    // nil arguments — hooks commonly pass a missing token which is nil.
+    // Every psc.* API must return a safe empty result (never a Lua error) when called with nil arguments — hooks commonly pass a missing token which is nil.
     let script = r#"
     local n = nil
     local ok, results = pcall(function()
@@ -3258,8 +3203,7 @@ fn all_apis_tolerate_nil_arguments() {
 
 #[test]
 fn psc_token_finds_by_name_and_type() {
-    // `psc.token({name?, type?, case_sensitive?})` replaces cmds/opts: nil/{} → first token,
-    // type filters, name is case-insensitive by default.
+    // `psc.token({name?, type?, case_sensitive?})` replaces cmds/opts: nil/{} → first token, type filters, name is case-insensitive by default.
     let mut c = ctx();
     c.tokens = vec![
         Token {
@@ -3308,8 +3252,7 @@ fn psc_token_finds_by_name_and_type() {
 
 #[test]
 fn an_empty_argv_runs_nothing_in_every_spelling() {
-    // `wrap_shell_with_capture` turned an empty argv into `sh -c ""` (or `sh -c " 8>&1"`), so the
-    // same call ran a shell when `shell`/`capture_fd` was set and nothing at all when it was not.
+    // `wrap_shell_with_capture` turned an empty argv into `sh -c ""` (or `sh -c " 8>&1"`), so the same call ran a shell when `shell`/`capture_fd` was set and nothing at all when it was not.
     // One call, one meaning: an empty argv runs nothing (nil, the strict failure value).
     let out = run_hook(
         &root_provide_ctx(),

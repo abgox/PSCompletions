@@ -1,13 +1,13 @@
-//! Pure helper functions on the `psc.*` API. Contract and signatures: `design/hooks.md`.
+//! Pure helper functions on the `psc.*` API.
+//! Contract and signatures: `design/hooks.md`.
 
 use mlua::{Lua, Table, Value};
 
 use super::Token;
 
-/// Which manifest position a `psc.on` target must be declared in. The manifest fixes a node's
-/// type by the array it sits in — a `next` entry of the root or of a command is a command;
-/// an `option` / `global_option` entry is an option — so a spec's key has to agree with that
-/// declaration. A name written into the other position used to register and then never fire.
+/// Which manifest position a `psc.on` target must be declared in.
+/// The manifest fixes a node's type by the array it sits in — a `next` entry of the root or of a command is a command; an `option` / `global_option` entry is an option — so a spec's key has to agree with that declaration.
+/// A name written into the other position used to register and then never fire.
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub(crate) enum TargetKind {
     Command,
@@ -51,13 +51,11 @@ impl Pos {
     }
 }
 
-/// Collect every form (canonical name + aliases) of the manifest nodes declared in `kind`'s
-/// position whose name or an alias matches `target` (ASCII case-insensitive). Walks the whole
-/// tree, so a scoped `option` array is covered wherever it lives.
+/// Collect every form (canonical name + aliases) of the manifest nodes declared in `kind`'s position whose name or an alias matches `target` (ASCII case-insensitive).
+/// Walks the whole tree, so a scoped `option` array is covered wherever it lives.
 ///
-/// Not-found is an **empty vec**, not `None` — `None` only means the manifest root is not a
-/// JSON object. Callers must therefore fail loudly on `is_none_or(|v| v.is_empty())`, which is
-/// what lets a bad `psc.on` target be reported instead of the handler silently never firing.
+/// Not-found is an **empty vec**, not `None` — `None` only means the manifest root is not a JSON object.
+/// Callers must therefore fail loudly on `is_none_or(|v| v.is_empty())`, which is what lets a bad `psc.on` target be reported instead of the handler silently never firing.
 pub(crate) fn collect_node_names(
     json: &serde_json::Value,
     target: &str,
@@ -156,8 +154,8 @@ fn coerce_string(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     Ok(lua.coerce_string(v)?.map(|s| s.to_string_lossy()))
 }
 
-/// `psc.eq(a, b, opts?)` — string equality; case-insensitive by default,
-/// `opts.case_sensitive` true makes it exact. `nil` arguments never match (return false),
+/// `psc.eq(a, b, opts?)` — string equality; case-insensitive by default, `opts.case_sensitive` true makes it exact.
+/// `nil` arguments never match (return false),
 pub(crate) fn api_eq(lua: &Lua, (a, b, opts): (Value, Value, Option<Table>)) -> mlua::Result<bool> {
     let (Some(a), Some(b)) = (coerce_string(lua, a)?, coerce_string(lua, b)?) else {
         return Ok(false);
@@ -173,9 +171,8 @@ pub(crate) fn api_eq(lua: &Lua, (a, b, opts): (Value, Value, Option<Table>)) -> 
     }
 }
 
-/// `psc.trim(s, opts?)` — trim characters; by default whitespace is trimmed, `opts.chars`
-/// (a string whose characters form the trim set) overrides it, and `opts.mode` selects
-/// "start"/"end"/"both" (default "both"). A nil `s` yields an empty string.
+/// `psc.trim(s, opts?)` — trim characters; by default whitespace is trimmed, `opts.chars` (a string whose characters form the trim set) overrides it, and `opts.mode` selects "start"/"end"/"both" (default "both").
+/// A nil `s` yields an empty string.
 pub(crate) fn api_trim(lua: &Lua, (s, opts): (Value, Option<Table>)) -> mlua::Result<String> {
     let s = coerce_string(lua, s)?.unwrap_or_default();
     let mode: String = opts
@@ -206,9 +203,8 @@ pub(crate) fn api_trim(lua: &Lua, (s, opts): (Value, Option<Table>)) -> mlua::Re
     })
 }
 
-/// `psc.token(spec?)` — index of the first completed token matching `spec`, `None` when
-/// absent. `spec` is `{name?, type?, case_sensitive?}`; `type` filters `command`/`option`/
-/// `value`/`unknown`; `case_sensitive` controls `name` matching (default insensitive).
+/// `psc.token(spec?)` — index of the first completed token matching `spec`, `None` when absent.
+/// `spec` is `{name?, type?, case_sensitive?}`; `type` filters `command`/`option`/ `value`/`unknown`; `case_sensitive` controls `name` matching (default insensitive).
 /// Compares the **canonical** name when available, falling back to raw input.
 pub(crate) fn api_token(
     tokens: &[Token],
@@ -236,8 +232,7 @@ pub(crate) fn api_token(
 }
 
 /// Resolve a tip/usage/example field (string or array) to a single string.
-/// Array elements (and the value itself) may be `{ cmd, desc }` objects, rendered
-/// like the static manifest's entries (see `super::api::resolve_usage_example`).
+/// Array elements (and the value itself) may be `{ cmd, desc }` objects, rendered like the static manifest's entries (see `super::api::resolve_usage_example`).
 fn text_of(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     match v {
         Value::Nil => Ok(None),
@@ -258,17 +253,11 @@ fn text_of(lua: &Lua, v: Value) -> mlua::Result<Option<String>> {
     }
 }
 
-/// `psc.mount_items(path)` → resolve `path` from the manifest root and convert the
-/// **direct children** of the array it lands on into completion items — a pure transform
-/// like `psc.items` (returns an array, does NOT add to `completions`; injection is the
-/// caller's job via `psc.add`). No recursion — deeper levels are reached by the engine's
-/// own `next` navigation, or by calling `mount_items` again with a longer path.
+/// `psc.mount_items(path)` → resolve `path` from the manifest root and convert the **direct children** of the array it lands on into completion items — a pure transform like `psc.items` (returns an array, does NOT add to `completions`; injection is the caller's job via `psc.add`).
+/// No recursion — deeper levels are reached by the engine's own `next` navigation, or by calling `mount_items` again with a longer path.
 ///
-/// The chain mirrors the manifest structure exactly: at an object the segment is a
-/// plain key lookup (any existing key), at an array it must be an item's
-/// `name` (exact, case-sensitive). The path must land on an array (mounts its children)
-/// or on an item object with a `name` (mounts that single item); anything else mounts
-/// nothing.
+/// The chain mirrors the manifest structure exactly: at an object the segment is a plain key lookup (any existing key), at an array it must be an item's `name` (exact, case-sensitive).
+/// The path must land on an array (mounts its children) or on an item object with a `name` (mounts that single item); anything else mounts nothing.
 pub(crate) fn api_mount_items(lua: &Lua, path: &[String]) -> mlua::Result<Table> {
     let out = lua.create_table()?;
     let psc: Table = lua.globals().get("psc")?;
@@ -295,7 +284,8 @@ pub(crate) fn api_mount_items(lua: &Lua, path: &[String]) -> mlua::Result<Table>
     Ok(out)
 }
 
-/// One path step: an object's exact key, or an array item's `name`. Nothing else.
+/// One path step: an object's exact key, or an array item's `name`.
+/// Nothing else.
 fn resolve_segment(node: &Table, seg: &str) -> mlua::Result<Option<Value>> {
     if let Some(child) = node.raw_get::<Option<Value>>(seg)? {
         return Ok(Some(child));
@@ -325,7 +315,8 @@ fn mount_children(lua: &Lua, children: &Table, out: &Table) -> mlua::Result<()> 
     Ok(())
 }
 
-/// Mount one item: copy its name/tip/usage/example. Skipped without a `name`.
+/// Mount one item: copy its name/tip/usage/example.
+/// Skipped without a `name`.
 /// Aliases expand into separate items sharing the same tip, like the static menu.
 fn mount_one(lua: &Lua, k: &Table, out: &Table) -> mlua::Result<()> {
     let Some(name) = k.raw_get::<Option<String>>("name")? else {

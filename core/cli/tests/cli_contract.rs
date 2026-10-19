@@ -22,8 +22,7 @@ fn text_info_unknown_fails_with_message() {
     assert!(out.contains("zzz-nope"), "{out}");
 }
 
-/// Copy the repository's `psc` completion into a fixture data dir: it carries the `info`
-/// templates the renderer reads.
+/// Copy the repository's `psc` completion into a fixture data dir: it carries the `info` templates the renderer reads.
 fn seed_psc_completion(dir: &Path) {
     let src = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../completions/psc");
     for sub in ["config.json", "language/en-US.json", "language/zh-CN.json"] {
@@ -38,8 +37,7 @@ fn tpl_renders_the_psc_info_templates() {
     let d = make_data("tpl", "http://127.0.0.1:9");
     seed_psc_completion(&d);
     let ctx = r#"{"Version":"7.7.0"}"#;
-    // Colored by default: the hosts capture stdout, so a TTY test inside the engine would lie, and
-    // the trailing reset gives the caller's terminal its attributes back.
+    // Colored by default: the hosts capture stdout, so a TTY test inside the engine would lie, and the trailing reset gives the caller's terminal its attributes back.
     let (code, out) = psc(&d, &["tpl", "description", "--ctx", ctx]);
     assert_eq!(code, 0, "{out}");
     assert!(out.contains("\x1b[36m[Module Description]"), "{out:?}");
@@ -61,8 +59,7 @@ fn tpl_renders_the_psc_info_templates() {
     let (code, out) = psc(&d, &["tpl"]);
     assert_eq!(code, 1);
     assert!(out.contains("psc tpl <dotted.info.path>"), "{out}");
-    // `--version` fills in the module version the engine cannot know; a caller that already
-    // carries one keeps it.
+    // `--version` fills in the module version the engine cannot know; a caller that already carries one keeps it.
     let (code, out) = psc(&d, &["tpl", "description", "--version", "9.9.9"]);
     assert_eq!(code, 0, "{out}");
     assert!(out.contains("9.9.9"), "{out}");
@@ -86,8 +83,7 @@ fn tpl_renders_the_psc_info_templates() {
     let (code, out) = psc(&d, &["tpl", "set_value", "--explain"]);
     assert_eq!(code, 0, "{out}");
     assert!(out.contains("Value — unresolved"), "{out}");
-    // A flag the command does not know is reported as such, not mistaken for the path, and
-    // `--ctx` never swallows the flag after it.
+    // A flag the command does not know is reported as such, not mistaken for the path, and `--ctx` never swallows the flag after it.
     let (code, out) = psc(&d, &["tpl", "--color", "description"]);
     assert_eq!(code, 1);
     assert!(out.contains("unknown argument --color"), "{out}");
@@ -98,8 +94,7 @@ fn tpl_renders_the_psc_info_templates() {
 
 #[test]
 fn text_language_flag_overrides_messages() {
-    // `--language` must change the *messages* too, not only `init`'s payload: with the flag set
-    // to zh-CN the same failure reads in Chinese.
+    // `--language` must change the *messages* too, not only `init`'s payload: with the flag set to zh-CN the same failure reads in Chinese.
     let d = make_data("txt-lang-flag", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["--language", "zh-CN", "config", "badgroup"]);
     assert_eq!(code, 2);
@@ -112,8 +107,7 @@ fn text_config_bad_group_fails() {
     let d = make_data("txt-cfg-group", "http://127.0.0.1:9");
     let (code, out) = psc(&d, &["config", "badgroup"]);
     assert_eq!(code, 2);
-    // The message names the offending token and the valid set, so the reader is not left
-    // guessing — this text is the interface in the shells.
+    // The message names the offending token and the valid set, so the reader is not left guessing — this text is the interface in the shells.
     assert!(out.contains("badgroup"), "{out}");
     assert!(out.contains("core, menu, context"), "{out}");
 }
@@ -128,8 +122,7 @@ fn text_add_no_args_fails() {
 
 #[test]
 fn text_alias_wildcard_rejected_with_failure_exit() {
-    // Regression guard: rejected aliases must drive a FAILURE exit in text mode even
-    // though the rejection bookkeeping lives in the json results array.
+    // Regression guard: rejected aliases must drive a FAILURE exit in text mode even though the rejection bookkeeping lives in the json results array.
     let srv = spawn_server(demo_routes());
     let d = make_data("txt-alias-wild", &srv);
     let (code, out) = psc(&d, &["alias", "add", "git", "g*"]);
