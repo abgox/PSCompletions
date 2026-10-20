@@ -29,7 +29,7 @@
 
 ## Introduction
 
-Powerful Shell Completions for [PowerShell and other shells](https://pscompletions.abgox.com/docs/shells), powered by Rust and Lua.
+Powerful Shell Completions for PowerShell and other shells, powered by Rust and Lua.
 
 - [One engine, many shells.](https://pscompletions.abgox.com/docs/shells)
 - [Built-in completion library.](../index/completions.md)
@@ -44,26 +44,26 @@ Powerful Shell Completions for [PowerShell and other shells](https://pscompletio
 ## How to get
 
 1. Install it.
-   - PowerShell - install the module:
+   - PowerShell - install the module.
 
      ```powershell
      Install-Module PSCompletions # Install-PSResource PSCompletions
      ```
 
-   - bash / zsh / fish - run the [install script](install.sh):
+   - bash / zsh / fish - run the [install script](install.sh).
 
      ```shell
      curl -fsSL https://raw.githubusercontent.com/abgox/PSCompletions/main/install.sh | sh
      ```
 
-   - [Scoop](https://scoop.sh):
+   - [Scoop](https://scoop.sh)
 
      ```shell
      scoop install pscompletions # scoop install abyss/abgox.PSCompletions
      ```
 
 2. Load it.
-   - PowerShell - [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module):
+   - PowerShell - [import the module directly](https://pscompletions.abgox.com/docs/direct-import-module).
 
      ```powershell
      Import-Module PSCompletions
@@ -74,11 +74,11 @@ Powerful Shell Completions for [PowerShell and other shells](https://pscompletio
 3. Use it.
 
    ```shell
-   psc add git
+   psc
    ```
 
    ```shell
-   git <Tab>
+   psc add git
    ```
 
 ## What's new

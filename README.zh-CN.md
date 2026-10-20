@@ -29,7 +29,7 @@
 
 ## 介绍
 
-**Powerful Shell Completions** - 适用于 [PowerShell 和其他 Shell](https://pscompletions.abgox.com/docs/shells) 的强大的命令补全器，由 Rust 与 Lua 驱动。
+**Powerful Shell Completions** - 适用于 PowerShell 和其他 Shell 的强大的命令补全器，由 Rust 与 Lua 驱动。
 
 - [一个引擎，多个 Shell](https://pscompletions.abgox.com/docs/shells)
 - [内置的补全库](../index/completions.zh-CN.md)
@@ -74,11 +74,11 @@
 3. 使用它
 
    ```shell
-   psc add git
+   psc
    ```
 
    ```shell
-   git <Tab>
+   psc add git
    ```
 
 ## 新的变化
