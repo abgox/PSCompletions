@@ -86,8 +86,7 @@ package_version() { # <unpacked dir>
 }
 
 # The newest published version, read from the redirect the Gallery answers with instead of from the package.
-# That request is the one the download would follow anyway, and the CDN filename it points at ends in `<version>.nupkg` —
-# the package name carries no dot, so the version is what sits between the two.
+# That request is the one the download would follow anyway, and the CDN filename it points at ends in `<version>.nupkg` — the package name carries no dot, so the version is what sits between the two.
 # Empty when nothing could be read (no curl, a mirror, an offline run): the caller then downloads, which is slower but never wrong.
 latest_version() {
     command -v curl >/dev/null 2>&1 || return 1
