@@ -1456,7 +1456,12 @@ function psc
                 case alias
                     test (count $argv) -eq 1; and set query 1
                 case completion
-                    test (count $argv) -le 2; and set query 1
+                    # Reads print the CLI's text; only a value (--reset or a fourth arg) takes the status path — the PowerShell bridge routes the same way.
+                    if test (count $argv) -ge 4; or contains -- --reset $argv
+                        set query 0
+                    else
+                        set query 1
+                    end
                 case config
                     # `config` and `config <group>` are queries too; only a value or --reset makes it an action.
                     if test (count $argv) -ge 4; or contains -- --reset $argv

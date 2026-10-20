@@ -605,6 +605,21 @@ out="$(_psc_run_status x)"; rc=$?
     && { print "ok   status red on failure"; PASS=$((PASS+1)) } || { print "FAIL status red on failure rc=$rc [${(qq)out}]"; FAIL=$((FAIL+1)) }
 _PSC_BIN=$_SAVE_BIN
 
+print -- "--- reads stay plain ---"
+# A single-value read (completion <name> <key>) is a query like list/info: the value must stay plain text so it can be captured (v=$(...)); only a set (--reset or a fourth arg) takes the status path — the PowerShell bridge routes the same way.
+print -r -- '#!/bin/sh' > "$_STUB"
+print -r -- 'echo "30"; exit 0' >> "$_STUB"
+chmod +x "$_STUB"
+_SAVE_BIN=$_PSC_BIN; _PSC_BIN=$_STUB
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+out="$(psc completion git max_commit 2>&1)"
+[[ "$out" == "30" ]] \
+    && { print "ok   completion-value-read-stays-plain"; PASS=$((PASS+1)) } || { print "FAIL completion-value-read-stays-plain [${(qq)out}]"; FAIL=$((FAIL+1)) }
+out="$(psc completion git max_commit 31 2>&1)"
+[[ "$out" == *$'\033[32m'* ]] \
+    && { print "ok   completion-value-set-stays-green"; PASS=$((PASS+1)) } || { print "FAIL completion-value-set-stays-green [${(qq)out}]"; FAIL=$((FAIL+1)) }
+_PSC_BIN=$_SAVE_BIN
+
 print -- "--- separator split: a new command starts after the last unquoted separator ---"
 _seg_check() {
     local name="$1" want="$2" got

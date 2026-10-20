@@ -1144,7 +1144,10 @@ psc() {
             case "$1" in
                 list|info) _psc_plain "$@" ;;
                 alias) [[ $# -eq 1 ]] && _psc_plain "$@" || _psc_run_status "$@" ;;
-                completion) (( $# <= 2 )) && _psc_plain "$@" || _psc_run_status "$@" ;;
+                completion)
+                    # Reads print the CLI's text; only a value (--reset or a fourth arg) takes the status path — the PowerShell bridge routes the same way.
+                    if [[ " $* " == *" --reset "* || $# -gt 3 ]]; then _psc_run_status "$@"; else _psc_plain "$@"; fi
+                    ;;
                 config)
                     # `config` and `config <group>` are queries as well; only a value or `--reset` makes it an action.
                     if (( $# >= 4 )) || [[ " $* " == *" --reset "* ]]; then

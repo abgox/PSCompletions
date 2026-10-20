@@ -655,6 +655,27 @@ expect 'status red on failure' "$(string escape -- $out[1])/$(string escape -- $
 test $rc -eq 1; and ok 'status rc 1' ; or bad 'status rc 1'
 set -g _PSC_BIN $save_bin
 
+# --- reads stay plain ---
+# A single-value read (completion <name> <key>) is a query like list/info: the value must stay plain text so it can be captured; only a set (--reset or a fourth arg) takes the status path — the PowerShell bridge routes the same way.
+printf '#!/bin/sh\necho "30"\nexit 0\n' > $stub
+chmod +x $stub
+set -g _PSC_BIN $stub
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json
+set -l rout (psc completion git max_commit 2>&1)
+if test "$rout" = 30
+    ok completion-value-read-stays-plain
+else
+    bad completion-value-read-stays-plain " [$rout]"
+end
+set -l sout (psc completion git max_commit 31 2>&1)
+set -l esc (printf '\e')
+if string match -q "*"$esc"[32m*" -- $sout
+    ok completion-value-set-stays-green
+else
+    bad completion-value-set-stays-green " [$sout]"
+end
+set -g _PSC_BIN $save_bin
+
 # --- data dir defaults ------------------------------------------------------
 set -l save_platform $_PSC_PLATFORM
 set -g _PSC_PLATFORM darwin

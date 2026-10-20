@@ -516,7 +516,19 @@ out="$(_psc_run_status x)"; rc=$?
     && { echo "ok   status red on failure"; PASS=$((PASS+1)); } || { echo "FAIL status red on failure rc=$rc"; FAIL=$((FAIL+1)); }
 _PSC_BIN=$_SAVE_BIN
 
-echo "--- native pick trailing rules ---"
+echo "--- reads stay plain ---"
+# A single-value read (completion <name> <key>) is a query like list/info: the value must stay plain text so it can be captured (v=$(...)); only a set (--reset or a fourth arg) takes the status path — the PowerShell bridge routes the same way.
+printf '#!/bin/sh\necho "30"\nexit 0\n' > "$_STUB"
+chmod +x "$_STUB"
+_SAVE_BIN=$_PSC_BIN; _PSC_BIN=$_STUB
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+out="$(psc completion git max_commit 2>&1)"
+[[ "$out" == "30" ]] \
+    && { echo "ok   completion-value-read-stays-plain"; PASS=$((PASS+1)); } || { echo "FAIL completion-value-read-stays-plain [$out]"; FAIL=$((FAIL+1)); }
+out="$(psc completion git max_commit 31 2>&1)"
+[[ "$out" == *$'\033[32m'* ]] \
+    && { echo "ok   completion-value-set-stays-green"; PASS=$((PASS+1)); } || { echo "FAIL completion-value-set-stays-green [$out]"; FAIL=$((FAIL+1)); }
+_PSC_BIN=$_SAVE_BIN
 # A space only for an ordinary candidate: never for a container, an attached value (`=`), a nospace pick, or when a word already follows (PS bridge's handle_menu_output).
 _ns_check() {
     local name="$1" want="$2"; shift 2
