@@ -108,6 +108,8 @@ A major release (`x.0.0`) adds a headline section phrased `- **Phrase**: …` ab
 
 The changelog lists only what ships with the version, so the completion library and `install.sh` — both delivered online — never appear.
 
+Every commit that ships a user-visible change carries its own bullet, written in the same commit under `## Unreleased` (`## 未发布` in the Chinese files); the release commit renames that heading to the version, so the changelog is never reconstructed from the log at release time.
+
 Why these two prefixes and not others, why the body is not hard-wrapped, and what was rejected: [`decisions/conventions.md`](decisions/conventions.md).
 
 ## The completion model

@@ -59,6 +59,18 @@ The two surfaces differ in capitalization because the standards that govern them
 A commit subject follows Angular's commit guidelines — what Conventional Commits is built on — which require the summary to be imperative, not capitalized, and free of a trailing period; the practical test is that it completes "This commit will …".
 A changelog follows Keep a Changelog, whose sections and entries are capitalized, whose section names are past participles (`Added`, `Fixed`), and whose guiding principle is that a changelog is for humans, not machines.
 
+## A changelog bullet ships with the commit that earns it
+
+The changelog used to be written at release time, by reading back every commit since the last version.
+`8.0.1` showed what that costs: four commits — a cheaper self-update check, one message instead of two, two localized failures, a template nothing could render — had to be re-read and re-grouped in one sitting, and the grouping was decided from memory of the diff rather than while the change was understood.
+
+Writing the bullet in the same commit moves that decision to the only moment it is cheap, and it leaves the release commit with a rename instead of a reconstruction.
+The heading stays `## Unreleased` until then, so the file is always a valid changelog.
+
+**Rejected alternatives**: (a) keep release-time reconstruction — rejected: that is the cost above, and it grows with the interval between releases; (b) derive the section from commit subjects — rejected: the groups name what a *user* touches, so a commit's subject can name a module while its change is felt in the menu, and a generator would still need the grouping decision it cannot make; (c) keep the bullets outside the file until the release — rejected: a second place that must be merged, and the file itself then describes the wrong version.
+
+**Overturn if**: the release workflow learns to derive the section from the commits — a trailer such as `Changelog: menu: …` would put the bullet back in the commit message, and this rule goes with it.
+
 ## Overturn condition
 
 - If the completion library stops being the dominant category, or stops being one directory, the `completions:` label loses what it is paid for and goes.
