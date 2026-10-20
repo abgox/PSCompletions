@@ -175,23 +175,40 @@ pub fn err(code: &str, message: &str, details: Option<serde_json::Value>, usage:
 /// `meta`: the payload's item count (when it has one) plus where this run reads from — the directories and files, in the same vocabulary the host and the module use.
 /// The two log files are derived here: the engine writes them, so the module does not carry them.
 pub fn run_paths(data_dir: &str) -> serde_json::Value {
-    let temp = format!("{data_dir}/temp");
+    paths(data_dir, cfg!(windows))
+}
+
+/// A path as this platform writes it.
+/// The module builds its own paths with `/` (the Linux side needs that shape) and hands a data dir of either form back, so a Windows reply would otherwise mix separators — `D:\data/temp/cache` is a string no Windows tool would print.
+pub fn display_path(path: &str, windows: bool) -> String {
+    if windows {
+        path.replace('/', "\\")
+    } else {
+        path.to_string()
+    }
+}
+
+/// The same block for a named platform, so a test can pin the Windows shape on any host.
+fn paths(data_dir: &str, windows: bool) -> serde_json::Value {
+    let sep = if windows { "\\" } else { "/" };
+    let data = display_path(data_dir, windows);
+    let temp = format!("{data}{sep}temp");
     serde_json::json!({
         "dir": {
-            "data": data_dir,
-            "completions": format!("{data_dir}/completions"),
-            "temp": temp,
-            "menu": format!("{temp}/menu"),
-            "cache": format!("{temp}/cache"),
-            "log": format!("{temp}/log"),
-            "order": format!("{temp}/order"),
+            "data": data.clone(),
+            "completions": format!("{data}{sep}completions"),
+            "temp": temp.clone(),
+            "menu": format!("{temp}{sep}menu"),
+            "cache": format!("{temp}{sep}cache"),
+            "log": format!("{temp}{sep}log"),
+            "order": format!("{temp}{sep}order"),
         },
         "file": {
-            "settings": format!("{data_dir}/settings.json"),
-            "completions": format!("{temp}/completions.json"),
-            "change": format!("{temp}/change.json"),
-            "debug": format!("{temp}/log/debug.log"),
-            "error": format!("{temp}/log/error.log"),
+            "settings": format!("{data}{sep}settings.json"),
+            "completions": format!("{temp}{sep}completions.json"),
+            "change": format!("{temp}{sep}change.json"),
+            "debug": format!("{temp}{sep}log{sep}debug.log"),
+            "error": format!("{temp}{sep}log{sep}error.log"),
         },
     })
 }
@@ -236,6 +253,27 @@ mod tests {
         );
         // The item count is gone: a caller counts the array it was given.
         assert!(m.get("count").is_none());
+    }
+
+    #[test]
+    fn run_paths_keeps_one_separator_on_windows() {
+        // The module hands over a native data dir and everything is derived from it, so every derived path must use the same separator: `D:\data\temp\cache` is one path, and a stray `/` in it is a string no Windows tool prints.
+        let m = paths(r"D:\abgox\data", true);
+        assert_eq!(m["dir"]["data"], serde_json::json!(r"D:\abgox\data"));
+        assert_eq!(
+            m["dir"]["cache"],
+            serde_json::json!(r"D:\abgox\data\temp\cache")
+        );
+        assert_eq!(
+            m["file"]["debug"],
+            serde_json::json!(r"D:\abgox\data\temp\log\debug.log")
+        );
+        // A data dir that already carries the other slash is normalised, not echoed back mixed.
+        let m = paths("D:/abgox/data", true);
+        assert_eq!(
+            m["dir"]["log"],
+            serde_json::json!(r"D:\abgox\data\temp\log")
+        );
     }
 
     #[test]

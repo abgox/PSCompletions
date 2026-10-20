@@ -6,7 +6,7 @@ use serde_json::json;
 
 use crate::data::{Index, Settings};
 use crate::messages::msg_cli;
-use crate::output::{ok, Out};
+use crate::output::{display_path, ok, Out};
 use crate::validate::{name_error, name_status};
 /// A Unix timestamp as the human view shows it.
 /// The engine carries no timezone database, so this is UTC and says so; the JSON keeps the raw seconds (design/json.md §3).
@@ -96,7 +96,7 @@ pub fn cmd_info(
                     }
                 }
             }
-            let path = format!("{completions_dir}/{name}");
+            let path = display_path(&format!("{completions_dir}/{name}"), cfg!(windows));
             let mut path_v = serde_json::Value::Null;
             let mut update = serde_json::Value::Null;
             let mut updated = serde_json::Value::Null;
@@ -184,7 +184,7 @@ pub fn cmd_info(
                 }
             }
         }
-        let path = format!("{completions_dir}/{name}");
+        let path = display_path(&format!("{completions_dir}/{name}"), cfg!(windows));
         if std::path::Path::new(&path).exists() {
             field("path: ".to_string(), &path);
             if let Ok(t) = std::fs::read_to_string(format!("{path}/.update")) {

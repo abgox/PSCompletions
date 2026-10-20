@@ -2,6 +2,10 @@
 
 [English](./CHANGELOG.md) | 简体中文
 
+## 未发布
+
+- cli: 修复了 Windows 上 `psc --json` 与 `psc info` 输出路径混用分隔符的问题
+
 ## 8.0.1
 
 - cli: `psc --self-update` 不再重复显示安装脚本已经打印的内容

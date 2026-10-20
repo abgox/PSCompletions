@@ -2,6 +2,10 @@
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
+## Unreleased
+
+- cli: Fixed the mixed path separators that `psc --json` and `psc info` printed on Windows
+
 ## 8.0.1
 
 - cli: `psc --self-update` no longer repeats what the install script already printed
