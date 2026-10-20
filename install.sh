@@ -208,14 +208,6 @@ print_usage() { # <dir>
     say "# to uninstall: rm -rf \"$1\" and delete the line you added to your rc file"
 }
 
-windows_notice() {
-    warn "this installer is for bash, zsh and fish on Linux and macOS."
-    warn "on Windows, install the module with PowerShell instead:"
-    warn "  Install-Module PSCompletions        # or: Install-PSResource PSCompletions"
-    warn "  scoop install pscompletions         # or: scoop install abyss/abgox.PSCompletions"
-    exit 1
-}
-
 # --- flow ----------------------------------------------------------------------
 
 while [ $# -gt 0 ]; do
@@ -235,9 +227,10 @@ preferred="$(detect_shell)"
 
 platform="$(detect_platform)"
 arch="$(detect_arch)"
-[ "$platform" = windows ] && windows_notice
 [ "$platform" = unknown ] && die "unsupported platform: $(uname -s)"
 [ "$arch" = unknown ] && die "unsupported architecture: $(uname -m)"
+ext=""
+[ "$platform" = windows ] && ext=".exe"
 preflight
 
 dir="$(install_dir "$platform")"
@@ -252,7 +245,7 @@ mkdir -p "$(dirname -- "$dir")" "$dl"
 # The binary check stays here beside it: a copy whose engine is missing is not "already installed" however current its manifest is.
 current="$(installed_version "$dir" 2>/dev/null || true)"
 latest="$(latest_version || true)"
-if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc" ]; then
+if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc$ext" ]; then
     say "[PSCompletions] $latest is already installed."
     print_usage "$dir"
     exit 0
@@ -276,7 +269,7 @@ done
 
 prune "$stage" "$platform" "$arch"
 write_marker "$stage" "$version"
-chmod +x "$stage/bin/$platform-$arch/psc" "$stage/bin/$platform-$arch/psc-menu"
+chmod +x "$stage/bin/$platform-$arch/psc$ext" "$stage/bin/$platform-$arch/psc-menu$ext"
 
 swap "$stage" "$dir"
 rm -rf "$dl"
