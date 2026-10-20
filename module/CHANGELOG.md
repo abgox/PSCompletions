@@ -4,6 +4,8 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- bridge: Stopped notifying about a module update when the installed version is already current
+- bridge: Stopped listing updatable completions twice after a bare `psc update`
 - cli: `psc --json` reports the installed version instead of the library baseline
 - cli: Fixed the mixed path separators that `psc --json` and `psc info` printed on Windows
 

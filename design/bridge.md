@@ -64,7 +64,7 @@ A confirmed destructive operation is then **authorised**: the host adds `--yes` 
 
 ## 8. Notifications
 
-- After every management command, render pending state from `change.json`: module updates persist until acted on; library `added`/`removed` are one-shot (consumed on display), `update`/`renamed` persist. A command that already rendered them sets the skip flag for the tail.
+- After every management command, render pending state from `change.json`: module updates persist until acted on — and only a remote version newer than the installed one counts as an update, so an equal value stays silent; library `added`/`removed` are one-shot (consumed on display), `update`/`renamed` persist. A command that already rendered them sets the skip flag for the tail.
 
 ## 9. Port checklist (what the shell must expose)
 

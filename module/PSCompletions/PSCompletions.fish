@@ -1139,6 +1139,20 @@ function _psc_plain
     _psc_run_status $argv
 end
 
+# No-arg update: the lists belong to the template tail, not to the CLI's plain text.
+# Success prints nothing — the tail renders the same lists as a template; a failure prints, like the PowerShell bridge's non-Quiet path.
+function _psc_check_update
+    set -l out ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" $argv 2>&1)
+    set -l rc $status
+    if test $rc -eq 0
+        return 0
+    end
+    if test -n "$out"
+        printf '\e[31m%s\e[0m\n' "$out"
+    end
+    return $rc
+end
+
 function _psc_run_status
     set -l out ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" $argv 2>&1)
     set -l rc $status
@@ -1274,15 +1288,26 @@ function _psc_render_pending
     _psc_need_py; or return 1
     set -l change "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
     test -f "$change"; or return 0
+    # The module notice fires only for a remote version newer than the installed one (compared numerically inside); the library lists below render as a template.
     set -l out ($_PSC_PY -S -c '
 import json,sys
-p,dd,marker=sys.argv[1],sys.argv[2],sys.argv[3]
+p,dd,marker,installed=sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4]
 try: c=json.load(open(p,encoding="utf-8"))
 except Exception: raise SystemExit(1)
+def newer(remote, installed):
+    # Numeric segments: 8.0.10 is newer than 8.0.9, which a string compare gets wrong.
+    # Unparseable on either side means "cannot tell", and the PowerShell bridge answers that with no notice either.
+    try:
+        r=[int(x) for x in str(remote).split(".")]
+        i=[int(x) for x in str(installed).split(".")]
+    except ValueError:
+        return False
+    n=max(len(r),len(i))
+    return (r+[0]*n)[:n] > (i+[0]*n)[:n]
 def emit(t,a,b):
     print(t); print(a); print(b)
 mod=c.get("module")
-if mod:
+if mod and newer(mod, installed):
     try:
         seen=open(marker,encoding="utf-8").read().strip()
     except Exception: seen=""
@@ -1303,7 +1328,7 @@ if add or rm:
     c["added"]=[]; c["removed"]=[]
     try: json.dump(c,open(p,"w",encoding="utf-8"))
     except Exception: pass
-' "$change" "$PSCOMPLETIONS_DATA_DIR" "$PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified")
+' "$change" "$PSCOMPLETIONS_DATA_DIR" "$PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified" (_psc_module_version))
     set -l i 1
     while test $i -le (math (count $out) - 2)
         set -l rectype $out[$i]
@@ -1413,9 +1438,10 @@ function psc
             _psc_run_rendered $argv
             set code $status
         case update
-            # No argument is the library check: its payload is the four change lists, not a per-completion result set, so it stays the CLI's text like the other reports.
+            # No argument is the library check: its payload is the four change lists, not a per-completion result set.
+            # The plain list is dropped on success — the tail renders the same lists as a template below (the PowerShell bridge discards the CLI text the same way); a failure still prints.
             if test (count $argv) -eq 1
-                _psc_plain $argv
+                _psc_check_update $argv
             else
                 _psc_run_rendered $argv
             end

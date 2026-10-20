@@ -1026,6 +1026,21 @@ _psc_plain() {
     fi
     _psc_run_status "$@"
 }
+
+# No-arg update: the lists belong to the template tail, not to the CLI's plain text.
+# Success prints nothing — the tail renders the same lists as a template; a failure prints, like the PowerShell bridge's non-Quiet path.
+_psc_check_update() {
+    local _out rc
+    _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
+    rc=$?
+    if (( rc == 0 )); then
+        return 0
+    fi
+    if [[ -n "$_out" ]]; then
+        print -r -- $'\033[31m'"$_out"$'\033[0m'
+    fi
+    return $rc
+}
 _psc_run_status() {
     local out rc
     out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
@@ -1118,8 +1133,9 @@ psc() {
             code=$?
             ;;
         update)
-            # No argument is the library check: its payload is the four change lists, not a per-completion result set, so it stays the CLI's text like the other reports.
-            if (( $# == 1 )); then _psc_plain "$@"; else _psc_run_rendered "$@"; fi
+            # No argument is the library check: its payload is the four change lists, not a per-completion result set.
+            # The plain list is dropped on success — the tail renders the same lists as a template below (the PowerShell bridge discards the CLI text the same way); a failure still prints.
+            if (( $# == 1 )); then _psc_check_update "$@"; else _psc_run_rendered "$@"; fi
             code=$?
             ;;
         list|info|alias|completion|config)
@@ -1261,20 +1277,31 @@ _psc_render_pending() {
     _psc_need_py || return 1
     local change="$PSCOMPLETIONS_DATA_DIR/temp/change.json"
     [[ -f "$change" ]] || return 0
+    # The module notice fires only for a remote version newer than the installed one (compared numerically inside); the library lists below render as a template.
     local out
-    out="$("$_PSC_PY" -S - "$change" "$PSCOMPLETIONS_DATA_DIR" <<'PYEOF'
+    out="$("$_PSC_PY" -S - "$change" "$PSCOMPLETIONS_DATA_DIR" "$(_psc_module_version)" <<'PYEOF'
 import json,sys
-p,dd=sys.argv[1],sys.argv[2]
+p,dd,installed=sys.argv[1],sys.argv[2],sys.argv[3]
 try: c=json.load(open(p,encoding='utf-8'))
 except Exception: raise SystemExit(1)
+def newer(remote, installed):
+    # Numeric segments: 8.0.10 is newer than 8.0.9, which a string compare gets wrong.
+    # Unparseable on either side means "cannot tell", and the PowerShell bridge answers that with no notice either.
+    try:
+        r=[int(x) for x in str(remote).split('.')]
+        i=[int(x) for x in str(installed).split('.')]
+    except ValueError:
+        return False
+    n=max(len(r),len(i))
+    return (r+[0]*n)[:n] > (i+[0]*n)[:n]
 mod=c.get('module')
-if mod:
+if mod and newer(mod, installed):
     try:
         with open(dd+'/temp/.zsh-module-notified',encoding='utf-8') as f: seen=f.read().strip()
     except Exception: seen=''
-    if mod!=seen:
+    if str(mod)!=seen:
         print(f"MODULE\t{mod}")
-        open(dd+'/temp/.zsh-module-notified','w',encoding='utf-8').write(mod)
+        open(dd+'/temp/.zsh-module-notified','w',encoding='utf-8').write(str(mod))
 upd=c.get('update') or []
 add=c.get('added') or []
 rm=c.get('removed') or []

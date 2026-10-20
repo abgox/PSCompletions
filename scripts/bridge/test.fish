@@ -558,7 +558,7 @@ set -g _PSC_PY $save_py
 
 # A rendered line is terminated by the caller, and a forwarded status line is colored by the bridge (green on success, red on failure) — the PS bridge's _forward_psc.
 set -l stub "$PSCOMPLETIONS_DATA_DIR/temp/stub-bin.sh"
-printf '%s\n' '#!/bin/sh' "case \"\$*\" in *\" tpl \"*) exec \"$_PSC_BIN\" \"\$@\" ;; esac" "echo '{\"ok\":true,\"data\":{\"completions\":[{\"name\":\"git\",\"ok\":true}]}}'" > $stub
+printf '%s\n' '#!/bin/sh' "case \"\$*\" in *\" tpl \"*) exec \"$_PSC_BIN\" \"\$@\" ;; esac" 'case "$*" in *" update") printf "Updatable completions:\\n  git\\n"; exit 0 ;; esac' "echo '{\"ok\":true,\"data\":{\"completions\":[{\"name\":\"git\",\"ok\":true}]}}'" > $stub
 chmod +x $stub
 set -l save_bin $_PSC_BIN
 set -g _PSC_BIN $stub
@@ -578,6 +578,53 @@ else
     bad notification-line-terminated
 end
 rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json
+# The module notice fires only for a version newer than the installed one: an equal value is "nothing to do", not an update.
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified
+set -l installed (_psc_module_version)
+printf '{"module":"%s"}\n' "$installed" > $PSCOMPLETIONS_DATA_DIR/temp/change.json
+_psc_render_pending > $tl 2>/dev/null
+if not string match -q '*has updated the version*' -- (cat $tl)
+    ok module-equal-version-is-silent
+else
+    bad module-equal-version-is-silent " ["(cat $tl)"]"
+end
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified
+set -l newer (string replace -r '\.[^.]*$' '.99' -- "$installed")
+printf '{"module":"%s"}\n' "$newer" > $PSCOMPLETIONS_DATA_DIR/temp/change.json
+_psc_render_pending > $tl 2>/dev/null
+if string match -q '*has updated the version*' -- (cat $tl)
+    ok module-newer-version-notifies
+else
+    bad module-newer-version-notifies " ["(cat $tl)"]"
+end
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json $PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified
+# A no-arg update drops the CLI's plain list on success — the tail renders the same lists as a template, so each appears once; the one-shot added/removed are still consumed.
+printf '%s\n' '{"update":["git"],"added":["new-one"],"removed":[],"renamed":[]}' > $PSCOMPLETIONS_DATA_DIR/temp/change.json
+set -l upd_out (psc update 2>&1)
+if string match -q '*has updated the completion library*' -- $upd_out; and not string match -q '*Updatable completions*' -- $upd_out
+    ok no-arg-update-renders-template-once
+else
+    bad no-arg-update-renders-template-once " [$upd_out]"
+end
+python3 -c "import json;assert json.load(open('$PSCOMPLETIONS_DATA_DIR/temp/change.json'))['added']==[],'one-shots left unconsumed'"
+if test $status -eq 0
+    ok no-arg-update-consumes-one-shots
+else
+    bad no-arg-update-consumes-one-shots
+end
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json
+# A failed check still prints — dropping the plain text must never swallow an error.
+printf '%s\n' '#!/bin/sh' 'echo "error: boom"; exit 1' > $PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh
+chmod +x $PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh
+set -l save_bin2 $_PSC_BIN
+set -g _PSC_BIN $PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh
+set -l ferr (_psc_check_update update 2>&1)
+if test $status -ne 0; and string match -q '*error: boom*' -- $ferr
+    ok failed-check-still-prints
+else
+    bad failed-check-still-prints " [$ferr]"
+end
+set -g _PSC_BIN $save_bin2
 
 # `--json` anywhere is the machine contract: never colored, never rendered into a page.
 set -l esc (printf '\e')

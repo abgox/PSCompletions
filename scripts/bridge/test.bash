@@ -274,7 +274,7 @@ echo "--- management output is a terminated line ---"
 _ends_nl() { [[ -s "$1" && -z "$(tail -c 1 "$1")" ]]; }
 _TL="$PSCOMPLETIONS_DATA_DIR/temp/tpl-line.txt"
 _STUB_BIN="$PSCOMPLETIONS_DATA_DIR/temp/stub-bin.sh"
-printf '#!/bin/sh\ncase "$*" in *" tpl "*) exec "%s" "$@" ;; esac\necho "{\\"ok\\":true,\\"data\\":{\\"completions\\":[{\\"name\\":\\"git\\",\\"ok\\":true}]}}"\n' "$_PSC_BIN" > "$_STUB_BIN"
+printf '#!/bin/sh\ncase "$*" in *" tpl "*) exec "%s" "$@" ;; esac\ncase "$*" in *" update") printf "Updatable completions:\\n  git\\n"; exit 0 ;; esac\necho "{\\"ok\\":true,\\"data\\":{\\"completions\\":[{\\"name\\":\\"git\\",\\"ok\\":true}]}}"\n' "$_PSC_BIN" > "$_STUB_BIN"
 chmod +x "$_STUB_BIN"
 _SAVE_BIN=$_PSC_BIN; _PSC_BIN=$_STUB_BIN
 _psc_run_rendered rm git > "$_TL" 2>/dev/null; rc=$?
@@ -284,6 +284,35 @@ printf '{"update":["git"]}\n' > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
 _psc_render_pending > "$_TL" 2>/dev/null
 _ends_nl "$_TL" && { echo "ok   notification-line-terminated"; PASS=$((PASS+1)); } || { echo "FAIL notification-line-terminated"; FAIL=$((FAIL+1)); }
 rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+# The module notice fires only for a version newer than the installed one: an equal value is "nothing to do", not an update.
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/.bash-module-notified"
+_INSTALLED="$(_psc_module_version)"
+printf '{"module":"%s"}\n' "$_INSTALLED" > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+_psc_render_pending > "$_TL" 2>/dev/null
+[[ "$(cat "$_TL")" != *"has updated the version"* ]] \
+    && { echo "ok   module-equal-version-is-silent"; PASS=$((PASS+1)); } || { echo "FAIL module-equal-version-is-silent [$(cat "$_TL")]"; FAIL=$((FAIL+1)); }
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/.bash-module-notified"
+printf '{"module":"%s.99"}\n' "${_INSTALLED%.*}" > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+_psc_render_pending > "$_TL" 2>/dev/null
+[[ "$(cat "$_TL")" == *"has updated the version"* ]] \
+    && { echo "ok   module-newer-version-notifies"; PASS=$((PASS+1)); } || { echo "FAIL module-newer-version-notifies [$(_TL)]"; FAIL=$((FAIL+1)); }
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json" "$PSCOMPLETIONS_DATA_DIR/temp/.bash-module-notified"
+# A no-arg update drops the CLI's plain list on success — the tail renders the same lists as a template, so each appears once; the one-shot added/removed are still consumed.
+printf '{"update":["git"],"added":["new-one"],"removed":[],"renamed":[]}\n' > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+out="$(psc update 2>&1)"
+[[ "$out" == *"has updated the completion library"* && "$out" != *"Updatable completions"* ]] \
+    && { echo "ok   no-arg-update-renders-template-once"; PASS=$((PASS+1)); } || { echo "FAIL no-arg-update-renders-template-once [$out]"; FAIL=$((FAIL+1)); }
+python3 -c "import json;assert json.load(open('$PSCOMPLETIONS_DATA_DIR/temp/change.json'))['added']==[],'one-shots left unconsumed'" \
+    && { echo "ok   no-arg-update-consumes-one-shots"; PASS=$((PASS+1)); } || { echo "FAIL no-arg-update-consumes-one-shots"; FAIL=$((FAIL+1)); }
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+# A failed check still prints — dropping the plain text must never swallow an error.
+printf '#!/bin/sh\necho "error: boom"; exit 1\n' > "$PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh"
+chmod +x "$PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh"
+_SAVE_BIN2=$_PSC_BIN; _PSC_BIN="$PSCOMPLETIONS_DATA_DIR/temp/fail-bin.sh"
+out="$(_psc_check_update update 2>&1)"; rc=$?
+[[ $rc -ne 0 && "$out" == *"error: boom"* ]] \
+    && { echo "ok   failed-check-still-prints"; PASS=$((PASS+1)); } || { echo "FAIL failed-check-still-prints rc=$rc [$out]"; FAIL=$((FAIL+1)); }
+_PSC_BIN=$_SAVE_BIN2
 # `--json` anywhere is the machine contract: never colored, never rendered into a page.
 out="$(psc list --json 2>&1)"; rc=$?
 [[ $rc -eq 0 && "$out" == *'"ok":true'* && "$out" != *$'\033'* ]] \
