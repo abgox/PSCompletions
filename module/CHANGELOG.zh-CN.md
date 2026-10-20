@@ -4,6 +4,7 @@
 
 ## 未发布
 
+- cli: `psc --json` 现在报告已安装版本，不再是补全库基线
 - cli: 修复了 Windows 上 `psc --json` 与 `psc info` 输出路径混用分隔符的问题
 
 ## 8.0.1

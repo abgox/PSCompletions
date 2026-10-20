@@ -66,7 +66,7 @@ failure: { "ok": false, "error": { "code": …, "message": …, "details": …? 
           "file": { "settings": …, "completions": …, "change": …, "debug": …, "error": … } }
 ```
 
-- **`version`** comes from the `psc` completion's own `config.json`, whose `version` mirrors the module's — the crate's `CARGO_PKG_VERSION` is the crate's, not the module's.
+- **`version`** is what is installed — the `ModuleVersion` in the manifest beside the bridges (`install::installed_version`, the same source `--self-update` reports) — not the `psc` completion's own `config.json` version, which is the library baseline and only moves on `update`. The crate's `CARGO_PKG_VERSION` is the crate's, not the module's.
 - **`language` / `url` / `urls`** are this run's: the language it resolved and the sources it would read from (the first is the one that answered).
 - **No `description`.** It is the info page's prose, which `psc` with no arguments prints; a machine has no use for it, and it was most of this payload's size.
 - **`dir` / `file`** group the paths by **type**: reading `dir.data` tells a caller it is a directory and `file.settings` that it is a file, with no guessing.

@@ -38,6 +38,26 @@ fn json_root_reports_the_run() {
 }
 
 #[test]
+fn json_root_reports_the_installed_version_not_the_library_baseline() {
+    // The root `version` is what is installed — the `ModuleVersion` beside the bridges — not the `psc` completion's own `config.json` version, which is the library baseline and only moves on `update`.
+    // A machine with a new module and an un-updated library would otherwise report the old number.
+    let d = make_data("json-root-version", "http://127.0.0.1:9");
+    std::fs::create_dir_all(d.join("completions/psc")).unwrap();
+    std::fs::write(
+        d.join("completions/psc/config.json"),
+        r#"{"id":"psc-id","language":["en-US"],"version":"PSCompletions 7.0.0"}"#,
+    )
+    .unwrap();
+    let home = std::env::temp_dir().join(format!("psc-rootver-home-{}", std::process::id()));
+    let copy = plant_script_install(&home, "8.0.1");
+    let (code, out) = psc_installed(&copy, &d, &["--json"], &home);
+    assert_eq!(code, 0, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["version"], "8.0.1", "{out}");
+    std::fs::remove_dir_all(&home).ok();
+}
+
+#[test]
 fn json_list_ok() {
     // The envelope: `ok`, the payload under a named key, and `meta` describing this run.
     let d = make_data("json-list", "http://127.0.0.1:9");

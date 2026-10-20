@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- cli: `psc --json` reports the installed version instead of the library baseline
 - cli: Fixed the mixed path separators that `psc --json` and `psc info` printed on Windows
 
 ## 8.0.1

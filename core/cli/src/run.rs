@@ -39,11 +39,12 @@ pub fn run(args: Vec<String>) -> ExitCode {
     if rest.is_empty() {
         // `psc --json` is the **root** response: what a caller needs about this run — where it reads from, the version and language, the sources, the description — instead of repeating it on every command's answer (design/json.md §5).
         if json {
-            let version = crate::data::load_psc_config(&completions_dir)["version"]
-                .as_str()
-                .unwrap_or_default()
-                .trim_start_matches("PSCompletions ")
-                .to_string();
+            // The version is what is installed — the manifest beside the bridges — not the `psc` completion's library baseline, which only moves on `update`.
+            let version = std::env::current_exe()
+                .ok()
+                .and_then(|exe| crate::install::detect(&exe).dir().map(|d| d.to_path_buf()))
+                .and_then(|dir| crate::install::installed_version(&dir))
+                .unwrap_or_default();
             let urls = crate::net::resolve_urls(&settings);
             let mut data = run_paths(&data_dir);
             data["version"] = serde_json::json!(version);
