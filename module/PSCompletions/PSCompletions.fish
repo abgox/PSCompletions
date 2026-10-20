@@ -60,6 +60,14 @@ if test -z "$_PSC_PY"
     set -g _PSC_DEPS_OK 0
 end
 
+# Every python stdout passes through here.
+# A Windows-native interpreter writes CRLF even to pipes, and the bridge only speaks LF: a stray CR broke arithmetic once and silently corrupts paths elsewhere.
+# The exit code is preserved, so `or return` checks keep working.
+function _psc_py
+    "$_PSC_PY" $argv | tr -d '\r'
+    return $pipestatus[1]
+end
+
 # --- locations ---------------------------------------------------------------
 # Resolve symlinks: the documented install is a `conf.d` symlink, so the path fish reports is the link, not the module (`status --current-filename` does not resolve).
 set -g _PSC_BRIDGE_DIR (dirname (path resolve (status --current-filename)))
@@ -226,7 +234,7 @@ function _psc_init
     "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --result "$out" 2>/dev/null; or return 1
     test -f "$out"; or return 1
     # aliasMap + flat config, three lines per record (kind, key, value) so values with spaces survive and an empty value still occupies its line.
-    set -l dump ($_PSC_PY -S -c '
+    set -l dump (_psc_py -S -c '
 import json,sys
 d=json.load(open(sys.argv[1],encoding=\'utf-8\'))
 o=[]
@@ -267,7 +275,7 @@ function _psc_lang --argument-names cmd
         echo $_PSC_LANG_VALS[$i]
         return 0
     end
-    set -l l ($_PSC_PY -S -c '
+    set -l l (_psc_py -S -c '
 import json,sys,os
 dd,cmd,mod=sys.argv[1],sys.argv[2],sys.argv[3]
 try:
@@ -307,7 +315,7 @@ function _psc_hooks_enabled --argument-names cmd
     if not test -f "$PSCOMPLETIONS_DATA_DIR/completions/$cmd/hooks.lua"
         set gate 0
     else if test "$cmd" != psc
-        set -l eh ($_PSC_PY -S -c '
+        set -l eh (_psc_py -S -c '
 import json,sys,os
 try:
     s=json.load(open(os.path.join(sys.argv[1],\'settings.json\'),encoding=\'utf-8\'))
@@ -415,7 +423,7 @@ end
 # argv: in cmd last_complete manifest has_hooks cx cy w h hist platform cwd data args...
 function _psc_write_input
     set -l a $argv
-    $_PSC_PY -S -c '
+    _psc_py -S -c '
 import json,os,sys,urllib.parse
 a=sys.argv[1:]
 def b(v): return v=="1"
@@ -504,7 +512,7 @@ function _psc_spawn --argument-names mode
     set -l menu $argv[2]
     set -l inp $argv[3]
     set -l outp $argv[4]
-    $_PSC_PY -S -c '
+    _psc_py -S -c '
 import json,os,select,subprocess,sys,time
 mode,menu,inp,outp=sys.argv[1:5]
 reset=sys.argv[5].encode() if len(sys.argv)>5 else b"\x1b[?1049l"
@@ -863,7 +871,7 @@ function _psc_hist
     set -l dst "$PSCOMPLETIONS_DATA_DIR/temp/psc-fish-history"
     mkdir -p (dirname $dst) 2>/dev/null
     if not test -f "$dst"; or test "$src" -nt "$dst"
-        $_PSC_PY -S -c '
+        _psc_py -S -c '
 import re,sys
 src,dst=sys.argv[1],sys.argv[2]
 q=chr(39); bs=chr(92)
@@ -905,7 +913,7 @@ function _psc_sort_native --argument-names before
     # The candidate lines travel in a file: a host completion can return thousands of entries and argv would blow ARG_MAX.
     set -l cands "$tmp/psc-sort-$id-cands.txt"
     printf '%s\n' $lines > $cands
-    $_PSC_PY -S -c '
+    _psc_py -S -c '
 import json,os,sys,urllib.parse
 a=sys.argv[1:]
 inp_path,hist,cmd,last,dd,ntoks=a[0:6]
@@ -928,7 +936,7 @@ json.dump(o,open(inp_path,"w",encoding="utf-8"))
 ' "$inp" "$hist" "$toks[1]" "$last" "$PSCOMPLETIONS_DATA_DIR" (count $toks) $toks "$cands"
     "$_PSC_MENU" --sort $inp --result $outp >/dev/null 2>&1
     rm -f $inp $cands
-    set -l pairs ($_PSC_PY -S -c '
+    set -l pairs (_psc_py -S -c '
 import json,sys
 try: items=json.load(open(sys.argv[1],encoding=\'utf-8\'))
 except Exception: raise SystemExit(1)
@@ -980,7 +988,7 @@ function _psc_menu_items
         printf '%s\x1e%s\x1e%s\x1f' "$tx" "$dp" "$tp" >> $f_cands
     end
     set -l hist (_psc_hist)
-    $_PSC_PY -S -c '
+    _psc_py -S -c '
 import json,os,sys,urllib.parse
 a=sys.argv[1:]
 inp_path,cmd,hist,dd,platform,n,cands_file,args,last=a[0:10]
@@ -1177,7 +1185,7 @@ function _psc_run_rendered
     set -l cmd $argv[1]
     set -l raw ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" --json $argv 2>/dev/null)
     set -l code $status
-    set -l jobs ($_PSC_PY -S -c '
+    set -l jobs (_psc_py -S -c '
 import json,os,sys
 cmd,raw,dd,lang=sys.argv[1:5]
 try: env=json.loads(raw)
@@ -1289,7 +1297,7 @@ function _psc_render_pending
     set -l change "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
     test -f "$change"; or return 0
     # The module notice fires only for a remote version newer than the installed one (compared numerically inside); the library lists below render as a template.
-    set -l out ($_PSC_PY -S -c '
+    set -l out (_psc_py -S -c '
 import json,sys
 p,dd,marker,installed=sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4]
 try: c=json.load(open(p,encoding="utf-8"))
@@ -1508,7 +1516,7 @@ function _psc_read_trigger_key
         echo Tab
         return 0
     end
-    set -l k ($_PSC_PY -S -c '
+    set -l k (_psc_py -S -c '
 import json,sys
 try:
     c=json.load(open(sys.argv[1],encoding=\'utf-8\')).get(\'config\',{}) or {}

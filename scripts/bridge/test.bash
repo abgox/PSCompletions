@@ -284,6 +284,30 @@ printf '{"update":["git"]}\n' > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
 _psc_render_pending > "$_TL" 2>/dev/null
 _ends_nl "$_TL" && { echo "ok   notification-line-terminated"; PASS=$((PASS+1)); } || { echo "FAIL notification-line-terminated"; FAIL=$((FAIL+1)); }
 rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+# Every python stdout passes through _psc_py: CR stripped, exit code kept.
+_CRLF_STUB="$PSCOMPLETIONS_DATA_DIR/temp/crlf-stub.sh"
+printf '#!/bin/sh\nprintf "a\\r\\n"\nexit 3\n' > "$_CRLF_STUB"
+chmod +x "$_CRLF_STUB"
+_SAVE_PY=$_PSC_PY; _PSC_PY="$_CRLF_STUB"
+out="$(_psc_py -S 2>/dev/null)"; rc=$?
+[[ "$out" == "a" && $rc -eq 3 ]] \
+    && { echo "ok   psc_py strips CR and keeps exit code"; PASS=$((PASS+1)); } || { echo "FAIL psc_py strips CR and keeps exit code out=[$out] rc=$rc"; FAIL=$((FAIL+1)); }
+_PSC_PY=$_SAVE_PY
+# A Windows-native python writes CRLF even to pipes: arithmetic on its output must not break (the `${texts[$idx]}` failure on git bash).
+# Hermetic on purpose: no settings, no hooks.lua, no shared cache — only the exact gate shape.
+_REALPY="$(command -v python3)"
+_CRLF_PROXY="$PSCOMPLETIONS_DATA_DIR/temp/crlf-proxy.sh"
+printf '#!/bin/sh\n"%s" "$@" | tr "\\n" "\\r\\n"\n' "$_REALPY" > "$_CRLF_PROXY"
+chmod +x "$_CRLF_PROXY"
+_SAVE_PY=$_PSC_PY; _PSC_PY="$_CRLF_PROXY"
+eh="$(_psc_py -S - <<'PYEOF'
+print(1)
+PYEOF
+)"
+branch="$({ if (( ! eh )); then echo disabled; else echo enabled; fi; } 2>"$PSCOMPLETIONS_DATA_DIR/temp/crlf-err.txt")"
+[[ "$branch" == enabled && ! -s "$PSCOMPLETIONS_DATA_DIR/temp/crlf-err.txt" ]] \
+    && { echo "ok   crlf-python does not break arithmetic"; PASS=$((PASS+1)); } || { echo "FAIL crlf-python does not break arithmetic branch=[$branch]"; FAIL=$((FAIL+1)); }
+_PSC_PY=$_SAVE_PY
 # The module notice fires only for a version newer than the installed one: an equal value is "nothing to do", not an update.
 rm -f "$PSCOMPLETIONS_DATA_DIR/temp/.bash-module-notified"
 _INSTALLED="$(_psc_module_version)"

@@ -4,6 +4,7 @@
 
 ## 未发布
 
+- bridge: 修复了 git bash 下因 python 输出 CRLF 换行导致选择失败的问题
 - bridge: 读取单个补全配置值不再显示为绿色
 - bridge: 已是最新版本时不再错误提示有模块更新
 - bridge: `psc update` 不再重复列出可更新补全

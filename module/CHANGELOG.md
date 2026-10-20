@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- bridge: Fixed selection failing on git bash when python writes CRLF
 - bridge: Stopped coloring single-value completion reads
 - bridge: Stopped notifying about a module update when the installed version is already current
 - bridge: Stopped listing updatable completions twice after a bare `psc update`

@@ -578,6 +578,33 @@ else
     bad notification-line-terminated
 end
 rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json
+# Every python stdout passes through _psc_py: CR stripped, exit code kept.
+set -l crlf_stub $PSCOMPLETIONS_DATA_DIR/temp/crlf-stub.sh
+printf '#!/bin/sh\nprintf "a\\r\\n"\nexit 3\n' > $crlf_stub
+chmod +x $crlf_stub
+set -l save_py $_PSC_PY
+set -g _PSC_PY $crlf_stub
+set -l pout (_psc_py -S 2>/dev/null)
+set -l prc $status
+if test "$pout" = a; and test $prc -eq 3
+    ok psc_py strips CR and keeps exit code
+else
+    bad psc_py strips CR and keeps exit code " out=[$pout] rc=$prc"
+end
+set -g _PSC_PY $save_py
+# A Windows-native python writes CRLF even to pipes: its output must arrive clean (fish has no arithmetic, but a stray CR silently breaks every string match, starting with the menu status).
+set -l realpy (command -v python3)
+set -l crlf_proxy $PSCOMPLETIONS_DATA_DIR/temp/crlf-proxy.sh
+printf '#!/bin/sh\n"%s" "$@" | tr "\\n" "\\r\\n"\n' "$realpy" > $crlf_proxy
+chmod +x $crlf_proxy
+set -g _PSC_PY $crlf_proxy
+set -l eh (_psc_py -S -c 'print(1)' 2>/dev/null)
+if test "$eh" = 1
+    ok crlf-python output arrives clean
+else
+    bad crlf-python output arrives clean " eh=[$eh]"
+end
+set -g _PSC_PY $save_py
 # The module notice fires only for a version newer than the installed one: an equal value is "nothing to do", not an update.
 rm -f $PSCOMPLETIONS_DATA_DIR/temp/.fish-module-notified
 set -l installed (_psc_module_version)

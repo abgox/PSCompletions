@@ -57,6 +57,13 @@ for _py in python3 python; do
     fi
 done
 unset _py _py_path
+# Every python stdout passes through here.
+# A Windows-native interpreter writes CRLF even to pipes, and the bridge only speaks LF: a stray CR broke arithmetic once (`${texts[$idx]}` with `idx="2\r"`) and silently corrupts paths elsewhere.
+# The exit code is preserved, so `|| return` checks keep working.
+_psc_py() {
+    "$_PSC_PY" "$@" | tr -d '\r'
+    return "${pipestatus[1]}"
+}
 if [[ -z "$_PSC_PY" ]]; then
     echo "[PSCompletions] python 3.8+ not found on PATH at shell start; the bridge cannot run." >&2
     echo "[PSCompletions] install python3 (or make it available before sourcing this file)." >&2
@@ -147,7 +154,7 @@ _psc_init() {
     "$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "--language=$lang" init --result "$out" 2>/dev/null || return 1
     [[ -f "$out" ]] || return 1
     local dump
-    dump="$("$_PSC_PY" -S - "$out" <<'PYEOF'
+    dump="$(_psc_py -S - "$out" <<'PYEOF'
 import json,sys
 d=json.load(open(sys.argv[1],encoding='utf-8'))
 for k,v in (d.get('aliasMap') or {}).items():
@@ -174,7 +181,7 @@ _psc_lang() {
     local cmd="$1"
     [[ -n "${_PSC_LANGCACHE[$cmd]:-}" ]] && { printf '%s' "${_PSC_LANGCACHE[$cmd]}"; return; }
     local l
-    l="$("$_PSC_PY" -S - "$PSCOMPLETIONS_DATA_DIR" "$cmd" "${_PSC_CFG[language]:-}" <<'PYEOF'
+    l="$(_psc_py -S - "$PSCOMPLETIONS_DATA_DIR" "$cmd" "${_PSC_CFG[language]:-}" <<'PYEOF'
 import json,sys,os
 dd,cmd,mod=sys.argv[1],sys.argv[2],sys.argv[3]
 try:
@@ -208,7 +215,7 @@ _psc_hooks_enabled() {
     if [[ ! -f "$hooks" ]]; then _PSC_HOOKS[$cmd]=0; print -n 0; return; fi
     if [[ "$cmd" != psc ]]; then
         local eh
-        eh="$("$_PSC_PY" -S - "$PSCOMPLETIONS_DATA_DIR" "$cmd" <<'PYEOF'
+        eh="$(_psc_py -S - "$PSCOMPLETIONS_DATA_DIR" "$cmd" <<'PYEOF'
 import json,sys,os
 try:
     s=json.load(open(os.path.join(sys.argv[1],'settings.json'),encoding='utf-8'))
@@ -299,7 +306,7 @@ _psc_write_input() {
     PSC_HOOKS="$has_hooks" PSC_CWD="$PWD" PSC_DATA="$PSCOMPLETIONS_DATA_DIR" \
     PSC_CX="$cx" PSC_CY="$cy" PSC_W="$w" PSC_H="$h" PSC_HIST="$(_psc_hist)" \
     PSC_PLATFORM="$_psc_engine_platform" \
-    "$_PSC_PY" -S - "$@" <<'PYEOF'
+    _psc_py -S - "$@" <<'PYEOF'
 import json,os,sys,urllib.parse
 e=os.environ
 def b(v): return v=='1'
@@ -443,7 +450,7 @@ _psc_spawn() {
     wait $pid 2>/dev/null
     [[ -f "$out" ]] || return 0
     local r
-    r="$("$_PSC_PY" -S - "$out" <<'PYEOF'
+    r="$(_psc_py -S - "$out" <<'PYEOF'
 import json,sys
 try: r=json.load(open(sys.argv[1],encoding='utf-8'))
 except Exception: print('cancel\t\t\t'); raise SystemExit
@@ -465,7 +472,7 @@ _PSC_RESET_TERM=$'\e[?1006l\e[?1003l\e[?1002l\e[?1000l\e[?1015l\e[?1049l\e[?25h\
 # The terminal queues mouse reports (SGR `ESC [ < b;x;y M`) while the menu is up; the few bytes still in the tty input buffer when a force-killed menu dies are read by the shell as literal input.
 # Discard them after restoring the modes — the menu owed the user a clean line.
 _psc_flush_tty() {
-    "$_PSC_PY" -S -c 'import os,termios
+    _psc_py -S -c 'import os,termios
 try:
     fd=os.open("/dev/tty",os.O_RDONLY|os.O_NONBLOCK)
     termios.tcflush(fd,termios.TCIFLUSH)
@@ -711,7 +718,7 @@ _psc_items_menu() {
     PSC_DATA="$PSCOMPLETIONS_DATA_DIR" \
     PSC_HIST="$(_psc_hist)" PSC_PLATFORM="$_psc_engine_platform" \
     PSC_W="${COLUMNS:-120}" PSC_H="${LINES:-30}" \
-    "$_PSC_PY" -S <<'PYEOF' || return 1
+    _psc_py -S <<'PYEOF' || return 1
 import json,os,urllib.parse
 e=os.environ
 def truthy(v,d=0):
@@ -898,7 +905,7 @@ _psc_sort_candidates() {
     PSC_IN="$_psc_in" PSC_ITEMS_FILE="$_psc_cands" PSC_TOKS="$_psc_tok" PSC_CMD="$_psc_cmd" \
     PSC_LAST="$([[ "$LBUFFER" == *' ' ]] && print -n 1 || print -n 0)" \
     PSC_DATA="$PSCOMPLETIONS_DATA_DIR" PSC_HIST="$_psc_hist_path" \
-    "$_PSC_PY" -S <<'PYEOF' || return 0
+    _psc_py -S <<'PYEOF' || return 0
 import json,os,urllib.parse
 e=os.environ
 dd=e['PSC_DATA']
@@ -926,7 +933,7 @@ json.dump(inp,open(e['PSC_IN'],'w',encoding='utf-8'))
 PYEOF
     "$_PSC_MENU" --sort "$_psc_in" --result "$_psc_out" >/dev/null 2>&1
     local _psc_ranked
-    _psc_ranked="$("$_PSC_PY" -S - "$_psc_out" <<'PYEOF' 2>/dev/null
+    _psc_ranked="$(_psc_py -S - "$_psc_out" <<'PYEOF' 2>/dev/null
 import json,sys
 try: items=json.load(open(sys.argv[1],encoding='utf-8'))
 except Exception: raise SystemExit(1)
@@ -1183,7 +1190,7 @@ _psc_run_rendered() {
     raw="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" --json "$cmd" "$@" 2>/dev/null)"
     local code=$?
     local jobs
-    jobs="$(PSC_CMD="$cmd" PSC_RAW="$raw" PSC_DATA="$PSCOMPLETIONS_DATA_DIR" PSC_LANG="$(_psc_lang psc)" "$_PSC_PY" -S <<'PYEOF'
+    jobs="$(PSC_CMD="$cmd" PSC_RAW="$raw" PSC_DATA="$PSCOMPLETIONS_DATA_DIR" PSC_LANG="$(_psc_lang psc)" _psc_py -S <<'PYEOF'
 import json,os
 e=os.environ
 cmd=e['PSC_CMD']
@@ -1282,7 +1289,7 @@ _psc_render_pending() {
     [[ -f "$change" ]] || return 0
     # The module notice fires only for a remote version newer than the installed one (compared numerically inside); the library lists below render as a template.
     local out
-    out="$("$_PSC_PY" -S - "$change" "$PSCOMPLETIONS_DATA_DIR" "$(_psc_module_version)" <<'PYEOF'
+    out="$(_psc_py -S - "$change" "$PSCOMPLETIONS_DATA_DIR" "$(_psc_module_version)" <<'PYEOF'
 import json,sys
 p,dd,installed=sys.argv[1],sys.argv[2],sys.argv[3]
 try: c=json.load(open(p,encoding='utf-8'))
@@ -1337,7 +1344,7 @@ _psc_read_trigger_key() {
     _psc_need_py || { print -n Tab 2>/dev/null || printf Tab; return; }
     local s="$PSCOMPLETIONS_DATA_DIR/settings.json"
     [[ -f "$s" ]] || { print -n Tab; return; }
-    "$_PSC_PY" -S - "$s" <<'PYEOF' 2>/dev/null || print -n Tab
+    _psc_py -S - "$s" <<'PYEOF' 2>/dev/null || print -n Tab
 import json,sys
 try:
     c=json.load(open(sys.argv[1],encoding='utf-8')).get('config',{}) or {}
