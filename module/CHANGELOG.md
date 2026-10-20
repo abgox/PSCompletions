@@ -1,8 +1,8 @@
-# Module Changelog
+# Changelog
 
 English | [简体中文](./CHANGELOG.zh-CN.md)
 
-## Unreleased
+## 8.0.2
 
 - bridge: Fixed selection failing on git bash when python writes CRLF
 - bridge: Stopped coloring single-value completion reads

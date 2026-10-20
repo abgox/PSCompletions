@@ -1,8 +1,8 @@
-# Module Changelog
+# Changelog
 
 [English](./CHANGELOG.md) | 简体中文
 
-## 未发布
+## 8.0.2
 
 - bridge: 修复了 git bash 下因 python 输出 CRLF 换行导致选择失败的问题
 - bridge: 读取单个补全配置值不再显示为绿色

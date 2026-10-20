@@ -9,7 +9,7 @@
 @{
     RootModule           = 'PSCompletions.psm1'
 
-    ModuleVersion        = '8.0.1'
+    ModuleVersion        = '8.0.2'
 
     GUID                 = '00929632-527d-4dab-a5b3-21197faccd05'
 
@@ -40,7 +40,7 @@ It provides an interactive menu, wildcard/subsequence filtering, history-aware o
 
         PSData = @{
 
-            Tags         = 'psc', 'completion', 'tab', 'tab-completion', 'TabExpansion', 'dynamic-completion', 'Menu', 'TUI', 'PSReadLine', 'Autocomplete', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS', 'bash', 'zsh', 'fish', 'Rust', 'Lua', 'Multilingual'
+            Tags         = 'psc', 'completion', 'tab', 'tab-completion', 'TabExpansion', 'dynamic-completion', 'Menu', 'TUI', 'PSReadLine', 'autocomplete', 'PowerShell', 'pwsh', 'Windows', 'Linux', 'MacOS', 'bash', 'zsh', 'fish', 'Rust', 'Lua', 'Multilingual'
 
             LicenseUri   = 'https://github.com/abgox/PSCompletions/blob/main/LICENSE'
 
