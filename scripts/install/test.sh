@@ -70,8 +70,12 @@ exit 1
 STUB
 chmod +x "$stub/curl"
 
+# Locale for the next run; the chain inside install.sh reads LC_ALL first, so one variable decides.
+T_LC="C"
+
 run_install() { # <version the probe reports> — prints the combined output, exit code in $?
-    PATH="$stub:$PATH" HOME="$scratch/home" XDG_DATA_HOME= \
+    LC_ALL="$T_LC" LANGUAGE= LC_MESSAGES= LANG= \
+        PATH="$stub:$PATH" HOME="$scratch/home" XDG_DATA_HOME= \
         PSC_STUB_VERSION="$1" PSC_STUB_LOG="$scratch/calls.log" PSC_STUB_PACKAGE="${PKG:-}" \
         sh "$INSTALL" 2>&1
 }
@@ -96,7 +100,8 @@ plant_win() { # <version>
 }
 
 run_win() { # <version the probe reports> — the same run under a Windows uname.
-    PATH="$win_stub:$stub:$PATH" HOME="$scratch/winhome" XDG_DATA_HOME= \
+    LC_ALL="$T_LC" LANGUAGE= LC_MESSAGES= LANG= \
+        PATH="$win_stub:$stub:$PATH" HOME="$scratch/winhome" XDG_DATA_HOME= \
         PSC_STUB_VERSION="$1" PSC_STUB_LOG="$scratch/wincalls.log" PSC_STUB_PACKAGE="${PKG:-}" \
         sh "$INSTALL" 2>&1
 }
@@ -204,7 +209,74 @@ else
     bad "a missing engine binary must not be reported as installed (exit $code)"
 fi
 
-# --- --help and usage errors (no network) -----------------------------------
+# --- Chinese output: the same early exit in the other language ---------------
+
+T_LC="zh_CN.UTF-8"
+plant 8.0.0
+: >"$scratch/calls.log"
+out="$(run_install 8.0.0)"
+code=$?
+
+if [ "$code" -eq 0 ]; then
+    ok "zh: an up-to-date copy exits 0"
+else
+    bad "zh: an up-to-date copy must exit 0 (got $code)"
+fi
+
+case "$out" in
+    *"8.0.0 已安装。"*) ok "zh: it says the version it found" ;;
+    *) bad "zh: the already-installed line is missing: $out" ;;
+esac
+
+case "$out" in
+    *"把下面这行加到"*) ok "zh: the rc comment is translated" ;;
+    *) bad "zh: the rc comment is not translated: $out" ;;
+esac
+
+case "$out" in
+    *"已安装到"*) ok "zh: the installed-in line is translated" ;;
+    *) bad "zh: the installed-in line is not translated: $out" ;;
+esac
+
+case "$out" in
+    *"downloading the latest package"*) bad "zh: it still announced a download" ;;
+    *) ok "zh: no download announcement" ;;
+esac
+
+if grep -q '^download$' "$scratch/calls.log"; then
+    bad "zh: the package was downloaded even though the probe matched"
+else
+    ok "zh: the package was not downloaded"
+fi
+T_LC="C"
+
+# --- a newer version still fails in Chinese when the download fails ---------
+
+T_LC="zh_CN.UTF-8"
+plant 8.0.0
+: >"$scratch/calls.log"
+out="$(run_install 8.0.1)"
+code=$?
+
+if [ "$code" -ne 0 ]; then
+    ok "zh: a newer version does not take the early exit"
+else
+    bad "zh: a newer version must not report itself as installed"
+fi
+
+case "$out" in
+    *"无法从"*) ok "zh: the download failure is translated" ;;
+    *) bad "zh: the download failure is not translated: $out" ;;
+esac
+T_LC="C"
+
+# --- --help and usage errors follow the locale (no network) -----------------
+
+out="$(LC_ALL=zh_CN.UTF-8 LANGUAGE= LC_MESSAGES= LANG= sh "$INSTALL" --help 2>&1)"
+case "$out" in
+    *"安装脚本"* | *"rc 行"*) ok "zh: --help speaks Chinese" ;;
+    *) bad "zh: --help is not translated: $out" ;;
+esac
 
 out="$(LC_ALL=C sh "$INSTALL" --help 2>&1)"
 case "$out" in
@@ -212,10 +284,28 @@ case "$out" in
     *) bad "en: --help is not English: $out" ;;
 esac
 
+out="$(LC_ALL=zh_CN.UTF-8 LANGUAGE= LC_MESSAGES= LANG= sh "$INSTALL" --bogus 2>&1)"
+code=$?
+if [ "$code" -ne 0 ]; then
+    case "$out" in
+        *"未知参数"*) ok "zh: the usage error is translated" ;;
+        *) bad "zh: the usage error is not translated: $out" ;;
+    esac
+else
+    bad "zh: a bogus argument must fail (got $code)"
+fi
+
 out="$(LC_ALL=C sh "$INSTALL" --bogus 2>&1)"
 case "$out" in
     *"unknown argument"*) ok "en: the usage error is English" ;;
     *) bad "en: the usage error is not English: $out" ;;
+esac
+
+# LANGUAGE alone (GNU gettext priority) is enough for Chinese.
+out="$(LC_ALL= LANGUAGE=zh_CN.UTF-8 LC_MESSAGES= LANG= sh "$INSTALL" --bogus 2>&1)"
+case "$out" in
+    *"未知参数"*) ok "LANGUAGE alone selects Chinese" ;;
+    *) bad "LANGUAGE alone did not select Chinese: $out" ;;
 esac
 
 # --- Windows (git bash): the windows branch installs, enlightened by .exe ------
@@ -288,6 +378,20 @@ else
     bad "win: expected exactly one download"
 fi
 
+# --- every key exists in both languages --------------------------------------
+
+zh_keys=$(sed -n '/# --- zh ---/,/# --- end ---/p' "$INSTALL" | grep -oE '^[[:space:]]+[a-z_0-9]+\)' | tr -d ' )' | sort -u)
+en_keys=$(sed -n '/# --- en ---/,/# --- end ---/p' "$INSTALL" | grep -oE '^[[:space:]]+[a-z_0-9]+\)' | tr -d ' )' | sort -u)
+
+if [ "$zh_keys" = "$en_keys" ] && [ -n "$zh_keys" ]; then
+    ok "every message key exists in both languages ($(printf '%s\n' "$zh_keys" | wc -l) keys)"
+else
+    bad "message keys differ between languages"
+    printf 'zh-only:\n'; comm -23 <(printf '%s\n' "$zh_keys") <(printf '%s\n' "$en_keys")
+    printf 'en-only:\n'; comm -13 <(printf '%s\n' "$zh_keys") <(printf '%s\n' "$en_keys")
+fi
+
+printf '\n'
 if [ "$fail" -ne 0 ]; then
     printf 'INSTALL TESTS FAILED\n'
     exit 1

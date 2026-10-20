@@ -11,6 +11,19 @@
 #
 # The install directory is fixed and not configurable: the path itself is how `psc --self-update` recognises a copy installed by this script (see the README's install section).
 
+# --- help-zh ---
+# 适用于 bash / zsh / fish 的 PSCompletions 安装脚本 —— 不涉及 PowerShell。
+#
+# 它从 PowerShell Gallery 下载模块包，解压到固定的安装目录，并打印需要添加到 shell rc 文件的那一行。
+# 重新运行时先问 Gallery 哪个版本最新 —— 只发一个请求，不下载整个包 —— 如果装的已经是最新，就停在打印 rc 行。
+# 数据目录（设置和已安装补全）属于模块所有，绝不动它。
+#
+#   sh install.sh                 # 安装，然后为每个 shell 打印 rc 行
+#
+# 桥接反正都会装；`$SHELL` 只决定先打印哪个 shell 的 rc 行。
+#
+# 安装目录是固定的、不可配置：`psc --self-update` 就靠这个路径认出这个副本是它装的（见 README 的安装一节）。
+
 set -eu
 
 GALLERY_URL=https://www.powershellgallery.com/api/v2/package/PSCompletions
@@ -20,6 +33,83 @@ warn() { printf '[PSCompletions] %s\n' "$*" >&2; }
 die() {
     printf '[PSCompletions] %s\n' "$*" >&2
     exit 1
+}
+
+# Messages follow the locale: Chinese when it says so, English otherwise — the same `zh`-prefix rule the CLI uses.
+is_zh() {
+    case "${LC_ALL:-${LANGUAGE:-${LC_MESSAGES:-${LANG:-}}}}" in
+        [Zz][Hh]*) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+msg() { # <key> [args...] — print the message for the current language.
+    key="$1"; shift
+    if is_zh; then
+        # --- zh ---
+        case "$key" in
+            need_downloader) printf 'curl 或 wget（用于下载安装包）' ;;
+            need_unpacker) printf 'unzip、bsdtar、tar 或 python3（用于解压安装包）' ;;
+            need_python) printf 'python3 或 python（桥接运行时需要）' ;;
+            missing_list) printf '[PSCompletions] 缺少以下命令：%s\n' "$@" ;;
+            install_first) printf '请先安装它们，再重新运行此脚本' ;;
+            no_dl_tool) printf '没有可用于下载安装包的 curl 或 wget' ;;
+            no_unpacker) printf '无法解压安装包：请安装 unzip、bsdtar 或 python3' ;;
+            move_aside) printf '无法将已有的 %s 移开' "$@" ;;
+            prev_copy_at) printf '之前的副本在 %s' "$@" ;;
+            move_into_place) printf '无法将新副本就位' ;;
+            rc_bash) printf '# bash —— 把下面这行加到 ~/.bashrc 的末尾：' ;;
+            rc_zsh) printf '# zsh —— 把下面这行加到 ~/.zshrc 的末尾：' ;;
+            rc_fish) printf '# fish —— 把它链接进 conf.d（或从 config.fish 里 source 它）：' ;;
+            installed_in) printf '[PSCompletions] 已安装到 %s' "$@" ;;
+            restart_shell) printf '# 开一个新的 shell（或重新 source 那个文件）使其生效' ;;
+            uninstall_hint) printf '# 卸载：删除“%s”，并删掉你加到 rc 文件里的那一行' "$@" ;;
+            unknown_arg) printf '未知参数：%s（用 --help 查看）' "$@" ;;
+            bad_platform) printf '不支持的平台：%s' "$@" ;;
+            bad_arch) printf '不支持的架构：%s' "$@" ;;
+            already_installed) printf '[PSCompletions] %s 已安装。' "$@" ;;
+            downloading) printf '[PSCompletions] 正在下载最新安装包……' ;;
+            dl_failed) printf '无法从 %s 下载安装包' "$@" ;;
+            not_zip) printf '下载到的不是 zip 压缩包（可能是代理或 captive portal 截获了请求）' ;;
+            no_version) printf '无法读取安装包版本（包结构不符合预期）' ;;
+            no_bridge) printf '安装包 %s 里没有 %s 桥接' "$@" ;;
+            installed) printf '[PSCompletions] 已安装 %s' "$@" ;;
+            # --- end ---
+            *) printf '%s' "$key" ;;
+        esac
+    else
+        # --- en ---
+        case "$key" in
+            need_downloader) printf 'curl or wget (to download the package)' ;;
+            need_unpacker) printf 'unzip, bsdtar, tar or python3 (to unpack the package)' ;;
+            need_python) printf 'python3 or python (the bridge needs it at runtime)' ;;
+            missing_list) printf '[PSCompletions] these commands are missing:%s\n' "$@" ;;
+            install_first) printf 'install them first, then run this script again' ;;
+            no_dl_tool) printf 'neither curl nor wget is available to download the package' ;;
+            no_unpacker) printf 'cannot unpack the package: install unzip, bsdtar or python3' ;;
+            move_aside) printf 'cannot move the existing %s aside' "$@" ;;
+            prev_copy_at) printf 'the previous copy is at %s' "$@" ;;
+            move_into_place) printf 'cannot move the new copy into place' ;;
+            rc_bash) printf '# bash — add this as the last line of ~/.bashrc:' ;;
+            rc_zsh) printf '# zsh — add this as the last line of ~/.zshrc:' ;;
+            rc_fish) printf '# fish — link it into conf.d (or source it from config.fish):' ;;
+            installed_in) printf '[PSCompletions] installed in %s' "$@" ;;
+            restart_shell) printf '# start a new shell (or re-source the file) to pick it up' ;;
+            uninstall_hint) printf '# to uninstall: rm -rf "%s" and delete the line you added to your rc file' "$@" ;;
+            unknown_arg) printf 'unknown argument: %s (see --help)' "$@" ;;
+            bad_platform) printf 'unsupported platform: %s' "$@" ;;
+            bad_arch) printf 'unsupported architecture: %s' "$@" ;;
+            already_installed) printf '[PSCompletions] %s is already installed.' "$@" ;;
+            downloading) printf '[PSCompletions] downloading the latest package...' ;;
+            dl_failed) printf 'cannot download the package from %s' "$@" ;;
+            not_zip) printf 'the download is not a zip archive (a proxy or a captive portal may have intercepted it)' ;;
+            no_version) printf 'cannot read the package version (unexpected package layout)' ;;
+            no_bridge) printf 'package %s carries no %s bridge' "$@" ;;
+            installed) printf '[PSCompletions] installed %s' "$@" ;;
+            # --- end ---
+            *) printf '%s' "$key" ;;
+        esac
+    fi
 }
 
 # --- where ---------------------------------------------------------------------
@@ -66,7 +156,7 @@ download() { # <url> <file>
     elif command -v wget >/dev/null 2>&1; then
         wget -q -O "$2" "$1"
     else
-        die "neither curl nor wget is available to download the package"
+        die "$(msg no_dl_tool)"
     fi
 }
 
@@ -78,7 +168,7 @@ extract() { # <zip> <dest>
     if command -v bsdtar >/dev/null 2>&1 && bsdtar -xf "$1" -C "$2"; then return 0; fi
     if command -v tar >/dev/null 2>&1 && tar -xf "$1" -C "$2" 2>/dev/null; then return 0; fi
     if command -v python3 >/dev/null 2>&1 && python3 -m zipfile -e "$1" "$2"; then return 0; fi
-    die "cannot unpack the package: install unzip, bsdtar or python3"
+    die "$(msg no_unpacker)"
 }
 
 package_version() { # <unpacked dir>
@@ -127,12 +217,12 @@ require() { # <what it is for> <command...>
 
 preflight() {
     missing=""
-    require "curl or wget (to download the package)" curl wget
-    require "unzip, bsdtar, tar or python3 (to unpack the package)" unzip bsdtar tar python3 python
-    require "python3 or python (the bridge needs it at runtime)" python3 python
+    require "$(msg need_downloader)" curl wget
+    require "$(msg need_unpacker)" unzip bsdtar tar python3 python
+    require "$(msg need_python)" python3 python
     if [ -n "$missing" ]; then
-        printf '[PSCompletions] these commands are missing:%s\n' "$missing" >&2
-        die "install them first, then run this script again"
+        msg missing_list "$missing" >&2
+        die "$(msg install_first)"
     fi
 }
 
@@ -162,14 +252,14 @@ EOF
 swap() { # <staging dir> <install dir>
     old="$2.old.$$"
     if [ -e "$2" ]; then
-        mv "$2" "$old" || die "cannot move the existing $2 aside"
+        mv "$2" "$old" || die "$(msg move_aside "$2")"
         if ! mv "$1" "$2"; then
-            mv "$old" "$2" || warn "the previous copy is at $old"
-            die "cannot move the new copy into place"
+            mv "$old" "$2" || warn "$(msg prev_copy_at "$old")"
+            die "$(msg move_into_place)"
         fi
         rm -rf "$old" 2>/dev/null || true
     else
-        mv "$1" "$2" || die "cannot move the new copy into place"
+        mv "$1" "$2" || die "$(msg move_into_place)"
     fi
 }
 
@@ -177,17 +267,17 @@ usage_lines() { # <dir> <shell>
     case "$2" in
         bash)
             say ""
-            say "# bash — add this as the last line of ~/.bashrc:"
+            say "$(msg rc_bash)"
             say "source \"$1/PSCompletions.bash\""
             ;;
         zsh)
             say ""
-            say "# zsh — add this as the last line of ~/.zshrc:"
+            say "$(msg rc_zsh)"
             say "source \"$1/PSCompletions.zsh\""
             ;;
         fish)
             say ""
-            say "# fish — link it into conf.d (or source it from config.fish):"
+            say "$(msg rc_fish)"
             say "ln -s \"$1/PSCompletions.fish\" \"${XDG_CONFIG_HOME:-$HOME/.config}/fish/conf.d/PSCompletions.fish\""
             ;;
     esac
@@ -195,7 +285,7 @@ usage_lines() { # <dir> <shell>
 
 print_usage() { # <dir>
     say ""
-    say "[PSCompletions] installed in $1"
+    say "$(msg installed_in "$1")"
     # The detected shell first; all three are printed because all three bridges are installed and `$SHELL` is only a guess.
     printed=""
     for s in $preferred bash zsh fish; do
@@ -204,8 +294,8 @@ print_usage() { # <dir>
         usage_lines "$1" "$s"
     done
     say ""
-    say "# start a new shell (or re-source the file) to pick it up"
-    say "# to uninstall: rm -rf \"$1\" and delete the line you added to your rc file"
+    say "$(msg restart_shell)"
+    say "$(msg uninstall_hint "$1")"
 }
 
 # --- flow ----------------------------------------------------------------------
@@ -213,11 +303,15 @@ print_usage() { # <dir>
 while [ $# -gt 0 ]; do
     case "$1" in
         -h | --help)
-            sed -n '2,/^$/p' "$0" | sed 's/^# \{0,1\}//'
+            if is_zh; then
+                sed -n '/^# --- help-zh ---$/,/^$/p' "$0" | sed '1d' | sed 's/^# \{0,1\}//'
+            else
+                sed -n '2,/^$/p' "$0" | sed 's/^# \{0,1\}//'
+            fi
             exit 0
             ;;
         *)
-            die "unknown argument: $1 (see --help)"
+            die "$(msg unknown_arg "$1")"
             ;;
     esac
 done
@@ -227,8 +321,9 @@ preferred="$(detect_shell)"
 
 platform="$(detect_platform)"
 arch="$(detect_arch)"
-[ "$platform" = unknown ] && die "unsupported platform: $(uname -s)"
-[ "$arch" = unknown ] && die "unsupported architecture: $(uname -m)"
+[ "$platform" = unknown ] && die "$(msg bad_platform "$(uname -s)")"
+[ "$arch" = unknown ] && die "$(msg bad_arch "$(uname -m)")"
+# Windows binaries carry an `.exe` extension, the way the bridges already resolve it: a git bash install reads and writes the same names.
 ext=""
 [ "$platform" = windows ] && ext=".exe"
 preflight
@@ -246,25 +341,25 @@ mkdir -p "$(dirname -- "$dir")" "$dl"
 current="$(installed_version "$dir" 2>/dev/null || true)"
 latest="$(latest_version || true)"
 if [ -n "$latest" ] && [ "$latest" = "$current" ] && [ -x "$dir/bin/$platform-$arch/psc$ext" ]; then
-    say "[PSCompletions] $latest is already installed."
+    say "$(msg already_installed "$latest")"
     print_usage "$dir"
     exit 0
 fi
 
-say "[PSCompletions] downloading the latest package..."
+say "$(msg downloading)"
 pkg="$dl/package.nupkg"
-download "$GALLERY_URL" "$pkg" || die "cannot download the package from $GALLERY_URL"
+download "$GALLERY_URL" "$pkg" || die "$(msg dl_failed "$GALLERY_URL")"
 
 # A 404 body or a captive-portal page is not a package; checking the zip magic before unpacking turns a confusing extraction error into one clear line.
-[ "$(dd if="$pkg" bs=1 count=2 2>/dev/null)" = "PK" ] || die "the download is not a zip archive (a proxy or a captive portal may have intercepted it)"
+[ "$(dd if="$pkg" bs=1 count=2 2>/dev/null)" = "PK" ] || die "$(msg not_zip)"
 
 extract "$pkg" "$stage"
 version="$(package_version "$stage")"
-[ -n "$version" ] || die "cannot read the package version (unexpected package layout)"
+[ -n "$version" ] || die "$(msg no_version)"
 
 # The bridges arrived in v8; an older package would install a directory that cannot work.
 for s in bash zsh fish; do
-    [ -f "$stage/PSCompletions.$s" ] || die "package $version carries no $s bridge"
+    [ -f "$stage/PSCompletions.$s" ] || die "$(msg no_bridge "$version" "$s")"
 done
 
 prune "$stage" "$platform" "$arch"
@@ -274,5 +369,5 @@ chmod +x "$stage/bin/$platform-$arch/psc$ext" "$stage/bin/$platform-$arch/psc-me
 swap "$stage" "$dir"
 rm -rf "$dl"
 
-say "[PSCompletions] installed $version"
+say "$(msg installed "$version")"
 print_usage "$dir"
