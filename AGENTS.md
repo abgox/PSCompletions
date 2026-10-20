@@ -59,6 +59,7 @@ The rows below do not exempt any file above, including files added later; they o
 
 - **English** for all documentation — this file, `authoring/`, `design/` — and for all `hooks.lua` comments. Do not introduce comments in other languages.
 - **Short comments.** Explain *why* when the code is not self-evident, not *what* (the code already says that). Prefer one crisp line over a multi-line essay. Applies to `hooks.lua` and all source comments.
+- **No hard wrapping, ever.** A sentence runs to its end on one line however long it gets — splitting a sentence across lines is never allowed, and a new line starts only where a new sentence, a list item, or a blank comment starts. Markdown prose follows the same rule: wrapping is an artefact of the editor, not of the thought, and it turns every later edit into a reflow.
 - **Exception — `types/psc.lua`** uses **bilingual descriptions: Chinese first, English after** (Chinese reads shorter, so it leads and stays visible in the editor's hover hint). Its comments surface as type hints for completion authors, so they are the exception to the English-only rule. `---@param` / `---@return` / `---@type` annotations keep English identifiers.
 
 ## Project structure

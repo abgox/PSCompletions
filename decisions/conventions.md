@@ -1,7 +1,7 @@
 # Conventions
 
-Why a commit subject is a plain sentence with two reserved prefixes, and why the changelog groups the way it does.
-The rules themselves are in `AGENTS.md` §Commit and changelog subjects.
+Why a commit subject is a plain sentence with two reserved prefixes, why the changelog groups the way it does, and why a sentence is never hard-wrapped.
+The rules themselves are in `AGENTS.md` §Commit and changelog subjects, and §Language and comment policy for the wrapping rule.
 
 ## The two prefixes are kept for different reasons
 
@@ -70,6 +70,14 @@ The heading stays `## Unreleased` until then, so the file is always a valid chan
 **Rejected alternatives**: (a) keep release-time reconstruction — rejected: that is the cost above, and it grows with the interval between releases; (b) derive the section from commit subjects — rejected: the groups name what a *user* touches, so a commit's subject can name a module while its change is felt in the menu, and a generator would still need the grouping decision it cannot make; (c) keep the bullets outside the file until the release — rejected: a second place that must be merged, and the file itself then describes the wrong version.
 
 **Overturn if**: the release workflow learns to derive the section from the commits — a trailer such as `Changelog: menu: …` would put the bullet back in the commit message, and this rule goes with it.
+
+## A sentence is one line
+
+Hard wrapping is forbidden outright: a sentence runs to its end on one line however long that gets, and a new line starts only at a new sentence, a list item, or a blank comment.
+
+**Rejected alternatives**: (a) leave it to a formatter — rejected: nothing reflows prose here, so there is no enforcement point at all; (b) keep it as "prefer one line" guidance — rejected: that is the wording that failed, and a preference with no enforcement point is a suggestion; (c) allow a break above some column — rejected: a column rule recreates the artefact it exists to remove, and a sentence's width is not the author's problem to solve.
+
+**Overturn if**: a formatter starts reflowing comments and Markdown — then the shape is mechanical and the rule can defer to it.
 
 ## Overturn condition
 
