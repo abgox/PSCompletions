@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://kubernetes.io/docs/reference/kubectl/",
+    "url": "https://kubernetes.io/docs/reference/kubectl",
     "description": [
       "Kubernetes, also known as K8s, is an open source system for automating deployment, scaling, and management of containerized applications.",
       "kubectl is its command-line tool."
@@ -11,12 +11,150 @@
       "name": "annotate",
       "tip": [
         "Update the annotations on a resource"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all resources in the namespace of the specified resource types"
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Selector (field query) to filter on.",
+            "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+            "The server only supports a limited number of field queries per type."
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "If true, display the annotations for a given resource."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "If true, annotation will NOT contact api-server but run locally."
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "If true, allow annotations to be overwritten, otherwise reject annotation updates that overwrite existing annotations."
+          ]
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "If non-empty, the update will only succeed if this is the current resource-version for the object.",
+            "Only valid when specifying a single resource."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "api-resources",
       "tip": [
         "Print the supported API resources on the server"
+      ],
+      "option": [
+        {
+          "name": "--api-group",
+          "usage": [
+            "--api-group <GROUP>"
+          ],
+          "tip": [
+            "Limit to resources in the specified API group."
+          ],
+          "next": []
+        },
+        {
+          "name": "--cached",
+          "tip": [
+            "Use the cached list of resources if available."
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "Limit to resources that belong to the specified categories."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--namespaced",
+          "tip": [
+            "If false, non-namespaced resources will be returned, otherwise returning namespaced resources by default."
+          ]
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "When using the default or custom-column output format, don't print headers (default print headers)."
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "If non-empty, sort list of resources using specified field.",
+            "The field can be either 'name' or 'kind'."
+          ],
+          "next": [
+            {
+              "name": "kind",
+              "tip": [
+                "Sort by resource kind."
+              ]
+            },
+            {
+              "name": "name",
+              "tip": [
+                "Sort by resource name."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbs",
+          "usage": [
+            "--verbs <VERBS>"
+          ],
+          "tip": [
+            "Limit to resources that support the specified verbs."
+          ],
+          "repeat": 99,
+          "next": []
+        }
       ]
     },
     {
@@ -29,36 +167,508 @@
       "name": "apply",
       "tip": [
         "Apply a configuration to a resource by file name or stdin"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all resources in the namespace of the specified resource types."
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "Must be \"background\", \"orphan\", or \"foreground\".",
+            "Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController).",
+            "Defaults to background."
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "Delete dependents in the background."
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "Delete dependents before deleting the owner."
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "Leave dependents orphaned."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "If true, immediately remove resources from API and bypass graceful deletion.",
+            "Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."
+          ]
+        },
+        {
+          "name": "--force-conflicts",
+          "tip": [
+            "If true, server-side apply will force the changes against conflicts."
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "Period of time in seconds given to the resource to terminate gracefully.",
+            "Ignored if negative.",
+            "Set to 1 for immediate shutdown.",
+            "Can only be set to 0 when --force is true (force deletion)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--openapi-patch",
+          "tip": [
+            "If true, use openapi to calculate diff when the openapi presents and the resource can be found in the openapi spec.",
+            "Otherwise, fall back to use baked-in types."
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "Automatically resolve conflicts between the modified and live configuration by using values from the modified configuration"
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "Automatically delete resource objects, that do not appear in the configs and are created by either apply or create --save-config.",
+            "Should be used with either -l or --all."
+          ]
+        },
+        {
+          "name": "--prune-allowlist",
+          "usage": [
+            "--prune-allowlist <GROUP/VERSION/KIND>"
+          ],
+          "tip": [
+            "Overwrite the default allowlist with <group/version/kind> for --prune"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--server-side",
+          "tip": [
+            "If true, apply runs in the server instead of the client."
+          ]
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "If specified, apply will operate on the subresource of the requested object.",
+            "Only allowed when using --server-side."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "If true, wait for resources to be gone before returning.",
+            "This waits for finalizers."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "edit-last-applied",
+          "tip": [
+            "Edit latest last-applied-configuration annotations of a resource/object"
+          ],
+          "option": [
+            {
+              "name": "--windows-line-endings",
+              "tip": [
+                "Defaults to the line ending native to your platform."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-last-applied",
+          "tip": [
+            "Set the last-applied-configuration annotation on a live object to match the contents of a file"
+          ],
+          "option": [
+            {
+              "name": "--create-annotation",
+              "tip": [
+                "Will create 'last-applied-configuration' annotations if current objects doesn't have one"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view-last-applied",
+          "tip": [
+            "View the latest last-applied-configuration annotations of a resource/object"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "Select all resources in the namespace of the specified resource types."
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "attach",
       "tip": [
         "Attach to a running container"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "Container name.",
+            "If omitted, the kubectl.kubernetes.io/default-container annotation is used, or the first container in the pod."
+          ],
+          "next": []
+        },
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <KEYS>"
+          ],
+          "tip": [
+            "Override the key sequence for detaching a container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only print output from the remote session"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "Pass stdin to the container"
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "Stdin is a TTY"
+          ]
+        }
       ]
     },
     {
       "name": "auth",
       "tip": [
         "Inspect authorization"
+      ],
+      "next": [
+        {
+          "name": "can-i",
+          "tip": [
+            "Check whether an action is allowed"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "If true, check the specified action in all namespaces."
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "If true, prints all allowed actions."
+              ]
+            },
+            {
+              "name": "--no-headers",
+              "tip": [
+                "If true, prints allowed actions without headers"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "If true, suppress output and just return the exit code."
+              ]
+            },
+            {
+              "name": "--subresource",
+              "usage": [
+                "--subresource <SUB_RESOURCE>"
+              ],
+              "tip": [
+                "SubResource such as pod/log or deployment/scale"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "reconcile",
+          "tip": [
+            "Reconciles rules for RBAC role, role binding, cluster role, and cluster role binding objects"
+          ],
+          "option": [
+            {
+              "name": "--remove-extra-permissions",
+              "tip": [
+                "If true, removes extra permissions added to roles"
+              ]
+            },
+            {
+              "name": "--remove-extra-subjects",
+              "tip": [
+                "If true, removes extra subjects added to rolebindings"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "Experimental: Check self subject attributes"
+          ]
+        }
       ]
     },
     {
       "name": "autoscale",
       "tip": [
         "Auto-scale a deployment, replica set, stateful set, or replication controller"
+      ],
+      "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <TARGET>"
+          ],
+          "tip": [
+            "Target CPU utilization over all the pods.",
+            "A percentage (e.g. \"70%\") targets average utilization; a quantity (e.g. \"500m\") targets average value.",
+            "A value without units is treated as milliCPU (e.g. \"500\" is \"500m\")."
+          ],
+          "next": []
+        },
+        {
+          "name": "--max",
+          "usage": [
+            "--max <NUM>"
+          ],
+          "tip": [
+            "The upper limit for the number of pods that can be set by the autoscaler.",
+            "Required."
+          ],
+          "next": []
+        },
+        {
+          "name": "--memory",
+          "usage": [
+            "--memory <TARGET>"
+          ],
+          "tip": [
+            "Target memory utilization over all the pods.",
+            "A percentage (e.g. \"60%\") targets average utilization; a quantity (e.g. \"200Mi\") targets average value.",
+            "A value without units is treated as mebibytes (e.g. \"200\" is \"200Mi\")."
+          ],
+          "next": []
+        },
+        {
+          "name": "--min",
+          "usage": [
+            "--min <NUM>"
+          ],
+          "tip": [
+            "The lower limit for the number of pods that can be set by the autoscaler.",
+            "If it's not specified or negative, the server will apply a default value."
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "The name for the newly created object.",
+            "If not specified, the name of the input resource will be used."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "certificate",
       "tip": [
         "Modify certificate resources"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "Approve a certificate signing request"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Update the CSR even if it is already approved."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "Deny a certificate signing request"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "Update the CSR even if it is already denied."
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "cluster-info",
       "tip": [
         "Display cluster information"
+      ],
+      "next": [
+        {
+          "name": "dump",
+          "tip": [
+            "Dump relevant information for debugging and diagnosis"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "If true, dump all namespaces.",
+                "If true, --namespaces is ignored."
+              ]
+            },
+            {
+              "name": "--namespaces",
+              "usage": [
+                "--namespaces <NAMESPACES>"
+              ],
+              "tip": [
+                "A comma separated list of namespaces to dump."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--output-directory",
+              "usage": [
+                "--output-directory <DIR>"
+              ],
+              "tip": [
+                "Where to output the files.",
+                "If empty or '-' uses stdout, otherwise creates a directory hierarchy in that directory"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pod-running-timeout",
+              "usage": [
+                "--pod-running-timeout <DURATION>"
+              ],
+              "tip": [
+                "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -71,6 +681,262 @@
       "name": "config",
       "tip": [
         "Modify kubeconfig files"
+      ],
+      "next": [
+        {
+          "name": "current-context",
+          "tip": [
+            "Display the current-context"
+          ]
+        },
+        {
+          "name": "delete-cluster",
+          "tip": [
+            "Delete the specified cluster from the kubeconfig"
+          ]
+        },
+        {
+          "name": "delete-context",
+          "tip": [
+            "Delete the specified context from the kubeconfig"
+          ]
+        },
+        {
+          "name": "delete-user",
+          "tip": [
+            "Delete the specified user from the kubeconfig"
+          ]
+        },
+        {
+          "name": "get-clusters",
+          "tip": [
+            "Display clusters defined in the kubeconfig"
+          ]
+        },
+        {
+          "name": "get-contexts",
+          "tip": [
+            "Describe one or many contexts"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "When using the default or custom-column output format, don't print headers (default print headers)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get-users",
+          "tip": [
+            "Display users defined in the kubeconfig"
+          ]
+        },
+        {
+          "name": "rename-context",
+          "tip": [
+            "Rename a context from the kubeconfig file"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "Set an individual value in a kubeconfig file"
+          ],
+          "option": [
+            {
+              "name": "--set-raw-bytes",
+              "tip": [
+                "When writing a []byte PROPERTY_VALUE, write the given string directly without base64 decoding."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-cluster",
+          "tip": [
+            "Set a cluster entry in kubeconfig"
+          ],
+          "option": [
+            {
+              "name": "--embed-certs",
+              "tip": [
+                "embed-certs for the cluster entry in kubeconfig"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-context",
+          "tip": [
+            "Set a context entry in kubeconfig"
+          ],
+          "option": [
+            {
+              "name": "--current",
+              "tip": [
+                "Modify the current context"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-credentials",
+          "tip": [
+            "Set a user entry in kubeconfig"
+          ],
+          "option": [
+            {
+              "name": "--auth-provider",
+              "usage": [
+                "--auth-provider <NAME>"
+              ],
+              "tip": [
+                "Auth provider for the user entry in kubeconfig"
+              ],
+              "next": []
+            },
+            {
+              "name": "--auth-provider-arg",
+              "usage": [
+                "--auth-provider-arg <KEY=VALUE>"
+              ],
+              "tip": [
+                "'key=value' arguments for the auth provider"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--embed-certs",
+              "tip": [
+                "Embed client cert/key for the user entry in kubeconfig"
+              ]
+            },
+            {
+              "name": "--exec-api-version",
+              "usage": [
+                "--exec-api-version <VERSION>"
+              ],
+              "tip": [
+                "API version of the exec credential plugin for the user entry in kubeconfig"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exec-arg",
+              "usage": [
+                "--exec-arg <ARG>"
+              ],
+              "tip": [
+                "New arguments for the exec credential plugin command for the user entry in kubeconfig"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-command",
+              "usage": [
+                "--exec-command <COMMAND>"
+              ],
+              "tip": [
+                "Command for the exec credential plugin for the user entry in kubeconfig"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exec-env",
+              "usage": [
+                "--exec-env <KEY=VALUE>"
+              ],
+              "tip": [
+                "'key=value' environment values for the exec credential plugin"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-interactive-mode",
+              "usage": [
+                "--exec-interactive-mode <MODE>"
+              ],
+              "tip": [
+                "InteractiveMode of the exec credentials plugin for the user entry in kubeconfig"
+              ],
+              "next": [
+                {
+                  "name": "Always",
+                  "tip": [
+                    "Always use interactive mode."
+                  ]
+                },
+                {
+                  "name": "IfAvailable",
+                  "tip": [
+                    "Use interactive mode when available."
+                  ]
+                },
+                {
+                  "name": "Never",
+                  "tip": [
+                    "Never use interactive mode."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--exec-provide-cluster-info",
+              "tip": [
+                "ProvideClusterInfo of the exec credentials plugin for the user entry in kubeconfig"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "Unset an individual value in a kubeconfig file"
+          ]
+        },
+        {
+          "name": "use-context",
+          "tip": [
+            "Set the current-context in a kubeconfig file"
+          ]
+        },
+        {
+          "name": "view",
+          "tip": [
+            "Display merged kubeconfig settings or a specified kubeconfig file"
+          ],
+          "option": [
+            {
+              "name": "--flatten",
+              "tip": [
+                "Flatten the resulting kubeconfig file into self-contained output (useful for creating portable kubeconfig files)"
+              ]
+            },
+            {
+              "name": "--merge",
+              "tip": [
+                "Merge the full hierarchy of kubeconfig files"
+              ]
+            },
+            {
+              "name": "--minify",
+              "tip": [
+                "Remove all information not used by current-context from the output"
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "Display raw byte data and sensitive data"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -89,6 +955,40 @@
       "name": "cp",
       "tip": [
         "Copy files and directories to and from containers"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "Container name.",
+            "If omitted, the kubectl.kubernetes.io/default-container annotation is used, or the first container in the pod."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-preserve",
+          "tip": [
+            "The copied file/directory's ownership and permissions will not be preserved in the container"
+          ]
+        },
+        {
+          "name": "--retries",
+          "usage": [
+            "--retries <NUM>"
+          ],
+          "tip": [
+            "Set number of retries to complete a copy operation from a container.",
+            "Specify 0 to disable or any negative value for infinite retrying.",
+            "The default is 0 (no retry)."
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -106,72 +1006,2037 @@
           "cmd": "create -f registry.yaml --edit -o json",
           "desc": "Edit the data in registry.yaml in JSON then create the resource using the edited data"
         }
+      ],
+      "option": [
+        {
+          "name": "--edit",
+          "tip": [
+            "Edit the API resource before creating"
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "Raw URI to POST to the server.",
+            "Uses the transport specified by the kubeconfig file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--windows-line-endings",
+          "tip": [
+            "Only relevant if --edit=true.",
+            "Defaults to the line ending native to your platform."
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "clusterrole",
+          "tip": [
+            "Create a cluster role"
+          ],
+          "option": [
+            {
+              "name": "--aggregation-rule",
+              "usage": [
+                "--aggregation-rule <SELECTOR>"
+              ],
+              "tip": [
+                "An aggregation label selector for combining ClusterRoles."
+              ],
+              "next": []
+            },
+            {
+              "name": "--non-resource-url",
+              "usage": [
+                "--non-resource-url <URL>"
+              ],
+              "tip": [
+                "A partial url that user should have access to."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <RESOURCE>"
+              ],
+              "tip": [
+                "Resource that the rule applies to"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource-name",
+              "usage": [
+                "--resource-name <NAME>"
+              ],
+              "tip": [
+                "Resource in the white list that the rule applies to, repeat this flag for multiple items"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--verb",
+              "usage": [
+                "--verb <VERB>"
+              ],
+              "tip": [
+                "Verb that applies to the resources contained in the rule"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "clusterrolebinding",
+          "tip": [
+            "Create a cluster role binding for a particular cluster role"
+          ],
+          "option": [
+            {
+              "name": "--clusterrole",
+              "usage": [
+                "--clusterrole <NAME>"
+              ],
+              "tip": [
+                "ClusterRole this ClusterRoleBinding should reference"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "Groups to bind to the clusterrole.",
+                "The flag can be repeated to add multiple groups."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <NAMESPACE:NAME>"
+              ],
+              "tip": [
+                "Service accounts to bind to the clusterrole, in the format <namespace>:<name>.",
+                "The flag can be repeated to add multiple service accounts."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "configmap",
+          "tip": [
+            "Create a config map from a local file, directory or literal value"
+          ],
+          "option": [
+            {
+              "name": "--append-hash",
+              "tip": [
+                "Append a hash of the configmap to its name."
+              ]
+            },
+            {
+              "name": "--from-env-file",
+              "usage": [
+                "--from-env-file <FILE>"
+              ],
+              "tip": [
+                "Specify the path to a file to read lines of key=val pairs to create a configmap."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from-file",
+              "usage": [
+                "--from-file <FILE>"
+              ],
+              "tip": [
+                "Key file can be specified using its file path, in which case the file basename will be used as the key.",
+                "Optionally specify a key and file path, in which case the given key is used.",
+                "Specifying a directory iterates each named file whose basename is a valid key."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from-literal",
+              "usage": [
+                "--from-literal <KEY=VALUE>"
+              ],
+              "tip": [
+                "Specify a key and literal value to insert in configmap (i.e. mykey=somevalue)"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "cronjob",
+          "tip": [
+            "Create a cron job with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "Image name to run."
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart",
+              "usage": [
+                "--restart <POLICY>"
+              ],
+              "tip": [
+                "Job's restart policy.",
+                "Supported values: OnFailure, Never."
+              ],
+              "next": [
+                {
+                  "name": "Never",
+                  "tip": [
+                    "Never restart."
+                  ]
+                },
+                {
+                  "name": "OnFailure",
+                  "tip": [
+                    "Restart only on failure."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--schedule",
+              "usage": [
+                "--schedule <CRON>"
+              ],
+              "tip": [
+                "A schedule in the Cron format the job should be run with."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deployment",
+          "tip": [
+            "Create a deployment with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "Image names to run.",
+                "A deployment can have multiple images set for multi-container pod."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "The containerPort that this deployment exposes."
+              ],
+              "next": []
+            },
+            {
+              "name": "--replicas",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replicas <NUM>"
+              ],
+              "tip": [
+                "Number of replicas to create.",
+                "Default is 1."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ingress",
+          "tip": [
+            "Create an ingress with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION=VALUE>"
+              ],
+              "tip": [
+                "Annotation to insert in the ingress object, in the format annotation=value"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--class",
+              "usage": [
+                "--class <CLASS>"
+              ],
+              "tip": [
+                "Ingress Class to be used"
+              ],
+              "next": []
+            },
+            {
+              "name": "--default-backend",
+              "usage": [
+                "--default-backend <SVCNAME:PORT>"
+              ],
+              "tip": [
+                "Default service for backend, in format of svcname:port"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rule",
+              "usage": [
+                "--rule <RULE>"
+              ],
+              "tip": [
+                "Rule in format host/path=service:port[,tls=secretname].",
+                "Paths containing the leading character '*' are considered pathType=Prefix.",
+                "tls argument is optional."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "job",
+          "tip": [
+            "Create a job with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <RESOURCE>"
+              ],
+              "tip": [
+                "The name of the resource to create a Job from (only CronJob is supported)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "Image name to run."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "namespace",
+          "tip": [
+            "Create a namespace with the specified name"
+          ]
+        },
+        {
+          "name": "poddisruptionbudget",
+          "tip": [
+            "Create a pod disruption budget with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--max-unavailable",
+              "usage": [
+                "--max-unavailable <VALUE>"
+              ],
+              "tip": [
+                "The maximum number or percentage of unavailable pods this budget requires."
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-available",
+              "usage": [
+                "--min-available <VALUE>"
+              ],
+              "tip": [
+                "The minimum number or percentage of available pods this budget requires."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "priorityclass",
+          "tip": [
+            "Create a priority class with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <TEXT>"
+              ],
+              "tip": [
+                "description is an arbitrary string that usually provides guidelines on when this priority class should be used."
+              ],
+              "next": []
+            },
+            {
+              "name": "--global-default",
+              "tip": [
+                "global-default specifies whether this PriorityClass should be considered as the default priority."
+              ]
+            },
+            {
+              "name": "--preemption-policy",
+              "usage": [
+                "--preemption-policy <POLICY>"
+              ],
+              "tip": [
+                "preemption-policy is the policy for preempting pods with lower priority."
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <VALUE>"
+              ],
+              "tip": [
+                "the value of this priority class."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "quota",
+          "tip": [
+            "Create a quota with the specified name"
+          ],
+          "option": [
+            {
+              "name": "--hard",
+              "usage": [
+                "--hard <RESOURCE=QUANTITY>"
+              ],
+              "tip": [
+                "A comma-delimited set of resource=quantity pairs that define a hard limit."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--scopes",
+              "usage": [
+                "--scopes <SCOPES>"
+              ],
+              "tip": [
+                "A comma-delimited set of quota scopes that must all match each object tracked by the quota."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "role",
+          "tip": [
+            "Create a role with single rule"
+          ],
+          "option": [
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <RESOURCE>"
+              ],
+              "tip": [
+                "Resource that the rule applies to"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource-name",
+              "usage": [
+                "--resource-name <NAME>"
+              ],
+              "tip": [
+                "Resource in the white list that the rule applies to, repeat this flag for multiple items"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--verb",
+              "usage": [
+                "--verb <VERB>"
+              ],
+              "tip": [
+                "Verb that applies to the resources contained in the rule"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rolebinding",
+          "tip": [
+            "Create a role binding for a particular role or cluster role"
+          ],
+          "option": [
+            {
+              "name": "--clusterrole",
+              "usage": [
+                "--clusterrole <NAME>"
+              ],
+              "tip": [
+                "ClusterRole this RoleBinding should reference"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "Groups to bind to the role.",
+                "The flag can be repeated to add multiple groups."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--role",
+              "usage": [
+                "--role <NAME>"
+              ],
+              "tip": [
+                "Role this RoleBinding should reference"
+              ],
+              "next": []
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <NAMESPACE:NAME>"
+              ],
+              "tip": [
+                "Service accounts to bind to the role, in the format <namespace>:<name>.",
+                "The flag can be repeated to add multiple service accounts."
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "secret",
+          "tip": [
+            "Create a secret using a specified subcommand"
+          ],
+          "next": [
+            {
+              "name": "docker-registry",
+              "tip": [
+                "Create a secret for use with a Docker registry"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "Append a hash of the secret to its name."
+                  ]
+                },
+                {
+                  "name": "--docker-email",
+                  "usage": [
+                    "--docker-email <EMAIL>"
+                  ],
+                  "tip": [
+                    "Email for Docker registry"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-password",
+                  "usage": [
+                    "--docker-password <PASSWORD>"
+                  ],
+                  "tip": [
+                    "Password for Docker registry authentication"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-server",
+                  "usage": [
+                    "--docker-server <URL>"
+                  ],
+                  "tip": [
+                    "Server location for Docker registry"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-username",
+                  "usage": [
+                    "--docker-username <USERNAME>"
+                  ],
+                  "tip": [
+                    "Username for Docker registry authentication"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <FILE>"
+                  ],
+                  "tip": [
+                    "Key files can be specified using their file path, in which case a default name of .dockerconfigjson will be given to them.",
+                    "Optionally specify a name and file path, in which case the given name is used.",
+                    "Specifying a directory iterates each named file that is a valid secret key.",
+                    "For this command, the key should always be .dockerconfigjson."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "generic",
+              "tip": [
+                "Create a secret from a local file, directory, or literal value"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "Append a hash of the secret to its name."
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <FILE>"
+                  ],
+                  "tip": [
+                    "Specify the path to a file to read lines of key=val pairs to create a secret."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <FILE>"
+                  ],
+                  "tip": [
+                    "Key files can be specified using their file path, in which case a default name will be given to them.",
+                    "Optionally specify a name and file path, in which case the given name is used.",
+                    "Specifying a directory iterates each named file that is a valid secret key."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <KEY=VALUE>"
+                  ],
+                  "tip": [
+                    "Specify a key and literal value to insert in secret (i.e. mykey=somevalue)"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "usage": [
+                    "--type <TYPE>"
+                  ],
+                  "tip": [
+                    "The type of secret to create"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "tls",
+              "tip": [
+                "Create a TLS secret"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "Append a hash of the secret to its name."
+                  ]
+                },
+                {
+                  "name": "--cert",
+                  "usage": [
+                    "--cert <FILE>"
+                  ],
+                  "tip": [
+                    "Path to PEM encoded public key certificate."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--key",
+                  "usage": [
+                    "--key <FILE>"
+                  ],
+                  "tip": [
+                    "Path to private key associated with given certificate."
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "service",
+          "tip": [
+            "Create a service using a specified subcommand"
+          ],
+          "next": [
+            {
+              "name": "clusterip",
+              "tip": [
+                "Create a ClusterIP service"
+              ],
+              "option": [
+                {
+                  "name": "--clusterip",
+                  "usage": [
+                    "--clusterip <IP>"
+                  ],
+                  "tip": [
+                    "Assign your own ClusterIP or set to 'None' for a 'headless' service (no loadbalancing)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "Port pairs can be specified as '<port>:<targetPort>'."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "externalname",
+              "tip": [
+                "Create an ExternalName service"
+              ],
+              "option": [
+                {
+                  "name": "--external-name",
+                  "usage": [
+                    "--external-name <NAME>"
+                  ],
+                  "tip": [
+                    "External name of service"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "Port pairs can be specified as '<port>:<targetPort>'."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "loadbalancer",
+              "tip": [
+                "Create a LoadBalancer service"
+              ],
+              "option": [
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "Port pairs can be specified as '<port>:<targetPort>'."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "nodeport",
+              "tip": [
+                "Create a NodePort service"
+              ],
+              "option": [
+                {
+                  "name": "--node-port",
+                  "usage": [
+                    "--node-port <PORT>"
+                  ],
+                  "tip": [
+                    "Port used to expose the service on each node in a cluster."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "Port pairs can be specified as '<port>:<targetPort>'."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "serviceaccount",
+          "tip": [
+            "Create a service account with the specified name"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "Request a service account token"
+          ],
+          "option": [
+            {
+              "name": "--audience",
+              "usage": [
+                "--audience <AUDIENCE>"
+              ],
+              "tip": [
+                "Audience of the requested token.",
+                "If unset, defaults to requesting a token for use with the Kubernetes API server.",
+                "May be repeated to request a token valid for multiple audiences."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--bound-object-kind",
+              "usage": [
+                "--bound-object-kind <KIND>"
+              ],
+              "tip": [
+                "Kind of an object to bind the token to.",
+                "Supported kinds are Node, Pod, Secret.",
+                "If set, --bound-object-name must be provided."
+              ],
+              "next": [
+                {
+                  "name": "Node",
+                  "tip": [
+                    "Bind to a Node."
+                  ]
+                },
+                {
+                  "name": "Pod",
+                  "tip": [
+                    "Bind to a Pod."
+                  ]
+                },
+                {
+                  "name": "Secret",
+                  "tip": [
+                    "Bind to a Secret."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--bound-object-name",
+              "usage": [
+                "--bound-object-name <NAME>"
+              ],
+              "tip": [
+                "Name of an object to bind the token to.",
+                "The token will expire when the object is deleted.",
+                "Requires --bound-object-kind."
+              ],
+              "next": []
+            },
+            {
+              "name": "--bound-object-uid",
+              "usage": [
+                "--bound-object-uid <UID>"
+              ],
+              "tip": [
+                "UID of an object to bind the token to.",
+                "Requires --bound-object-kind and --bound-object-name.",
+                "If unset, the UID of the existing object is used."
+              ],
+              "next": []
+            },
+            {
+              "name": "--duration",
+              "usage": [
+                "--duration <DURATION>"
+              ],
+              "tip": [
+                "Requested lifetime of the issued token.",
+                "If not set or if set to 0, the lifetime will be determined by the server automatically.",
+                "The server may return a token with a longer or shorter lifetime."
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "debug",
       "tip": [
         "Create debugging sessions for troubleshooting workloads and nodes"
+      ],
+      "option": [
+        {
+          "name": "--arguments-only",
+          "tip": [
+            "If specified, everything after -- will be passed to the new container as Args instead of Command."
+          ]
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "If true, wait for the container to start running, and then attach as if 'kubectl attach ...' were called.",
+            "Default false, unless '-i/--stdin' is set, in which case the default is true."
+          ]
+        },
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "Container name to use for debug container."
+          ],
+          "next": []
+        },
+        {
+          "name": "--copy-to",
+          "usage": [
+            "--copy-to <NAME>"
+          ],
+          "tip": [
+            "Create a copy of the target Pod with this name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--custom",
+          "usage": [
+            "--custom <FILE>"
+          ],
+          "tip": [
+            "Path to a JSON or YAML file containing a partial container spec to customize built-in debug profiles."
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <KEY=VALUE>"
+          ],
+          "tip": [
+            "Environment variables to set in the container."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--image",
+          "usage": [
+            "--image <IMAGE>"
+          ],
+          "tip": [
+            "Container image to use for debug container."
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-pull-policy",
+          "usage": [
+            "--image-pull-policy <POLICY>"
+          ],
+          "tip": [
+            "The image pull policy for the container.",
+            "If left empty, this value will not be specified by the client and defaulted by the server."
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "Always pull the image."
+              ]
+            },
+            {
+              "name": "IfNotPresent",
+              "tip": [
+                "Pull only when the image is not present."
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "Never pull the image."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--keep-annotations",
+          "tip": [
+            "If true, keep the original pod annotations.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--keep-init-containers",
+          "tip": [
+            "Run the init containers for the pod.",
+            "Defaults to true.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--keep-labels",
+          "tip": [
+            "If true, keep the original pod labels.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--keep-liveness",
+          "tip": [
+            "If true, keep the original pod liveness probes.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--keep-readiness",
+          "tip": [
+            "If true, keep the original pod readiness probes.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--keep-startup",
+          "tip": [
+            "If true, keep the original startup probes.",
+            "(This flag only works when used with '--copy-to')"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "If true, suppress informational messages."
+          ]
+        },
+        {
+          "name": "--replace",
+          "tip": [
+            "When used with '--copy-to', delete the original Pod."
+          ]
+        },
+        {
+          "name": "--same-node",
+          "tip": [
+            "When used with '--copy-to', schedule the copy of target Pod on the same node."
+          ]
+        },
+        {
+          "name": "--set-image",
+          "usage": [
+            "--set-image <NAME=IMAGE>"
+          ],
+          "tip": [
+            "When used with '--copy-to', a list of name=image pairs for changing container images, similar to how 'kubectl set image' works."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--share-processes",
+          "tip": [
+            "When used with '--copy-to', enable process namespace sharing in the copy."
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "Keep stdin open on the container(s) in the pod, even if nothing is attached."
+          ]
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <NAME>"
+          ],
+          "tip": [
+            "When using an ephemeral container, target processes in this container name."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "Allocate a TTY for the debugging container."
+          ]
+        }
       ]
     },
     {
       "name": "delete",
       "tip": [
         "Delete resources by file names, stdin, resources and names, or by resources and label selector"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Delete all resources, in the namespace of the specified resource types."
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "Must be \"background\", \"orphan\", or \"foreground\".",
+            "Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController).",
+            "Defaults to background."
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "Delete dependents in the background."
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "Delete dependents before deleting the owner."
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "Leave dependents orphaned."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Selector (field query) to filter on.",
+            "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+            "The server only supports a limited number of field queries per type."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "If true, immediately remove resources from API and bypass graceful deletion.",
+            "Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "Period of time in seconds given to the resource to terminate gracefully.",
+            "Ignored if negative.",
+            "Set to 1 for immediate shutdown.",
+            "Can only be set to 0 when --force is true (force deletion)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-not-found",
+          "tip": [
+            "If set to true, suppresses NotFound error for specific objects that do not exist.",
+            "Using this flag with commands that query for collections of resources has no effect when no resources are found.",
+            "Defaults to \"true\" when --all is specified."
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "If true, delete resource only when user confirms."
+          ]
+        },
+        {
+          "name": "--now",
+          "tip": [
+            "If true, resources are signaled for immediate shutdown (same as --grace-period=1)."
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "Raw URI to DELETE to the server.",
+            "Uses the transport specified by the kubeconfig file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "If true, wait for resources to be gone before returning.",
+            "This waits for finalizers."
+          ]
+        }
       ]
     },
     {
       "name": "describe",
       "tip": [
         "Show details of a specific resource or group of resources"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "Return large lists in chunks rather than all at once.",
+            "Pass 0 to disable."
+          ],
+          "next": []
+        },
+        {
+          "name": "--show-events",
+          "tip": [
+            "If true, display events related to the described object.",
+            "Defaults to true for a single object, false for multiple objects and prefix matching."
+          ]
+        }
       ]
     },
     {
       "name": "diff",
       "tip": [
         "Diff the live version against a would-be applied version"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <NUM>"
+          ],
+          "tip": [
+            "Number of objects to process in parallel when diffing against the live version.",
+            "Larger number = faster, but more memory, I/O and CPU over that shorter period of time."
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-conflicts",
+          "tip": [
+            "If true, server-side apply will force the changes against conflicts."
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "Include resources that would be deleted by pruning.",
+            "Can be used with -l and default shows all resources would be pruned"
+          ]
+        },
+        {
+          "name": "--prune-allowlist",
+          "usage": [
+            "--prune-allowlist <GROUP/VERSION/KIND>"
+          ],
+          "tip": [
+            "Overwrite the default allowlist with <group/version/kind> for --prune"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--server-side",
+          "tip": [
+            "If true, apply runs in the server instead of the client."
+          ]
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "If true, do not mask secret values in the diff."
+          ]
+        }
       ]
     },
     {
       "name": "drain",
       "tip": [
         "Drain node in preparation for maintenance"
+      ],
+      "option": [
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "Return large lists in chunks rather than all at once.",
+            "Pass 0 to disable."
+          ],
+          "next": []
+        },
+        {
+          "name": "--delete-emptydir-data",
+          "tip": [
+            "Continue even if there are pods using emptyDir (local data that will be deleted when the node is drained)."
+          ]
+        },
+        {
+          "name": "--disable-eviction",
+          "tip": [
+            "Force drain to use delete, even if eviction is supported.",
+            "This will bypass checking PodDisruptionBudgets, use with caution."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "Continue even if there are pods that do not declare a controller."
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "Period of time in seconds given to each pod to terminate gracefully.",
+            "If negative, the default value specified in the pod will be used."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-daemonsets",
+          "tip": [
+            "Ignore DaemonSet-managed pods."
+          ]
+        },
+        {
+          "name": "--pod-selector",
+          "usage": [
+            "--pod-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Label selector to filter pods on the node"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-wait-for-delete-timeout",
+          "usage": [
+            "--skip-wait-for-delete-timeout <SECONDS>"
+          ],
+          "tip": [
+            "If pod DeletionTimestamp older than N seconds, skip waiting for the pod.",
+            "Seconds must be greater than 0 to skip."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up, zero means infinite"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "edit",
       "tip": [
         "Edit a resource on the server"
+      ],
+      "option": [
+        {
+          "name": "--output-patch",
+          "tip": [
+            "Output the patch if the resource is edited."
+          ]
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "If specified, the operation will operate on the subresource of the requested object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--windows-line-endings",
+          "tip": [
+            "Defaults to the line ending native to your platform."
+          ]
+        }
       ]
     },
     {
       "name": "events",
       "tip": [
         "List events"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "Return large lists in chunks rather than all at once.",
+            "Pass 0 to disable."
+          ],
+          "next": []
+        },
+        {
+          "name": "--for",
+          "usage": [
+            "--for <RESOURCE>"
+          ],
+          "tip": [
+            "Filter events to only those pertaining to the specified resource."
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "When using the default output format, don't print headers."
+          ]
+        },
+        {
+          "name": "--types",
+          "usage": [
+            "--types <TYPES>"
+          ],
+          "tip": [
+            "Output only events of given types."
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "Normal",
+              "tip": [
+                "Normal events."
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "Warning events."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "After listing the requested events, watch for more events."
+          ]
+        }
       ]
     },
     {
       "name": "exec",
       "tip": [
         "Execute a command in a container"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "Container name.",
+            "If omitted, the kubectl.kubernetes.io/default-container annotation is used, or the first container in the pod."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "Only print output from the remote session"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "Pass stdin to the container"
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "Stdin is a TTY"
+          ]
+        }
       ]
     },
     {
       "name": "explain",
       "tip": [
         "Get documentation for a resource"
+      ],
+      "option": [
+        {
+          "name": "--api-version",
+          "usage": [
+            "--api-version <VERSION>"
+          ],
+          "tip": [
+            "Get different explanations for particular API version (API group/version)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-depth",
+          "usage": [
+            "--max-depth <DEPTH>"
+          ],
+          "tip": [
+            "Maximum recursion depth when printing nested fields with --recursive.",
+            "0 means no limit.",
+            "Requires --recursive when greater than 0."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "expose",
       "tip": [
         "Take a replication controller, service, deployment or pod and expose it as a new Kubernetes service"
+      ],
+      "option": [
+        {
+          "name": "--cluster-ip",
+          "usage": [
+            "--cluster-ip <IP>"
+          ],
+          "tip": [
+            "ClusterIP to be assigned to the service.",
+            "Leave empty to auto-allocate, or set to 'None' to create a headless service."
+          ],
+          "next": []
+        },
+        {
+          "name": "--external-ip",
+          "usage": [
+            "--external-ip <IP>"
+          ],
+          "tip": [
+            "Additional external IP address (not managed by Kubernetes) to accept for the service.",
+            "If this IP is routed to a node, the service can be accessed by this IP in addition to its generated service IP."
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-balancer-ip",
+          "usage": [
+            "--load-balancer-ip <IP>"
+          ],
+          "tip": [
+            "IP to assign to the LoadBalancer.",
+            "If empty, an ephemeral IP will be created and used (cloud-provider specific)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "The name for the newly created object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--override-type",
+          "usage": [
+            "--override-type <TYPE>"
+          ],
+          "tip": [
+            "The method used to override the generated object: json, merge, or strategic."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON patch."
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON merge patch."
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "Strategic merge patch."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--overrides",
+          "usage": [
+            "--overrides <JSON>"
+          ],
+          "tip": [
+            "An inline JSON override for the generated object.",
+            "If this is non-empty, it is used to override the generated object.",
+            "Requires that the object supply a valid apiVersion field."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "The port that the service should serve on.",
+            "Copied from the resource being exposed, if unspecified"
+          ],
+          "next": []
+        },
+        {
+          "name": "--protocol",
+          "usage": [
+            "--protocol <PROTOCOL>"
+          ],
+          "tip": [
+            "The network protocol for the service to be created.",
+            "Default is 'TCP'."
+          ],
+          "next": [
+            {
+              "name": "SCTP"
+            },
+            {
+              "name": "TCP"
+            },
+            {
+              "name": "UDP"
+            }
+          ]
+        },
+        {
+          "name": "--session-affinity",
+          "usage": [
+            "--session-affinity <AFFINITY>"
+          ],
+          "tip": [
+            "If non-empty, set the session affinity for the service to this; legal values: 'None', 'ClientIP'"
+          ],
+          "next": [
+            {
+              "name": "ClientIP",
+              "tip": [
+                "Affinity based on client IP."
+              ]
+            },
+            {
+              "name": "None",
+              "tip": [
+                "No session affinity."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--target-port",
+          "usage": [
+            "--target-port <PORT>"
+          ],
+          "tip": [
+            "Name or number for the port on the container that the service should direct traffic to.",
+            "Optional."
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "Type for this service: ClusterIP, NodePort, LoadBalancer, or ExternalName.",
+            "Default is 'ClusterIP'."
+          ],
+          "next": [
+            {
+              "name": "ClusterIP"
+            },
+            {
+              "name": "ExternalName"
+            },
+            {
+              "name": "LoadBalancer"
+            },
+            {
+              "name": "NodePort"
+            }
+          ]
+        }
       ]
     },
     {
       "name": "get",
       "tip": [
         "Display one or many resources"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "Return large lists in chunks rather than all at once.",
+            "Pass 0 to disable."
+          ],
+          "next": []
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Selector (field query) to filter on.",
+            "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+            "The server only supports a limited number of field queries per type."
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-not-found",
+          "tip": [
+            "If set to true, suppresses NotFound error for specific objects that do not exist.",
+            "Using this flag with commands that query for collections of resources has no effect when no resources are found."
+          ]
+        },
+        {
+          "name": "--label-columns",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --label-columns <LABELS>"
+          ],
+          "tip": [
+            "Accepts a comma separated list of labels that are going to be presented as columns.",
+            "Names are case-sensitive.",
+            "You can also use multiple flag options like -L label1 -L label2..."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "When using the default or custom-column output format, don't print headers (default print headers)."
+          ]
+        },
+        {
+          "name": "--output-watch-events",
+          "tip": [
+            "Output watch event objects when --watch or --watch-only is used.",
+            "Existing objects are output as initial ADDED events."
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "Raw URI to request from the server.",
+            "Uses the transport specified by the kubeconfig file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--server-print",
+          "tip": [
+            "If true, have the server return the appropriate table output.",
+            "Supports extension APIs and CRDs."
+          ]
+        },
+        {
+          "name": "--show-kind",
+          "tip": [
+            "If present, list the resource type for the requested object(s)."
+          ]
+        },
+        {
+          "name": "--show-labels",
+          "tip": [
+            "When printing, show all labels as the last column (default hide labels column)"
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "If non-empty, sort list types using this field specification.",
+            "The field specification is expressed as a JSONPath expression (e.g. '{.metadata.name}').",
+            "The field in the API resource specified by this JSONPath expression must be an integer or a string."
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "If specified, gets the subresource of the requested object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "After listing/getting the requested object, watch for changes."
+          ]
+        },
+        {
+          "name": "--watch-only",
+          "tip": [
+            "Watch for changes to the requested object(s), without listing/getting first."
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "Help about any command"
       ]
     },
     {
@@ -184,6 +3049,136 @@
           "name": "set",
           "tip": [
             "Set a kuberc preference"
+          ],
+          "option": [
+            {
+              "name": "--allowlist-entry",
+              "usage": [
+                "--allowlist-entry <FIELD=VALUE>"
+              ],
+              "tip": [
+                "Allowlist entry the form field=value (can be specified multiple times)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--appendarg",
+              "usage": [
+                "--appendarg <ARG>"
+              ],
+              "tip": [
+                "Argument to append to the command (can be specified multiple times, for aliases only)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--command",
+              "usage": [
+                "--command <COMMAND>"
+              ],
+              "tip": [
+                "Command to configure (e.g., 'get', 'create', 'set env')"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "Alias name (required for --section=aliases)"
+              ],
+              "next": []
+            },
+            {
+              "name": "--option",
+              "usage": [
+                "--option <FLAG=VALUE>"
+              ],
+              "tip": [
+                "Flag option in the form flag=value (can be specified multiple times)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "Allow overwriting existing entries"
+              ]
+            },
+            {
+              "name": "--policy",
+              "usage": [
+                "--policy <POLICY>"
+              ],
+              "tip": [
+                "Plugin policy to use for exec credential plugins, must be one of 'AllowAll', 'DenyAll' or 'Allowlist'"
+              ],
+              "next": [
+                {
+                  "name": "AllowAll",
+                  "tip": [
+                    "Allow all plugins."
+                  ]
+                },
+                {
+                  "name": "Allowlist",
+                  "tip": [
+                    "Allow only allowlisted plugins."
+                  ]
+                },
+                {
+                  "name": "DenyAll",
+                  "tip": [
+                    "Deny all plugins."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--prependarg",
+              "usage": [
+                "--prependarg <ARG>"
+              ],
+              "tip": [
+                "Argument to prepend to the command (can be specified multiple times, for aliases only)"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--section",
+              "usage": [
+                "--section <SECTION>"
+              ],
+              "tip": [
+                "Section to modify: 'defaults', 'aliases', or 'credentialplugin'"
+              ],
+              "next": [
+                {
+                  "name": "aliases",
+                  "tip": [
+                    "Command aliases."
+                  ]
+                },
+                {
+                  "name": "credentialplugin",
+                  "tip": [
+                    "Credential plugin policy."
+                  ]
+                },
+                {
+                  "name": "defaults",
+                  "tip": [
+                    "Default preferences."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
@@ -198,18 +3193,335 @@
       "name": "kustomize",
       "tip": [
         "Build a kustomization target from a directory or URL"
+      ],
+      "option": [
+        {
+          "name": "--as-current-user",
+          "tip": [
+            "use the uid and gid of the command executor to run the function in the container"
+          ]
+        },
+        {
+          "name": "--enable-alpha-plugins",
+          "tip": [
+            "enable kustomize plugins"
+          ]
+        },
+        {
+          "name": "--enable-helm",
+          "tip": [
+            "Enable use of the Helm chart inflator generator."
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <KEY=VALUE>"
+          ],
+          "tip": [
+            "a list of environment variables to be used by functions"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSIONS>"
+          ],
+          "tip": [
+            "Kubernetes api versions used by Helm for Capabilities.APIVersions"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-command",
+          "usage": [
+            "--helm-command <COMMAND>"
+          ],
+          "tip": [
+            "helm command (path to executable)"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-debug",
+          "tip": [
+            "Enable debug output from the Helm chart inflator generator."
+          ]
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Kubernetes version used by Helm for Capabilities.KubeVersion"
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-restrictor",
+          "usage": [
+            "--load-restrictor <RESTRICTOR>"
+          ],
+          "tip": [
+            "if set to 'LoadRestrictionsNone', local kustomizations may load files from outside their root.",
+            "This does, however, break the relocatability of the kustomization."
+          ],
+          "next": [
+            {
+              "name": "LoadRestrictionsNone",
+              "tip": [
+                "Allow loads from outside the root."
+              ]
+            },
+            {
+              "name": "LoadRestrictionsRootOnly",
+              "tip": [
+                "Restrict loads to the kustomization root."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mount",
+          "usage": [
+            "--mount <STORAGE>"
+          ],
+          "tip": [
+            "a list of storage options read from the filesystem"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--network",
+          "tip": [
+            "enable network access for functions that declare it"
+          ]
+        },
+        {
+          "name": "--network-name",
+          "usage": [
+            "--network-name <NAME>"
+          ],
+          "tip": [
+            "the docker network to run the container in"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "label",
       "tip": [
         "Update the labels on a resource"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all resources in the namespace of the specified resource types."
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Selector (field query) to filter on.",
+            "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+            "The server only supports a limited number of field queries per type."
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "If true, display the labels for a given resource."
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "If true, label will NOT contact api-server but run locally."
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "If true, allow labels to be overwritten, otherwise reject label updates that overwrite existing labels."
+          ]
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "If non-empty, the update will only succeed if this is the current resource-version for the object.",
+            "Only valid when specifying a single resource."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "logs",
       "tip": [
         "Print the logs for a container in a pod"
+      ],
+      "option": [
+        {
+          "name": "--all-containers",
+          "tip": [
+            "Get all containers' logs in the pod(s)."
+          ]
+        },
+        {
+          "name": "--all-pods",
+          "tip": [
+            "Get logs from all pod(s).",
+            "Sets prefix to true."
+          ]
+        },
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "Print the logs of this container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "If watching / following pod logs, allow any errors that occur to be non-fatal"
+          ]
+        },
+        {
+          "name": "--insecure-skip-tls-verify-backend",
+          "tip": [
+            "Skip verifying the identity of the kubelet that logs are requested from.",
+            "In theory, an attacker could provide invalid log content back.",
+            "Use this if your kubelet serving certificates have expired."
+          ]
+        },
+        {
+          "name": "--limit-bytes",
+          "usage": [
+            "--limit-bytes <BYTES>"
+          ],
+          "tip": [
+            "Maximum bytes of logs to return.",
+            "Defaults to no limit."
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-log-requests",
+          "usage": [
+            "--max-log-requests <NUM>"
+          ],
+          "tip": [
+            "Specify maximum number of concurrent logs to follow when using by a selector.",
+            "Defaults to 5."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "tip": [
+            "Prefix each log line with the log source (pod name and container name)"
+          ]
+        },
+        {
+          "name": "--previous",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --previous"
+          ],
+          "tip": [
+            "If true, print the logs for the previous instance of the container in a pod if it exists."
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <DURATION>"
+          ],
+          "tip": [
+            "Only return logs newer than a relative duration like 5s, 2m, or 3h.",
+            "Defaults to all logs.",
+            "Only one of since-time / since may be used."
+          ],
+          "next": []
+        },
+        {
+          "name": "--since-time",
+          "usage": [
+            "--since-time <TIMESTAMP>"
+          ],
+          "tip": [
+            "Only return logs after a specific date (RFC3339).",
+            "Defaults to all logs.",
+            "Only one of since-time / since may be used."
+          ],
+          "next": []
+        },
+        {
+          "name": "--tail",
+          "usage": [
+            "--tail <LINES>"
+          ],
+          "tip": [
+            "Lines of recent log file to display.",
+            "Defaults to -1 with no selector, showing all log lines otherwise 10, if a selector is provided."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "tip": [
+            "Include timestamps on each line in the log output"
+          ]
+        }
       ]
     },
     {
@@ -222,66 +3534,1296 @@
       "name": "patch",
       "tip": [
         "Update fields of a resource"
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "tip": [
+            "If true, the operation will NOT contact api-server but run locally."
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch <PATCH>"
+          ],
+          "tip": [
+            "The patch to be applied to the resource JSON file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--patch-file",
+          "usage": [
+            "--patch-file <FILE>"
+          ],
+          "tip": [
+            "A file containing a patch to be applied to the resource."
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "If specified, the operation will operate on the subresource of the requested object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "The type of patch being provided; one of [json merge strategic]"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON patch."
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON merge patch."
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "Strategic merge patch."
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "plugin",
       "tip": [
         "Provides utilities for interacting with plugins"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "List all visible plugin executables on a user's PATH"
+          ],
+          "option": [
+            {
+              "name": "--name-only",
+              "tip": [
+                "If true, display only the binary name of each plugin, rather than its full path"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "port-forward",
       "tip": [
         "Forward one or more local ports to a pod"
+      ],
+      "option": [
+        {
+          "name": "--address",
+          "usage": [
+            "--address <ADDRESSES>"
+          ],
+          "tip": [
+            "Addresses to listen on (comma separated).",
+            "Only accepts IP addresses or localhost as a value.",
+            "When localhost is supplied, kubectl will try to bind on both 127.0.0.1 and ::1 and will fail if neither of these addresses are available to bind."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "proxy",
       "tip": [
         "Run a proxy to the Kubernetes API server"
+      ],
+      "option": [
+        {
+          "name": "--accept-hosts",
+          "usage": [
+            "--accept-hosts <REGEX>"
+          ],
+          "tip": [
+            "Regular expression for hosts that the proxy should accept."
+          ],
+          "next": []
+        },
+        {
+          "name": "--accept-paths",
+          "usage": [
+            "--accept-paths <REGEX>"
+          ],
+          "tip": [
+            "Regular expression for paths that the proxy should accept."
+          ],
+          "next": []
+        },
+        {
+          "name": "--address",
+          "usage": [
+            "--address <IP>"
+          ],
+          "tip": [
+            "The IP address on which to serve on."
+          ],
+          "next": []
+        },
+        {
+          "name": "--api-prefix",
+          "usage": [
+            "--api-prefix <PREFIX>"
+          ],
+          "tip": [
+            "Prefix to serve the proxied API under."
+          ],
+          "next": []
+        },
+        {
+          "name": "--append-server-path",
+          "tip": [
+            "If true, enables automatic path appending of the kube context server path to each request."
+          ]
+        },
+        {
+          "name": "--disable-filter",
+          "tip": [
+            "If true, disable request filtering in the proxy.",
+            "This is dangerous, and can leave you vulnerable to XSRF attacks, when used with an accessible port."
+          ]
+        },
+        {
+          "name": "--keepalive",
+          "usage": [
+            "--keepalive <DURATION>"
+          ],
+          "tip": [
+            "keepalive specifies the keep-alive period for an active network connection.",
+            "Set to 0 to disable keepalive."
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <PORT>"
+          ],
+          "tip": [
+            "The port on which to run the proxy.",
+            "Set to 0 to pick a random port."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reject-methods",
+          "usage": [
+            "--reject-methods <REGEX>"
+          ],
+          "tip": [
+            "Regular expression for HTTP methods that the proxy should reject (example --reject-methods='POST,PUT,PATCH')."
+          ],
+          "next": []
+        },
+        {
+          "name": "--reject-paths",
+          "usage": [
+            "--reject-paths <REGEX>"
+          ],
+          "tip": [
+            "Regular expression for paths that the proxy should reject.",
+            "Paths specified here will be rejected even accepted by --accept-paths."
+          ],
+          "next": []
+        },
+        {
+          "name": "--unix-socket",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --unix-socket <PATH>"
+          ],
+          "tip": [
+            "Unix socket on which to run the proxy."
+          ],
+          "next": []
+        },
+        {
+          "name": "--www",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --www <DIR>"
+          ],
+          "tip": [
+            "Also serve static files from the given directory under the specified prefix."
+          ],
+          "next": []
+        },
+        {
+          "name": "--www-prefix",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --www-prefix <PREFIX>"
+          ],
+          "tip": [
+            "Prefix to serve static files under, if static file directory is specified."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "replace",
       "tip": [
         "Replace a resource by file name or stdin"
+      ],
+      "option": [
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "Must be \"background\", \"orphan\", or \"foreground\".",
+            "Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController).",
+            "Defaults to background."
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "Delete dependents in the background."
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "Delete dependents before deleting the owner."
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "Leave dependents orphaned."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "If true, immediately remove resources from API and bypass graceful deletion.",
+            "Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "Period of time in seconds given to the resource to terminate gracefully.",
+            "Ignored if negative.",
+            "Set to 1 for immediate shutdown.",
+            "Can only be set to 0 when --force is true (force deletion)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "Raw URI to PUT to the server.",
+            "Uses the transport specified by the kubeconfig file."
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "If specified, the operation will operate on the subresource of the requested object."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "If true, wait for resources to be gone before returning.",
+            "This waits for finalizers."
+          ]
+        }
       ]
     },
     {
       "name": "rollout",
       "tip": [
         "Manage the rollout of a resource"
+      ],
+      "next": [
+        {
+          "name": "history",
+          "tip": [
+            "View rollout history"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "See the details, including podTemplate of the revision specified"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pause",
+          "tip": [
+            "Mark the provided resource as paused"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "Restart a resource"
+          ]
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "Resume a paused resource"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "Show the status of the rollout"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "Pin to a specific revision for showing its status.",
+                "Defaults to 0 (last revision)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "The length of time to wait before ending watch, zero means never.",
+                "Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h)."
+              ],
+              "next": []
+            },
+            {
+              "name": "--watch",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --watch"
+              ],
+              "tip": [
+                "Watch the status of the rollout until it's done."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "undo",
+          "tip": [
+            "Undo a previous rollout"
+          ],
+          "option": [
+            {
+              "name": "--to-revision",
+              "usage": [
+                "--to-revision <REVISION>"
+              ],
+              "tip": [
+                "The revision to rollback to.",
+                "Default to 0 (last revision)."
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "run",
       "tip": [
         "Run a particular image on the cluster"
+      ],
+      "option": [
+        {
+          "name": "--annotations",
+          "usage": [
+            "--annotations <KEY=VALUE>"
+          ],
+          "tip": [
+            "Annotations to apply to the pod."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "If true, wait for the Pod to start running, and then attach to the Pod as if 'kubectl attach ...' were called.",
+            "Default false, unless '-i/--stdin' is set, in which case the default is true.",
+            "With '--restart=Never' the exit code of the container process is returned."
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "Must be \"background\", \"orphan\", or \"foreground\".",
+            "Selects the deletion cascading strategy for the dependents (e.g. Pods created by a ReplicationController).",
+            "Defaults to background."
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "Delete dependents in the background."
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "Delete dependents before deleting the owner."
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "Leave dependents orphaned."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--command",
+          "tip": [
+            "If true and extra arguments are present, use them as the 'command' field in the container, rather than the 'args' field which is the default."
+          ]
+        },
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <KEYS>"
+          ],
+          "tip": [
+            "Override the key sequence for detaching a container"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <KEY=VALUE>"
+          ],
+          "tip": [
+            "Environment variables to set in the container."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--expose",
+          "tip": [
+            "If true, create a ClusterIP service associated with the pod.",
+            "Requires `--port`."
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "If true, immediately remove resources from API and bypass graceful deletion.",
+            "Note that immediate deletion of some resources may result in inconsistency or data loss and requires confirmation."
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "Period of time in seconds given to the resource to terminate gracefully.",
+            "Ignored if negative.",
+            "Set to 1 for immediate shutdown.",
+            "Can only be set to 0 when --force is true (force deletion)."
+          ],
+          "next": []
+        },
+        {
+          "name": "--image",
+          "usage": [
+            "--image <IMAGE>"
+          ],
+          "tip": [
+            "The image for the container to run."
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-pull-policy",
+          "usage": [
+            "--image-pull-policy <POLICY>"
+          ],
+          "tip": [
+            "The image pull policy for the container.",
+            "If left empty, this value will not be specified by the client and defaulted by the server."
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "Always pull the image."
+              ]
+            },
+            {
+              "name": "IfNotPresent",
+              "tip": [
+                "Pull only when the image is not present."
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "Never pull the image."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--leave-stdin-open",
+          "tip": [
+            "If the pod is started in interactive mode or with stdin, leave stdin open after the first attach completes.",
+            "By default, stdin will be closed after the first attach completes."
+          ]
+        },
+        {
+          "name": "--override-type",
+          "usage": [
+            "--override-type <TYPE>"
+          ],
+          "tip": [
+            "The method used to override the generated object: json, merge, or strategic."
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON patch."
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON merge patch."
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "Strategic merge patch."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--overrides",
+          "usage": [
+            "--overrides <JSON>"
+          ],
+          "tip": [
+            "An inline JSON override for the generated object.",
+            "If this is non-empty, it is used to override the generated object.",
+            "Requires that the object supply a valid apiVersion field."
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time (like 5s, 2m, or 3h, higher than zero) to wait until at least one pod is running"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "The port that this container exposes."
+          ],
+          "next": []
+        },
+        {
+          "name": "--privileged",
+          "tip": [
+            "If true, run the container in privileged mode."
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "If true, suppress prompt messages."
+          ]
+        },
+        {
+          "name": "--restart",
+          "usage": [
+            "--restart <POLICY>"
+          ],
+          "tip": [
+            "The restart policy for this Pod.",
+            "Legal values [Always, OnFailure, Never]."
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "Always restart the container."
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "Never restart the container."
+              ]
+            },
+            {
+              "name": "OnFailure",
+              "tip": [
+                "Restart only on failure."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--rm",
+          "tip": [
+            "If true, delete the pod after it exits.",
+            "Only valid when attaching to the container, e.g. with '--attach' or with '-i/--stdin'."
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "Keep stdin open on the container in the pod, even if nothing is attached."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up on a delete, zero means determine a timeout from the size of the object"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "Allocate a TTY for the container in the pod."
+          ]
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "If true, wait for resources to be gone before returning.",
+            "This waits for finalizers."
+          ]
+        }
       ]
     },
     {
       "name": "scale",
       "tip": [
         "Set a new size for a deployment, replica set, or replication controller"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all resources in the namespace of the specified resource types."
+          ]
+        },
+        {
+          "name": "--current-replicas",
+          "usage": [
+            "--current-replicas <NUM>"
+          ],
+          "tip": [
+            "Precondition for current size.",
+            "Requires that the current size of the resource match this value in order to scale.",
+            "-1 (default) for no condition."
+          ],
+          "next": []
+        },
+        {
+          "name": "--replicas",
+          "usage": [
+            "--replicas <NUM>"
+          ],
+          "tip": [
+            "The new desired number of replicas.",
+            "Required."
+          ],
+          "next": []
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "If non-empty, the update will only succeed if this is the current resource-version for the object.",
+            "Only valid when specifying a single resource."
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up on a scale operation, zero means don't wait.",
+            "Any other values should contain a corresponding time unit (e.g. 1s, 2m, 3h)."
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "set",
       "tip": [
         "Set specific features on objects"
+      ],
+      "next": [
+        {
+          "name": "env",
+          "tip": [
+            "Update environment variables on a pod template"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--containers",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --containers <CONTAINERS>"
+              ],
+              "tip": [
+                "The names of containers in the selected pod templates to change - may use wildcards"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <KEY=VALUE>"
+              ],
+              "tip": [
+                "Specify a key-value pair for an environment variable to set into each container."
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <RESOURCE>"
+              ],
+              "tip": [
+                "The name of a resource from which to inject environment variables"
+              ],
+              "next": []
+            },
+            {
+              "name": "--keys",
+              "usage": [
+                "--keys <KEYS>"
+              ],
+              "tip": [
+                "Comma-separated list of keys to import from specified resource"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "If true, display the environment and any changes in the standard format.",
+                "This flag will be removed when we have kubectl view env."
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, set env will NOT contact api-server but run locally."
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "If true, allow environment to be overwritten, otherwise reject updates that overwrite existing environment."
+              ]
+            },
+            {
+              "name": "--prefix",
+              "usage": [
+                "--prefix <PREFIX>"
+              ],
+              "tip": [
+                "Prefix to append to variable names"
+              ],
+              "next": []
+            },
+            {
+              "name": "--resolve",
+              "tip": [
+                "If true, show secret or configmap references when listing variables"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "Update the image of a pod template"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, set image will NOT contact api-server but run locally."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "resources",
+          "tip": [
+            "Update resource requests/limits on objects with pod templates"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--containers",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --containers <CONTAINERS>"
+              ],
+              "tip": [
+                "The names of containers in the selected pod templates to change, all containers are selected by default - may use wildcards"
+              ],
+              "next": []
+            },
+            {
+              "name": "--limits",
+              "usage": [
+                "--limits <LIMITS>"
+              ],
+              "tip": [
+                "The resource requirement limits for this container.",
+                "For example, 'cpu=100m,memory=256Mi'.",
+                "Note that server side components may assign limits depending on the server configuration, such as limit ranges."
+              ],
+              "next": []
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, set resources will NOT contact api-server but run locally."
+              ]
+            },
+            {
+              "name": "--requests",
+              "usage": [
+                "--requests <REQUESTS>"
+              ],
+              "tip": [
+                "The resource requirement requests for this container.",
+                "For example, 'cpu=100m,memory=256Mi'.",
+                "Note that server side components may assign requests depending on the server configuration, such as limit ranges."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "selector",
+          "tip": [
+            "Set the selector on a resource"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, annotation will NOT contact api-server but run locally."
+              ]
+            },
+            {
+              "name": "--resource-version",
+              "usage": [
+                "--resource-version <VERSION>"
+              ],
+              "tip": [
+                "If non-empty, the selectors update will only succeed if this is the current resource-version for the object.",
+                "Only valid when specifying a single resource."
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "serviceaccount",
+          "tip": [
+            "Update the service account of a resource"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, set serviceaccount will NOT contact api-server but run locally."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "subject",
+          "tip": [
+            "Update the user, group, or service account in a role binding or cluster role binding"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "If true, select all resources in the namespace of the specified resource types"
+              ]
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "Groups to bind to the role"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "If true, set subject will NOT contact api-server but run locally."
+              ]
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <SERVICEACCOUNTS>"
+              ],
+              "tip": [
+                "Service accounts to bind to the role"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "taint",
       "tip": [
         "Update the taints on one or more nodes"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all nodes in the cluster"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "If true, allow taints to be overwritten, otherwise reject taint updates that overwrite existing taints."
+          ]
+        }
       ]
     },
     {
       "name": "top",
       "tip": [
         "Display resource (CPU/memory) usage"
+      ],
+      "next": [
+        {
+          "name": "node",
+          "tip": [
+            "Display resource (CPU/memory) usage of nodes"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "If present, print output without headers"
+              ]
+            },
+            {
+              "name": "--show-capacity",
+              "tip": [
+                "Print node resources based on Capacity instead of Allocatable(default) of the nodes."
+              ]
+            },
+            {
+              "name": "--show-swap",
+              "tip": [
+                "Print node resources related to swap memory."
+              ]
+            },
+            {
+              "name": "--sort-by",
+              "usage": [
+                "--sort-by <FIELD>"
+              ],
+              "tip": [
+                "If non-empty, sort nodes list using specified field.",
+                "The field can be either 'cpu' or 'memory'."
+              ],
+              "next": [
+                {
+                  "name": "cpu",
+                  "tip": [
+                    "Sort by CPU usage."
+                  ]
+                },
+                {
+                  "name": "memory",
+                  "tip": [
+                    "Sort by memory usage."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--use-protocol-buffers",
+              "tip": [
+                "Enables using protocol-buffers to access Metrics API."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pod",
+          "tip": [
+            "Display resource (CPU/memory) usage of pods"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "If true, check the specified action in all namespaces."
+              ]
+            },
+            {
+              "name": "--containers",
+              "tip": [
+                "If present, print usage of containers within a pod."
+              ]
+            },
+            {
+              "name": "--field-selector",
+              "usage": [
+                "--field-selector <SELECTOR>"
+              ],
+              "tip": [
+                "Selector (field query) to filter on.",
+                "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+                "The server only supports a limited number of field queries per type."
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-headers",
+              "tip": [
+                "If present, print output without headers"
+              ]
+            },
+            {
+              "name": "--show-swap",
+              "tip": [
+                "Print pod resources related to swap memory."
+              ]
+            },
+            {
+              "name": "--sort-by",
+              "usage": [
+                "--sort-by <FIELD>"
+              ],
+              "tip": [
+                "If non-empty, sort pods list using specified field.",
+                "The field can be either 'cpu' or 'memory'."
+              ],
+              "next": [
+                {
+                  "name": "cpu",
+                  "tip": [
+                    "Sort by CPU usage."
+                  ]
+                },
+                {
+                  "name": "memory",
+                  "tip": [
+                    "Sort by memory usage."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--sum",
+              "tip": [
+                "Print the sum of the resource usage"
+              ]
+            },
+            {
+              "name": "--use-protocol-buffers",
+              "tip": [
+                "Enables using protocol-buffers to access Metrics API."
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -300,12 +4842,84 @@
       "name": "version",
       "tip": [
         "Print the client and server version information"
+      ],
+      "option": [
+        {
+          "name": "--client",
+          "tip": [
+            "If true, shows client version only (no server required)."
+          ]
+        }
       ]
     },
     {
       "name": "wait",
       "tip": [
         "Experimental: Wait for a specific condition on one or many resources"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "Select all resources in the namespace of the specified resource types."
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "If present, list the requested object(s) across all namespaces.",
+            "Namespace in current context is ignored even if specified with --namespace."
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "Selector (field query) to filter on.",
+            "Supports '=', '==', and '!=' (e.g. --field-selector key1=value1,key2=value2).",
+            "The server only supports a limited number of field queries per type."
+          ],
+          "next": []
+        },
+        {
+          "name": "--for",
+          "usage": [
+            "--for <CONDITION>"
+          ],
+          "tip": [
+            "The condition to wait on: [create|delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]].",
+            "The default condition-value is true.",
+            "Condition values are compared after Unicode simple case folding, which is a more general form of case-insensitivity.",
+            "Multiple conditions are supported and AND'ed to each other in a sequential order.",
+            "If --for=create is passed, it is always waited first."
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "If true, annotation will NOT contact api-server but run locally."
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "The length of time to wait before giving up.",
+            "Zero means check once and don't wait, negative means wait for a week."
+          ],
+          "next": []
+        }
       ]
     }
   ],
@@ -325,6 +4939,162 @@
   ],
   "global_option": [
     {
+      "name": "--allow-missing-template-keys",
+      "tip": [
+        "Ignore missing keys in templates."
+      ]
+    },
+    {
+      "name": "--as",
+      "usage": [
+        "--as <USERNAME>"
+      ],
+      "tip": [
+        "Username to impersonate for the operation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <GROUP>"
+      ],
+      "tip": [
+        "Group to impersonate; repeatable."
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <UID>"
+      ],
+      "tip": [
+        "UID to impersonate for the operation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-user-extra",
+      "usage": [
+        "--as-user-extra <KEY=VALUE>"
+      ],
+      "tip": [
+        "User extras to impersonate; repeatable."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
+      "tip": [
+        "Default cache directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-authority",
+      "usage": [
+        "--certificate-authority <FILE>"
+      ],
+      "tip": [
+        "Path to a cert file for the certificate authority."
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-certificate",
+      "usage": [
+        "--client-certificate <FILE>"
+      ],
+      "tip": [
+        "Path to a client certificate file for TLS."
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-key",
+      "usage": [
+        "--client-key <FILE>"
+      ],
+      "tip": [
+        "Path to a client key file for TLS."
+      ],
+      "next": []
+    },
+    {
+      "name": "--cluster",
+      "usage": [
+        "--cluster <NAME>"
+      ],
+      "tip": [
+        "The name of the kubeconfig cluster to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <NAME>"
+      ],
+      "tip": [
+        "The name of the kubeconfig context to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-compression",
+      "tip": [
+        "Opt out of response compression."
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "usage": [
+        "--dry-run <none|server|client>"
+      ],
+      "tip": [
+        "Must be \"none\", \"server\", or \"client\"."
+      ],
+      "next": [
+        {
+          "name": "client"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "server"
+        }
+      ]
+    },
+    {
+      "name": "--field-manager",
+      "usage": [
+        "--field-manager <NAME>"
+      ],
+      "tip": [
+        "Name of the manager used to track field ownership."
+      ],
+      "next": []
+    },
+    {
+      "name": "--filename",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --filename <FILE>"
+      ],
+      "tip": [
+        "Filename, directory, or URL to files."
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
       "name": "--help",
       "alias": [
         "-h"
@@ -334,6 +5104,308 @@
       ],
       "tip": [
         "Show the help."
+      ]
+    },
+    {
+      "name": "--insecure-skip-tls-verify",
+      "tip": [
+        "Skip server certificate validation."
+      ]
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <FILE>"
+      ],
+      "tip": [
+        "Path to the kubeconfig file to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--kuberc",
+      "usage": [
+        "--kuberc <FILE>"
+      ],
+      "tip": [
+        "Path to the kuberc file to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--kustomize",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kustomize <DIR>"
+      ],
+      "tip": [
+        "Process a kustomization directory."
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-flush-frequency",
+      "usage": [
+        "--log-flush-frequency <DURATION>"
+      ],
+      "tip": [
+        "Maximum time between log flushes."
+      ],
+      "next": []
+    },
+    {
+      "name": "--match-server-version",
+      "tip": [
+        "Require server version to match client version."
+      ]
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <NAMESPACE>"
+      ],
+      "tip": [
+        "If present, the namespace scope for this CLI request"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FORMAT>"
+      ],
+      "tip": [
+        "Output format."
+      ],
+      "next": [
+        {
+          "name": "custom-columns"
+        },
+        {
+          "name": "go-template"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "jsonpath"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "wide"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--password",
+      "usage": [
+        "--password <PASSWORD>"
+      ],
+      "tip": [
+        "Password for basic authentication."
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <PROFILE>"
+      ],
+      "tip": [
+        "Name of profile to capture."
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile-output",
+      "usage": [
+        "--profile-output <FILE>"
+      ],
+      "tip": [
+        "File to write the profile to."
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-url",
+      "usage": [
+        "--proxy-url <URL>"
+      ],
+      "tip": [
+        "Proxy URL for API requests."
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "Process the directory used in -f recursively."
+      ]
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <DURATION>"
+      ],
+      "tip": [
+        "Timeout for a single server request."
+      ],
+      "next": []
+    },
+    {
+      "name": "--save-config",
+      "tip": [
+        "Save the configuration of the object in its annotation."
+      ]
+    },
+    {
+      "name": "--selector",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --selector <SELECTOR>"
+      ],
+      "tip": [
+        "Selector (label query) to filter on."
+      ],
+      "next": []
+    },
+    {
+      "name": "--server",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --server <URL>"
+      ],
+      "tip": [
+        "The address and port of the Kubernetes API server"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-managed-fields",
+      "tip": [
+        "Include managed fields in the output."
+      ]
+    },
+    {
+      "name": "--template",
+      "usage": [
+        "--template <TEMPLATE>"
+      ],
+      "tip": [
+        "Template string or path to use when -o=go-template or jsonpath."
+      ],
+      "next": []
+    },
+    {
+      "name": "--tls-server-name",
+      "usage": [
+        "--tls-server-name <NAME>"
+      ],
+      "tip": [
+        "Server name for certificate validation."
+      ],
+      "next": []
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "Bearer token for authentication."
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <NAME>"
+      ],
+      "tip": [
+        "The name of the kubeconfig user to use."
+      ],
+      "next": []
+    },
+    {
+      "name": "--username",
+      "usage": [
+        "--username <USERNAME>"
+      ],
+      "tip": [
+        "Username for basic authentication."
+      ],
+      "next": []
+    },
+    {
+      "name": "--v",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --v <LEVEL>"
+      ],
+      "tip": [
+        "Number for the log level verbosity"
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "usage": [
+        "--validate <strict|warn|ignore>"
+      ],
+      "tip": [
+        "Must be \"strict\", \"warn\", or \"ignore\"."
+      ],
+      "next": [
+        {
+          "name": "ignore"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--vmodule",
+      "usage": [
+        "--vmodule <PATTERN=N>"
+      ],
+      "tip": [
+        "Comma-separated pattern=N logging settings."
+      ],
+      "next": []
+    },
+    {
+      "name": "--warnings-as-errors",
+      "tip": [
+        "Treat warnings as errors."
       ]
     }
   ]

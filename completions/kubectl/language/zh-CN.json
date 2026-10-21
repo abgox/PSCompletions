@@ -1,6 +1,6 @@
 {
   "meta": {
-    "url": "https://kubernetes.io/zh-cn/docs/reference/kubectl/",
+    "url": "https://kubernetes.io/zh-cn/docs/reference/kubectl",
     "description": [
       "Kubernetes 又称 K8s，是一个开源系统，用于自动化部署、扩展和管理容器化应用程序。",
       "kubectl 是它的命令行工具"
@@ -11,12 +11,150 @@
       "name": "annotate",
       "tip": [
         "更新资源的注解"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于过滤的字段选择器。",
+            "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+            "服务器对每种类型仅支持有限数量的字段查询。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "设为 true 时，显示给定资源的注解。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "设为 true 时，annotation 不会联系 API 服务器，而是在本地运行。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "设为 true 时允许覆盖注解，否则拒绝覆盖现有注解的更新。"
+          ]
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "非空时，仅当这是对象的当前 resource-version 时，更新才会成功。",
+            "仅在指定单个资源时有效。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "api-resources",
       "tip": [
         "打印服务器支持的 API 资源"
+      ],
+      "option": [
+        {
+          "name": "--api-group",
+          "usage": [
+            "--api-group <GROUP>"
+          ],
+          "tip": [
+            "限制为指定 API 组中的资源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--cached",
+          "tip": [
+            "如果可用，使用缓存的资源列表。"
+          ]
+        },
+        {
+          "name": "--categories",
+          "usage": [
+            "--categories <CATEGORIES>"
+          ],
+          "tip": [
+            "限制为属于指定类别的资源。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--namespaced",
+          "tip": [
+            "为 false 时返回非命名空间资源，否则默认返回命名空间资源。"
+          ]
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "使用默认或 custom-column 输出格式时不打印表头（默认打印表头）。"
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "非空时，按指定字段对资源列表排序。",
+            "字段可以是 'name' 或 'kind'。"
+          ],
+          "next": [
+            {
+              "name": "kind",
+              "tip": [
+                "按资源类型排序。"
+              ]
+            },
+            {
+              "name": "name",
+              "tip": [
+                "按资源名称排序。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--verbs",
+          "usage": [
+            "--verbs <VERBS>"
+          ],
+          "tip": [
+            "限制为支持指定动词的资源。"
+          ],
+          "repeat": 99,
+          "next": []
+        }
       ]
     },
     {
@@ -29,36 +167,508 @@
       "name": "apply",
       "tip": [
         "通过文件名或标准输入将配置应用到资源"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "取值为 background、orphan 或 foreground。",
+            "选择依赖对象（例如 ReplicationController 创建的 Pod）的级联删除策略。",
+            "默认为 background。"
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "在后台删除依赖对象。"
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "先删除依赖对象，再删除属主。"
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "保留依赖对象并将其孤立。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "设为 true 时，立即从 API 中移除资源并跳过优雅删除。",
+            "某些资源的立即删除可能导致不一致或数据丢失，并且需要确认。"
+          ]
+        },
+        {
+          "name": "--force-conflicts",
+          "tip": [
+            "设为 true 时，服务端应用会强制覆盖冲突的更改。"
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "留给资源优雅终止的时间（秒）。",
+            "为负数时忽略。",
+            "设为 1 表示立即关闭。",
+            "仅当 --force 为 true（强制删除）时才能设为 0。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--openapi-patch",
+          "tip": [
+            "设为 true 时，在存在 OpenAPI 且资源能在规范中找到时使用 OpenAPI 计算差异。",
+            "否则回退到内置类型。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "使用修改后配置中的值自动解决修改后配置与运行中配置之间的冲突。"
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "自动删除未出现在配置中、且由 apply 或 create --save-config 创建的资源对象。",
+            "应与 -l 或 --all 一起使用。"
+          ]
+        },
+        {
+          "name": "--prune-allowlist",
+          "usage": [
+            "--prune-allowlist <GROUP/VERSION/KIND>"
+          ],
+          "tip": [
+            "用 <group/version/kind> 覆盖 --prune 的默认允许列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--server-side",
+          "tip": [
+            "设为 true 时，apply 在服务端而不是客户端运行。"
+          ]
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "指定时，apply 将操作请求对象的子资源。",
+            "仅在使用 --server-side 时允许。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "删除操作放弃前等待的时间；0 表示根据对象大小自动确定超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "设为 true 时，返回前等待资源消失。",
+            "这会等待 finalizer 完成。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "edit-last-applied",
+          "tip": [
+            "编辑资源/对象最新的 last-applied-configuration 注解"
+          ],
+          "option": [
+            {
+              "name": "--windows-line-endings",
+              "tip": [
+                "默认使用当前平台的原生行尾。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-last-applied",
+          "tip": [
+            "将活动对象的 last-applied-configuration 注解设置为文件内容"
+          ],
+          "option": [
+            {
+              "name": "--create-annotation",
+              "tip": [
+                "如果当前对象没有 'last-applied-configuration' 注解，则创建它。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "view-last-applied",
+          "tip": [
+            "查看资源/对象最新的 last-applied-configuration 注解"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "attach",
       "tip": [
         "附加到正在运行的容器"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "容器名称。",
+            "省略时使用 kubectl.kubernetes.io/default-container 注解，或选择 Pod 中的第一个容器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <KEYS>"
+          ],
+          "tip": [
+            "覆盖分离容器时使用的按键序列。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅打印远程会话的输出。"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "将标准输入传给容器。"
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "标准输入是一个 TTY。"
+          ]
+        }
       ]
     },
     {
       "name": "auth",
       "tip": [
         "检查授权"
+      ],
+      "next": [
+        {
+          "name": "can-i",
+          "tip": [
+            "检查是否允许某个操作"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "设为 true 时，检查所有命名空间中的指定操作。"
+              ]
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "设为 true 时，打印所有允许的操作。"
+              ]
+            },
+            {
+              "name": "--no-headers",
+              "tip": [
+                "设为 true 时，打印允许的操作但不显示表头。"
+              ]
+            },
+            {
+              "name": "--quiet",
+              "alias": [
+                "-q"
+              ],
+              "usage": [
+                "-q, --quiet"
+              ],
+              "tip": [
+                "设为 true 时，抑制输出并仅返回退出码。"
+              ]
+            },
+            {
+              "name": "--subresource",
+              "usage": [
+                "--subresource <SUB_RESOURCE>"
+              ],
+              "tip": [
+                "子资源，例如 pod/log 或 deployment/scale。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "reconcile",
+          "tip": [
+            "协调 RBAC 角色、角色绑定、集群角色和集群角色绑定的规则"
+          ],
+          "option": [
+            {
+              "name": "--remove-extra-permissions",
+              "tip": [
+                "设为 true 时，移除添加到角色中的额外权限。"
+              ]
+            },
+            {
+              "name": "--remove-extra-subjects",
+              "tip": [
+                "设为 true 时，移除添加到角色绑定中的额外主体。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "whoami",
+          "tip": [
+            "Experimental: 检查自身主体属性"
+          ]
+        }
       ]
     },
     {
       "name": "autoscale",
       "tip": [
         "对部署、副本集、有状态集或副本控制器进行自动扩缩容"
+      ],
+      "option": [
+        {
+          "name": "--cpu",
+          "usage": [
+            "--cpu <TARGET>"
+          ],
+          "tip": [
+            "所有 Pod 的目标 CPU 利用率。",
+            "百分比（例如 \"70%\"）以平均利用率为目标；数量（例如 \"500m\"）以平均值为目标。",
+            "无单位的值按毫 CPU 处理（例如 \"500\" 即 \"500m\"）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--max",
+          "usage": [
+            "--max <NUM>"
+          ],
+          "tip": [
+            "自动扩缩器可设置的 Pod 数量上限。",
+            "必填。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--memory",
+          "usage": [
+            "--memory <TARGET>"
+          ],
+          "tip": [
+            "所有 Pod 的目标内存利用率。",
+            "百分比（例如 \"60%\"）以平均利用率为目标；数量（例如 \"200Mi\"）以平均值为目标。",
+            "无单位的值按 MiB 处理（例如 \"200\" 即 \"200Mi\"）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--min",
+          "usage": [
+            "--min <NUM>"
+          ],
+          "tip": [
+            "自动扩缩器可设置的 Pod 数量下限。",
+            "未指定或为负数时，服务器将应用默认值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "新创建对象的名称。",
+            "未指定时使用输入资源的名称。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "certificate",
       "tip": [
         "修改证书资源"
+      ],
+      "next": [
+        {
+          "name": "approve",
+          "tip": [
+            "批准证书签名请求"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "即使 CSR 已批准，也更新它。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deny",
+          "tip": [
+            "拒绝证书签名请求"
+          ],
+          "option": [
+            {
+              "name": "--force",
+              "tip": [
+                "即使 CSR 已拒绝，也更新它。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "cluster-info",
       "tip": [
         "显示集群信息"
+      ],
+      "next": [
+        {
+          "name": "dump",
+          "tip": [
+            "导出用于调试和诊断的相关信息"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "设为 true 时，导出所有命名空间。",
+                "设为 true 时，忽略 --namespaces。"
+              ]
+            },
+            {
+              "name": "--namespaces",
+              "usage": [
+                "--namespaces <NAMESPACES>"
+              ],
+              "tip": [
+                "要导出的命名空间列表，逗号分隔。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--output-directory",
+              "usage": [
+                "--output-directory <DIR>"
+              ],
+              "tip": [
+                "输出文件的位置。",
+                "为空或 '-' 时使用标准输出，否则在该目录中创建目录层次结构。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--pod-running-timeout",
+              "usage": [
+                "--pod-running-timeout <DURATION>"
+              ],
+              "tip": [
+                "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
@@ -71,6 +681,262 @@
       "name": "config",
       "tip": [
         "修改 kubeconfig 文件"
+      ],
+      "next": [
+        {
+          "name": "current-context",
+          "tip": [
+            "显示当前上下文"
+          ]
+        },
+        {
+          "name": "delete-cluster",
+          "tip": [
+            "从 kubeconfig 中删除指定集群"
+          ]
+        },
+        {
+          "name": "delete-context",
+          "tip": [
+            "从 kubeconfig 中删除指定上下文"
+          ]
+        },
+        {
+          "name": "delete-user",
+          "tip": [
+            "从 kubeconfig 中删除指定用户"
+          ]
+        },
+        {
+          "name": "get-clusters",
+          "tip": [
+            "显示 kubeconfig 中定义的集群"
+          ]
+        },
+        {
+          "name": "get-contexts",
+          "tip": [
+            "描述一个或多个上下文"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "使用默认或 custom-column 输出格式时不打印表头（默认打印表头）。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "get-users",
+          "tip": [
+            "显示 kubeconfig 中定义的用户"
+          ]
+        },
+        {
+          "name": "rename-context",
+          "tip": [
+            "重命名 kubeconfig 文件中的上下文"
+          ]
+        },
+        {
+          "name": "set",
+          "tip": [
+            "设置 kubeconfig 文件中的单个值"
+          ],
+          "option": [
+            {
+              "name": "--set-raw-bytes",
+              "tip": [
+                "写入 []byte PROPERTY_VALUE 时，直接写入给定字符串，不进行 base64 解码。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-cluster",
+          "tip": [
+            "设置 kubeconfig 中的集群条目"
+          ],
+          "option": [
+            {
+              "name": "--embed-certs",
+              "tip": [
+                "为 kubeconfig 中的集群条目嵌入证书。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-context",
+          "tip": [
+            "设置 kubeconfig 中的上下文条目"
+          ],
+          "option": [
+            {
+              "name": "--current",
+              "tip": [
+                "修改当前上下文。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "set-credentials",
+          "tip": [
+            "设置 kubeconfig 中的用户条目"
+          ],
+          "option": [
+            {
+              "name": "--auth-provider",
+              "usage": [
+                "--auth-provider <NAME>"
+              ],
+              "tip": [
+                "kubeconfig 中用户条目的认证提供程序。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--auth-provider-arg",
+              "usage": [
+                "--auth-provider-arg <KEY=VALUE>"
+              ],
+              "tip": [
+                "认证提供程序的 'key=value' 参数。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--embed-certs",
+              "tip": [
+                "为 kubeconfig 中的用户条目嵌入客户端证书/私钥。"
+              ]
+            },
+            {
+              "name": "--exec-api-version",
+              "usage": [
+                "--exec-api-version <VERSION>"
+              ],
+              "tip": [
+                "kubeconfig 中用户条目的 exec 凭据插件 API 版本。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exec-arg",
+              "usage": [
+                "--exec-arg <ARG>"
+              ],
+              "tip": [
+                "kubeconfig 中用户条目的 exec 凭据插件命令的新参数。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-command",
+              "usage": [
+                "--exec-command <COMMAND>"
+              ],
+              "tip": [
+                "kubeconfig 中用户条目的 exec 凭据插件命令。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--exec-env",
+              "usage": [
+                "--exec-env <KEY=VALUE>"
+              ],
+              "tip": [
+                "exec 凭据插件的 'key=value' 环境变量值。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--exec-interactive-mode",
+              "usage": [
+                "--exec-interactive-mode <MODE>"
+              ],
+              "tip": [
+                "kubeconfig 中用户条目的 exec 凭据插件交互模式。"
+              ],
+              "next": [
+                {
+                  "name": "Always",
+                  "tip": [
+                    "总是使用交互模式。"
+                  ]
+                },
+                {
+                  "name": "IfAvailable",
+                  "tip": [
+                    "可用时使用交互模式。"
+                  ]
+                },
+                {
+                  "name": "Never",
+                  "tip": [
+                    "从不使用交互模式。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--exec-provide-cluster-info",
+              "tip": [
+                "kubeconfig 中用户条目的 exec 凭据插件是否提供集群信息。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "unset",
+          "tip": [
+            "取消设置 kubeconfig 文件中的单个值"
+          ]
+        },
+        {
+          "name": "use-context",
+          "tip": [
+            "设置 kubeconfig 文件中的当前上下文"
+          ]
+        },
+        {
+          "name": "view",
+          "tip": [
+            "显示合并后的 kubeconfig 设置或指定的 kubeconfig 文件"
+          ],
+          "option": [
+            {
+              "name": "--flatten",
+              "tip": [
+                "将生成的 kubeconfig 文件展平为自包含输出（适用于创建便携的 kubeconfig 文件）。"
+              ]
+            },
+            {
+              "name": "--merge",
+              "tip": [
+                "合并 kubeconfig 文件的完整层次结构。"
+              ]
+            },
+            {
+              "name": "--minify",
+              "tip": [
+                "从输出中移除当前上下文未使用的所有信息。"
+              ]
+            },
+            {
+              "name": "--raw",
+              "tip": [
+                "显示原始字节数据和敏感数据。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -89,6 +955,40 @@
       "name": "cp",
       "tip": [
         "在容器和本地之间复制文件和目录"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "容器名称。",
+            "省略时使用 kubectl.kubernetes.io/default-container 注解，或选择 Pod 中的第一个容器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-preserve",
+          "tip": [
+            "复制到容器中的文件/目录不保留其所有权和权限。"
+          ]
+        },
+        {
+          "name": "--retries",
+          "usage": [
+            "--retries <NUM>"
+          ],
+          "tip": [
+            "设置从容器复制操作的为重试次数。",
+            "0 表示禁用重试，负数表示无限重试。",
+            "默认为 0（不重试）。"
+          ],
+          "next": []
+        }
       ]
     },
     {
@@ -106,72 +1006,2037 @@
           "cmd": "create -f registry.yaml --edit -o json",
           "desc": "编辑 registry.yaml 中的 JSON 数据，然后使用编辑后的数据创建资源"
         }
+      ],
+      "option": [
+        {
+          "name": "--edit",
+          "tip": [
+            "创建前编辑 API 资源。"
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "向服务器发送 POST 请求的原始 URI。",
+            "使用 kubeconfig 文件指定的传输配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--windows-line-endings",
+          "tip": [
+            "仅在 --edit=true 时相关。",
+            "默认使用当前平台的原生行尾。"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "name": "clusterrole",
+          "tip": [
+            "创建集群角色"
+          ],
+          "option": [
+            {
+              "name": "--aggregation-rule",
+              "usage": [
+                "--aggregation-rule <SELECTOR>"
+              ],
+              "tip": [
+                "用于组合 ClusterRole 的聚合标签选择器。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--non-resource-url",
+              "usage": [
+                "--non-resource-url <URL>"
+              ],
+              "tip": [
+                "用户应有权访问的部分 URL。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <RESOURCE>"
+              ],
+              "tip": [
+                "规则适用的资源。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource-name",
+              "usage": [
+                "--resource-name <NAME>"
+              ],
+              "tip": [
+                "规则适用的白名单中的资源，可重复此标志以指定多个。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--verb",
+              "usage": [
+                "--verb <VERB>"
+              ],
+              "tip": [
+                "适用于规则中资源的动词。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "clusterrolebinding",
+          "tip": [
+            "为特定集群角色创建集群角色绑定"
+          ],
+          "option": [
+            {
+              "name": "--clusterrole",
+              "usage": [
+                "--clusterrole <NAME>"
+              ],
+              "tip": [
+                "此 ClusterRoleBinding 应引用的 ClusterRole。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "要绑定到 ClusterRole 的组。",
+                "可重复此标志以添加多个组。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <NAMESPACE:NAME>"
+              ],
+              "tip": [
+                "要绑定到 ClusterRole 的 ServiceAccount，格式为 <namespace>:<name>。",
+                "可重复此标志以添加多个 ServiceAccount。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "configmap",
+          "tip": [
+            "从本地文件、目录或字面值创建 ConfigMap"
+          ],
+          "option": [
+            {
+              "name": "--append-hash",
+              "tip": [
+                "将 ConfigMap 的哈希附加到其名称。"
+              ]
+            },
+            {
+              "name": "--from-env-file",
+              "usage": [
+                "--from-env-file <FILE>"
+              ],
+              "tip": [
+                "指定文件路径，读取其中的 key=val 行以创建 ConfigMap。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from-file",
+              "usage": [
+                "--from-file <FILE>"
+              ],
+              "tip": [
+                "键文件可以用其文件路径指定，此时文件名将用作键。",
+                "也可以指定键和文件路径，此时使用给定的键。",
+                "指定目录时，会遍历该目录中文件名可作为有效键的每个文件。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from-literal",
+              "usage": [
+                "--from-literal <KEY=VALUE>"
+              ],
+              "tip": [
+                "指定要插入 ConfigMap 的键和字面值（例如 mykey=somevalue）。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "cronjob",
+          "tip": [
+            "用指定名称创建 CronJob"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "要运行的镜像名称。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--restart",
+              "usage": [
+                "--restart <POLICY>"
+              ],
+              "tip": [
+                "Job 的重启策略。",
+                "支持的值：OnFailure、Never。"
+              ],
+              "next": [
+                {
+                  "name": "Never",
+                  "tip": [
+                    "从不重启。"
+                  ]
+                },
+                {
+                  "name": "OnFailure",
+                  "tip": [
+                    "仅在失败时重启。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--schedule",
+              "usage": [
+                "--schedule <CRON>"
+              ],
+              "tip": [
+                "Job 运行时使用的 Cron 格式计划。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "deployment",
+          "tip": [
+            "用指定名称创建 Deployment"
+          ],
+          "option": [
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "要运行的镜像名称。",
+                "Deployment 可以为多容器 Pod 设置多个镜像。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--port",
+              "usage": [
+                "--port <PORT>"
+              ],
+              "tip": [
+                "此 Deployment 暴露的 containerPort。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--replicas",
+              "alias": [
+                "-r"
+              ],
+              "usage": [
+                "-r, --replicas <NUM>"
+              ],
+              "tip": [
+                "要创建的副本数。",
+                "默认为 1。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "ingress",
+          "tip": [
+            "用指定名称创建 Ingress"
+          ],
+          "option": [
+            {
+              "name": "--annotation",
+              "usage": [
+                "--annotation <ANNOTATION=VALUE>"
+              ],
+              "tip": [
+                "要插入 Ingress 对象的注解，格式为 annotation=value。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--class",
+              "usage": [
+                "--class <CLASS>"
+              ],
+              "tip": [
+                "要使用的 Ingress Class。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--default-backend",
+              "usage": [
+                "--default-backend <SVCNAME:PORT>"
+              ],
+              "tip": [
+                "后端的默认服务，格式为 svcname:port。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--rule",
+              "usage": [
+                "--rule <RULE>"
+              ],
+              "tip": [
+                "规则格式为 host/path=service:port[,tls=secretname]。",
+                "以 '*' 开头的路径被视为 pathType=Prefix。",
+                "tls 参数可选。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "job",
+          "tip": [
+            "用指定名称创建 Job"
+          ],
+          "option": [
+            {
+              "name": "--from",
+              "usage": [
+                "--from <RESOURCE>"
+              ],
+              "tip": [
+                "用于创建 Job 的资源名称（仅支持 CronJob）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--image",
+              "usage": [
+                "--image <IMAGE>"
+              ],
+              "tip": [
+                "要运行的镜像名称。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "namespace",
+          "tip": [
+            "用指定名称创建命名空间"
+          ]
+        },
+        {
+          "name": "poddisruptionbudget",
+          "tip": [
+            "用指定名称创建 PodDisruptionBudget"
+          ],
+          "option": [
+            {
+              "name": "--max-unavailable",
+              "usage": [
+                "--max-unavailable <VALUE>"
+              ],
+              "tip": [
+                "此预算允许的不可用 Pod 最大数量或百分比。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--min-available",
+              "usage": [
+                "--min-available <VALUE>"
+              ],
+              "tip": [
+                "此预算要求的最小可用 Pod 数量或百分比。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "priorityclass",
+          "tip": [
+            "用指定名称创建 PriorityClass"
+          ],
+          "option": [
+            {
+              "name": "--description",
+              "usage": [
+                "--description <TEXT>"
+              ],
+              "tip": [
+                "描述是任意字符串，通常说明何时应使用此 PriorityClass。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--global-default",
+              "tip": [
+                "指定此 PriorityClass 是否应被视为默认优先级。"
+              ]
+            },
+            {
+              "name": "--preemption-policy",
+              "usage": [
+                "--preemption-policy <POLICY>"
+              ],
+              "tip": [
+                "抢占低优先级 Pod 的策略。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--value",
+              "usage": [
+                "--value <VALUE>"
+              ],
+              "tip": [
+                "此 PriorityClass 的值。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "quota",
+          "tip": [
+            "用指定名称创建配额"
+          ],
+          "option": [
+            {
+              "name": "--hard",
+              "usage": [
+                "--hard <RESOURCE=QUANTITY>"
+              ],
+              "tip": [
+                "定义硬性限制的 resource=quantity 对集合，逗号分隔。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--scopes",
+              "usage": [
+                "--scopes <SCOPES>"
+              ],
+              "tip": [
+                "配额作用域集合，逗号分隔；配额跟踪的每个对象必须全部匹配。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "role",
+          "tip": [
+            "创建带单条规则的 Role"
+          ],
+          "option": [
+            {
+              "name": "--resource",
+              "usage": [
+                "--resource <RESOURCE>"
+              ],
+              "tip": [
+                "规则适用的资源。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--resource-name",
+              "usage": [
+                "--resource-name <NAME>"
+              ],
+              "tip": [
+                "规则适用的白名单中的资源，可重复此标志以指定多个。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--verb",
+              "usage": [
+                "--verb <VERB>"
+              ],
+              "tip": [
+                "适用于规则中资源的动词。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "rolebinding",
+          "tip": [
+            "为特定角色或集群角色创建角色绑定"
+          ],
+          "option": [
+            {
+              "name": "--clusterrole",
+              "usage": [
+                "--clusterrole <NAME>"
+              ],
+              "tip": [
+                "此 RoleBinding 应引用的 ClusterRole。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "要绑定到角色的组。",
+                "可重复此标志以添加多个组。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--role",
+              "usage": [
+                "--role <NAME>"
+              ],
+              "tip": [
+                "此 RoleBinding 应引用的 Role。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <NAMESPACE:NAME>"
+              ],
+              "tip": [
+                "要绑定到角色的 ServiceAccount，格式为 <namespace>:<name>。",
+                "可重复此标志以添加多个 ServiceAccount。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "secret",
+          "tip": [
+            "使用指定子命令创建 Secret"
+          ],
+          "next": [
+            {
+              "name": "docker-registry",
+              "tip": [
+                "创建用于 Docker 仓库的 Secret"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "将 Secret 的哈希附加到其名称。"
+                  ]
+                },
+                {
+                  "name": "--docker-email",
+                  "usage": [
+                    "--docker-email <EMAIL>"
+                  ],
+                  "tip": [
+                    "Docker 仓库的邮箱。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-password",
+                  "usage": [
+                    "--docker-password <PASSWORD>"
+                  ],
+                  "tip": [
+                    "Docker 仓库认证密码。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-server",
+                  "usage": [
+                    "--docker-server <URL>"
+                  ],
+                  "tip": [
+                    "Docker 仓库的服务器地址。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--docker-username",
+                  "usage": [
+                    "--docker-username <USERNAME>"
+                  ],
+                  "tip": [
+                    "Docker 仓库认证用户名。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <FILE>"
+                  ],
+                  "tip": [
+                    "键文件可以用其文件路径指定，此时默认使用 .dockerconfigjson 作为名称。",
+                    "也可以指定名称和文件路径，此时使用给定的名称。",
+                    "指定目录时，会遍历该目录中可作为有效 Secret 键的每个文件。",
+                    "对于此命令，键应始终为 .dockerconfigjson。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "generic",
+              "tip": [
+                "从本地文件、目录或字面值创建 Secret"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "将 Secret 的哈希附加到其名称。"
+                  ]
+                },
+                {
+                  "name": "--from-env-file",
+                  "usage": [
+                    "--from-env-file <FILE>"
+                  ],
+                  "tip": [
+                    "指定文件路径，读取其中的 key=val 行以创建 Secret。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-file",
+                  "usage": [
+                    "--from-file <FILE>"
+                  ],
+                  "tip": [
+                    "键文件可以用其文件路径指定，此时将使用默认名称。",
+                    "也可以指定名称和文件路径，此时使用给定的名称。",
+                    "指定目录时，会遍历该目录中可作为有效 Secret 键的每个文件。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--from-literal",
+                  "usage": [
+                    "--from-literal <KEY=VALUE>"
+                  ],
+                  "tip": [
+                    "指定要插入 Secret 的键和字面值（例如 mykey=somevalue）。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "--type",
+                  "usage": [
+                    "--type <TYPE>"
+                  ],
+                  "tip": [
+                    "要创建的 Secret 类型。"
+                  ],
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "tls",
+              "tip": [
+                "创建 TLS Secret"
+              ],
+              "option": [
+                {
+                  "name": "--append-hash",
+                  "tip": [
+                    "将 Secret 的哈希附加到其名称。"
+                  ]
+                },
+                {
+                  "name": "--cert",
+                  "usage": [
+                    "--cert <FILE>"
+                  ],
+                  "tip": [
+                    "PEM 编码公钥证书的路径。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--key",
+                  "usage": [
+                    "--key <FILE>"
+                  ],
+                  "tip": [
+                    "与给定证书关联的私钥路径。"
+                  ],
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "service",
+          "tip": [
+            "使用指定子命令创建 Service"
+          ],
+          "next": [
+            {
+              "name": "clusterip",
+              "tip": [
+                "创建 ClusterIP Service"
+              ],
+              "option": [
+                {
+                  "name": "--clusterip",
+                  "usage": [
+                    "--clusterip <IP>"
+                  ],
+                  "tip": [
+                    "分配自己的 ClusterIP，或设为 'None' 以创建无头服务（无负载均衡）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "端口对可以指定为 '<port>:<targetPort>'。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "externalname",
+              "tip": [
+                "创建 ExternalName Service"
+              ],
+              "option": [
+                {
+                  "name": "--external-name",
+                  "usage": [
+                    "--external-name <NAME>"
+                  ],
+                  "tip": [
+                    "服务的外部名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "端口对可以指定为 '<port>:<targetPort>'。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "loadbalancer",
+              "tip": [
+                "创建 LoadBalancer Service"
+              ],
+              "option": [
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "端口对可以指定为 '<port>:<targetPort>'。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            },
+            {
+              "name": "nodeport",
+              "tip": [
+                "创建 NodePort Service"
+              ],
+              "option": [
+                {
+                  "name": "--node-port",
+                  "usage": [
+                    "--node-port <PORT>"
+                  ],
+                  "tip": [
+                    "在集群中每个节点上暴露服务所用的端口。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "--tcp",
+                  "usage": [
+                    "--tcp <PORT:TARGET_PORT>"
+                  ],
+                  "tip": [
+                    "端口对可以指定为 '<port>:<targetPort>'。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "serviceaccount",
+          "tip": [
+            "用指定名称创建 ServiceAccount"
+          ]
+        },
+        {
+          "name": "token",
+          "tip": [
+            "请求 ServiceAccount 令牌"
+          ],
+          "option": [
+            {
+              "name": "--audience",
+              "usage": [
+                "--audience <AUDIENCE>"
+              ],
+              "tip": [
+                "请求令牌的受众。",
+                "未设置时，默认请求用于 Kubernetes API 服务器的令牌。",
+                "可重复以请求对多个受众有效的令牌。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--bound-object-kind",
+              "usage": [
+                "--bound-object-kind <KIND>"
+              ],
+              "tip": [
+                "要绑定令牌的对象类型。",
+                "支持的类型为 Node、Pod、Secret。",
+                "设置时必须提供 --bound-object-name。"
+              ],
+              "next": [
+                {
+                  "name": "Node",
+                  "tip": [
+                    "绑定到 Node。"
+                  ]
+                },
+                {
+                  "name": "Pod",
+                  "tip": [
+                    "绑定到 Pod。"
+                  ]
+                },
+                {
+                  "name": "Secret",
+                  "tip": [
+                    "绑定到 Secret。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--bound-object-name",
+              "usage": [
+                "--bound-object-name <NAME>"
+              ],
+              "tip": [
+                "要绑定令牌的对象名称。",
+                "对象删除时令牌将过期。",
+                "需要 --bound-object-kind。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--bound-object-uid",
+              "usage": [
+                "--bound-object-uid <UID>"
+              ],
+              "tip": [
+                "要绑定令牌的对象的 UID。",
+                "需要 --bound-object-kind 和 --bound-object-name。",
+                "未设置时，使用现有对象的 UID。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--duration",
+              "usage": [
+                "--duration <DURATION>"
+              ],
+              "tip": [
+                "所签发令牌的请求有效期。",
+                "未设置或设为 0 时，有效期由服务器自动确定。",
+                "服务器可能返回有效期更长或更短的令牌。"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "debug",
       "tip": [
         "创建用于调试工作负载和节点的调试会话"
+      ],
+      "option": [
+        {
+          "name": "--arguments-only",
+          "tip": [
+            "指定时，-- 之后的所有内容将作为 Args 而不是 Command 传给新容器。"
+          ]
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "设为 true 时，等待容器开始运行，然后像调用 'kubectl attach ...' 一样附加。",
+            "默认为 false；如果设置了 -i/--stdin，则默认为 true。"
+          ]
+        },
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "调试容器使用的容器名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--copy-to",
+          "usage": [
+            "--copy-to <NAME>"
+          ],
+          "tip": [
+            "用此名称创建目标 Pod 的副本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--custom",
+          "usage": [
+            "--custom <FILE>"
+          ],
+          "tip": [
+            "包含部分容器规范的 JSON 或 YAML 文件路径，用于自定义内置调试配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <KEY=VALUE>"
+          ],
+          "tip": [
+            "在容器中设置的环境变量。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--image",
+          "usage": [
+            "--image <IMAGE>"
+          ],
+          "tip": [
+            "调试容器使用的镜像。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-pull-policy",
+          "usage": [
+            "--image-pull-policy <POLICY>"
+          ],
+          "tip": [
+            "容器的镜像拉取策略。",
+            "留空时由客户端不指定，由服务器使用默认值。"
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "总是拉取镜像。"
+              ]
+            },
+            {
+              "name": "IfNotPresent",
+              "tip": [
+                "仅在镜像不存在时拉取。"
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "从不拉取镜像。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--keep-annotations",
+          "tip": [
+            "设为 true 时，保留原始 Pod 注解。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--keep-init-containers",
+          "tip": [
+            "运行 Pod 的初始化容器。",
+            "默认为 true。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--keep-labels",
+          "tip": [
+            "设为 true 时，保留原始 Pod 标签。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--keep-liveness",
+          "tip": [
+            "设为 true 时，保留原始 Pod 存活探针。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--keep-readiness",
+          "tip": [
+            "设为 true 时，保留原始 Pod 就绪探针。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--keep-startup",
+          "tip": [
+            "设为 true 时，保留原始启动探针。",
+            "（此标志仅与 '--copy-to' 一起使用时有效。）"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "设为 true 时，抑制提示信息。"
+          ]
+        },
+        {
+          "name": "--replace",
+          "tip": [
+            "与 '--copy-to' 一起使用时，删除原始 Pod。"
+          ]
+        },
+        {
+          "name": "--same-node",
+          "tip": [
+            "与 '--copy-to' 一起使用时，将目标 Pod 的副本调度到同一节点。"
+          ]
+        },
+        {
+          "name": "--set-image",
+          "usage": [
+            "--set-image <NAME=IMAGE>"
+          ],
+          "tip": [
+            "与 '--copy-to' 一起使用时，用于更改容器镜像的 name=image 对列表，类似 'kubectl set image' 的工作方式。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--share-processes",
+          "tip": [
+            "与 '--copy-to' 一起使用时，在副本中启用进程命名空间共享。"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "保持 Pod 中容器的标准输入打开，即使没有附加任何内容。"
+          ]
+        },
+        {
+          "name": "--target",
+          "usage": [
+            "--target <NAME>"
+          ],
+          "tip": [
+            "使用临时容器时，以该容器名称中的进程为目标。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "为调试容器分配 TTY。"
+          ]
+        }
       ]
     },
     {
       "name": "delete",
       "tip": [
         "通过文件名、标准输入、资源和名称，或者通过资源和标签选择器来删除资源"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "删除指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "取值为 background、orphan 或 foreground。",
+            "选择依赖对象（例如 ReplicationController 创建的 Pod）的级联删除策略。",
+            "默认为 background。"
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "在后台删除依赖对象。"
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "先删除依赖对象，再删除属主。"
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "保留依赖对象并将其孤立。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于过滤的字段选择器。",
+            "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+            "服务器对每种类型仅支持有限数量的字段查询。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "设为 true 时，立即从 API 中移除资源并跳过优雅删除。",
+            "某些资源的立即删除可能导致不一致或数据丢失，并且需要确认。"
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "留给资源优雅终止的时间（秒）。",
+            "为负数时忽略。",
+            "设为 1 表示立即关闭。",
+            "仅当 --force 为 true（强制删除）时才能设为 0。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-not-found",
+          "tip": [
+            "设为 true 时，对不存在的特定对象抑制 NotFound 错误。",
+            "当查询资源集合且未找到资源时，此标志无效。",
+            "指定 --all 时默认为 true。"
+          ]
+        },
+        {
+          "name": "--interactive",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --interactive"
+          ],
+          "tip": [
+            "设为 true 时，仅在用户确认后删除资源。"
+          ]
+        },
+        {
+          "name": "--now",
+          "tip": [
+            "设为 true 时，通知资源立即关闭（等同于 --grace-period=1）。"
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "向服务器发送 DELETE 请求的原始 URI。",
+            "使用 kubeconfig 文件指定的传输配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "删除操作放弃前等待的时间；0 表示根据对象大小自动确定超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "设为 true 时，返回前等待资源消失。",
+            "这会等待 finalizer 完成。"
+          ]
+        }
       ]
     },
     {
       "name": "describe",
       "tip": [
         "显示特定资源或资源组的详细信息"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "分块返回大型列表，而不是一次性返回。",
+            "传 0 可禁用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--show-events",
+          "tip": [
+            "设为 true 时显示与所描述对象相关的事件。",
+            "单个对象默认为 true；多个对象和前缀匹配时默认为 false。"
+          ]
+        }
       ]
     },
     {
       "name": "diff",
       "tip": [
         "将实时版本与将要应用的版本进行比较"
+      ],
+      "option": [
+        {
+          "name": "--concurrency",
+          "usage": [
+            "--concurrency <NUM>"
+          ],
+          "tip": [
+            "与运行中版本比较差异时并行处理的对象数量。",
+            "数值越大速度越快，但会在更短时间内消耗更多内存、I/O 和 CPU。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--force-conflicts",
+          "tip": [
+            "设为 true 时，服务端应用会强制覆盖冲突的更改。"
+          ]
+        },
+        {
+          "name": "--prune",
+          "tip": [
+            "包含将被裁剪删除的资源。",
+            "可与 -l 一起使用，默认显示所有将被裁剪的资源。"
+          ]
+        },
+        {
+          "name": "--prune-allowlist",
+          "usage": [
+            "--prune-allowlist <GROUP/VERSION/KIND>"
+          ],
+          "tip": [
+            "用 <group/version/kind> 覆盖 --prune 的默认允许列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--server-side",
+          "tip": [
+            "设为 true 时，apply 在服务端而不是客户端运行。"
+          ]
+        },
+        {
+          "name": "--show-secrets",
+          "tip": [
+            "设为 true 时，不在差异中掩码 Secret 值。"
+          ]
+        }
       ]
     },
     {
       "name": "drain",
       "tip": [
         "排空节点以准备进行维护"
+      ],
+      "option": [
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "分块返回大型列表，而不是一次性返回。",
+            "传 0 可禁用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--delete-emptydir-data",
+          "tip": [
+            "即使存在使用 emptyDir 的 Pod 也继续（节点腾空时这些本地数据将被删除）。"
+          ]
+        },
+        {
+          "name": "--disable-eviction",
+          "tip": [
+            "即使支持驱逐，也强制 drain 使用删除操作。",
+            "这会绕过 PodDisruptionBudget 检查，请谨慎使用。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "即使存在未声明控制器的 Pod 也继续。"
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "留给每个 Pod 优雅终止的时间（秒）。",
+            "为负数时使用 Pod 中指定的默认值。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-daemonsets",
+          "tip": [
+            "忽略由 DaemonSet 管理的 Pod。"
+          ]
+        },
+        {
+          "name": "--pod-selector",
+          "usage": [
+            "--pod-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于筛选节点上 Pod 的标签选择器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--skip-wait-for-delete-timeout",
+          "usage": [
+            "--skip-wait-for-delete-timeout <SECONDS>"
+          ],
+          "tip": [
+            "如果 Pod 的 DeletionTimestamp 早于 N 秒，则跳过等待该 Pod。",
+            "秒数必须大于 0 才会跳过。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "放弃前等待的时间，0 表示无限等待。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "edit",
       "tip": [
         "在服务器上编辑一个资源"
+      ],
+      "option": [
+        {
+          "name": "--output-patch",
+          "tip": [
+            "如果资源被编辑，输出补丁。"
+          ]
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "指定时，操作将作用于请求对象的子资源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--windows-line-endings",
+          "tip": [
+            "默认使用当前平台的原生行尾。"
+          ]
+        }
       ]
     },
     {
       "name": "events",
       "tip": [
         "列出事件"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "分块返回大型列表，而不是一次性返回。",
+            "传 0 可禁用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--for",
+          "usage": [
+            "--for <RESOURCE>"
+          ],
+          "tip": [
+            "仅筛选与指定资源相关的事件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "使用默认输出格式时不打印表头。"
+          ]
+        },
+        {
+          "name": "--types",
+          "usage": [
+            "--types <TYPES>"
+          ],
+          "tip": [
+            "仅输出指定类型的事件。"
+          ],
+          "repeat": 99,
+          "next": [
+            {
+              "name": "Normal",
+              "tip": [
+                "普通事件。"
+              ]
+            },
+            {
+              "name": "Warning",
+              "tip": [
+                "警告事件。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "列出请求的事件后，持续监视更多事件。"
+          ]
+        }
       ]
     },
     {
       "name": "exec",
       "tip": [
         "在容器中执行命令"
+      ],
+      "option": [
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "容器名称。",
+            "省略时使用 kubectl.kubernetes.io/default-container 注解，或选择 Pod 中的第一个容器。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "仅打印远程会话的输出。"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "将标准输入传给容器。"
+          ]
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "标准输入是一个 TTY。"
+          ]
+        }
       ]
     },
     {
       "name": "explain",
       "tip": [
         "获取一个资源的相关文档"
+      ],
+      "option": [
+        {
+          "name": "--api-version",
+          "usage": [
+            "--api-version <VERSION>"
+          ],
+          "tip": [
+            "获取特定 API 版本（API 组/版本）的解释。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-depth",
+          "usage": [
+            "--max-depth <DEPTH>"
+          ],
+          "tip": [
+            "使用 --recursive 打印嵌套字段时的最大递归深度。",
+            "0 表示不限制。",
+            "大于 0 时需要 --recursive。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "expose",
       "tip": [
         "将副本控制器、服务、部署或 pod 公开为新的 Kubernetes 服务"
+      ],
+      "option": [
+        {
+          "name": "--cluster-ip",
+          "usage": [
+            "--cluster-ip <IP>"
+          ],
+          "tip": [
+            "分配给服务的 ClusterIP。",
+            "留空以自动分配，或设为 'None' 以创建无头服务。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--external-ip",
+          "usage": [
+            "--external-ip <IP>"
+          ],
+          "tip": [
+            "服务可接受的额外外部 IP 地址（不由 Kubernetes 管理）。",
+            "如果此 IP 路由到某个节点，则除生成的服务 IP 外，还可以通过此 IP 访问服务。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-balancer-ip",
+          "usage": [
+            "--load-balancer-ip <IP>"
+          ],
+          "tip": [
+            "分配给 LoadBalancer 的 IP。",
+            "留空时将创建并使用临时 IP（特定于云提供商）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--name",
+          "usage": [
+            "--name <NAME>"
+          ],
+          "tip": [
+            "新创建对象的名称。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--override-type",
+          "usage": [
+            "--override-type <TYPE>"
+          ],
+          "tip": [
+            "覆盖生成对象的方法：json、merge 或 strategic。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 补丁。"
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON 合并补丁。"
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "策略合并补丁。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--overrides",
+          "usage": [
+            "--overrides <JSON>"
+          ],
+          "tip": [
+            "用于生成对象的内联 JSON 覆盖。",
+            "非空时，将用于覆盖生成的对象。",
+            "要求对象提供有效的 apiVersion 字段。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "服务应监听的端口。",
+            "未指定时从被暴露的资源复制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--protocol",
+          "usage": [
+            "--protocol <PROTOCOL>"
+          ],
+          "tip": [
+            "要创建的服务的网络协议。",
+            "默认为 'TCP'。"
+          ],
+          "next": [
+            {
+              "name": "SCTP"
+            },
+            {
+              "name": "TCP"
+            },
+            {
+              "name": "UDP"
+            }
+          ]
+        },
+        {
+          "name": "--session-affinity",
+          "usage": [
+            "--session-affinity <AFFINITY>"
+          ],
+          "tip": [
+            "非空时，将服务的会话亲和性设置为此值；合法值为 'None' 和 'ClientIP'。"
+          ],
+          "next": [
+            {
+              "name": "ClientIP",
+              "tip": [
+                "基于客户端 IP 的亲和性。"
+              ]
+            },
+            {
+              "name": "None",
+              "tip": [
+                "无会话亲和性。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--target-port",
+          "usage": [
+            "--target-port <PORT>"
+          ],
+          "tip": [
+            "服务应将流量定向到的容器端口名称或编号。",
+            "可选。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "服务类型：ClusterIP、NodePort、LoadBalancer 或 ExternalName。",
+            "默认为 'ClusterIP'。"
+          ],
+          "next": [
+            {
+              "name": "ClusterIP"
+            },
+            {
+              "name": "ExternalName"
+            },
+            {
+              "name": "LoadBalancer"
+            },
+            {
+              "name": "NodePort"
+            }
+          ]
+        }
       ]
     },
     {
       "name": "get",
       "tip": [
         "显示一个或多个资源"
+      ],
+      "option": [
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--chunk-size",
+          "usage": [
+            "--chunk-size <SIZE>"
+          ],
+          "tip": [
+            "分块返回大型列表，而不是一次性返回。",
+            "传 0 可禁用。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于过滤的字段选择器。",
+            "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+            "服务器对每种类型仅支持有限数量的字段查询。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-not-found",
+          "tip": [
+            "设为 true 时，对不存在的特定对象抑制 NotFound 错误。",
+            "当查询资源集合且未找到资源时，此标志无效。"
+          ]
+        },
+        {
+          "name": "--label-columns",
+          "alias": [
+            "-L"
+          ],
+          "usage": [
+            "-L, --label-columns <LABELS>"
+          ],
+          "tip": [
+            "接受逗号分隔的标签列表，将其作为列显示。",
+            "名称区分大小写。",
+            "也可以重复使用，如 -L label1 -L label2..."
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--no-headers",
+          "tip": [
+            "使用默认或 custom-column 输出格式时不打印表头（默认打印表头）。"
+          ]
+        },
+        {
+          "name": "--output-watch-events",
+          "tip": [
+            "使用 --watch 或 --watch-only 时输出 watch 事件对象。",
+            "已存在的对象会作为初始 ADDED 事件输出。"
+          ]
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "向服务器请求的原始 URI。",
+            "使用 kubeconfig 文件指定的传输配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--server-print",
+          "tip": [
+            "设为 true 时，让服务器返回合适的表格输出。",
+            "支持扩展 API 和 CRD。"
+          ]
+        },
+        {
+          "name": "--show-kind",
+          "tip": [
+            "列出请求对象的资源类型。"
+          ]
+        },
+        {
+          "name": "--show-labels",
+          "tip": [
+            "打印时将所有标签作为最后一列显示（默认隐藏标签列）。"
+          ]
+        },
+        {
+          "name": "--sort-by",
+          "usage": [
+            "--sort-by <FIELD>"
+          ],
+          "tip": [
+            "非空时，按此字段规范对列表排序。",
+            "字段规范使用 JSONPath 表达式表示（例如 '{.metadata.name}'）。",
+            "该 JSONPath 指定的 API 资源字段必须是整数或字符串。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "指定时，获取请求对象的子资源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--watch",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --watch"
+          ],
+          "tip": [
+            "列出/获取请求对象后，持续监视其变化。"
+          ]
+        },
+        {
+          "name": "--watch-only",
+          "tip": [
+            "直接监视请求对象的变化，不先列出/获取。"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "tip": [
+        "关于任何命令的帮助"
       ]
     },
     {
@@ -184,6 +3049,136 @@
           "name": "set",
           "tip": [
             "设置 kuberc 偏好"
+          ],
+          "option": [
+            {
+              "name": "--allowlist-entry",
+              "usage": [
+                "--allowlist-entry <FIELD=VALUE>"
+              ],
+              "tip": [
+                "允许列表条目，格式为 field=value（可多次指定）。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--appendarg",
+              "usage": [
+                "--appendarg <ARG>"
+              ],
+              "tip": [
+                "要附加到命令的参数（可多次指定，仅用于别名）。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--command",
+              "usage": [
+                "--command <COMMAND>"
+              ],
+              "tip": [
+                "要配置的命令（例如 'get'、'create'、'set env'）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--name",
+              "usage": [
+                "--name <NAME>"
+              ],
+              "tip": [
+                "别名名称（--section=aliases 时必填）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--option",
+              "usage": [
+                "--option <FLAG=VALUE>"
+              ],
+              "tip": [
+                "flag=value 形式的标志选项（可多次指定）。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "允许覆盖现有条目。"
+              ]
+            },
+            {
+              "name": "--policy",
+              "usage": [
+                "--policy <POLICY>"
+              ],
+              "tip": [
+                "用于 exec 凭据插件的插件策略，必须为 'AllowAll'、'DenyAll' 或 'Allowlist' 之一。"
+              ],
+              "next": [
+                {
+                  "name": "AllowAll",
+                  "tip": [
+                    "允许所有插件。"
+                  ]
+                },
+                {
+                  "name": "Allowlist",
+                  "tip": [
+                    "仅允许允许列表中的插件。"
+                  ]
+                },
+                {
+                  "name": "DenyAll",
+                  "tip": [
+                    "拒绝所有插件。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--prependarg",
+              "usage": [
+                "--prependarg <ARG>"
+              ],
+              "tip": [
+                "要前置到命令的参数（可多次指定，仅用于别名）。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--section",
+              "usage": [
+                "--section <SECTION>"
+              ],
+              "tip": [
+                "要修改的区段：'defaults'、'aliases' 或 'credentialplugin'。"
+              ],
+              "next": [
+                {
+                  "name": "aliases",
+                  "tip": [
+                    "命令别名。"
+                  ]
+                },
+                {
+                  "name": "credentialplugin",
+                  "tip": [
+                    "凭据插件策略。"
+                  ]
+                },
+                {
+                  "name": "defaults",
+                  "tip": [
+                    "默认偏好。"
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
@@ -198,18 +3193,335 @@
       "name": "kustomize",
       "tip": [
         "从目录或 URL 构建一个 kustomization 目标"
+      ],
+      "option": [
+        {
+          "name": "--as-current-user",
+          "tip": [
+            "使用命令执行者的 uid 和 gid 在容器中运行函数。"
+          ]
+        },
+        {
+          "name": "--enable-alpha-plugins",
+          "tip": [
+            "启用 kustomize 插件。"
+          ]
+        },
+        {
+          "name": "--enable-helm",
+          "tip": [
+            "启用 Helm chart inflator 生成器。"
+          ]
+        },
+        {
+          "name": "--env",
+          "alias": [
+            "-e"
+          ],
+          "usage": [
+            "-e, --env <KEY=VALUE>"
+          ],
+          "tip": [
+            "供函数使用的环境变量列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-api-versions",
+          "usage": [
+            "--helm-api-versions <VERSIONS>"
+          ],
+          "tip": [
+            "Helm 用于 Capabilities.APIVersions 的 Kubernetes API 版本。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--helm-command",
+          "usage": [
+            "--helm-command <COMMAND>"
+          ],
+          "tip": [
+            "helm 命令（可执行文件路径）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--helm-debug",
+          "tip": [
+            "启用 Helm chart inflator 生成器的调试输出。"
+          ]
+        },
+        {
+          "name": "--helm-kube-version",
+          "usage": [
+            "--helm-kube-version <VERSION>"
+          ],
+          "tip": [
+            "Helm 用于 Capabilities.KubeVersion 的 Kubernetes 版本。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--load-restrictor",
+          "usage": [
+            "--load-restrictor <RESTRICTOR>"
+          ],
+          "tip": [
+            "设为 'LoadRestrictionsNone' 时，本地 kustomization 可以加载其根目录之外的文件。",
+            "但这会破坏 kustomization 的可重定位性。"
+          ],
+          "next": [
+            {
+              "name": "LoadRestrictionsNone",
+              "tip": [
+                "允许从根目录之外加载。"
+              ]
+            },
+            {
+              "name": "LoadRestrictionsRootOnly",
+              "tip": [
+                "仅允许从 kustomization 根目录加载。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--mount",
+          "usage": [
+            "--mount <STORAGE>"
+          ],
+          "tip": [
+            "从文件系统读取的存储选项列表。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--network",
+          "tip": [
+            "为声明需要网络的函数启用网络访问。"
+          ]
+        },
+        {
+          "name": "--network-name",
+          "usage": [
+            "--network-name <NAME>"
+          ],
+          "tip": [
+            "运行容器所用的 Docker 网络。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "label",
       "tip": [
         "更新资源的标签"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于过滤的字段选择器。",
+            "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+            "服务器对每种类型仅支持有限数量的字段查询。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--list",
+          "tip": [
+            "设为 true 时，显示给定资源的标签。"
+          ]
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "设为 true 时，label 不会联系 API 服务器，而是在本地运行。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "设为 true 时允许覆盖标签，否则拒绝覆盖现有标签的更新。"
+          ]
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "非空时，仅当这是对象的当前 resource-version 时，更新才会成功。",
+            "仅在指定单个资源时有效。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "logs",
       "tip": [
         "打印 pod 中容器的日志"
+      ],
+      "option": [
+        {
+          "name": "--all-containers",
+          "tip": [
+            "获取 Pod 中所有容器的日志。"
+          ]
+        },
+        {
+          "name": "--all-pods",
+          "tip": [
+            "获取所有 Pod 的日志。",
+            "会同时将 prefix 设为 true。"
+          ]
+        },
+        {
+          "name": "--container",
+          "alias": [
+            "-c"
+          ],
+          "usage": [
+            "-c, --container <NAME>"
+          ],
+          "tip": [
+            "打印此容器的日志。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--ignore-errors",
+          "tip": [
+            "监视/跟随 Pod 日志时，允许发生的错误不致命。"
+          ]
+        },
+        {
+          "name": "--insecure-skip-tls-verify-backend",
+          "tip": [
+            "跳过对提供日志的 kubelet 身份验证。",
+            "理论上，攻击者可能返回无效的日志内容。",
+            "当 kubelet 服务证书已过期时可以使用。"
+          ]
+        },
+        {
+          "name": "--limit-bytes",
+          "usage": [
+            "--limit-bytes <BYTES>"
+          ],
+          "tip": [
+            "返回日志的最大字节数。",
+            "默认不限制。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--max-log-requests",
+          "usage": [
+            "--max-log-requests <NUM>"
+          ],
+          "tip": [
+            "使用选择器时，同时跟随的最大日志数量。",
+            "默认为 5。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--prefix",
+          "tip": [
+            "在每行日志前加上日志来源（Pod 名称和容器名称）。"
+          ]
+        },
+        {
+          "name": "--previous",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --previous"
+          ],
+          "tip": [
+            "设为 true 时，如果存在，打印 Pod 中容器上一个实例的日志。"
+          ]
+        },
+        {
+          "name": "--since",
+          "usage": [
+            "--since <DURATION>"
+          ],
+          "tip": [
+            "仅返回比指定相对时长（如 5s、2m 或 3h）更新的日志。",
+            "默认返回所有日志。",
+            "since-time 和 since 只能使用其中一个。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--since-time",
+          "usage": [
+            "--since-time <TIMESTAMP>"
+          ],
+          "tip": [
+            "仅返回指定日期（RFC3339）之后的日志。",
+            "默认返回所有日志。",
+            "since-time 和 since 只能使用其中一个。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tail",
+          "usage": [
+            "--tail <LINES>"
+          ],
+          "tip": [
+            "显示最近日志文件的行数。",
+            "没有选择器时默认为 -1，显示所有日志；有选择器时默认为 10。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timestamps",
+          "tip": [
+            "在日志输出的每一行中包含时间戳。"
+          ]
+        }
       ]
     },
     {
@@ -222,66 +3534,1296 @@
       "name": "patch",
       "tip": [
         "更新资源的字段"
+      ],
+      "option": [
+        {
+          "name": "--local",
+          "tip": [
+            "设为 true 时，该操作不会联系 API 服务器，而是在本地运行。"
+          ]
+        },
+        {
+          "name": "--patch",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --patch <PATCH>"
+          ],
+          "tip": [
+            "要应用到资源 JSON 文件的补丁。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--patch-file",
+          "usage": [
+            "--patch-file <FILE>"
+          ],
+          "tip": [
+            "包含要应用到资源的补丁的文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "指定时，操作将作用于请求对象的子资源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--type",
+          "usage": [
+            "--type <TYPE>"
+          ],
+          "tip": [
+            "提供的补丁类型；取值为 [json merge strategic]。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 补丁。"
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON 合并补丁。"
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "策略合并补丁。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "plugin",
       "tip": [
         "提供与插件交互的工具"
+      ],
+      "next": [
+        {
+          "name": "list",
+          "tip": [
+            "列出用户 PATH 中所有可见的插件可执行文件"
+          ],
+          "option": [
+            {
+              "name": "--name-only",
+              "tip": [
+                "设为 true 时，仅显示每个插件的二进制名称，而不是完整路径。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
       "name": "port-forward",
       "tip": [
         "将一个或多个本地端口转发到 pod"
+      ],
+      "option": [
+        {
+          "name": "--address",
+          "usage": [
+            "--address <ADDRESSES>"
+          ],
+          "tip": [
+            "监听地址（逗号分隔）。",
+            "仅接受 IP 地址或 localhost。",
+            "提供 localhost 时，kubectl 会尝试同时绑定 127.0.0.1 和 ::1，如果两个地址都不可用则失败。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "proxy",
       "tip": [
         "运行到 Kubernetes API 服务器的代理"
+      ],
+      "option": [
+        {
+          "name": "--accept-hosts",
+          "usage": [
+            "--accept-hosts <REGEX>"
+          ],
+          "tip": [
+            "代理应接受的主机的正则表达式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--accept-paths",
+          "usage": [
+            "--accept-paths <REGEX>"
+          ],
+          "tip": [
+            "代理应接受的路径的正则表达式。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--address",
+          "usage": [
+            "--address <IP>"
+          ],
+          "tip": [
+            "提供服务所用的 IP 地址。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--api-prefix",
+          "usage": [
+            "--api-prefix <PREFIX>"
+          ],
+          "tip": [
+            "代理 API 的服务前缀。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--append-server-path",
+          "tip": [
+            "设为 true 时，自动将 kube 上下文服务器路径附加到每个请求。"
+          ]
+        },
+        {
+          "name": "--disable-filter",
+          "tip": [
+            "设为 true 时，禁用代理中的请求过滤。",
+            "这很危险，与可访问的端口一起使用时可能使你容易受到 XSRF 攻击。"
+          ]
+        },
+        {
+          "name": "--keepalive",
+          "usage": [
+            "--keepalive <DURATION>"
+          ],
+          "tip": [
+            "keepalive 指定活动网络连接的保活周期。",
+            "设为 0 可禁用保活。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "alias": [
+            "-p"
+          ],
+          "usage": [
+            "-p, --port <PORT>"
+          ],
+          "tip": [
+            "运行代理的端口。",
+            "设为 0 以随机选择端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reject-methods",
+          "usage": [
+            "--reject-methods <REGEX>"
+          ],
+          "tip": [
+            "代理应拒绝的 HTTP 方法的正则表达式（例如 --reject-methods='POST,PUT,PATCH'）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--reject-paths",
+          "usage": [
+            "--reject-paths <REGEX>"
+          ],
+          "tip": [
+            "代理应拒绝的路径的正则表达式。",
+            "此处指定的路径即使被 --accept-paths 接受也会被拒绝。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--unix-socket",
+          "alias": [
+            "-u"
+          ],
+          "usage": [
+            "-u, --unix-socket <PATH>"
+          ],
+          "tip": [
+            "运行代理的 Unix 套接字。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--www",
+          "alias": [
+            "-w"
+          ],
+          "usage": [
+            "-w, --www <DIR>"
+          ],
+          "tip": [
+            "同时从给定目录在指定前缀下提供静态文件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--www-prefix",
+          "alias": [
+            "-P"
+          ],
+          "usage": [
+            "-P, --www-prefix <PREFIX>"
+          ],
+          "tip": [
+            "指定静态文件目录时，提供静态文件的前缀。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "replace",
       "tip": [
         "通过文件名或标准输入替换资源"
+      ],
+      "option": [
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "取值为 background、orphan 或 foreground。",
+            "选择依赖对象（例如 ReplicationController 创建的 Pod）的级联删除策略。",
+            "默认为 background。"
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "在后台删除依赖对象。"
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "先删除依赖对象，再删除属主。"
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "保留依赖对象并将其孤立。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "设为 true 时，立即从 API 中移除资源并跳过优雅删除。",
+            "某些资源的立即删除可能导致不一致或数据丢失，并且需要确认。"
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "留给资源优雅终止的时间（秒）。",
+            "为负数时忽略。",
+            "设为 1 表示立即关闭。",
+            "仅当 --force 为 true（强制删除）时才能设为 0。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--raw",
+          "usage": [
+            "--raw <URI>"
+          ],
+          "tip": [
+            "向服务器发送 PUT 请求的原始 URI。",
+            "使用 kubeconfig 文件指定的传输配置。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--subresource",
+          "usage": [
+            "--subresource <SUB_RESOURCE>"
+          ],
+          "tip": [
+            "指定时，操作将作用于请求对象的子资源。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "删除操作放弃前等待的时间；0 表示根据对象大小自动确定超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "设为 true 时，返回前等待资源消失。",
+            "这会等待 finalizer 完成。"
+          ]
+        }
       ]
     },
     {
       "name": "rollout",
       "tip": [
         "管理资源的滚动更新"
+      ],
+      "next": [
+        {
+          "name": "history",
+          "tip": [
+            "查看发布历史"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "查看指定版本的详细信息，包括 podTemplate。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "pause",
+          "tip": [
+            "将提供的资源标记为暂停"
+          ]
+        },
+        {
+          "name": "restart",
+          "tip": [
+            "重启资源"
+          ]
+        },
+        {
+          "name": "resume",
+          "tip": [
+            "恢复已暂停的资源"
+          ]
+        },
+        {
+          "name": "status",
+          "tip": [
+            "显示发布的状态"
+          ],
+          "option": [
+            {
+              "name": "--revision",
+              "usage": [
+                "--revision <REVISION>"
+              ],
+              "tip": [
+                "固定到特定版本以显示其状态。",
+                "默认为 0（最新版本）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--timeout",
+              "usage": [
+                "--timeout <DURATION>"
+              ],
+              "tip": [
+                "结束监视前等待的时间，0 表示永不结束。",
+                "其他值应包含相应的时间单位（例如 1s、2m、3h）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--watch",
+              "alias": [
+                "-w"
+              ],
+              "usage": [
+                "-w, --watch"
+              ],
+              "tip": [
+                "监视发布状态直到完成。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "undo",
+          "tip": [
+            "撤销之前的发布"
+          ],
+          "option": [
+            {
+              "name": "--to-revision",
+              "usage": [
+                "--to-revision <REVISION>"
+              ],
+              "tip": [
+                "要回滚到的版本。",
+                "默认为 0（最新版本）。"
+              ],
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "run",
       "tip": [
         "在集群上运行特定的镜像"
+      ],
+      "option": [
+        {
+          "name": "--annotations",
+          "usage": [
+            "--annotations <KEY=VALUE>"
+          ],
+          "tip": [
+            "应用到 Pod 的注解。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--attach",
+          "tip": [
+            "设为 true 时，等待 Pod 开始运行，然后像调用 'kubectl attach ...' 一样附加到 Pod。",
+            "默认为 false；如果设置了 -i/--stdin，则默认为 true。",
+            "使用 '--restart=Never' 时返回容器进程的退出码。"
+          ]
+        },
+        {
+          "name": "--cascade",
+          "usage": [
+            "--cascade <STRATEGY>"
+          ],
+          "tip": [
+            "取值为 background、orphan 或 foreground。",
+            "选择依赖对象（例如 ReplicationController 创建的 Pod）的级联删除策略。",
+            "默认为 background。"
+          ],
+          "next": [
+            {
+              "name": "background",
+              "tip": [
+                "在后台删除依赖对象。"
+              ]
+            },
+            {
+              "name": "foreground",
+              "tip": [
+                "先删除依赖对象，再删除属主。"
+              ]
+            },
+            {
+              "name": "orphan",
+              "tip": [
+                "保留依赖对象并将其孤立。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--command",
+          "tip": [
+            "设为 true 且存在额外参数时，将其用作容器中的 'command' 字段，而不是默认的 'args' 字段。"
+          ]
+        },
+        {
+          "name": "--detach-keys",
+          "usage": [
+            "--detach-keys <KEYS>"
+          ],
+          "tip": [
+            "覆盖分离容器时使用的按键序列。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--env",
+          "usage": [
+            "--env <KEY=VALUE>"
+          ],
+          "tip": [
+            "在容器中设置的环境变量。"
+          ],
+          "repeat": 99,
+          "next": []
+        },
+        {
+          "name": "--expose",
+          "tip": [
+            "设为 true 时，创建与 Pod 关联的 ClusterIP Service。",
+            "需要 `--port`。"
+          ]
+        },
+        {
+          "name": "--force",
+          "tip": [
+            "设为 true 时，立即从 API 中移除资源并跳过优雅删除。",
+            "某些资源的立即删除可能导致不一致或数据丢失，并且需要确认。"
+          ]
+        },
+        {
+          "name": "--grace-period",
+          "usage": [
+            "--grace-period <SECONDS>"
+          ],
+          "tip": [
+            "留给资源优雅终止的时间（秒）。",
+            "为负数时忽略。",
+            "设为 1 表示立即关闭。",
+            "仅当 --force 为 true（强制删除）时才能设为 0。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--image",
+          "usage": [
+            "--image <IMAGE>"
+          ],
+          "tip": [
+            "要运行的容器镜像。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--image-pull-policy",
+          "usage": [
+            "--image-pull-policy <POLICY>"
+          ],
+          "tip": [
+            "容器的镜像拉取策略。",
+            "留空时由客户端不指定，由服务器使用默认值。"
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "总是拉取镜像。"
+              ]
+            },
+            {
+              "name": "IfNotPresent",
+              "tip": [
+                "仅在镜像不存在时拉取。"
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "从不拉取镜像。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--leave-stdin-open",
+          "tip": [
+            "如果 Pod 以交互模式或带标准输入启动，则在第一次附加完成后保持标准输入打开。",
+            "默认情况下，第一次附加完成后会关闭标准输入。"
+          ]
+        },
+        {
+          "name": "--override-type",
+          "usage": [
+            "--override-type <TYPE>"
+          ],
+          "tip": [
+            "覆盖生成对象的方法：json、merge 或 strategic。"
+          ],
+          "next": [
+            {
+              "name": "json",
+              "tip": [
+                "JSON 补丁。"
+              ]
+            },
+            {
+              "name": "merge",
+              "tip": [
+                "JSON 合并补丁。"
+              ]
+            },
+            {
+              "name": "strategic",
+              "tip": [
+                "策略合并补丁。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--overrides",
+          "usage": [
+            "--overrides <JSON>"
+          ],
+          "tip": [
+            "用于生成对象的内联 JSON 覆盖。",
+            "非空时，将用于覆盖生成的对象。",
+            "要求对象提供有效的 apiVersion 字段。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--pod-running-timeout",
+          "usage": [
+            "--pod-running-timeout <DURATION>"
+          ],
+          "tip": [
+            "等待至少一个 Pod 运行的最长时间（如 5s、2m 或 3h，必须大于零）。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--port",
+          "usage": [
+            "--port <PORT>"
+          ],
+          "tip": [
+            "此容器暴露的端口。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--privileged",
+          "tip": [
+            "设为 true 时，以特权模式运行容器。"
+          ]
+        },
+        {
+          "name": "--quiet",
+          "alias": [
+            "-q"
+          ],
+          "usage": [
+            "-q, --quiet"
+          ],
+          "tip": [
+            "设为 true 时，抑制提示消息。"
+          ]
+        },
+        {
+          "name": "--restart",
+          "usage": [
+            "--restart <POLICY>"
+          ],
+          "tip": [
+            "此 Pod 的重启策略。",
+            "合法值为 [Always, OnFailure, Never]。"
+          ],
+          "next": [
+            {
+              "name": "Always",
+              "tip": [
+                "总是重启容器。"
+              ]
+            },
+            {
+              "name": "Never",
+              "tip": [
+                "从不重启容器。"
+              ]
+            },
+            {
+              "name": "OnFailure",
+              "tip": [
+                "仅在失败时重启。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "--rm",
+          "tip": [
+            "设为 true 时，Pod 退出后将其删除。",
+            "仅当附加到容器时有效，例如使用 '--attach' 或 '-i/--stdin'。"
+          ]
+        },
+        {
+          "name": "--stdin",
+          "alias": [
+            "-i"
+          ],
+          "usage": [
+            "-i, --stdin"
+          ],
+          "tip": [
+            "保持 Pod 中容器的标准输入打开，即使没有附加任何内容。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "删除操作放弃前等待的时间；0 表示根据对象大小自动确定超时。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--tty",
+          "alias": [
+            "-t"
+          ],
+          "usage": [
+            "-t, --tty"
+          ],
+          "tip": [
+            "为 Pod 中的容器分配 TTY。"
+          ]
+        },
+        {
+          "name": "--wait",
+          "tip": [
+            "设为 true 时，返回前等待资源消失。",
+            "这会等待 finalizer 完成。"
+          ]
+        }
       ]
     },
     {
       "name": "scale",
       "tip": [
         "为部署、副本集或副本控制器设置新的规模"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--current-replicas",
+          "usage": [
+            "--current-replicas <NUM>"
+          ],
+          "tip": [
+            "当前大小的前置条件。",
+            "要求资源的当前大小与此值匹配才能扩缩容。",
+            "-1（默认）表示无前置条件。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--replicas",
+          "usage": [
+            "--replicas <NUM>"
+          ],
+          "tip": [
+            "新的期望副本数。",
+            "必填。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--resource-version",
+          "usage": [
+            "--resource-version <VERSION>"
+          ],
+          "tip": [
+            "非空时，仅当这是对象的当前 resource-version 时，更新才会成功。",
+            "仅在指定单个资源时有效。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "扩缩容操作放弃前等待的时间，0 表示不等待。",
+            "其他值应包含相应的时间单位（例如 1s、2m、3h）。"
+          ],
+          "next": []
+        }
       ]
     },
     {
       "name": "set",
       "tip": [
         "在对象上设置特定的特性"
+      ],
+      "next": [
+        {
+          "name": "env",
+          "tip": [
+            "更新 Pod 模板上的环境变量"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--containers",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --containers <CONTAINERS>"
+              ],
+              "tip": [
+                "要更改的所选 Pod 模板中的容器名称，可使用通配符。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--env",
+              "alias": [
+                "-e"
+              ],
+              "usage": [
+                "-e, --env <KEY=VALUE>"
+              ],
+              "tip": [
+                "指定要设置到每个容器中的环境变量键值对。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--from",
+              "usage": [
+                "--from <RESOURCE>"
+              ],
+              "tip": [
+                "要从中注入环境变量的资源名称。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--keys",
+              "usage": [
+                "--keys <KEYS>"
+              ],
+              "tip": [
+                "要从指定资源导入的键列表，逗号分隔。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--list",
+              "tip": [
+                "设为 true 时，以标准格式显示环境变量及任何更改。",
+                "当 kubectl 提供 view env 后，此标志将被移除。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，set env 不会联系 API 服务器，而是在本地运行。"
+              ]
+            },
+            {
+              "name": "--overwrite",
+              "tip": [
+                "设为 true 时允许覆盖环境变量，否则拒绝覆盖现有环境变量的更新。"
+              ]
+            },
+            {
+              "name": "--prefix",
+              "usage": [
+                "--prefix <PREFIX>"
+              ],
+              "tip": [
+                "附加到变量名称的前缀。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--resolve",
+              "tip": [
+                "设为 true 时，列出变量时显示 Secret 或 ConfigMap 引用。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "image",
+          "tip": [
+            "更新 Pod 模板的镜像"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，set image 不会联系 API 服务器，而是在本地运行。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "resources",
+          "tip": [
+            "更新带 Pod 模板的对象的资源请求/限制"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--containers",
+              "alias": [
+                "-c"
+              ],
+              "usage": [
+                "-c, --containers <CONTAINERS>"
+              ],
+              "tip": [
+                "要更改的所选 Pod 模板中的容器名称，默认选择所有容器，可使用通配符。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--limits",
+              "usage": [
+                "--limits <LIMITS>"
+              ],
+              "tip": [
+                "此容器的资源限制。",
+                "例如 'cpu=100m,memory=256Mi'。",
+                "注意，服务器端组件可能根据服务器配置（如 LimitRange）分配限制。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，set resources 不会联系 API 服务器，而是在本地运行。"
+              ]
+            },
+            {
+              "name": "--requests",
+              "usage": [
+                "--requests <REQUESTS>"
+              ],
+              "tip": [
+                "此容器的资源请求。",
+                "例如 'cpu=100m,memory=256Mi'。",
+                "注意，服务器端组件可能根据服务器配置（如 LimitRange）分配请求。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "selector",
+          "tip": [
+            "设置资源的标签选择器"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，annotation 不会联系 API 服务器，而是在本地运行。"
+              ]
+            },
+            {
+              "name": "--resource-version",
+              "usage": [
+                "--resource-version <VERSION>"
+              ],
+              "tip": [
+                "非空时，仅当这是对象的当前 resource-version 时，选择器更新才会成功。",
+                "仅在指定单个资源时有效。"
+              ],
+              "next": []
+            }
+          ]
+        },
+        {
+          "name": "serviceaccount",
+          "tip": [
+            "更新资源的 ServiceAccount"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，set serviceaccount 不会联系 API 服务器，而是在本地运行。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "subject",
+          "tip": [
+            "更新 RoleBinding 或 ClusterRoleBinding 中的用户、组或 ServiceAccount"
+          ],
+          "option": [
+            {
+              "name": "--all",
+              "tip": [
+                "设为 true 时，选择指定资源类型所在命名空间中的所有资源。"
+              ]
+            },
+            {
+              "name": "--group",
+              "usage": [
+                "--group <GROUPS>"
+              ],
+              "tip": [
+                "要绑定到角色的组。"
+              ],
+              "repeat": 99,
+              "next": []
+            },
+            {
+              "name": "--local",
+              "tip": [
+                "设为 true 时，set subject 不会联系 API 服务器，而是在本地运行。"
+              ]
+            },
+            {
+              "name": "--serviceaccount",
+              "usage": [
+                "--serviceaccount <SERVICEACCOUNTS>"
+              ],
+              "tip": [
+                "要绑定到角色的 ServiceAccount。"
+              ],
+              "repeat": 99,
+              "next": []
+            }
+          ]
+        }
       ]
     },
     {
       "name": "taint",
       "tip": [
         "更新一个或多个节点的污点"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择集群中的所有节点。"
+          ]
+        },
+        {
+          "name": "--overwrite",
+          "tip": [
+            "设为 true 时允许覆盖污点，否则拒绝覆盖现有污点的更新。"
+          ]
+        }
       ]
     },
     {
       "name": "top",
       "tip": [
         "显示资源(CPU/内存)使用情况"
+      ],
+      "next": [
+        {
+          "name": "node",
+          "tip": [
+            "显示节点的资源（CPU/内存）使用情况"
+          ],
+          "option": [
+            {
+              "name": "--no-headers",
+              "tip": [
+                "打印输出时不显示表头。"
+              ]
+            },
+            {
+              "name": "--show-capacity",
+              "tip": [
+                "基于节点的 Capacity 而不是默认的 Allocatable 打印节点资源。"
+              ]
+            },
+            {
+              "name": "--show-swap",
+              "tip": [
+                "打印与交换内存相关的节点资源。"
+              ]
+            },
+            {
+              "name": "--sort-by",
+              "usage": [
+                "--sort-by <FIELD>"
+              ],
+              "tip": [
+                "非空时，按指定字段对节点列表排序。",
+                "字段可以是 'cpu' 或 'memory'。"
+              ],
+              "next": [
+                {
+                  "name": "cpu",
+                  "tip": [
+                    "按 CPU 使用量排序。"
+                  ]
+                },
+                {
+                  "name": "memory",
+                  "tip": [
+                    "按内存使用量排序。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--use-protocol-buffers",
+              "tip": [
+                "启用 protocol-buffers 访问 Metrics API。"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "pod",
+          "tip": [
+            "显示 Pod 的资源（CPU/内存）使用情况"
+          ],
+          "option": [
+            {
+              "name": "--all-namespaces",
+              "alias": [
+                "-A"
+              ],
+              "usage": [
+                "-A, --all-namespaces"
+              ],
+              "tip": [
+                "设为 true 时，检查所有命名空间中的指定操作。"
+              ]
+            },
+            {
+              "name": "--containers",
+              "tip": [
+                "打印 Pod 内容器的使用情况。"
+              ]
+            },
+            {
+              "name": "--field-selector",
+              "usage": [
+                "--field-selector <SELECTOR>"
+              ],
+              "tip": [
+                "用于过滤的字段选择器。",
+                "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+                "服务器对每种类型仅支持有限数量的字段查询。"
+              ],
+              "next": []
+            },
+            {
+              "name": "--no-headers",
+              "tip": [
+                "打印输出时不显示表头。"
+              ]
+            },
+            {
+              "name": "--show-swap",
+              "tip": [
+                "打印与交换内存相关的 Pod 资源。"
+              ]
+            },
+            {
+              "name": "--sort-by",
+              "usage": [
+                "--sort-by <FIELD>"
+              ],
+              "tip": [
+                "非空时，按指定字段对 Pod 列表排序。",
+                "字段可以是 'cpu' 或 'memory'。"
+              ],
+              "next": [
+                {
+                  "name": "cpu",
+                  "tip": [
+                    "按 CPU 使用量排序。"
+                  ]
+                },
+                {
+                  "name": "memory",
+                  "tip": [
+                    "按内存使用量排序。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "--sum",
+              "tip": [
+                "打印资源使用量的总和。"
+              ]
+            },
+            {
+              "name": "--use-protocol-buffers",
+              "tip": [
+                "启用 protocol-buffers 访问 Metrics API。"
+              ]
+            }
+          ]
+        }
       ]
     },
     {
@@ -300,12 +4842,84 @@
       "name": "version",
       "tip": [
         "打印客户端和服务器版本信息"
+      ],
+      "option": [
+        {
+          "name": "--client",
+          "tip": [
+            "设为 true 时，仅显示客户端版本（无需服务器）。"
+          ]
+        }
       ]
     },
     {
       "name": "wait",
       "tip": [
         "实验性：等待一个或多个资源达到特定条件"
+      ],
+      "option": [
+        {
+          "name": "--all",
+          "tip": [
+            "选择指定资源类型所在命名空间中的所有资源。"
+          ]
+        },
+        {
+          "name": "--all-namespaces",
+          "alias": [
+            "-A"
+          ],
+          "usage": [
+            "-A, --all-namespaces"
+          ],
+          "tip": [
+            "列出所有命名空间中的请求对象。",
+            "即使指定了 --namespace，也会忽略当前上下文中的命名空间。"
+          ]
+        },
+        {
+          "name": "--field-selector",
+          "usage": [
+            "--field-selector <SELECTOR>"
+          ],
+          "tip": [
+            "用于过滤的字段选择器。",
+            "支持 '='、'==' 和 '!='（例如 --field-selector key1=value1,key2=value2）。",
+            "服务器对每种类型仅支持有限数量的字段查询。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--for",
+          "usage": [
+            "--for <CONDITION>"
+          ],
+          "tip": [
+            "要等待的条件：[create|delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]]。",
+            "默认的 condition-value 为 true。",
+            "条件值在 Unicode 简单大小写折叠后进行比较，这是更通用的大小写不敏感形式。",
+            "支持多个条件，并按顺序以 AND 关系连接。",
+            "如果传入 --for=create，则总是先等待它。"
+          ],
+          "next": []
+        },
+        {
+          "name": "--local",
+          "tip": [
+            "设为 true 时，annotation 不会联系 API 服务器，而是在本地运行。"
+          ]
+        },
+        {
+          "name": "--timeout",
+          "usage": [
+            "--timeout <DURATION>"
+          ],
+          "tip": [
+            "放弃前等待的时间。",
+            "0 表示只检查一次而不等待，负数表示等待一周。"
+          ],
+          "next": []
+        }
       ]
     }
   ],
@@ -325,6 +4939,162 @@
   ],
   "global_option": [
     {
+      "name": "--allow-missing-template-keys",
+      "tip": [
+        "忽略模板中缺失的键。"
+      ]
+    },
+    {
+      "name": "--as",
+      "usage": [
+        "--as <USERNAME>"
+      ],
+      "tip": [
+        "用于操作的用户名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-group",
+      "usage": [
+        "--as-group <GROUP>"
+      ],
+      "tip": [
+        "用于操作的用户组，可重复。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-uid",
+      "usage": [
+        "--as-uid <UID>"
+      ],
+      "tip": [
+        "用于操作的 UID。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--as-user-extra",
+      "usage": [
+        "--as-user-extra <KEY=VALUE>"
+      ],
+      "tip": [
+        "用于操作用户的额外信息，可重复。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cache-dir",
+      "usage": [
+        "--cache-dir <DIR>"
+      ],
+      "tip": [
+        "默认缓存目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--certificate-authority",
+      "usage": [
+        "--certificate-authority <FILE>"
+      ],
+      "tip": [
+        "CA 证书文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-certificate",
+      "usage": [
+        "--client-certificate <FILE>"
+      ],
+      "tip": [
+        "TLS 客户端证书文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--client-key",
+      "usage": [
+        "--client-key <FILE>"
+      ],
+      "tip": [
+        "TLS 客户端私钥文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--cluster",
+      "usage": [
+        "--cluster <NAME>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 集群名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--context",
+      "usage": [
+        "--context <NAME>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 上下文名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--disable-compression",
+      "tip": [
+        "禁用响应压缩。"
+      ]
+    },
+    {
+      "name": "--dry-run",
+      "usage": [
+        "--dry-run <none|server|client>"
+      ],
+      "tip": [
+        "取值为 none、server 或 client。"
+      ],
+      "next": [
+        {
+          "name": "client"
+        },
+        {
+          "name": "none"
+        },
+        {
+          "name": "server"
+        }
+      ]
+    },
+    {
+      "name": "--field-manager",
+      "usage": [
+        "--field-manager <NAME>"
+      ],
+      "tip": [
+        "用于跟踪字段归属的管理器名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--filename",
+      "alias": [
+        "-f"
+      ],
+      "usage": [
+        "-f, --filename <FILE>"
+      ],
+      "tip": [
+        "文件名、目录或 URL。"
+      ],
+      "repeat": 99,
+      "next": []
+    },
+    {
       "name": "--help",
       "alias": [
         "-h"
@@ -334,6 +5104,308 @@
       ],
       "tip": [
         "显示帮助信息。"
+      ]
+    },
+    {
+      "name": "--insecure-skip-tls-verify",
+      "tip": [
+        "跳过服务器证书校验。"
+      ]
+    },
+    {
+      "name": "--kubeconfig",
+      "usage": [
+        "--kubeconfig <FILE>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kuberc",
+      "usage": [
+        "--kuberc <FILE>"
+      ],
+      "tip": [
+        "要使用的 kuberc 文件路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--kustomize",
+      "alias": [
+        "-k"
+      ],
+      "usage": [
+        "-k, --kustomize <DIR>"
+      ],
+      "tip": [
+        "处理 kustomization 目录。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--log-flush-frequency",
+      "usage": [
+        "--log-flush-frequency <DURATION>"
+      ],
+      "tip": [
+        "日志刷新的最大间隔。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--match-server-version",
+      "tip": [
+        "要求服务器版本与客户端版本一致。"
+      ]
+    },
+    {
+      "name": "--namespace",
+      "alias": [
+        "-n"
+      ],
+      "usage": [
+        "-n, --namespace <NAMESPACE>"
+      ],
+      "tip": [
+        "指定此 CLI 请求的命名空间范围。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--output",
+      "alias": [
+        "-o"
+      ],
+      "usage": [
+        "-o, --output <FORMAT>"
+      ],
+      "tip": [
+        "输出格式。"
+      ],
+      "next": [
+        {
+          "name": "custom-columns"
+        },
+        {
+          "name": "go-template"
+        },
+        {
+          "name": "json"
+        },
+        {
+          "name": "jsonpath"
+        },
+        {
+          "name": "name"
+        },
+        {
+          "name": "wide"
+        },
+        {
+          "name": "yaml"
+        }
+      ]
+    },
+    {
+      "name": "--password",
+      "usage": [
+        "--password <PASSWORD>"
+      ],
+      "tip": [
+        "基本认证密码。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile",
+      "usage": [
+        "--profile <PROFILE>"
+      ],
+      "tip": [
+        "要采集的性能分析类型。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--profile-output",
+      "usage": [
+        "--profile-output <FILE>"
+      ],
+      "tip": [
+        "性能分析输出文件。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--proxy-url",
+      "usage": [
+        "--proxy-url <URL>"
+      ],
+      "tip": [
+        "API 请求使用的代理 URL。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--recursive",
+      "alias": [
+        "-R"
+      ],
+      "usage": [
+        "-R, --recursive"
+      ],
+      "tip": [
+        "递归处理 -f 指定的目录。"
+      ]
+    },
+    {
+      "name": "--request-timeout",
+      "usage": [
+        "--request-timeout <DURATION>"
+      ],
+      "tip": [
+        "单个服务器请求的超时时间。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--save-config",
+      "tip": [
+        "将对象配置保存到其注解中。"
+      ]
+    },
+    {
+      "name": "--selector",
+      "alias": [
+        "-l"
+      ],
+      "usage": [
+        "-l, --selector <SELECTOR>"
+      ],
+      "tip": [
+        "用于过滤的标签选择器。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--server",
+      "alias": [
+        "-s"
+      ],
+      "usage": [
+        "-s, --server <URL>"
+      ],
+      "tip": [
+        "Kubernetes API 服务器的地址和端口。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--show-managed-fields",
+      "tip": [
+        "在输出中包含 managed fields。"
+      ]
+    },
+    {
+      "name": "--template",
+      "usage": [
+        "--template <TEMPLATE>"
+      ],
+      "tip": [
+        "使用 go-template 或 jsonpath 输出时的模板字符串或路径。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--tls-server-name",
+      "usage": [
+        "--tls-server-name <NAME>"
+      ],
+      "tip": [
+        "证书校验使用的服务器名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--token",
+      "usage": [
+        "--token <TOKEN>"
+      ],
+      "tip": [
+        "认证用的 Bearer token。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--user",
+      "usage": [
+        "--user <NAME>"
+      ],
+      "tip": [
+        "要使用的 kubeconfig 用户名称。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--username",
+      "usage": [
+        "--username <USERNAME>"
+      ],
+      "tip": [
+        "基本认证用户名。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--v",
+      "alias": [
+        "-v"
+      ],
+      "usage": [
+        "-v, --v <LEVEL>"
+      ],
+      "tip": [
+        "日志详细级别。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--validate",
+      "usage": [
+        "--validate <strict|warn|ignore>"
+      ],
+      "tip": [
+        "取值为 strict、warn 或 ignore。"
+      ],
+      "next": [
+        {
+          "name": "ignore"
+        },
+        {
+          "name": "strict"
+        },
+        {
+          "name": "warn"
+        }
+      ]
+    },
+    {
+      "name": "--vmodule",
+      "usage": [
+        "--vmodule <PATTERN=N>"
+      ],
+      "tip": [
+        "逗号分隔的 pattern=N 日志设置。"
+      ],
+      "next": []
+    },
+    {
+      "name": "--warnings-as-errors",
+      "tip": [
+        "将警告视为错误。"
       ]
     }
   ]
