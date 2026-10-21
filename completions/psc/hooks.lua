@@ -32,14 +32,16 @@ local function get_completion_tip(name)
 end
 
 local function render_tip(lines, vars)
-    -- lines may be string or array; normalize via psc.join
+    -- Placeholders follow the info-template syntax (design/templates.md): {{Key}}, case-sensitive.
     if type(lines) == "string" then
         lines = { lines }
     end
     local out = {}
     for _, line in ipairs(lines or {}) do
         for k, v in pairs(vars) do
-            line = line:gsub("{{ %$" .. k .. " }}", tostring(v))
+            line = line:gsub("{{" .. k .. "}}", function()
+                return tostring(v)
+            end)
         end
         table.insert(out, line)
     end
@@ -147,22 +149,22 @@ psc.on({ command = "completion", multiple = true }, function()
     if tokens_length == 2 then
         psc.add({
             name = "language",
-            tip = render_tip(info.completion.language.tip, { completion = target })
+            tip = render_tip(info.completion.language.tip, { Completion = target })
         })
         psc.add({
             name = "enable_tip",
-            tip = render_tip(info.completion.enable_tip.tip, { completion = target })
+            tip = render_tip(info.completion.enable_tip.tip, { Completion = target })
         })
         psc.add({
             name = "enable_tip_usage",
-            tip = render_tip(info.completion.enable_tip_usage.tip, { completion = target })
+            tip = render_tip(info.completion.enable_tip_usage.tip, { Completion = target })
         })
         psc.add({
             name = "enable_tip_example",
-            tip = render_tip(info.completion.enable_tip_example.tip, { completion = target })
+            tip = render_tip(info.completion.enable_tip_example.tip, { Completion = target })
         })
         if target ~= "psc" and psc.exist(psc.path(data.completions, target, "hooks.lua")) then
-            local tip = render_tip(info.completion.enable_hooks.tip, { completion = target })
+            local tip = render_tip(info.completion.enable_hooks.tip, { Completion = target })
             psc.add({ name = "enable_hooks", tip = (tip:gsub("<@%w+>", "")) })
         end
         for _, c in ipairs((json and json.config) or {}) do
@@ -179,12 +181,12 @@ psc.on({ command = "completion", multiple = true }, function()
                     {
                         name = lang,
                         tip = render_tip(info.completion.language.tip_v,
-                            { language = lang })
+                            { Language = lang })
                     })
             end
         elseif config_name:find("^enable") or config_name:find("^disable") then
-            psc.add({ name = "0", tip = render_tip(info.set_value, { value = "0" }) })
-            psc.add({ name = "1", tip = render_tip(info.set_value, { value = "1" }) })
+            psc.add({ name = "0", tip = render_tip(info.set_value, { Value = "0" }) })
+            psc.add({ name = "1", tip = render_tip(info.set_value, { Value = "1" }) })
         else
             local c = nil
             for _, x in ipairs((json and json.config) or {}) do
@@ -195,7 +197,7 @@ psc.on({ command = "completion", multiple = true }, function()
             end
             if c and c.values then
                 for _, v in ipairs(c.values) do
-                    psc.add({ name = v, tip = render_tip(info.set_value, { value = v }) })
+                    psc.add({ name = v, tip = render_tip(info.set_value, { Value = v }) })
                 end
             end
         end
