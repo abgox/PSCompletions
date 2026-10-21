@@ -201,8 +201,24 @@ pub fn installed_version(dir: &Path) -> Option<String> {
 }
 
 /// The installed version for a detected method: every method keeps its manifest beside `bin/`, scoop included (through its link).
-pub fn installed_version_for(method: &Method) -> Option<String> {
-    method.code().and_then(installed_version)
+pub fn installed_dir(exe: &Path, method: &Method) -> Option<PathBuf> {
+    method
+        .code()
+        .map(Path::to_path_buf)
+        .or_else(|| package_dir(exe))
+}
+
+/// The package directory the binary sits in, derived from the layout every package shares: `bin/<platform>-<arch>/psc` beside `PSCompletions.psd1`.
+/// Evidence only: a directory without the manifest is not a package, so an unmanaged copy reports no version rather than a guess.
+pub fn package_dir(exe: &Path) -> Option<PathBuf> {
+    let dir = exe.parent()?.parent()?.parent()?;
+    dir.join("PSCompletions.psd1")
+        .is_file()
+        .then(|| dir.to_path_buf())
+}
+
+pub fn installed_version_for(exe: &Path, method: &Method) -> Option<String> {
+    installed_dir(exe, method).and_then(|d| installed_version(&d))
 }
 
 /// The commands a user runs to update this copy.
@@ -388,8 +404,31 @@ mod tests {
         std::fs::create_dir_all(&code).unwrap();
         std::fs::write(code.join("PSCompletions.psd1"), "ModuleVersion = '8.0.1'\n").unwrap();
         let method = Method::Scoop { code: code.clone() };
-        assert_eq!(installed_version_for(&method).as_deref(), Some("8.0.1"));
+        let exe = code.join("bin/linux-x64/psc");
+        assert_eq!(
+            installed_version_for(&exe, &method).as_deref(),
+            Some("8.0.1")
+        );
         assert_eq!(method.code(), Some(code.as_path()));
+        std::fs::remove_dir_all(&base).ok();
+    }
+
+    #[test]
+    fn an_unmanaged_copy_reports_its_own_version_from_the_package_layout() {
+        // The package always keeps the manifest three levels above the binary, so a copy nothing installed still knows which version it is.
+        let base = test_base("pkg-layout");
+        let pkg = base.join("package");
+        std::fs::create_dir_all(pkg.join("bin/windows-x64")).unwrap();
+        std::fs::write(pkg.join("PSCompletions.psd1"), "ModuleVersion = '8.0.2'\n").unwrap();
+        let exe = pkg.join("bin/windows-x64/psc.exe");
+        assert_eq!(
+            installed_version_for(&exe, &Method::Unknown).as_deref(),
+            Some("8.0.2")
+        );
+        assert_eq!(installed_dir(&exe, &Method::Unknown), Some(pkg.clone()));
+        // Without the manifest that directory is just a directory: no version is invented.
+        std::fs::remove_file(pkg.join("PSCompletions.psd1")).unwrap();
+        assert_eq!(installed_version_for(&exe, &Method::Unknown), None);
         std::fs::remove_dir_all(&base).ok();
     }
 

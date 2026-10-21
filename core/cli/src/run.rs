@@ -42,8 +42,10 @@ pub fn run(args: Vec<String>) -> ExitCode {
             // The version is what is installed — the manifest beside the bridges — not the `psc` completion's library baseline, which only moves on `update`.
             let version = std::env::current_exe()
                 .ok()
-                .map(|exe| crate::install::detect(&exe))
-                .and_then(|method| crate::install::installed_version_for(&method))
+                .and_then(|exe| {
+                    let method = crate::install::detect(&exe);
+                    crate::install::installed_version_for(&exe, &method)
+                })
                 .unwrap_or_default();
             let urls = crate::net::resolve_urls(&settings);
             let mut data = run_paths(&data_dir);

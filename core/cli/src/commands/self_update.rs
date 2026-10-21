@@ -27,11 +27,15 @@ pub fn cmd_self_update(
     }
     let exe = std::env::current_exe().unwrap_or_default();
     let method = install::detect(&exe);
-    let dir = method
-        .code()
+    let package = install::installed_dir(&exe, &method);
+    let dir = package
+        .as_ref()
         .map(|d| d.display().to_string())
         .unwrap_or_default();
-    let current = install::installed_version_for(&method).unwrap_or_default();
+    let current = package
+        .as_deref()
+        .and_then(install::installed_version)
+        .unwrap_or_default();
     // The newest version is whatever the last library check recorded; only when that is missing (the file is written by add/update, not by init) ask the source itself.
     let latest = LibraryChanges::load(data_dir).module.unwrap_or_default();
     let latest = if latest.is_empty() {
