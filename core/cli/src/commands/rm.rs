@@ -67,6 +67,17 @@ pub fn cmd_rm(
             }));
             continue;
         }
+        if name == "psc" {
+            // `psc` is the module's own completion: it cannot be removed, only refreshed with `add`/`update` (which also replaces a link).
+            if !json {
+                out.line(&format!("psc: {}", msg_cli(lang, "rm_psc")));
+            }
+            results.push(serde_json::json!({
+                "name": "psc", "ok": false,
+                "error": { "code": "rm_psc", "message": msg_cli(lang, "rm_psc") },
+            }));
+            continue;
+        }
         remove_completion_entry(data_dir, name);
         removed_any = true;
         settings.alias.shift_remove(name);

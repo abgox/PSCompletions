@@ -69,41 +69,23 @@ pub fn cmd_add(
             })
         } else {
             let version = index_ref.update.get(name).cloned().unwrap_or_default();
-            match add_completion(data_dir, name, &urls, &version) {
-                Ok(updated) => {
-                    if !updated {
-                        // Linked completions keep their link; settings still refresh.
-                        let mut sg = settings_lock.lock().unwrap();
-                        match refresh_settings_after_add(&mut sg, data_dir, name, true) {
-                            Err(e) => {
-                                if !json {
-                                    lines.push(format!("{name}: error: {e}"));
-                                }
-                                serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
+            match add_completion(data_dir, name, &urls, &version, true) {
+                // `add` always lands files on disk — a link is replaced, not kept — so there is no skipped case here.
+                Ok(_) => {
+                    let mut sg = settings_lock.lock().unwrap();
+                    // `add` reinstalls: remote alias defaults fully overwrite.
+                    match refresh_settings_after_add(&mut sg, data_dir, name, true) {
+                        Err(e) => {
+                            if !json {
+                                lines.push(format!("{name}: error: {e}"));
                             }
-                            Ok(_) => {
-                                if !json {
-                                    lines.push(format!("{name}: {}", msg_cli(lang, "add_done")));
-                                }
-                                serde_json::json!({"name": name, "ok": true})
-                            }
+                            serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
                         }
-                    } else {
-                        let mut sg = settings_lock.lock().unwrap();
-                        // `add` reinstalls: remote alias defaults fully overwrite.
-                        match refresh_settings_after_add(&mut sg, data_dir, name, true) {
-                            Err(e) => {
-                                if !json {
-                                    lines.push(format!("{name}: error: {e}"));
-                                }
-                                serde_json::json!({"name": name, "ok": false, "error": {"code": "io", "message": e}})
+                        Ok(_) => {
+                            if !json {
+                                lines.push(format!("{name}: {}", msg_cli(lang, "add_done")));
                             }
-                            Ok(_) => {
-                                if !json {
-                                    lines.push(format!("{name}: {}", msg_cli(lang, "add_done")));
-                                }
-                                serde_json::json!({"name": name, "ok": true})
-                            }
+                            serde_json::json!({"name": name, "ok": true})
                         }
                     }
                 }

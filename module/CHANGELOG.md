@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- cli: `rm psc` is refused; refresh it with `add`/`update` instead
 - cli: Fixed the empty installed version `psc --self-update` reported for an unmanaged copy
 - bridge: Fixed a bare `psc update` printing nothing when every completion was already current
 - cli: Fixed `psc --self-update` for scoop installs, whether it runs through the `modules\PSCompletions` link or an `apps\<name>` directory

@@ -355,6 +355,7 @@ pub fn add_completion(
     name: &str,
     urls: &[String],
     version: &str,
+    replace_link: bool,
 ) -> Result<bool, FetchError> {
     // The single place a completion lands on disk: reject a name carrying separators before anything is created or removed, so no caller can escape the library directory (design/psc-cli.md §6.7 — validated before any filesystem access).
     if !is_valid_name(name) {
@@ -363,10 +364,12 @@ pub fn add_completion(
         )));
     }
     let dir = format!("{data_dir}/completions/{name}");
-    // Skip linked (symlink) completions: Ok(false) = "skipped, not updated".
-    if let Ok(meta) = std::fs::symlink_metadata(&dir) {
-        if meta.file_type().is_symlink() {
-            return Ok(false);
+    // A linked completion is the user's own copy: only an explicit `add` replaces it — everywhere else reports "skipped, not updated".
+    if !replace_link {
+        if let Ok(meta) = std::fs::symlink_metadata(&dir) {
+            if meta.file_type().is_symlink() {
+                return Ok(false);
+            }
         }
     }
     // The completions root may not exist (a wiped data dir): create it so the staged commit can rename into place — otherwise add/init's restore would fail here.
@@ -443,6 +446,7 @@ pub fn add_completion(
 
 /// Move a fully-downloaded staging dir into place.
 /// An existing `dir` is renamed aside first and restored if the final rename fails, so a failure mid-commit never leaves the completion missing.
+/// A link counts as existing: only the link itself moves aside, its target stays untouched.
 fn commit_staged(dir: &str, tmp_dir: &str, old_dir: &str) -> Result<(), String> {
     if std::fs::symlink_metadata(dir).is_err() {
         return std::fs::rename(tmp_dir, dir).map_err(|e| e.to_string());
@@ -601,7 +605,7 @@ pub fn rename_completion(
     version: &str,
 ) -> Result<(), FetchError> {
     // Download the new completion first (aborts on failure, old stays intact).
-    add_completion(data_dir, new, urls, version)?;
+    add_completion(data_dir, new, urls, version, false)?;
     // Move per-completion settings: alias + config.completion entry (including enable_hooks).
     // Do NOT call refresh_settings_after_add here — it would overwrite the migrated user aliases with the new manifest's defaults.
     if let Some(aliases) = settings.alias.shift_remove(old) {
@@ -850,7 +854,7 @@ mod tests {
         std::fs::create_dir_all(base.join("completions")).unwrap();
         // `../evil` makes the staging dir resolve to `<base>/evil.<pid>.tmp` — outside temp/, where the cleanup `remove_dir_all` calls would then delete outside the library too.
         let stray = base.join(format!("evil.{}.tmp", std::process::id()));
-        let err = add_completion(base.to_str().unwrap(), "../evil", &[], "").unwrap_err();
+        let err = add_completion(base.to_str().unwrap(), "../evil", &[], "", false).unwrap_err();
         assert!(!stray.exists(), "staging dir escaped temp/: {stray:?}");
         assert!(err.message().contains("invalid completion name"), "{err}");
         std::fs::remove_dir_all(&base).ok();

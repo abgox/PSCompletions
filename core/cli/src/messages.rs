@@ -68,6 +68,11 @@ const MESSAGES: &[(&str, &str, &str)] = &[
     ("add_done", "已添加。", "Added."),
     ("update_done", "已更新。", "Updated."),
     ("rm_done", "已移除。", "Removed."),
+    (
+        "rm_psc",
+        "psc 是内置补全，不能被移除，只能更新 (psc update psc) 或重新添加 (psc add psc)",
+        "psc is the built-in completion and cannot be removed; only update (psc update psc) or re-add (psc add psc)",
+    ),
     ("updatable", "可更新的补全：", "Updatable completions:"),
     (
         "lib_add",

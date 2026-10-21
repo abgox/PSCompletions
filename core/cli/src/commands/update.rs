@@ -294,10 +294,10 @@ pub fn cmd_update(
             return;
         }
         let version = index_ref.update.get(name).cloned().unwrap_or_default();
-        match add_completion(data_dir, name, &urls, &version) {
+        match add_completion(data_dir, name, &urls, &version, false) {
             Ok(updated) => {
                 if !updated {
-                    // A local link is a deliberate choice, not an error: reported, but it does not fail the run (unlike `add`, which calls the same case a success).
+                    // A local link is a deliberate choice, not an error: reported, but it does not fail the run.
                     let err = msg_cli(lang, "update_skip");
                     if !json {
                         lines.push(format!("{name}: {err}"));

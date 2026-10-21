@@ -4,6 +4,7 @@
 
 ## 未发布
 
+- cli: `rm psc` 会被拒绝，它只能用 `add`/`update` 刷新/更新
 - cli: 修复了未受管理的副本上 `psc --self-update` 已安装版本为空的问题
 - bridge: 修复了所有补全都已最新时 `psc update` 没有任何输出的问题
 - cli: 修复了 `psc --self-update` 对 scoop 安装的识别，无论走 `modules\PSCompletions` 链接还是 `apps\<name>` 目录

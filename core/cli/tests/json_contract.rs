@@ -893,7 +893,8 @@ fn json_add_prefers_index_branch_layout() {
 /// settings refresh runs, files are untouched.
 
 #[test]
-fn json_add_linked_reports_added() {
+fn json_add_linked_replaces_the_link() {
+    // An explicit `add` replaces a link with the fresh download — the link itself moves aside, its target stays untouched.
     let srv = spawn_server(demo_routes());
     let d = make_data("flow-add-linked", &srv);
     let target = d.join("link-target/demo");
@@ -913,12 +914,17 @@ fn json_add_linked_reports_added() {
     let v = parse_json(&out);
     assert_eq!(v["data"]["completions"][0]["ok"], true, "{out}");
     assert!(
-        std::fs::symlink_metadata(d.join("completions/demo"))
+        !std::fs::symlink_metadata(d.join("completions/demo"))
             .unwrap()
             .file_type()
             .is_symlink(),
-        "link must survive: {out}"
+        "link must be replaced by fresh files: {out}"
     );
+    assert_eq!(
+        std::fs::read_to_string(d.join("completions/demo/.update")).unwrap(),
+        "v2"
+    );
+    assert!(target.join("language/en-US.json").exists());
 }
 
 /// Named update of an installed-but-off-index completion reports an error (bulk `--all` still skips it silently).
@@ -1035,6 +1041,97 @@ fn json_rm_removes_installed_completion() {
     let v = parse_json(&out);
     assert_eq!(v["data"]["completions"][0]["ok"], true, "{out}");
     assert!(!d.join("completions/demo").exists());
+}
+
+#[test]
+fn json_rm_psc_is_refused() {
+    // `psc` is the module's own completion: refusing beats leaving a hole, and the message names the way out.
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-rm-psc", &srv);
+    std::fs::create_dir_all(d.join("completions/psc/language")).unwrap();
+    std::fs::write(
+        d.join("completions/psc/config.json"),
+        r#"{"id":"psc-id","language":["en-US"]}"#,
+    )
+    .unwrap();
+    std::fs::write(d.join("completions/psc/language/en-US.json"), "{}").unwrap();
+    rewrite_settings(&d, |s| s["alias"]["psc"] = serde_json::json!(["psc"]));
+    let (code, out) = psc(&d, &["rm", "psc"]);
+    assert_eq!(code, 1, "{out}");
+    assert!(out.contains("psc") && out.contains("update psc"), "{out}");
+    assert!(d.join("completions/psc/config.json").exists());
+    let settings = parse_json(&std::fs::read_to_string(d.join("settings.json")).unwrap());
+    assert_eq!(settings["alias"]["psc"], serde_json::json!(["psc"]));
+}
+
+#[test]
+fn json_rm_psc_refusal_shape() {
+    let srv = spawn_server(demo_routes());
+    let d = make_data("flow-rm-psc-json", &srv);
+    std::fs::create_dir_all(d.join("completions/psc/language")).unwrap();
+    std::fs::write(
+        d.join("completions/psc/config.json"),
+        r#"{"id":"psc-id","language":["en-US"]}"#,
+    )
+    .unwrap();
+    std::fs::write(d.join("completions/psc/language/en-US.json"), "{}").unwrap();
+    rewrite_settings(&d, |s| s["alias"]["psc"] = serde_json::json!(["psc"]));
+    let (code, out) = psc(&d, &["--json", "rm", "psc"]);
+    assert_eq!(code, 1, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["completions"][0]["ok"], false, "{out}");
+    assert_eq!(
+        v["data"]["completions"][0]["error"]["code"],
+        serde_json::json!("rm_psc"),
+        "{out}"
+    );
+}
+
+#[test]
+fn json_rm_psc_link_is_refused_like_a_real_dir() {
+    // Even the user's own link is refused: the way out is `add psc`, which replaces the link (covered by json_add_linked_replaces_the_link).
+    let d = make_data("flow-rm-psc-link", "http://127.0.0.1:9");
+    let target = d.join("link-target/psc");
+    std::fs::create_dir_all(target.join("language")).unwrap();
+    std::fs::write(
+        target.join("config.json"),
+        r#"{"id":"psc-id","language":["en-US"]}"#,
+    )
+    .unwrap();
+    std::fs::write(target.join("language/en-US.json"), "{}").unwrap();
+    #[cfg(unix)]
+    std::os::unix::fs::symlink(&target, d.join("completions/psc")).unwrap();
+    #[cfg(windows)]
+    std::os::windows::fs::symlink_dir(&target, d.join("completions/psc")).unwrap();
+    rewrite_settings(&d, |s| s["alias"]["psc"] = serde_json::json!(["psc"]));
+    let (code, out) = psc(&d, &["--json", "rm", "psc"]);
+    assert_eq!(code, 1, "{out}");
+    let v = parse_json(&out);
+    assert_eq!(v["data"]["completions"][0]["ok"], false, "{out}");
+    assert_eq!(
+        v["data"]["completions"][0]["error"]["code"],
+        serde_json::json!("rm_psc"),
+        "{out}"
+    );
+    assert!(
+        std::fs::symlink_metadata(d.join("completions/psc"))
+            .unwrap()
+            .file_type()
+            .is_symlink(),
+        "link must stay: {out}"
+    );
+}
+
+#[test]
+fn json_rm_psc_missing_still_reports_not_installed() {
+    // Nothing there: the refusal never fires, the usual unknown-name error does.
+    let d = make_data("flow-rm-psc-missing", "http://127.0.0.1:9");
+    let (code, out) = psc(&d, &["rm", "psc"]);
+    assert_eq!(code, 1, "{out}");
+    assert!(
+        out.contains("psc: is not an available completion."),
+        "{out}"
+    );
 }
 
 #[test]
