@@ -620,8 +620,9 @@ namespace PscTools {
 
                 if (!openData)
                 {
-                    TestDuplicates(baseArr, path, Opts.BaseLang);
-                    TestDuplicates(targetArr, path, Opts.TargetLang);
+                    var isOptionArray = key == "option" || key == "global_option";
+                    TestDuplicates(baseArr, path, Opts.BaseLang, isOptionArray);
+                    TestDuplicates(targetArr, path, Opts.TargetLang, isOptionArray);
                 }
 
                 var named = NamedArrayCheck(baseArr) || NamedArrayCheck(targetArr);
@@ -686,18 +687,20 @@ namespace PscTools {
             return false;
         }
 
-        static void TestDuplicates(IList arr, string path, string sideLabel)
+        static void TestDuplicates(IList arr, string path, string sideLabel, bool isOptionArray)
         {
             if (arr == null || arr.Count < 2) return;
             // Menu rows are expanded from every display spelling (name + each alias), so a collision on any spelling shows twice.
             // Track all spellings, not just name (e.g. `--file` with alias `-F` plus a standalone `-F` node, or name == alias within one item).
-            var seen = new Dictionary<string, string>(StringComparer.Ordinal);
+            // The identity is the spelling alone — the engine resolves a typed word by first match — so value-ness does not make two entries compatible; naming it in the report is what shows why the collision matters.
+            var seen = new Dictionary<string, string[]>(StringComparer.Ordinal);
             foreach (var item in arr)
             {
                 var d = item as IDictionary;
                 if (d == null) continue;
                 if (!d.Contains("name")) continue;
                 var n = ToPsString(d["name"]);
+                var arity = isOptionArray ? (d.Contains("next") ? "value-taking" : "boolean") : "command";
                 var spells = new List<string>();
                 spells.Add(n);
                 if (d.Contains("alias"))
@@ -718,15 +721,18 @@ namespace PscTools {
                 }
                 foreach (var s in intra)
                 {
-                    string owner;
+                    string[] owner;
                     if (seen.TryGetValue(s, out owner))
                     {
                         var currentPath = path.Length > 0 ? path + " > " + s : s;
-                        Add(S.DuplicateItems, currentPath + " (" + Red + sideLabel + Cyan + ": " + n + " collides with " + owner + ")");
+                        var detail = isOptionArray
+                            ? n + " (" + arity + ") collides with " + owner[0] + " (" + owner[1] + ")"
+                            : n + " collides with " + owner[0];
+                        Add(S.DuplicateItems, currentPath + " (" + Red + sideLabel + Cyan + ": " + detail + ")");
                     }
                     else
                     {
-                        seen[s] = n;
+                        seen[s] = new[] { n, arity };
                     }
                 }
             }
