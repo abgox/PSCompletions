@@ -113,27 +113,6 @@ fn parallel_map<T: Sync, R: Send, F: Fn(&T) -> R + Sync>(inputs: &[T], f: F) -> 
         .collect()
 }
 
-#[cfg(test)]
-mod tests_lock_recover {
-    use super::lock_recover;
-
-    #[test]
-    fn a_poisoned_lock_is_recovered_not_panicked_on() {
-        // A worker that panics while holding the mutex poisons it; `lock().unwrap()` then panicked on every later access, so one worker's death cascaded through the rest.
-        let m = std::sync::Mutex::new(0);
-        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            let _held = m.lock().unwrap();
-            panic!("a worker died holding the lock");
-        }));
-        assert!(
-            m.is_poisoned(),
-            "the lock must be poisoned for this test to mean anything"
-        );
-        *lock_recover(&m) = 1;
-        assert_eq!(*lock_recover(&m), 1);
-    }
-}
-
 /// `psc.env(name)` → environment variable (nil when unset).
 pub(crate) fn api_env(lua: &Lua, name: String) -> mlua::Result<Option<String>> {
     let _ = lua;
@@ -306,3 +285,24 @@ pub(crate) use fs::{
 pub(crate) use fs::{glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
 pub(crate) use items::{api_add, api_concat, api_contains, api_items, api_join, api_split};
 pub(crate) use run::{api_run, api_run_batch};
+
+#[cfg(test)]
+mod tests_lock_recover {
+    use super::lock_recover;
+
+    #[test]
+    fn a_poisoned_lock_is_recovered_not_panicked_on() {
+        // A worker that panics while holding the mutex poisons it; `lock().unwrap()` then panicked on every later access, so one worker's death cascaded through the rest.
+        let m = std::sync::Mutex::new(0);
+        let _ = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let _held = m.lock().unwrap();
+            panic!("a worker died holding the lock");
+        }));
+        assert!(
+            m.is_poisoned(),
+            "the lock must be poisoned for this test to mean anything"
+        );
+        *lock_recover(&m) = 1;
+        assert_eq!(*lock_recover(&m), 1);
+    }
+}
