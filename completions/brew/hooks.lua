@@ -88,6 +88,9 @@ psc.on({
     { command = "unlink",       multiple = true },
     { command = "unpin",        multiple = true },
     { command = "upgrade",      multiple = true },
+    { command = "--prefix",     multiple = true },
+    { command = "--cellar",     multiple = true },
+    { command = "--cache",      multiple = true },
 }, add_installed)
 
 psc.on({
@@ -99,6 +102,7 @@ psc.on({
     { command = "untap",        multiple = true },
     { command = "untrust",      multiple = true },
     { command = "update-reset", multiple = true },
+    { command = "--repository", multiple = true },
 }, add_taps)
 
 psc.on({ command = "doctor", multiple = true }, add_doctor_checks)
