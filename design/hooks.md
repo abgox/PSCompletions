@@ -421,6 +421,7 @@ That is a claim about unrelated contexts, not about paths in general — a CLI-f
 
 The menu waits for the hook to finish before showing, so a slow hook delays every Tab press.
 Hooks run in a **single Lua thread**; parallelism is deliberately confined to the Rust `*_batch` API (signatures in the §5 table).
+Spec validation is equally one-shot: the engine walks the manifest **once** per hook run into a target index, so registering N specs never costs N walks no matter how large the manifest is.
 The `*_batch` primitives run on a **bounded worker pool** and return the **full** result, so hook behavior is identical to a sequential loop — only wall-clock time improves.
 Use them when iterating over many **independent** items; keep sequential logic when each step depends on the previous one's result (a two-pass parallel fetch can break such dependencies, e.g. bucket manifests needing `i.bucket` from the first pass):
 

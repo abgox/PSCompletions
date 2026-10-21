@@ -1,7 +1,7 @@
 //! Tests for the Lua hooks runtime.
 
 use super::api::{api_which, glob_stop_at, glob_walk, normalize_glob_pattern, GLOB_BUDGET};
-use super::helpers::{collect_node_names, TargetKind};
+use super::helpers::{TargetIndex, TargetKind};
 use super::runner::{new_sandbox_lua, run_hook_with_timeout};
 use super::*;
 use std::time::{Duration, Instant};
@@ -364,8 +364,8 @@ fn capture_error_log(c: &mut HookContext, script: &str) -> String {
 }
 
 #[test]
-fn collect_node_names_matches_name_alias_case_and_every_scope() {
-    // `collect_node_names` is what validates a psc.on target against the manifest, and its contract promises five things: a target matches by canonical name OR by any alias, case-insensitively, the walk reaches scoped `option` arrays as well as the root `global_option` array, and — since the manifest already fixes each node's type by the array it sits in — a name is only ever found in the position its spec key declares.
+fn target_index_matches_name_alias_case_and_every_scope() {
+    // `TargetIndex` is what validates a `psc.on` target at runtime (one walk per hook run), and its contract promises five things: a target matches by canonical name OR by any alias, case-insensitively, the walk reaches scoped `option` arrays as well as the root `global_option` array, and — since the manifest already fixes each node's type by the array it sits in — a name only ever validates in the position its spec key declares.
     // Each is pinned here because a miss fails silently - the hook's handler just never fires, with no error to explain it.
     let manifest = serde_json::json!({
         "next": [
@@ -376,59 +376,40 @@ fn collect_node_names_matches_name_alias_case_and_every_scope() {
         ],
         "global_option": [ { "name": "--help", "alias": ["-h"] } ]
     });
+    let index = TargetIndex::build(&manifest);
     let cmd = TargetKind::Command;
     let opt = TargetKind::Option;
-
-    // By canonical name, matched case-insensitively; the owner name comes first, then its forms.
-    assert_eq!(
-        collect_node_names(&manifest, "INSTALL", cmd),
-        Some(vec!["install".to_string(), "i".to_string()])
-    );
-    // By alias - the same owner is resolved, so an alias in a spec reaches the real node.
-    assert_eq!(
-        collect_node_names(&manifest, "i", cmd),
-        Some(vec!["install".to_string(), "i".to_string()])
-    );
-    // A nested command is reachable too.
-    assert_eq!(
-        collect_node_names(&manifest, "ADD", cmd),
-        Some(vec!["add".to_string()])
-    );
-    // An option scoped to a subcommand is reachable, by name and by its short alias.
-    assert_eq!(
-        collect_node_names(&manifest, "-j", opt),
-        Some(vec!["--jobs".to_string(), "-j".to_string()])
-    );
-    // The root global_option array is walked as well, not just next/option.
-    assert_eq!(
-        collect_node_names(&manifest, "--HELP", opt),
-        Some(vec!["--help".to_string(), "-h".to_string()])
-    );
+    // By canonical name, matched case-insensitively; by alias the same node validates.
+    for name in ["install", "i", "INSTALL", "add", "build"] {
+        assert_eq!(index.reject(name, cmd), None, "{name} must validate");
+    }
+    // An option scoped to a subcommand validates by name and by its short alias; so does a root global_option.
+    for name in ["--jobs", "-j", "-J", "--help", "-h", "--HELP"] {
+        assert_eq!(index.reject(name, opt), None, "{name} must validate");
+    }
     // The declared position is part of the lookup: an option is not a command target, a command is not an option target, and an option's `next` entries are candidate VALUES, not targets of either kind.
-    // Writing the wrong key must miss.
-    assert_eq!(collect_node_names(&manifest, "-j", cmd), Some(Vec::new()));
+    for (name, kind) in [
+        ("-j", cmd),
+        ("install", opt),
+        ("auto", cmd),
+        ("auto", opt),
+        ("nope", cmd),
+        ("nope", opt),
+    ] {
+        assert!(index.reject(name, kind).is_some(), "{name} must reject");
+    }
+    // A position mistake names the real position; a truly unknown name says so.
     assert_eq!(
-        collect_node_names(&manifest, "install", opt),
-        Some(Vec::new())
-    );
-    assert_eq!(collect_node_names(&manifest, "auto", cmd), Some(Vec::new()));
-    assert_eq!(collect_node_names(&manifest, "auto", opt), Some(Vec::new()));
-    // An unknown target yields an EMPTY vec, not None - None only means the manifest root is not an object.
-    // Callers rely on is_none_or(|v| v.is_empty()) to reject it, so pin the distinction: a future reader must not "simplify" that into is_none().
-    assert_eq!(collect_node_names(&manifest, "nope", cmd), Some(Vec::new()));
-    assert_eq!(
-        collect_node_names(&serde_json::json!([1, 2]), "x", cmd),
-        None
-    );
-    // Repeat lookups hit the memo cache; results must not drift from the first call, and the cache key must include the kind (the two lookups below differ only by kind).
-    assert_eq!(
-        collect_node_names(&manifest, "INSTALL", cmd),
-        Some(vec!["install".to_string(), "i".to_string()])
+        index.reject("-j", cmd),
+        Some("\"-j\" is an option, not a command — the manifest fixes a node's type by the array it sits in".to_string())
     );
     assert_eq!(
-        collect_node_names(&manifest, "INSTALL", opt),
-        Some(Vec::new())
+        index.reject("nope", cmd),
+        Some("unknown target \"nope\" in this manifest".to_string())
     );
+    // A non-object root validates nothing.
+    let empty = TargetIndex::build(&serde_json::json!([1, 2]));
+    assert!(empty.reject("x", cmd).is_some());
 }
 
 #[test]

@@ -15,13 +15,6 @@ pub(crate) enum TargetKind {
 }
 
 impl TargetKind {
-    pub(crate) fn as_str(self) -> &'static str {
-        match self {
-            TargetKind::Command => "command",
-            TargetKind::Option => "option",
-        }
-    }
-
     /// The article-bearing form, for messages: "a command" / "an option".
     pub(crate) fn noun(self) -> &'static str {
         match self {
@@ -51,102 +44,103 @@ impl Pos {
     }
 }
 
-/// Collect every form (canonical name + aliases) of the manifest nodes declared in `kind`'s position whose name or an alias matches `target` (ASCII case-insensitive).
-/// Walks the whole tree, so a scoped `option` array is covered wherever it lives.
-///
-/// Not-found is an **empty vec**, not `None` — `None` only means the manifest root is not a JSON object.
-/// Callers must therefore fail loudly on `is_none_or(|v| v.is_empty())`, which is what lets a bad `psc.on` target be reported instead of the handler silently never firing.
-pub(crate) fn collect_node_names(
-    json: &serde_json::Value,
-    target: &str,
-    kind: TargetKind,
-) -> Option<Vec<String>> {
-    use std::collections::hash_map::DefaultHasher;
-    use std::hash::{Hash, Hasher};
-    use std::sync::{Mutex, OnceLock};
-    #[allow(clippy::type_complexity)]
-    static CACHE: OnceLock<
-        Mutex<std::collections::HashMap<u64, std::collections::HashMap<String, Vec<String>>>>,
-    > = OnceLock::new();
-    let cache = CACHE.get_or_init(|| Mutex::new(Default::default()));
-    // Hash manifest + kind + target lowercased
-    let mut hasher = DefaultHasher::new();
-    json.to_string().hash(&mut hasher);
-    kind.as_str().hash(&mut hasher);
-    target.to_lowercase().hash(&mut hasher);
-    let hkey = hasher.finish();
-    let tkey = format!("{}\u{1}{}", kind.as_str(), target.to_lowercase());
-    if let Ok(guard) = cache.lock() {
-        if let Some(inner) = guard.get(&hkey) {
-            if let Some(v) = inner.get(&tkey) {
-                return Some(v.clone());
-            }
-        }
-    }
-    fn walk(
-        node: &serde_json::Value,
-        pos: Pos,
-        target: &str,
-        kind: TargetKind,
-        out: &mut Vec<String>,
-    ) {
-        let Some(obj) = node.as_object() else { return };
-        let name = obj.get("name").and_then(serde_json::Value::as_str);
-        let aliases: Vec<&str> = obj
-            .get("alias")
-            .and_then(serde_json::Value::as_array)
-            .map(|a| a.iter().filter_map(serde_json::Value::as_str).collect())
-            .unwrap_or_default();
-        let matched = pos.matches(kind)
-            && (name.is_some_and(|n| n.eq_ignore_ascii_case(target))
-                || aliases.iter().any(|a| a.eq_ignore_ascii_case(target)));
-        if matched {
-            if let Some(n) = name {
-                if !out.iter().any(|x| x.eq_ignore_ascii_case(n)) {
-                    out.push(n.to_string());
-                }
-            }
-            for a in aliases {
-                if !out.iter().any(|x| x.eq_ignore_ascii_case(a)) {
-                    out.push(a.to_string());
-                }
-            }
-        }
-        for key in ["next", "option", "global_option"] {
-            let child = match key {
-                "next" => match pos {
-                    Pos::Command => Pos::Command,
-                    _ => Pos::Value,
-                },
-                _ => Pos::Option,
+/// Per-hook-run validation index: one walk collects every declared spelling (canonical name + aliases, lowercased) per kind, so `psc.on` target validation is a set lookup instead of a full-tree walk per spec element.
+pub(crate) struct TargetIndex {
+    commands: std::collections::HashSet<String>,
+    options: std::collections::HashSet<String>,
+}
+
+impl TargetIndex {
+    pub(crate) fn build(json: &serde_json::Value) -> Self {
+        fn walk(
+            node: &serde_json::Value,
+            pos: Pos,
+            commands: &mut std::collections::HashSet<String>,
+            options: &mut std::collections::HashSet<String>,
+        ) {
+            let Some(obj) = node.as_object() else { return };
+            let set = if pos.matches(TargetKind::Command) {
+                Some(&mut *commands)
+            } else if pos.matches(TargetKind::Option) {
+                Some(&mut *options)
+            } else {
+                None
             };
-            if let Some(children) = obj.get(key).and_then(serde_json::Value::as_array) {
-                for c in children {
-                    walk(c, child, target, kind, out);
+            if let Some(set) = set {
+                if let Some(n) = obj.get("name").and_then(serde_json::Value::as_str) {
+                    set.insert(n.to_lowercase());
+                }
+                if let Some(a) = obj.get("alias").and_then(serde_json::Value::as_array) {
+                    for alias in a.iter().filter_map(serde_json::Value::as_str) {
+                        set.insert(alias.to_lowercase());
+                    }
                 }
             }
+            for key in ["next", "option", "global_option"] {
+                let child = match key {
+                    "next" => match pos {
+                        Pos::Command => Pos::Command,
+                        _ => Pos::Value,
+                    },
+                    _ => Pos::Option,
+                };
+                if let Some(children) = obj.get(key).and_then(serde_json::Value::as_array) {
+                    for c in children {
+                        walk(c, child, commands, options);
+                    }
+                }
+            }
+        }
+
+        let mut index = TargetIndex {
+            commands: std::collections::HashSet::new(),
+            options: std::collections::HashSet::new(),
+        };
+        if let Some(root) = json.as_object() {
+            for key in ["next", "option", "global_option"] {
+                let pos = if key == "next" {
+                    Pos::Command
+                } else {
+                    Pos::Option
+                };
+                if let Some(children) = root.get(key).and_then(serde_json::Value::as_array) {
+                    for child in children {
+                        walk(child, pos, &mut index.commands, &mut index.options);
+                    }
+                }
+            }
+        }
+        index
+    }
+
+    fn contains(&self, name: &str, kind: TargetKind) -> bool {
+        let key = name.to_lowercase();
+        match kind {
+            TargetKind::Command => self.commands.contains(&key),
+            TargetKind::Option => self.options.contains(&key),
         }
     }
 
-    let root = json.as_object()?;
-    let mut out = Vec::new();
-    for key in ["next", "option", "global_option"] {
-        let pos = if key == "next" {
-            Pos::Command
-        } else {
-            Pos::Option
-        };
-        if let Some(children) = root.get(key).and_then(serde_json::Value::as_array) {
-            for child in children {
-                walk(child, pos, target, kind, &mut out);
-            }
+    /// Why a `psc.on` target cannot fire, or `None` when it is declared in the position its spec key asks for.
+    /// The manifest already fixes a node's type by the array it sits in, so a name declared as the other kind is a **position** mistake, not a typo.
+    pub(crate) fn reject(&self, name: &str, kind: TargetKind) -> Option<String> {
+        if self.contains(name, kind) {
+            return None;
         }
+        let other = match kind {
+            TargetKind::Command => TargetKind::Option,
+            TargetKind::Option => TargetKind::Command,
+        };
+        Some(if !self.contains(name, other) {
+            format!("unknown target {name:?} in this manifest")
+        } else {
+            format!(
+                "{name:?} is {}, not {} — the manifest fixes a node's type by the array it sits in",
+                other.noun(),
+                kind.noun()
+            )
+        })
     }
-    let result = out.clone();
-    if let Ok(mut guard) = cache.lock() {
-        guard.entry(hkey).or_default().insert(tkey, result.clone());
-    }
-    Some(result)
 }
 
 /// Lua `tostring` semantics to a Rust String (None when the value coerces to nothing).

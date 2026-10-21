@@ -4,6 +4,7 @@ English | [简体中文](./CHANGELOG.zh-CN.md)
 
 ## Unreleased
 
+- hooks: Stopped validating every `psc.on` target with a full manifest walk, so large completions open without the previous delay
 - cli: `rm psc` is refused; refresh it with `add`/`update` instead
 - cli: Fixed the empty installed version `psc --self-update` reported for an unmanaged copy
 - bridge: Fixed a bare `psc update` printing nothing when every completion was already current

@@ -291,7 +291,8 @@ pub(crate) fn build_psc_table(
     let provide_env = ProvideEnv {
         layers: ctx.layers.clone(),
         tokens: ctx.tokens.clone(),
-        manifest: ctx.manifest.clone(),
+        // Validated once per hook run: one manifest walk, then every registration is a set lookup (validation used to walk the whole tree per spec element).
+        targets: std::sync::Arc::new(helpers::TargetIndex::build(&ctx.manifest)),
         // Derived from tokens (kind == "option", canonical name) — the same source the old `last_option` used.
         opts: ctx
             .tokens
@@ -374,7 +375,8 @@ struct ProvideEnv {
     layers: Vec<(String, String)>,
     /// All completed tokens (kind `command`/`option`/`value`/`unknown`), for slot gating.
     tokens: Vec<Token>,
-    manifest: serde_json::Value,
+    /// Manifest target spellings, walked once per hook run for spec validation.
+    targets: std::sync::Arc<helpers::TargetIndex>,
     /// Canonical names of all completed option tokens, in input order (derived from tokens).
     opts: Vec<String>,
     injected: InjectedFlag,
@@ -513,32 +515,6 @@ fn in_unpinned_option_domain(layers: &[(String, String)], spec_option_last: Opti
         Some(Seg::Any) => false,
         Some(Seg::Name(n)) => !n.eq_ignore_ascii_case(name),
     }
-}
-
-/// Why a `psc.on` target cannot fire, or `None` when it is declared in the position its spec key asks for.
-/// The manifest already fixes a node's type by the array it sits in, so a name declared as the other kind is a **position** mistake, not a typo — saying which is the point, because that is the mistake that used to register and then stay silent.
-fn target_reject(
-    manifest: &serde_json::Value,
-    name: &str,
-    kind: helpers::TargetKind,
-) -> Option<String> {
-    let missing = |k| helpers::collect_node_names(manifest, name, k).is_none_or(|v| v.is_empty());
-    if !missing(kind) {
-        return None;
-    }
-    let other = match kind {
-        helpers::TargetKind::Command => helpers::TargetKind::Option,
-        helpers::TargetKind::Option => helpers::TargetKind::Command,
-    };
-    Some(if missing(other) {
-        format!("unknown target {name:?} in this manifest")
-    } else {
-        format!(
-            "{name:?} is {}, not {} — the manifest fixes a node's type by the array it sits in",
-            other.noun(),
-            kind.noun()
-        )
-    })
 }
 
 fn api_on_inner(
@@ -731,7 +707,7 @@ fn api_on_inner(
     let mut option_valid = true;
     if let Some(segs) = &loc.command {
         if let Some(Seg::Name(n)) = segs.last() {
-            if let Some(reason) = target_reject(&env.manifest, n, helpers::TargetKind::Command) {
+            if let Some(reason) = env.targets.reject(n, helpers::TargetKind::Command) {
                 if is_and {
                     let e = mlua::Error::RuntimeError(format!(
                         "{PRE}{idx} {reason} (command side of an AND spec), whole spec inert"
@@ -749,7 +725,7 @@ fn api_on_inner(
     if let Some(segs) = &loc.option {
         // Validate the LAST named segment (the innermost context), mirroring how the command chain validates only its final segment.
         if let Some(Seg::Name(n)) = segs.last() {
-            if let Some(reason) = target_reject(&env.manifest, n, helpers::TargetKind::Option) {
+            if let Some(reason) = env.targets.reject(n, helpers::TargetKind::Option) {
                 if is_and {
                     let e = mlua::Error::RuntimeError(format!(
                         "{PRE}{idx} {reason} (option side of an AND spec), whole spec inert"
