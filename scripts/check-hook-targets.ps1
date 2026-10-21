@@ -220,6 +220,14 @@ function Get-Specs {
         }
         $block = $Src.Substring($start + 1, $k - $start - 1)
 
+        # A single spec starts with a key (`command`/`option`); an array of specs starts with `{`.
+        # Scanning the inner `command = { ... }` table as if it were the spec loses that target (G13).
+        if (-not $block.TrimStart().StartsWith('{')) {
+            if ($block.Contains('command') -or $block.Contains('option')) { $specs.Add($block) }
+            $i = $k + 1
+            continue
+        }
+
         # top-level { } groups within the block
         $d = 0
         $gstart = -1
