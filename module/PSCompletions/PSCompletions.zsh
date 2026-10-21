@@ -1040,13 +1040,32 @@ _psc_check_update() {
     local _out rc
     _out="$("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" "$@" 2>&1)"
     rc=$?
-    if (( rc == 0 )); then
-        return 0
+    if (( rc != 0 )); then
+        if [[ -n "$_out" ]]; then
+            print -r -- $'\033[31m'"$_out"$'\033[0m'
+        fi
+        return $rc
     fi
-    if [[ -n "$_out" ]]; then
-        print -r -- $'\033[31m'"$_out"$'\033[0m'
+    # The tail renders the lists as a template when there are any; with none it renders nothing, so the "up to date" answer comes from that template here.
+    if ! _psc_pending_library; then
+        if ! { _psc_tpl update.no && print; }; then
+            print -r -- "$_out"
+        fi
     fi
-    return $rc
+    return 0
+}
+
+# Whether change.json carries anything the tail will render (the same set `_psc_render_pending` reads).
+_psc_pending_library() {
+    local change="$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+    [[ -f "$change" ]] || return 1
+    _psc_py -S - "$change" <<'PYEOF'
+import json,sys
+try: c=json.load(open(sys.argv[1],encoding='utf-8'))
+except Exception: raise SystemExit(1)
+has=bool(c.get('update') or c.get('added') or c.get('removed') or c.get('renamed'))
+raise SystemExit(0 if has else 1)
+PYEOF
 }
 _psc_run_status() {
     local out rc

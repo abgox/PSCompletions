@@ -337,6 +337,12 @@ out="$(_psc_check_update update 2>&1)"; rc=$?
 [[ $rc -ne 0 && "$out" == *"error: boom"* ]] \
     && { echo "ok   failed-check-still-prints"; PASS=$((PASS+1)); } || { echo "FAIL failed-check-still-prints rc=$rc [$out]"; FAIL=$((FAIL+1)); }
 _PSC_BIN=$_SAVE_BIN2
+# Nothing pending: the tail renders nothing, so the "up to date" line is the answer — the template's, not silent.
+printf '{"update":[],"added":[],"removed":[],"renamed":[]}\n' > "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+out="$(psc update 2>&1)"
+[[ "$out" == *"up to date"* ]] \
+    && { echo "ok   no-arg-update-says-up-to-date"; PASS=$((PASS+1)); } || { echo "FAIL no-arg-update-says-up-to-date [$out]"; FAIL=$((FAIL+1)); }
+rm -f "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
 # `--json` anywhere is the machine contract: never colored, never rendered into a page.
 out="$(psc list --json 2>&1)"; rc=$?
 [[ $rc -eq 0 && "$out" == *'"ok":true'* && "$out" != *$'\033'* ]] \

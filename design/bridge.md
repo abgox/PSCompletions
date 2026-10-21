@@ -64,7 +64,7 @@ A confirmed destructive operation is then **authorised**: the host adds `--yes` 
 
 ## 8. Notifications
 
-- After every management command, render pending state from `change.json`: module updates persist until acted on — and only a remote version newer than the installed one counts as an update, so an equal value stays silent; library `added`/`removed` are one-shot (consumed on display), `update`/`renamed` persist. A command that already rendered them sets the skip flag for the tail; `--self-update` sets the module skip the same way, since it just reported the module state itself.
+- After every management command, render pending state from `change.json`: module updates persist until acted on — and only a remote version newer than the installed one counts as an update, so an equal value stays silent; library `added`/`removed` are one-shot (consumed on display), `update`/`renamed` persist. A command that already rendered them sets the skip flag for the tail; `--self-update` sets the module skip the same way, since it just reported the module state itself. A bare `update` prints its lists through this tail, and with nothing pending the tail renders nothing — that answer is `info.update.no`, rendered by the command itself so "everything is up to date" is never silent.
 
 ## 9. Port checklist (what the shell must expose)
 

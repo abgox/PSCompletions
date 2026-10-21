@@ -1152,13 +1152,34 @@ end
 function _psc_check_update
     set -l out ("$_PSC_BIN" --data "$PSCOMPLETIONS_DATA_DIR" $argv 2>&1)
     set -l rc $status
-    if test $rc -eq 0
-        return 0
+    if test $rc -ne 0
+        if test -n "$out"
+            printf '\e[31m%s\e[0m\n' "$out"
+        end
+        return $rc
     end
-    if test -n "$out"
-        printf '\e[31m%s\e[0m\n' "$out"
+    # The tail renders the lists as a template when there are any; with none it renders nothing, so the "up to date" answer comes from that template here.
+    if not _psc_pending_library
+        if not _psc_tpl update.no
+            printf '%s\n' "$out"
+        else
+            echo
+        end
     end
-    return $rc
+    return 0
+end
+
+# Whether change.json carries anything the tail will render (the same set `_psc_render_pending` reads).
+function _psc_pending_library
+    set -l change "$PSCOMPLETIONS_DATA_DIR/temp/change.json"
+    test -f "$change"; or return 1
+    _psc_py -S -c '
+import json,sys
+try: c=json.load(open(sys.argv[1],encoding="utf-8"))
+except Exception: raise SystemExit(1)
+has=bool(c.get("update") or c.get("added") or c.get("removed") or c.get("renamed"))
+raise SystemExit(0 if has else 1)
+' "$change"
 end
 
 function _psc_run_status

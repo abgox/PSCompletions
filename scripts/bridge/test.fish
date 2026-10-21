@@ -652,6 +652,15 @@ else
     bad failed-check-still-prints " [$ferr]"
 end
 set -g _PSC_BIN $save_bin2
+# Nothing pending: the tail renders nothing, so the "up to date" line is the answer — the template's, not silent.
+printf '%s\n' '{"update":[],"added":[],"removed":[],"renamed":[]}' > $PSCOMPLETIONS_DATA_DIR/temp/change.json
+set -l fresh_out (psc update 2>&1)
+if string match -q '*up to date*' -- $fresh_out
+    ok no-arg-update-says-up-to-date
+else
+    bad no-arg-update-says-up-to-date " [$fresh_out]"
+end
+rm -f $PSCOMPLETIONS_DATA_DIR/temp/change.json
 
 # `--json` anywhere is the machine contract: never colored, never rendered into a page.
 set -l esc (printf '\e')
