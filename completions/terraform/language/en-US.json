@@ -231,6 +231,17 @@
           ]
         },
         {
+          "name": "-scope",
+          "usage": [
+            "-scope <ADDRESS>"
+          ],
+          "tip": [
+            "Provide a module instance address which declares the scope to use when evaluating expressions against the planned or current state.",
+            "Defaults to the root module."
+          ],
+          "next": []
+        },
+        {
           "name": "-state",
           "usage": [
             "-state <PATH>"
@@ -532,6 +543,30 @@
           "name": "-draw-cycles",
           "tip": [
             "Highlight any cycles in the graph with colored edges."
+          ]
+        },
+        {
+          "name": "-format",
+          "usage": [
+            "-format <FORMAT>"
+          ],
+          "tip": [
+            "Output format for the graph.",
+            "Supported values are dot (default) and mermaid."
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "Graphviz DOT format."
+              ]
+            },
+            {
+              "name": "mermaid",
+              "tip": [
+                "Mermaid diagram format."
+              ]
+            }
           ]
         },
         {
@@ -972,6 +1007,18 @@
           "tip": [
             "Reconfigure the backend, ignoring any saved configuration."
           ]
+        },
+        {
+          "name": "-state-provider-lock-file",
+          "usage": [
+            "-state-provider-lock-file <PATH>"
+          ],
+          "tip": [
+            "Specifies a lock file Terraform should use to establish trust in a provider before initializing a state store for the first time.",
+            "Only usable when input is disabled through -input=false.",
+            "Only usable with experiments enabled and the -enable-pluggable-state-storage-experiment flag present."
+          ],
+          "next": []
         },
         {
           "name": "-test-directory",
@@ -2034,72 +2081,2070 @@
           "name": "configuration",
           "tip": [
             "Manage stack configuration"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "fetch",
+              "tip": [
+                "Fetch the latest stack configuration from the VCS source."
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the target stack.",
+                    "Has precedence over -stack-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List configurations associated with the given stack."
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the target stack.",
+                    "Has precedence over -stack-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Show details of a configuration."
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the configuration.",
+                    "Has precedence over the latest configuration of the stack provided in named args."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "upload",
+              "tip": [
+                "Upload the stack configuration in the current working directory."
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-speculative",
+                  "tip": [
+                    "If given, the upload will be speculative and will not trigger any deployments."
+                  ]
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the target stack.",
+                    "Has precedence over -stack-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "Watch the progress of a configuration."
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the configuration.",
+                    "Has precedence over the latest configuration of the stack provided in named args."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "create",
           "tip": [
             "Create a stack"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-organization-name",
+              "usage": [
+                "-organization-name <NAME>"
+              ],
+              "tip": [
+                "The name of the organization to target.",
+                "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-project-name",
+              "usage": [
+                "-project-name <NAME>"
+              ],
+              "tip": [
+                "The name of the project to target.",
+                "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stack-name",
+              "usage": [
+                "-stack-name <NAME>"
+              ],
+              "tip": [
+                "The name of the stack to target.",
+                "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            },
+            {
+              "name": "-with-template",
+              "tip": [
+                "Generate boilerplate configuration"
+              ]
+            },
+            {
+              "name": "-working-directory",
+              "usage": [
+                "-working-directory <DIR>"
+              ],
+              "tip": [
+                "The directory within the configuration that contains the stack to be deployed.",
+                "Defaults to the root of the configuration."
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "deployment-group",
           "tip": [
             "Manage deployment groups"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "approve-all-plans",
+              "tip": [
+                "Approve all pending plans in a deployment group."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment group.",
+                    "Has precedence over -deployment-group-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the deployment group."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List all deployment groups in the given configuration."
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the configuration.",
+                    "Has precedence over the latest configuration of the stack provided in named args."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rerun",
+              "tip": [
+                "Rerun a deployment group."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment group.",
+                    "Has precedence over -deployment-group-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the deployment group."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-names",
+                  "usage": [
+                    "-deployment-names <NAMES>"
+                  ],
+                  "tip": [
+                    "A comma-separated list of deployment names to rerun within the deployment group (required)."
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Show details of a deployment group."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment group.",
+                    "Has precedence over -deployment-group-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the deployment group."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "Watch a deployment group."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment group.",
+                    "Has precedence over -deployment-group-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the deployment group."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "deployment-run",
           "tip": [
             "Manage deployment runs"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "approve-all-plans",
+              "tip": [
+                "Approve all pending deployment runs in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment run (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "cancel",
+              "tip": [
+                "Cancel a deployment run in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment run (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "List all deployment runs in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment group.",
+                    "Has precedence over -deployment-group-name."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the deployment group."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the organization to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the project to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "The name of the stack to target.",
+                    "Overrides the ENV VAR 'TF_STACKS_STACK_NAME' if provided."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Show details of a deployment run in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment run (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "Watch a deployment run in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment run (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deployment-step",
+          "tip": [
+            "Manage deployment steps"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "artifacts",
+              "tip": [
+                "Retrieve raw artifact data for a deployment step."
+              ],
+              "option": [
+                {
+                  "name": "-artifact-name",
+                  "usage": [
+                    "-artifact-name <TYPE>"
+                  ],
+                  "tip": [
+                    "The artifact type to retrieve (required)."
+                  ],
+                  "next": [
+                    {
+                      "name": "apply-debug-log",
+                      "tip": [
+                        "Apply execution logs"
+                      ]
+                    },
+                    {
+                      "name": "apply-description",
+                      "tip": [
+                        "Apply details (outputs + resource changes)"
+                      ]
+                    },
+                    {
+                      "name": "plan-debug-log",
+                      "tip": [
+                        "Plan execution logs"
+                      ]
+                    },
+                    {
+                      "name": "plan-description",
+                      "tip": [
+                        "Plan details"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-deployment-step-id",
+                  "usage": [
+                    "-deployment-step-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment step (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "Show details of a deployment step in the current configuration."
+              ],
+              "option": [
+                {
+                  "name": "-deployment-step-id",
+                  "usage": [
+                    "-deployment-step-id <ID>"
+                  ],
+                  "tip": [
+                    "The ID of the deployment step (required)."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "Output results in JSON format instead of the default human-readable text format."
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "Disable color output.",
+                    "Must be explicitly set to true or false."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "Override the default directory where the stack plugin binary is cached."
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "An alias for the \"version\" subcommand."
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "Show this usage output or the usage for a specified subcommand."
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "diagnostics",
           "tip": [
             "Retrieve warnings and errors for a stack configuration or deployment step."
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "The ID of the stack configuration or deployment step to retrieve diagnostics for.",
+                "Supported prefixes are \"stc-\" for configuration IDs and \"sds-\" for step IDs."
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         },
         {
           "name": "fmt",
           "tip": [
             "Reformat your Terraform Stacks configuration to a canonical format"
+          ],
+          "option": [
+            {
+              "name": "-check",
+              "tip": [
+                "Check if the input is formatted.",
+                "Exit status will be 0 if all input is properly formatted and non-zero otherwise."
+              ]
+            },
+            {
+              "name": "-diff",
+              "tip": [
+                "Display diffs of formatting changes"
+              ]
+            },
+            {
+              "name": "-list",
+              "tip": [
+                "Don't list files whose formatting differs"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-recursive",
+              "tip": [
+                "Also process files in subdirectories.",
+                "By default, only the given directory (or current directory) is processed."
+              ]
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            },
+            {
+              "name": "-write",
+              "tip": [
+                "Don't write to source files"
+              ]
+            }
           ]
         },
         {
           "name": "init",
           "tip": [
             "Prepare the configuration directory for further commands"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-upgrade",
+              "tip": [
+                "Install the latest module and provider versions allowed within configured constraints, overriding the default behavior of selecting exactly the version recorded in the dependency lockfile."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "List stacks for a given organization and/or project"
-          ]
-        },
-        {
-          "name": "migrate",
-          "tip": [
-            "Migrate traditional Terraform workflows to Terraform Stacks."
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-organization-name",
+              "usage": [
+                "-organization-name <NAME>"
+              ],
+              "tip": [
+                "The name of the organization to target.",
+                "Overrides the ENV VAR 'TF_STACKS_ORGANIZATION_NAME' if provided."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-project-name",
+              "usage": [
+                "-project-name <NAME>"
+              ],
+              "tip": [
+                "The name of the project to target.",
+                "Overrides the ENV VAR 'TF_STACKS_PROJECT_NAME' if provided."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         },
         {
           "name": "providers-lock",
           "tip": [
             "Write out dependency locks for the configured providers"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "Choose a target platform to request package checksums for."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         },
         {
           "name": "validate",
           "tip": [
             "Check whether the configuration is valid"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         },
         {
           "name": "version",
           "tip": [
             "Show the current Stacks Plugin version"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "Output results in JSON format instead of the default human-readable text format."
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "Disable color output.",
+                "Must be explicitly set to true or false."
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "Override the default directory where the stack plugin binary is cached."
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "An alias for the \"version\" subcommand."
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "Show this usage output or the usage for a specified subcommand."
+              ]
+            }
           ]
         }
       ]
@@ -2671,6 +4716,12 @@
           ],
           "option": [
             {
+              "name": "-json",
+              "tip": [
+                "If specified, output the resource state in a machine-readable form."
+              ]
+            },
+            {
               "name": "-state",
               "usage": [
                 "-state <PATH>"
@@ -3176,6 +5227,14 @@
           "name": "list",
           "tip": [
             "List Workspaces"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "If specified, machine readable output will be printed in JSON format."
+              ]
+            }
           ]
         },
         {

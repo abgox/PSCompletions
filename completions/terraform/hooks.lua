@@ -1,7 +1,27 @@
+local function chdir_args()
+    local tokens = psc.tokens or {}
+    for i, t in ipairs(tokens) do
+        if t.type == "option" and t.name == "-chdir" and tokens[i + 1] then
+            return { "-chdir=" .. tokens[i + 1].input }
+        end
+    end
+    return {}
+end
+
+local function tf(args, opts)
+    local argv = { "terraform" }
+    for _, a in ipairs(chdir_args()) do
+        argv[#argv + 1] = a
+    end
+    for _, a in ipairs(args) do
+        argv[#argv + 1] = a
+    end
+    return psc.run(argv, opts)
+end
+
 local function add_workspaces()
-    local lines = psc.run({ "terraform", "workspace", "list" }) or {}
+    local lines = tf({ "workspace", "list" }) or {}
     for _, l in ipairs(lines) do
-        -- lines like "* default" or "  dev"
         local name = l:match("^%*?%s*(%S+)")
         if name and name ~= "" then
             local tip = l:match("%*") and "current workspace" or "workspace"
@@ -11,7 +31,7 @@ local function add_workspaces()
 end
 
 local function add_resources()
-    local lines = psc.run({ "terraform", "state", "list" }) or {}
+    local lines = tf({ "state", "list" }) or {}
     for _, l in ipairs(lines) do
         local addr = psc.trim(l)
         if addr ~= "" then
@@ -25,7 +45,7 @@ end
 -- and when the command fails (no init, no state) the plain form fails too, so a
 -- retry would only produce items the first call had already ruled out.
 local function add_outputs()
-    local data = psc.run({ "terraform", "output", "-json" }, { format = "json" })
+    local data = tf({ "output", "-json" }, { format = "json" })
     if not data or type(data) ~= "table" then return end
     for k, v in pairs(data) do
         local tip = ""
@@ -38,24 +58,18 @@ end
 
 psc.on({
     { command = { "workspace", "select" } },
-    { command = { "workspace", "delete" } },
-    { command = { "workspace", "show" } },
-    { command = "workspace", multiple = true }
+    { command = { "workspace", "delete" } }
 }, add_workspaces)
 
 psc.on({
-    { command = { "state", "show" }, multiple = true },
+    { command = { "state", "show" } },
     { command = { "state", "rm" }, multiple = true },
     { command = { "state", "mv" }, multiple = true },
-    { command = { "state", "pull" } },
-    { command = { "state", "push" } },
-    { command = "taint", multiple = true },
-    { command = "untaint", multiple = true },
-    { command = "import", multiple = true },
-    { option = "-target" },
-    { option = "-replace" }
+    { command = "taint" },
+    { command = "untaint" },
+    { command = "import" },
+    { option = "-target", multiple = true },
+    { option = "-replace", multiple = true }
 }, add_resources)
 
-psc.on({
-    { command = "output", multiple = true }
-}, add_outputs)
+psc.on({ command = "output" }, add_outputs)

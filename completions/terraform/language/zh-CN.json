@@ -231,6 +231,17 @@
           ]
         },
         {
+          "name": "-scope",
+          "usage": [
+            "-scope <ADDRESS>"
+          ],
+          "tip": [
+            "提供声明作用域的模块实例地址，用于针对计划或当前状态求值表达式。",
+            "默认为根模块。"
+          ],
+          "next": []
+        },
+        {
           "name": "-state",
           "usage": [
             "-state <PATH>"
@@ -532,6 +543,30 @@
           "name": "-draw-cycles",
           "tip": [
             "用彩色边突出显示图中的任何循环。"
+          ]
+        },
+        {
+          "name": "-format",
+          "usage": [
+            "-format <FORMAT>"
+          ],
+          "tip": [
+            "图形的输出格式。",
+            "支持的值为 dot（默认）和 mermaid。"
+          ],
+          "next": [
+            {
+              "name": "dot",
+              "tip": [
+                "DOT 图形格式。"
+              ]
+            },
+            {
+              "name": "mermaid",
+              "tip": [
+                "Mermaid 图表格式。"
+              ]
+            }
           ]
         },
         {
@@ -972,6 +1007,18 @@
           "tip": [
             "重新配置后端,忽略任何已保存的配置。"
           ]
+        },
+        {
+          "name": "-state-provider-lock-file",
+          "usage": [
+            "-state-provider-lock-file <PATH>"
+          ],
+          "tip": [
+            "指定 Terraform 在首次初始化状态存储前用于建立提供程序信任的锁文件。",
+            "仅在通过 -input=false 禁用输入时可用。",
+            "仅在启用实验特性且存在 -enable-pluggable-state-storage-experiment 标志时可用。"
+          ],
+          "next": []
         },
         {
           "name": "-test-directory",
@@ -2034,72 +2081,2070 @@
           "name": "configuration",
           "tip": [
             "管理 stack 配置"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "fetch",
+              "tip": [
+                "从 VCS 源获取最新的堆栈配置。"
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "目标堆栈的 ID。",
+                    "优先于 -stack-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出与给定堆栈关联的配置。"
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "目标堆栈的 ID。",
+                    "优先于 -stack-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "显示配置的详细信息。"
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "配置的 ID。",
+                    "优先于命名参数中提供的堆栈最新配置。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "upload",
+              "tip": [
+                "上传当前工作目录中的堆栈配置。"
+              ],
+              "option": [
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-speculative",
+                  "tip": [
+                    "指定时，上传将是试探性的，不会触发任何部署。"
+                  ]
+                },
+                {
+                  "name": "-stack-id",
+                  "usage": [
+                    "-stack-id <ID>"
+                  ],
+                  "tip": [
+                    "目标堆栈的 ID。",
+                    "优先于 -stack-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "监视配置的进度。"
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "配置的 ID。",
+                    "优先于命名参数中提供的堆栈最新配置。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "create",
           "tip": [
             "创建 stack"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-organization-name",
+              "usage": [
+                "-organization-name <NAME>"
+              ],
+              "tip": [
+                "要面向的组织名称。",
+                "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-project-name",
+              "usage": [
+                "-project-name <NAME>"
+              ],
+              "tip": [
+                "要面向的项目名称。",
+                "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stack-name",
+              "usage": [
+                "-stack-name <NAME>"
+              ],
+              "tip": [
+                "要面向的堆栈名称。",
+                "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            },
+            {
+              "name": "-with-template",
+              "tip": [
+                "生成样板配置。"
+              ]
+            },
+            {
+              "name": "-working-directory",
+              "usage": [
+                "-working-directory <DIR>"
+              ],
+              "tip": [
+                "配置中包含要部署堆栈的目录。",
+                "默认为配置的根目录。"
+              ],
+              "next": []
+            }
           ]
         },
         {
           "name": "deployment-group",
           "tip": [
             "管理部署组"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "approve-all-plans",
+              "tip": [
+                "批准部署组中所有待处理的计划。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "部署组的 ID。",
+                    "优先于 -deployment-group-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "部署组的名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出给定配置中的所有部署组。"
+              ],
+              "option": [
+                {
+                  "name": "-configuration-id",
+                  "usage": [
+                    "-configuration-id <ID>"
+                  ],
+                  "tip": [
+                    "配置的 ID。",
+                    "优先于命名参数中提供的堆栈最新配置。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rerun",
+              "tip": [
+                "重新运行部署组。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "部署组的 ID。",
+                    "优先于 -deployment-group-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "部署组的名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-names",
+                  "usage": [
+                    "-deployment-names <NAMES>"
+                  ],
+                  "tip": [
+                    "要在部署组中重新运行的部署名称列表，逗号分隔（必填）。"
+                  ],
+                  "repeat": 99,
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "显示部署组的详细信息。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "部署组的 ID。",
+                    "优先于 -deployment-group-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "部署组的名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "监视部署组。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "部署组的 ID。",
+                    "优先于 -deployment-group-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "部署组的名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "deployment-run",
           "tip": [
             "管理部署运行"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "approve-all-plans",
+              "tip": [
+                "批准当前配置中所有待处理的部署运行。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "部署运行的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "cancel",
+              "tip": [
+                "取消当前配置中的部署运行。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "部署运行的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "list",
+              "tip": [
+                "列出当前配置中的所有部署运行。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-group-id",
+                  "usage": [
+                    "-deployment-group-id <ID>"
+                  ],
+                  "tip": [
+                    "部署组的 ID。",
+                    "优先于 -deployment-group-name。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-deployment-group-name",
+                  "usage": [
+                    "-deployment-group-name <NAME>"
+                  ],
+                  "tip": [
+                    "部署组的名称。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-organization-name",
+                  "usage": [
+                    "-organization-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的组织名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-project-name",
+                  "usage": [
+                    "-project-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的项目名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stack-name",
+                  "usage": [
+                    "-stack-name <NAME>"
+                  ],
+                  "tip": [
+                    "要面向的堆栈名称。",
+                    "如果已提供，则覆盖环境变量 'TF_STACKS_STACK_NAME'。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "显示当前配置中部署运行的详细信息。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "部署运行的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "watch",
+              "tip": [
+                "监视当前配置中的部署运行。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-run-id",
+                  "usage": [
+                    "-deployment-run-id <ID>"
+                  ],
+                  "tip": [
+                    "部署运行的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "deployment-step",
+          "tip": [
+            "管理部署步骤"
+          ],
+          "option": [
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
+          ],
+          "next": [
+            {
+              "name": "artifacts",
+              "tip": [
+                "获取部署步骤的原始构件数据。"
+              ],
+              "option": [
+                {
+                  "name": "-artifact-name",
+                  "usage": [
+                    "-artifact-name <TYPE>"
+                  ],
+                  "tip": [
+                    "要获取的构件类型（必填）。"
+                  ],
+                  "next": [
+                    {
+                      "name": "apply-debug-log",
+                      "tip": [
+                        "应用执行日志"
+                      ]
+                    },
+                    {
+                      "name": "apply-description",
+                      "tip": [
+                        "应用详情（输出 + 资源变更）"
+                      ]
+                    },
+                    {
+                      "name": "plan-debug-log",
+                      "tip": [
+                        "计划执行日志"
+                      ]
+                    },
+                    {
+                      "name": "plan-description",
+                      "tip": [
+                        "计划详情"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "-deployment-step-id",
+                  "usage": [
+                    "-deployment-step-id <ID>"
+                  ],
+                  "tip": [
+                    "部署步骤的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "show",
+              "tip": [
+                "显示当前配置中部署步骤的详细信息。"
+              ],
+              "option": [
+                {
+                  "name": "-deployment-step-id",
+                  "usage": [
+                    "-deployment-step-id <ID>"
+                  ],
+                  "tip": [
+                    "部署步骤的 ID（必填）。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-json",
+                  "tip": [
+                    "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+                  ]
+                },
+                {
+                  "name": "-no-color",
+                  "usage": [
+                    "-no-color <BOOL>"
+                  ],
+                  "tip": [
+                    "禁用彩色输出。",
+                    "必须显式设置为 true 或 false。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-plugin-cache-dir",
+                  "usage": [
+                    "-plugin-cache-dir <DIR>"
+                  ],
+                  "tip": [
+                    "覆盖堆栈插件二进制文件的默认缓存目录。"
+                  ],
+                  "next": []
+                },
+                {
+                  "name": "-stacks-version",
+                  "tip": [
+                    "\"version\" 子命令的别名。"
+                  ]
+                },
+                {
+                  "name": "-usage",
+                  "tip": [
+                    "显示此用法输出或指定子命令的用法。"
+                  ]
+                }
+              ]
+            }
           ]
         },
         {
           "name": "diagnostics",
           "tip": [
             "获取 stack 配置或部署步骤的警告与错误。"
+          ],
+          "option": [
+            {
+              "name": "-id",
+              "usage": [
+                "-id <ID>"
+              ],
+              "tip": [
+                "要获取诊断信息的堆栈配置或部署步骤 ID。",
+                "支持的前缀为 \"stc-\"（配置 ID）和 \"sds-\"（步骤 ID）。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         },
         {
           "name": "fmt",
           "tip": [
             "将 Terraform Stacks 配置重新格式化为规范格式"
+          ],
+          "option": [
+            {
+              "name": "-check",
+              "tip": [
+                "检查输入是否已格式化。",
+                "如果所有输入格式正确，退出状态为 0，否则为非零。"
+              ]
+            },
+            {
+              "name": "-diff",
+              "tip": [
+                "显示格式更改的差异。"
+              ]
+            },
+            {
+              "name": "-list",
+              "tip": [
+                "不列出格式不同的文件。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-recursive",
+              "tip": [
+                "同时处理子目录中的文件。",
+                "默认只处理给定目录（或当前目录）。"
+              ]
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            },
+            {
+              "name": "-write",
+              "tip": [
+                "不写入源文件。"
+              ]
+            }
           ]
         },
         {
           "name": "init",
           "tip": [
             "为后续命令准备配置目录"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-upgrade",
+              "tip": [
+                "安装配置约束允许的最新模块和提供程序版本，覆盖从依赖锁文件中选择确切版本的默认行为。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         },
         {
           "name": "list",
           "tip": [
             "列出给定组织和/或项目的 stacks"
-          ]
-        },
-        {
-          "name": "migrate",
-          "tip": [
-            "把传统 Terraform 工作流迁移到 Terraform Stacks。"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-organization-name",
+              "usage": [
+                "-organization-name <NAME>"
+              ],
+              "tip": [
+                "要面向的组织名称。",
+                "如果已提供，则覆盖环境变量 'TF_STACKS_ORGANIZATION_NAME'。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-project-name",
+              "usage": [
+                "-project-name <NAME>"
+              ],
+              "tip": [
+                "要面向的项目名称。",
+                "如果已提供，则覆盖环境变量 'TF_STACKS_PROJECT_NAME'。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         },
         {
           "name": "providers-lock",
           "tip": [
             "为配置的 provider 写出依赖锁"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-platform",
+              "usage": [
+                "-platform <OS_ARCH>"
+              ],
+              "tip": [
+                "选择要请求包校验和的目标平台。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         },
         {
           "name": "validate",
           "tip": [
             "检查配置是否有效"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         },
         {
           "name": "version",
           "tip": [
             "显示当前 Stacks 插件版本"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "以 JSON 格式输出结果，而不是默认的人类可读文本格式。"
+              ]
+            },
+            {
+              "name": "-no-color",
+              "usage": [
+                "-no-color <BOOL>"
+              ],
+              "tip": [
+                "禁用彩色输出。",
+                "必须显式设置为 true 或 false。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-plugin-cache-dir",
+              "usage": [
+                "-plugin-cache-dir <DIR>"
+              ],
+              "tip": [
+                "覆盖堆栈插件二进制文件的默认缓存目录。"
+              ],
+              "next": []
+            },
+            {
+              "name": "-stacks-version",
+              "tip": [
+                "\"version\" 子命令的别名。"
+              ]
+            },
+            {
+              "name": "-usage",
+              "tip": [
+                "显示此用法输出或指定子命令的用法。"
+              ]
+            }
           ]
         }
       ]
@@ -2671,6 +4716,12 @@
           ],
           "option": [
             {
+              "name": "-json",
+              "tip": [
+                "指定时，以机器可读形式输出资源状态。"
+              ]
+            },
+            {
               "name": "-state",
               "usage": [
                 "-state <PATH>"
@@ -3176,6 +5227,14 @@
           "name": "list",
           "tip": [
             "列出 Workspaces"
+          ],
+          "option": [
+            {
+              "name": "-json",
+              "tip": [
+                "指定时，以 JSON 格式输出机器可读结果。"
+              ]
+            }
           ]
         },
         {
